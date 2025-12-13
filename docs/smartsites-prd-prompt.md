@@ -1,6 +1,7 @@
 # SmartSites PRD Builder Prompt
 
 **Purpose:** Paste this into a new Claude/Lovable session to build EverIntent SmartSites marketing pages.
+**Reference:** EverIntent SmartSites BRD v32.1 (docs/smartsites-brd-v32.1.md)
 
 ---
 
@@ -42,6 +43,220 @@ You are building the marketing site for **EverIntent SmartSites** — a producti
 
 ---
 
+## ROUTES CONFIGURATION
+
+Create `src/config/routes.ts` with all routes from BRD Section 15.1.1:
+
+```typescript
+export const routes = {
+  // Core pages
+  home: '/',
+  pricing: '/pricing',
+  portfolio: '/portfolio',
+  about: '/about',
+  contact: '/contact',
+  bookCall: '/book-call',
+  
+  // Primary service (hero entry)
+  beautifulWebsites: '/beautiful-websites',
+  
+  // Services
+  services: '/services',
+  getFoundOnline: '/get-found-online',
+  neverMissALead: '/never-miss-a-lead',
+  bookMoreJobs: '/book-more-jobs',
+  runFromYourPhone: '/run-from-your-phone',
+  buildYourReputation: '/build-your-reputation',
+  letAiHandleIt: '/let-ai-handle-it',
+  domains: '/domains',
+  
+  // Features (SEO pages)
+  features: {
+    leadCapture: '/features/lead-capture',
+    aiChat: '/features/ai-chat',
+    reviewManagement: '/features/review-management',
+    mobileApp: '/features/mobile-app',
+    scheduling: '/features/scheduling',
+    analytics: '/features/analytics',
+  },
+  
+  // Industry hubs
+  industries: {
+    homeServices: '/industries/home-services',
+    professionalServices: '/industries/professional-services',
+    healthWellness: '/industries/health-wellness',
+    automotiveServices: '/industries/automotive-services',
+  },
+  
+  // Checkout
+  checkout: {
+    smartSite: '/checkout/smart-site',
+    smartLead: '/checkout/smart-lead',
+    smartBusiness: '/checkout/smart-business',
+    smartGrowth: '/checkout/smart-growth',
+    success: '/checkout/success',
+  },
+  
+  // Legal
+  legal: {
+    privacy: '/legal/privacy',
+    terms: '/legal/terms',
+    dataRequest: '/legal/data-request',
+  },
+  
+  // LocalPros
+  localpros: {
+    home: '/localpros',
+    apply: '/localpros/apply',
+    successStories: '/localpros/success-stories',
+  },
+  
+  // Upgrade
+  upgrade: '/upgrade',
+  
+  // Admin (not pre-rendered)
+  admin: {
+    login: '/admin/login',
+    dashboard: '/admin',
+    submissions: '/admin/submissions',
+    portfolio: '/admin/portfolio',
+    testimonials: '/admin/testimonials',
+  },
+} as const;
+
+// Pre-render all marketing routes (exclude /admin/*)
+export const prerenderRoutes = [
+  '/',
+  '/pricing',
+  '/portfolio',
+  '/about',
+  '/contact',
+  '/book-call',
+  '/beautiful-websites',
+  '/get-found-online',
+  '/never-miss-a-lead',
+  '/book-more-jobs',
+  '/run-from-your-phone',
+  '/build-your-reputation',
+  '/let-ai-handle-it',
+  '/domains',
+  '/features/lead-capture',
+  '/features/ai-chat',
+  '/features/review-management',
+  '/features/mobile-app',
+  '/features/scheduling',
+  '/features/analytics',
+  
+  // Industry Hub Pages
+  '/industries/home-services',
+  '/industries/professional-services',
+  '/industries/health-wellness',
+  '/industries/automotive-services',
+  
+  // Home Services Industries (31)
+  '/industries/home-services/hvac',
+  '/industries/home-services/plumbing',
+  '/industries/home-services/electrical',
+  '/industries/home-services/roofing',
+  '/industries/home-services/landscaping',
+  '/industries/home-services/cleaning',
+  '/industries/home-services/painting',
+  '/industries/home-services/flooring',
+  '/industries/home-services/remodeling',
+  '/industries/home-services/pest-control',
+  '/industries/home-services/pool-service',
+  '/industries/home-services/garage-doors',
+  '/industries/home-services/fencing',
+  '/industries/home-services/tree-service',
+  '/industries/home-services/handyman',
+  '/industries/home-services/locksmith',
+  '/industries/home-services/appliance-repair',
+  '/industries/home-services/carpet-cleaning',
+  '/industries/home-services/pressure-washing',
+  '/industries/home-services/window-cleaning',
+  '/industries/home-services/gutter-cleaning',
+  '/industries/home-services/junk-removal',
+  '/industries/home-services/moving',
+  '/industries/home-services/glass-repair',
+  '/industries/home-services/concrete-driveways',
+  '/industries/home-services/deck-building',
+  '/industries/home-services/home-inspection',
+  '/industries/home-services/waterproofing',
+  '/industries/home-services/insulation',
+  '/industries/home-services/solar-installation',
+  '/industries/home-services/security-systems',
+  
+  // Professional Services Industries (15)
+  '/industries/professional-services/legal',
+  '/industries/professional-services/real-estate',
+  '/industries/professional-services/accounting',
+  '/industries/professional-services/insurance',
+  '/industries/professional-services/financial-advisor',
+  '/industries/professional-services/mortgage',
+  '/industries/professional-services/photography',
+  '/industries/professional-services/videography',
+  '/industries/professional-services/marketing',
+  '/industries/professional-services/consulting',
+  '/industries/professional-services/it-services',
+  '/industries/professional-services/web-design',
+  '/industries/professional-services/event-planning',
+  '/industries/professional-services/interior-design',
+  '/industries/professional-services/property-management',
+  
+  // Health & Wellness Industries (15)
+  '/industries/health-wellness/medspa',
+  '/industries/health-wellness/dental',
+  '/industries/health-wellness/chiropractic',
+  '/industries/health-wellness/physical-therapy',
+  '/industries/health-wellness/massage',
+  '/industries/health-wellness/acupuncture',
+  '/industries/health-wellness/optometry',
+  '/industries/health-wellness/veterinary',
+  '/industries/health-wellness/mental-health',
+  '/industries/health-wellness/personal-training',
+  '/industries/health-wellness/yoga',
+  '/industries/health-wellness/martial-arts',
+  '/industries/health-wellness/salon',
+  '/industries/health-wellness/barbershop',
+  '/industries/health-wellness/spa',
+  
+  // Automotive Services Industries (10)
+  '/industries/automotive-services/auto-repair',
+  '/industries/automotive-services/auto-detailing',
+  '/industries/automotive-services/tire-shop',
+  '/industries/automotive-services/oil-change',
+  '/industries/automotive-services/auto-body',
+  '/industries/automotive-services/transmission',
+  '/industries/automotive-services/towing',
+  '/industries/automotive-services/mobile-car-wash',
+  '/industries/automotive-services/window-tinting',
+  '/industries/automotive-services/audio-installation',
+  
+  // Legal & Checkout
+  '/legal/privacy',
+  '/legal/terms',
+  '/legal/data-request',
+  '/checkout/smart-site',
+  '/checkout/smart-lead',
+  '/checkout/smart-business',
+  '/checkout/smart-growth',
+  '/checkout/success',
+
+  // LocalPros
+  '/localpros',
+  '/localpros/apply',
+  '/localpros/success-stories',
+
+  // Upgrade
+  '/upgrade',
+
+  // Services hub
+  '/services',
+];
+```
+
+---
+
 ## NAVIGATION STRUCTURE
 
 ```
@@ -63,6 +278,273 @@ You are building the marketing site for **EverIntent SmartSites** — a producti
 - Professional Services (15 verticals)
 - Health & Wellness (15 verticals)
 - Automotive Services (10 verticals)
+
+---
+
+## ADMIN AUTHENTICATION (Secure OTP Flow)
+
+### Database Schema
+
+Run this migration to set up secure role-based admin access:
+
+```sql
+-- Role enum
+CREATE TYPE public.app_role AS ENUM ('admin', 'moderator', 'user');
+
+-- User roles junction table
+CREATE TABLE public.user_roles (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  role app_role NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW(),
+  UNIQUE (user_id, role)
+);
+
+-- Allowed admin emails (OTP whitelist)
+CREATE TABLE public.allowed_admin_emails (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email TEXT UNIQUE NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW(),
+  created_by UUID REFERENCES auth.users(id)
+);
+
+-- Enable RLS
+ALTER TABLE public.user_roles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.allowed_admin_emails ENABLE ROW LEVEL SECURITY;
+
+-- Security definer function (bypasses RLS safely)
+CREATE OR REPLACE FUNCTION public.has_role(_user_id UUID, _role app_role)
+RETURNS BOOLEAN
+LANGUAGE SQL
+STABLE
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT EXISTS (
+    SELECT 1
+    FROM public.user_roles
+    WHERE user_id = _user_id
+      AND role = _role
+  )
+$$;
+
+-- RLS Policies
+CREATE POLICY "Admins can manage roles" ON public.user_roles
+  FOR ALL USING (public.has_role(auth.uid(), 'admin'));
+
+CREATE POLICY "Admins can manage allowed emails" ON public.allowed_admin_emails
+  FOR ALL USING (public.has_role(auth.uid(), 'admin'));
+```
+
+### Edge Function: verify-admin-email
+
+Create `supabase/functions/verify-admin-email/index.ts`:
+
+```typescript
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
+
+serve(async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  try {
+    const { email } = await req.json();
+    
+    if (!email) {
+      return new Response(
+        JSON.stringify({ error: "Email is required" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const supabaseAdmin = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+      { auth: { autoRefreshToken: false, persistSession: false } }
+    );
+
+    // Check if email is in allowed_admin_emails
+    const { data: allowedEmail, error: lookupError } = await supabaseAdmin
+      .from("allowed_admin_emails")
+      .select("email")
+      .eq("email", email.toLowerCase())
+      .single();
+
+    if (lookupError || !allowedEmail) {
+      console.log("Email not in whitelist:", email);
+      return new Response(
+        JSON.stringify({ error: "Email not authorized for admin access" }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Email is whitelisted, send OTP
+    const { error: otpError } = await supabaseAdmin.auth.signInWithOtp({
+      email: email.toLowerCase(),
+      options: {
+        shouldCreateUser: true,
+      },
+    });
+
+    if (otpError) {
+      console.error("OTP error:", otpError);
+      return new Response(
+        JSON.stringify({ error: "Failed to send verification email" }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    return new Response(
+      JSON.stringify({ success: true, message: "Verification email sent" }),
+      { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
+
+  } catch (error) {
+    console.error("Error in verify-admin-email:", error);
+    return new Response(
+      JSON.stringify({ error: error.message }),
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
+  }
+});
+```
+
+Add to `supabase/config.toml`:
+
+```toml
+[functions.verify-admin-email]
+verify_jwt = false
+```
+
+### Admin Login Flow
+
+1. Admin navigates to `/admin/login`
+2. Enters email address
+3. Frontend calls `verify-admin-email` Edge Function
+4. If email is in `allowed_admin_emails`, OTP magic link is sent
+5. Admin clicks link, redirected to `/admin` with active session
+6. All admin routes wrapped in `<AdminGuard>` that verifies `has_role(auth.uid(), 'admin')`
+
+### Frontend Components
+
+**`src/pages/admin/Login.tsx`:**
+- Two-step form: email input → "Check your email" confirmation
+- Calls `supabase.functions.invoke('verify-admin-email', { body: { email } })`
+- Error handling for non-whitelisted emails
+
+**`src/hooks/useAdminAuth.ts`:**
+- Uses `supabase.auth.onAuthStateChange`
+- Checks `has_role()` via RPC call
+- Returns `{ user, isAdmin, loading }`
+
+**`src/components/admin/AdminGuard.tsx`:**
+- Wraps admin routes
+- Redirects to `/admin/login` if not authenticated or not admin
+
+### Seed First Admin
+
+After running the migration, seed your first admin:
+
+```sql
+-- Add email to whitelist
+INSERT INTO allowed_admin_emails (email) VALUES ('your-admin@example.com');
+
+-- After they log in via OTP, assign admin role
+INSERT INTO user_roles (user_id, role)
+SELECT id, 'admin' FROM auth.users WHERE email = 'your-admin@example.com';
+```
+
+---
+
+## DATA TABLES
+
+### checkout_submissions
+
+```sql
+CREATE TABLE checkout_submissions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  created_at TIMESTAMP DEFAULT NOW(),
+  tier TEXT NOT NULL,
+  first_name TEXT NOT NULL,
+  last_name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  business_name TEXT NOT NULL,
+  domain_choice TEXT NOT NULL,
+  domain_name TEXT,
+  domain_status TEXT DEFAULT 'pending',
+  tcpa_consent BOOLEAN NOT NULL,
+  consent_timestamp TIMESTAMP NOT NULL,
+  ip_address TEXT,
+  utm_source TEXT,
+  utm_medium TEXT,
+  utm_campaign TEXT,
+  utm_content TEXT,
+  ghl_checkout_redirected BOOLEAN DEFAULT FALSE,
+  status TEXT DEFAULT 'pending'
+);
+
+ALTER TABLE checkout_submissions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Submissions admin only" ON checkout_submissions
+  FOR ALL USING (public.has_role(auth.uid(), 'admin'));
+```
+
+### portfolio
+
+```sql
+CREATE TABLE portfolio (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  created_at TIMESTAMP DEFAULT NOW(),
+  business_name TEXT NOT NULL,
+  industry TEXT NOT NULL,
+  location TEXT NOT NULL,
+  site_url TEXT NOT NULL,
+  thumbnail_url TEXT,
+  testimonial_quote TEXT,
+  testimonial_name TEXT,
+  display_order INTEGER,
+  is_active BOOLEAN DEFAULT TRUE
+);
+
+ALTER TABLE portfolio ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Portfolio public read" ON portfolio
+  FOR SELECT USING (is_active = true);
+
+CREATE POLICY "Portfolio admin full" ON portfolio
+  FOR ALL USING (public.has_role(auth.uid(), 'admin'));
+```
+
+### testimonials
+
+```sql
+CREATE TABLE testimonials (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  created_at TIMESTAMP DEFAULT NOW(),
+  name TEXT NOT NULL,
+  business TEXT,
+  quote TEXT NOT NULL,
+  rating INTEGER,
+  photo_url TEXT,
+  is_active BOOLEAN DEFAULT TRUE
+);
+
+ALTER TABLE testimonials ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Testimonials public read" ON testimonials
+  FOR SELECT USING (is_active = true);
+
+CREATE POLICY "Testimonials admin full" ON testimonials
+  FOR ALL USING (public.has_role(auth.uid(), 'admin'));
+```
 
 ---
 
@@ -327,6 +809,36 @@ Domain search utility page with:
 ### /pricing
 Tier comparison table with feature matrix. Four columns (T1-T4). Clear CTAs to checkout pages.
 
+### /checkout/success
+Post-payment confirmation page:
+- Thank you message with order confirmation
+- Next steps timeline (what happens in 24-48 hours)
+- "Check your email" reminder
+- Links to book onboarding call
+
+### /localpros
+Partner program landing page:
+- What is LocalPros Network
+- Benefits for partners
+- How it works
+- CTA to apply
+
+### /localpros/apply
+Application form for LocalPros Network:
+- Business info, industry, location
+- Current web presence
+- Lead volume expectations
+- Submit to Supabase
+
+### /localpros/success-stories
+Testimonials and case studies from LocalPros partners.
+
+### /upgrade
+Upgrade landing page for existing T1/T2 customers:
+- Current plan indicator (via URL param)
+- Side-by-side comparison with higher tiers
+- Upgrade CTAs to checkout
+
 ### /portfolio
 Grid of completed sites. Pull from Supabase `portfolio` table. Filter by industry optional.
 
@@ -361,6 +873,38 @@ Each vertical page:
 - How SmartSites solves them
 - Testimonial from that industry (if available)
 - CTA to pricing
+
+---
+
+## ADMIN PAGES
+
+### /admin/login
+- Email input form
+- Calls `verify-admin-email` Edge Function
+- Shows "Check your email" on success
+- Shows error for non-whitelisted emails
+
+### /admin (Dashboard)
+- Overview stats: total submissions, portfolio count, etc.
+- Recent activity feed
+- Quick links to other admin pages
+
+### /admin/submissions
+- Table of checkout_submissions
+- Filters: status, tier, date range
+- Export to CSV
+- View individual submission details
+
+### /admin/portfolio
+- CRUD interface for portfolio table
+- Image upload for thumbnails
+- Drag-and-drop reordering (display_order)
+- Toggle is_active
+
+### /admin/testimonials
+- CRUD interface for testimonials table
+- Photo upload
+- Toggle is_active
 
 ---
 
@@ -422,6 +966,9 @@ src/
 │   │   ├── Header.tsx
 │   │   ├── Footer.tsx
 │   │   └── Layout.tsx
+│   ├── admin/
+│   │   ├── AdminGuard.tsx
+│   │   └── AdminLayout.tsx
 │   ├── ui/ (shadcn components)
 │   ├── sections/
 │   │   ├── Hero.tsx
@@ -433,6 +980,8 @@ src/
 ├── pages/
 │   ├── Home.tsx
 │   ├── Pricing.tsx
+│   ├── CheckoutSuccess.tsx
+│   ├── Upgrade.tsx
 │   ├── services/
 │   │   ├── BeautifulWebsites.tsx
 │   │   ├── GetFoundOnline.tsx
@@ -445,44 +994,100 @@ src/
 │   │   ├── HomeServices.tsx
 │   │   ├── ProfessionalServices.tsx
 │   │   └── [vertical].tsx
+│   ├── localpros/
+│   │   ├── LocalPros.tsx
+│   │   ├── Apply.tsx
+│   │   └── SuccessStories.tsx
+│   ├── admin/
+│   │   ├── Login.tsx
+│   │   ├── Dashboard.tsx
+│   │   ├── Submissions.tsx
+│   │   ├── Portfolio.tsx
+│   │   └── Testimonials.tsx
 │   └── ...
+├── hooks/
+│   └── useAdminAuth.ts
 ├── config/
 │   └── routes.ts
 └── lib/
     └── supabase.ts
+
+supabase/
+├── config.toml
+└── functions/
+    └── verify-admin-email/
+        └── index.ts
 ```
 
 ---
 
 ## BUILD ORDER
 
-1. Layout (Header, Footer, navigation)
-2. Home page
-3. /beautiful-websites (primary service)
-4. /pricing
-5. Remaining 6 service pages
-6. /services hub
-7. /domains
-8. /portfolio
-9. /about
-10. /contact
-11. /book-call
-12. Industry hub pages (4)
-13. Industry vertical pages (start with top 10)
-14. Checkout pre-forms (4)
-15. Admin pages
+1. **Foundation**
+   - Layout (Header, Footer, navigation)
+   - Routes config (`src/config/routes.ts`)
+   - SEO component
+
+2. **Admin Security** (before any admin pages)
+   - Run database migration (app_role, user_roles, allowed_admin_emails, has_role)
+   - Create `verify-admin-email` Edge Function
+   - Add to `supabase/config.toml`
+   - Build `useAdminAuth` hook
+   - Build `AdminGuard` component
+   - Build `/admin/login` page
+
+3. **Marketing Pages**
+   - Home page
+   - /beautiful-websites (primary service)
+   - /pricing
+   - Remaining 6 service pages
+   - /services hub
+   - /domains
+
+4. **Data-Driven Pages**
+   - Run portfolio + testimonials migrations
+   - /portfolio
+   - /about
+   - /contact
+   - /book-call
+
+5. **Checkout Flow**
+   - Run checkout_submissions migration
+   - 4 checkout pre-forms
+   - /checkout/success
+
+6. **Industry Pages**
+   - 4 hub pages
+   - Start with top 10 verticals
+
+7. **LocalPros**
+   - /localpros
+   - /localpros/apply
+   - /localpros/success-stories
+
+8. **Upgrade Flow**
+   - /upgrade
+
+9. **Admin Portal**
+   - Admin layout
+   - /admin dashboard
+   - /admin/submissions
+   - /admin/portfolio
+   - /admin/testimonials
 
 ---
 
 ## INSTRUCTIONS FOR BUILDER
 
-1. **Start with the Layout** — Header with navigation, Footer with links
-2. **Build mobile-first** — All pages must work on mobile
-3. **Use shadcn/ui** — Don't reinvent components
-4. **Keep copy SHORT** — Follow the copy rules strictly
-5. **Pre-render all marketing pages** — Add to prerenderRoutes array
-6. **Test SEO** — Check meta tags render correctly
-7. **No placeholder content** — Use real copy from this document
+1. **Reference BRD v32.1** — All specs come from `/docs/smartsites-brd-v32.1.md`
+2. **Start with Foundation** — Layout, routes, SEO component
+3. **Set up Admin Security Early** — Before building any admin pages
+4. **Build mobile-first** — All pages must work on mobile
+5. **Use shadcn/ui** — Don't reinvent components
+6. **Keep copy SHORT** — Follow the copy rules strictly
+7. **Pre-render all marketing pages** — Add to prerenderRoutes array (not /admin/*)
+8. **Test SEO** — Check meta tags render correctly
+9. **No placeholder content** — Use real copy from this document
 
 When ready, say: "Ready to build. Which page should I start with?"
 
@@ -498,25 +1103,19 @@ Use these as examples in portfolio and testimonials:
 | dallasroofingteam.com | Roofing | Dallas |
 | houstonplumbersco.com | Plumbing | Houston |
 | sonoranlawncare.com | Landscaping | Phoenix |
-| cleanhomesatlanta.com | Cleaning | Atlanta |
-| austinpestpros.com | Pest Control | Austin |
-| denverelectricco.com | Electrical | Denver |
-| seattleroofers.com | Roofing | Seattle |
-| tampabayac.com | HVAC | Tampa |
+| texaselectricpros.com | Electrical | Austin |
+| socalpestcontrol.com | Pest Control | San Diego |
+| georgiapainters.com | Painting | Atlanta |
+| tampabayfloors.com | Flooring | Tampa |
+| denverhandymanservices.com | Handyman | Denver |
+| seattlecarpetcleaners.com | Carpet Cleaning | Seattle |
 | phoenixpoolpros.com | Pool Service | Phoenix |
-| miamimovingco.com | Moving | Miami |
-| chicagopainters.com | Painting | Chicago |
-| lasgaragedoors.com | Garage Doors | Los Angeles |
-| sanantoniofencing.com | Fencing | San Antonio |
-| orlandomaids.com | Cleaning | Orlando |
-| nashvilletreeservice.com | Tree Service | Nashville |
-| minneapolishandyman.com | Handyman | Minneapolis |
-| portlandlocksmith.com | Locksmith | Portland |
-| vegasappliancerepair.com | Appliance | Las Vegas |
-| charlottecarpetclean.com | Carpet | Charlotte |
-
----
-
-**END OF PRD PROMPT**
-
-Paste this entire document into a new session. The builder will have everything needed to construct the SmartSites marketing pages.
+| chicagolocksmith247.com | Locksmith | Chicago |
+| miamitreeservice.com | Tree Service | Miami |
+| laappliancerepair.com | Appliance Repair | Los Angeles |
+| portlandpressurewashing.com | Pressure Washing | Portland |
+| nashvillegaragedoors.com | Garage Doors | Nashville |
+| austinfencingcompany.com | Fencing | Austin |
+| orlandomovingco.com | Moving | Orlando |
+| sandiegoglassrepair.com | Glass Repair | San Diego |
+| phoenixsolarinstall.com | Solar Installation | Phoenix |
