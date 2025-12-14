@@ -4,7 +4,12 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
-// NOTE: Pre-rendering will be added later with a compatible SSG solution
+// TODO: Pre-rendering for SEO (BRD 15.1)
+// Options to implement:
+// 1. Post-build script using puppeteer to generate static HTML
+// 2. Migrate to Next.js App Router (per BRD future migration path)
+// 3. Use Vercel's ISR/SSG features after deployment
+// Routes config at src/config/routes.ts is ready for any solution
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
@@ -17,6 +22,16 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+    },
+  },
+  build: {
+    // Ensure proper chunking for SEO
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+        },
+      },
     },
   },
 }));
