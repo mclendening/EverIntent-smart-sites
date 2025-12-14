@@ -1369,16 +1369,90 @@ app.everintentsmartsites.com/
 
 ### Footer Navigation
 
-**Services Column:** All services + Pricing at bottom
-**Industries Column:** 4 industry hubs  
-**Company Column:** About, Contact, Portfolio, Book a Call (→ /contact)
-**Legal Column:** Privacy Policy, Terms of Service, Data Request
+**4-Column Navigation Grid (Desktop) / 2-Column (Mobile):**
+
+| Services | Industries | Resources | Company |
+|----------|------------|-----------|---------|
+| Beautiful Websites | Home Services | Help | About |
+| Get Found Online | Professional Services | FAQ | Contact |
+| Never Miss a Lead | Health & Wellness | Support | Portfolio |
+| Book More Jobs | Automotive Services | | |
+| Run From Your Phone | | | |
+| Build Your Reputation | | | |
+| Let AI Handle It | | | |
+| Pricing | | | |
+
+**Branded Footer Section (below nav columns):**
+- SmartSites logo
+- "Book a Call" button → `/contact`
+- Social icons (if applicable)
+- Contact information: email, phone, address
+- Horizontal divider
+- Centered legal links row: Privacy (`/legal/privacy`) | Cookies (`/legal/cookies`) | Terms (`/legal/terms`) | Data Rights (`/legal/data-request`)
+- Copyright: "© 2025 SmartSites by EverIntent LLC. All rights reserved."
+- Tagline: "Professional websites for local businesses."
+- Call recording disclosure
+
+**Footer Legal Links Behavior:**
+- Privacy, Terms, Data Rights → Navigate to respective pages
+- "Cookie Preferences" button → Triggers consent banner modal via `window.dispatchEvent(new Event('cookie-consent-changed'))`
 
 ### CTA Strategy
 
 - **"Get Started"**: Primary marketing CTA, used in header and key conversion points → `/pricing`
 - **"Book a Call"**: General site-wide CTA for consultations → `/contact` (not a separate route)
 - No `/book-call` route; all "Book a Call" CTAs point to `/contact`
+
+---
+
+## 17.5 Chat Widget & Support Bot
+
+### Desktop Chat Button
+- Floating button, bottom-right corner
+- Fade-up animation on page load
+- Opens GHL chat widget (T4-level answer bot)
+- Gated by cookie consent: button hidden until user accepts cookies
+- Styled to match SmartSites design system
+
+### Mobile Chat Access
+- Chat integrated into mobile bottom navbar (not floating button)
+- Also gated by cookie consent
+- Navbar visibility tied to consent state
+
+### GHL Integration Requirements
+- `VITE_GHL_LOCATION_ID` stored in Vercel environment variables
+- Widget ID configuration via GHL v2 API
+- Chat widget loads after cookie consent accepted
+- Reference implementation: https://everintentlegalai.com
+
+---
+
+## 17.6 Legal Pages
+
+### Route Structure
+| Route | Page | Description |
+|-------|------|-------------|
+| `/legal/privacy` | Privacy Policy | Standard privacy policy |
+| `/legal/terms` | Terms of Service | Service terms and conditions |
+| `/legal/data-request` | Data Rights | CCPA data request form |
+| `/legal/cookies` | Cookie Preferences | Interactive cookie management page |
+
+### Cookie Preferences Page (`/legal/cookies`)
+**Reference:** https://everintentlegalai.com/cookies
+
+**Features:**
+- Interactive toggle switches for cookie categories
+- Categories: Essential (always on), Analytics, Marketing, Functional
+- Save preferences button
+- Clear explanation of each cookie type
+- Preferences persisted to localStorage
+- Triggers `cookie-consent-changed` event on save
+
+### Cookie Consent Banner
+- Appears on first visit (no consent stored)
+- Can be re-triggered via footer "Cookie Preferences" button
+- Options: Accept All, Reject All, Customize (opens `/legal/cookies`)
+- Consent state gates chat widget and certain tracking
 
 ---
 
@@ -2316,6 +2390,15 @@ CLICKUP_LIST_ID=xxx
 ---
 
 *Document compiled from EverIntentSmartSites BRD versions 1-31 and December 13, 2025 domain integration decisions. This is the single source of truth for SmartSites build.*
+
+---
+
+## Document History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| v32.2 | 2025-12-13 | Migration from vite-plugin-prerender to vite-react-ssg for SSG |
+| v32.3 | 2025-12-14 | Updated footer structure (4-column nav + branded section), added chat widget requirements, added legal pages specification, cookie consent integration requirements |
 
 ---
 

@@ -20,19 +20,26 @@ const industriesLinks = [
   { title: 'Automotive Services', path: '/industries/automotive-services' },
 ];
 
-// Company links (Book a Call points to /contact)
+// Resources links
+const resourcesLinks = [
+  { title: 'Help', path: '/help' },
+  { title: 'FAQ', path: '/faq' },
+  { title: 'Support', path: '/support' },
+];
+
+// Company links
 const companyLinks = [
   { title: 'About', path: '/about' },
   { title: 'Contact', path: '/contact' },
   { title: 'Portfolio', path: '/portfolio' },
-  { title: 'Book a Call', path: '/contact' },
 ];
 
-// Legal links
+// Legal links (for bottom section)
 const legalLinks = [
-  { title: 'Privacy Policy', path: '/legal/privacy' },
-  { title: 'Terms of Service', path: '/legal/terms' },
-  { title: 'Data Request', path: '/legal/data-request' },
+  { title: 'Privacy', path: '/legal/privacy' },
+  { title: 'Cookies', path: '/legal/cookies' },
+  { title: 'Terms', path: '/legal/terms' },
+  { title: 'Data Rights', path: '/legal/data-request' },
 ];
 
 export function Footer() {
@@ -77,6 +84,23 @@ export function Footer() {
             </ul>
           </div>
 
+          {/* Resources */}
+          <div>
+            <h3 className="font-semibold text-foreground mb-4">Resources</h3>
+            <ul className="space-y-2">
+              {resourcesLinks.map((link) => (
+                <li key={link.path}>
+                  <Link
+                    to={link.path}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {link.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
           {/* Company */}
           <div>
             <h3 className="font-semibold text-foreground mb-4">Company</h3>
@@ -93,48 +117,67 @@ export function Footer() {
               ))}
             </ul>
           </div>
+        </div>
 
-          {/* Legal */}
-          <div>
-            <h3 className="font-semibold text-foreground mb-4">Legal</h3>
-            <ul className="space-y-2">
-              {legalLinks.map((link) => (
-                <li key={link.path}>
+        {/* Branded Footer Section */}
+        <div className="mt-12 pt-8 border-t border-border">
+          {/* Logo, CTA, and Contact */}
+          <div className="flex flex-col items-center text-center space-y-4">
+            <Link to="/" className="text-2xl font-bold text-foreground">
+              SmartSites
+            </Link>
+            
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center px-6 py-2 bg-accent text-accent-foreground font-medium rounded-md hover:bg-accent/90 transition-colors"
+            >
+              Book a Call
+            </Link>
+
+            {/* Contact Info */}
+            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 text-sm text-muted-foreground">
+              <a href="mailto:hello@smartsites.com" className="hover:text-foreground transition-colors">
+                hello@smartsites.com
+              </a>
+              <a href="tel:+18005551234" className="hover:text-foreground transition-colors">
+                (800) 555-1234
+              </a>
+            </div>
+          </div>
+
+          {/* Legal Links */}
+          <div className="mt-8 pt-6 border-t border-border">
+            <div className="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">
+              {legalLinks.map((link, index) => (
+                <span key={link.path} className="flex items-center">
                   <Link
                     to={link.path}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="hover:text-foreground transition-colors"
                   >
                     {link.title}
                   </Link>
-                </li>
+                  {index < legalLinks.length - 1 && (
+                    <span className="ml-4 text-border">|</span>
+                  )}
+                </span>
               ))}
-            </ul>
-          </div>
-        </div>
+            </div>
 
-        {/* Bottom section */}
-        <div className="mt-12 pt-8 border-t border-border">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            {/* Logo and tagline */}
-            <div className="flex flex-col items-center md:items-start">
-              <Link to="/" className="text-xl font-bold text-foreground">
-                SmartSites
-              </Link>
+            {/* Copyright and Tagline */}
+            <div className="mt-4 text-center">
+              <p className="text-sm text-muted-foreground">
+                © {currentYear} SmartSites by EverIntent LLC. All rights reserved.
+              </p>
               <p className="text-sm text-muted-foreground mt-1">
                 Professional websites for local businesses.
               </p>
             </div>
 
-            {/* Copyright */}
-            <p className="text-sm text-muted-foreground text-center md:text-right">
-              © {currentYear} EverIntent LLC. All rights reserved.
+            {/* Call recording disclosure */}
+            <p className="mt-4 text-xs text-muted-foreground text-center">
+              Calls and texts may be recorded for quality assurance and training purposes.
             </p>
           </div>
-
-          {/* Call recording disclosure */}
-          <p className="mt-6 text-xs text-muted-foreground text-center">
-            Calls and texts may be recorded for quality assurance and training purposes.
-          </p>
         </div>
       </div>
     </footer>
