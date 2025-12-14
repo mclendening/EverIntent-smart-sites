@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet-async';
+import { Head } from 'vite-react-ssg';
 
 interface SEOProps {
   title?: string;
@@ -27,7 +27,7 @@ export function SEO({
   const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${SITE_URL}${ogImage}`;
 
   return (
-    <Helmet>
+    <Head>
       {/* Primary Meta Tags */}
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
@@ -51,6 +51,6 @@ export function SEO({
       
       {/* Robots */}
       {noIndex && <meta name="robots" content="noindex, nofollow" />}
-    </Helmet>
+    </Head>
   );
 }

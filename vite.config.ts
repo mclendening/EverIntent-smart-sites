@@ -4,12 +4,9 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
-// TODO: Pre-rendering for SEO (BRD 15.1)
-// Options to implement:
-// 1. Post-build script using puppeteer to generate static HTML
-// 2. Migrate to Next.js App Router (per BRD future migration path)
-// 3. Use Vercel's ISR/SSG features after deployment
-// Routes config at src/config/routes.ts is ready for any solution
+// SSG via vite-react-ssg per BRD v32.1 Section 15.1
+// Build command: vite-react-ssg build
+// All 90+ marketing routes pre-rendered, admin routes CSR only
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
@@ -24,8 +21,16 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  // vite-react-ssg options
+  ssgOptions: {
+    script: 'async',
+    formatting: 'minify',
+    // Exclude admin routes from pre-rendering
+    includedRoutes: (paths: string[]) => {
+      return paths.filter(path => !path.startsWith('/admin'));
+    },
+  },
   build: {
-    // Ensure proper chunking for SEO
     rollupOptions: {
       output: {
         manualChunks: {
