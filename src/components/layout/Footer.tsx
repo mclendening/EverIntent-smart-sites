@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Linkedin, Twitter, Facebook } from 'lucide-react';
+import { Linkedin, Twitter, Facebook, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 // Services links (Pricing at bottom per nav decisions)
@@ -135,8 +135,9 @@ export function Footer() {
               {/* Brand Name */}
               <Link
                 to="/"
-                className="text-xl font-semibold text-primary-foreground text-center md:text-left"
+                className="flex items-center justify-center md:justify-start gap-2 text-xl font-semibold text-primary-foreground"
               >
+                <Globe className="w-6 h-6" />
                 EverIntent Smart Sites
               </Link>
 
