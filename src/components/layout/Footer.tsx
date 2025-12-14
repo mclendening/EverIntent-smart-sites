@@ -137,7 +137,7 @@ export function Footer() {
             </Link>
 
             {/* CTA + Social Icons Row */}
-            <div className="flex flex-col sm:flex-row items-center gap-4">
+            <div className="flex flex-row flex-wrap items-center justify-center gap-3">
               <Button
                 asChild
                 className="bg-accent text-accent-foreground hover:bg-accent-hover font-medium px-6 shadow-button"
@@ -146,7 +146,7 @@ export function Footer() {
               </Button>
 
               {/* Social Icons */}
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 {socialLinks.map((social) => (
                   <a
                     key={social.label}
@@ -182,17 +182,17 @@ export function Footer() {
           <div className="my-8 border-t border-primary-foreground/20" />
 
           {/* Legal Links */}
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-primary-foreground/70">
+          <div className="flex flex-wrap justify-center gap-2 text-xs md:text-sm text-primary-foreground/70">
             {legalLinks.map((link, index) => (
               <span key={link.path} className="flex items-center">
                 <Link
                   to={link.path}
-                  className="hover:text-accent transition-colors"
+                  className="hover:text-accent transition-colors whitespace-nowrap"
                 >
                   {link.title}
                 </Link>
                 {index < legalLinks.length - 1 && (
-                  <span className="ml-4 text-primary-foreground/30">|</span>
+                  <span className="ml-2 text-primary-foreground/30">|</span>
                 )}
               </span>
             ))}
