@@ -2400,7 +2400,7 @@ CLICKUP_LIST_ID=xxx
 | v32.2 | 2025-12-13 | Migration from vite-plugin-prerender to vite-react-ssg for SSG |
 | v32.3 | 2025-12-14 | Updated footer structure (4-column nav + branded section), added chat widget requirements, added legal pages specification, cookie consent integration requirements |
 | v32.4 | 2025-12-14 | Added design system appendix (Legal AI pattern), cookie consent component, desktop chat button, GHL loader utility, z-index strategy |
-| v32.5 | 2025-12-14 | Footer implementation complete: Globe icon with accent color, header shows full "EverIntent Smart Sites" name, spacing adjustments (pt-4 above logo, mt-8 below logo on mobile, space-y-8 for content), hamburger menu styled for dark background (text-primary-foreground) |
+| v32.5 | 2025-12-14 | Header + Footer implementation complete. Header: dark blue sticky nav (bg-primary), full "EverIntent Smart Sites" brand name, Globe icon in accent color, nav links styled for dark background (text-primary-foreground), hamburger menu visible on dark bg, Get Started CTA (bg-accent text-primary). Footer: Globe icon accent color, spacing adjustments (pt-4 above logo, mt-8 mobile gap, space-y-8 content), social icons gap-6 from button |
 
 ---
 
