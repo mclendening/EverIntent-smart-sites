@@ -135,7 +135,7 @@ export function Footer() {
               {/* Brand Name */}
               <Link
                 to="/"
-                className="text-2xl font-bold text-primary-foreground text-center md:text-left"
+                className="text-xl font-semibold text-primary-foreground text-center md:text-left"
               >
                 EverIntent Smart Sites
               </Link>
@@ -144,7 +144,7 @@ export function Footer() {
               <div className="mt-4 md:mt-0 flex flex-row flex-wrap items-center justify-center md:justify-end gap-3">
                 <Button
                   asChild
-                  className="bg-accent text-accent-foreground hover:bg-accent-hover font-medium px-6 shadow-button"
+                  className="bg-accent text-accent-foreground hover:bg-accent-hover font-medium px-4 shadow-button"
                 >
                   <Link to="/contact">Book a Call</Link>
                 </Button>
