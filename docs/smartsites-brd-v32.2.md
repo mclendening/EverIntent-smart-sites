@@ -1,8 +1,8 @@
-# EverIntent SmartSites — Complete Business Requirements Document v32.2
+# EverIntent SmartSites — Complete Business Requirements Document v32.5
 
 **Last Updated:** December 14, 2025  
-**Version:** 32.2 (SSG Migration to vite-react-ssg)  
-**Status:** BUILD-READY  
+**Version:** 32.5 (Header + Footer Implementation Complete)  
+**Status:** BUILD-READY
 **Owner:** EverIntent LLC  
 **GitHub Path:** /docs/BRD/SmartSites-BRD-v32.md
 
