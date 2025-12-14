@@ -164,7 +164,7 @@ export function Footer() {
 
           {/* Contact Info */}
           <div className="flex flex-col items-center gap-1 text-sm text-primary-foreground/70">
-            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6">
+            <div className="flex flex-row flex-wrap items-center justify-center gap-3">
               <a href="mailto:info@everintent.com" className="hover:text-accent transition-colors">
                 info@everintent.com
               </a>
