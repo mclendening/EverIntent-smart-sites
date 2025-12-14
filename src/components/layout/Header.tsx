@@ -45,7 +45,7 @@ export function Header() {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <Globe className="w-5 h-5 text-accent" />
-          <span className="text-lg font-medium text-primary-foreground">Smart Sites</span>
+          <span className="text-lg font-medium text-primary-foreground">EverIntent Smart Sites</span>
         </Link>
 
         {/* Desktop Navigation */}
