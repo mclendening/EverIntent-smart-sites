@@ -130,35 +130,40 @@ export function Footer() {
         {/* Branded Footer Section */}
         <div className="mt-12 pt-8 border-t border-primary-foreground/20">
           {/* Logo, CTA, Social, and Contact */}
-          <div className="flex flex-col items-center text-center space-y-6">
-            {/* Brand Name */}
-            <Link to="/" className="text-2xl font-bold text-primary-foreground">
-              EverIntent Smart Sites
-            </Link>
-
-            {/* CTA + Social Icons Row */}
-            <div className="flex flex-row flex-wrap items-center justify-center gap-3">
-              <Button
-                asChild
-                className="bg-accent text-accent-foreground hover:bg-accent-hover font-medium px-6 shadow-button"
+          <div className="flex flex-col space-y-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+              {/* Brand Name */}
+              <Link
+                to="/"
+                className="text-2xl font-bold text-primary-foreground text-center md:text-left"
               >
-                <Link to="/contact">Book a Call</Link>
-              </Button>
+                EverIntent Smart Sites
+              </Link>
 
-              {/* Social Icons */}
-              <div className="flex items-center gap-2">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 rounded-full bg-primary-foreground/10 hover:bg-accent hover:text-accent-foreground transition-colors"
-                    aria-label={social.label}
-                  >
-                    <social.icon className="w-5 h-5" />
-                  </a>
-                ))}
+              {/* CTA + Social Icons Row */}
+              <div className="mt-4 md:mt-0 flex flex-row flex-wrap items-center justify-center md:justify-end gap-3">
+                <Button
+                  asChild
+                  className="bg-accent text-accent-foreground hover:bg-accent-hover font-medium px-6 shadow-button"
+                >
+                  <Link to="/contact">Book a Call</Link>
+                </Button>
+
+                {/* Social Icons */}
+                <div className="flex items-center gap-2">
+                  {socialLinks.map((social) => (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-full bg-primary-foreground/10 hover:bg-accent hover:text-accent-foreground transition-colors"
+                      aria-label={social.label}
+                    >
+                      <social.icon className="w-5 h-5" />
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
 
