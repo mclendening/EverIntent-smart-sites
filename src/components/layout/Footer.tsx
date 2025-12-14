@@ -40,7 +40,7 @@ const companyLinks = [
 const legalLinks = [
   { title: 'Privacy', path: '/legal/privacy' },
   { title: 'Cookies', path: '/legal/cookies' },
-  { title: 'Terms', path: '/legal/terms' },
+  { title: 'Terms of Service', path: '/legal/terms' },
   { title: 'Data Rights', path: '/legal/data-request' },
 ];
 
@@ -52,10 +52,6 @@ const socialLinks = [
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
-
-  const handleCookiePreferences = () => {
-    window.dispatchEvent(new Event('cookie-consent-changed'));
-  };
 
   return (
     <footer className="border-t border-border bg-primary text-primary-foreground">
@@ -166,15 +162,20 @@ export function Footer() {
               </div>
             </div>
 
-            {/* Contact Info */}
-            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 text-sm text-primary-foreground/70">
-              <a href="mailto:hello@everintentsmartsites.com" className="hover:text-accent transition-colors">
-                hello@everintentsmartsites.com
+          {/* Contact Info */}
+          <div className="flex flex-col items-center gap-1 text-sm text-primary-foreground/70">
+            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6">
+              <a href="mailto:info@everintent.com" className="hover:text-accent transition-colors">
+                info@everintent.com
               </a>
-              <a href="tel:+15625551234" className="hover:text-accent transition-colors">
-                (562) 555-1234
+              <a href="tel:+15626859500" className="hover:text-accent transition-colors">
+                (562) 685-9500
               </a>
             </div>
+            <p className="mt-1 text-center">
+              EverIntent LLC, 2892 N Bellflower Blvd, PMB 1018, Long Beach, CA 90815
+            </p>
+          </div>
           </div>
 
           {/* Divider */}
@@ -184,21 +185,12 @@ export function Footer() {
           <div className="flex flex-wrap justify-center gap-4 text-sm text-primary-foreground/70">
             {legalLinks.map((link, index) => (
               <span key={link.path} className="flex items-center">
-                {link.title === 'Cookies' ? (
-                  <button
-                    onClick={handleCookiePreferences}
-                    className="hover:text-accent transition-colors"
-                  >
-                    {link.title}
-                  </button>
-                ) : (
-                  <Link
-                    to={link.path}
-                    className="hover:text-accent transition-colors"
-                  >
-                    {link.title}
-                  </Link>
-                )}
+                <Link
+                  to={link.path}
+                  className="hover:text-accent transition-colors"
+                >
+                  {link.title}
+                </Link>
                 {index < legalLinks.length - 1 && (
                   <span className="ml-4 text-primary-foreground/30">|</span>
                 )}
@@ -216,10 +208,6 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Call recording disclosure */}
-          <p className="mt-4 text-xs text-primary-foreground/40 text-center">
-            Calls and texts may be recorded for quality assurance and training purposes.
-          </p>
         </div>
       </div>
     </footer>
