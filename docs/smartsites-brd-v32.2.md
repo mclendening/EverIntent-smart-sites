@@ -2644,4 +2644,117 @@ import { DesktopChatButton } from "@/components/DesktopChatButton";
 
 ---
 
+## Appendix G: Phased Implementation Plan
+
+This appendix documents the staggered implementation approach for design system, cookie consent, and GHL integration. Phases are ordered to isolate external API complexity and enable incremental progress.
+
+### G.1 Phase Overview
+
+| Phase | Scope | Dependencies | Components |
+|-------|-------|--------------|------------|
+| **Phase 1** | Design System + Footer + Mobile Navbar | None (frontend only) | index.css, tailwind.config.ts, Footer, MobileBottomBar |
+| **Phase 2** | Cookie Consent | Phase 1 complete | CookieConsent, App.tsx integration |
+| **Phase 3** | GHL v2 Integration | Phase 2 complete + GHL specs locked | ghlLoader, GHLChatWidget, DesktopChatButton, env vars |
+
+### G.2 Phase 1: Design System + Footer + Mobile Navbar
+
+**Objective:** Update design tokens to Legal AI color system and build navigation components.
+
+**Deliverables:**
+1. `src/index.css` - Update with Legal AI HSL color tokens (Appendix F.1)
+2. `tailwind.config.ts` - Update color references and add custom tokens
+3. `src/components/layout/Footer.tsx` - Complete footer per BRD Section 17
+4. `src/components/MobileBottomBar.tsx` - Mobile bottom navbar (hidden until cookie consent)
+
+**Mobile Bottom Navbar Specification:**
+- Visible only on mobile (`md:hidden`)
+- Fixed to bottom of viewport (`fixed bottom-0`)
+- Z-index 40 (below cookie consent banner)
+- Gated by cookie consent (hidden until `localStorage.getItem('cookie-consent')` exists)
+- Navigation items for SmartSites: Home, Services, Industries, Pricing, Chat (GHL trigger)
+- Uses `window.toggleGHLChat()` for chat button
+
+**Footer Structure (per BRD Section 17):**
+- 4-column navigation: Services, Industries, Resources, Company
+- Branded section: Logo, Book a Call button + social icons, contact info, divider, legal links, copyright, tagline
+
+**No external dependencies in Phase 1.**
+
+### G.3 Phase 2: Cookie Consent
+
+**Objective:** Implement California-compliant cookie consent banner that gates feature visibility.
+
+**Deliverables:**
+1. `src/components/CookieConsent.tsx` - Banner component (Appendix F.8)
+2. App.tsx integration - Mount CookieConsent at app root
+3. Wire Footer "Cookie Preferences" button to dispatch `cookie-consent-changed` event
+
+**Gating Behavior:**
+- Desktop chat button: Hidden until consent accepted
+- Mobile bottom navbar: Hidden until consent accepted
+- Cookie banner uses maximum z-index (`z-[2147483647]`)
+- Other components at z-40
+
+**Event System:**
+```ts
+// Accept/reject dispatches event
+window.dispatchEvent(new Event('cookie-consent-changed'));
+
+// Components listen for consent changes
+window.addEventListener('cookie-consent-changed', checkConsent);
+```
+
+### G.4 Phase 3: GHL v2 Integration (Deferred)
+
+**Objective:** Integrate GHL chat widget with proper API v2 patterns.
+
+**Prerequisites (must be locked before implementation):**
+1. GHL v2 API research complete
+2. Environment variable strategy defined
+3. Widget ID and Location ID obtained from GHL dashboard
+4. Decision on Edge Function vs client-side injection approach
+
+**Open Questions for GHL v2:**
+- How to authenticate with GHL v2 API endpoints?
+- Where to store credentials (Supabase secrets vs Vercel env vars)?
+- Can Edge Functions be used for GHL API calls (vs client-side widget)?
+- What objects are in scope for v2 writes (contacts, conversations, etc.)?
+- What is the proper pattern for lazy-loading the widget?
+
+**Deliverables (once specs locked):**
+1. `src/lib/ghlLoader.ts` - Widget injection utilities
+2. `src/components/GHLChatWidget.tsx` - Widget controller
+3. `src/components/DesktopChatButton.tsx` - Desktop floating button
+4. Environment variables: `VITE_GHL_LOCATION_ID`, `VITE_GHL_WIDGET_ID`
+5. TypeScript globals for window extensions
+
+**Reference Patterns:**
+- See `docs/Component-Extraction-CookieConsent-GHL-MobileNav.md` for full code
+- See Appendix F for condensed patterns
+
+### G.5 Component Reference Table
+
+| Component | File Path | Phase | Consent-Gated |
+|-----------|-----------|-------|---------------|
+| Footer | `src/components/layout/Footer.tsx` | 1 | No |
+| MobileBottomBar | `src/components/MobileBottomBar.tsx` | 1 | Yes |
+| CookieConsent | `src/components/CookieConsent.tsx` | 2 | N/A (controls gating) |
+| DesktopChatButton | `src/components/DesktopChatButton.tsx` | 3 | Yes |
+| GHLChatWidget | `src/components/GHLChatWidget.tsx` | 3 | No (but controlled via button) |
+| ghlLoader | `src/lib/ghlLoader.ts` | 3 | N/A (utility) |
+
+### G.6 Z-Index Hierarchy
+
+```
+Layer                    Z-Index         Visibility
+───────────────────────────────────────────────────────────
+Cookie Consent Banner    2147483647      Always visible until dismissed
+Mobile Bottom Navbar     40              After cookie consent
+Desktop Chat Button      40              After cookie consent (desktop only)
+GHL Chat Widget         40              On-demand via button click
+Standard Content        auto            Always
+```
+
+---
+
 **END OF DOCUMENT**
