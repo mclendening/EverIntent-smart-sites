@@ -2400,6 +2400,7 @@ CLICKUP_LIST_ID=xxx
 | v32.2 | 2025-12-13 | Migration from vite-plugin-prerender to vite-react-ssg for SSG |
 | v32.3 | 2025-12-14 | Updated footer structure (4-column nav + branded section), added chat widget requirements, added legal pages specification, cookie consent integration requirements |
 | v32.4 | 2025-12-14 | Added design system appendix (Legal AI pattern), cookie consent component, desktop chat button, GHL loader utility, z-index strategy |
+| v32.5 | 2025-12-14 | Footer implementation complete: Globe icon with accent color, header shows full "EverIntent Smart Sites" name, spacing adjustments (pt-4 above logo, mt-8 below logo on mobile, space-y-8 for content), hamburger menu styled for dark background (text-primary-foreground) |
 
 ---
 
@@ -2676,7 +2677,15 @@ This appendix documents the staggered implementation approach for design system,
 
 **Footer Structure (per BRD Section 17):**
 - 4-column navigation: Services, Industries, Resources, Company
-- Branded section: Logo, Book a Call button + social icons, contact info, divider, legal links, copyright, tagline
+- Branded section: Globe icon (accent color) + "EverIntent Smart Sites", Book a Call button + social icons (LinkedIn, X, Facebook), contact info, divider, legal links, copyright, tagline
+- Spacing: pt-4 above logo section, mt-8 between logo and button row on mobile, space-y-8 for content sections
+- Desktop: logo left-aligned, button+socials right-aligned. Mobile: all centered, button row with gap-6
+
+**Header Specification:**
+- Sticky dark blue header (bg-primary) with full "EverIntent Smart Sites" name
+- Globe icon in accent color beside brand name
+- Hamburger menu icon styled with text-primary-foreground for visibility on dark background
+- Get Started CTA button with bg-accent text-primary
 
 **No external dependencies in Phase 1.**
 
