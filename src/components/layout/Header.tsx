@@ -40,12 +40,12 @@ export function Header() {
   const [mobileIndustriesOpen, setMobileIndustriesOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/20 bg-primary">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
-          <Globe className="w-6 h-6 text-accent" />
-          <span className="text-xl font-semibold text-foreground">EverIntent Smart Sites</span>
+          <Globe className="w-5 h-5 text-accent" />
+          <span className="text-lg font-medium text-primary-foreground">Smart Sites</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -53,7 +53,7 @@ export function Header() {
           {/* Services Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="flex items-center gap-1">
+              <Button variant="ghost" className="flex items-center gap-1 text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
                 Services
                 <ChevronDown className="h-4 w-4" />
               </Button>
@@ -73,7 +73,7 @@ export function Header() {
           {/* Industries Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="flex items-center gap-1">
+              <Button variant="ghost" className="flex items-center gap-1 text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
                 Industries
                 <ChevronDown className="h-4 w-4" />
               </Button>
@@ -91,20 +91,20 @@ export function Header() {
           </DropdownMenu>
 
           {/* Static Links */}
-          <Button variant="ghost" asChild>
+          <Button variant="ghost" asChild className="text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
             <Link to="/pricing">Pricing</Link>
           </Button>
-          <Button variant="ghost" asChild>
+          <Button variant="ghost" asChild className="text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
             <Link to="/portfolio">Portfolio</Link>
           </Button>
-          <Button variant="ghost" asChild>
+          <Button variant="ghost" asChild className="text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
             <Link to="/about">About</Link>
           </Button>
         </nav>
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center space-x-2">
-          <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
+          <Button asChild className="bg-accent text-primary hover:bg-accent/90">
             <Link to="/pricing">Get Started</Link>
           </Button>
         </div>
