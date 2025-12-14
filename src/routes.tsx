@@ -192,8 +192,8 @@ const checkoutPaths = [
 // Legal routes
 const legalPaths = ['/legal/privacy', '/legal/terms', '/legal/data-request'];
 
-// LocalPros routes
-const localProsPaths = ['/localpros', '/localpros/apply', '/localpros/success-stories'];
+// LocalPros routes (per BRD v32.6 - only /localpros and /localpros/apply)
+const localProsPaths = ['/localpros', '/localpros/apply'];
 
 // Upgrade route
 const upgradePath = '/upgrade';
