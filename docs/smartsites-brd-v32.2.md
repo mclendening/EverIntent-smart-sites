@@ -1,7 +1,7 @@
-# EverIntent SmartSites — Complete Business Requirements Document v32.1
+# EverIntent SmartSites — Complete Business Requirements Document v32.2
 
-**Last Updated:** December 13, 2025  
-**Version:** 32.1 (Route Fixes + Admin Security)  
+**Last Updated:** December 14, 2025  
+**Version:** 32.2 (SSG Migration to vite-react-ssg)  
 **Status:** BUILD-READY  
 **Owner:** EverIntent LLC  
 **GitHub Path:** /docs/BRD/SmartSites-BRD-v32.md
@@ -703,35 +703,38 @@ Full GHL dashboard with features enabled per tier snapshot.
 | Layer | Technology |
 |-------|------------|
 | Framework | Vite + React 18 + TypeScript |
-| Pre-rendering | vite-plugin-prerender (generates static HTML at build time) |
-| SEO Meta Tags | react-helmet-async |
+| Static Site Generation | vite-react-ssg (generates static HTML at build time) |
+| SEO Meta Tags | vite-react-ssg `<Head>` component (built-in, replaces react-helmet-async) |
 | Hosting | Vercel Pro |
 | Database | Supabase (PostgreSQL) |
 | Styling | Tailwind CSS + shadcn/ui component library |
 | Forms | React Hook Form + Zod validation |
 | Auth (admin only) | Supabase Auth |
 | Analytics | GA4 + GHL tracking pixels |
-| Routing | react-router-dom v6 |
+| Routing | react-router-dom v6 (data routes format for SSG) |
 | Data Fetching | TanStack React Query |
 
 #### SEO Implementation
 
 | Concern | Solution |
 |---------|----------|
-| Search engine crawling | vite-plugin-prerender generates static HTML for all marketing pages at build time |
-| Per-page meta tags | `<SEO>` component using react-helmet-async (title, description, og:image, canonical) |
-| Route management | Central `src/config/routes.ts` serves both react-router AND prerender config |
+| Search engine crawling | vite-react-ssg generates static HTML for all marketing pages at build time |
+| Per-page meta tags | `<SEO>` component using vite-react-ssg's `<Head>` (title, description, og:image, canonical) |
+| Route management | Central `src/routes.tsx` exports react-router-dom data routes for SSG |
+| Admin route exclusion | `ssgOptions.includedRoutes` filter in vite.config.ts excludes `/admin/*` |
 | Sitemap | Auto-generated sitemap.xml from routes config |
 | Robots | robots.txt configured for production |
 | Structured data | JSON-LD schemas (LocalBusiness, Organization, Product) |
 
+**Build Command:** `vite-react-ssg build` (replaces standard `vite build`)
+
 **Build Output:** Static HTML files + JS bundles. Vercel serves pre-rendered HTML instantly, then React hydrates for interactivity.
 
-**Future Migration Path:** Codebase structured for clean conversion to Next.js App Router via ViteToNext.AI if SSR becomes required.
+**Future Migration Path:** Codebase structured for clean conversion to Next.js App Router if SSR becomes required.
 
-### 15.1.1 Pre-render Route Configuration
+### 15.1.1 SSG Route Configuration
 
-All marketing pages are pre-rendered at build time. Admin routes are client-side only (no SEO needed).
+All marketing pages are pre-rendered at build time via vite-react-ssg. Admin routes are client-side only (excluded from SSG, no SEO needed). Routes are defined in `src/routes.tsx` using react-router-dom data routes format.
 
 ```typescript
 // src/config/routes.ts
@@ -2007,7 +2010,7 @@ Is this a good time to chat for 2 minutes?"
 | Question | Decision |
 |----------|----------|
 | Marketing site framework | Vite + React (pre-rendered) instead of Next.js |
-| SEO approach | vite-plugin-prerender generates static HTML at build time |
+| SEO approach | ~~vite-plugin-prerender~~ → **vite-react-ssg** (v32.2 migration due to ESM compatibility) |
 | Navigation structure | Beautiful Websites moved into Services dropdown (top position) |
 
 ### Resolved in v32
@@ -2058,9 +2061,10 @@ Is this a good time to chat for 2 minutes?"
 | v28 | Dec 13 | Requirements doc format, UX/Ops/GHL specs |
 | v29 | — | ChatGPT summary brief |
 | v30 | Dec 13 | Full reconciliation: GHL checkout (final), T1 portal YES, T1 $249 full, T1 renewal $149/yr, GA4 email reports, complete sitemap restored |
-| v31 | Dec 13 | Tech stack update: Vite + React (pre-rendered) replaces Next.js; SEO implementation via vite-plugin-prerender; Navigation updated (Beautiful Websites moved to Services dropdown top); Pre-render route configuration added |
+| v31 | Dec 13 | Tech stack update: Vite + React (pre-rendered) replaces Next.js; SEO implementation via ~~vite-plugin-prerender~~ (see v32.2); Navigation updated (Beautiful Websites moved to Services dropdown top); Pre-render route configuration added |
 | **v32** | **Dec 13** | **Domain Integration Architecture: Complete Namecheap API specification; Domain search component; n8n purchase workflow; /domains page spec; Supabase schema updates for domain tracking; MVP manual fallback documented. Industry Expansion: 4 industry hub categories (Home Services, Professional Services, Health & Wellness, Automotive); 65+ industry verticals with nested URL structure; Complete 20 LocalPros portfolio sites table restored from v26 with domains, markets, area codes, and lead values** |
 | **v32.1** | **Dec 13** | **Route fixes: Added missing prerenderRoutes (checkout/success, localpros/*, upgrade, services); Fixed legal route paths (/legal/*); Admin schema security: Replaced insecure admins table with user_roles + allowed_admin_emails + has_role() function; Admin route consistency (/admin/login added, /admin/submissions naming)** |
+| **v32.2** | **Dec 14** | **SSG Migration: Replaced vite-plugin-prerender with vite-react-ssg due to ESM compatibility issues (require not defined in ES module scope); Updated SEO component to use vite-react-ssg's built-in `<Head>` instead of react-helmet-async; Routes moved to `src/routes.tsx` using react-router-dom data routes format; Build command changed to `vite-react-ssg build`; Admin routes excluded via `ssgOptions.includedRoutes` filter** |
 
 ---
 
