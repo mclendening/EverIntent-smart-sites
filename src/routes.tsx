@@ -12,6 +12,7 @@ import { Toaster as Sonner } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Layout } from '@/components/layout/Layout';
+import { AdminGuard } from '@/components/admin/AdminGuard';
 
 const queryClient = new QueryClient();
 
@@ -32,10 +33,29 @@ function RootLayout() {
   );
 }
 
+// Admin layout without marketing Layout wrapper
+function AdminLayout() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <Suspense fallback={<div className="min-h-screen" />}>
+          <Outlet />
+        </Suspense>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+}
+
 // Lazy load all page components
 const Index = React.lazy(() => import('./pages/Index'));
 const NotFound = React.lazy(() => import('./pages/NotFound'));
 const PlaceholderPage = React.lazy(() => import('./pages/Placeholder'));
+
+// Admin pages
+const AdminLogin = React.lazy(() => import('./pages/admin/Login'));
+const AdminDashboard = React.lazy(() => import('./pages/admin/Dashboard'));
 
 // Core routes
 const coreRoutePaths = ['/', '/pricing', '/portfolio', '/about', '/contact', '/book-call'];
@@ -212,6 +232,7 @@ const createPlaceholderChild = (path: string): RouteRecord => ({
 
 // Build routes array for vite-react-ssg
 export const routes: RouteRecord[] = [
+  // Marketing routes with Layout
   {
     path: '/',
     Component: RootLayout,
@@ -244,12 +265,53 @@ export const routes: RouteRecord[] = [
       ...localProsPaths.map(createPlaceholderChild),
       // Upgrade
       createPlaceholderChild(upgradePath),
-      // Admin routes (CSR only, not pre-rendered)
-      ...adminPaths.map(createPlaceholderChild),
       // Catch-all 404
       {
         path: '*',
         Component: NotFound,
+      },
+    ],
+  },
+  // Admin routes (CSR only, not pre-rendered, no marketing Layout)
+  {
+    path: '/admin',
+    Component: AdminLayout,
+    children: [
+      {
+        path: 'login',
+        Component: AdminLogin,
+      },
+      {
+        index: true,
+        element: (
+          <AdminGuard>
+            <AdminDashboard />
+          </AdminGuard>
+        ),
+      },
+      {
+        path: 'submissions',
+        element: (
+          <AdminGuard>
+            <PlaceholderPage />
+          </AdminGuard>
+        ),
+      },
+      {
+        path: 'portfolio',
+        element: (
+          <AdminGuard>
+            <PlaceholderPage />
+          </AdminGuard>
+        ),
+      },
+      {
+        path: 'testimonials',
+        element: (
+          <AdminGuard>
+            <PlaceholderPage />
+          </AdminGuard>
+        ),
       },
     ],
   },
