@@ -1,5 +1,5 @@
 // Route configuration for EverIntent SmartSites
-// Based on BRD v32.1 Section 15.1.1
+// Based on BRD v32.6 Section 15.1.1
 
 export interface RouteConfig {
   path: string;
@@ -157,11 +157,10 @@ export const legalRoutes: RouteConfig[] = [
   { path: '/legal/data-request', title: 'Data Request', description: 'Request your data' },
 ];
 
-// LocalPros routes
+// LocalPros routes (per BRD v32.6 - only /localpros and /localpros/apply)
 export const localProsRoutes: RouteConfig[] = [
-  { path: '/localpros', title: 'LocalPros', description: 'Join the LocalPros network' },
-  { path: '/localpros/apply', title: 'Apply to LocalPros', description: 'Apply to become a LocalPro' },
-  { path: '/localpros/success-stories', title: 'LocalPros Success Stories', description: 'See LocalPros success stories' },
+  { path: '/localpros', title: 'LocalPros Network', description: 'Get exclusive leads from our ranking sites' },
+  { path: '/localpros/apply', title: 'Apply to LocalPros', description: 'Apply to become a LocalPros partner' },
 ];
 
 // Upgrade route

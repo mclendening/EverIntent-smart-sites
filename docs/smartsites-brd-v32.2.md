@@ -1,7 +1,7 @@
-# EverIntent SmartSites — Complete Business Requirements Document v32.5
+# EverIntent SmartSites — Complete Business Requirements Document v32.6
 
 **Last Updated:** December 14, 2025  
-**Version:** 32.5 (Header + Footer Implementation Complete)  
+**Version:** 32.6 (LocalPros Business Model Complete)  
 **Status:** BUILD-READY
 **Owner:** EverIntent LLC  
 **GitHub Path:** /docs/BRD/SmartSites-BRD-v32.md
@@ -195,6 +195,13 @@ Essential services with strong repeat potential.
 
 ## 4. Business Model
 
+### Core Revenue Principles
+
+1. **Revenue at Every Step** - Nothing is free unless it strategically leads to bigger revenue. The sales process itself should make money.
+2. **Asset Ownership** - We own domains, phone numbers, rankings, traffic. Partners and customers come and go. Assets stay. This is the moat.
+3. **One Tech Stack, Multiple Revenue Paths** - Same WordPress build. Same GHL automations. Different monetization based on the relationship.
+4. **Relationship → Trust → MRR** - Every LocalPros interaction builds toward SmartSites conversion. The goal is always recurring revenue.
+
 ### Revenue Streams
 
 | Stream | Description |
@@ -203,7 +210,20 @@ Essential services with strong repeat potential.
 | Monthly subscriptions | T2-T4 ($97-$497/month) |
 | Annual renewals | T1 hosting/maintenance ($149/year) |
 | Usage overages | SMS, AI minutes, emails above included |
-| LocalPros leads | Lead fees from portfolio sites |
+| LocalPros leads | Lead sales $25-150 per lead by vertical |
+| LocalPros site rental | Site rental $297-$497/month |
+| LocalPros site sales | One-time site sales $2K-$10K |
+
+### Three Revenue Paths from LocalPros Assets
+
+One ranking WordPress site. Three ways to make money:
+
+| Path | Model | Revenue | Effort | GHL Action |
+|------|-------|---------|--------|------------|
+| **Path 1: Sell Leads** | Site ranks → leads captured → sold to partner | $25-150 per lead | Near zero | Leads in master account, distributed via automation |
+| **Path 2A: Sell Site** | Transfer domain + hosting to buyer | $2K-$10K one-time | Low | Close or transfer sub-account |
+| **Path 2B: Rent Site** | We keep ownership, they get leads + rebrand | $297-$497/month | Low | Create sub-account tied to site |
+| **Path 3: Ice Breaker** | Free leads → trust → SmartSites conversion | $2,364-$5,964/year MRR | Medium | Prospect → sub-account on conversion |
 
 ### Unit Economics (T1)
 
@@ -546,6 +566,45 @@ GHL Webhook Fires
 - Stripe: Connected
 - White-label: app.everintentsmartsites.com
 
+### GHL Account Structure
+
+```
+GHL Master Account (LocalPros)
+├── All LocalPros phone numbers
+├── All LocalPros lead forms
+├── AI voice bot (answers all calls)
+├── Lead distribution automation
+│   └── Partner gets SMS + email when lead comes in
+├── Pipeline: LocalPros Leads
+│   ├── New Lead
+│   ├── Sent to Partner
+│   ├── Accepted
+│   ├── Declined → Route to backup
+│   └── Converted (partner closed the job)
+└── Pipeline: LocalPros Partners
+    ├── Prospect
+    ├── Active (buying leads)
+    ├── Upsell Candidate
+    └── Converted to SmartSites
+
+GHL Sub-Account (per SmartSites customer)
+├── Their phone number
+├── Their forms
+├── Their automations (based on tier snapshot)
+├── Their contacts/CRM
+└── Their pipeline
+```
+
+### LocalPros → SmartSites Conversion Options
+
+When LocalPros partner converts to SmartSites:
+
+| Option | What Happens | Asset Outcome |
+|--------|--------------|---------------|
+| **Option A: New Site** | Build NEW WordPress site, NEW GHL sub-account | LocalPros site stays LocalPros (new partner or bank leads) |
+| **Option B: Site Transfer** | LocalPros site becomes their site, domain transfers/rebrands | Leads go to their sub-account, lose LocalPros asset, gain MRR |
+| **Option C: Rent-to-Own** | They "rent" LocalPros site ($297-$497/mo), option to buy after 12 months | Sub-account tied to site, monthly revenue now, potential sale later |
+
 ### Plans Configuration
 
 | Plan | Price | Snapshot | Trial |
@@ -878,7 +937,6 @@ export const routes = {
   localpros: {
     index: '/localpros',
     apply: '/localpros/apply',
-    successStories: '/localpros/success-stories',
   },
 
   // Upgrade (pre-rendered)
@@ -1822,23 +1880,136 @@ utm_content=ad-variant-a|ad-variant-b
 
 ### Overview
 
-LocalPros is a portfolio of lead-generation websites in target markets. EverIntent builds and owns these sites, selling leads to local service providers.
+LocalPros is a portfolio of lead-generation websites in target markets. EverIntent builds and owns these sites, monetizing through lead sales, site rental, or as an ice-breaker to SmartSites conversion. **Same WordPress build as customer sites. Same GHL automations. Different monetization based on the relationship.**
+
+### Core Tech Stack Reality
+
+| Component | Technology | Notes |
+|-----------|------------|-------|
+| LocalPros Sites | WordPress on Plesk/OVH | Same build as SmartSites customer sites |
+| Lead Capture | GHL Master Account | All LocalPros leads funnel here |
+| Customer Sites | WordPress on Plesk/OVH | Same templates, same Elementor, same plugins |
+| Customer Portal | GHL Sub-Account | One per SmartSites customer (T1-T4) |
+| AI Voice/SMS | GHL Master Account | Voice bot, automations in master |
+
+### Three Revenue Paths From One Asset
+
+One ranking WordPress site. Three ways to make money:
+
+#### Path 1: Sell Leads
+```
+Site ranks → Calls/forms come in → GHL captures → We sell to partner
+
+Revenue: $25-150 per lead
+Effort: Near zero (site already built and ranking)
+GHL: Leads in master account, distributed via automation
+WordPress: No changes needed
+```
+**Easy money:** Site exists, traffic exists, leads exist. Just find a buyer.
+
+#### Path 2: Sell or Rent the Site
+```
+Option A: SELL ($2K-$10K one-time)
+- Transfer domain + hosting to buyer
+- They own everything
+- We're done (unless they want SmartSites services)
+
+Option B: RENT ($297-$497/month)
+- We keep ownership
+- They get the leads + can rebrand
+- Basically T2-T4 pricing for a site that ALREADY RANKS
+- GHL: They get sub-account tied to that site
+- WordPress: We maintain, they use
+```
+**Easy money:** Someone wants instant presence without waiting for SEO. We have it. Premium price.
+
+#### Path 3: Ice Breaker to SmartSites
+```
+Cold outreach → "Want leads from my ranking site?"
+    ↓
+Give away 3-5 leads (prove it works)
+    ↓
+"Want more? $X per lead" (Path 1)
+    ↓
+Relationship builds over 60-90 days
+    ↓
+"Ready for your own site that does this?"
+    ↓
+SmartSites T2-T4 sale ($197-$497/mo forever)
+```
+**Easy money:** The "free" leads cost us nothing (site already gets traffic). The conversion to SmartSites is worth $2,364-$5,964/year.
+
+### Decision Framework: What Happens to the LocalPros Site?
+
+| Scenario | What We Do | Why |
+|----------|------------|-----|
+| Partner just wants leads | Path 1, keep site as LocalPros | Recurring lead revenue |
+| Partner wants instant presence | Path 2B, rent the site | Monthly rent > lead sales |
+| Partner wants to OWN it | Path 2A, sell outright | One-time cash, relationship continues |
+| Partner wants THEIR OWN brand | Path 3, build new SmartSites | Keep LocalPros asset, gain MRR |
+| Partner goes cold | Find new partner for leads | Asset never dies |
+
+### The "Easy Money" Map
+
+| Stage | Easy Money | GHL Action | WordPress Action |
+|-------|------------|------------|------------------|
+| Site ranks, no partner yet | Bank leads, sell later | Leads in master pipeline | None |
+| Partner prospect | Give 3-5 free leads | Tag in pipeline | None |
+| Partner active | Sell leads $25-150 each | Distribute via automation | None |
+| Partner wants more | Rent site $297-497/mo | Create sub-account | Rebrand if needed |
+| Partner wants to own | Sell site $2K-10K | Transfer or close | Transfer hosting |
+| Partner ready for SmartSites | Sell T2-T4 tier | New sub-account | Build new site |
+
+**Every box makes money or leads to money.**
+
+### Lead Pricing (Tiered by Vertical Value)
+
+| Category | Lead Price | Rationale |
+|----------|------------|-----------|
+| Home Services | $25-50 | High volume, lower job value |
+| Automotive | $30-50 | Medium volume, medium value |
+| Health & Wellness | $50-100 | Lower volume, higher job value |
+| Professional Services | $75-150 | Low volume, high job value |
+
+**Flexibility:** ±20% based on market/demand. Phoenix HVAC may be $40, NYC HVAC may be $60.
+
+### Territory Policy
+
+**Exclusive by default.** One partner per site/market.
+
+Why: It's the selling point. "You get ALL the leads from this site."
+
+If partner underperforms (accepts <70% of leads), we warn, then open to second partner.
+
+### Conversion Trigger
+
+**20 leads delivered OR 90 days active, whichever comes first.**
+
+System flags in GHL pipeline. Human makes the call. Script:
+
+> "You've gotten [X] leads from us. Closed about [$Y] in business. Ready to have your OWN site doing this? I can have it live in 5 days."
+
+### Site Expansion Policy
+
+**Demand-driven only.**
+
+Don't build spec. When we have a prospect in a niche/market we don't have, we build it. Lead already warm. Site pays for itself immediately.
+
+Exception: If a vertical shows high search volume + high lead value (dental implants, personal injury), spec build may be worth it.
+
+### Conversion Incentive
+
+**Credit model.** Last 30 days of lead spend applies to first month of SmartSites.
+
+Example: Partner spent $400 on leads last month. They sign up for T3 ($347/mo). First month is covered, $53 credit toward month 2.
+
+Psychology: "You're not starting over. You're upgrading."
 
 ### Site Structure
 
 - Domain: [city][service].com (e.g., phoenixhvacpros.com)
 - Built on WordPress (same stack as customer sites)
-- Lead capture → GHL → Lead routing
-
-### Lead Pricing
-
-| Service | Lead Price |
-|---------|------------|
-| HVAC | $25-50 |
-| Roofing | $35-75 |
-| Plumbing | $20-40 |
-| Landscaping | $15-30 |
-| Cleaning | $10-25 |
+- Lead capture → GHL Master Account → Lead routing via automation
 
 ### Partner Requirements
 
@@ -1846,6 +2017,29 @@ LocalPros is a portfolio of lead-generation websites in target markets. EverInte
 - Insurance (GL minimum $1M)
 - Positive reviews (3.5+ stars)
 - Response SLA (< 15 minutes)
+
+### Pages Required on SmartSites.com
+
+| Route | Purpose | Traffic Source |
+|-------|---------|----------------|
+| `/localpros` | Landing page for cold outreach recipients | Email/call links |
+| `/localpros/apply` | Interest form | CTA from landing page |
+
+**Not in main nav.** Different audience. Traffic comes from outbound, not organic browse.
+
+### Landing Page Content Strategy
+
+1. **Validate:** "Yes, we have ranking sites in [verticals]"
+2. **Prove:** Show 3-4 live sites with screenshots
+3. **Offer:** "Get exclusive leads. Pay per lead. No contracts."
+4. **Capture:** Simple form (name, email, phone, niche, market)
+5. **Bridge:** "When you're ready to own your presence, we build SmartSites."
+
+### Navigation Placement
+
+**Footer → Resources column.**
+
+Label: "LocalPros Network" or "Partner Program"
 
 ---
 
@@ -2154,9 +2348,13 @@ Is this a good time to chat for 2 minutes?"
 | v29 | — | ChatGPT summary brief |
 | v30 | Dec 13 | Full reconciliation: GHL checkout (final), T1 portal YES, T1 $249 full, T1 renewal $149/yr, GA4 email reports, complete sitemap restored |
 | v31 | Dec 13 | Tech stack update: Vite + React (pre-rendered) replaces Next.js; SEO implementation via ~~vite-plugin-prerender~~ (see v32.2); Navigation updated (Beautiful Websites moved to Services dropdown top); Pre-render route configuration added |
-| **v32** | **Dec 13** | **Domain Integration Architecture: Complete Namecheap API specification; Domain search component; n8n purchase workflow; /domains page spec; Supabase schema updates for domain tracking; MVP manual fallback documented. Industry Expansion: 4 industry hub categories (Home Services, Professional Services, Health & Wellness, Automotive); 65+ industry verticals with nested URL structure; Complete 20 LocalPros portfolio sites table restored from v26 with domains, markets, area codes, and lead values** |
-| **v32.1** | **Dec 13** | **Route fixes: Added missing prerenderRoutes (checkout/success, localpros/*, upgrade, services); Fixed legal route paths (/legal/*); Admin schema security: Replaced insecure admins table with user_roles + allowed_admin_emails + has_role() function; Admin route consistency (/admin/login added, /admin/submissions naming)** |
-| **v32.2** | **Dec 14** | **SSG Migration: Replaced vite-plugin-prerender with vite-react-ssg due to ESM compatibility issues (require not defined in ES module scope); Updated SEO component to use vite-react-ssg's built-in `<Head>` instead of react-helmet-async; Routes moved to `src/routes.tsx` using react-router-dom data routes format; Build command changed to `vite-react-ssg build`; Admin routes excluded via `ssgOptions.includedRoutes` filter** |
+| v32 | Dec 13 | Domain Integration Architecture: Complete Namecheap API specification; Domain search component; n8n purchase workflow; /domains page spec; Supabase schema updates for domain tracking; MVP manual fallback documented. Industry Expansion: 4 industry hub categories (Home Services, Professional Services, Health & Wellness, Automotive); 65+ industry verticals with nested URL structure; Complete 20 LocalPros portfolio sites table restored from v26 with domains, markets, area codes, and lead values |
+| v32.1 | Dec 13 | Route fixes: Added missing prerenderRoutes (checkout/success, localpros/*, upgrade, services); Fixed legal route paths (/legal/*); Admin schema security: Replaced insecure admins table with user_roles + allowed_admin_emails + has_role() function; Admin route consistency (/admin/login added, /admin/submissions naming) |
+| v32.2 | Dec 14 | SSG Migration: Replaced vite-plugin-prerender with vite-react-ssg due to ESM compatibility issues; Updated SEO component to use vite-react-ssg's built-in `<Head>` instead of react-helmet-async; Routes moved to `src/routes.tsx` using react-router-dom data routes format; Build command changed to `vite-react-ssg build`; Admin routes excluded via `ssgOptions.includedRoutes` filter |
+| v32.3 | Dec 14 | Updated footer structure (4-column nav + branded section), added chat widget requirements, added legal pages specification, cookie consent integration requirements |
+| v32.4 | Dec 14 | Added design system appendix (Legal AI pattern), cookie consent component, desktop chat button, GHL loader utility, z-index strategy |
+| v32.5 | Dec 14 | Header + Footer implementation complete |
+| **v32.6** | **Dec 14** | **LocalPros Business Model Complete**: Core revenue principles; Three revenue paths (Sell Leads, Sell/Rent Site, Ice Breaker→SmartSites); GHL master vs sub-account structure; Decision framework; Easy Money Map; Tiered lead pricing ($25-150 by vertical); Territory/Conversion/Incentive policies; Routes reduced to /localpros and /localpros/apply only |
 
 ---
 
@@ -2401,6 +2599,7 @@ CLICKUP_LIST_ID=xxx
 | v32.3 | 2025-12-14 | Updated footer structure (4-column nav + branded section), added chat widget requirements, added legal pages specification, cookie consent integration requirements |
 | v32.4 | 2025-12-14 | Added design system appendix (Legal AI pattern), cookie consent component, desktop chat button, GHL loader utility, z-index strategy |
 | v32.5 | 2025-12-14 | Header + Footer implementation complete. Header: dark blue sticky nav (bg-primary), full "EverIntent Smart Sites" brand name, Globe icon in accent color, nav links styled for dark background (text-primary-foreground), hamburger menu visible on dark bg, Get Started CTA (bg-accent text-primary). Footer: Globe icon accent color, spacing adjustments (pt-4 above logo, mt-8 mobile gap, space-y-8 content), social icons gap-6 from button |
+| **v32.6** | **2025-12-14** | **LocalPros Business Model Complete**: Core revenue principles (Revenue at Every Step, Asset Ownership, One Tech Stack Multiple Paths, Relationship→Trust→MRR); Three revenue paths from LocalPros assets (Sell Leads, Sell/Rent Site, Ice Breaker to SmartSites); GHL master account vs sub-account structure; Decision framework for site disposition; Easy Money Map by stage; Tiered lead pricing by vertical ($25-150 with ±20% flexibility); Territory policy (exclusive by default); Conversion trigger (20 leads OR 90 days); Credit model conversion incentive; Pages required (/localpros, /localpros/apply); Navigation placement (Footer Resources column) |
 
 ---
 
