@@ -103,9 +103,6 @@ export function Header() {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center space-x-2">
-          <Button variant="outline" asChild>
-            <Link to="/book-call">Book a Call</Link>
-          </Button>
           <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
             <Link to="/pricing">Get Started</Link>
           </Button>
@@ -183,11 +180,6 @@ export function Header() {
                 <SheetClose asChild>
                   <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
                     <Link to="/pricing">Get Started</Link>
-                  </Button>
-                </SheetClose>
-                <SheetClose asChild>
-                  <Button variant="outline" asChild className="w-full">
-                    <Link to="/book-call">Book a Call</Link>
                   </Button>
                 </SheetClose>
               </div>

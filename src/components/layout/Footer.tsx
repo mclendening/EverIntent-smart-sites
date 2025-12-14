@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-// Services links
+// Services links (Pricing at bottom per nav decisions)
 const servicesLinks = [
   { title: 'Beautiful Websites', path: '/beautiful-websites' },
   { title: 'Get Found Online', path: '/get-found-online' },
@@ -9,6 +9,7 @@ const servicesLinks = [
   { title: 'Run From Your Phone', path: '/run-from-your-phone' },
   { title: 'Build Your Reputation', path: '/build-your-reputation' },
   { title: 'Let AI Handle It', path: '/let-ai-handle-it' },
+  { title: 'Pricing', path: '/pricing' },
 ];
 
 // Industries links
@@ -19,13 +20,12 @@ const industriesLinks = [
   { title: 'Automotive Services', path: '/industries/automotive-services' },
 ];
 
-// Company links
+// Company links (Book a Call points to /contact)
 const companyLinks = [
   { title: 'About', path: '/about' },
   { title: 'Contact', path: '/contact' },
   { title: 'Portfolio', path: '/portfolio' },
-  { title: 'Book a Call', path: '/book-call' },
-  { title: 'Pricing', path: '/pricing' },
+  { title: 'Book a Call', path: '/contact' },
 ];
 
 // Legal links

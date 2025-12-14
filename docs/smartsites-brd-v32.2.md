@@ -1297,8 +1297,7 @@ CREATE POLICY "Submissions admin only" ON checkout_submissions
 │       └── /audio-installation/
 ├── /portfolio/                 # Live sites as proof
 ├── /about/                     # Company story
-├── /contact/                   # Contact form
-├── /book-call/                 # GHL calendar embed
+├── /contact/                   # Contact form + "Book a Call" destination
 ├── /localpros/                 # Partner program
 │   ├── /apply/
 │   └── /success-stories/
@@ -1332,7 +1331,7 @@ app.everintentsmartsites.com/
 ### Primary Navigation (Desktop)
 
 ```
-[Logo] | Services ▼ | Pricing | Portfolio | About | [Get Started]
+[Logo] | Services ▼ | Industries ▼ | Pricing | Portfolio | About | [Get Started]
 ```
 
 **Services Dropdown:**
@@ -1345,6 +1344,12 @@ app.everintentsmartsites.com/
 7. Let AI Handle It
 8. Domains (domain search utility)
 
+**Industries Dropdown:**
+1. Home Services
+2. Professional Services
+3. Health & Wellness
+4. Automotive Services
+
 ### Mobile Navigation
 
 ```
@@ -1353,14 +1358,27 @@ app.everintentsmartsites.com/
                            ▼
 ┌─────────────────────────┐
 │ Services               >│
+│ Industries             >│
 │ Pricing                 │
 │ Portfolio               │
 │ About                   │
 │ ─────────────────────── │
 │ [Get Started]           │
-│ [Book a Call]           │
 └─────────────────────────┘
 ```
+
+### Footer Navigation
+
+**Services Column:** All services + Pricing at bottom
+**Industries Column:** 4 industry hubs  
+**Company Column:** About, Contact, Portfolio, Book a Call (→ /contact)
+**Legal Column:** Privacy Policy, Terms of Service, Data Request
+
+### CTA Strategy
+
+- **"Get Started"**: Primary marketing CTA, used in header and key conversion points → `/pricing`
+- **"Book a Call"**: General site-wide CTA for consultations → `/contact` (not a separate route)
+- No `/book-call` route; all "Book a Call" CTAs point to `/contact`
 
 ---
 
