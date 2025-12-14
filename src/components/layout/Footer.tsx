@@ -128,16 +128,16 @@ export function Footer() {
         </div>
 
         {/* Branded Footer Section */}
-        <div className="mt-12 pt-8 border-t border-primary-foreground/20">
+        <div className="mt-12 pt-4 border-t border-primary-foreground/20">
           {/* Logo, CTA, Social, and Contact */}
-          <div className="flex flex-col space-y-6">
+          <div className="flex flex-col space-y-8">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between">
               {/* Brand Name */}
               <Link
                 to="/"
                 className="flex items-center justify-center md:justify-start gap-2 text-xl font-semibold text-primary-foreground"
               >
-                <Globe className="w-6 h-6" />
+                <Globe className="w-6 h-6 text-accent" />
                 EverIntent Smart Sites
               </Link>
 
