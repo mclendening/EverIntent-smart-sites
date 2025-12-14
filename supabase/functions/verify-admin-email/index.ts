@@ -56,11 +56,11 @@ serve(async (req) => {
 
     console.log(`Email authorized, sending OTP to: ${email}`);
 
-    // Send OTP to the allowed email
+    // Send OTP to the allowed email (create user if first-time admin)
     const { error: otpError } = await supabaseAdmin.auth.signInWithOtp({
       email: email.toLowerCase(),
       options: {
-        shouldCreateUser: false, // Only allow existing users
+        shouldCreateUser: true, // Allow first-time admin users to be created
       }
     });
 
