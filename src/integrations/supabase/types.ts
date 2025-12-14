@@ -35,6 +35,168 @@ export type Database = {
         }
         Relationships: []
       }
+      checkout_submissions: {
+        Row: {
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          message: string | null
+          name: string
+          phone: string | null
+          service_interest: string | null
+          source_page: string | null
+          status: string | null
+          updated_at: string
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          message?: string | null
+          name: string
+          phone?: string | null
+          service_interest?: string | null
+          source_page?: string | null
+          status?: string | null
+          updated_at?: string
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string | null
+          name?: string
+          phone?: string | null
+          service_interest?: string | null
+          source_page?: string | null
+          status?: string | null
+          updated_at?: string
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Relationships: []
+      }
+      portfolio: {
+        Row: {
+          client_name: string | null
+          created_at: string
+          description: string | null
+          display_order: number | null
+          featured_image_url: string | null
+          gallery_urls: string[] | null
+          id: string
+          industry: string | null
+          is_featured: boolean | null
+          is_published: boolean | null
+          results_summary: string | null
+          services_provided: string[] | null
+          slug: string
+          testimonial_quote: string | null
+          title: string
+          updated_at: string
+          website_url: string | null
+        }
+        Insert: {
+          client_name?: string | null
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          featured_image_url?: string | null
+          gallery_urls?: string[] | null
+          id?: string
+          industry?: string | null
+          is_featured?: boolean | null
+          is_published?: boolean | null
+          results_summary?: string | null
+          services_provided?: string[] | null
+          slug: string
+          testimonial_quote?: string | null
+          title: string
+          updated_at?: string
+          website_url?: string | null
+        }
+        Update: {
+          client_name?: string | null
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          featured_image_url?: string | null
+          gallery_urls?: string[] | null
+          id?: string
+          industry?: string | null
+          is_featured?: boolean | null
+          is_published?: boolean | null
+          results_summary?: string | null
+          services_provided?: string[] | null
+          slug?: string
+          testimonial_quote?: string | null
+          title?: string
+          updated_at?: string
+          website_url?: string | null
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          client_company: string | null
+          client_name: string
+          client_photo_url: string | null
+          client_title: string | null
+          created_at: string
+          display_order: number | null
+          id: string
+          industry: string | null
+          is_featured: boolean | null
+          is_published: boolean | null
+          quote: string
+          rating: number | null
+          service_type: string | null
+          updated_at: string
+        }
+        Insert: {
+          client_company?: string | null
+          client_name: string
+          client_photo_url?: string | null
+          client_title?: string | null
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          industry?: string | null
+          is_featured?: boolean | null
+          is_published?: boolean | null
+          quote: string
+          rating?: number | null
+          service_type?: string | null
+          updated_at?: string
+        }
+        Update: {
+          client_company?: string | null
+          client_name?: string
+          client_photo_url?: string | null
+          client_title?: string | null
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          industry?: string | null
+          is_featured?: boolean | null
+          is_published?: boolean | null
+          quote?: string
+          rating?: number | null
+          service_type?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string | null
