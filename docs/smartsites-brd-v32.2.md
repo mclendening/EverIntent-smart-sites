@@ -2399,6 +2399,248 @@ CLICKUP_LIST_ID=xxx
 |---------|------|---------|
 | v32.2 | 2025-12-13 | Migration from vite-plugin-prerender to vite-react-ssg for SSG |
 | v32.3 | 2025-12-14 | Updated footer structure (4-column nav + branded section), added chat widget requirements, added legal pages specification, cookie consent integration requirements |
+| v32.4 | 2025-12-14 | Added design system appendix (Legal AI pattern), cookie consent component, desktop chat button, GHL loader utility, z-index strategy |
+
+---
+
+## Appendix F: Design System & Component Patterns
+
+### F.1 Color Palette (HSL Tokens)
+
+| Token | Light Mode | Dark Mode | Usage |
+|-------|------------|-----------|-------|
+| `--primary` | `210 73% 15%` (Deep Navy) | `208 65% 34%` | Trust & Authority |
+| `--primary-light` | `208 65% 34%` | `208 60% 45%` | Hover states |
+| `--accent` | `44 44% 62%` (Rich Gold) | Same | Prestige (10% usage) |
+| `--accent-hover` | `43 89% 38%` | Same | Gold interactions |
+| `--background` | `0 0% 100%` | `240 28% 9%` | Page background |
+| `--foreground` | `240 28% 14%` | `0 0% 98%` | Body text |
+| `--muted-foreground` | `215 19% 35%` | `215 19% 65%` | Secondary text |
+| `--border` | `214 32% 91%` | `210 30% 20%` | Borders |
+
+### F.2 Typography
+
+```css
+font-heading: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif
+font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif
+
+text-hero: 3rem / 1.1 / 900
+text-section: 2.5rem / 1.2 / 800  
+text-subheading: 2rem / 1.3 / 700
+text-lead: 1.125rem / 1.6 / 400
+text-stat: 3rem / 1 / 900
+```
+
+### F.3 Gradients
+
+```css
+--gradient-hero: linear-gradient(135deg, hsl(210 73% 15%) 0%, hsl(208 65% 34%) 100%)
+--gradient-innovation: linear-gradient(135deg, hsl(44 44% 62%) 0%, hsl(43 89% 38%) 100%)
+--gradient-ai: linear-gradient(180deg, hsl(210 17% 98%) 0%, hsl(0 0% 100%) 100%)
+```
+
+### F.4 Shadows
+
+```css
+--shadow-elevated: 0 10px 30px -10px hsl(210 73% 15% / 0.15)
+--shadow-button: 0 4px 15px hsl(44 44% 62% / 0.2)
+--shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08)
+--shadow-glow: 0 0 20px hsl(44 44% 62% / 0.2)
+```
+
+### F.5 Animations
+
+```css
+--transition-smooth: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+--transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)
+animate-fade-in, animate-fade-up, animate-scale-in, animate-pulse-glow
+```
+
+### F.6 Z-Index Strategy
+
+| Element | Z-Index | Notes |
+|---------|---------|-------|
+| Cookie Consent Banner | `z-[2147483647]` | Max int, always on top |
+| GHL Chat Widget | `z-40` | Pushed behind via CSS `!important` |
+| Desktop Chat Button | `z-40` | Matches widget level |
+
+### F.7 Cookie Consent Component Pattern
+
+```tsx
+// src/components/CookieConsent.tsx
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+
+export function CookieConsent() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const consent = localStorage.getItem('cookie-consent');
+    if (!consent) setIsVisible(true);
+  }, []);
+
+  const acceptAll = () => {
+    localStorage.setItem('cookie-consent', JSON.stringify({
+      necessary: true, analytics: true, marketing: true,
+      timestamp: new Date().toISOString()
+    }));
+    window.dispatchEvent(new Event('cookie-consent-changed'));
+    setIsVisible(false);
+  };
+
+  const rejectAll = () => {
+    localStorage.setItem('cookie-consent', JSON.stringify({
+      necessary: true, analytics: false, marketing: false,
+      timestamp: new Date().toISOString()
+    }));
+    window.dispatchEvent(new Event('cookie-consent-changed'));
+    setIsVisible(false);
+  };
+
+  if (!isVisible) return null;
+
+  return (
+    <div className="fixed bottom-0 left-0 right-0 z-[2147483647] bg-card border-t border-border p-4">
+      <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <h3 className="font-semibold text-foreground">We use cookies</h3>
+          <p className="text-sm text-muted-foreground">
+            We use cookies to enhance your experience.{' '}
+            <Link to="/legal/privacy" className="underline">Privacy Policy</Link>
+          </p>
+        </div>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={rejectAll}>Reject All</Button>
+          <Button onClick={acceptAll}>Accept All</Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+### F.8 Desktop Chat Button Component Pattern
+
+```tsx
+// src/components/DesktopChatButton.tsx
+import { Sparkles } from 'lucide-react';
+import { useEffect, useState } from 'react';
+
+export function DesktopChatButton() {
+  const [hasConsent, setHasConsent] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    const checkConsent = () => {
+      const consent = localStorage.getItem('cookie-consent');
+      setHasConsent(!!consent);
+    };
+    checkConsent();
+    window.addEventListener('cookie-consent-changed', checkConsent);
+    window.addEventListener('storage', checkConsent);
+    return () => {
+      window.removeEventListener('cookie-consent-changed', checkConsent);
+      window.removeEventListener('storage', checkConsent);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (hasConsent) {
+      const timer = setTimeout(() => setIsVisible(true), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [hasConsent]);
+
+  const handleClick = () => {
+    if (window.toggleGHLChat) window.toggleGHLChat();
+  };
+
+  if (!hasConsent) return null;
+
+  return (
+    <button
+      onClick={handleClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="hidden md:flex fixed right-6 z-40 items-center gap-3 px-5 py-3 bg-primary/95 backdrop-blur-sm border border-accent/30 rounded-lg shadow-lg transition-all duration-300 hover:bg-primary hover:border-accent hover:shadow-xl hover:shadow-accent/20 group"
+      style={{ bottom: isVisible ? '24px' : '-80px' }}
+      aria-label="Chat with our AI assistant"
+    >
+      <Sparkles className="w-5 h-5 text-accent" />
+      <span className="text-primary-foreground font-medium">
+        {isHovered ? 'Chat with us' : 'Need help?'}
+      </span>
+    </button>
+  );
+}
+```
+
+### F.9 GHL Loader Utility Pattern
+
+```ts
+// src/lib/ghlLoader.ts
+const LOADER_SRC = 'https://beta.leadconnectorhq.com/loader.js';
+const RESOURCES_URL = 'https://beta.leadconnectorhq.com/chat-widget/loader.js';
+const GHL_WIDGET_DATA_ID = 'YOUR_WIDGET_ID'; // From GHL dashboard
+
+export async function ensureGHLWidget(locationId?: string, timeout = 12000) {
+  ensureLoaderScript();
+  await waitForAPI(timeout);
+  // Hide default launcher - we control via custom button
+  setTimeout(() => window.leadConnector?.hideLauncher?.(), 300);
+}
+
+export function openViaAnyAPI(): boolean {
+  return !!(window.leadConnector?.open?.() || window.LC_API?.open_chat_window?.());
+}
+
+export function closeViaAnyAPI(): boolean {
+  return !!(window.leadConnector?.close?.() || window.LC_API?.close_chat_window?.());
+}
+```
+
+### F.10 CSS: Force GHL Behind Cookie Banner
+
+```css
+/* src/index.css - Add to end of file */
+#chat-widget,
+.chat-widget,
+[id*="chat"],
+[class*="chat-widget"],
+.leadconnector-chat {
+  z-index: 40 !important;
+}
+```
+
+### F.11 Required TypeScript Globals
+
+```ts
+// Add to src/vite-env.d.ts or separate globals.d.ts
+declare global {
+  interface Window {
+    toggleGHLChat?: () => void;
+    closeGHLChat?: () => void;
+    leadConnector?: { open?: () => void; close?: () => void; hideLauncher?: () => void; };
+    LC_API?: { open_chat_window?: () => void; close_chat_window?: () => void; };
+  }
+}
+```
+
+### F.12 App Integration Pattern
+
+```tsx
+// App.tsx - Add at end of BrowserRouter, before closing tag
+import { CookieConsent } from "@/components/CookieConsent";
+import { GHLChatWidget } from "@/components/GHLChatWidget";
+import { DesktopChatButton } from "@/components/DesktopChatButton";
+
+// Inside BrowserRouter:
+<CookieConsent />
+<GHLChatWidget />
+<DesktopChatButton />
+```
 
 ---
 
