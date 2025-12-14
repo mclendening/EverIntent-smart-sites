@@ -97,9 +97,6 @@ export function Header() {
           <Button variant="ghost" asChild className="text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
             <Link to="/portfolio">Portfolio</Link>
           </Button>
-          <Button variant="ghost" asChild className="text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
-            <Link to="/about">About</Link>
-          </Button>
         </nav>
 
         {/* Desktop CTA */}

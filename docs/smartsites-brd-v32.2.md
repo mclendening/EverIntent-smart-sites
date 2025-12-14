@@ -1,7 +1,7 @@
-# EverIntent SmartSites — Complete Business Requirements Document v32.6
+# EverIntent SmartSites — Complete Business Requirements Document v32.7
 
 **Last Updated:** December 14, 2025  
-**Version:** 32.6 (LocalPros Business Model Complete)  
+**Version:** 32.7 (Navigation Cleanup)  
 **Status:** BUILD-READY
 **Owner:** EverIntent LLC  
 **GitHub Path:** /docs/BRD/SmartSites-BRD-v32.md
@@ -2354,7 +2354,8 @@ Is this a good time to chat for 2 minutes?"
 | v32.3 | Dec 14 | Updated footer structure (4-column nav + branded section), added chat widget requirements, added legal pages specification, cookie consent integration requirements |
 | v32.4 | Dec 14 | Added design system appendix (Legal AI pattern), cookie consent component, desktop chat button, GHL loader utility, z-index strategy |
 | v32.5 | Dec 14 | Header + Footer implementation complete |
-| **v32.6** | **Dec 14** | **LocalPros Business Model Complete**: Core revenue principles; Three revenue paths (Sell Leads, Sell/Rent Site, Ice Breaker→SmartSites); GHL master vs sub-account structure; Decision framework; Easy Money Map; Tiered lead pricing ($25-150 by vertical); Territory/Conversion/Incentive policies; Routes reduced to /localpros and /localpros/apply only |
+| v32.6 | Dec 14 | LocalPros Business Model Complete: Core revenue principles; Three revenue paths (Sell Leads, Sell/Rent Site, Ice Breaker→SmartSites); GHL master vs sub-account structure; Decision framework; Easy Money Map; Tiered lead pricing ($25-150 by vertical); Territory/Conversion/Incentive policies; Routes reduced to /localpros and /localpros/apply only |
+| **v32.7** | **Dec 14** | **Navigation Cleanup**: Removed About from desktop header navigation (remains in mobile menu and footer Company column); Route /about preserved |
 
 ---
 
