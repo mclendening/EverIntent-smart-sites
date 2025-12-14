@@ -22,8 +22,9 @@ const industriesLinks = [
   { title: 'Automotive Services', path: '/industries/automotive-services' },
 ];
 
-// Resources links
+// Resources links (LocalPros per BRD v32.6 navigation placement)
 const resourcesLinks = [
+  { title: 'LocalPros Network', path: '/localpros' },
   { title: 'Help', path: '/help' },
   { title: 'FAQ', path: '/faq' },
   { title: 'Support', path: '/support' },

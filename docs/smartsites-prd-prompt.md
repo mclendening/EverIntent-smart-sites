@@ -108,7 +108,6 @@ export const routes = {
   localpros: {
     home: '/localpros',
     apply: '/localpros/apply',
-    successStories: '/localpros/success-stories',
   },
   
   // Upgrade
