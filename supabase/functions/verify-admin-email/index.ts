@@ -54,28 +54,35 @@ serve(async (req) => {
       );
     }
 
-    console.log(`Email authorized, sending OTP to: ${email}`);
+    console.log(`Email authorized, sending magic link to: ${email}`);
 
-    // Send OTP to the allowed email (create user if first-time admin)
+    // Determine the redirect URL for magic link
+    const siteUrl = Deno.env.get('SITE_URL') || 'https://everintentsmartsites.com';
+    const redirectTo = `${siteUrl}/admin`;
+
+    console.log(`Using redirect URL: ${redirectTo}`);
+
+    // Send magic link to the allowed email
     const { error: otpError } = await supabaseAdmin.auth.signInWithOtp({
       email: email.toLowerCase(),
       options: {
-        shouldCreateUser: true, // Allow first-time admin users to be created
+        shouldCreateUser: true,
+        emailRedirectTo: redirectTo,
       }
     });
 
     if (otpError) {
-      console.error('Error sending OTP:', otpError);
+      console.error('Error sending magic link:', otpError);
       return new Response(
-        JSON.stringify({ error: 'Failed to send verification code' }),
+        JSON.stringify({ error: 'Failed to send login link' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    console.log(`OTP sent successfully to: ${email}`);
+    console.log(`Magic link sent successfully to: ${email}`);
 
     return new Response(
-      JSON.stringify({ success: true, message: 'Verification code sent to your email' }),
+      JSON.stringify({ success: true, message: 'Magic link sent to your email' }),
       { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
 
