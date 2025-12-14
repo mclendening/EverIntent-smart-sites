@@ -7,25 +7,20 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, Mail, KeyRound, ShieldCheck } from 'lucide-react';
+import { Loader2, Mail, ShieldCheck, CheckCircle } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 const emailSchema = z.string().email('Please enter a valid email address');
-const otpSchema = z.string().length(6, 'Verification code must be 6 digits');
-
-type Step = 'email' | 'otp';
 
 export default function AdminLogin() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, isAdmin, isLoading: authLoading, verifyOtp } = useAdminAuth();
+  const { user, isAdmin, isLoading: authLoading } = useAdminAuth();
   
-  const [step, setStep] = useState<Step>('email');
   const [email, setEmail] = useState('');
-  const [otp, setOtp] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  const [emailSent, setEmailSent] = useState(false);
 
   // Get error from navigation state
   const stateError = location.state?.error as string | undefined;
@@ -41,7 +36,6 @@ export default function AdminLogin() {
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setSuccess(null);
 
     // Validate email
     const result = emailSchema.safeParse(email);
@@ -60,7 +54,7 @@ export default function AdminLogin() {
 
       if (fnError) {
         console.error('Edge function error:', fnError);
-        setError('Failed to send verification code. Please try again.');
+        setError('Failed to send login link. Please try again.');
         return;
       }
 
@@ -69,8 +63,7 @@ export default function AdminLogin() {
         return;
       }
 
-      setSuccess('Verification code sent to your email');
-      setStep('otp');
+      setEmailSent(true);
     } catch (err) {
       console.error('Unexpected error:', err);
       setError('An unexpected error occurred. Please try again.');
@@ -79,44 +72,9 @@ export default function AdminLogin() {
     }
   };
 
-  const handleOtpSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleTryAgain = () => {
+    setEmailSent(false);
     setError(null);
-    setSuccess(null);
-
-    // Validate OTP
-    const result = otpSchema.safeParse(otp);
-    if (!result.success) {
-      setError(result.error.errors[0].message);
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      const { error: verifyError } = await verifyOtp(email.toLowerCase(), otp);
-
-      if (verifyError) {
-        console.error('OTP verification error:', verifyError);
-        setError('Invalid or expired verification code. Please try again.');
-        return;
-      }
-
-      // Success - the auth state listener will handle the redirect
-      setSuccess('Verification successful! Redirecting...');
-    } catch (err) {
-      console.error('Unexpected error:', err);
-      setError('An unexpected error occurred. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleBackToEmail = () => {
-    setStep('email');
-    setOtp('');
-    setError(null);
-    setSuccess(null);
   };
 
   if (authLoading) {
@@ -135,13 +93,19 @@ export default function AdminLogin() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-            <ShieldCheck className="h-6 w-6 text-primary" />
+            {emailSent ? (
+              <CheckCircle className="h-6 w-6 text-green-600" />
+            ) : (
+              <ShieldCheck className="h-6 w-6 text-primary" />
+            )}
           </div>
-          <CardTitle className="text-2xl">Admin Login</CardTitle>
+          <CardTitle className="text-2xl">
+            {emailSent ? 'Check Your Email' : 'Admin Login'}
+          </CardTitle>
           <CardDescription>
-            {step === 'email' 
-              ? 'Enter your admin email to receive a verification code'
-              : 'Enter the verification code sent to your email'
+            {emailSent 
+              ? `We sent a magic link to ${email}. Click the link in your email to sign in.`
+              : 'Enter your admin email to receive a magic link'
             }
           </CardDescription>
         </CardHeader>
@@ -151,14 +115,27 @@ export default function AdminLogin() {
               <AlertDescription>{error || stateError}</AlertDescription>
             </Alert>
           )}
-          
-          {success && (
-            <Alert className="mb-4 border-green-500 bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
-              <AlertDescription>{success}</AlertDescription>
-            </Alert>
-          )}
 
-          {step === 'email' ? (
+          {emailSent ? (
+            <div className="space-y-4">
+              <Alert className="border-green-500 bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
+                <AlertDescription>
+                  Magic link sent! Check your inbox and click the link to sign in.
+                </AlertDescription>
+              </Alert>
+              <p className="text-sm text-muted-foreground text-center">
+                Didn't receive the email? Check your spam folder or try again.
+              </p>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                onClick={handleTryAgain}
+              >
+                Try a different email
+              </Button>
+            </div>
+          ) : (
             <form onSubmit={handleEmailSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
@@ -181,54 +158,11 @@ export default function AdminLogin() {
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Sending Code...
+                    Sending Link...
                   </>
                 ) : (
-                  'Send Verification Code'
+                  'Send Magic Link'
                 )}
-              </Button>
-            </form>
-          ) : (
-            <form onSubmit={handleOtpSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="otp">Verification Code</Label>
-                <div className="relative">
-                  <KeyRound className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    id="otp"
-                    type="text"
-                    placeholder="000000"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                    className="pl-10 text-center text-lg tracking-widest"
-                    disabled={isLoading}
-                    autoComplete="one-time-code"
-                    autoFocus
-                    maxLength={6}
-                  />
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Code sent to {email}
-                </p>
-              </div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Verifying...
-                  </>
-                ) : (
-                  'Verify & Login'
-                )}
-              </Button>
-              <Button
-                type="button"
-                variant="ghost"
-                className="w-full"
-                onClick={handleBackToEmail}
-                disabled={isLoading}
-              >
-                Use a different email
               </Button>
             </form>
           )}
