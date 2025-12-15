@@ -1,3 +1,161 @@
+
+Below is the full persona set (external + internal) that will touch **EverIntentSmartSites.com (marketing site)**, **GHL (master + sub-accounts / SaaS mode)**, **WordPress (Elementor sites)**, **Plesk (hosting control panel)**, and **domain + DNS provisioning (Cloudflare authoritative DNS — never Plesk DNS, per your constraint)**.
+
+I’m listing them in “real life” terms (not just `admin/moderator/user`), and I’m explicit about **which systems each persona touches** so we can validate journeys end-to-end.
+
+---
+
+## External personas (outside EverIntent)
+
+### 1) Anonymous Visitor (Top-of-funnel)
+
+* **Touches:** Marketing site (Vercel/Vite), cookie consent + chat widget, general content pages.
+* **Actions:** Browse services/pricing/portfolio; click CTA; maybe use domain search utility page (required in BRD). 
+
+### 2) SmartSites Prospect — “Business Owner / Founder” (Decision maker)
+
+* **Touches:** Marketing site → checkout pre-pages → **GHL checkout** (SaaS mode) → email/SMS follow-ups. 
+* **Actions:** Chooses tier (T1–T4), submits “Get Started,” completes checkout.
+
+### 3) SmartSites Prospect — “Needs Help / Book a Call”
+
+* **Touches:** Marketing site (book-call/contact), GHL calendar/booking (once connected), follow-up sequences.
+* **Actions:** Books call; responds to sales outreach; may later purchase via GHL checkout. 
+
+### 4) SmartSites Customer — Primary Account Holder (Post-purchase)
+
+* **Touches:** **GHL Portal** (T1 has “neutered” dashboard; T2–T4 use fuller portal) + support email/chat depending on tier.  
+* **Actions:** Completes intake; reviews staging link; requests revisions; upgrades/downgrades/cancels. 
+
+### 5) SmartSites Customer Team Member (“Operator” seat)
+
+Examples: office manager, dispatcher, receptionist, marketing assistant.
+
+* **Touches:** **GHL sub-account** features enabled by snapshot (conversations, calendar, pipeline, etc.). 
+* **Actions:** Responds to leads, manages inbox, books appointments, moves pipeline stages.
+
+### 6) SmartSites Customer “Domain Admin” (Customer-owned domain case)
+
+* **Touches:** Their registrar / DNS provider UI (GoDaddy, etc.) **or Cloudflare if they delegate it**.
+* **Actions:** Updates nameservers / DNS records to point site live; verifies propagation.
+* **Why they exist in BRD:** Domain choice supports `namecheap/customer_owned` and domain status workflow. 
+
+### 7) LocalPros Partner Provider — Applicant (External partner applying)
+
+* **Touches:** `/localpros/apply` form (marketing site), follow-up comms in **GHL Master account** partner pipeline. 
+* **Actions:** Applies; supplies service area/insurance/license; accepts terms for lead buying.
+
+### 8) LocalPros Partner Provider — Active Lead Buyer
+
+* **Touches:** Primarily **SMS/email notifications + lead comms**, driven by automation in **GHL Master account** (LocalPros Leads pipeline). 
+* **Actions:** Receives leads; accepts/declines; closes jobs; may become upsell candidate.
+
+### 9) LocalPros Partner Provider — “Converted to SmartSites”
+
+(They become a SmartSites customer via option A/B/C.)
+
+* **Touches:** **GHL sub-account** once provisioned; may have brand/domain transition steps depending on conversion option. 
+* **Actions:** Onboards into SmartSites; may rebrand a transferred/rented site.
+
+### 10) LocalPros Consumer Lead (End customer)
+
+This is the homeowner/patient/caller who fills out a LocalPros portfolio site form or calls.
+
+* **Touches:** **WordPress portfolio site** (public website) + phone/chat.
+* **Actions:** Submits inquiry; makes call; gets routed into LocalPros GHL master lead handling. 
+
+### 11) Careers Applicant (Job seeker)
+
+* **Touches:** `/careers` and `/careers/:slug` + application form + optional resume upload. 
+* **Actions:** Applies; optionally submits Loom/portfolio if required; expects confirmation + follow-up.
+
+### 12) Data Subject / Privacy Requestor
+
+* **Touches:** legal pages + data request process (DSAR). 
+* **Actions:** Requests deletion/export; disputes consent; asks about lead sharing/cookies.
+
+---
+
+## Internal personas (EverIntent team / contractors)
+
+### A) SmartSites Super Admin (Owner / Root Operator)
+
+* **Touches:**
+
+  * SmartSites Admin UI (Supabase-backed)
+  * **GHL master account** + SaaS settings
+  * Stripe account
+  * Cloudflare (DNS/CDN)
+  * Plesk + WordPress admin (as needed)
+  * n8n automation + secrets
+* **Actions:** Configures offers/tiers; reviews escalations; handles billing/support edge cases; approves policy decisions.
+
+### B) SmartSites Admin Ops (Fulfillment coordinator)
+
+* **Touches:** Admin dashboard (submissions/jobs/portfolio/testimonials), GHL pipelines/stages, ClickUp tasks per SOP.  
+* **Actions:** Reviews intake; triggers build workflow; communicates status updates; monitors SLA.
+
+### C) Sales / Closer (Revenue operator)
+
+* **Touches:** **GHL master account** (pipelines, conversations, calendars), checkout conversion tracking, follow-ups. 
+* **Actions:** Qualifies leads; books calls; closes checkout; drives upgrades (T1 → T2–T4). 
+
+### D) Customer Support Agent (Tiered support)
+
+* **Touches:** Support inbox (Google Workspace), GHL conversations/chat, upgrade/downgrade/cancel handling. 
+* **Actions:** Responds to tickets; triggers downgrade schedule; retention offers; ensures churn prevention.
+
+### E) Web Builder / Implementer (Production)
+
+* **Touches:** **Plesk** (site provisioning) + **WordPress admin** + Elementor; GA4 install; validates DNS propagation during launch. 
+* **Actions:** Creates WP site; installs theme/plugins; builds pages; config contact form; publishes.
+
+### F) Domain & DNS Operator (Hard requirement: Cloudflare DNS only)
+
+* **Touches:** Domain registrar (Namecheap API/manual) + **Cloudflare DNS** (authoritative zone mgmt) + Plesk only for hosting target. 
+* **Actions:** Buys domain (if new); attaches/creates Cloudflare zone; sets DNS records; manages SSL/CDN; verifies propagation.
+* **Constraint honored:** Cloudflare is DNS authority; **Plesk DNS disabled/not used** (per your rule).
+
+### G) Automation Engineer (Edge/N8N/Infra)
+
+* **Touches:** Supabase (DB/RLS/Storage/Edge Functions), n8n workflows (checkout webhooks), logging/monitoring. 
+* **Actions:** Maintains provisioning automation (sub-account creation, domain purchase, tagging, note sync, retries).
+
+### H) Billing / Finance Operator
+
+* **Touches:** Stripe products/subscriptions; GHL SaaS billing + wallet/overages model. 
+* **Actions:** Handles payment failures/refunds; verifies wallet rebilling; reconciles subscription state.
+
+### I) Marketing / Analytics Operator
+
+* **Touches:** GA4 house account workflows; tracking install on WP; dashboard reporting to customers (email PDFs for T1, portal for T2–T4). 
+* **Actions:** Creates GA4 properties; ensures measurement IDs; validates events; resolves attribution issues.
+
+### J) Recruiting / HR Operator
+
+* **Touches:** `/admin/careers` job CRUD; applicant pipeline in GHL; resume review links and tags. 
+* **Actions:** Posts/updates jobs; filters applicants; coordinates interviews.
+
+### K) Compliance / Deliverability / Phone Ops
+
+* **Touches:** TCPA language, bot disclosure, DNC workflows, A2P considerations, consent auditing (forms + GHL tags/notes).  
+* **Actions:** Ensures consent capture; verifies disclosure scripts; enforces compliance requirements.
+
+---
+
+## Quick sanity check: which personas touch which systems?
+
+* **Marketing Site:** Everyone external + internal admin ops/content.
+* **GHL Master:** Sales, support, LocalPros lead ops, recruiting, compliance. 
+* **GHL Sub-accounts:** SmartSites customers + their staff (operators). 
+* **WordPress:** Web builder (internal); LocalPros consumers only as *site visitors*; customers potentially as content editors *if/when you grant access* (not assumed).
+* **Plesk:** Web builder + domain/DNS ops (hosting only), never for DNS. 
+* **Domain provisioning (registrar) + DNS:** Domain/DNS operator + automation engineer; customer domain admin for “customer-owned domain” cases. 
+
+If you want, next I’ll map the **exact journey per persona** (buyer vs customer operator vs LocalPros partner vs applicant), but per your instruction I’m stopping here and keeping this response strictly to **“every persona”** and what systems they touch.
+
+
+
 Below is the full persona set (external + internal) that will touch **EverIntentSmartSites.com (marketing site)**, **GHL (master + sub-accounts / SaaS mode)**, **WordPress (Elementor sites)**, **Plesk (hosting control panel)**, and **domain + DNS provisioning (Cloudflare authoritative DNS — never Plesk DNS, per your constraint)**.
 
 I’m listing them in “real life” terms (not just `admin/moderator/user`), and I’m explicit about **which systems each persona touches** so we can validate journeys end-to-end.
