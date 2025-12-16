@@ -1,7 +1,7 @@
-# EverIntent SmartSites — Complete Business Requirements Document v32.8
+# EverIntent SmartSites — Complete Business Requirements Document v32.9
 
-**Last Updated:** December 14, 2025  
-**Version:** 32.8 (Careers Feature Spec)
+**Last Updated:** December 16, 2025  
+**Version:** 32.9 (Domain Integration Simplified)
 **Status:** BUILD-READY
 **Owner:** EverIntent LLC  
 **GitHub Path:** /docs/BRD/SmartSites-BRD-v32.md
@@ -65,7 +65,7 @@ This is the **single source of truth** for EverIntentSmartSites.com. It governs:
 | Customer Portal | GoHighLevel SaaS Mode (white-labeled) |
 | Checkout | GHL SaaS Checkout (Stripe-connected) |
 | Customer Sites | WordPress on OVH/Plesk + Elementor |
-| Domain Registrar | Namecheap API (primary), manual fallback |
+| Domain Registrar | Manual purchase via GHL or Namecheap dashboard (during onboarding) |
 | Email (transactional) | AWS SES |
 | Email (marketing) | GHL native |
 | Phone (outbound) | 5 SoCal area codes (562, 714, 949, 310, 626) |
@@ -412,41 +412,15 @@ One ranking WordPress site. Three ways to make money:
 ### Checkout Flow (All Tiers)
 
 ```
-Step 1: Domain Selection
-┌─────────────────────────────────────┐
-│ Do you have a domain name?          │
-│                                     │
-│ ○ Yes, I'm bringing my own domain   │
-│ ○ No, I need to choose one          │
-└─────────────────────────────────────┘
-
-Step 2a: (If bringing own)
-┌─────────────────────────────────────┐
-│ Enter your domain:                  │
-│ [_______________________.com]       │
-│                                     │
-│ We'll send DNS instructions after   │
-│ purchase.                           │
-└─────────────────────────────────────┘
-
-Step 2b: (If choosing new)
-┌─────────────────────────────────────┐
-│ Search for your domain:             │
-│ [mybusiness____________] [.com ▼]   │
-│                                     │
-│ ✓ mybusinessname.com - Available    │
-│ ✗ mybiz.com - Taken                 │
-│ ✓ mybusinesshvac.com - Available    │
-└─────────────────────────────────────┘
-(Domain search via Namecheap API)
-
-Step 3: Pre-Checkout Form
+Step 1: Pre-Checkout Form
 ┌─────────────────────────────────────┐
 │ Your Information                    │
 │ [First Name] [Last Name]            │
-│ [Email]                             │
-│ [Phone]                             │
-│ [Business Name]                     │
+│ [Email] [Phone] [Business Name]     │
+│                                     │
+│ Do you have a domain name?          │
+│ ○ Yes → [___________.com]           │
+│ ○ No, I need help getting one       │
 │                                     │
 │ □ I consent to receive SMS/calls    │
 │   from EverIntent SmartSites...     │
@@ -456,7 +430,7 @@ Step 3: Pre-Checkout Form
 → Save to Supabase
 → Redirect to GHL Checkout with params
 
-Step 4: GHL Checkout (Payment)
+Step 2: GHL Checkout (Payment)
 ┌─────────────────────────────────────┐
 │ Smart Site - $249                   │
 │ ─────────────────────────────────── │
@@ -466,6 +440,30 @@ Step 4: GHL Checkout (Payment)
 │ □ I agree to Terms & Privacy Policy │
 │                                     │
 │ [Complete Purchase - $249]          │
+└─────────────────────────────────────┘
+```
+
+**Post-Payment: Intake Form (GHL)**
+
+Domain details are collected in the GHL intake form after payment:
+
+```
+┌─────────────────────────────────────┐
+│ DOMAIN SETUP                        │
+│                                     │
+│ [If customer has domain]            │
+│ • Enter your domain: __________.com │
+│ • Where is it registered?           │
+│   ○ GoDaddy ○ Namecheap ○ Other    │
+│ • Do you have DNS access? Yes/No    │
+│                                     │
+│ [If customer needs domain]          │
+│ • Preferred domain name: __________│
+│ • 2nd choice: _____________________│
+│ • 3rd choice: _____________________│
+│                                     │
+│ We'll purchase and set up your      │
+│ domain as part of your site build.  │
 └─────────────────────────────────────┘
 ```
 
@@ -481,13 +479,13 @@ GHL Webhook Fires
 │                                     │
 │ 1. Create GHL sub-account           │
 │ 2. Apply tier-specific snapshot     │
-│ 3. If domain_choice == "new":       │
-│    → Purchase domain via Namecheap  │
-│    → Set nameservers to Plesk       │
-│ 4. Create contact record            │
-│ 5. Send welcome email with login    │
-│ 6. Trigger intake form              │
-│ 7. Add to onboarding pipeline       │
+│ 3. Create contact record            │
+│ 4. Send welcome email with login    │
+│ 5. Trigger intake form (collects    │
+│    domain preferences)              │
+│ 6. Add to onboarding pipeline       │
+│ 7. Create ClickUp task for domain   │
+│    setup if needed                  │
 └─────────────────────────────────────┘
 ```
 
@@ -503,7 +501,6 @@ GHL Webhook Fires
 │                    EverIntentSmartSites.com                             │
 │                                                                         │
 │   - Pre-rendered pages, pricing display                                 │
-│   - Domain search via Namecheap API                                     │
 │   - Pre-checkout form → Supabase                                        │
 │   - CTAs redirect to GHL checkout                                       │
 └─────────────────────────────────────────────────────────────────────────┘
@@ -517,7 +514,7 @@ GHL Webhook Fires
 │                                                                         │
 │   - Stripe connected in GHL                                             │
 │   - Handles subscription billing                                        │
-│   - URL params carry: tier, domain, contact info                        │
+│   - URL params carry: tier, contact info                                │
 └─────────────────────────────────────────────────────────────────────────┘
                                      │
                                      ▼ (webhook)
@@ -525,7 +522,7 @@ GHL Webhook Fires
 │                         n8n AUTOMATION                                  │
 │                                                                         │
 │   - Sub-account creation                                                │
-│   - Domain purchase (Namecheap API)                                     │
+│   - Intake form trigger (collects domain preferences)                   │
 │   - Welcome sequence trigger                                            │
 │   - Pipeline stage updates                                              │
 └─────────────────────────────────────────────────────────────────────────┘
@@ -1518,185 +1515,77 @@ app.everintentsmartsites.com/
 
 ### 18.1 Overview
 
-Domain integration enables customers to search for and purchase domains during checkout. The domain is automatically registered and configured post-payment via n8n automation.
+Domain setup is handled manually during the onboarding process, not via API integration. This approach was chosen to reduce technical complexity, eliminate infrastructure costs (static IP requirements), and allow flexibility in domain sourcing.
 
-### 18.2 API Requirements Analysis
+**Key Decision (December 2024):** GHL does not have a public API for domain search/purchase. Namecheap API requires static IP whitelisting, adding infrastructure complexity. Moving domain selection to post-payment onboarding simplifies checkout while maintaining full service delivery.
 
-| Registrar | Availability Check | Purchase API | Requirements | Status |
-|-----------|:------------------:|:------------:|--------------|--------|
-| Cloudflare | ❌ Enterprise only | ❌ Enterprise only | Enterprise plan required | **Not viable** |
-| GoDaddy | ❌ 50+ domains | ❌ Reseller program | 50+ domains in account | **Not viable** |
-| **Namecheap** | ✅ With account | ✅ With account | $50 balance OR 20 domains OR $50 spend in 2 yrs | **Recommended** |
+### 18.2 GHL Domain Capabilities
 
-### 18.3 Namecheap API Configuration
+| Capability | Available | Notes |
+|------------|:---------:|-------|
+| UI Domain Purchase | ✅ | Enable at Agency Level → Settings → Company → Domain Purchase |
+| Domain API | ❌ | No public API for programmatic domain operations |
+| DNS Management | ✅ | Managed in GHL after domain purchase |
+| Rebilling | ✅ | Available on $497/mo plan |
 
-**One-time Setup:**
-1. Create Namecheap account
-2. Fund account minimum $50 (becomes working capital for purchases)
-3. Enable API access (Contact support if requirements not met)
-4. Get API credentials (test in sandbox first)
-
-**API Credentials Required:**
-- ApiUser
-- ApiKey
-- UserName
-- ClientIP (whitelist required)
-
-### 18.4 Domain Flow Architecture
+### 18.3 Domain Flow (Manual Process)
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    DOMAIN FLOW - NAMECHEAP                       │
+│                    DOMAIN FLOW - MANUAL                          │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
-│  1. AVAILABILITY CHECK (Marketing Site)                         │
+│  1. PRE-CHECKOUT (Marketing Site)                                │
 │  ┌─────────────────────────────────────┐                       │
-│  │ Vercel Edge Function / Supabase     │                       │
-│  │ → Namecheap API: domains.check      │                       │
-│  │ → Returns: available/taken + price  │                       │
+│  │ Simple yes/no question:             │                       │
+│  │ "Do you have a domain name?"        │                       │
+│  │ ○ Yes → [enter domain]              │                       │
+│  │ ○ No, I need help getting one       │                       │
 │  └─────────────────────────────────────┘                       │
 │                        │                                        │
-│  2. PRE-CHECKOUT (Marketing Site)                               │
+│  2. POST-PAYMENT (GHL Intake Form)                              │
 │  ┌─────────────────────────────────────┐                       │
-│  │ Save to Supabase:                   │                       │
-│  │ - domain_name: "mybusiness.com"     │                       │
-│  │ - domain_choice: "new"              │                       │
-│  │ - domain_status: "pending"          │                       │
+│  │ If customer has domain:             │                       │
+│  │ • Confirm domain name               │                       │
+│  │ • Where is it registered?           │                       │
+│  │ • Do you have DNS access?           │                       │
+│  │                                     │                       │
+│  │ If customer needs domain:           │                       │
+│  │ • 1st choice: ________________      │                       │
+│  │ • 2nd choice: ________________      │                       │
+│  │ • 3rd choice: ________________      │                       │
 │  └─────────────────────────────────────┘                       │
 │                        │                                        │
-│  3. POST-PAYMENT (n8n Workflow)                                 │
+│  3. TEAM PURCHASE (During 5-Day Build)                          │
 │  ┌─────────────────────────────────────┐                       │
-│  │ Namecheap API: domains.create       │                       │
-│  │ → Register domain                   │                       │
-│  │ → Set nameservers to Plesk          │                       │
-│  │ → Update Supabase: status=registered│                       │
-│  │ → Update GHL: domain_status field   │                       │
+│  │ Options:                            │                       │
+│  │ A) GHL Dashboard (if pricing good)  │                       │
+│  │ B) Namecheap Dashboard (if better)  │                       │
+│  │ C) Other registrar as needed        │                       │
+│  │                                     │                       │
+│  │ → Purchase takes ~1 minute          │                       │
+│  │ → Configure DNS to Plesk            │                       │
+│  │ → Update GHL contact custom field   │                       │
 │  └─────────────────────────────────────┘                       │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### 18.5 Domain Search Component (React)
+### 18.4 Benefits of Manual Approach
 
-```typescript
-// src/components/DomainSearch.tsx
-import { useState } from 'react';
+| Benefit | Description |
+|---------|-------------|
+| **No API Integration** | No Namecheap API, no static IP costs, no maintenance |
+| **Simpler Checkout** | Fewer steps, less friction, higher conversion |
+| **Flexibility** | Team can shop best domain price (GHL vs Namecheap vs other) |
+| **Lower Technical Risk** | No checkout failures due to domain API issues |
+| **Faster MVP** | Ship without complex domain search UI |
 
-const TLDS = ['.com', '.net', '.co', '.io', '.biz'];
-
-interface DomainResult {
-  domain: string;
-  available: boolean;
-  premium: boolean;
-  price: number | null;
-}
-
-export function DomainSearch({ onSelect }: { onSelect: (domain: string) => void }) {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState<DomainResult[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  const checkAvailability = async () => {
-    setLoading(true);
-    // Check multiple TLDs in parallel
-    const checks = TLDS.map(tld => 
-      fetch(`/api/domain-check?domain=${query}${tld}`)
-        .then(r => r.json())
-    );
-    const results = await Promise.all(checks);
-    setResults(results);
-    setLoading(false);
-  };
-
-  return (
-    <div className="domain-search">
-      <div className="flex gap-2">
-        <input 
-          value={query}
-          onChange={(e) => setQuery(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
-          placeholder="Enter your business name"
-          className="flex-1 px-4 py-2 border rounded"
-        />
-        <button 
-          onClick={checkAvailability} 
-          disabled={loading || !query}
-          className="px-6 py-2 bg-primary text-white rounded"
-        >
-          {loading ? 'Checking...' : 'Search'}
-        </button>
-      </div>
-      
-      <div className="results mt-4 space-y-2">
-        {results.map(r => (
-          <div key={r.domain} className="flex justify-between items-center p-3 border rounded">
-            <span className={r.available ? 'text-green-600' : 'text-gray-400'}>
-              {r.available ? '✓' : '✗'} {r.domain}
-              {r.premium && <span className="ml-2 text-xs bg-yellow-100 px-2 py-1 rounded">Premium</span>}
-            </span>
-            {r.available && (
-              <button 
-                onClick={() => onSelect(r.domain)}
-                className="px-4 py-1 bg-green-600 text-white rounded text-sm"
-              >
-                Select
-              </button>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-```
-
-### 18.6 API Route (Vercel Edge Function)
-
-```typescript
-// api/domain-check.ts
-export const config = { runtime: 'edge' };
-
-export default async function handler(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const domain = searchParams.get('domain');
-  
-  if (!domain) {
-    return Response.json({ error: 'Domain required' }, { status: 400 });
-  }
-  
-  // Namecheap API check
-  const apiUrl = new URL('https://api.namecheap.com/xml.response');
-  apiUrl.searchParams.set('ApiUser', process.env.NAMECHEAP_API_USER!);
-  apiUrl.searchParams.set('ApiKey', process.env.NAMECHEAP_API_KEY!);
-  apiUrl.searchParams.set('UserName', process.env.NAMECHEAP_USERNAME!);
-  apiUrl.searchParams.set('ClientIp', process.env.NAMECHEAP_CLIENT_IP!);
-  apiUrl.searchParams.set('Command', 'namecheap.domains.check');
-  apiUrl.searchParams.set('DomainList', domain);
-  
-  try {
-    const response = await fetch(apiUrl.toString());
-    const xml = await response.text();
-    
-    // Parse XML response
-    const available = xml.includes('Available="true"');
-    const premium = xml.includes('IsPremiumName="true"');
-    
-    return Response.json({
-      domain,
-      available,
-      premium,
-      price: available ? (premium ? null : 12.98) : null // Premium pricing varies
-    });
-  } catch (error) {
-    return Response.json({ error: 'Check failed' }, { status: 500 });
-  }
-}
-```
-
-### 18.7 n8n Domain Purchase Workflow
+### 18.5 n8n Workflow (Simplified)
 
 ```yaml
 # Trigger: GHL Webhook (new customer payment)
-workflow_name: "SmartSites - Domain Purchase"
+workflow_name: "SmartSites - New Customer"
 
 nodes:
   - name: "Webhook Trigger"
@@ -1705,60 +1594,15 @@ nodes:
       httpMethod: "POST"
       path: "smartsites-payment"
     
-  - name: "Check Domain Choice"
+  - name: "Check Domain Needed"
     type: "IF"
     parameters:
       conditions:
-        - leftValue: "{{ $json.domain_choice }}"
+        - leftValue: "{{ $json.has_domain }}"
           operation: "equals"
-          rightValue: "new"
+          rightValue: "no"
     
-  - name: "Register Domain (Namecheap)"
-    type: "HTTP Request"
-    parameters:
-      method: "GET"
-      url: "https://api.namecheap.com/xml.response"
-      qs:
-        ApiUser: "{{ $env.NAMECHEAP_API_USER }}"
-        ApiKey: "{{ $env.NAMECHEAP_API_KEY }}"
-        UserName: "{{ $env.NAMECHEAP_USERNAME }}"
-        ClientIp: "{{ $env.NAMECHEAP_CLIENT_IP }}"
-        Command: "namecheap.domains.create"
-        DomainName: "{{ $json.domain_name }}"
-        Years: "1"
-        Nameservers: "ns1.plesk.everintent.com,ns2.plesk.everintent.com"
-      
-  - name: "Update Supabase"
-    type: "HTTP Request"
-    parameters:
-      method: "PATCH"
-      url: "{{ $env.SUPABASE_URL }}/rest/v1/checkout_submissions"
-      headers:
-        apikey: "{{ $env.SUPABASE_ANON_KEY }}"
-        Authorization: "Bearer {{ $env.SUPABASE_SERVICE_KEY }}"
-        Content-Type: "application/json"
-        Prefer: "return=minimal"
-      qs:
-        id: "eq.{{ $json.submission_id }}"
-      body:
-        domain_status: "registered"
-        domain_registrar: "namecheap"
-        domain_registered_at: "{{ $now.toISOString() }}"
-        
-  - name: "Update GHL Contact"
-    type: "HTTP Request"
-    parameters:
-      method: "PUT"
-      url: "https://rest.gohighlevel.com/v1/contacts/{{ $json.ghl_contact_id }}"
-      headers:
-        Authorization: "Bearer {{ $env.GHL_API_KEY }}"
-        Content-Type: "application/json"
-      body:
-        customField:
-          domain_status: "registered"
-          website_domain: "{{ $json.domain_name }}"
-          
-  - name: "Create ClickUp Task"
+  - name: "Create ClickUp Task (Domain Needed)"
     type: "HTTP Request"
     parameters:
       method: "POST"
@@ -1766,76 +1610,51 @@ nodes:
       headers:
         Authorization: "{{ $env.CLICKUP_API_KEY }}"
       body:
-        name: "DNS Setup: {{ $json.domain_name }}"
-        description: "Domain registered. Configure WordPress site and verify DNS propagation."
+        name: "Domain Setup: {{ $json.business_name }}"
+        description: |
+          Customer needs domain setup.
+          
+          Preferred names (from intake form):
+          1. {{ $json.domain_pref_1 }}
+          2. {{ $json.domain_pref_2 }}
+          3. {{ $json.domain_pref_3 }}
+          
+          Purchase from GHL or Namecheap, whichever has better pricing.
+          Configure DNS to Plesk after purchase.
         assignees: []
         tags: ["domain-setup", "{{ $json.tier }}"]
+        priority: 2
 ```
 
-### 18.8 /domains Page Specification
+### 18.6 Cost Analysis
 
-**URL:** /domains
+| Approach | Domain Cost | Our Price | Complexity | Status |
+|----------|-------------|-----------|------------|--------|
+| Manual (GHL) | ~$12-15/yr | $0 (included) | Low | **Implemented** |
+| Manual (Namecheap) | ~$9/yr | $0 (included) | Low | **Implemented** |
+| API (Namecheap) | ~$9/yr | $0 (included) | Medium-High | **Deferred** |
 
-**Purpose:** Standalone domain search utility and service page
+**Decision:** Domain registration is included in all tiers as a value-add. Manual purchase allows flexibility and eliminates API complexity. The 1-minute purchase time per customer is negligible during the 5-day build window.
 
-**Page Structure:**
-```
-┌─────────────────────────────────────────────────────────────────┐
-│ HERO SECTION                                                     │
-│ ─────────────────────────────────────────────────────────────── │
-│ "Find Your Perfect Domain"                                       │
-│ "Every SmartSites package includes domain registration.          │
-│  Search now to claim yours."                                     │
-│                                                                 │
-│ ┌─────────────────────────────────────────────────────────────┐ │
-│ │ [Enter your business name          ] [.com ▼] [Search]      │ │
-│ └─────────────────────────────────────────────────────────────┘ │
-│                                                                 │
-│ SEARCH RESULTS                                                   │
-│ ─────────────────────────────────────────────────────────────── │
-│ ✓ yourbusiness.com        Available                  [Select]  │
-│ ✗ yourbiz.com             Taken                                │
-│ ✓ yourbusinesshvac.com    Available                  [Select]  │
-│ ✓ yourbusiness.net        Available                  [Select]  │
-│                                                                 │
-│ WHAT'S INCLUDED                                                 │
-│ ─────────────────────────────────────────────────────────────── │
-│ • Domain registration (1 year)                                  │
-│ • DNS configuration                                             │
-│ • SSL certificate                                               │
-│ • Professional email setup available                            │
-│                                                                 │
-│ CTA                                                             │
-│ ─────────────────────────────────────────────────────────────── │
-│ "Ready to get started?"                                         │
-│ [View Pricing] [Book a Call]                                    │
-└─────────────────────────────────────────────────────────────────┘
-```
+### 18.7 What Changed from Original BRD
 
-### 18.9 MVP Fallback: Manual Purchase Queue
+| Section | Before | After |
+|---------|--------|-------|
+| Checkout Step 2 | Domain search/selection via Namecheap API | Simple yes/no + text field |
+| Post-Payment | Auto-purchase via Namecheap API | Team purchases via GHL or Namecheap UI |
+| Intake Form | Confirm domain selection | Collect domain preferences if needed |
+| n8n Automation | Domain purchase trigger | Notification/task creation only |
+| /domains Page | Domain search utility | **Removed from scope** |
+| Environment Variables | Namecheap API credentials | Not required |
 
-If Namecheap API is not yet enabled, implement this manual fallback:
+### 18.8 Future Considerations
 
-1. Customer selects domain in checkout
-2. Domain saved to Supabase + GHL custom field
-3. After payment: ClickUp task created "Purchase domain: mybusiness.com"
-4. Team manually purchases from Namecheap dashboard
-5. Team manually sets up DNS
+If volume increases significantly (100+ domains/month), revisit API automation:
+- Namecheap API requires $50 account balance or 20 domains to enable
+- Static IP whitelisting adds Vercel Pro infrastructure cost
+- Consider GHL becoming API-enabled in future updates
 
-**Transition to Automated:**
-- Once 20+ customer domains purchased OR $50 Namecheap spend reached
-- Enable API and switch n8n workflow to automated mode
-
-### 18.10 Cost Analysis
-
-| Approach | Domain Cost | Our Price | Margin | Complexity |
-|----------|-------------|-----------|--------|------------|
-| Namecheap API | ~$9/yr | $0 (included) | $0 | Medium |
-| Manual Purchase | ~$12/yr | $0 (included) | $0 | Low |
-
-**Decision:** Domain registration is included in all tiers as a value-add. No markup. The convenience drives conversion.
-
----
+For MVP and near-term growth, manual process is the right choice.
 
 ## 19. Go-To-Market Strategy
 
@@ -2303,10 +2122,9 @@ Is this a good time to chat for 2 minutes?"
 
 | Question | Decision |
 |----------|----------|
-| Domain registrar | Namecheap API (Cloudflare requires Enterprise) |
-| Domain API setup | $50 account funding unlocks API access |
-| Domain purchase timing | Post-payment via n8n workflow |
-| MVP fallback | Manual purchase queue until API enabled |
+| Domain registrar | Manual purchase via GHL or Namecheap dashboard (API integration deferred) |
+| Domain collection timing | Post-payment via GHL intake form |
+| Domain purchase timing | Manual during 5-day build window |
 | Industry structure | 4 hub categories: Home Services, Professional Services, Health & Wellness, Automotive |
 | Industry count | 65+ verticals with nested URL structure (/industries/category/vertical) |
 | LocalPros sites | Full 20-site table restored with domains, markets, area codes, lead values |
@@ -2348,7 +2166,7 @@ Is this a good time to chat for 2 minutes?"
 | v29 | — | ChatGPT summary brief |
 | v30 | Dec 13 | Full reconciliation: GHL checkout (final), T1 portal YES, T1 $249 full, T1 renewal $149/yr, GA4 email reports, complete sitemap restored |
 | v31 | Dec 13 | Tech stack update: Vite + React (pre-rendered) replaces Next.js; SEO implementation via ~~vite-plugin-prerender~~ (see v32.2); Navigation updated (Beautiful Websites moved to Services dropdown top); Pre-render route configuration added |
-| v32 | Dec 13 | Domain Integration Architecture: Complete Namecheap API specification; Domain search component; n8n purchase workflow; /domains page spec; Supabase schema updates for domain tracking; MVP manual fallback documented. Industry Expansion: 4 industry hub categories (Home Services, Professional Services, Health & Wellness, Automotive); 65+ industry verticals with nested URL structure; Complete 20 LocalPros portfolio sites table restored from v26 with domains, markets, area codes, and lead values |
+| v32 | Dec 13 | Domain Integration Architecture (later simplified in v32.9); Industry Expansion: 4 industry hub categories (Home Services, Professional Services, Health & Wellness, Automotive); 65+ industry verticals with nested URL structure; Complete 20 LocalPros portfolio sites table restored from v26 with domains, markets, area codes, and lead values |
 | v32.1 | Dec 13 | Route fixes: Added missing prerenderRoutes (checkout/success, localpros/*, upgrade, services); Fixed legal route paths (/legal/*); Admin schema security: Replaced insecure admins table with user_roles + allowed_admin_emails + has_role() function; Admin route consistency (/admin/login added, /admin/submissions naming) |
 | v32.2 | Dec 14 | SSG Migration: Replaced vite-plugin-prerender with vite-react-ssg due to ESM compatibility issues; Updated SEO component to use vite-react-ssg's built-in `<Head>` instead of react-helmet-async; Routes moved to `src/routes.tsx` using react-router-dom data routes format; Build command changed to `vite-react-ssg build`; Admin routes excluded via `ssgOptions.includedRoutes` filter |
 | v32.3 | Dec 14 | Updated footer structure (4-column nav + branded section), added chat widget requirements, added legal pages specification, cookie consent integration requirements |
@@ -2357,6 +2175,7 @@ Is this a good time to chat for 2 minutes?"
 | v32.6 | Dec 14 | LocalPros Business Model Complete: Core revenue principles; Three revenue paths (Sell Leads, Sell/Rent Site, Ice Breaker→SmartSites); GHL master vs sub-account structure; Decision framework; Easy Money Map; Tiered lead pricing ($25-150 by vertical); Territory/Conversion/Incentive policies; Routes reduced to /localpros and /localpros/apply only |
 | v32.7 | Dec 14 | Navigation Cleanup: Removed About from desktop header navigation (remains in mobile menu and footer Company column); Route /about preserved |
 | **v32.8** | **Dec 14** | **Careers Feature Spec**: Added /careers and /careers/:slug routes; jobs table in Supabase with admin-configurable form fields (loom_required, portfolio_required, custom_questions); GHL v2 API integration via Edge Function (submit-job-application); Admin CRUD at /admin/careers; Full spec documented in docs/careers-spec.md |
+| **v32.9** | **Dec 16** | **Domain Integration Simplified**: Removed Namecheap API integration; Domain purchase moved to manual process during onboarding via GHL or Namecheap dashboard; Simplified checkout flow (yes/no domain question); Domain preferences collected in post-payment GHL intake form; /domains page removed from scope; Namecheap environment variables removed; n8n workflow simplified to notification/task creation only |
 
 ### Related Specification Documents
 
@@ -2389,16 +2208,15 @@ For Lovable/builder reference, generate PRDs in this order:
 17. checkout/smart-business.md
 18. checkout/smart-growth.md
 19. checkout/success.md
-20. **domains.md** ← Domain search utility page
-21. localpros/index.md
-22. localpros/apply.md
-23. legal/privacy-policy.md
-24. legal/terms-of-service.md
-25. legal/data-request.md
-26. upgrade.md
-27. admin/login.md
-28. admin/checkouts.md
-29. admin/portfolio.md
+20. localpros/index.md
+21. localpros/apply.md
+22. legal/privacy-policy.md
+23. legal/terms-of-service.md
+24. legal/data-request.md
+25. upgrade.md
+26. admin/login.md
+27. admin/checkouts.md
+28. admin/portfolio.md
 
 ---
 
@@ -2557,12 +2375,6 @@ VITE_SUPABASE_URL=https://xxx.supabase.co
 VITE_SUPABASE_ANON_KEY=xxx
 SUPABASE_SERVICE_KEY=xxx
 
-# Namecheap (Domain API)
-NAMECHEAP_API_USER=xxx
-NAMECHEAP_API_KEY=xxx
-NAMECHEAP_USERNAME=xxx
-NAMECHEAP_CLIENT_IP=xxx
-
 # GHL
 VITE_GHL_LOCATION_ID=xxx
 
@@ -2573,12 +2385,6 @@ VITE_GA4_MEASUREMENT_ID=G-XXXXXXXXXX
 ### n8n Automation
 
 ```bash
-# Namecheap
-NAMECHEAP_API_USER=xxx
-NAMECHEAP_API_KEY=xxx
-NAMECHEAP_USERNAME=xxx
-NAMECHEAP_CLIENT_IP=xxx
-
 # Supabase
 SUPABASE_URL=xxx
 SUPABASE_ANON_KEY=xxx
@@ -2595,19 +2401,22 @@ CLICKUP_LIST_ID=xxx
 
 ---
 
-*Document compiled from EverIntentSmartSites BRD versions 1-31 and December 13, 2025 domain integration decisions. This is the single source of truth for SmartSites build.*
+*Document compiled from EverIntentSmartSites BRD versions 1-32.9. Domain integration simplified in v32.9 (manual process). This is the single source of truth for SmartSites build.*
 
 ---
 
-## Document History
+## Document History (Appendix Summary)
 
 | Version | Date | Changes |
 |---------|------|---------|
 | v32.2 | 2025-12-13 | Migration from vite-plugin-prerender to vite-react-ssg for SSG |
-| v32.3 | 2025-12-14 | Updated footer structure (4-column nav + branded section), added chat widget requirements, added legal pages specification, cookie consent integration requirements |
-| v32.4 | 2025-12-14 | Added design system appendix (Legal AI pattern), cookie consent component, desktop chat button, GHL loader utility, z-index strategy |
-| v32.5 | 2025-12-14 | Header + Footer implementation complete. Header: dark blue sticky nav (bg-primary), full "EverIntent Smart Sites" brand name, Globe icon in accent color, nav links styled for dark background (text-primary-foreground), hamburger menu visible on dark bg, Get Started CTA (bg-accent text-primary). Footer: Globe icon accent color, spacing adjustments (pt-4 above logo, mt-8 mobile gap, space-y-8 content), social icons gap-6 from button |
-| **v32.6** | **2025-12-14** | **LocalPros Business Model Complete**: Core revenue principles (Revenue at Every Step, Asset Ownership, One Tech Stack Multiple Paths, Relationship→Trust→MRR); Three revenue paths from LocalPros assets (Sell Leads, Sell/Rent Site, Ice Breaker to SmartSites); GHL master account vs sub-account structure; Decision framework for site disposition; Easy Money Map by stage; Tiered lead pricing by vertical ($25-150 with ±20% flexibility); Territory policy (exclusive by default); Conversion trigger (20 leads OR 90 days); Credit model conversion incentive; Pages required (/localpros, /localpros/apply); Navigation placement (Footer Resources column) |
+| v32.3 | 2025-12-14 | Updated footer structure, chat widget requirements, legal pages, cookie consent |
+| v32.4 | 2025-12-14 | Design system appendix (Legal AI pattern), component patterns |
+| v32.5 | 2025-12-14 | Header + Footer implementation complete |
+| v32.6 | 2025-12-14 | LocalPros Business Model Complete |
+| v32.7 | 2025-12-14 | Navigation cleanup (About link removed from desktop header) |
+| v32.8 | 2025-12-14 | Careers Feature Spec |
+| **v32.9** | **2025-12-16** | **Domain Integration Simplified**: Manual domain purchase during onboarding; Namecheap API deferred; /domains page removed |
 
 ---
 
