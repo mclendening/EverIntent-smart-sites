@@ -1,47 +1,53 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ensureGHLWidget, openViaAnyAPI } from '@/lib/ghlLoader';
 
+const CONSENT_KEY = 'cookie-consent';
+
 /**
- * GHLChatWidget - Sets up global toggle function but does NOT auto-load widget.
- * Widget is lazy-loaded on first click to prevent stock launcher from appearing.
+ * GHLChatWidget - Preloads widget in background after consent.
+ * Widget is hidden (1x1 pixel icon configured in GHL), opens instantly on click.
  */
 export function GHLChatWidget() {
-  const widgetLoaded = useRef(false);
-  const isLoading = useRef(false);
+  const [hasConsent, setHasConsent] = useState(false);
+  const widgetReady = useRef(false);
 
+  // Check consent
   useEffect(() => {
-    // Set up global toggle function - lazy loads widget on first click
-    window.toggleGHLChat = async () => {
-      // If already loaded, just open
-      if (widgetLoaded.current) {
-        openViaAnyAPI();
-        return;
-      }
+    const checkConsent = () => {
+      const consent = localStorage.getItem(CONSENT_KEY);
+      setHasConsent(!!consent);
+    };
 
-      // Prevent double-loading
-      if (isLoading.current) return;
-      isLoading.current = true;
+    checkConsent();
+    window.addEventListener('cookie-consent-changed', checkConsent);
+    window.addEventListener('storage', checkConsent);
 
-      try {
-        const locationId = import.meta.env.VITE_GHL_LOCATION_ID;
-        if (!locationId) {
-          console.warn('[GHL] VITE_GHL_LOCATION_ID not configured');
-          return;
-        }
+    return () => {
+      window.removeEventListener('cookie-consent-changed', checkConsent);
+      window.removeEventListener('storage', checkConsent);
+    };
+  }, []);
 
-        // Load widget for first time
-        await ensureGHLWidget(locationId);
-        widgetLoaded.current = true;
+  // Preload widget in background after consent
+  useEffect(() => {
+    if (!hasConsent || widgetReady.current) return;
 
-        // Small delay then open
-        setTimeout(() => {
-          openViaAnyAPI();
-        }, 300);
-      } catch (err) {
-        console.error('[GHL] Failed to load widget:', err);
-      } finally {
-        isLoading.current = false;
-      }
+    const locationId = import.meta.env.VITE_GHL_LOCATION_ID || 'glz9nLlYe04lb1B4TLFC';
+
+    ensureGHLWidget(locationId)
+      .then(() => {
+        widgetReady.current = true;
+        console.log('[GHL] Widget preloaded and ready');
+      })
+      .catch((err) => {
+        console.error('[GHL] Failed to preload widget:', err);
+      });
+  }, [hasConsent]);
+
+  // Set up global toggle function
+  useEffect(() => {
+    window.toggleGHLChat = () => {
+      openViaAnyAPI();
     };
 
     return () => {
@@ -49,6 +55,5 @@ export function GHLChatWidget() {
     };
   }, []);
 
-  // This component doesn't render anything - GHL injects its own UI on demand
   return null;
 }

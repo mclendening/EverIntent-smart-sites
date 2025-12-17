@@ -31,9 +31,14 @@ const WIDGET_ID = 'ghl-chat-widget';
 const LOADER_SRC = 'https://beta.leadconnectorhq.com/loader.js';
 const RESOURCES_URL = 'https://beta.leadconnectorhq.com/chat-widget/loader.js';
 
-// Get widget ID from env or hardcode if needed
+// Get widget ID from env with fallback
 const getWidgetId = (): string => {
-  return import.meta.env.VITE_GHL_WIDGET_ID || '';
+  return import.meta.env.VITE_GHL_WIDGET_ID || '694220dc4ca1823bfbe5f213';
+};
+
+// Get location ID from env with fallback  
+const getLocationId = (): string => {
+  return import.meta.env.VITE_GHL_LOCATION_ID || 'glz9nLlYe04lb1B4TLFC';
 };
 
 function waitForAPI(timeout = 10000): Promise<'leadConnector' | 'LC_API'> {
