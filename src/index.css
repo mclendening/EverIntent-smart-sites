@@ -181,3 +181,20 @@
 .leadconnector-chat {
   z-index: 40 !important;
 }
+
+/* Hide GHL default launcher button - we use custom DesktopChatButton */
+.lc_text-widget-container,
+.lc-chat-widget-container,
+.lc_chat-button,
+[class*="lc_text-widget"],
+[class*="lc-chat-button"],
+[class*="chat-widget-button"],
+[class*="launcher"],
+#chat-widget-button,
+.chat-bubble,
+.chat-launcher {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
