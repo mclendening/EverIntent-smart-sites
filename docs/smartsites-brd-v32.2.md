@@ -1,7 +1,7 @@
-# EverIntent SmartSites — Complete Business Requirements Document v32.9
+# EverIntent SmartSites — Complete Business Requirements Document v32.10
 
-**Last Updated:** December 16, 2025  
-**Version:** 32.9 (Domain Integration Simplified)
+**Last Updated:** December 17, 2025  
+**Version:** 32.10 (Multi-Widget Chat Architecture)
 **Status:** BUILD-READY
 **Owner:** EverIntent LLC  
 **GitHub Path:** /docs/BRD/SmartSites-BRD-v32.md
@@ -1462,23 +1462,56 @@ app.everintentsmartsites.com/
 
 ## 17.5 Chat Widget & Support Bot
 
+### Multi-Widget Architecture
+
+SmartSites uses **multiple GHL chat widgets** with different training/personas based on page type. This showcases the AI chatbot capabilities available to customers.
+
+| Widget Type | Env Variable | Pages | Purpose |
+|-------------|--------------|-------|---------|
+| Sales Bot | `VITE_GHL_WIDGET_ID_SALES` | `/pricing`, `/checkout/*` | Conversion-focused, handles pricing questions, upsells |
+| Support Bot | `VITE_GHL_WIDGET_ID_SUPPORT` | `/contact`, `/legal/*`, `/help` | FAQ, support inquiries, data requests |
+| Demo Bot | `VITE_GHL_WIDGET_ID_DEMO` | Homepage, services, industries | Feature showcase, capability demonstration |
+
 ### Desktop Chat Button
 - Floating button, bottom-right corner
-- Fade-up animation on page load
-- Opens GHL chat widget (T4-level answer bot)
+- Fade-up animation on page load (delayed after consent)
+- Opens appropriate GHL chat widget based on current route
 - Gated by cookie consent: button hidden until user accepts cookies
-- Styled to match SmartSites design system
+- Styled to match SmartSites design system (accent color, primary background)
 
 ### Mobile Chat Access
 - Chat integrated into mobile bottom navbar (not floating button)
 - Also gated by cookie consent
 - Navbar visibility tied to consent state
+- Same route-based widget selection as desktop
 
 ### GHL Integration Requirements
-- `VITE_GHL_LOCATION_ID` stored in Vercel environment variables
-- Widget ID configuration via GHL v2 API
+- `VITE_GHL_LOCATION_ID` - Shared location ID across all widgets
+- `VITE_GHL_WIDGET_ID_SALES` - Sales bot widget ID
+- `VITE_GHL_WIDGET_ID_SUPPORT` - Support bot widget ID  
+- `VITE_GHL_WIDGET_ID_DEMO` - Demo bot widget ID
+- All stored in Vercel environment variables
+- Widget selection determined by current route in `GHLChatWidget.tsx`
 - Chat widget loads after cookie consent accepted
+- Launcher hiding via JS shadow DOM penetration (code-based approach)
 - Reference implementation: https://everintentlegalai.com
+
+### Route-to-Widget Mapping Logic
+
+```typescript
+function getWidgetIdForRoute(pathname: string): string {
+  // Sales bot for conversion pages
+  if (pathname.startsWith('/pricing') || pathname.startsWith('/checkout')) {
+    return import.meta.env.VITE_GHL_WIDGET_ID_SALES;
+  }
+  // Support bot for help/legal pages
+  if (pathname.startsWith('/contact') || pathname.startsWith('/legal') || pathname.startsWith('/help')) {
+    return import.meta.env.VITE_GHL_WIDGET_ID_SUPPORT;
+  }
+  // Demo bot for everything else (homepage, services, industries)
+  return import.meta.env.VITE_GHL_WIDGET_ID_DEMO;
+}
+```
 
 ---
 
@@ -2176,6 +2209,7 @@ Is this a good time to chat for 2 minutes?"
 | v32.7 | Dec 14 | Navigation Cleanup: Removed About from desktop header navigation (remains in mobile menu and footer Company column); Route /about preserved |
 | **v32.8** | **Dec 14** | **Careers Feature Spec**: Added /careers and /careers/:slug routes; jobs table in Supabase with admin-configurable form fields (loom_required, portfolio_required, custom_questions); GHL v2 API integration via Edge Function (submit-job-application); Admin CRUD at /admin/careers; Full spec documented in docs/careers-spec.md |
 | **v32.9** | **Dec 16** | **Domain Integration Simplified**: Removed Namecheap API integration; Domain purchase moved to manual process during onboarding via GHL or Namecheap dashboard; Simplified checkout flow (yes/no domain question); Domain preferences collected in post-payment GHL intake form; /domains page removed from scope; Namecheap environment variables removed; n8n workflow simplified to notification/task creation only |
+| **v32.10** | **Dec 17** | **Multi-Widget Chat Architecture**: GHL chat widgets now support multiple bots per page type (Sales, Support, Demo); Route-based widget selection via `GHLChatWidget.tsx`; Three new env vars (`VITE_GHL_WIDGET_ID_SALES`, `VITE_GHL_WIDGET_ID_SUPPORT`, `VITE_GHL_WIDGET_ID_DEMO`); Launcher hiding via JS shadow DOM penetration (code-based approach retained); Section 17.5 rewritten with multi-widget architecture and route mapping logic |
 
 ### Related Specification Documents
 
