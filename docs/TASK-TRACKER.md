@@ -9,7 +9,7 @@ Tasks marked `[MANUAL]` require user action. Tasks marked `[LOVABLE]` are AI-imp
 ## Phase 0: Prerequisites
 
 ### Task 0.1 [MANUAL] - Create GHL Private Integration Token
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
 1. Log into GoHighLevel at https://app.gohighlevel.com
 2. Click **Settings** (gear icon, bottom left)
@@ -21,14 +21,14 @@ Tasks marked `[MANUAL]` require user action. Tasks marked `[LOVABLE]` are AI-imp
 8. **Copy the API Token** (you'll need this for Task 0.4)
 
 ### Task 0.2 [MANUAL] - Get GHL Location ID
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
 1. In GHL, click **Settings** → **Business Profile**
 2. Look at the URL in your browser: `https://app.gohighlevel.com/v2/location/XXXXXXXXXX/...`
 3. **Copy the Location ID** (the `XXXXXXXXXX` part after `/location/`)
 
 ### Task 0.3 [MANUAL] - Create GHL Custom Fields
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete (reused from Legal AI project)
 
 1. In GHL, go to **Settings** → **Custom Fields**
 2. Click **+ Add Field**
@@ -43,21 +43,8 @@ Tasks marked `[MANUAL]` require user action. Tasks marked `[LOVABLE]` are AI-imp
 5. Look at the URL: `https://app.gohighlevel.com/v2/location/.../settings/custom-fields/FIELD_ID`
 6. **Copy each Field ID** (you'll need these for Task 0.4)
 
-### Task 0.4 [MANUAL] - Add Supabase Secrets (GHL)
-**Status:** ⬜ Not Started
-
-1. Go to Supabase Dashboard: https://supabase.com/dashboard/project/nweklcxzoemcnwaoakvq/settings/functions
-2. Click **Add Secret** for each:
-
-| Secret Name | Value Source |
-|-------------|--------------|
-| `GHL_API_TOKEN` | From Task 0.1 |
-| `GHL_LOCATION_ID` | From Task 0.2 |
-| `GHL_RESUME_CUSTOM_FIELD_ID` | From Task 0.3 (Resume URL field) |
-| `GHL_VIDEO_LINK_CUSTOM_FIELD_ID` | From Task 0.3 (Video Link field) |
-
-### Task 0.5 [MANUAL] - Create GHL Tags
-**Status:** ⬜ Not Started
+### Task 0.4 [MANUAL] - Create GHL Tags
+**Status:** ✅ Complete
 
 1. In GHL, go to **Settings** → **Tags**
 2. Click **+ Create Tag** for each:
@@ -72,12 +59,25 @@ Tasks marked `[MANUAL]` require user action. Tasks marked `[LOVABLE]` are AI-imp
 | `LP: Partner Apply` | LocalPros partner application |
 | `Careers: Application` | Job application submitted |
 
+### Task 0.5 [MANUAL] - Add Supabase Secrets (GHL)
+**Status:** ✅ Complete
+
+1. Go to Supabase Dashboard: https://supabase.com/dashboard/project/nweklcxzoemcnwaoakvq/settings/functions
+2. Click **Add Secret** for each:
+
+| Secret Name | Value Source |
+|-------------|--------------|
+| `GHL_API_TOKEN` | From Task 0.1 |
+| `GHL_LOCATION_ID` | From Task 0.2 |
+| `GHL_RESUME_CUSTOM_FIELD_ID` | From Task 0.3 (Resume URL field) |
+| `GHL_VIDEO_LINK_CUSTOM_FIELD_ID` | From Task 0.3 (Video Link field) |
+
 ---
 
 ## Phase 1: Database Foundation
 
 ### Task 1.1 [LOVABLE] - Run Database Migrations
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
 Creates:
 - `form_submissions` table (unified form storage with form_type discriminator)
@@ -88,25 +88,25 @@ Creates:
 - RLS policies for all tables
 
 ### Task 1.2 [LOVABLE] - Create Shared GHL Client Library
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
 Creates `supabase/functions/_shared/ghlClient.ts` with:
 - `ghlHeaders()` - auth headers
+- `getLocationId()` - get location from env
 - `upsertContact()` - create/update GHL contact
 - `addTags()` - apply tags to contact
 - `addNote()` - add note to contact
 - `uploadFileToCustomField()` - resume uploads
+- `getCustomFields()` - fetch all custom fields (for admin tool)
 
 ### Task 1.3 [LOVABLE] - Create Edge Functions
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
 Creates:
-- `start-checkout` - initiates checkout, creates GHL contact
+- `start-checkout` - initiates checkout, creates GHL contact with tier tag
 - `submit-form` - handles contact/LocalPros forms
 - `submit-job-application` - handles career applications
-- `careers-upload-url` - generates signed upload URL for resumes
-- `get-resume-download-url` - generates signed download URL for admin
-- `ghl-admin-fields` - queries GHL for custom field IDs (admin tool)
+- `ghl-admin-fields` - queries GHL for custom field IDs (admin tool, requires auth)
 
 ---
 
@@ -272,6 +272,6 @@ Creates:
 
 ## Current Status
 
-**Next Task:** Task 0.1 - Create GHL Private Integration Token
+**Completed:** Phase 0 (Prerequisites), Phase 1 (Database Foundation)
 
-Complete Phase 0 manual tasks first, then Lovable can run Phase 1 database migrations.
+**Next Task:** Task 2.1 - Create Cookie Consent Component (Phase 2)
