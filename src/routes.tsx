@@ -12,15 +12,23 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Layout } from '@/components/layout/Layout';
 import { AdminGuard } from '@/components/admin/AdminGuard';
 
+// Create stable QueryClient instance outside components to avoid hydration mismatch
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 // Root layout wrapper with all providers
 function RootLayout() {
-  const [queryClient] = React.useState(() => new QueryClient());
-  
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
+      <TooltipProvider delayDuration={0}>
         <Layout>
-          <Suspense fallback={<div className="min-h-screen" />}>
+          <Suspense fallback={null}>
             <Outlet />
           </Suspense>
         </Layout>
@@ -31,12 +39,10 @@ function RootLayout() {
 
 // Admin layout without marketing Layout wrapper
 function AdminLayout() {
-  const [queryClient] = React.useState(() => new QueryClient());
-  
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Suspense fallback={<div className="min-h-screen" />}>
+      <TooltipProvider delayDuration={0}>
+        <Suspense fallback={null}>
           <Outlet />
         </Suspense>
       </TooltipProvider>
