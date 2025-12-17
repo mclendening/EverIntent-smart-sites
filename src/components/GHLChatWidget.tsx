@@ -14,11 +14,12 @@ declare global {
  * GHLChatWidget - Preloads widget after consent, hides launcher, exposes toggle/close.
  */
 export function GHLChatWidget() {
-  const [hasConsent, setHasConsent] = useState(() => !!localStorage.getItem(CONSENT_KEY));
+  const [hasConsent, setHasConsent] = useState(false);
 
-  // Listen for consent changes
+  // Check consent on mount and listen for changes
   useEffect(() => {
     const checkConsent = () => setHasConsent(!!localStorage.getItem(CONSENT_KEY));
+    checkConsent(); // Check immediately on mount
     window.addEventListener('cookie-consent-changed', checkConsent);
     window.addEventListener('storage', checkConsent);
     return () => {

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, ChevronDown, X, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -38,6 +38,12 @@ const industriesItems = [
 export function Header() {
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [mobileIndustriesOpen, setMobileIndustriesOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Prevent hydration mismatch - Radix portals render differently on server vs client
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/20 bg-primary">
@@ -51,44 +57,58 @@ export function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-1">
           {/* Services Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="flex items-center gap-1 text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
-                Services
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-64 bg-popover z-50">
-              {servicesItems.map((item) => (
-                <DropdownMenuItem key={item.path} asChild>
-                  <Link to={item.path} className="flex flex-col items-start py-2">
-                    <span className="font-medium">{item.title}</span>
-                    <span className="text-xs text-muted-foreground">{item.description}</span>
-                  </Link>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {isMounted ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="flex items-center gap-1 text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
+                  Services
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-64 bg-popover z-50">
+                {servicesItems.map((item) => (
+                  <DropdownMenuItem key={item.path} asChild>
+                    <Link to={item.path} className="flex flex-col items-start py-2">
+                      <span className="font-medium">{item.title}</span>
+                      <span className="text-xs text-muted-foreground">{item.description}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button variant="ghost" className="flex items-center gap-1 text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
+              Services
+              <ChevronDown className="h-4 w-4" />
+            </Button>
+          )}
 
           {/* Industries Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="flex items-center gap-1 text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
-                Industries
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-64 bg-popover z-50">
-              {industriesItems.map((item) => (
-                <DropdownMenuItem key={item.path} asChild>
-                  <Link to={item.path} className="flex flex-col items-start py-2">
-                    <span className="font-medium">{item.title}</span>
-                    <span className="text-xs text-muted-foreground">{item.description}</span>
-                  </Link>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {isMounted ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="flex items-center gap-1 text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
+                  Industries
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-64 bg-popover z-50">
+                {industriesItems.map((item) => (
+                  <DropdownMenuItem key={item.path} asChild>
+                    <Link to={item.path} className="flex flex-col items-start py-2">
+                      <span className="font-medium">{item.title}</span>
+                      <span className="text-xs text-muted-foreground">{item.description}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button variant="ghost" className="flex items-center gap-1 text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
+              Industries
+              <ChevronDown className="h-4 w-4" />
+            </Button>
+          )}
 
           {/* Static Links */}
           <Button variant="ghost" asChild className="text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
@@ -107,83 +127,90 @@ export function Header() {
         </div>
 
         {/* Mobile Menu */}
-        <Sheet>
-          <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon" className="text-primary-foreground">
-              <Menu className="h-6 w-6" />
-              <span className="sr-only">Open menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-80 bg-background">
-            <div className="flex flex-col space-y-4 mt-8">
-              {/* Services Collapsible */}
-              <Collapsible open={mobileServicesOpen} onOpenChange={setMobileServicesOpen}>
-                <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-lg font-medium">
-                  Services
-                  <ChevronDown className={`h-5 w-5 transition-transform ${mobileServicesOpen ? 'rotate-180' : ''}`} />
-                </CollapsibleTrigger>
-                <CollapsibleContent className="pl-4 space-y-2">
-                  {servicesItems.map((item) => (
-                    <SheetClose key={item.path} asChild>
-                      <Link
-                        to={item.path}
-                        className="block py-2 text-muted-foreground hover:text-foreground transition-colors"
-                      >
-                        {item.title}
-                      </Link>
-                    </SheetClose>
-                  ))}
-                </CollapsibleContent>
-              </Collapsible>
+        {isMounted ? (
+          <Sheet>
+            <SheetTrigger asChild className="md:hidden">
+              <Button variant="ghost" size="icon" className="text-primary-foreground">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-80 bg-background">
+              <div className="flex flex-col space-y-4 mt-8">
+                {/* Services Collapsible */}
+                <Collapsible open={mobileServicesOpen} onOpenChange={setMobileServicesOpen}>
+                  <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-lg font-medium">
+                    Services
+                    <ChevronDown className={`h-5 w-5 transition-transform ${mobileServicesOpen ? 'rotate-180' : ''}`} />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pl-4 space-y-2">
+                    {servicesItems.map((item) => (
+                      <SheetClose key={item.path} asChild>
+                        <Link
+                          to={item.path}
+                          className="block py-2 text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                          {item.title}
+                        </Link>
+                      </SheetClose>
+                    ))}
+                  </CollapsibleContent>
+                </Collapsible>
 
-              {/* Industries Collapsible */}
-              <Collapsible open={mobileIndustriesOpen} onOpenChange={setMobileIndustriesOpen}>
-                <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-lg font-medium">
-                  Industries
-                  <ChevronDown className={`h-5 w-5 transition-transform ${mobileIndustriesOpen ? 'rotate-180' : ''}`} />
-                </CollapsibleTrigger>
-                <CollapsibleContent className="pl-4 space-y-2">
-                  {industriesItems.map((item) => (
-                    <SheetClose key={item.path} asChild>
-                      <Link
-                        to={item.path}
-                        className="block py-2 text-muted-foreground hover:text-foreground transition-colors"
-                      >
-                        {item.title}
-                      </Link>
-                    </SheetClose>
-                  ))}
-                </CollapsibleContent>
-              </Collapsible>
+                {/* Industries Collapsible */}
+                <Collapsible open={mobileIndustriesOpen} onOpenChange={setMobileIndustriesOpen}>
+                  <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-lg font-medium">
+                    Industries
+                    <ChevronDown className={`h-5 w-5 transition-transform ${mobileIndustriesOpen ? 'rotate-180' : ''}`} />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pl-4 space-y-2">
+                    {industriesItems.map((item) => (
+                      <SheetClose key={item.path} asChild>
+                        <Link
+                          to={item.path}
+                          className="block py-2 text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                          {item.title}
+                        </Link>
+                      </SheetClose>
+                    ))}
+                  </CollapsibleContent>
+                </Collapsible>
 
-              {/* Static Links */}
-              <SheetClose asChild>
-                <Link to="/pricing" className="py-2 text-lg font-medium">
-                  Pricing
-                </Link>
-              </SheetClose>
-              <SheetClose asChild>
-                <Link to="/portfolio" className="py-2 text-lg font-medium">
-                  Portfolio
-                </Link>
-              </SheetClose>
-              <SheetClose asChild>
-                <Link to="/about" className="py-2 text-lg font-medium">
-                  About
-                </Link>
-              </SheetClose>
-
-              {/* Mobile CTAs */}
-              <div className="pt-4 border-t border-border space-y-3">
+                {/* Static Links */}
                 <SheetClose asChild>
-                  <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                    <Link to="/pricing">Get Started</Link>
-                  </Button>
+                  <Link to="/pricing" className="py-2 text-lg font-medium">
+                    Pricing
+                  </Link>
                 </SheetClose>
+                <SheetClose asChild>
+                  <Link to="/portfolio" className="py-2 text-lg font-medium">
+                    Portfolio
+                  </Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link to="/about" className="py-2 text-lg font-medium">
+                    About
+                  </Link>
+                </SheetClose>
+
+                {/* Mobile CTAs */}
+                <div className="pt-4 border-t border-border space-y-3">
+                  <SheetClose asChild>
+                    <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                      <Link to="/pricing">Get Started</Link>
+                    </Button>
+                  </SheetClose>
+                </div>
               </div>
-            </div>
-          </SheetContent>
-        </Sheet>
+            </SheetContent>
+          </Sheet>
+        ) : (
+          <Button variant="ghost" size="icon" className="md:hidden text-primary-foreground">
+            <Menu className="h-6 w-6" />
+            <span className="sr-only">Open menu</span>
+          </Button>
+        )}
       </div>
     </header>
   );
