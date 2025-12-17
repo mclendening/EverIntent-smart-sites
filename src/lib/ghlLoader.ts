@@ -1,8 +1,10 @@
-/* Utilities to inject and control the GHL chat widget without GTM.
-   - Doc-compliant: injects <chat-widget> and the official loader script
-   - Supports swapping locationId by removing/recreating the <chat-widget>
-   
-   EXACT COPY from Legal AI reference - only widget ID changed.
+/* GHL Chat Widget Loader - EXACT match to official GHL embed code.
+   Official embed:
+   <script 
+     src="https://beta.leadconnectorhq.com/loader.js"  
+     data-resources-url="https://beta.leadconnectorhq.com/chat-widget/loader.js" 
+     data-widget-id="694220dc4ca1823bfbe5f213">
+   </script>
 */
 
 declare global {
@@ -27,10 +29,9 @@ declare global {
 }
 
 const LOADER_ID = 'ghl-widget-loader';
-const WIDGET_ID = 'ghl-chat-widget';
 const LOADER_SRC = 'https://beta.leadconnectorhq.com/loader.js';
 const RESOURCES_URL = 'https://beta.leadconnectorhq.com/chat-widget/loader.js';
-const GHL_WIDGET_DATA_ID = '694220dc4ca1823bfbe5f213'; // SmartSites GHL widget ID
+const GHL_WIDGET_ID = '694220dc4ca1823bfbe5f213';
 
 function waitForAPI(timeout = 10000): Promise<'leadConnector' | 'LC_API'> {
   const start = Date.now();
@@ -51,45 +52,21 @@ function waitForAPI(timeout = 10000): Promise<'leadConnector' | 'LC_API'> {
 }
 
 function ensureLoaderScript(): void {
-  const existing = document.getElementById(LOADER_ID) as HTMLScriptElement | null;
-  if (existing) {
-    existing.setAttribute('data-widget-id', GHL_WIDGET_DATA_ID);
-    existing.setAttribute('data-resources-url', RESOURCES_URL);
+  if (document.getElementById(LOADER_ID)) {
     return;
   }
+  
+  // Create script EXACTLY like the official GHL embed code
   const s = document.createElement('script');
   s.id = LOADER_ID;
   s.src = LOADER_SRC;
   s.setAttribute('data-resources-url', RESOURCES_URL);
-  s.setAttribute('data-widget-id', GHL_WIDGET_DATA_ID);
-  s.defer = true;
+  s.setAttribute('data-widget-id', GHL_WIDGET_ID);
   document.body.appendChild(s);
 }
 
-function ensureWidgetElement(locationId: string): HTMLElement {
-  const existing = document.getElementById(WIDGET_ID) as HTMLElement | null;
-  if (existing) {
-    const currentLoc = existing.getAttribute('location-id');
-    const currentWid = existing.getAttribute('widget-id');
-    if (currentLoc === locationId && currentWid === GHL_WIDGET_DATA_ID) {
-      return existing;
-    }
-    if (currentLoc !== locationId) existing.setAttribute('location-id', locationId);
-    if (currentWid !== GHL_WIDGET_DATA_ID) existing.setAttribute('widget-id', GHL_WIDGET_DATA_ID);
-    return existing;
-  }
-  const host = document.createElement('chat-widget');
-  host.id = WIDGET_ID;
-  host.setAttribute('location-id', locationId);
-  host.setAttribute('widget-id', GHL_WIDGET_DATA_ID);
-  document.body.appendChild(host);
-  return host;
-}
-
-export async function ensureGHLWidget(locationId?: string, timeout = 12000) {
-  if (locationId) {
-    ensureWidgetElement(locationId);
-  }
+export async function ensureGHLWidget(_locationId?: string, timeout = 12000) {
+  // Inject script exactly like official embed - no manual chat-widget element
   ensureLoaderScript();
   await waitForAPI(timeout);
   
@@ -138,6 +115,6 @@ export function closeViaAnyAPI(): boolean {
 }
 
 export function destroyGHLWidget() {
-  const el = document.getElementById(WIDGET_ID);
+  const el = document.getElementById(LOADER_ID);
   if (el) el.remove();
 }
