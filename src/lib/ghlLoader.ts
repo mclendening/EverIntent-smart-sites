@@ -1,10 +1,5 @@
-/* GHL Chat Widget Loader - EXACT match to official GHL embed code.
-   Official embed:
-   <script 
-     src="https://beta.leadconnectorhq.com/loader.js"  
-     data-resources-url="https://beta.leadconnectorhq.com/chat-widget/loader.js" 
-     data-widget-id="694220dc4ca1823bfbe5f213">
-   </script>
+/* GHL Chat Widget Loader - Matches official GHL embed code exactly.
+   Widget ID hardcoded - no environment variables needed.
 */
 
 declare global {
@@ -13,7 +8,6 @@ declare global {
       open?: () => void;
       close?: () => void;
       hideLauncher?: () => void;
-      showLauncher?: () => void;
       chatWidget?: {
         openWidget: () => void;
         closeWidget: () => void;
@@ -23,7 +17,6 @@ declare global {
       open_chat_window?: () => void;
       close_chat_window?: () => void;
       hide_chat_window?: () => void;
-      show_chat_window?: () => void;
     };
   }
 }
@@ -31,58 +24,51 @@ declare global {
 const LOADER_ID = 'ghl-widget-loader';
 const LOADER_SRC = 'https://beta.leadconnectorhq.com/loader.js';
 const RESOURCES_URL = 'https://beta.leadconnectorhq.com/chat-widget/loader.js';
-const GHL_WIDGET_ID = '694220dc4ca1823bfbe5f213';
+const WIDGET_ID = '694220dc4ca1823bfbe5f213';
 
-function waitForAPI(timeout = 10000): Promise<'leadConnector' | 'LC_API'> {
-  const start = Date.now();
+function injectScript(): void {
+  if (document.getElementById(LOADER_ID)) return;
+  
+  const script = document.createElement('script');
+  script.id = LOADER_ID;
+  script.src = LOADER_SRC;
+  script.setAttribute('data-resources-url', RESOURCES_URL);
+  script.setAttribute('data-widget-id', WIDGET_ID);
+  document.body.appendChild(script);
+}
+
+function waitForAPI(timeout = 10000): Promise<void> {
   return new Promise((resolve, reject) => {
-    const t = setInterval(() => {
-      if (window.leadConnector?.open || window.leadConnector?.chatWidget?.openWidget) {
-        clearInterval(t);
-        resolve('leadConnector');
-      } else if (window.LC_API?.open_chat_window) {
-        clearInterval(t);
-        resolve('LC_API');
+    const start = Date.now();
+    const check = setInterval(() => {
+      const hasAPI = window.leadConnector?.open || 
+                     window.leadConnector?.chatWidget?.openWidget ||
+                     window.LC_API?.open_chat_window;
+      if (hasAPI) {
+        clearInterval(check);
+        resolve();
       } else if (Date.now() - start > timeout) {
-        clearInterval(t);
-        reject(new Error('GHL widget API not available'));
+        clearInterval(check);
+        reject(new Error('GHL widget timeout'));
       }
     }, 100);
   });
 }
 
-function ensureLoaderScript(): void {
-  if (document.getElementById(LOADER_ID)) {
-    return;
-  }
+export async function ensureGHLWidget(): Promise<void> {
+  injectScript();
+  await waitForAPI();
   
-  // Create script EXACTLY like the official GHL embed code
-  const s = document.createElement('script');
-  s.id = LOADER_ID;
-  s.src = LOADER_SRC;
-  s.setAttribute('data-resources-url', RESOURCES_URL);
-  s.setAttribute('data-widget-id', GHL_WIDGET_ID);
-  document.body.appendChild(s);
-}
-
-export async function ensureGHLWidget(_locationId?: string, timeout = 12000) {
-  // Inject script exactly like official embed - no manual chat-widget element
-  ensureLoaderScript();
-  await waitForAPI(timeout);
-  
-  // Hide the default launcher - we control it via custom button
+  // Hide default launcher - we use custom button
   const hide = () => {
-    if (window.leadConnector?.hideLauncher) {
-      window.leadConnector.hideLauncher();
-    } else if (window.LC_API?.hide_chat_window) {
-      window.LC_API.hide_chat_window();
-    }
+    window.leadConnector?.hideLauncher?.();
+    window.LC_API?.hide_chat_window?.();
   };
+  hide();
   setTimeout(hide, 300);
-  setTimeout(hide, 1000);
 }
 
-export function openViaAnyAPI(): boolean {
+export function openChat(): boolean {
   if (window.leadConnector?.open) {
     window.leadConnector.open();
     return true;
@@ -98,7 +84,7 @@ export function openViaAnyAPI(): boolean {
   return false;
 }
 
-export function closeViaAnyAPI(): boolean {
+export function closeChat(): boolean {
   if (window.leadConnector?.close) {
     window.leadConnector.close();
     return true;
@@ -112,9 +98,4 @@ export function closeViaAnyAPI(): boolean {
     return true;
   }
   return false;
-}
-
-export function destroyGHLWidget() {
-  const el = document.getElementById(LOADER_ID);
-  if (el) el.remove();
 }
