@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ensureGHLWidget, openViaAnyAPI, closeViaAnyAPI, hideLauncher } from '@/lib/ghlLoader';
+import { ensureGHLWidget, openViaAnyAPI, closeViaAnyAPI } from '@/lib/ghlLoader';
 
 const CONSENT_KEY = 'cookie-consent';
 
@@ -35,12 +35,7 @@ export function GHLChatWidget() {
     const preload = async () => {
       try {
         await ensureGHLWidget();
-        if (mounted) {
-          // Aggressively hide launcher after load
-          hideLauncher();
-          setTimeout(hideLauncher, 500);
-          setTimeout(hideLauncher, 1500);
-        }
+        // Launcher hiding is now configured in GHL platform (1x1 pixel icon)
       } catch (e) {
         console.warn('[GHL Chat] Preload failed', e);
       }
