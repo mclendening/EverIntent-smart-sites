@@ -1,4 +1,4 @@
-/* GHL Chat Widget Loader - EXACT match to official GHL embed code.
+/* GHL Chat Widget Loader - Minimal official embed pattern.
    Official embed:
    <script 
      src="https://beta.leadconnectorhq.com/loader.js"  
@@ -12,8 +12,6 @@ declare global {
     leadConnector?: {
       open?: () => void;
       close?: () => void;
-      hideLauncher?: () => void;
-      showLauncher?: () => void;
       chatWidget?: {
         openWidget: () => void;
         closeWidget: () => void;
@@ -22,8 +20,6 @@ declare global {
     LC_API?: {
       open_chat_window?: () => void;
       close_chat_window?: () => void;
-      hide_chat_window?: () => void;
-      show_chat_window?: () => void;
     };
   }
 }
@@ -33,30 +29,11 @@ const LOADER_SRC = 'https://beta.leadconnectorhq.com/loader.js';
 const RESOURCES_URL = 'https://beta.leadconnectorhq.com/chat-widget/loader.js';
 const GHL_WIDGET_ID = '694220dc4ca1823bfbe5f213';
 
-function waitForAPI(timeout = 10000): Promise<'leadConnector' | 'LC_API'> {
-  const start = Date.now();
-  return new Promise((resolve, reject) => {
-    const t = setInterval(() => {
-      if (window.leadConnector?.open || window.leadConnector?.chatWidget?.openWidget) {
-        clearInterval(t);
-        resolve('leadConnector');
-      } else if (window.LC_API?.open_chat_window) {
-        clearInterval(t);
-        resolve('LC_API');
-      } else if (Date.now() - start > timeout) {
-        clearInterval(t);
-        reject(new Error('GHL widget API not available'));
-      }
-    }, 100);
-  });
-}
-
-function ensureLoaderScript(): void {
-  if (document.getElementById(LOADER_ID)) {
-    return;
-  }
+/** Inject the GHL script if not already present */
+export function injectGHLScript(): void {
+  if (typeof document === 'undefined') return;
+  if (document.getElementById(LOADER_ID)) return;
   
-  // Create script EXACTLY like the official GHL embed code
   const s = document.createElement('script');
   s.id = LOADER_ID;
   s.src = LOADER_SRC;
@@ -65,50 +42,24 @@ function ensureLoaderScript(): void {
   document.body.appendChild(s);
 }
 
-export async function ensureGHLWidget(timeout = 12000) {
-  ensureLoaderScript();
-  await waitForAPI(timeout);
-}
-
-/** Hide launcher - now handled via GHL platform 1x1 pixel icon configuration */
-export function hideLauncher() {
-  // No-op: Launcher hiding is configured in GHL platform settings
-  // Do NOT manipulate shadow DOM - it breaks chat input functionality
-}
-
-export function openViaAnyAPI(): boolean {
+/** Open chat via available API */
+export function openChat(): void {
   if (window.leadConnector?.open) {
     window.leadConnector.open();
-    return true;
-  }
-  if (window.leadConnector?.chatWidget?.openWidget) {
+  } else if (window.leadConnector?.chatWidget?.openWidget) {
     window.leadConnector.chatWidget.openWidget();
-    return true;
-  }
-  if (window.LC_API?.open_chat_window) {
+  } else if (window.LC_API?.open_chat_window) {
     window.LC_API.open_chat_window();
-    return true;
   }
-  return false;
 }
 
-export function closeViaAnyAPI(): boolean {
+/** Close chat via available API */
+export function closeChat(): void {
   if (window.leadConnector?.close) {
     window.leadConnector.close();
-    return true;
-  }
-  if (window.leadConnector?.chatWidget?.closeWidget) {
+  } else if (window.leadConnector?.chatWidget?.closeWidget) {
     window.leadConnector.chatWidget.closeWidget();
-    return true;
-  }
-  if (window.LC_API?.close_chat_window) {
+  } else if (window.LC_API?.close_chat_window) {
     window.LC_API.close_chat_window();
-    return true;
   }
-  return false;
-}
-
-export function destroyGHLWidget() {
-  const el = document.getElementById(LOADER_ID);
-  if (el) el.remove();
 }
