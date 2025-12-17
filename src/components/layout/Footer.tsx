@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Linkedin, Twitter, Facebook, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { triggerCookiePreferences } from '@/components/CookieConsent';
 
 // Services links (Pricing at bottom per nav decisions)
 const servicesLinks = [
@@ -192,12 +193,21 @@ export function Footer() {
           <div className="flex flex-wrap justify-center gap-2 text-xs md:text-sm text-primary-foreground/70">
             {legalLinks.map((link, index) => (
               <span key={link.path} className="flex items-center">
-                <Link
-                  to={link.path}
-                  className="hover:text-accent transition-colors whitespace-nowrap"
-                >
-                  {link.title}
-                </Link>
+                {link.path === '/legal/cookies' ? (
+                  <button
+                    onClick={triggerCookiePreferences}
+                    className="hover:text-accent transition-colors whitespace-nowrap"
+                  >
+                    {link.title}
+                  </button>
+                ) : (
+                  <Link
+                    to={link.path}
+                    className="hover:text-accent transition-colors whitespace-nowrap"
+                  >
+                    {link.title}
+                  </Link>
+                )}
                 {index < legalLinks.length - 1 && (
                   <span className="ml-2 text-primary-foreground/30">|</span>
                 )}
