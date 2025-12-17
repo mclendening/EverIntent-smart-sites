@@ -38,51 +38,290 @@ export type Database = {
       checkout_submissions: {
         Row: {
           company: string | null
+          consent_timestamp: string | null
           created_at: string
           email: string
+          ghl_contact_id: string | null
+          ghl_error: string | null
+          ghl_sync_status: string | null
+          ghl_synced_at: string | null
           id: string
+          ip_address: string | null
           message: string | null
           name: string
           phone: string | null
           service_interest: string | null
           source_page: string | null
           status: string | null
+          tcpa_consent: boolean | null
           updated_at: string
+          user_agent: string | null
           utm_campaign: string | null
           utm_medium: string | null
           utm_source: string | null
         }
         Insert: {
           company?: string | null
+          consent_timestamp?: string | null
           created_at?: string
           email: string
+          ghl_contact_id?: string | null
+          ghl_error?: string | null
+          ghl_sync_status?: string | null
+          ghl_synced_at?: string | null
           id?: string
+          ip_address?: string | null
           message?: string | null
           name: string
           phone?: string | null
           service_interest?: string | null
           source_page?: string | null
           status?: string | null
+          tcpa_consent?: boolean | null
           updated_at?: string
+          user_agent?: string | null
           utm_campaign?: string | null
           utm_medium?: string | null
           utm_source?: string | null
         }
         Update: {
           company?: string | null
+          consent_timestamp?: string | null
           created_at?: string
           email?: string
+          ghl_contact_id?: string | null
+          ghl_error?: string | null
+          ghl_sync_status?: string | null
+          ghl_synced_at?: string | null
           id?: string
+          ip_address?: string | null
           message?: string | null
           name?: string
           phone?: string | null
           service_interest?: string | null
           source_page?: string | null
           status?: string | null
+          tcpa_consent?: boolean | null
           updated_at?: string
+          user_agent?: string | null
           utm_campaign?: string | null
           utm_medium?: string | null
           utm_source?: string | null
+        }
+        Relationships: []
+      }
+      form_submissions: {
+        Row: {
+          company: string | null
+          consent_timestamp: string | null
+          created_at: string
+          email: string
+          form_type: string
+          ghl_contact_id: string | null
+          ghl_error: string | null
+          ghl_sync_status: string | null
+          ghl_synced_at: string | null
+          id: string
+          ip_address: string | null
+          message: string | null
+          name: string
+          phone: string | null
+          source_page: string | null
+          tcpa_consent: boolean
+          updated_at: string
+          user_agent: string | null
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
+        }
+        Insert: {
+          company?: string | null
+          consent_timestamp?: string | null
+          created_at?: string
+          email: string
+          form_type: string
+          ghl_contact_id?: string | null
+          ghl_error?: string | null
+          ghl_sync_status?: string | null
+          ghl_synced_at?: string | null
+          id?: string
+          ip_address?: string | null
+          message?: string | null
+          name: string
+          phone?: string | null
+          source_page?: string | null
+          tcpa_consent?: boolean
+          updated_at?: string
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Update: {
+          company?: string | null
+          consent_timestamp?: string | null
+          created_at?: string
+          email?: string
+          form_type?: string
+          ghl_contact_id?: string | null
+          ghl_error?: string | null
+          ghl_sync_status?: string | null
+          ghl_synced_at?: string | null
+          id?: string
+          ip_address?: string | null
+          message?: string | null
+          name?: string
+          phone?: string | null
+          source_page?: string | null
+          tcpa_consent?: boolean
+          updated_at?: string
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Relationships: []
+      }
+      job_applications: {
+        Row: {
+          consent_timestamp: string | null
+          cover_letter: string | null
+          created_at: string
+          email: string
+          ghl_contact_id: string | null
+          ghl_error: string | null
+          ghl_sync_status: string | null
+          ghl_synced_at: string | null
+          id: string
+          ip_address: string | null
+          job_id: string | null
+          linkedin_url: string | null
+          name: string
+          phone: string | null
+          portfolio_url: string | null
+          resume_url: string | null
+          source_page: string | null
+          status: string | null
+          tcpa_consent: boolean
+          updated_at: string
+          user_agent: string | null
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          video_intro_url: string | null
+        }
+        Insert: {
+          consent_timestamp?: string | null
+          cover_letter?: string | null
+          created_at?: string
+          email: string
+          ghl_contact_id?: string | null
+          ghl_error?: string | null
+          ghl_sync_status?: string | null
+          ghl_synced_at?: string | null
+          id?: string
+          ip_address?: string | null
+          job_id?: string | null
+          linkedin_url?: string | null
+          name: string
+          phone?: string | null
+          portfolio_url?: string | null
+          resume_url?: string | null
+          source_page?: string | null
+          status?: string | null
+          tcpa_consent?: boolean
+          updated_at?: string
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          video_intro_url?: string | null
+        }
+        Update: {
+          consent_timestamp?: string | null
+          cover_letter?: string | null
+          created_at?: string
+          email?: string
+          ghl_contact_id?: string | null
+          ghl_error?: string | null
+          ghl_sync_status?: string | null
+          ghl_synced_at?: string | null
+          id?: string
+          ip_address?: string | null
+          job_id?: string | null
+          linkedin_url?: string | null
+          name?: string
+          phone?: string | null
+          portfolio_url?: string | null
+          resume_url?: string | null
+          source_page?: string | null
+          status?: string | null
+          tcpa_consent?: boolean
+          updated_at?: string
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          video_intro_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_applications_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      jobs: {
+        Row: {
+          benefits: string | null
+          created_at: string
+          department: string | null
+          description: string | null
+          display_order: number | null
+          employment_type: string | null
+          id: string
+          is_published: boolean | null
+          location: string | null
+          requirements: string | null
+          salary_range: string | null
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          benefits?: string | null
+          created_at?: string
+          department?: string | null
+          description?: string | null
+          display_order?: number | null
+          employment_type?: string | null
+          id?: string
+          is_published?: boolean | null
+          location?: string | null
+          requirements?: string | null
+          salary_range?: string | null
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          benefits?: string | null
+          created_at?: string
+          department?: string | null
+          description?: string | null
+          display_order?: number | null
+          employment_type?: string | null
+          id?: string
+          is_published?: boolean | null
+          location?: string | null
+          requirements?: string | null
+          salary_range?: string | null
+          slug?: string
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }
