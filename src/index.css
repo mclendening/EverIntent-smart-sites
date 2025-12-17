@@ -173,43 +173,11 @@
   }
 }
 
-/* Force GHL chat widget below cookie banner */
+/* Ensure GHL chat widget appears behind cookie banner */
 #chat-widget,
-#ghl-chat-widget,
 .chat-widget,
-chat-widget,
 [id*="chat"],
 [class*="chat-widget"],
 .leadconnector-chat {
   z-index: 40 !important;
-}
-
-/* Hide GHL default launcher button - we use custom DesktopChatButton */
-/* Stock GHL bubble should NEVER appear - 1x1 pixel icon configured in GHL */
-.lc_text-widget-container,
-.lc-chat-widget-container,
-.lc_chat-button,
-.lc-text-widget,
-.lc-text-widget-open,
-.lc-text-widget-close,
-[class*="lc_text-widget"],
-[class*="lc-chat-button"],
-[class*="lc-text-widget"],
-[class*="chat-widget-button"],
-[class*="chat-widget-launcher"],
-[class*="launcher"],
-#chat-widget-button,
-.chat-bubble,
-.chat-launcher,
-button[class*="chat"],
-div[class*="launcher"] {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  max-width: 0 !important;
-  max-height: 0 !important;
-  overflow: hidden !important;
 }
