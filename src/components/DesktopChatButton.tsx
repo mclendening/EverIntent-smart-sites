@@ -1,25 +1,17 @@
 import { useEffect, useState } from 'react';
-import { MessageCircle } from 'lucide-react';
-import { toggleGHLChat } from '@/lib/ghlLoader';
+import { Sparkles } from 'lucide-react';
 
 const CONSENT_KEY = 'cookie-consent';
 
 export function DesktopChatButton() {
   const [hasConsent, setHasConsent] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const checkConsent = () => {
       const consent = localStorage.getItem(CONSENT_KEY);
-      const accepted = consent === 'accepted';
-      setHasConsent(accepted);
-      
-      // Animate in after consent
-      if (accepted) {
-        setTimeout(() => setIsVisible(true), 300);
-      } else {
-        setIsVisible(false);
-      }
+      setHasConsent(!!consent);
     };
 
     checkConsent();
@@ -32,25 +24,43 @@ export function DesktopChatButton() {
     };
   }, []);
 
-  // Hidden until cookie consent is given
+  useEffect(() => {
+    // Slide up after consent (delayed fade-up animation)
+    if (hasConsent) {
+      const timer = setTimeout(() => setIsVisible(true), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [hasConsent]);
+
+  const handleClick = () => {
+    if (window.toggleGHLChat) {
+      window.toggleGHLChat();
+    }
+  };
+
+  // Don't render until cookies are accepted
   if (!hasConsent) return null;
 
   return (
     <button
-      onClick={toggleGHLChat}
-      className={`
-        hidden md:flex fixed bottom-6 right-6 z-40
-        items-center justify-center
-        w-14 h-14 rounded-full
-        bg-accent text-accent-foreground
-        shadow-button hover:shadow-glow
-        transition-all duration-300 ease-out
-        hover:scale-110 hover:bg-accent-hover
-        ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
-      `}
-      aria-label="Open chat"
+      onClick={handleClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="hidden md:flex fixed right-6 z-40 items-center gap-3 px-5 py-3 bg-primary/95 backdrop-blur-sm border border-accent/30 rounded-lg shadow-lg transition-all duration-300 ease-out hover:bg-primary hover:border-accent hover:shadow-xl hover:shadow-accent/20 group"
+      style={{
+        bottom: isVisible ? '24px' : '-80px',
+      }}
+      aria-label="Chat with our AI assistant"
     >
-      <MessageCircle className="h-6 w-6" />
+      <Sparkles 
+        className="text-accent transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12 pointer-events-none"
+        size={18}
+        strokeWidth={2}
+      />
+      <span className="text-primary-foreground font-medium text-sm tracking-wide whitespace-nowrap pointer-events-none">
+        {isHovered ? 'Chat with us' : 'Need help?'}
+      </span>
+      <div className="w-2 h-2 rounded-full bg-accent animate-pulse pointer-events-none" />
     </button>
   );
 }
