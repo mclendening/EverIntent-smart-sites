@@ -7,7 +7,6 @@ import React, { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
 // Providers
-import { TooltipProvider } from '@/components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Layout } from '@/components/layout/Layout';
 import { AdminGuard } from '@/components/admin/AdminGuard';
@@ -22,17 +21,15 @@ const queryClient = new QueryClient({
   },
 });
 
-// Root layout wrapper with all providers
+// Root layout wrapper - minimal for SSG compatibility
 function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider delayDuration={0}>
-        <Layout>
-          <Suspense fallback={null}>
-            <Outlet />
-          </Suspense>
-        </Layout>
-      </TooltipProvider>
+      <Layout>
+        <Suspense fallback={null}>
+          <Outlet />
+        </Suspense>
+      </Layout>
     </QueryClientProvider>
   );
 }
@@ -41,11 +38,9 @@ function RootLayout() {
 function AdminLayout() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider delayDuration={0}>
-        <Suspense fallback={null}>
-          <Outlet />
-        </Suspense>
-      </TooltipProvider>
+      <Suspense fallback={null}>
+        <Outlet />
+      </Suspense>
     </QueryClientProvider>
   );
 }
