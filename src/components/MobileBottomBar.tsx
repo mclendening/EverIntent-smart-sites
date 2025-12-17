@@ -45,7 +45,7 @@ export function MobileBottomBar() {
 
   return (
     <nav
-      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-background/95 backdrop-blur-sm border-t border-border shadow-elevated"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-background/95 backdrop-blur border-t border-border"
       aria-label="Mobile navigation"
     >
       <div className="flex items-center justify-around h-16 px-2">
@@ -56,8 +56,8 @@ export function MobileBottomBar() {
             className={({ isActive }) =>
               `flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-colors ${
                 isActive
-                  ? 'text-accent bg-accent/10'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  ? 'text-primary bg-primary/10'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
               }`
             }
             aria-label={item.label}
@@ -70,7 +70,7 @@ export function MobileBottomBar() {
         {/* Chat Button - triggers GHL */}
         <button
           onClick={handleChatClick}
-          className="flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-colors text-muted-foreground hover:text-foreground hover:bg-muted active:text-accent active:bg-accent/10"
+          className="flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-colors text-muted-foreground hover:text-foreground hover:bg-accent/50 active:text-primary active:bg-primary/10"
           aria-label="Chat with us"
         >
           <MessageCircle className="h-5 w-5" aria-hidden="true" />
