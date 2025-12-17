@@ -30,6 +30,7 @@ const LOADER_ID = 'ghl-widget-loader';
 const WIDGET_ID = 'ghl-chat-widget';
 const LOADER_SRC = 'https://beta.leadconnectorhq.com/loader.js';
 const RESOURCES_URL = 'https://beta.leadconnectorhq.com/chat-widget/loader.js';
+const HIDE_STYLE_ID = 'ghl-hide-launcher';
 
 // Get widget ID from env with fallback
 const getWidgetId = (): string => {
@@ -40,6 +41,40 @@ const getWidgetId = (): string => {
 const getLocationId = (): string => {
   return import.meta.env.VITE_GHL_LOCATION_ID || 'glz9nLlYe04lb1B4TLFC';
 };
+
+// Inject CSS to hide launcher BEFORE GHL loads - prevents flash
+function injectHideStyles(): void {
+  if (document.getElementById(HIDE_STYLE_ID)) return;
+  const style = document.createElement('style');
+  style.id = HIDE_STYLE_ID;
+  style.textContent = `
+    .lc_text-widget-container,
+    .lc-chat-widget-container,
+    .lc_chat-button,
+    .lc-text-widget,
+    .lc-text-widget-open,
+    .lc-text-widget-close,
+    [class*="lc_text-widget"],
+    [class*="lc-chat-button"],
+    [class*="lc-text-widget"],
+    [class*="chat-widget-button"],
+    [class*="chat-widget-launcher"],
+    [class*="launcher"],
+    #chat-widget-button,
+    .chat-bubble,
+    .chat-launcher,
+    button[class*="chat"],
+    div[class*="launcher"] {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+  `;
+  document.head.appendChild(style);
+}
 
 function waitForAPI(timeout = 10000): Promise<'leadConnector' | 'LC_API'> {
   const start = Date.now();
@@ -96,6 +131,9 @@ function ensureWidgetElement(locationId: string, widgetId: string): HTMLElement 
 }
 
 export async function ensureGHLWidget(locationId: string, timeout = 12000) {
+  // FIRST: Inject CSS to hide launcher before GHL even loads
+  injectHideStyles();
+  
   const widgetId = getWidgetId();
   if (!widgetId) {
     console.warn('[GHL] No widget ID configured');
