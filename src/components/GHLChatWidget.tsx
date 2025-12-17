@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import { ensureGHLWidget } from '@/lib/ghlLoader';
 
-const GHL_LOCATION_ID = 'glz9nLlYe04lb1B4TLFC';
-
 declare global {
   interface Window {
     toggleGHLChat?: () => void;
@@ -105,7 +103,7 @@ export function GHLChatWidget() {
     window.toggleGHLChat = async () => {
       if (!tryOpen()) {
         try {
-          await ensureGHLWidget(GHL_LOCATION_ID);
+          await ensureGHLWidget();
           setTimeout(hide, 300);
           setTimeout(hide, 1000);
           tryOpen();
