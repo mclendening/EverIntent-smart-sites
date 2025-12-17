@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ensureGHLWidget, openViaAnyAPI, closeViaAnyAPI } from '@/lib/ghlLoader';
+import { injectGHLScript, openChat, closeChat } from '@/lib/ghlLoader';
 
 const CONSENT_KEY = 'cookie-consent';
 
@@ -11,50 +11,38 @@ declare global {
 }
 
 /**
- * GHLChatWidget - Preloads widget after consent, hides launcher, exposes toggle/close.
+ * GHLChatWidget - Injects GHL script after cookie consent, exposes toggle/close globals.
+ * Launcher hiding should be configured in GHL platform (1x1 pixel icon).
  */
 export function GHLChatWidget() {
-  const [hasConsent, setHasConsent] = useState(() => !!localStorage.getItem(CONSENT_KEY));
+  const [hasConsent, setHasConsent] = useState(false);
 
-  // Listen for consent changes
+  // Check consent on mount (client-side only)
   useEffect(() => {
+    setHasConsent(!!localStorage.getItem(CONSENT_KEY));
+    
     const checkConsent = () => setHasConsent(!!localStorage.getItem(CONSENT_KEY));
     window.addEventListener('cookie-consent-changed', checkConsent);
     window.addEventListener('storage', checkConsent);
+    
     return () => {
       window.removeEventListener('cookie-consent-changed', checkConsent);
       window.removeEventListener('storage', checkConsent);
     };
   }, []);
 
-  // Preload widget when consent is granted
+  // Inject script when consent granted
   useEffect(() => {
-    if (!hasConsent) return;
-
-    let mounted = true;
-    const preload = async () => {
-      try {
-        await ensureGHLWidget();
-        // Launcher hiding is now configured in GHL platform (1x1 pixel icon)
-      } catch (e) {
-        console.warn('[GHL Chat] Preload failed', e);
-      }
-    };
-    preload();
-
-    return () => { mounted = false; };
+    if (hasConsent) {
+      injectGHLScript();
+    }
   }, [hasConsent]);
 
   // Setup global functions
   useEffect(() => {
-    window.toggleGHLChat = () => {
-      openViaAnyAPI();
-    };
-
-    window.closeGHLChat = () => {
-      closeViaAnyAPI();
-    };
-
+    window.toggleGHLChat = openChat;
+    window.closeGHLChat = closeChat;
+    
     return () => {
       delete window.toggleGHLChat;
       delete window.closeGHLChat;
