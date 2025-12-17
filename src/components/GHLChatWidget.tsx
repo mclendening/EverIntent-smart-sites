@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ensureGHLWidget, openViaAnyAPI, closeViaAnyAPI, hideLauncher, setupWidgetLoadedListener } from '@/lib/ghlLoader';
+import { ensureGHLWidget, openViaAnyAPI, closeViaAnyAPI, hideLauncher } from '@/lib/ghlLoader';
 
 const CONSENT_KEY = 'cookie-consent';
 
@@ -27,11 +27,6 @@ export function GHLChatWidget() {
     };
   }, []);
 
-  // Setup widget loaded listener once
-  useEffect(() => {
-    setupWidgetLoadedListener();
-  }, []);
-
   // Preload widget when consent is granted
   useEffect(() => {
     if (!hasConsent) return;
@@ -41,11 +36,7 @@ export function GHLChatWidget() {
       try {
         await ensureGHLWidget();
         if (mounted) {
-          // Hide launcher after load and on intervals
           hideLauncher();
-          setTimeout(hideLauncher, 500);
-          setTimeout(hideLauncher, 1500);
-          setTimeout(hideLauncher, 3000);
         }
       } catch (e) {
         console.warn('[GHL Chat] Preload failed', e);
