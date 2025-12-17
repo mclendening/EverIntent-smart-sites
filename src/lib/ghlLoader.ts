@@ -70,10 +70,32 @@ export async function ensureGHLWidget(timeout = 12000) {
   await waitForAPI(timeout);
 }
 
-/** Hide the GHL launcher bubble - DISABLED FOR BASELINE TESTING */
+/** Hide the GHL launcher bubble via API + DOM manipulation */
 export function hideLauncher() {
-  // Intentionally empty - baseline test to confirm chat works without hiding
-  console.log('[GHL] hideLauncher called (disabled for baseline)');
+  // Try API methods
+  if (window.leadConnector?.hideLauncher) {
+    window.leadConnector.hideLauncher();
+  }
+  if (window.LC_API?.hide_chat_window) {
+    window.LC_API.hide_chat_window();
+  }
+
+  // Also hide via DOM - target the launcher button inside shadow DOM
+  const widget = document.querySelector('chat-widget');
+  if (widget?.shadowRoot) {
+    const launcher = widget.shadowRoot.querySelector('.lc_text-widget--bubble, #lc_text-widget-btn');
+    if (launcher instanceof HTMLElement) {
+      launcher.style.display = 'none';
+      launcher.style.visibility = 'hidden';
+      launcher.style.pointerEvents = 'none';
+    }
+  }
+
+  // Also try targeting outer container
+  const outer = document.getElementById('lc_text-widget');
+  if (outer) {
+    outer.style.display = 'none';
+  }
 }
 
 export function openViaAnyAPI(): boolean {
