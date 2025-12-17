@@ -65,16 +65,21 @@ function ensureLoaderScript(): void {
   document.body.appendChild(s);
 }
 
-export async function ensureGHLWidget(timeout = 12000) {
+export async function ensureGHLWidget(_locationId?: string, timeout = 12000) {
+  // Inject script exactly like official embed - no manual chat-widget element
   ensureLoaderScript();
   await waitForAPI(timeout);
-}
-
-/** Hide the GHL launcher bubble - placeholder, needs proper solution */
-export function hideLauncher() {
-  // TODO: GHL forces 40x40px on launcher button inside shadow DOM
-  // The 1x1 pixel icon is configured in GHL but their CSS overrides it
-  // Need solution from ChatGPT
+  
+  // Hide the default launcher - we control it via custom button
+  const hide = () => {
+    if (window.leadConnector?.hideLauncher) {
+      window.leadConnector.hideLauncher();
+    } else if (window.LC_API?.hide_chat_window) {
+      window.LC_API.hide_chat_window();
+    }
+  };
+  setTimeout(hide, 300);
+  setTimeout(hide, 1000);
 }
 
 export function openViaAnyAPI(): boolean {

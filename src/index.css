@@ -173,17 +173,11 @@
   }
 }
 
-/* GHL Chat Widget - z-index for cookie banner */
+/* Ensure GHL chat widget appears behind cookie banner */
 #chat-widget,
 .chat-widget,
+[id*="chat"],
 [class*="chat-widget"],
 .leadconnector-chat {
   z-index: 40 !important;
-}
-
-/* Hide GHL default launcher - target shadow HOST elements (CSS cannot penetrate shadow DOM) */
-#lc_text-widget {
-  display: none !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
 }
