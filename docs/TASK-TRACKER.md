@@ -113,13 +113,13 @@ Creates:
 ## Phase 2: Cookie Consent & GHL Widget
 
 ### Task 2.1 [LOVABLE] - Create Cookie Consent Component
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
-Creates `CookieConsent.tsx` with:
-- Cookie banner UI
-- localStorage consent storage
+Created `src/components/CookieConsent.tsx` with:
+- Cookie banner UI with Accept/Decline buttons
+- localStorage consent storage (`cookie-consent` key)
 - `cookie-consent-changed` event dispatch
-- Footer "Cookie Preferences" integration
+- Footer "Cookie Preferences" integration via `triggerCookiePreferences()`
 
 ### Task 2.2 [MANUAL] - Get GHL Chat Widget ID
 **Status:** ⬜ Not Started
@@ -140,12 +140,14 @@ Creates `CookieConsent.tsx` with:
 | `VITE_GHL_LOCATION_ID` | From Task 0.2 | Production, Preview, Development |
 
 ### Task 2.4 [LOVABLE] - Create GHL Widget Components
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
-Creates:
-- `ghlLoader.ts` - widget script loader
-- `GHLChatWidget.tsx` - chat widget wrapper
-- `DesktopChatButton.tsx` - floating chat button (consent-gated)
+Created:
+- `src/lib/ghlLoader.ts` - widget script loader with fallback API chain
+- `src/components/GHLChatWidget.tsx` - chat widget wrapper (consent-gated)
+- `src/components/DesktopChatButton.tsx` - floating chat button (consent-gated, desktop only)
+- Updated `src/components/layout/Layout.tsx` to include all components
+- Updated `src/components/layout/Footer.tsx` to trigger cookie preferences on "Cookies" link
 
 ---
 
@@ -272,6 +274,6 @@ Creates:
 
 ## Current Status
 
-**Completed:** Phase 0 (Prerequisites), Phase 1 (Database Foundation)
+**Completed:** Phase 0, Phase 1, Phase 2 Tasks 2.1 & 2.4
 
-**Next Task:** Task 2.1 - Create Cookie Consent Component (Phase 2)
+**Next Task:** Task 2.2 - Get GHL Chat Widget ID (Manual) → Task 2.3 - Add Vercel Env Var (Manual) → Then Phase 3 Marketing Pages
