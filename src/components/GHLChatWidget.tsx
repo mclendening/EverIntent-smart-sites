@@ -1,43 +1,54 @@
-import { useEffect, useState } from 'react';
-import { loadGHLWidget } from '@/lib/ghlLoader';
+import { useEffect, useRef } from 'react';
+import { ensureGHLWidget, openViaAnyAPI } from '@/lib/ghlLoader';
 
-const CONSENT_KEY = 'cookie-consent';
-
+/**
+ * GHLChatWidget - Sets up global toggle function but does NOT auto-load widget.
+ * Widget is lazy-loaded on first click to prevent stock launcher from appearing.
+ */
 export function GHLChatWidget() {
-  const [shouldLoad, setShouldLoad] = useState(false);
+  const widgetLoaded = useRef(false);
+  const isLoading = useRef(false);
 
   useEffect(() => {
-    const checkConsent = () => {
-      const consent = localStorage.getItem(CONSENT_KEY);
-      setShouldLoad(consent === 'accepted');
+    // Set up global toggle function - lazy loads widget on first click
+    window.toggleGHLChat = async () => {
+      // If already loaded, just open
+      if (widgetLoaded.current) {
+        openViaAnyAPI();
+        return;
+      }
+
+      // Prevent double-loading
+      if (isLoading.current) return;
+      isLoading.current = true;
+
+      try {
+        const locationId = import.meta.env.VITE_GHL_LOCATION_ID;
+        if (!locationId) {
+          console.warn('[GHL] VITE_GHL_LOCATION_ID not configured');
+          return;
+        }
+
+        // Load widget for first time
+        await ensureGHLWidget(locationId);
+        widgetLoaded.current = true;
+
+        // Small delay then open
+        setTimeout(() => {
+          openViaAnyAPI();
+        }, 300);
+      } catch (err) {
+        console.error('[GHL] Failed to load widget:', err);
+      } finally {
+        isLoading.current = false;
+      }
     };
 
-    checkConsent();
-    window.addEventListener('cookie-consent-changed', checkConsent);
-    window.addEventListener('storage', checkConsent);
-
     return () => {
-      window.removeEventListener('cookie-consent-changed', checkConsent);
-      window.removeEventListener('storage', checkConsent);
+      window.toggleGHLChat = undefined;
     };
   }, []);
 
-  useEffect(() => {
-    if (!shouldLoad) return;
-
-    // Get location ID from env
-    const locationId = import.meta.env.VITE_GHL_LOCATION_ID;
-    
-    if (!locationId) {
-      console.warn('[GHL] VITE_GHL_LOCATION_ID not configured');
-      return;
-    }
-
-    loadGHLWidget(locationId).catch((err) => {
-      console.error('[GHL] Failed to load widget:', err);
-    });
-  }, [shouldLoad]);
-
-  // This component doesn't render anything - GHL injects its own UI
+  // This component doesn't render anything - GHL injects its own UI on demand
   return null;
 }
