@@ -173,27 +173,38 @@
   }
 }
 
-/* GHL Chat Widget - z-index and launcher hiding */
+/* GHL Chat Widget - z-index for cookie banner */
 #chat-widget,
 .chat-widget,
-[id*="chat"],
 [class*="chat-widget"],
 .leadconnector-chat {
   z-index: 40 !important;
 }
 
-/* Hide GHL default launcher bubble completely */
+/* Hide GHL default launcher bubble completely - aggressive targeting */
 .lc_text-widget--bubble,
 .lc_text-widget--box,
+.lc_text-widget,
 [class*="lc_text-widget--bubble"],
 [class*="lc_text-widget--box"],
+[class*="lc_text-widget"],
 [aria-label*="chat widget"],
-[aria-label*="Chat widget"] {
+[aria-label*="Chat widget"],
+[aria-label*="close the chat"],
+[aria-label*="open the chat"],
+.chat-widget-launcher,
+[class*="launcher"],
+[class*="Launcher"] {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
   pointer-events: none !important;
   width: 0 !important;
   height: 0 !important;
+  max-width: 0 !important;
+  max-height: 0 !important;
   overflow: hidden !important;
+  position: absolute !important;
+  left: -9999px !important;
+  box-shadow: none !important;
 }
