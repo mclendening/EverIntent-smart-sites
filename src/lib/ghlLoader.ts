@@ -101,16 +101,35 @@ export async function ensureGHLWidget(locationId: string, timeout = 12000) {
   ensureLoaderScript(widgetId);
   await waitForAPI(timeout);
   
-  // Hide the default launcher - we control it via custom button
+  // Hide the default launcher aggressively - we control it via custom button
   const hide = () => {
     if (window.leadConnector?.hideLauncher) {
       window.leadConnector.hideLauncher();
-    } else if (window.LC_API?.hide_chat_window) {
+    }
+    if (window.LC_API?.hide_chat_window) {
       window.LC_API.hide_chat_window();
     }
+    // Also try to hide via DOM manipulation
+    const launcherSelectors = [
+      '.lc_text-widget-container',
+      '.lc-chat-widget-container', 
+      '.lc_chat-button',
+      '[class*="launcher"]',
+      '.chat-bubble',
+      '#chat-widget-button'
+    ];
+    launcherSelectors.forEach(sel => {
+      document.querySelectorAll(sel).forEach(el => {
+        (el as HTMLElement).style.display = 'none';
+      });
+    });
   };
+  
+  // Call hide multiple times as GHL widget may inject launcher after load
+  hide();
   setTimeout(hide, 300);
   setTimeout(hide, 1000);
+  setTimeout(hide, 2000);
 }
 
 export function openViaAnyAPI(): boolean {
