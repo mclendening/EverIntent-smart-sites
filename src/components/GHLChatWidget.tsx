@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { ensureGHLWidget } from '@/lib/ghlLoader';
 
-const CONSENT_KEY = 'cookie-consent';
 const GHL_LOCATION_ID = 'glz9nLlYe04lb1B4TLFC';
 
 declare global {
@@ -29,9 +28,9 @@ declare global {
 }
 
 /**
- * GHLChatWidget - EXACT COPY from Legal AI reference implementation.
- * Sets up global toggle/close functions. Preloads widget in background after consent.
- * Widget is hidden (1x1 pixel icon configured in GHL), opens instantly on click.
+ * GHLChatWidget - EXACT COPY from Legal AI reference.
+ * Sets up global toggle/close functions. Does NOT preload widget.
+ * Widget loads lazily on first click for fastest page load.
  */
 export function GHLChatWidget() {
   useEffect(() => {
@@ -97,29 +96,7 @@ export function GHLChatWidget() {
       }, 100);
     };
 
-    // Check consent and preload widget if accepted
-    const checkAndPreload = () => {
-      const consent = localStorage.getItem(CONSENT_KEY);
-      if (consent) {
-        ensureGHLWidget(GHL_LOCATION_ID)
-          .then(() => {
-            console.log('[GHL] Widget preloaded and ready');
-          })
-          .catch((err) => {
-            console.error('[GHL] Failed to preload widget:', err);
-          });
-      }
-    };
-
-    // Initial check
-    checkAndPreload();
-
-    // Listen for consent changes
-    const onConsentChange = () => checkAndPreload();
-    window.addEventListener('cookie-consent-changed', onConsentChange);
-    window.addEventListener('storage', onConsentChange);
-
-    // Hide the default GHL launcher on init
+    // Hide the default GHL launcher on init (if widget already loaded)
     waitForAPI(() => {
       hide();
     });
@@ -160,8 +137,6 @@ export function GHLChatWidget() {
     };
 
     return () => {
-      window.removeEventListener('cookie-consent-changed', onConsentChange);
-      window.removeEventListener('storage', onConsentChange);
       delete window.toggleGHLChat;
       delete window.closeGHLChat;
     };
