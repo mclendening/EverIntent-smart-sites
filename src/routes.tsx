@@ -14,10 +14,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Layout } from '@/components/layout/Layout';
 import { AdminGuard } from '@/components/admin/AdminGuard';
 
-const queryClient = new QueryClient();
-
 // Root layout wrapper with all providers
 function RootLayout() {
+  // Create QueryClient inside component to avoid SSG/hydration issues
+  const [queryClient] = React.useState(() => new QueryClient());
+  
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -35,6 +36,8 @@ function RootLayout() {
 
 // Admin layout without marketing Layout wrapper
 function AdminLayout() {
+  const [queryClient] = React.useState(() => new QueryClient());
+  
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>

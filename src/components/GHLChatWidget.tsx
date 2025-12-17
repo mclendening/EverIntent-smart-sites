@@ -31,10 +31,14 @@ export function GHLChatWidget() {
     };
   }, []);
 
-  // Inject script when consent granted
+  // Inject script when consent granted (delayed to avoid hydration conflict)
   useEffect(() => {
     if (hasConsent) {
-      injectGHLScript();
+      // Delay injection until after React hydration completes
+      const timer = setTimeout(() => {
+        injectGHLScript();
+      }, 100);
+      return () => clearTimeout(timer);
     }
   }, [hasConsent]);
 
