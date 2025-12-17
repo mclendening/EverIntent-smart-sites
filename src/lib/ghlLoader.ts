@@ -75,7 +75,7 @@ export function hideLauncher() {
   const widget = document.querySelector('chat-widget');
   if (widget?.shadowRoot) {
     // Target ONLY the launcher button, leave chat box (#lc_text_widget--box) alone
-    const launcherBtn = widget.shadowRoot.querySelector('button#lc_text_widget--btn');
+    const launcherBtn = widget.shadowRoot.querySelector('button#lc_text-widget--btn');
     if (launcherBtn instanceof HTMLElement) {
       launcherBtn.style.display = 'none';
     }
