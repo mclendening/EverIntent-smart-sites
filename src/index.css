@@ -173,11 +173,27 @@
   }
 }
 
-/* Ensure GHL chat widget appears behind cookie banner */
+/* GHL Chat Widget - z-index and launcher hiding */
 #chat-widget,
 .chat-widget,
 [id*="chat"],
 [class*="chat-widget"],
 .leadconnector-chat {
   z-index: 40 !important;
+}
+
+/* Hide GHL default launcher bubble completely */
+.lc_text-widget--bubble,
+.lc_text-widget--box,
+[class*="lc_text-widget--bubble"],
+[class*="lc_text-widget--box"],
+[aria-label*="chat widget"],
+[aria-label*="Chat widget"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
 }
