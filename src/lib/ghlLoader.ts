@@ -1,6 +1,8 @@
 /* Utilities to inject and control the GHL chat widget without GTM.
    - Doc-compliant: injects <chat-widget> and the official loader script
    - Supports swapping locationId by removing/recreating the <chat-widget>
+   
+   EXACT COPY from Legal AI reference implementation.
 */
 
 declare global {
@@ -30,51 +32,7 @@ const LOADER_ID = 'ghl-widget-loader';
 const WIDGET_ID = 'ghl-chat-widget';
 const LOADER_SRC = 'https://beta.leadconnectorhq.com/loader.js';
 const RESOURCES_URL = 'https://beta.leadconnectorhq.com/chat-widget/loader.js';
-const HIDE_STYLE_ID = 'ghl-hide-launcher';
-
-// Get widget ID from env with fallback
-const getWidgetId = (): string => {
-  return import.meta.env.VITE_GHL_WIDGET_ID || '694220dc4ca1823bfbe5f213';
-};
-
-// Get location ID from env with fallback  
-const getLocationId = (): string => {
-  return import.meta.env.VITE_GHL_LOCATION_ID || 'glz9nLlYe04lb1B4TLFC';
-};
-
-// Inject CSS to hide launcher BEFORE GHL loads - prevents flash
-function injectHideStyles(): void {
-  if (document.getElementById(HIDE_STYLE_ID)) return;
-  const style = document.createElement('style');
-  style.id = HIDE_STYLE_ID;
-  style.textContent = `
-    .lc_text-widget-container,
-    .lc-chat-widget-container,
-    .lc_chat-button,
-    .lc-text-widget,
-    .lc-text-widget-open,
-    .lc-text-widget-close,
-    [class*="lc_text-widget"],
-    [class*="lc-chat-button"],
-    [class*="lc-text-widget"],
-    [class*="chat-widget-button"],
-    [class*="chat-widget-launcher"],
-    [class*="launcher"],
-    #chat-widget-button,
-    .chat-bubble,
-    .chat-launcher,
-    button[class*="chat"],
-    div[class*="launcher"] {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-      width: 0 !important;
-      height: 0 !important;
-    }
-  `;
-  document.head.appendChild(style);
-}
+const GHL_WIDGET_DATA_ID = '694220dc4ca1823bfbe5f213'; // SmartSites GHL widget ID
 
 function waitForAPI(timeout = 10000): Promise<'leadConnector' | 'LC_API'> {
   const start = Date.now();
@@ -94,10 +52,10 @@ function waitForAPI(timeout = 10000): Promise<'leadConnector' | 'LC_API'> {
   });
 }
 
-function ensureLoaderScript(widgetId: string): void {
+function ensureLoaderScript(): void {
   const existing = document.getElementById(LOADER_ID) as HTMLScriptElement | null;
   if (existing) {
-    existing.setAttribute('data-widget-id', widgetId);
+    existing.setAttribute('data-widget-id', GHL_WIDGET_DATA_ID);
     existing.setAttribute('data-resources-url', RESOURCES_URL);
     return;
   }
@@ -105,74 +63,48 @@ function ensureLoaderScript(widgetId: string): void {
   s.id = LOADER_ID;
   s.src = LOADER_SRC;
   s.setAttribute('data-resources-url', RESOURCES_URL);
-  s.setAttribute('data-widget-id', widgetId);
+  s.setAttribute('data-widget-id', GHL_WIDGET_DATA_ID);
   s.defer = true;
   document.body.appendChild(s);
 }
 
-function ensureWidgetElement(locationId: string, widgetId: string): HTMLElement {
+function ensureWidgetElement(locationId: string): HTMLElement {
   const existing = document.getElementById(WIDGET_ID) as HTMLElement | null;
   if (existing) {
     const currentLoc = existing.getAttribute('location-id');
     const currentWid = existing.getAttribute('widget-id');
-    if (currentLoc === locationId && currentWid === widgetId) {
+    if (currentLoc === locationId && currentWid === GHL_WIDGET_DATA_ID) {
       return existing;
     }
     if (currentLoc !== locationId) existing.setAttribute('location-id', locationId);
-    if (currentWid !== widgetId) existing.setAttribute('widget-id', widgetId);
+    if (currentWid !== GHL_WIDGET_DATA_ID) existing.setAttribute('widget-id', GHL_WIDGET_DATA_ID);
     return existing;
   }
   const host = document.createElement('chat-widget');
   host.id = WIDGET_ID;
   host.setAttribute('location-id', locationId);
-  host.setAttribute('widget-id', widgetId);
+  host.setAttribute('widget-id', GHL_WIDGET_DATA_ID);
   document.body.appendChild(host);
   return host;
 }
 
-export async function ensureGHLWidget(locationId: string, timeout = 12000) {
-  // FIRST: Inject CSS to hide launcher before GHL even loads
-  injectHideStyles();
-  
-  const widgetId = getWidgetId();
-  if (!widgetId) {
-    console.warn('[GHL] No widget ID configured');
-    return;
+export async function ensureGHLWidget(locationId?: string, timeout = 12000) {
+  if (locationId) {
+    ensureWidgetElement(locationId);
   }
-  
-  ensureWidgetElement(locationId, widgetId);
-  ensureLoaderScript(widgetId);
+  ensureLoaderScript();
   await waitForAPI(timeout);
   
-  // Hide the default launcher aggressively - we control it via custom button
+  // Hide the default launcher - we control it via custom button
   const hide = () => {
     if (window.leadConnector?.hideLauncher) {
       window.leadConnector.hideLauncher();
-    }
-    if (window.LC_API?.hide_chat_window) {
+    } else if (window.LC_API?.hide_chat_window) {
       window.LC_API.hide_chat_window();
     }
-    // Also try to hide via DOM manipulation
-    const launcherSelectors = [
-      '.lc_text-widget-container',
-      '.lc-chat-widget-container', 
-      '.lc_chat-button',
-      '[class*="launcher"]',
-      '.chat-bubble',
-      '#chat-widget-button'
-    ];
-    launcherSelectors.forEach(sel => {
-      document.querySelectorAll(sel).forEach(el => {
-        (el as HTMLElement).style.display = 'none';
-      });
-    });
   };
-  
-  // Call hide multiple times as GHL widget may inject launcher after load
-  hide();
   setTimeout(hide, 300);
   setTimeout(hide, 1000);
-  setTimeout(hide, 2000);
 }
 
 export function openViaAnyAPI(): boolean {
@@ -210,15 +142,4 @@ export function closeViaAnyAPI(): boolean {
 export function destroyGHLWidget() {
   const el = document.getElementById(WIDGET_ID);
   if (el) el.remove();
-}
-
-// Legacy exports for compatibility
-export const loadGHLWidget = ensureGHLWidget;
-export const toggleGHLChat = openViaAnyAPI;
-export const closeGHLChat = closeViaAnyAPI;
-
-// Expose global functions
-if (typeof window !== 'undefined') {
-  window.toggleGHLChat = openViaAnyAPI;
-  window.closeGHLChat = closeViaAnyAPI;
 }
