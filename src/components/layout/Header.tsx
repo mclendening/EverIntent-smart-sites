@@ -113,17 +113,17 @@ export function Header() {
 
           {/* Static Links */}
           <Button variant="ghost" asChild className="text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
-            <Link to="/pricing">Pricing</Link>
+            <NavLink to="/pricing">Pricing</NavLink>
           </Button>
           <Button variant="ghost" asChild className="text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
-            <Link to="/portfolio">Portfolio</Link>
+            <NavLink to="/portfolio">Portfolio</NavLink>
           </Button>
         </nav>
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center space-x-2">
           <Button asChild className="bg-accent text-primary hover:bg-accent/90">
-            <Link to="/pricing">Get Started</Link>
+            <NavLink to="/pricing">Get Started</NavLink>
           </Button>
         </div>
 
