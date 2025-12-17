@@ -53,8 +53,7 @@ const socialLinks = [
 ];
 
 export function Footer() {
-  // Static year to avoid any potential SSG/hydration mismatch
-  const currentYear = 2025;
+  const currentYear = new Date().getFullYear();
 
   return (
     <footer className="border-t border-border bg-primary text-primary-foreground">

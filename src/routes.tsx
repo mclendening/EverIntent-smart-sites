@@ -7,29 +7,28 @@ import React, { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
 // Providers
+import { Toaster } from '@/components/ui/toaster';
+import { Toaster as Sonner } from '@/components/ui/sonner';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Layout } from '@/components/layout/Layout';
 import { AdminGuard } from '@/components/admin/AdminGuard';
 
-// Create stable QueryClient instance outside components to avoid hydration mismatch
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 60 * 1000,
-      refetchOnWindowFocus: false,
-    },
-  },
-});
+const queryClient = new QueryClient();
 
-// Root layout wrapper - minimal for SSG compatibility
+// Root layout wrapper with all providers
 function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Layout>
-        <Suspense fallback={null}>
-          <Outlet />
-        </Suspense>
-      </Layout>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <Layout>
+          <Suspense fallback={<div className="min-h-screen" />}>
+            <Outlet />
+          </Suspense>
+        </Layout>
+      </TooltipProvider>
     </QueryClientProvider>
   );
 }
@@ -38,9 +37,13 @@ function RootLayout() {
 function AdminLayout() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Suspense fallback={null}>
-        <Outlet />
-      </Suspense>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <Suspense fallback={<div className="min-h-screen" />}>
+          <Outlet />
+        </Suspense>
+      </TooltipProvider>
     </QueryClientProvider>
   );
 }
