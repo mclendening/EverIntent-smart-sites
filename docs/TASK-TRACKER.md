@@ -122,15 +122,15 @@ Created `src/components/CookieConsent.tsx` with:
 - Footer "Cookie Preferences" integration via `triggerCookiePreferences()`
 
 ### Task 2.2 [MANUAL] - Get GHL Chat Widget ID
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
 1. In GHL, go to **Sites** → **Chat Widget**
 2. Click on your chat widget (or create one)
 3. In the embed code, find the widget ID in the script URL
 4. **Copy the Widget ID**
 
-### Task 2.3 [MANUAL] - Add Vercel Environment Variable (GHL Widget)
-**Status:** ⬜ Not Started
+### Task 2.3 [MANUAL] - Add Vercel Environment Variables (GHL Widget)
+**Status:** ✅ Complete
 
 1. Go to Vercel Dashboard → Your Project → **Settings** → **Environment Variables**
 2. Add:
@@ -138,14 +138,15 @@ Created `src/components/CookieConsent.tsx` with:
 | Name | Value | Environment |
 |------|-------|-------------|
 | `VITE_GHL_LOCATION_ID` | From Task 0.2 | Production, Preview, Development |
+| `VITE_GHL_WIDGET_ID` | From Task 2.2 | Production, Preview, Development |
 
 ### Task 2.4 [LOVABLE] - Create GHL Widget Components
 **Status:** ✅ Complete
 
 Created:
-- `src/lib/ghlLoader.ts` - widget script loader with fallback API chain
+- `src/lib/ghlLoader.ts` - widget script loader using `https://beta.leadconnectorhq.com/loader.js` with `<chat-widget>` element injection, hideLauncher support, and fallback API chain
 - `src/components/GHLChatWidget.tsx` - chat widget wrapper (consent-gated)
-- `src/components/DesktopChatButton.tsx` - floating chat button (consent-gated, desktop only)
+- `src/components/DesktopChatButton.tsx` - floating chat button (consent-gated, desktop only, fade-up animation)
 - Updated `src/components/layout/Layout.tsx` to include all components
 - Updated `src/components/layout/Footer.tsx` to trigger cookie preferences on "Cookies" link
 
@@ -274,6 +275,6 @@ Created:
 
 ## Current Status
 
-**Completed:** Phase 0, Phase 1, Phase 2 Tasks 2.1 & 2.4
+**Completed:** Phase 0, Phase 1, Phase 2 (All Tasks)
 
-**Next Task:** Task 2.2 - Get GHL Chat Widget ID (Manual) → Task 2.3 - Add Vercel Env Var (Manual) → Then Phase 3 Marketing Pages
+**Next Task:** Task 3.1 - Homepage (Lovable)

@@ -1,115 +1,162 @@
-// GHL Chat Widget Loader
-// Loads the GoHighLevel chat widget script and provides API access
+/* Utilities to inject and control the GHL chat widget without GTM.
+   - Doc-compliant: injects <chat-widget> and the official loader script
+   - Supports swapping locationId by removing/recreating the <chat-widget>
+*/
 
 declare global {
   interface Window {
     leadConnector?: {
       open?: () => void;
       close?: () => void;
+      hideLauncher?: () => void;
+      showLauncher?: () => void;
       chatWidget?: {
-        openWidget?: () => void;
-        closeWidget?: () => void;
+        openWidget: () => void;
+        closeWidget: () => void;
       };
     };
     LC_API?: {
       open_chat_window?: () => void;
       close_chat_window?: () => void;
+      hide_chat_window?: () => void;
+      show_chat_window?: () => void;
     };
     toggleGHLChat?: () => void;
     closeGHLChat?: () => void;
   }
 }
 
-let isLoaded = false;
-let isLoading = false;
+const LOADER_ID = 'ghl-widget-loader';
+const WIDGET_ID = 'ghl-chat-widget';
+const LOADER_SRC = 'https://beta.leadconnectorhq.com/loader.js';
+const RESOURCES_URL = 'https://beta.leadconnectorhq.com/chat-widget/loader.js';
 
-export function loadGHLWidget(locationId: string): Promise<void> {
-  if (isLoaded) return Promise.resolve();
-  if (isLoading) {
-    return new Promise((resolve) => {
-      const checkLoaded = setInterval(() => {
-        if (isLoaded) {
-          clearInterval(checkLoaded);
-          resolve();
-        }
-      }, 100);
-    });
-  }
+// Get widget ID from env or hardcode if needed
+const getWidgetId = (): string => {
+  return import.meta.env.VITE_GHL_WIDGET_ID || '';
+};
 
-  isLoading = true;
-
+function waitForAPI(timeout = 10000): Promise<'leadConnector' | 'LC_API'> {
+  const start = Date.now();
   return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = `https://widgets.leadconnectorhq.com/loader.js`;
-    script.setAttribute('data-resources-url', 'https://widgets.leadconnectorhq.com/chat-widget/loader.js');
-    script.setAttribute('data-widget-id', locationId);
-    script.async = true;
-
-    script.onload = () => {
-      isLoaded = true;
-      isLoading = false;
-      console.log('[GHL] Widget script loaded');
-      resolve();
-    };
-
-    script.onerror = () => {
-      isLoading = false;
-      console.error('[GHL] Failed to load widget script');
-      reject(new Error('Failed to load GHL widget'));
-    };
-
-    document.body.appendChild(script);
+    const t = setInterval(() => {
+      if (window.leadConnector?.open || window.leadConnector?.chatWidget?.openWidget) {
+        clearInterval(t);
+        resolve('leadConnector');
+      } else if (window.LC_API?.open_chat_window) {
+        clearInterval(t);
+        resolve('LC_API');
+      } else if (Date.now() - start > timeout) {
+        clearInterval(t);
+        reject(new Error('GHL widget API not available'));
+      }
+    }, 100);
   });
 }
 
-// Toggle chat with fallback chain
-export function toggleGHLChat(): void {
-  console.log('[GHL] Attempting to open chat');
-  
-  // Try leadConnector API first
-  if (window.leadConnector?.open) {
-    console.log('[GHL] Using leadConnector.open()');
-    window.leadConnector.open();
+function ensureLoaderScript(widgetId: string): void {
+  const existing = document.getElementById(LOADER_ID) as HTMLScriptElement | null;
+  if (existing) {
+    existing.setAttribute('data-widget-id', widgetId);
+    existing.setAttribute('data-resources-url', RESOURCES_URL);
     return;
   }
-
-  // Try chatWidget API
-  if (window.leadConnector?.chatWidget?.openWidget) {
-    console.log('[GHL] Using leadConnector.chatWidget.openWidget()');
-    window.leadConnector.chatWidget.openWidget();
-    return;
-  }
-
-  // Try LC_API fallback
-  if (window.LC_API?.open_chat_window) {
-    console.log('[GHL] Using LC_API.open_chat_window()');
-    window.LC_API.open_chat_window();
-    return;
-  }
-
-  console.warn('[GHL] No chat API available');
+  const s = document.createElement('script');
+  s.id = LOADER_ID;
+  s.src = LOADER_SRC;
+  s.setAttribute('data-resources-url', RESOURCES_URL);
+  s.setAttribute('data-widget-id', widgetId);
+  s.defer = true;
+  document.body.appendChild(s);
 }
 
-// Close chat with fallback chain
-export function closeGHLChat(): void {
+function ensureWidgetElement(locationId: string, widgetId: string): HTMLElement {
+  const existing = document.getElementById(WIDGET_ID) as HTMLElement | null;
+  if (existing) {
+    const currentLoc = existing.getAttribute('location-id');
+    const currentWid = existing.getAttribute('widget-id');
+    if (currentLoc === locationId && currentWid === widgetId) {
+      return existing;
+    }
+    if (currentLoc !== locationId) existing.setAttribute('location-id', locationId);
+    if (currentWid !== widgetId) existing.setAttribute('widget-id', widgetId);
+    return existing;
+  }
+  const host = document.createElement('chat-widget');
+  host.id = WIDGET_ID;
+  host.setAttribute('location-id', locationId);
+  host.setAttribute('widget-id', widgetId);
+  document.body.appendChild(host);
+  return host;
+}
+
+export async function ensureGHLWidget(locationId: string, timeout = 12000) {
+  const widgetId = getWidgetId();
+  if (!widgetId) {
+    console.warn('[GHL] No widget ID configured');
+    return;
+  }
+  
+  ensureWidgetElement(locationId, widgetId);
+  ensureLoaderScript(widgetId);
+  await waitForAPI(timeout);
+  
+  // Hide the default launcher - we control it via custom button
+  const hide = () => {
+    if (window.leadConnector?.hideLauncher) {
+      window.leadConnector.hideLauncher();
+    } else if (window.LC_API?.hide_chat_window) {
+      window.LC_API.hide_chat_window();
+    }
+  };
+  setTimeout(hide, 300);
+  setTimeout(hide, 1000);
+}
+
+export function openViaAnyAPI(): boolean {
+  if (window.leadConnector?.open) {
+    window.leadConnector.open();
+    return true;
+  }
+  if (window.leadConnector?.chatWidget?.openWidget) {
+    window.leadConnector.chatWidget.openWidget();
+    return true;
+  }
+  if (window.LC_API?.open_chat_window) {
+    window.LC_API.open_chat_window();
+    return true;
+  }
+  return false;
+}
+
+export function closeViaAnyAPI(): boolean {
   if (window.leadConnector?.close) {
     window.leadConnector.close();
-    return;
+    return true;
   }
-
   if (window.leadConnector?.chatWidget?.closeWidget) {
     window.leadConnector.chatWidget.closeWidget();
-    return;
+    return true;
   }
-
   if (window.LC_API?.close_chat_window) {
     window.LC_API.close_chat_window();
-    return;
+    return true;
   }
+  return false;
 }
 
-// Expose global functions for MobileBottomBar and other components
+export function destroyGHLWidget() {
+  const el = document.getElementById(WIDGET_ID);
+  if (el) el.remove();
+}
+
+// Legacy exports for compatibility
+export const loadGHLWidget = ensureGHLWidget;
+export const toggleGHLChat = openViaAnyAPI;
+export const closeGHLChat = closeViaAnyAPI;
+
+// Expose global functions
 if (typeof window !== 'undefined') {
-  window.toggleGHLChat = toggleGHLChat;
-  window.closeGHLChat = closeGHLChat;
+  window.toggleGHLChat = openViaAnyAPI;
+  window.closeGHLChat = closeViaAnyAPI;
 }
