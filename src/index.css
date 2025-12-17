@@ -181,9 +181,4 @@
   z-index: 40 !important;
 }
 
-/* Hide GHL default launcher - target shadow HOST elements (CSS cannot penetrate shadow DOM) */
-#lc_text-widget {
-  display: none !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-}
+/* GHL launcher button hidden via JS in ghlLoader.ts - CSS cannot penetrate shadow DOM */

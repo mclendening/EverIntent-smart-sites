@@ -80,21 +80,16 @@ export function hideLauncher() {
     window.LC_API.hide_chat_window();
   }
 
-  // Also hide via DOM - target the launcher button inside shadow DOM
+  // Target the launcher button inside shadow DOM (NOT the container)
   const widget = document.querySelector('chat-widget');
   if (widget?.shadowRoot) {
-    const launcher = widget.shadowRoot.querySelector('.lc_text-widget--bubble, #lc_text-widget-btn');
+    // Only hide the launcher button, not the chat box
+    const launcher = widget.shadowRoot.querySelector('button.lc_text-widget--bubble');
     if (launcher instanceof HTMLElement) {
       launcher.style.display = 'none';
       launcher.style.visibility = 'hidden';
       launcher.style.pointerEvents = 'none';
     }
-  }
-
-  // Also try targeting outer container
-  const outer = document.getElementById('lc_text-widget');
-  if (outer) {
-    outer.style.display = 'none';
   }
 }
 
