@@ -2,7 +2,7 @@
    - Doc-compliant: injects <chat-widget> and the official loader script
    - Supports swapping locationId by removing/recreating the <chat-widget>
    
-   EXACT COPY from Legal AI reference implementation.
+   EXACT COPY from Legal AI reference - only widget ID changed.
 */
 
 declare global {
@@ -23,8 +23,6 @@ declare global {
       hide_chat_window?: () => void;
       show_chat_window?: () => void;
     };
-    toggleGHLChat?: () => void;
-    closeGHLChat?: () => void;
   }
 }
 
