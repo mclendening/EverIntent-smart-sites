@@ -121,16 +121,27 @@ Created `src/components/CookieConsent.tsx` with:
 - `cookie-consent-changed` event dispatch
 - Footer "Cookie Preferences" integration via `triggerCookiePreferences()`
 
-### Task 2.2 [MANUAL] - Get GHL Chat Widget ID
-**Status:** ✅ Complete
+### Task 2.2 [MANUAL] - Create GHL Chat Widgets (3 Bots)
+**Status:** ⬜ Not Started
 
+Create 3 separate GHL chat widgets with different training/personas:
+
+| Widget | Purpose | Training Focus |
+|--------|---------|----------------|
+| **Sales Bot** | Pricing/checkout pages | Conversion, pricing questions, upsells, urgency |
+| **Support Bot** | Contact/legal/help pages | FAQ, support inquiries, data requests |
+| **Demo Bot** | Homepage, services, industries | Feature showcase, capability demonstration |
+
+**Steps for each widget:**
 1. In GHL, go to **Sites** → **Chat Widget**
-2. Click on your chat widget (or create one)
-3. In the embed code, find the widget ID in the script URL
-4. **Copy the Widget ID**
+2. Click **Create New Widget**
+3. Name it appropriately (e.g., "SmartSites Sales Bot")
+4. Configure AI training/prompt for the specific persona
+5. Set launcher icon to **1x1 pixel** (for code-based control)
+6. **Copy the Widget ID** from the embed code
 
-### Task 2.3 [MANUAL] - Add Vercel Environment Variables (GHL Widget)
-**Status:** ✅ Complete
+### Task 2.3 [MANUAL] - Add Vercel Environment Variables (GHL Widgets)
+**Status:** ⬜ Not Started
 
 1. Go to Vercel Dashboard → Your Project → **Settings** → **Environment Variables**
 2. Add:
@@ -138,17 +149,18 @@ Created `src/components/CookieConsent.tsx` with:
 | Name | Value | Environment |
 |------|-------|-------------|
 | `VITE_GHL_LOCATION_ID` | From Task 0.2 | Production, Preview, Development |
-| `VITE_GHL_WIDGET_ID` | From Task 2.2 | Production, Preview, Development |
+| `VITE_GHL_WIDGET_ID_SALES` | Sales bot widget ID from Task 2.2 | All |
+| `VITE_GHL_WIDGET_ID_SUPPORT` | Support bot widget ID from Task 2.2 | All |
+| `VITE_GHL_WIDGET_ID_DEMO` | Demo bot widget ID from Task 2.2 | All |
 
-### Task 2.4 [LOVABLE] - Create GHL Widget Components
-**Status:** ✅ Complete
+### Task 2.4 [LOVABLE] - Create GHL Widget Components (Multi-Widget)
+**Status:** ⬜ Not Started
 
-Created:
-- `src/lib/ghlLoader.ts` - widget script loader using `https://beta.leadconnectorhq.com/loader.js` with `<chat-widget>` element injection, hideLauncher support, and fallback API chain
-- `src/components/GHLChatWidget.tsx` - chat widget wrapper (consent-gated)
-- `src/components/DesktopChatButton.tsx` - floating chat button (consent-gated, desktop only, fade-up animation)
-- Updated `src/components/layout/Layout.tsx` to include all components
-- Updated `src/components/layout/Footer.tsx` to trigger cookie preferences on "Cookies" link
+Update existing components for multi-widget support:
+- `src/lib/ghlLoader.ts` - Accept widget ID as parameter, use env vars
+- `src/components/GHLChatWidget.tsx` - Route-aware widget selection
+- `src/components/DesktopChatButton.tsx` - No changes needed (uses global toggle)
+- Keep `hideLauncher()` function (JS shadow DOM penetration approach)
 
 ---
 
@@ -275,6 +287,8 @@ Created:
 
 ## Current Status
 
-**Completed:** Phase 0, Phase 1, Phase 2 (All Tasks)
+**Completed:** Phase 0, Phase 1, Task 2.1 (Cookie Consent)
 
-**Next Task:** Task 3.1 - Homepage (Lovable)
+**In Progress:** Phase 2 (Tasks 2.2-2.4 need multi-widget update)
+
+**Next Task:** Task 2.2 - Create GHL Chat Widgets (3 Bots) [MANUAL]
