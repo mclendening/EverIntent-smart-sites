@@ -1,73 +1,66 @@
 # EverIntent SmartSites - Task Tracker
 
-> **Reference Documents:** BRD v32.9, implementation-roadmap-v1.md, persona-spec.md, careers-spec.md
+## Complete Implementation Checklist (In Order)
+
+Tasks marked `[MANUAL]` require user action. Tasks marked `[LOVABLE]` are AI-implemented.
 
 ---
 
-## Current Status
+## Phase 0: Prerequisites
 
-| Phase | Name | Status | Blocked By |
-|-------|------|--------|------------|
-| 1 | Form Architecture Foundation | **Not Started** | Manual GHL Setup |
-| 2 | Cookie Consent + GHL Widget | Not Started | Phase 1 |
-| 3 | Core Marketing Pages | Not Started | Phase 2 |
-| 4 | Checkout Flow | Not Started | Phase 3 + Stripe Setup |
-| 5 | LocalPros Apply | Not Started | Phase 4 |
-| 6 | Careers MVP | Not Started | Phase 1 |
-| 7 | Legal Pages + Domain Tool | Not Started | Phase 3 |
+### Task 0.1 [MANUAL] - Create GHL Private Integration Token
+**Status:** ⬜ Not Started
 
----
+1. Log into GoHighLevel at https://app.gohighlevel.com
+2. Click **Settings** (gear icon, bottom left)
+3. Click **Integrations** → **Private Integrations**
+4. Click **Create New Integration**
+5. Name it: `SmartSites API`
+6. Enable scopes: `contacts.write`, `contacts.read`, `opportunities.write`, `tags.write`, `custom-fields.read`
+7. Click **Create**
+8. **Copy the API Token** (you'll need this for Task 0.4)
 
-## Manual Setup & Configuration
+### Task 0.2 [MANUAL] - Get GHL Location ID
+**Status:** ⬜ Not Started
 
-### Understanding Where Secrets Go
+1. In GHL, click **Settings** → **Business Profile**
+2. Look at the URL in your browser: `https://app.gohighlevel.com/v2/location/XXXXXXXXXX/...`
+3. **Copy the Location ID** (the `XXXXXXXXXX` part after `/location/`)
 
-There are **THREE** different places for configuration. Do NOT confuse them:
+### Task 0.3 [MANUAL] - Create GHL Custom Fields
+**Status:** ⬜ Not Started
 
-| Location | Purpose | Who Uses It | Example Keys |
-|----------|---------|-------------|--------------|
-| **.env file** (in code repo) | Local development only | Vite build (client-side) | `VITE_SUPABASE_URL` |
-| **Vercel Environment Variables** | Production deployment | Vite build (client-side) | `VITE_SUPABASE_URL`, `VITE_GA_MEASUREMENT_ID` |
-| **Supabase Secrets** | Edge Functions (server-side) | Edge Functions only | `GHL_API_TOKEN`, `GHL_LOCATION_ID` |
+1. In GHL, go to **Settings** → **Custom Fields**
+2. Click **+ Add Field**
+3. Create these fields:
 
-### Key Rules:
-- **VITE_*** variables are PUBLIC - they get bundled into client JavaScript, visible to anyone
-- **Supabase Secrets** are PRIVATE - only accessible by Edge Functions on the server
-- **Never put private API keys in .env or Vercel** - they would be exposed to the browser
+| Field Name | Field Type | Notes |
+|------------|------------|-------|
+| `Resume URL` | Text | For careers applications |
+| `Video Link` | Text | For video submissions |
 
----
+4. After creating each field, click on it to view details
+5. Look at the URL: `https://app.gohighlevel.com/v2/location/.../settings/custom-fields/FIELD_ID`
+6. **Copy each Field ID** (you'll need these for Task 0.4)
 
-### 1. GHL Configuration (Do This First)
+### Task 0.4 [MANUAL] - Add Supabase Secrets (GHL)
+**Status:** ⬜ Not Started
 
-**Where:** GoHighLevel Dashboard → Settings → Integrations
+1. Go to Supabase Dashboard: https://supabase.com/dashboard/project/nweklcxzoemcnwaoakvq/settings/functions
+2. Click **Add Secret** for each:
 
-#### Step 1: Create Private Integration Token
-1. Go to GHL Dashboard → Settings → Integrations → Private Integrations
-2. Click "Create New Integration"
-3. Name it "SmartSites API"
-4. Copy the generated token (starts with `pit-...`)
-5. **Save this token** - you'll add it to Supabase secrets later
+| Secret Name | Value Source |
+|-------------|--------------|
+| `GHL_API_TOKEN` | From Task 0.1 |
+| `GHL_LOCATION_ID` | From Task 0.2 |
+| `GHL_RESUME_CUSTOM_FIELD_ID` | From Task 0.3 (Resume URL field) |
+| `GHL_VIDEO_LINK_CUSTOM_FIELD_ID` | From Task 0.3 (Video Link field) |
 
-#### Step 2: Get Your Location ID
-1. In GHL, go to Settings → Business Profile
-2. Look at the URL: `https://app.gohighlevel.com/v2/location/XXXXX/settings`
-3. The `XXXXX` part is your Location ID
-4. **Save this ID** - you'll add it to Supabase secrets later
+### Task 0.5 [MANUAL] - Create GHL Tags
+**Status:** ⬜ Not Started
 
-#### Step 3: Create Required Custom Fields
-1. Go to Settings → Custom Fields → Contacts
-2. Create these fields (note the IDs after creation):
-
-| Field Name | Field Type | Purpose |
-|------------|------------|---------|
-| Resume URL | Text/URL | Stores link to uploaded resume |
-| Video Link | Text/URL | Stores video introduction link |
-
-3. After creating each field, click on it to see the Field ID (looks like `fkf9vd3Zptv5g4ZLmjEZ`)
-4. **Save these Field IDs** - you'll add them to Supabase secrets later
-
-#### Step 4: Create Required Tags
-Go to Settings → Tags and create these tags exactly as shown:
+1. In GHL, go to **Settings** → **Tags**
+2. Click **+ Create Tag** for each:
 
 | Tag Name | Purpose |
 |----------|---------|
@@ -75,208 +68,210 @@ Go to Settings → Tags and create these tags exactly as shown:
 | `SS: Checkout Started - T2` | Tier 2 checkout initiated |
 | `SS: Checkout Started - T3` | Tier 3 checkout initiated |
 | `SS: Checkout Started - T4` | Tier 4 checkout initiated |
-| `LP: Partner Apply` | LocalPros application submitted |
+| `SS: Contact Form` | Contact form submission |
+| `LP: Partner Apply` | LocalPros partner application |
 | `Careers: Application` | Job application submitted |
 
 ---
 
-### 2. Supabase Secrets (Private - For Edge Functions)
+## Phase 1: Database Foundation
 
-**Where:** Supabase Dashboard → Project Settings → Edge Functions → Secrets
+### Task 1.1 [LOVABLE] - Run Database Migrations
+**Status:** ⬜ Not Started
 
-**How to Add:**
-1. Go to https://supabase.com/dashboard/project/nweklcxzoemcnwaoakvq/settings/functions
-2. Click "Add secret"
-3. Enter the name and value from the table below
+Creates:
+- `form_submissions` table (unified form storage with form_type discriminator)
+- `jobs` table (career postings)
+- `job_applications` table (career applications)
+- GHL sync columns on `checkout_submissions`
+- `resumes` Supabase Storage bucket
+- RLS policies for all tables
 
-| Secret Name | Value Source | Status |
-|-------------|--------------|--------|
-| `GHL_API_TOKEN` | From GHL Step 1 above | ⬜ TODO |
-| `GHL_LOCATION_ID` | From GHL Step 2 above | ⬜ TODO |
-| `GHL_RESUME_CUSTOM_FIELD_ID` | From GHL Step 3 above | ⬜ TODO |
-| `GHL_VIDEO_LINK_CUSTOM_FIELD_ID` | From GHL Step 3 above | ⬜ TODO |
+### Task 1.2 [LOVABLE] - Create Shared GHL Client Library
+**Status:** ⬜ Not Started
 
-> ✅ Already configured: `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_DB_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_URL`
+Creates `supabase/functions/_shared/ghlClient.ts` with:
+- `ghlHeaders()` - auth headers
+- `upsertContact()` - create/update GHL contact
+- `addTags()` - apply tags to contact
+- `addNote()` - add note to contact
+- `uploadFileToCustomField()` - resume uploads
 
----
+### Task 1.3 [LOVABLE] - Create Edge Functions
+**Status:** ⬜ Not Started
 
-### 3. Vercel Environment Variables (Public - For Production Build)
-
-**Where:** Vercel Dashboard → Project → Settings → Environment Variables
-
-**How to Add:**
-1. Go to your Vercel project settings
-2. Navigate to Environment Variables
-3. Add each variable below for "Production" environment
-
-| Variable Name | Value | Status |
-|---------------|-------|--------|
-| `VITE_SUPABASE_URL` | `https://nweklcxzoemcnwaoakvq.supabase.co` | ⬜ TODO |
-| `VITE_SUPABASE_ANON_KEY` | Your Supabase anon key | ⬜ TODO |
-| `VITE_GA_MEASUREMENT_ID` | From Google Analytics (e.g., `G-XXXXXXXXXX`) | ⬜ TODO |
-
-> ⚠️ These are the SAME values as in your .env file - Vercel needs them to build the production site
+Creates:
+- `start-checkout` - initiates checkout, creates GHL contact
+- `submit-form` - handles contact/LocalPros forms
+- `submit-job-application` - handles career applications
+- `careers-upload-url` - generates signed upload URL for resumes
+- `get-resume-download-url` - generates signed download URL for admin
+- `ghl-admin-fields` - queries GHL for custom field IDs (admin tool)
 
 ---
 
-### 4. Google Analytics Setup (Optional for MVP)
+## Phase 2: Cookie Consent & GHL Widget
 
-**Where:** Google Analytics → Admin → Create Property
+### Task 2.1 [LOVABLE] - Create Cookie Consent Component
+**Status:** ⬜ Not Started
 
-1. Go to https://analytics.google.com/
-2. Create a new GA4 property for your domain
-3. Get the Measurement ID (starts with `G-`)
-4. Add it to Vercel as `VITE_GA_MEASUREMENT_ID`
+Creates `CookieConsent.tsx` with:
+- Cookie banner UI
+- localStorage consent storage
+- `cookie-consent-changed` event dispatch
+- Footer "Cookie Preferences" integration
 
----
+### Task 2.2 [MANUAL] - Get GHL Chat Widget ID
+**Status:** ⬜ Not Started
 
-### 5. Stripe Configuration (Phase 4 - Later)
+1. In GHL, go to **Sites** → **Chat Widget**
+2. Click on your chat widget (or create one)
+3. In the embed code, find the widget ID in the script URL
+4. **Copy the Widget ID**
 
-**When:** After Phase 3 is complete
+### Task 2.3 [MANUAL] - Add Vercel Environment Variable (GHL Widget)
+**Status:** ⬜ Not Started
 
-**Supabase Secrets to add:**
-- `STRIPE_SECRET_KEY` - From Stripe Dashboard → Developers → API Keys
+1. Go to Vercel Dashboard → Your Project → **Settings** → **Environment Variables**
+2. Add:
 
-**Vercel Environment Variables to add:**
-- `VITE_STRIPE_PUBLISHABLE_KEY` - From Stripe Dashboard (starts with `pk_`)
+| Name | Value | Environment |
+|------|-------|-------------|
+| `VITE_GHL_LOCATION_ID` | From Task 0.2 | Production, Preview, Development |
 
----
+### Task 2.4 [LOVABLE] - Create GHL Widget Components
+**Status:** ⬜ Not Started
 
-## Phased Implementation Plan
-
-### Phase 1: Form Architecture Foundation
-
-**Prerequisites:** GHL secrets added to Supabase (Section 2 above)
-
-#### 1.1 Database Migrations (Lovable runs this)
-- [ ] `form_submissions` table with `form_type` discriminator
-- [ ] `jobs` and `job_applications` tables  
-- [ ] GHL sync columns on `checkout_submissions`
-- [ ] `resumes` Supabase Storage bucket
-- [ ] RLS policies for all new tables
-
-#### 1.2 Shared Modules (Lovable builds this)
-- [ ] `supabase/functions/_shared/ghlClient.ts` - GHL v2 API helpers
-  - `ghlHeaders()` - Auth headers with version
-  - `upsertContact()` - Create/update contacts
-  - `addTags()` - Tag management
-  - `addNote()` - Add notes to contacts
-  - `uploadFileToCustomField()` - Resume uploads
-
-#### 1.3 Edge Functions (Lovable builds this)
-- [ ] `start-checkout` - Creates GHL contact, adds tier tag
-- [ ] `submit-form` - Generic form handler (contact, LocalPros)
-- [ ] `submit-job-application` - Careers with resume upload
-- [ ] `careers-upload-url` - Get signed URL for resume upload
-- [ ] `get-resume-download-url` - Admin resume download
-
-#### 1.4 Admin Tool (Lovable builds this)
-- [ ] `/admin/ghl-fields` page - Extract GHL custom field IDs
+Creates:
+- `ghlLoader.ts` - widget script loader
+- `GHLChatWidget.tsx` - chat widget wrapper
+- `DesktopChatButton.tsx` - floating chat button (consent-gated)
 
 ---
 
-### Phase 2: Cookie Consent + GHL Widget
+## Phase 3: Core Marketing Pages
 
-- [ ] `CookieConsent.tsx` component
-- [ ] `ghlLoader.ts` - Load GHL chat widget
-- [ ] `GHLChatWidget.tsx` - Widget wrapper
-- [ ] `DesktopChatButton.tsx` - Floating chat button
-- [ ] Update `MobileBottomBar.tsx` with consent gating
-- [ ] Footer "Cookies" link triggers consent banner
+### Task 3.1 [LOVABLE] - Homepage
+**Status:** ⬜ Not Started
 
----
+### Task 3.2 [LOVABLE] - Beautiful Websites Service Page
+**Status:** ⬜ Not Started
 
-### Phase 3: Core Marketing Pages
-
-- [ ] Homepage (`/`)
-- [ ] Beautiful Websites service page (`/beautiful-websites`)
-- [ ] Pricing page (`/pricing`)
+### Task 3.3 [LOVABLE] - Pricing Page
+**Status:** ⬜ Not Started
 
 ---
 
-### Phase 4: Checkout Flow
+## Phase 4: Checkout Flow
 
-**User Action Required:** Configure Stripe (see Section 5)
+### Task 4.1 [MANUAL] - Create Stripe Account & Products
+**Status:** ⬜ Not Started
 
-- [ ] Multi-step checkout pages
-- [ ] Shared form components
-- [ ] Stripe payment integration
-- [ ] GHL contact creation on checkout start
+1. Go to https://dashboard.stripe.com
+2. Create products for each tier (T1-T4)
+3. Get your **Secret Key**: Developers → API Keys → Secret key
+4. Get your **Publishable Key**: Developers → API Keys → Publishable key
 
----
+### Task 4.2 [MANUAL] - Add Stripe Secrets
+**Status:** ⬜ Not Started
 
-### Phase 5: LocalPros Apply
+1. **Supabase Secrets** (https://supabase.com/dashboard/project/nweklcxzoemcnwaoakvq/settings/functions):
 
-- [ ] `/localpros` landing page
-- [ ] `/localpros/apply` application form
-- [ ] GHL form submission integration
+| Secret Name | Value |
+|-------------|-------|
+| `STRIPE_SECRET_KEY` | Your Stripe secret key (sk_live_... or sk_test_...) |
 
----
+2. **Vercel Environment Variables** (Project Settings → Environment Variables):
 
-### Phase 6: Careers MVP
+| Name | Value | Environment |
+|------|-------|-------------|
+| `VITE_STRIPE_PUBLISHABLE_KEY` | Your Stripe publishable key (pk_live_... or pk_test_...) | All |
 
-- [ ] `/careers` - Public job listings
-- [ ] `/careers/:slug` - Job detail + application form
-- [ ] `/admin/careers` - Admin CRUD for jobs
-- [ ] Resume upload to Supabase Storage
-- [ ] GHL integration for applications
-
----
-
-### Phase 7: Legal Pages + Domain Tool
-
-- [ ] `/legal/privacy` - Privacy Policy
-- [ ] `/legal/terms` - Terms of Service
-- [ ] `/legal/data-request` - CCPA Data Request
-- [ ] `/legal/cookies` - Cookie Preferences
+### Task 4.3 [LOVABLE] - Build Checkout Pages & Components
+**Status:** ⬜ Not Started
 
 ---
 
-## Technical References
+## Phase 5: LocalPros
 
-### GHL API Constants
-```
-Base URL: https://services.leadconnectorhq.com
-Version Header: 2021-07-28
-Auth Header: Authorization: Bearer {GHL_API_TOKEN}
-```
+### Task 5.1 [LOVABLE] - LocalPros Landing Page
+**Status:** ⬜ Not Started
 
-### GHL Tag Taxonomy
-```
-SS: Checkout Started - T1/T2/T3/T4
-LP: Partner Apply
-Careers: Application
-```
-
-### Critical: GHL v2 Custom Fields Format
-```javascript
-// ✅ CORRECT - Array format
-customFields: [
-  { id: "field_id_here", value: "field value" }
-]
-
-// ❌ WRONG - Object format (will fail)
-customFields: {
-  "field_id_here": "field value"
-}
-```
+### Task 5.2 [LOVABLE] - LocalPros Apply Form
+**Status:** ⬜ Not Started
 
 ---
 
-## Deferred Items (Post-MVP)
+## Phase 6: Careers
 
-| Item | Reason |
-|------|--------|
-| Looker Studio analytics | Post-launch enhancement |
-| Portfolio/Testimonials advanced CRUD | Beyond MVP scope |
-| Namecheap IP whitelisting | Infrastructure optimization |
-| Stripe webhooks for completion tracking | Phase 4 enhancement |
-| A/B testing framework | Post-launch |
+### Task 6.1 [LOVABLE] - Public Job Listing Page
+**Status:** ⬜ Not Started
+
+### Task 6.2 [LOVABLE] - Job Application Form
+**Status:** ⬜ Not Started
+
+### Task 6.3 [LOVABLE] - Admin Careers CRUD
+**Status:** ⬜ Not Started
 
 ---
 
-## Quick Links
+## Phase 7: Legal Pages & Utilities
 
-- [Supabase Dashboard](https://supabase.com/dashboard/project/nweklcxzoemcnwaoakvq)
-- [Supabase Edge Function Secrets](https://supabase.com/dashboard/project/nweklcxzoemcnwaoakvq/settings/functions)
-- [Supabase SQL Editor](https://supabase.com/dashboard/project/nweklcxzoemcnwaoakvq/sql/new)
+### Task 7.1 [LOVABLE] - Privacy Policy Page
+**Status:** ⬜ Not Started
+
+### Task 7.2 [LOVABLE] - Terms of Service Page
+**Status:** ⬜ Not Started
+
+### Task 7.3 [LOVABLE] - Cookie Settings Page
+**Status:** ⬜ Not Started
+
+### Task 7.4 [LOVABLE] - Data Rights Request Page
+**Status:** ⬜ Not Started
+
+---
+
+## Phase 8: Analytics
+
+### Task 8.1 [MANUAL] - Create Google Analytics Property
+**Status:** ⬜ Not Started
+
+1. Go to https://analytics.google.com
+2. Click **Admin** (gear icon)
+3. Click **Create Property**
+4. Enter property name: `EverIntent SmartSites`
+5. Select **Web** platform
+6. Enter your domain URL
+7. **Copy the Measurement ID** (starts with `G-`)
+
+### Task 8.2 [MANUAL] - Add GA4 to Vercel
+**Status:** ⬜ Not Started
+
+1. Go to Vercel Dashboard → Your Project → **Settings** → **Environment Variables**
+2. Add:
+
+| Name | Value | Environment |
+|------|-------|-------------|
+| `VITE_GA_MEASUREMENT_ID` | Your GA4 Measurement ID (G-XXXXXXXXXX) | Production |
+
+### Task 8.3 [LOVABLE] - Integrate GA4 Script
+**Status:** ⬜ Not Started
+
+---
+
+## Quick Reference: Where Things Go
+
+| Item | Location | Access |
+|------|----------|--------|
+| Private API keys (GHL_API_TOKEN, STRIPE_SECRET_KEY) | Supabase Secrets | Edge Functions only |
+| GHL custom field IDs | Supabase Secrets | Edge Functions only |
+| Public keys (VITE_*) | Vercel Env Vars | Browser (frontend) |
+| Local dev keys | `.env` file | Local only |
+
+---
+
+## Current Status
+
+**Next Task:** Task 0.1 - Create GHL Private Integration Token
+
+Complete Phase 0 manual tasks first, then Lovable can run Phase 1 database migrations.
