@@ -7,8 +7,6 @@ import React, { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
 // Providers
-import { Toaster } from '@/components/ui/toaster';
-import { Toaster as Sonner } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Layout } from '@/components/layout/Layout';
@@ -16,14 +14,11 @@ import { AdminGuard } from '@/components/admin/AdminGuard';
 
 // Root layout wrapper with all providers
 function RootLayout() {
-  // Create QueryClient inside component to avoid SSG/hydration issues
   const [queryClient] = React.useState(() => new QueryClient());
   
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
-        <Sonner />
         <Layout>
           <Suspense fallback={<div className="min-h-screen" />}>
             <Outlet />
@@ -41,8 +36,6 @@ function AdminLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
-        <Sonner />
         <Suspense fallback={<div className="min-h-screen" />}>
           <Outlet />
         </Suspense>
