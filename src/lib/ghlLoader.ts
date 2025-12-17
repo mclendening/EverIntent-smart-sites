@@ -74,12 +74,26 @@ export async function ensureGHLWidget(timeout = 12000) {
 export function hideLauncher() {
   const widget = document.querySelector('chat-widget');
   if (widget?.shadowRoot) {
-    // Target ONLY the launcher button, leave chat box (#lc_text_widget--box) alone
+    // Target ONLY the launcher button, leave chat box (#lc_text-widget--box) alone
     const launcherBtn = widget.shadowRoot.querySelector('button#lc_text-widget--btn');
     if (launcherBtn instanceof HTMLElement) {
-      launcherBtn.style.display = 'none';
+      launcherBtn.style.setProperty('display', 'none', 'important');
+      launcherBtn.style.setProperty('width', '0', 'important');
+      launcherBtn.style.setProperty('height', '0', 'important');
+      launcherBtn.style.setProperty('overflow', 'hidden', 'important');
+      launcherBtn.style.setProperty('visibility', 'hidden', 'important');
+      launcherBtn.style.setProperty('pointer-events', 'none', 'important');
     }
   }
+}
+
+/** Setup event listener for when GHL widget is fully loaded */
+export function setupWidgetLoadedListener() {
+  window.addEventListener('LC_chatWidgetLoaded', () => {
+    hideLauncher();
+    setTimeout(hideLauncher, 100);
+    setTimeout(hideLauncher, 500);
+  });
 }
 
 export function openViaAnyAPI(): boolean {
