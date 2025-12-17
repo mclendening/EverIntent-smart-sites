@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { ensureGHLWidget, openChat, closeChat } from '@/lib/ghlLoader';
+import { injectGHLScript, openGHLChat, closeGHLChat } from '@/lib/ghlLoader';
 
 declare global {
   interface Window {
@@ -8,26 +8,13 @@ declare global {
   }
 }
 
-/**
- * GHLChatWidget - Sets up global toggle/close functions.
- * Widget loads lazily on first button click.
- */
 export function GHLChatWidget() {
   useEffect(() => {
-    window.toggleGHLChat = async () => {
-      if (!openChat()) {
-        try {
-          await ensureGHLWidget();
-          openChat();
-        } catch (e) {
-          console.warn('[GHL] Load failed', e);
-        }
-      }
-    };
+    // Inject script immediately so widget is ready when needed
+    injectGHLScript();
 
-    window.closeGHLChat = () => {
-      closeChat();
-    };
+    window.toggleGHLChat = () => openGHLChat();
+    window.closeGHLChat = () => closeGHLChat();
 
     return () => {
       delete window.toggleGHLChat;
