@@ -26,17 +26,7 @@ const LOADER_SRC = 'https://beta.leadconnectorhq.com/loader.js';
 const RESOURCES_URL = 'https://beta.leadconnectorhq.com/chat-widget/loader.js';
 const WIDGET_ID = '694220dc4ca1823bfbe5f213';
 
-// Clean up any existing GHL elements before injecting fresh
-function cleanupGHL(): void {
-  // Remove old script
-  document.getElementById(LOADER_ID)?.remove();
-  
-  // Remove any GHL-injected elements
-  document.querySelectorAll('[id^="lc_"], [class*="lc_text-widget"], chat-widget').forEach(el => el.remove());
-  
-  // Clear GHL localStorage keys
-  Object.keys(localStorage).filter(k => k.startsWith('lc_') || k.includes('leadconnector')).forEach(k => localStorage.removeItem(k));
-}
+let widgetLoaded = false;
 
 function injectScript(): void {
   if (document.getElementById(LOADER_ID)) return;
@@ -68,9 +58,11 @@ function waitForAPI(timeout = 10000): Promise<void> {
 }
 
 export async function ensureGHLWidget(): Promise<void> {
-  cleanupGHL(); // Force fresh load
+  if (widgetLoaded) return;
+  
   injectScript();
   await waitForAPI();
+  widgetLoaded = true;
   
   // Hide default launcher - we use custom button
   const hide = () => {
