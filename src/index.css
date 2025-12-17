@@ -173,11 +173,12 @@
   }
 }
 
-/* Ensure GHL chat widget appears behind cookie banner */
+/* GHL Chat Widget - z-index for cookie banner */
 #chat-widget,
 .chat-widget,
-[id*="chat"],
 [class*="chat-widget"],
 .leadconnector-chat {
   z-index: 40 !important;
 }
+
+/* GHL launcher button hidden via JS in ghlLoader.ts - CSS cannot penetrate shadow DOM */
