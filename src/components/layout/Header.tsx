@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, ChevronDown, X, Globe } from 'lucide-react';
+import { Menu, ChevronDown, Globe } from 'lucide-react';
+import { NavLink } from '@/components/NavLink';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -68,10 +69,10 @@ export function Header() {
               <DropdownMenuContent align="start" className="w-64 bg-popover z-50">
                 {servicesItems.map((item) => (
                   <DropdownMenuItem key={item.path} asChild>
-                    <Link to={item.path} className="flex flex-col items-start py-2">
+                    <NavLink to={item.path} className="flex flex-col items-start py-2">
                       <span className="font-medium">{item.title}</span>
                       <span className="text-xs text-muted-foreground">{item.description}</span>
-                    </Link>
+                    </NavLink>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -95,10 +96,10 @@ export function Header() {
               <DropdownMenuContent align="start" className="w-64 bg-popover z-50">
                 {industriesItems.map((item) => (
                   <DropdownMenuItem key={item.path} asChild>
-                    <Link to={item.path} className="flex flex-col items-start py-2">
+                    <NavLink to={item.path} className="flex flex-col items-start py-2">
                       <span className="font-medium">{item.title}</span>
                       <span className="text-xs text-muted-foreground">{item.description}</span>
-                    </Link>
+                    </NavLink>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -146,12 +147,12 @@ export function Header() {
                   <CollapsibleContent className="pl-4 space-y-2">
                     {servicesItems.map((item) => (
                       <SheetClose key={item.path} asChild>
-                        <Link
+                        <NavLink
                           to={item.path}
                           className="block py-2 text-muted-foreground hover:text-foreground transition-colors"
                         >
                           {item.title}
-                        </Link>
+                        </NavLink>
                       </SheetClose>
                     ))}
                   </CollapsibleContent>
@@ -166,12 +167,12 @@ export function Header() {
                   <CollapsibleContent className="pl-4 space-y-2">
                     {industriesItems.map((item) => (
                       <SheetClose key={item.path} asChild>
-                        <Link
+                        <NavLink
                           to={item.path}
                           className="block py-2 text-muted-foreground hover:text-foreground transition-colors"
                         >
                           {item.title}
-                        </Link>
+                        </NavLink>
                       </SheetClose>
                     ))}
                   </CollapsibleContent>
@@ -179,26 +180,26 @@ export function Header() {
 
                 {/* Static Links */}
                 <SheetClose asChild>
-                  <Link to="/pricing" className="py-2 text-lg font-medium">
+                  <NavLink to="/pricing" className="py-2 text-lg font-medium">
                     Pricing
-                  </Link>
+                  </NavLink>
                 </SheetClose>
                 <SheetClose asChild>
-                  <Link to="/portfolio" className="py-2 text-lg font-medium">
+                  <NavLink to="/portfolio" className="py-2 text-lg font-medium">
                     Portfolio
-                  </Link>
+                  </NavLink>
                 </SheetClose>
                 <SheetClose asChild>
-                  <Link to="/about" className="py-2 text-lg font-medium">
+                  <NavLink to="/about" className="py-2 text-lg font-medium">
                     About
-                  </Link>
+                  </NavLink>
                 </SheetClose>
 
                 {/* Mobile CTAs */}
                 <div className="pt-4 border-t border-border space-y-3">
                   <SheetClose asChild>
                     <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                      <Link to="/pricing">Get Started</Link>
+                      <NavLink to="/pricing">Get Started</NavLink>
                     </Button>
                   </SheetClose>
                 </div>
