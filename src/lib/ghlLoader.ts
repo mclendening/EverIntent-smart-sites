@@ -66,20 +66,36 @@ function ensureLoaderScript(): void {
 }
 
 export async function ensureGHLWidget(timeout = 12000) {
-  // Inject script exactly like official embed - no manual chat-widget element
   ensureLoaderScript();
   await waitForAPI(timeout);
-  
-  // Hide the default launcher - we control it via custom button
-  const hide = () => {
-    if (window.leadConnector?.hideLauncher) {
-      window.leadConnector.hideLauncher();
-    } else if (window.LC_API?.hide_chat_window) {
-      window.LC_API.hide_chat_window();
+}
+
+/** Hide the GHL launcher bubble via API + DOM manipulation */
+export function hideLauncher() {
+  // Try API methods
+  if (window.leadConnector?.hideLauncher) {
+    window.leadConnector.hideLauncher();
+  }
+  if (window.LC_API?.hide_chat_window) {
+    window.LC_API.hide_chat_window();
+  }
+
+  // Also hide via DOM - target the launcher button inside shadow DOM
+  const widget = document.querySelector('chat-widget');
+  if (widget?.shadowRoot) {
+    const launcher = widget.shadowRoot.querySelector('.lc_text-widget--bubble, #lc_text-widget-btn');
+    if (launcher instanceof HTMLElement) {
+      launcher.style.display = 'none';
+      launcher.style.visibility = 'hidden';
+      launcher.style.pointerEvents = 'none';
     }
-  };
-  setTimeout(hide, 300);
-  setTimeout(hide, 1000);
+  }
+
+  // Also try targeting outer container
+  const outer = document.getElementById('lc_text-widget');
+  if (outer) {
+    outer.style.display = 'none';
+  }
 }
 
 export function openViaAnyAPI(): boolean {
