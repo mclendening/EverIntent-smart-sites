@@ -173,7 +173,3 @@
   }
 }
 
-/* GHL Chat Widget - ensure proper z-index layering */
-chat-widget {
-  z-index: 40 !important;
-}
