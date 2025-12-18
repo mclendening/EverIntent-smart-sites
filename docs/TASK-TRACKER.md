@@ -287,8 +287,18 @@ Update existing components for multi-widget support:
 
 ## Current Status
 
-**Completed:** Phase 0, Phase 1, Task 2.1 (Cookie Consent)
+**Completed:** 
+- Phase 0 (Prerequisites)
+- Phase 1 (Database Foundation)
+- Task 2.1 (Cookie Consent)
+- SSG Configuration & Debugging (vite-react-ssg patterns documented in BRD Appendix H)
 
-**In Progress:** Phase 2 (Tasks 2.2-2.4 need multi-widget update)
+**In Progress:** Phase 2 (Tasks 2.2-2.4 need multi-widget GHL setup)
 
-**Next Task:** Task 2.2 - Create GHL Chat Widgets (3 Bots) [MANUAL]
+**Next Tasks:**
+1. Task 2.2 - Create GHL Chat Widgets (3 Bots) [MANUAL]
+2. Task 2.3 - Add Vercel Environment Variables [MANUAL]
+3. Task 2.4 - Update GHL Widget Components [LOVABLE]
+4. Phase 3 - Core Marketing Pages (Homepage, Beautiful Websites, Pricing)
+
+**SSG Status:** ✅ Full 90+ route pre-rendering restored (was limited to 6 routes during debugging)

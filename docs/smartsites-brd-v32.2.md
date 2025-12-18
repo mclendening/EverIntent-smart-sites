@@ -2210,6 +2210,7 @@ Is this a good time to chat for 2 minutes?"
 | **v32.8** | **Dec 14** | **Careers Feature Spec**: Added /careers and /careers/:slug routes; jobs table in Supabase with admin-configurable form fields (loom_required, portfolio_required, custom_questions); GHL v2 API integration via Edge Function (submit-job-application); Admin CRUD at /admin/careers; Full spec documented in docs/careers-spec.md |
 | **v32.9** | **Dec 16** | **Domain Integration Simplified**: Removed Namecheap API integration; Domain purchase moved to manual process during onboarding via GHL or Namecheap dashboard; Simplified checkout flow (yes/no domain question); Domain preferences collected in post-payment GHL intake form; /domains page removed from scope; Namecheap environment variables removed; n8n workflow simplified to notification/task creation only |
 | **v32.10** | **Dec 17** | **Multi-Widget Chat Architecture**: GHL chat widgets now support multiple bots per page type (Sales, Support, Demo); Route-based widget selection via `GHLChatWidget.tsx`; Three new env vars (`VITE_GHL_WIDGET_ID_SALES`, `VITE_GHL_WIDGET_ID_SUPPORT`, `VITE_GHL_WIDGET_ID_DEMO`); Launcher hiding via JS shadow DOM penetration (code-based approach retained); Section 17.5 rewritten with multi-widget architecture and route mapping logic |
+| **v32.11** | **Dec 18** | **SSG Configuration Pattern Documented**: Added Appendix H with complete `vite-react-ssg` configuration patterns; Documented critical anti-patterns (manualChunks, catch-all rewrites); Added ClientOnly and isMounted patterns for Radix UI components; Added QueryClient placement rules; Full SSG routes restored (was limited to 6 during debugging); This appendix is REQUIRED reading for any Lovable project using SSG |
 
 ### Related Specification Documents
 
@@ -2813,6 +2814,250 @@ Desktop Chat Button      40              After cookie consent (desktop only)
 GHL Chat Widget         40              On-demand via button click
 Standard Content        auto            Always
 ```
+
+---
+
+## Appendix H: vite-react-ssg Configuration Pattern
+
+> **⚠️ REQUIRED READING**: This appendix documents critical SSG configuration patterns learned through debugging. Any Lovable project using `vite-react-ssg` MUST follow these patterns to avoid hydration errors and build failures.
+
+### H.1 Critical Configuration Files
+
+#### package.json Build Command
+
+```json
+{
+  "scripts": {
+    "build": "vite-react-ssg build"
+  }
+}
+```
+
+**⚠️ CRITICAL**: Build command MUST be `vite-react-ssg build`, NOT `vite build`. This is the most common mistake.
+
+#### vite.config.ts
+
+```typescript
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react-swc";
+import path from "path";
+import { componentTagger } from "lovable-tagger";
+
+export default defineConfig(({ mode }) => ({
+  server: {
+    host: "::",
+    port: 8080,
+  },
+  plugins: [
+    react(),
+    mode === "development" && componentTagger(),
+  ].filter(Boolean),
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
+  ssgOptions: {
+    script: 'defer',
+    formatting: 'minify',
+    // Filter routes for pre-rendering - exclude admin routes only
+    includedRoutes: (paths: string[]) => {
+      return paths.filter(path => !path.startsWith('/admin'));
+    },
+  },
+  // ⚠️ CRITICAL: NO manualChunks configuration
+  // manualChunks conflicts with vite-react-ssg's external module handling
+  // Error: "react cannot be included in manualChunks because it is resolved as external"
+}));
+```
+
+#### vercel.json
+
+```json
+{
+  "rewrites": [
+    { "source": "/admin/:path*", "destination": "/index.html" }
+  ]
+}
+```
+
+**⚠️ NEVER use catch-all rewrite** like:
+```json
+{ "source": "/(.*)", "destination": "/index.html" }
+```
+This bypasses ALL pre-rendered static files and causes hydration errors #418/#423 in production.
+
+### H.2 React Component Patterns
+
+#### ClientOnly Wrapper (Required for Portal Components)
+
+Radix UI components (Sheet, Dialog, DropdownMenu, Tooltip, etc.) create portals that cause hydration mismatches during SSG.
+
+```typescript
+// src/components/ClientOnly.tsx
+import { useState, useEffect, type ReactNode } from 'react';
+
+interface ClientOnlyProps {
+  children: ReactNode;
+  fallback?: ReactNode;
+}
+
+export function ClientOnly({ children, fallback = null }: ClientOnlyProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  return mounted ? <>{children}</> : <>{fallback}</>;
+}
+```
+
+**Usage in routes.tsx:**
+```typescript
+import { ClientOnly } from '@/components/ClientOnly';
+
+function RootLayout() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Layout>
+        <Outlet />
+      </Layout>
+
+      {/* Portal-based components only render client-side */}
+      <ClientOnly>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+        </TooltipProvider>
+      </ClientOnly>
+    </QueryClientProvider>
+  );
+}
+```
+
+#### isMounted Pattern (For Conditional UI)
+
+For dropdowns, modals, and other conditionally rendered UI:
+
+```typescript
+const [isMounted, setIsMounted] = useState(false);
+
+useEffect(() => {
+  setIsMounted(true);
+}, []);
+
+// In render - Radix components only after hydration
+{isMounted && isOpen && (
+  <DropdownMenu.Content>
+    {/* ... */}
+  </DropdownMenu.Content>
+)}
+```
+
+#### QueryClient Placement (CRITICAL)
+
+QueryClient MUST be created inside the component, not outside:
+
+```typescript
+// ✅ CORRECT - Inside component
+function RootLayout() {
+  const [queryClient] = useState(() => new QueryClient());
+  
+  return (
+    <QueryClientProvider client={queryClient}>
+      {/* ... */}
+    </QueryClientProvider>
+  );
+}
+
+// ❌ WRONG - Outside component causes state persistence across SSR renders
+const queryClient = new QueryClient();
+
+function RootLayout() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      {/* ... */}
+    </QueryClientProvider>
+  );
+}
+```
+
+### H.3 Anti-Patterns to Avoid
+
+| Anti-Pattern | Error | Solution |
+|--------------|-------|----------|
+| `manualChunks: { vendor: ['react'] }` | "react cannot be included in manualChunks because it is resolved as external" | Remove manualChunks entirely from vite.config.ts |
+| Catch-all rewrite `/(.*) → /index.html` | Hydration errors #418/#423 | Use admin-only rewrite: `/admin/:path*` |
+| Radix Sheet/DropdownMenu in SSG pages | Hydration mismatches | Use `isMounted` guard or `ClientOnly` wrapper |
+| QueryClient outside component | State persistence errors | Create inside component with `useState` |
+| Portal components without ClientOnly | Hydration mismatches | Wrap in `ClientOnly` |
+| CSS-based GHL launcher hiding | Launcher still visible | Use GHL-side 1x1 pixel configuration |
+
+### H.4 Route Configuration Pattern
+
+```typescript
+// src/routes.tsx
+import type { RouteRecord } from 'vite-react-ssg';
+
+// All marketing routes for pre-rendering (excludes admin)
+export const prerenderRoutes: string[] = [
+  '/',
+  '/pricing',
+  '/about',
+  // ... all other marketing routes
+];
+
+// Build routes array for vite-react-ssg
+export const routes: RouteRecord[] = [
+  // Marketing routes with Layout - will be pre-rendered
+  {
+    path: '/',
+    Component: RootLayout,
+    children: [
+      { index: true, Component: HomePage },
+      // ... all marketing child routes
+    ],
+  },
+  // Admin routes - NOT pre-rendered, handled via SPA fallback
+  {
+    path: '/admin',
+    Component: AdminLayout,
+    children: [
+      { path: 'login', Component: AdminLogin },
+      // ... admin routes
+    ],
+  },
+];
+```
+
+### H.5 Verification Checklist
+
+Before deploying, verify:
+
+1. ✅ Build completes with `vite-react-ssg build` (no errors)
+2. ✅ `view-source:` on production shows pre-rendered HTML content (not empty SPA shell)
+3. ✅ No console hydration errors (#418, #423, or "Text content does not match")
+4. ✅ Admin routes still work (SPA fallback via vercel.json)
+5. ✅ Portal-based components (toasts, tooltips) function correctly after hydration
+
+### H.6 Debugging SSG Issues
+
+**Symptom: "react cannot be included in manualChunks"**
+- Cause: `manualChunks` in vite.config.ts
+- Fix: Remove entire `build.rollupOptions.output.manualChunks` block
+
+**Symptom: Hydration errors #418/#423 in production but not Lovable preview**
+- Cause: Lovable preview doesn't run SSG build; production does
+- Fix: Apply ClientOnly/isMounted patterns; check vercel.json for catch-all rewrites
+
+**Symptom: Pre-rendered HTML is empty SPA shell**
+- Cause: Catch-all rewrite bypassing static files
+- Fix: Change vercel.json to only rewrite admin routes
+
+**Symptom: Radix UI components cause hydration mismatch**
+- Cause: Portals create different DOM during SSR vs client
+- Fix: Wrap in ClientOnly or use isMounted pattern
 
 ---
 

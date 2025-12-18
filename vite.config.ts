@@ -21,15 +21,14 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  // vite-react-ssg options
+  // vite-react-ssg options - see BRD Appendix H for full documentation
   ssgOptions: {
     script: 'defer',
     formatting: 'minify',
-    // Only pre-render core routes for now (reduce build time, diagnose issues)
+    // Pre-render all marketing routes, exclude only admin (handled via SPA fallback)
     includedRoutes: (paths: string[]) => {
-      const coreRoutes = ['/', '/pricing', '/about', '/contact', '/portfolio', '/beautiful-websites'];
-      return paths.filter(path => coreRoutes.includes(path));
+      return paths.filter(path => !path.startsWith('/admin'));
     },
   },
-  // Note: manualChunks removed - incompatible with vite-react-ssg
+  // Note: manualChunks removed - incompatible with vite-react-ssg (causes "external module" error)
 }));
