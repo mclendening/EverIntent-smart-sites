@@ -1,12 +1,21 @@
 // Placeholder page component for routes not yet implemented
 // Per BRD v32.1 - pages will be built incrementally
+// SSG-safe: no useLocation during server render
 
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
 
 const Placeholder = () => {
+  const [mounted, setMounted] = useState(false);
   const location = useLocation();
-  const pathSegments = location.pathname.split('/').filter(Boolean);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // During SSG, use a generic title
+  const pathSegments = mounted ? location.pathname.split('/').filter(Boolean) : [];
   const pageTitle = pathSegments.length > 0 
     ? pathSegments[pathSegments.length - 1]
         .split('-')
@@ -25,9 +34,11 @@ const Placeholder = () => {
         <p className="text-muted-foreground text-lg mb-8">
           This page is coming soon.
         </p>
-        <div className="text-sm text-muted-foreground/60">
-          Route: <code className="bg-muted px-2 py-1 rounded">{location.pathname}</code>
-        </div>
+        {mounted && (
+          <div className="text-sm text-muted-foreground/60">
+            Route: <code className="bg-muted px-2 py-1 rounded">{location.pathname}</code>
+          </div>
+        )}
       </div>
     </>
   );
