@@ -2993,6 +2993,7 @@ function RootLayout() {
 | QueryClient outside component | State persistence errors | Create inside component with `useState` |
 | Portal components without ClientOnly | Hydration mismatches | Wrap in `ClientOnly` |
 | CSS-based GHL launcher hiding | Launcher still visible | Use GHL-side 1x1 pixel configuration |
+| `React.lazy` for shared components (e.g., PlaceholderPage) | `_payload._result.toString is not a function` | Direct import for components used across many routes; lazy-load only single-use page components |
 
 ### H.4 Route Configuration Pattern
 
