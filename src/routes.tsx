@@ -3,7 +3,7 @@
 // Format: react-router-dom data routes for vite-react-ssg
 
 import type { RouteRecord } from 'vite-react-ssg';
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 // Providers
@@ -13,37 +13,50 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Layout } from '@/components/layout/Layout';
 import { AdminGuard } from '@/components/admin/AdminGuard';
-
-const queryClient = new QueryClient();
+import { ClientOnly } from '@/components/ClientOnly';
 
 // Root layout wrapper with all providers
+// Fix 2 & 3: QueryClient created inside component, portal-based components wrapped in ClientOnly
 function RootLayout() {
+  // Fix 3: Create QueryClient inside component to prevent state persistence across SSR renders
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <Layout>
-          <Suspense fallback={<div className="min-h-screen" />}>
-            <Outlet />
-          </Suspense>
-        </Layout>
-      </TooltipProvider>
+      <Layout>
+        <Suspense fallback={<div className="min-h-screen" />}>
+          <Outlet />
+        </Suspense>
+      </Layout>
+
+      {/* Fix 2: Portal-based components only render client-side to prevent hydration mismatches */}
+      <ClientOnly>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+        </TooltipProvider>
+      </ClientOnly>
     </QueryClientProvider>
   );
 }
 
 // Admin layout without marketing Layout wrapper
+// Fix 2 & 3: Same fixes applied to AdminLayout
 function AdminLayout() {
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <Suspense fallback={<div className="min-h-screen" />}>
-          <Outlet />
-        </Suspense>
-      </TooltipProvider>
+      <Suspense fallback={<div className="min-h-screen" />}>
+        <Outlet />
+      </Suspense>
+
+      <ClientOnly>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+        </TooltipProvider>
+      </ClientOnly>
     </QueryClientProvider>
   );
 }
