@@ -31,13 +31,5 @@ export default defineConfig(({ mode }) => ({
       return paths.filter(path => coreRoutes.includes(path));
     },
   },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-        },
-      },
-    },
-  },
+  // Note: manualChunks removed - incompatible with vite-react-ssg
 }));
