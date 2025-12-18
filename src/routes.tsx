@@ -61,10 +61,13 @@ function AdminLayout() {
   );
 }
 
-// Lazy load all page components
+// Lazy load page components (but NOT shared components like PlaceholderPage)
 const Index = React.lazy(() => import('./pages/Index'));
 const NotFound = React.lazy(() => import('./pages/NotFound'));
-const PlaceholderPage = React.lazy(() => import('./pages/Placeholder'));
+
+// Direct import for shared components used across many routes
+// React.lazy on shared components causes SSG build errors: "_payload._result.toString is not a function"
+import PlaceholderPage from './pages/Placeholder';
 
 // Admin pages
 const AdminLogin = React.lazy(() => import('./pages/admin/Login'));
