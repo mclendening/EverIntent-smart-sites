@@ -23,11 +23,12 @@ export default defineConfig(({ mode }) => ({
   },
   // vite-react-ssg options
   ssgOptions: {
-    script: 'defer', // Fix 1: prevents timing race conditions with Radix portals during hydration
+    script: 'defer',
     formatting: 'minify',
-    // Exclude admin routes from pre-rendering
+    // Only pre-render core routes for now (reduce build time, diagnose issues)
     includedRoutes: (paths: string[]) => {
-      return paths.filter(path => !path.startsWith('/admin'));
+      const coreRoutes = ['/', '/pricing', '/about', '/contact', '/portfolio', '/beautiful-websites'];
+      return paths.filter(path => coreRoutes.includes(path));
     },
   },
   build: {

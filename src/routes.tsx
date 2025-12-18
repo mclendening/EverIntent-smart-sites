@@ -61,14 +61,14 @@ function AdminLayout() {
   );
 }
 
-// Direct imports for SSG (lazy loading breaks SSG pre-rendering)
-import Index from './pages/Index';
-import NotFound from './pages/NotFound';
-import PlaceholderPage from './pages/Placeholder';
+// Lazy load all page components
+const Index = React.lazy(() => import('./pages/Index'));
+const NotFound = React.lazy(() => import('./pages/NotFound'));
+const PlaceholderPage = React.lazy(() => import('./pages/Placeholder'));
 
-// Admin pages (can stay lazy since not SSG pre-rendered)
-import AdminLogin from './pages/admin/Login';
-import AdminDashboard from './pages/admin/Dashboard';
+// Admin pages
+const AdminLogin = React.lazy(() => import('./pages/admin/Login'));
+const AdminDashboard = React.lazy(() => import('./pages/admin/Dashboard'));
 
 // Core routes
 const coreRoutePaths = ['/', '/pricing', '/portfolio', '/about', '/contact', '/book-call'];
