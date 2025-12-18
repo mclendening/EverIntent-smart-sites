@@ -6,6 +6,21 @@ Tasks marked `[MANUAL]` require user action. Tasks marked `[LOVABLE]` are AI-imp
 
 ---
 
+## Primary Reference Document
+
+**PRD Prompt:** `docs/smartsites-prd-prompt.md`
+
+This is the authoritative source for all marketing page content including:
+- **Brand Voice Rules** (7 strict rules: plain language, 15 words max, benefit-first, no em dashes, active voice, second person)
+- **Tier Definitions** (T1: $249, T2: $97/mo, T3: $197/mo, T4: $497/mo)
+- **Verbatim Copy** for all 7 service pages (headlines, subheads, problem points, solution features)
+- **Component Patterns** (Hero, Feature Card, Tier Badge code snippets)
+- **SEO Requirements** (title 60 chars, meta 155 chars, JSON-LD schema)
+
+All marketing pages MUST use exact copy from the PRD - no improvisation.
+
+---
+
 ## Phase 0: Prerequisites
 
 ### Task 0.1 [MANUAL] - Create GHL Private Integration Token
@@ -166,14 +181,102 @@ Update existing components for multi-widget support:
 
 ## Phase 3: Core Marketing Pages
 
-### Task 3.1 [LOVABLE] - Homepage
+> **Source:** `docs/smartsites-prd-prompt.md` lines 550-945
+
+### Task 3.1 [LOVABLE] - Create Reusable Section Components
 **Status:** ⬜ Not Started
 
-### Task 3.2 [LOVABLE] - Beautiful Websites Service Page
+Create `src/components/sections/` with reusable marketing page sections:
+
+| Component | Purpose | PRD Reference |
+|-----------|---------|---------------|
+| `HeroSection.tsx` | Hero with H1, subhead, dual CTAs | Lines 912-924 |
+| `ProblemSection.tsx` | "Sound Familiar?" pain point cards | Lines 562-565 |
+| `SolutionSection.tsx` | Feature cards with icons | Lines 567-570 |
+| `WhatsIncludedSection.tsx` | Bulleted deliverables with tier badges | Lines 572-574 |
+| `TestimonialSection.tsx` | Social proof carousel | Lines 576-578 |
+| `CTASection.tsx` | Final conversion section | Lines 579-582 |
+
+### Task 3.2 [LOVABLE] - Homepage (/)
 **Status:** ⬜ Not Started
 
-### Task 3.3 [LOVABLE] - Pricing Page
+**Sections (in order):**
+1. **Hero** - "A Professional Website That Actually Gets You Customers" + "Built in 5 days. Starting at $249. You own everything." + [Get Started → /pricing] + [Book a Call → /contact]
+2. **Problem** - "Sound Familiar?" with 4 pain point cards
+3. **Solution** - 7 service cards linking to individual service pages
+4. **Tier Preview** - 4 tier cards (T1-T4) with key features, CTA to /pricing
+5. **Social Proof** - Testimonials placeholder + stats
+6. **Final CTA** - Benefit restatement with dual CTAs
+
+**SEO:** Title "Professional Websites for Local Businesses | SmartSites"
+
+### Task 3.3 [LOVABLE] - Beautiful Websites Service Page (/beautiful-websites)
 **Status:** ⬜ Not Started
+
+> **Source:** PRD lines 584-612
+
+**H1:** "A Professional Website That Actually Gets You Customers"
+**Subhead:** "Built in 5 days. Starting at $249. You own everything."
+
+**Problem Points (4):**
+- You know you need a website but the options are overwhelming
+- DIY builders take forever and still look amateur
+- Agencies quote $5,000+ and take months
+- You're losing customers to competitors with better sites
+
+**Solution Features (5):**
+- **5-Page Professional Site** — Home, Services, About, Contact, plus one more
+- **Mobile-First Design** — 70% of your customers search on their phone
+- **Built in 5 Days** — Not 5 weeks. We move fast.
+- **You Own Everything** — Your domain, your content, your site. No lock-in.
+- **SEO-Ready** — Google can find you from day one
+
+**What's Included (All Tiers):**
+- Custom 5-page website
+- Mobile-responsive design
+- Contact form with email notifications
+- Google Maps integration
+- Basic SEO setup (meta tags, schema)
+- SSL certificate
+- 1 year hosting (T1) / Ongoing hosting (T2-T4)
+- GA4 analytics dashboard
+
+### Task 3.4 [LOVABLE] - Pricing Page (/pricing)
+**Status:** ⬜ Not Started
+
+> **Source:** PRD lines 33-44, 807-809
+
+**H1:** "Simple, Transparent Pricing"
+
+**4-Column Tier Comparison Table:**
+
+| Feature | T1 Smart Site ($249) | T2 Smart Lead ($97/mo) | T3 Smart Business ($197/mo) | T4 Smart Growth ($497/mo) |
+|---------|---------------------|----------------------|---------------------------|-------------------------|
+| Who It's For | Just need a professional web presence | Ready to capture and convert more leads | Need to streamline operations | Ready for full automation and growth |
+| Website | ✓ | ✓ | ✓ | ✓ |
+| Lead Capture | - | ✓ | ✓ | ✓ |
+| Mobile App | - | ✓ | ✓ | ✓ |
+| Scheduling | - | - | ✓ | ✓ |
+| Reputation | - | - | Basic | Full |
+| AI Voice | - | - | - | ✓ |
+
+**Each Tier Card:** Name, price, tagline, feature list, CTA → /checkout/{tier-slug}
+
+**Footer Notes:** T1 renewal at $149/year, no hidden fees
+
+### Task 3.5 [LOVABLE] - Remaining 6 Service Pages
+**Status:** ⬜ Not Started
+
+Build after Tasks 3.2-3.4 are complete. Each follows same structure with copy from PRD:
+
+| Route | H1 | PRD Lines |
+|-------|-----|-----------|
+| `/get-found-online` | "Show Up When Customers Search For What You Do" | 615-641 |
+| `/never-miss-a-lead` | "Every Customer Inquiry Answered. Even When You Can't." | 645-672 |
+| `/book-more-jobs` | "Stop Playing Phone Tag. Let Customers Book Online." | 675-701 |
+| `/run-from-your-phone` | "Run Your Entire Business From Your Pocket" | 705-731 |
+| `/build-your-reputation` | "More 5-Star Reviews. Less Chasing Customers For Them." | 735-762 |
+| `/let-ai-handle-it` | "Your 24/7 Receptionist. For Less Than Minimum Wage." | 765-793 |
 
 ---
 
@@ -288,17 +391,23 @@ Update existing components for multi-widget support:
 ## Current Status
 
 **Completed:** 
-- Phase 0 (Prerequisites)
-- Phase 1 (Database Foundation)
-- Task 2.1 (Cookie Consent)
-- SSG Configuration & Debugging (vite-react-ssg patterns documented in BRD Appendix H)
+- Phase 0 (Prerequisites) - All GHL configuration complete
+- Phase 1 (Database Foundation) - All migrations and Edge Functions deployed
+- Task 2.1 (Cookie Consent) - Component complete and integrated
+- SSG Configuration - vite-react-ssg patterns documented in BRD Appendix H
 
 **In Progress:** Phase 2 (Tasks 2.2-2.4 need multi-widget GHL setup)
 
 **Next Tasks:**
-1. Task 2.2 - Create GHL Chat Widgets (3 Bots) [MANUAL]
-2. Task 2.3 - Add Vercel Environment Variables [MANUAL]
-3. Task 2.4 - Update GHL Widget Components [LOVABLE]
-4. Phase 3 - Core Marketing Pages (Homepage, Beautiful Websites, Pricing)
+1. Task 2.2 - Create GHL Chat Widgets (3 Bots) [MANUAL] - OR skip and proceed to Phase 3
+2. Task 3.1 - Create Reusable Section Components [LOVABLE]
+3. Task 3.2 - Homepage [LOVABLE]
+4. Task 3.3 - Beautiful Websites [LOVABLE]
+5. Task 3.4 - Pricing Page [LOVABLE]
 
-**SSG Status:** ✅ Full 90+ route pre-rendering restored (was limited to 6 routes during debugging)
+**Phase 3 Source of Truth:** `docs/smartsites-prd-prompt.md`
+- All marketing copy is verbatim from PRD (no improvisation)
+- Component patterns defined at PRD lines 910-942
+- Brand voice rules at PRD lines 19-29
+
+**SSG Status:** ✅ Full 107-route pre-rendering operational
