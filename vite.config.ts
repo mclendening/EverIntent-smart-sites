@@ -23,7 +23,7 @@ export default defineConfig(({ mode }) => ({
   },
   // vite-react-ssg options
   ssgOptions: {
-    script: 'async',
+    script: 'defer', // Fix 1: prevents timing race conditions with Radix portals during hydration
     formatting: 'minify',
     // Exclude admin routes from pre-rendering
     includedRoutes: (paths: string[]) => {
