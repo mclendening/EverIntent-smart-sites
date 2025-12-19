@@ -1396,7 +1396,6 @@ app.everintentsmartsites.com/
 5. Run From Your Phone
 6. Build Your Reputation
 7. Let AI Handle It
-8. Domains (domain search utility)
 
 **Industries Dropdown:**
 1. Home Services
@@ -1456,6 +1455,94 @@ app.everintentsmartsites.com/
 - **"Get Started"**: Primary marketing CTA, used in header and key conversion points → `/pricing`
 - **"Book a Call"**: General site-wide CTA for consultations → `/contact` (not a separate route)
 - No `/book-call` route; all "Book a Call" CTAs point to `/contact`
+
+---
+
+## 17.4 NavHoverMenu Component Specification
+
+Desktop navigation dropdowns use a custom `NavHoverMenu` component with icons and descriptions.
+
+### Data Structure
+
+```typescript
+interface NavHoverItem {
+  to: string;              // Route path
+  title: string;           // Main text (e.g., "Beautiful Websites")
+  description?: string;    // Sub-text line (e.g., "Professional 5-page site")
+  icon?: LucideIcon;       // Lucide icon component
+  nestedItems?: NavHoverItem[]; // For nested submenus (future)
+}
+```
+
+### Icon Implementation
+
+Icons are Lucide React components passed directly in the `icon` property:
+
+```tsx
+{item.icon && <item.icon className="h-5 w-5 text-primary shrink-0 mt-0.5" />}
+```
+
+- **Color**: `text-primary` (gold/accent color from design system)
+- **Size**: `h-5 w-5` (20px)
+- **Alignment**: `shrink-0 mt-0.5` (prevents squishing, aligns with first text line)
+
+### Menu Item Layout
+
+```tsx
+<Link
+  to={item.to}
+  className="flex items-start gap-3 px-4 py-3 hover:bg-accent transition-colors"
+>
+  {item.icon && <item.icon className="h-5 w-5 text-primary shrink-0 mt-0.5" />}
+  <div className="flex flex-col gap-0.5">
+    <span className="font-medium text-foreground">{item.title}</span>
+    {item.description && (
+      <span className="text-xs text-muted-foreground">{item.description}</span>
+    )}
+  </div>
+</Link>
+```
+
+- **`items-start`**: Aligns icon to top (important with multi-line text)
+- **`gap-3`**: Space between icon and text column
+- **`gap-0.5`**: 2px gap between title and description
+
+### Dropdown Container
+
+```tsx
+<div className="absolute top-full left-0 w-80 bg-background border border-border rounded-lg shadow-lg z-50">
+  {items.map(item => /* menu item */)}
+</div>
+```
+
+- **Fixed width**: `w-80` (320px)
+- **Background**: `bg-background` (solid, NOT transparent)
+- **Z-index**: `z-50` (overlays content)
+- **Shadow**: `shadow-lg` (depth)
+- **Border**: `border border-border` (subtle outline)
+
+### Design System Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--primary` | Icon color (gold/accent) |
+| `--foreground` | Title text color |
+| `--muted-foreground` | Description text color |
+| `--background` | Solid dropdown background |
+| `--accent` | Hover state background |
+| `--border` | Subtle dropdown border |
+
+### Services Dropdown Items
+
+| Title | Description | Icon |
+|-------|-------------|------|
+| Beautiful Websites | Professional 5-page site in 5 days | `Globe` |
+| Get Found Online | SEO and local search visibility | `Search` |
+| Never Miss a Lead | Lead capture and follow-up | `MessageSquare` |
+| Book More Jobs | Online booking and scheduling | `Calendar` |
+| Run From Your Phone | Mobile app access | `Smartphone` |
+| Build Your Reputation | Review automation | `Star` |
+| Let AI Handle It | AI automation | `Bot` |
 
 ---
 

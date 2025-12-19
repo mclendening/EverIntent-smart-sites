@@ -183,6 +183,21 @@ Update existing components for multi-widget support:
 
 > **Source:** `docs/smartsites-prd-prompt.md` lines 550-945
 
+### Task 3.0 [LOVABLE] - Create NavHoverMenu Component
+**Status:** ⬜ Not Started
+
+Create `src/components/NavHoverMenu.tsx` for desktop navigation dropdowns:
+
+**Requirements:**
+- `NavHoverItem` interface: `to`, `title`, `description?`, `icon?`, `nestedItems?`
+- Lucide icons rendered with `text-primary` color, `h-5 w-5` size
+- Item layout: icon aligned to top, title (font-medium), description (text-xs text-muted-foreground)
+- Container: `w-80`, `bg-background` (solid), `z-50`, `shadow-lg`, `border border-border`
+- Hover state: `hover:bg-accent`
+- Update `Header.tsx` to use NavHoverMenu for Services and Industries dropdowns
+
+**Reference:** BRD Section 17.4 NavHoverMenu Component Specification
+
 ### Task 3.1 [LOVABLE] - Create Reusable Section Components
 **Status:** ⬜ Not Started
 
