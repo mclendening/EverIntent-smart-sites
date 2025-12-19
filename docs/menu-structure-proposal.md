@@ -39,153 +39,199 @@ Logo    Services ▼    Industries ▼    Pricing    Portfolio    [Get Started]
 
 ---
 
-## Part 2: Product Packaging Alignment
+## Part 2: Product & Service Structure
 
-### The Missing Middle Problem
+### Core Principle: Products Are Primary, Packages Are Bundles
 
-Current structure has a revenue gap:
+Like the Legal AI site structure:
+- **Products/Services** = standalone offerings that exist independently
+- **Packages/Tiers** = bundles that combine products at package pricing
 
-| Current | Price | Issue |
-|---------|-------|-------|
-| T1 Smart Site | $249 one-time | Loss-leader |
-| T2-T4 | $97-$497/mo | MRR upsell |
-| Custom | $5,000+ | Too big a jump |
+This is NOT an "add-on" model. Each service is a full product category.
 
-**Gap:** No bridge between T4 ($497/mo) and Custom ($5k+). Customers who need more than T4 but less than full custom fall through.
+---
 
-### Proposed: "Smart Launch" Bridge Package
+### Product Categories (Each Has Its Own Landing Page)
 
-**$2,500-$4,500 one-time + $297/mo ongoing**
+| Category | URL | Description | Pricing Model |
+|----------|-----|-------------|---------------|
+| **Web Design** | `/services/web-design` | Custom websites, templates, redesigns | One-time or monthly |
+| **SEO** | `/services/seo` | Local SEO, on-page, technical, content | Monthly or sprint |
+| **Reputation Management** | `/services/reputation` | Review generation, monitoring, response | Monthly |
+| **AI Automation** | `/services/ai-automation` | Chat, voice, scheduling, lead routing | Monthly + usage |
+| **Google Ads** | `/services/ads` | PPC setup, management, optimization | Monthly + spend |
+| **Content Marketing** | `/services/content` | Blog posts, social, email campaigns | Monthly |
 
-- 10-page custom-designed website (not template)
+Each page:
+- Explains what the service does
+- Shows standalone pricing
+- Shows which packages include it
+- Has its own conversion path
+
+---
+
+### Packages (Bundles of Products)
+
+Packages bundle products together at package pricing:
+
+| Package | Products Included | Price |
+|---------|-------------------|-------|
+| **Starter Site** (T1) | Web Design (template) | $299 one-time + $149/yr |
+| **Lead Booster** (T2) | Web Design + Basic SEO + AI Chat | $199/mo |
+| **Booking & Reputation** (T3) | Web Design + SEO + Reputation + Booking | $299/mo |
+| **AI Growth** (T4) | All products + AI Voice + Automation | $499/mo |
+| **Custom Design** | Custom web design + selected products | $5,000+ or $799/mo |
+
+---
+
+### The Missing Middle: "Smart Launch" Package
+
+**Problem:** Gap between T4 ($499/mo) and Custom ($5k+)
+
+**Smart Launch: $2,500-$4,500 one-time + $297/mo ongoing**
+
+Products included:
+- Custom 10-page website (not template)
 - Brand photography consultation
 - Google Business Profile optimization
-- 90-day marketing sprint (SEO + ads setup)
-- Includes T3 features ongoing
+- 90-day SEO + Ads sprint
+- Ongoing: Booking & Reputation tier features
 
-This captures the "$5k seems too much but T4 isn't enough" segment.
-
----
-
-### Service-Category Landing Pages
-
-Current services are **capabilities**, not **service offerings**. When a business owner searches "I need SEO," they expect an SEO service page.
-
-**Proposed additions:**
-
-| Service Page | URL | Ties to |
-|--------------|-----|---------|
-| Web Design | `/services/web-design` | T1-T4 + Custom |
-| SEO | `/services/seo` | T3+ |
-| Reputation Management | `/services/reputation` | T3+ |
-| AI Automation | `/services/ai-automation` | T4 |
-| PPC/Ads Management | `/services/ads` | Add-on |
-
-These pages funnel to tiers but match how buyers search.
+Captures: "T4 isn't enough but $5k custom seems like overkill" segment.
 
 ---
 
-### À la Carte Add-Ons
+### Standalone Product Pricing
 
-Create add-on services available to any tier (not just tier upgrades):
+Customers can purchase products individually without a package:
 
-| Add-On | Price | Availability |
-|--------|-------|--------------|
-| SEO Sprint (3-month) | $1,500 one-time | Any tier |
-| Google Ads Management | $500/mo + ad spend | T2+ |
-| Content Package (4 posts/mo) | $400/mo | Any tier |
-| Additional AI Voice Minutes | $0.15/min | T4 only |
-| Additional Locations | $97/mo each | T2+ |
+| Product | Standalone Price | Notes |
+|---------|------------------|-------|
+| SEO Sprint (3-month) | $1,500 one-time | Any customer |
+| Google Ads Management | $500/mo + ad spend | Any customer |
+| Content Package (4 posts/mo) | $400/mo | Any customer |
+| AI Voice Minutes | $0.15/min | Package customers |
+| Additional Locations | $97/mo each | Package customers |
 
-This increases revenue without forcing tier upgrades.
-
----
-
-### Updated Tier Naming (ChatGPT Research)
-
-Research suggests clearer benefit-oriented tier names:
-
-| Current Name | Proposed Name | Price |
-|--------------|---------------|-------|
-| T1 Smart Site | **Starter Site** | $299 one-time + $149/yr |
-| T2 Smart Lead | **Lead Booster** | $199/mo |
-| T3 Smart Business | **Booking & Reputation** | $299/mo |
-| T4 Smart Growth | **AI Growth** | $499/mo |
-| Custom | **Custom Design** | $5,000+ or $799/mo (12mo) |
-
-**Rationale:** Names describe the *outcome*, not just a tier number. "Lead Booster" tells you what it does; "Smart Lead" doesn't.
+This is not "add-on" pricing — these are standalone products that happen to also be included in packages.
 
 ---
 
-### Pricing Page Enhancements
+### Updated Tier Naming
 
-1. **Benefit-oriented bullets** — Instead of "AI chat widget," say "Convert visitors into qualified leads with AI chat"
-2. **"Most Popular" badge** — On Booking & Reputation tier (middle anchor)
-3. **Upsell prompts** — "Need online booking? Upgrade to Booking & Reputation"
-4. **Add-ons section** — Below tiers, show à la carte options
-5. **Custom CTA** — "Need something unique? Custom builds start at $5k"
+Outcome-oriented names:
+
+| Current | Proposed | Why |
+|---------|----------|-----|
+| T1 Smart Site | **Starter Site** | Clear entry point |
+| T2 Smart Lead | **Lead Booster** | Describes outcome |
+| T3 Smart Business | **Booking & Reputation** | Lists key features |
+| T4 Smart Growth | **AI Growth** | Emphasizes AI differentiation |
 
 ---
 
-### Paid Discovery Offering
+### Paid Discovery: SmartStart Strategy Session
 
-**"SmartStart Strategy Session": $500-$750**
+**$500-$750**
 
 - 60-min consultation
-- Website/marketing audit  
+- Website/marketing audit
 - Competitive analysis
 - Custom recommendation report
 - Credit toward any package purchase
 
-This creates a paid qualification step that:
-- Filters serious buyers from tire-kickers
-- Generates revenue from the sales process
-- Provides natural upsell opportunity
+Creates paid qualification step, filters serious buyers, generates revenue from sales process.
 
 ---
 
-## Part 3: What This Captures (vs. Current)
+## Part 3: Services Menu Structure (Header)
 
-| Current Model | Revenue Events |
-|---------------|----------------|
-| T1 → T2 upgrade | 2 events |
-| T1 → Custom | 2 events |
+Current Services dropdown uses capability/benefit names. Proposed structure adds product-category clarity:
 
-| Proposed Model | Revenue Events |
-|----------------|----------------|
-| Discovery → Smart Launch → T3 + Add-ons | 4+ events |
-| T1 → Add-on services → Usage | 3+ events |
+### Option A: Keep Current (Benefit Names)
+```
+Services ▼
+├── Beautiful Websites
+├── Get Found Online
+├── Never Miss a Lead
+├── Book More Jobs
+├── Run From Your Phone
+├── Build Your Reputation
+└── Let AI Handle It
+```
 
-**Conservative estimate:** 30-50% increase in average customer LTV.
+### Option B: Product Categories (Like Legal AI)
+```
+Services ▼
+├── Web Design
+├── SEO & Local Search
+├── AI Chat & Voice
+├── Booking & Scheduling
+├── Reputation Management
+├── Google Ads
+└── All Services →
+```
+
+### Option C: Hybrid (Benefit → Product)
+```
+Services ▼
+├── Websites → /services/web-design
+├── SEO → /services/seo
+├── Lead Capture → /services/ai-automation
+├── Booking → /services/booking
+├── Reputation → /services/reputation
+├── Advertising → /services/ads
+└── View All Packages →
+```
+
+**Recommendation:** Option C hybrid — short benefit-oriented labels that link to product-category pages.
 
 ---
 
-## Part 4: Implementation Priority
+## Part 4: Footer Structure (Complete)
+
+```
+┌─────────────────┬─────────────────┬─────────────────┬─────────────────┐
+│ Services        │ Industries      │ Resources       │ Company         │
+├─────────────────┼─────────────────┼─────────────────┼─────────────────┤
+│ Web Design      │ Home Services   │ LocalPros       │ About           │
+│ SEO             │ Professional    │ Help            │ Contact         │
+│ Reputation      │ Health          │ FAQ             │ Our Work        │
+│ AI Automation   │ Automotive      │ Support         │ Careers         │
+│ Google Ads      │                 │ Client Login    │ Testimonials    │
+│ Pricing         │                 │                 │                 │
+└─────────────────┴─────────────────┴─────────────────┴─────────────────┘
+
+Legal: Privacy Policy • Cookie Settings • Terms of Service • Data Rights
+```
+
+---
+
+## Part 5: Implementation Priority
 
 ### Immediate (Nav Only)
 - [ ] Rename Portfolio → Our Work (Header + Footer)
 - [ ] Add Careers link (Footer)
 
 ### Near-Term (Content)
-- [ ] Create service-specific landing pages
+- [ ] Create product-category landing pages (/services/seo, etc.)
 - [ ] Update pricing page with benefit-oriented copy
-- [ ] Add "Most Popular" badge to T3
+- [ ] Add "Most Popular" badge to Booking & Reputation tier
 
 ### Medium-Term (Product)
-- [ ] Add Smart Launch bridge package to pricing
-- [ ] Build add-on checkout flow
-- [ ] Update tier names (requires BRD decision)
+- [ ] Add Smart Launch package to pricing
+- [ ] Build standalone product checkout
+- [ ] Update tier names (requires decision)
 
 ### Longer-Term
-- [ ] SmartStart Strategy Session booking + credit system
-- [ ] Usage-based billing for add-ons
+- [ ] SmartStart Strategy Session booking
+- [ ] Usage-based billing for AI minutes
 
 ---
 
 ## NOT Changing
 
 - ❌ Help, FAQ, Support links — placeholders for future content
-- ❌ Services dropdown structure — already correct
 - ❌ Industries dropdown structure — already correct
 - ❌ Legal links — already correct
 - ❌ Contact info — already correct
@@ -195,8 +241,8 @@ This creates a paid qualification step that:
 
 ## Sources
 
+- Legal AI site structure (everintentlegalai.com)
+- SmartSites.com service page architecture
 - Forrester "State of Business Buying 2024"
 - AgencyAnalytics Agency Pricing Report 2025
-- GoHighLevel SaaS Pricing Strategies
-- WebFX Web Design Pricing Packages
-- ChatGPT BRD Refinement Analysis
+- BRD v32.10 GTM section
