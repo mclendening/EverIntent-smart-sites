@@ -88,7 +88,6 @@ const servicePaths = [
   '/run-from-your-phone',
   '/build-your-reputation',
   '/let-ai-handle-it',
-  '/domains',
 ];
 
 // Features

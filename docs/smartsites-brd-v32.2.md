@@ -966,7 +966,6 @@ export const prerenderRoutes = [
   '/run-from-your-phone',
   '/build-your-reputation',
   '/let-ai-handle-it',
-  '/domains',
   '/features/lead-capture',
   '/features/ai-chat',
   '/features/review-management',
