@@ -415,10 +415,11 @@ Build after Tasks 3.2-3.4 are complete. Each follows same structure with copy fr
 
 **Next Tasks:**
 1. Task 2.2 - Create GHL Chat Widgets (3 Bots) [MANUAL] - OR skip and proceed to Phase 3
-2. Task 3.1 - Create Reusable Section Components [LOVABLE]
-3. Task 3.2 - Homepage [LOVABLE]
-4. Task 3.3 - Beautiful Websites [LOVABLE]
-5. Task 3.4 - Pricing Page [LOVABLE]
+2. Task 3.0 - Create NavHoverMenu Component [LOVABLE]
+3. Task 3.1 - Create Reusable Section Components [LOVABLE]
+4. Task 3.2 - Homepage [LOVABLE]
+5. Task 3.3 - Beautiful Websites [LOVABLE]
+6. Task 3.4 - Pricing Page [LOVABLE]
 
 **Phase 3 Source of Truth:** `docs/smartsites-prd-prompt.md`
 - All marketing copy is verbatim from PRD (no improvisation)
