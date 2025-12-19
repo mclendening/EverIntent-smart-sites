@@ -6,131 +6,106 @@
 
 ---
 
-## Current Implementation Status
+## Current Implementation (Preserve This)
 
 ### Header (`src/components/layout/Header.tsx`)
 ```
 Logo    Services ▼    Industries ▼    Pricing    Portfolio    [Get Started]
 ```
-✅ Services dropdown (7 items) - matches BRD  
-✅ Industries dropdown (4 hubs) - matches BRD  
-✅ Pricing link - matches BRD  
-⚠️ "Portfolio" → rename to "Our Work"  
-✅ Get Started CTA
+- ✅ Services dropdown (7 items) — matches BRD
+- ✅ Industries dropdown (4 hubs) — matches BRD  
+- ✅ Pricing link — matches BRD
+- ✅ Get Started CTA
+- ⚠️ **Only change:** "Portfolio" → "Our Work"
 
 ### Footer (`src/components/layout/Footer.tsx`)
-| Services ✅ | Industries ✅ | Resources ⚠️ | Company ⚠️ |
+
+| Services ✅ | Industries ✅ | Resources ✅ | Company ⚠️ |
 |-------------|---------------|---------------|-------------|
-| Beautiful Websites | Home Services | LocalPros Network ✅ | About ✅ |
-| Get Found Online | Professional Services | Help ❌ dead link | Contact ✅ |
-| Never Miss a Lead | Health & Wellness | FAQ ❌ dead link | Portfolio → Our Work |
-| Book More Jobs | Automotive Services | Support ❌ dead link | — |
+| Beautiful Websites | Home Services | LocalPros Network | About |
+| Get Found Online | Professional Services | Help *(placeholder)* | Contact |
+| Never Miss a Lead | Health & Wellness | FAQ *(placeholder)* | Portfolio → **Our Work** |
+| Book More Jobs | Automotive Services | Support *(placeholder)* | + **Careers** |
 | Run From Your Phone | | | |
 | Build Your Reputation | | | |
 | Let AI Handle It | | | |
 | Pricing | | | |
 
-**Legal Links:** ✅ Privacy | ✅ Cookies | ✅ Terms of Service | ✅ Data Rights  
+**Legal Links:** ✅ Privacy | Cookies | Terms of Service | Data Rights  
 **Contact Info:** ✅ Email, Phone, Address, Social Icons
 
 ### Routes (`src/config/routes.ts`)
-✅ All 100+ routes defined per BRD
+✅ All 100+ routes defined per BRD — no changes needed
 
 ---
 
-## Required Changes
+## Required Changes (Minimal)
 
 ### 1. Rename "Portfolio" → "Our Work"
 
-**Files:**
-- `src/components/layout/Header.tsx` line ~117
-- `src/components/layout/Footer.tsx` line ~38
+| File | Line | Change |
+|------|------|--------|
+| `Header.tsx` | ~117 | `Portfolio` → `Our Work` |
+| `Header.tsx` | ~214 | `Portfolio` → `Our Work` (mobile) |
+| `Footer.tsx` | ~38 | `Portfolio` → `Our Work` |
 
-**URL:** Keep `/portfolio` (no URL change needed, avoids breaking links)
-
----
-
-### 2. Fix Dead Footer Links (Resources Column)
-
-**Current broken links:**
-| Link | Current Path | Issue |
-|------|--------------|-------|
-| Help | `/help` | Page doesn't exist |
-| FAQ | `/faq` | Page doesn't exist |
-| Support | `/support` | Page doesn't exist |
-
-**Resolution:** Remove these links until pages are built. Keep "LocalPros Network" only.
-
-**Updated Resources column:**
-```
-Resources
-└── LocalPros Network → /localpros
-```
+**URL stays `/portfolio`** — no URL change, avoids breaking any existing links
 
 ---
 
-### 3. Add Careers Link (Company Column)
+### 2. Add "Careers" to Company Column
 
-**Per BRD Section 16:** Careers page is specified in sitemap.
-
-**Add to Company column:**
+**Footer.tsx line ~35-39:**
+```typescript
+const companyLinks = [
+  { title: 'About', path: '/about' },
+  { title: 'Careers', path: '/careers' },  // ADD
+  { title: 'Contact', path: '/contact' },
+  { title: 'Our Work', path: '/portfolio' },  // RENAMED
+];
 ```
-Company
-├── About → /about
-├── Careers → /careers
-├── Our Work → /portfolio
-└── Contact → /contact
-```
 
-**Route to add in `src/config/routes.ts`:**
+**routes.ts** — add if not present:
 ```typescript
 careers: '/careers',
 ```
 
 ---
 
-## Final Proposed Structure
+## Final Structure After Changes
 
-### Header Navigation
+### Header
 ```
 Logo    Services ▼    Industries ▼    Pricing    Our Work    [Get Started]
 ```
 
-### Footer Structure
+### Footer
 | Services | Industries | Resources | Company |
 |----------|------------|-----------|---------|
 | Beautiful Websites | Home Services | LocalPros Network | About |
-| Get Found Online | Professional Services | | Careers |
-| Never Miss a Lead | Health & Wellness | | Our Work |
-| Book More Jobs | Automotive Services | | Contact |
+| Get Found Online | Professional Services | Help | Careers |
+| Never Miss a Lead | Health & Wellness | FAQ | Contact |
+| Book More Jobs | Automotive Services | Support | Our Work |
 | Run From Your Phone | | | |
 | Build Your Reputation | | | |
 | Let AI Handle It | | | |
 | Pricing | | | |
 
-**Legal:** Privacy | Terms of Service | Data Rights | Cookies  
-**Contact:** hello@everintentsmartsites.com | (555) 123-4567 | Social icons
-
 ---
 
 ## Implementation Checklist
 
-### Immediate Code Changes
-- [ ] Header.tsx: "Portfolio" → "Our Work"
-- [ ] Footer.tsx: "Portfolio" → "Our Work" in Company column
-- [ ] Footer.tsx: Remove Help, FAQ, Support links from Resources
-- [ ] Footer.tsx: Add "Careers" link to Company column
+- [ ] Header.tsx: "Portfolio" → "Our Work" (desktop + mobile)
+- [ ] Footer.tsx: "Portfolio" → "Our Work" in companyLinks
+- [ ] Footer.tsx: Add "Careers" link to companyLinks
 - [ ] routes.ts: Add `/careers` route
-
-### Pages to Build (Future)
-- [ ] `/careers` — Careers/jobs page
-- [ ] `/our-work` — Portfolio page showing LocalPros sites (can use existing `/portfolio` route)
 
 ---
 
-## Not Included (Explicitly Excluded)
+## NOT Changing
 
-- ❌ Blog — Not in GTM, not a priority
-- ❌ Testimonials page — Testimonials shown inline on pages, no dedicated page needed
-- ❌ FAQ page — Not in MVP scope
-- ❌ Help/Support pages — Use Contact page instead
+- ❌ Help, FAQ, Support links — these are **placeholders** for future content pages
+- ❌ Services structure — already correct per BRD
+- ❌ Industries structure — already correct per BRD  
+- ❌ Legal links — already correct
+- ❌ Contact info — already correct
