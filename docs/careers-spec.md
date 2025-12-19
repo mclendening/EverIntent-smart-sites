@@ -5,6 +5,7 @@
 The Careers section allows EverIntent to post job openings, receive applications, and integrate with GHL for candidate management.
 
 ### Key Differences from Legal AI Implementation
+
 - Jobs stored in Supabase (not hardcoded)
 - Admin can configure form fields per job (Loom required, portfolio required)
 - Dynamic tagging based on job slug
@@ -15,19 +16,22 @@ The Careers section allows EverIntent to post job openings, receive applications
 ## Routes & Navigation
 
 ### Public Routes
-| Route | Purpose |
-|-------|---------|
-| `/careers` | Careers hub - lists all open positions |
+
+| Route            | Purpose                                   |
+| ---------------- | ----------------------------------------- |
+| `/careers`       | Careers hub - lists all open positions    |
 | `/careers/:slug` | Individual job page with application form |
 
 ### Admin Routes
-| Route | Purpose |
-|-------|---------|
-| `/admin/careers` | Job listings management |
-| `/admin/careers/new` | Create new job posting |
+
+| Route                | Purpose                   |
+| -------------------- | ------------------------- |
+| `/admin/careers`     | Job listings management   |
+| `/admin/careers/new` | Create new job posting    |
 | `/admin/careers/:id` | Edit existing job posting |
 
 ### Navigation Placement
+
 - Footer: Resources column → "Careers" link
 - Mobile: Bottom nav or menu access
 
@@ -48,15 +52,15 @@ CREATE TABLE public.jobs (
   description text,
   requirements text,
   is_open boolean DEFAULT true,
-  
+
   -- Form Configuration
   loom_required boolean DEFAULT true,
   portfolio_required boolean DEFAULT false,
   custom_questions jsonb DEFAULT '[]',
-  
+
   -- GHL Tagging
   ghl_tags text[] DEFAULT '{}',
-  
+
   -- Timestamps
   posted_at timestamptz DEFAULT now(),
   created_at timestamptz DEFAULT now(),
@@ -107,19 +111,19 @@ interface CustomQuestion {
 
 ### Environment Variables (Secrets)
 
-| Secret Name | Purpose |
-|-------------|---------|
-| `GHL_API_TOKEN` | Bearer token for GHL API |
-| `GHL_LOCATION_ID` | GHL location/account ID |
-| `GHL_RESUME_CUSTOM_FIELD_ID` | Custom field ID for resume attachment |
-| `GHL_VIDEO_LINK_CUSTOM_FIELD_ID` | Custom field ID for Loom video URL |
+| Secret Name                      | Purpose                               |
+| -------------------------------- | ------------------------------------- |
+| `GHL_API_TOKEN`                  | Bearer token for GHL API              |
+| `GHL_LOCATION_ID`                | GHL location/account ID               |
+| `GHL_RESUME_CUSTOM_FIELD_ID`     | Custom field ID for resume attachment |
+| `GHL_VIDEO_LINK_CUSTOM_FIELD_ID` | Custom field ID for Loom video URL    |
 
 ### API Endpoints
 
-| Action | Endpoint |
-|--------|----------|
-| Contact Upsert | `POST https://services.leadconnectorhq.com/contacts/upsert` |
-| Resume Upload | `POST https://services.leadconnectorhq.com/forms/upload-custom-files` |
+| Action         | Endpoint                                                              |
+| -------------- | --------------------------------------------------------------------- |
+| Contact Upsert | `POST https://services.leadconnectorhq.com/contacts/upsert`           |
+| Resume Upload  | `POST https://services.leadconnectorhq.com/forms/upload-custom-files` |
 
 ### Edge Function: `submit-job-application`
 
@@ -135,17 +139,17 @@ interface ApplicationPayload {
   phone: string;
   jobSlug: string;
   jobTitle: string;
-  
+
   // Optional based on job config
   loomUrl?: string;
   portfolioUrl?: string;
-  
+
   // Free-form
   coverNote: string;
-  
+
   // Custom question responses
   customAnswers?: Record<string, string>;
-  
+
   // Resume file
   attachment?: {
     fileData: string;  // base64-encoded
@@ -200,15 +204,16 @@ ${customAnswers ? formatCustomAnswers(customAnswers) : ''}
 
 ### Error Handling
 
-| Failure Point | Response |
-|---------------|----------|
-| Missing env vars | `{ ok: false, error: 'misconfigured_env' }` |
-| Upsert fails | `{ ok: false, step: 'upsert', status, error }` |
+| Failure Point       | Response                                           |
+| ------------------- | -------------------------------------------------- |
+| Missing env vars    | `{ ok: false, error: 'misconfigured_env' }`        |
+| Upsert fails        | `{ ok: false, step: 'upsert', status, error }`     |
 | Resume upload fails | `{ ok: true, resumeUpload: { ok: false, error } }` |
 
 ### Tagging System
 
 Tags applied to GHL contact:
+
 - `job-application` (universal tag for all applications)
 - `job:{slug}` (specific to job, e.g., `job:lead-generation-specialist`)
 - Additional tags from `jobs.ghl_tags` array if configured
@@ -219,20 +224,20 @@ Tags applied to GHL contact:
 
 ### Admin Jobs Page (`/admin/careers`)
 
-| Field | Type | Purpose |
-|-------|------|---------|
-| Title | text | Job title |
-| Slug | text | URL-friendly identifier (auto-generated) |
-| Department | text | e.g., "Marketing", "Engineering" |
-| Location | text | e.g., "Remote", "Austin, TX" |
-| Type | select | Full-time, Part-time, Contract |
-| Description | textarea/markdown | Full job description |
-| Requirements | textarea/markdown | Required qualifications |
-| Is Open | toggle | Show/hide from public |
-| Loom Required | toggle | Require Loom video submission |
-| Portfolio Required | toggle | Require portfolio link |
-| Custom Questions | JSONB editor | Additional form fields |
-| GHL Tags | array | Extra tags to apply |
+| Field              | Type              | Purpose                                  |
+| ------------------ | ----------------- | ---------------------------------------- |
+| Title              | text              | Job title                                |
+| Slug               | text              | URL-friendly identifier (auto-generated) |
+| Department         | text              | e.g., "Marketing", "Engineering"         |
+| Location           | text              | e.g., "Remote", "Austin, TX"             |
+| Type               | select            | Full-time, Part-time, Contract           |
+| Description        | textarea/markdown | Full job description                     |
+| Requirements       | textarea/markdown | Required qualifications                  |
+| Is Open            | toggle            | Show/hide from public                    |
+| Loom Required      | toggle            | Require Loom video submission            |
+| Portfolio Required | toggle            | Require portfolio link                   |
+| Custom Questions   | JSONB editor      | Additional form fields                   |
+| GHL Tags           | array             | Extra tags to apply                      |
 
 ### Form Field Rendering Logic
 
@@ -271,30 +276,33 @@ if (job.custom_questions?.length > 0) {
 
 ### Form Validation
 
-| Field | Validation |
-|-------|------------|
-| Email | Valid email format |
-| Phone | Valid phone format |
-| Loom URL | Regex: `/^https?:\/\/(www\.)?loom\.com\/share\/[a-zA-Z0-9]+/` |
-| Portfolio URL | Valid URL format |
-| Resume | Max 5MB, PDF/DOC/DOCX only |
+| Field         | Validation                                                    |
+| ------------- | ------------------------------------------------------------- |
+| Email         | Valid email format                                            |
+| Phone         | Valid phone format                                            |
+| Loom URL      | Regex: `/^https?:\/\/(www\.)?loom\.com\/share\/[a-zA-Z0-9]+/` |
+| Portfolio URL | Valid URL format                                              |
+| Resume        | Max 5MB, PDF/DOC/DOCX only                                    |
 
 ---
 
 ## Component Architecture
 
 ### Public Pages
+
 - `src/pages/Careers.tsx` - Careers hub listing
 - `src/pages/CareerDetail.tsx` - Individual job page
 - `src/components/careers/JobCard.tsx` - Job listing card
 - `src/components/careers/ApplicationForm.tsx` - Application form
 
 ### Admin Pages
+
 - `src/pages/admin/CareersAdmin.tsx` - Jobs list/management
 - `src/pages/admin/JobEditor.tsx` - Create/edit job form
 - `src/components/admin/CustomQuestionsEditor.tsx` - JSONB editor
 
 ### Edge Function
+
 - `supabase/functions/submit-job-application/index.ts`
 
 ---
@@ -313,12 +321,14 @@ if (job.custom_questions?.length > 0) {
 ## Reference Implementation
 
 The Legal AI careers implementation serves as a reference for GHL v2 API patterns:
+
 - Contact upsert with custom fields
 - Two-step resume upload
 - Tagging system
 - Error handling
 
 Key differences for SmartSites:
+
 - Jobs stored in Supabase (not hardcoded)
 - Admin-configurable form fields
 - Dynamic tagging from database
