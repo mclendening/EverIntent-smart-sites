@@ -13,7 +13,6 @@ const servicesItems = [
   { title: 'Run From Your Phone', path: '/run-from-your-phone', description: 'Mobile app access' },
   { title: 'Build Your Reputation', path: '/build-your-reputation', description: 'Review automation' },
   { title: 'Let AI Handle It', path: '/let-ai-handle-it', description: 'AI automation' },
-  { title: 'Domains', path: '/domains', description: 'Domain search and registration' },
 ];
 
 // Industries dropdown items

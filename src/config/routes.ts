@@ -33,7 +33,6 @@ export const serviceRoutes: RouteConfig[] = [
   { path: '/run-from-your-phone', title: 'Run From Your Phone', description: 'Mobile app access' },
   { path: '/build-your-reputation', title: 'Build Your Reputation', description: 'Review automation' },
   { path: '/let-ai-handle-it', title: 'Let AI Handle It', description: 'AI automation' },
-  { path: '/domains', title: 'Domains', description: 'Domain search and registration' },
 ];
 
 // Features
