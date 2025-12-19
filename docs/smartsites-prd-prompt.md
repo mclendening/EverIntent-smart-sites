@@ -68,7 +68,6 @@ export const routes = {
   runFromYourPhone: '/run-from-your-phone',
   buildYourReputation: '/build-your-reputation',
   letAiHandleIt: '/let-ai-handle-it',
-  domains: '/domains',
   
   // Features (SEO pages)
   features: {
@@ -138,7 +137,6 @@ export const prerenderRoutes = [
   '/run-from-your-phone',
   '/build-your-reputation',
   '/let-ai-handle-it',
-  '/domains',
   '/features/lead-capture',
   '/features/ai-chat',
   '/features/review-management',
@@ -797,13 +795,6 @@ CTA SECTION
 
 ### /services (Hub Page)
 Overview of all 7 services with cards linking to individual pages. Show which tiers include each service.
-
-### /domains
-Domain search utility page with:
-- Search input + TLD dropdown
-- Results showing available/taken
-- "What's Included" section (domain registration, DNS, SSL)
-- CTA to pricing
 
 ### /pricing
 Tier comparison table with feature matrix. Four columns (T1-T4). Clear CTAs to checkout pages.
