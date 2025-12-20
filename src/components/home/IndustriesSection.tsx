@@ -116,7 +116,7 @@ export function IndustriesSection() {
               
               {/* Description */}
               <p className="text-sm text-muted-foreground mb-2 pl-8">{industry.description}</p>
-              <span className="text-xs text-foreground font-medium pl-8 flex items-center gap-2">
+              <span className="text-xs text-foreground/70 font-medium pl-8 mt-1.5 flex items-center gap-2">
                 {industry.verticals}
                 <span className="w-6 h-px bg-gradient-to-l from-accent to-transparent" />
               </span>
