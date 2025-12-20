@@ -1,5 +1,5 @@
 // SSG Route configuration for EverIntent SmartSites
-// Based on BRD v32.1 Section 15.1.1
+// Based on BRD v33.0 Section 16
 // Format: react-router-dom data routes for vite-react-ssg
 
 import type { RouteRecord } from 'vite-react-ssg';
@@ -73,8 +73,8 @@ import PlaceholderPage from './pages/Placeholder';
 const AdminLogin = React.lazy(() => import('./pages/admin/Login'));
 const AdminDashboard = React.lazy(() => import('./pages/admin/Dashboard'));
 
-// Core routes
-const coreRoutePaths = ['/', '/pricing', '/portfolio', '/about', '/contact', '/book-call'];
+// Core routes (v33.0 - renamed portfolio to our-work, added strategy-session, careers)
+const coreRoutePaths = ['/', '/pricing', '/our-work', '/about', '/contact', '/book-call', '/strategy-session', '/careers'];
 
 // Primary service
 const primaryServicePath = '/beautiful-websites';
@@ -195,20 +195,21 @@ const automotiveServicesPaths = [
   '/industries/automotive-services/audio-installation',
 ];
 
-// Checkout routes
+// Checkout routes (v33.0 - added smart-launch)
 const checkoutPaths = [
   '/checkout/smart-site',
   '/checkout/smart-lead',
   '/checkout/smart-business',
   '/checkout/smart-growth',
+  '/checkout/smart-launch',
   '/checkout/success',
 ];
 
 // Legal routes
 const legalPaths = ['/legal/privacy', '/legal/terms', '/legal/data-request'];
 
-// LocalPros routes (per BRD v32.6 - only /localpros and /localpros/apply)
-const localProsPaths = ['/localpros', '/localpros/apply'];
+// LocalPros routes (v33.0 - added success-stories)
+const localProsPaths = ['/localpros', '/localpros/apply', '/localpros/success-stories'];
 
 // Upgrade route
 const upgradePath = '/upgrade';

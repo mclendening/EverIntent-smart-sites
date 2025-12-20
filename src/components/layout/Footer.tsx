@@ -35,7 +35,8 @@ const resourcesLinks = [
 const companyLinks = [
   { title: 'About', path: '/about' },
   { title: 'Contact', path: '/contact' },
-  { title: 'Portfolio', path: '/portfolio' },
+  { title: 'Our Work', path: '/our-work' },
+  { title: 'Careers', path: '/careers' },
 ];
 
 // Legal links (for bottom section)
