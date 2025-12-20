@@ -1,5 +1,48 @@
-import { Home, Briefcase, Heart, Car, ArrowRight } from 'lucide-react';
+import { Home, Briefcase, Heart, Car, ArrowRight, LucideIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+// SVG Gradient definitions for icons
+const GradientDefs = () => (
+  <svg width="0" height="0" className="absolute">
+    <defs>
+      {/* Option 1: Ocean Blue - Deep navy to bright cyan */}
+      <linearGradient id="gradient-ocean" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="hsl(210, 100%, 40%)" />
+        <stop offset="50%" stopColor="hsl(200, 100%, 50%)" />
+        <stop offset="100%" stopColor="hsl(185, 100%, 45%)" />
+      </linearGradient>
+      
+      {/* Option 2: Royal Blue - Indigo to azure */}
+      <linearGradient id="gradient-royal" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="hsl(235, 85%, 55%)" />
+        <stop offset="50%" stopColor="hsl(220, 90%, 55%)" />
+        <stop offset="100%" stopColor="hsl(200, 100%, 50%)" />
+      </linearGradient>
+      
+      {/* Option 3: Sky Blue - Light cerulean to teal */}
+      <linearGradient id="gradient-sky" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="hsl(195, 90%, 50%)" />
+        <stop offset="50%" stopColor="hsl(185, 85%, 48%)" />
+        <stop offset="100%" stopColor="hsl(175, 80%, 45%)" />
+      </linearGradient>
+      
+      {/* Option 4: Electric Blue - Vivid cobalt to bright blue */}
+      <linearGradient id="gradient-electric" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="hsl(225, 95%, 55%)" />
+        <stop offset="50%" stopColor="hsl(210, 100%, 55%)" />
+        <stop offset="100%" stopColor="hsl(195, 100%, 50%)" />
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+// Gradient Icon wrapper component
+const GradientIcon = ({ icon: Icon, gradientId, className = "" }: { icon: LucideIcon; gradientId: string; className?: string }) => (
+  <Icon 
+    className={className}
+    style={{ stroke: `url(#${gradientId})` }}
+  />
+);
 
 const industries = [
   {
@@ -8,7 +51,7 @@ const industries = [
     description: 'HVAC, plumbing, electrical, roofing, landscaping & more',
     verticals: '31 verticals',
     href: '/industries/home-services',
-    gradientClass: 'icon-gradient-ocean',
+    gradientId: 'gradient-ocean',
   },
   {
     icon: Briefcase,
@@ -16,7 +59,7 @@ const industries = [
     description: 'Legal, real estate, accounting, insurance & consulting',
     verticals: '15 verticals',
     href: '/industries/professional-services',
-    gradientClass: 'icon-gradient-royal',
+    gradientId: 'gradient-royal',
   },
   {
     icon: Heart,
@@ -24,7 +67,7 @@ const industries = [
     description: 'Dental, chiropractic, medspa, salons & fitness',
     verticals: '15 verticals',
     href: '/industries/health-wellness',
-    gradientClass: 'icon-gradient-sky',
+    gradientId: 'gradient-sky',
   },
   {
     icon: Car,
@@ -32,13 +75,16 @@ const industries = [
     description: 'Auto repair, detailing, tire shops, body shops & towing',
     verticals: '10 verticals',
     href: '/industries/automotive-services',
-    gradientClass: 'icon-gradient-electric',
+    gradientId: 'gradient-electric',
   },
 ];
 
 export function IndustriesSection() {
   return (
     <section className="relative py-16 md:py-24 bg-card/50">
+      {/* Hidden SVG gradient definitions */}
+      <GradientDefs />
+      
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
@@ -61,7 +107,11 @@ export function IndustriesSection() {
             >
               {/* Title row with inline icon */}
               <div className="flex items-center gap-3 mb-2">
-                <industry.icon className={`w-5 h-5 flex-shrink-0 ${industry.gradientClass}`} />
+                <GradientIcon 
+                  icon={industry.icon} 
+                  gradientId={industry.gradientId}
+                  className="w-5 h-5 flex-shrink-0"
+                />
                 <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
                   {industry.name}
                   <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-muted-foreground" />
