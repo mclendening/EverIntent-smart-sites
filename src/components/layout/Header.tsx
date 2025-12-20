@@ -166,7 +166,7 @@ export function Header() {
         {/* Desktop CTA */}
         <div className="hidden lg:flex items-center gap-3">
           <Button variant="glow" size="lg" asChild className="group">
-            <NavLink to="/pricing" className="flex items-center gap-3">
+            <NavLink to="/pricing" className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-accent transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
               <span>Get Started</span>
               <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
@@ -272,7 +272,7 @@ export function Header() {
 
               <div className="pt-6 space-y-3">
                 <Button variant="glow" size="lg" className="w-full group" asChild>
-                  <Link to="/pricing" onClick={closeMobileMenu} className="flex items-center justify-center gap-3">
+                  <Link to="/pricing" onClick={closeMobileMenu} className="flex items-center justify-center gap-2">
                     <Sparkles className="w-4 h-4 text-accent transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
                     <span>Get Started</span>
                     <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
