@@ -194,6 +194,39 @@
     background-clip: text;
   }
 
+  /* Blue Gradient Icons - 4 variations to test */
+  /* Option 1: Ocean Blue - Deep to bright */
+  .icon-gradient-ocean {
+    background: linear-gradient(135deg, hsl(210 100% 45%) 0%, hsl(195 100% 50%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Option 2: Royal Blue - Rich and vibrant */
+  .icon-gradient-royal {
+    background: linear-gradient(135deg, hsl(230 80% 55%) 0%, hsl(200 100% 60%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Option 3: Sky Blue - Light and fresh */
+  .icon-gradient-sky {
+    background: linear-gradient(135deg, hsl(200 85% 50%) 0%, hsl(180 70% 55%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Option 4: Electric Blue - Bold and modern */
+  .icon-gradient-electric {
+    background: linear-gradient(135deg, hsl(220 90% 55%) 0%, hsl(190 95% 45%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
   /* Glow Effects */
   .glow {
     box-shadow: var(--shadow-glow);
