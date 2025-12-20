@@ -1,17 +1,23 @@
 import { ArrowRight } from 'lucide-react';
 import { CTAButton } from '@/components/CTAButton';
+import heroBackground from '@/assets/hero-background.jpg';
 
 export function HeroSection() {
   return (
     <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
-      {/* Background layers */}
-      <div className="absolute inset-0 bg-hero" />
-      <div className="absolute inset-0 bg-mesh opacity-50" />
-      <div className="absolute inset-0 bg-noise" />
+      {/* Hero image background */}
+      <div className="absolute inset-0">
+        <img 
+          src={heroBackground} 
+          alt="" 
+          className="w-full h-full object-cover object-center"
+        />
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-background/80" />
+      </div>
       
-      {/* Floating accent orbs */}
-      <div className="absolute top-1/4 left-1/4 w-64 md:w-96 h-64 md:h-96 bg-primary/8 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/3 right-1/4 w-48 md:w-80 h-48 md:h-80 bg-accent/8 rounded-full blur-3xl" />
+      {/* Subtle mesh overlay */}
+      <div className="absolute inset-0 bg-mesh opacity-30" />
       
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 py-16 md:py-20">
