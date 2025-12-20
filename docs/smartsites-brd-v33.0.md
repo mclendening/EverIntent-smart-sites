@@ -24,6 +24,20 @@ This is the **single source of truth** for EverIntentSmartSites.com. It governs:
 
 ---
 
+## ⛔ DESIGN ANTI-PATTERNS — DO NOT USE
+
+**The following sites, styles, and patterns are EXPLICITLY BANNED as design references:**
+
+1. **SmartSites.com (smartsites.com)** — DO NOT reference, copy, or draw inspiration from this site in any way. This includes:
+   - Their scattered/floating browser window hero effect
+   - Their color schemes
+   - Their layout patterns
+   - Any visual elements whatsoever
+
+**Why:** We are building our own unique brand identity. We will not be a derivative of any competitor.
+
+**If you are an AI or developer reading this:** Never suggest SmartSites.com as a reference. Never attempt to recreate their design patterns. This is a hard rule with no exceptions.
+
 ## Table of Contents
 
 1. [Quick Reference](#1-quick-reference)
