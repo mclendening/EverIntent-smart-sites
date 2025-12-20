@@ -3,27 +3,27 @@ import { Linkedin, Twitter, Facebook, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { triggerCookiePreferences } from '@/components/CookieConsent';
 
-// Services links (Pricing at bottom per nav decisions)
-const servicesLinks = [
-  { title: 'Beautiful Websites', path: '/beautiful-websites' },
-  { title: 'Get Found Online', path: '/get-found-online' },
-  { title: 'Never Miss a Lead', path: '/never-miss-a-lead' },
-  { title: 'Book More Jobs', path: '/book-more-jobs' },
-  { title: 'Run From Your Phone', path: '/run-from-your-phone' },
-  { title: 'Build Your Reputation', path: '/build-your-reputation' },
-  { title: 'Let AI Handle It', path: '/let-ai-handle-it' },
-  { title: 'Pricing', path: '/pricing' },
+// Products links (SEO-focused product category pages)
+const productsLinks = [
+  { title: 'Web Design', path: '/services/web-design' },
+  { title: 'Local SEO', path: '/services/seo' },
+  { title: 'Lead Capture', path: '/services/lead-capture' },
+  { title: 'Online Booking', path: '/services/booking' },
+  { title: 'Reputation', path: '/services/reputation' },
+  { title: 'AI Automation', path: '/services/ai-automation' },
 ];
 
-// Industries links
-const industriesLinks = [
-  { title: 'Home Services', path: '/industries/home-services' },
-  { title: 'Professional Services', path: '/industries/professional-services' },
-  { title: 'Health & Wellness', path: '/industries/health-wellness' },
-  { title: 'Automotive Services', path: '/industries/automotive-services' },
+// Packages links (direct conversion paths)
+const packagesLinks = [
+  { title: 'Smart Site', path: '/checkout/smart-site' },
+  { title: 'Smart Lead', path: '/checkout/smart-lead' },
+  { title: 'Smart Business', path: '/checkout/smart-business' },
+  { title: 'Smart Growth', path: '/checkout/smart-growth' },
+  { title: 'Smart Launch', path: '/checkout/smart-launch' },
+  { title: 'Strategy Session', path: '/strategy-session' },
 ];
 
-// Resources links (LocalPros per BRD v32.6 navigation placement)
+// Resources links
 const resourcesLinks = [
   { title: 'LocalPros Network', path: '/localpros' },
   { title: 'Help', path: '/help' },
@@ -61,11 +61,11 @@ export function Footer() {
       <div className="container py-12 md:py-16">
         {/* Main footer grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-          {/* Services */}
+          {/* Products */}
           <div>
-            <h3 className="font-semibold text-primary-foreground mb-4">Services</h3>
+            <h3 className="font-semibold text-primary-foreground mb-4">Products</h3>
             <ul className="space-y-2">
-              {servicesLinks.map((link) => (
+              {productsLinks.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
@@ -78,11 +78,11 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Industries */}
+          {/* Packages */}
           <div>
-            <h3 className="font-semibold text-primary-foreground mb-4">Industries</h3>
+            <h3 className="font-semibold text-primary-foreground mb-4">Packages</h3>
             <ul className="space-y-2">
-              {industriesLinks.map((link) => (
+              {packagesLinks.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}

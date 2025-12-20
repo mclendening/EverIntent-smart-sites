@@ -94,9 +94,10 @@ const servicePaths = [
 const productCategoryPaths = [
   '/services/web-design',
   '/services/seo',
+  '/services/lead-capture',
+  '/services/booking',
   '/services/reputation',
   '/services/ai-automation',
-  '/services/booking',
 ];
 
 // Features
@@ -215,7 +216,10 @@ const checkoutPaths = [
 ];
 
 // Legal routes
-const legalPaths = ['/legal/privacy', '/legal/terms', '/legal/data-request'];
+const legalPaths = ['/legal/privacy', '/legal/cookies', '/legal/terms', '/legal/data-request'];
+
+// Resources routes
+const resourcePaths = ['/help', '/faq', '/support'];
 
 // LocalPros routes (v33.0 - added success-stories)
 const localProsPaths = ['/localpros', '/localpros/apply', '/localpros/success-stories'];
@@ -246,6 +250,7 @@ export const prerenderRoutes: string[] = [
   ...automotiveServicesPaths,
   ...checkoutPaths,
   ...legalPaths,
+  ...resourcePaths,
   ...localProsPaths,
   upgradePath,
 ];
@@ -289,6 +294,8 @@ export const routes: RouteRecord[] = [
       ...checkoutPaths.map(createPlaceholderChild),
       // Legal
       ...legalPaths.map(createPlaceholderChild),
+      // Resources
+      ...resourcePaths.map(createPlaceholderChild),
       // LocalPros
       ...localProsPaths.map(createPlaceholderChild),
       // Upgrade
