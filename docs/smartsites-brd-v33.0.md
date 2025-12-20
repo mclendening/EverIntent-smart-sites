@@ -1538,21 +1538,36 @@ app.everintentsmartsites.com/
 
 **4-Column Navigation Grid (Desktop) / 2-Column (Mobile):**
 
-| Services | Industries | Resources | Company |
-|----------|------------|-----------|---------|
-| Beautiful Websites | Home Services | LocalPros Network | About |
-| Get Found Online | Professional Services | Help | Contact |
-| Never Miss a Lead | Health & Wellness | FAQ | **Our Work** |
-| Book More Jobs | Automotive Services | Support | **Careers** |
-| Run From Your Phone | | | |
-| Build Your Reputation | | | |
-| Let AI Handle It | | | |
-| Pricing | | | |
+| Products | Packages | Resources | Company |
+|----------|----------|-----------|---------|
+| Web Design | Smart Site | LocalPros Network | About |
+| SEO | Smart Lead | Help | Contact |
+| Lead Capture | Smart Business | FAQ | **Our Work** |
+| Booking | Smart Growth | Support | **Careers** |
+| Reputation | Smart Launch | | |
+| AI Automation | Strategy Session | | |
 
-**Changes from v32.10:**
-- "Portfolio" → "Our Work" in Company column
-- Added "Careers" to Company column
-- Added "LocalPros Network" to Resources column (was specified but missing from implementation)
+**Product Links** → `/services/*` pages (SEO value, buyer search intent):
+- Web Design → `/services/web-design`
+- SEO → `/services/seo`
+- Lead Capture → `/services/lead-capture`
+- Booking → `/services/booking`
+- Reputation → `/services/reputation`
+- AI Automation → `/services/ai-automation`
+
+**Package Links** → `/checkout/*` pages (direct conversion paths):
+- Smart Site → `/checkout/smart-site`
+- Smart Lead → `/checkout/smart-lead`
+- Smart Business → `/checkout/smart-business`
+- Smart Growth → `/checkout/smart-growth`
+- Smart Launch → `/checkout/smart-launch`
+- Strategy Session → `/strategy-session`
+
+**Changes from v33.0:**
+- **Footer restructured**: Services + Industries columns replaced with Products + Packages columns
+- Header retains benefit-oriented "Services" dropdown for buyer journey
+- Footer now provides product-focused SEO value and direct checkout paths
+- Industries removed from footer (accessible via header dropdown and `/industries/*` pages)
 
 **Branded Footer Section (below nav columns):**
 - SmartSites logo
@@ -2458,6 +2473,7 @@ Is this a good time to chat for 2 minutes?"
 | v32.10 | Dec 17 | **Multi-Widget Chat Architecture**: GHL chat widgets now support multiple bots per page type (Sales, Support, Demo); Route-based widget selection via `GHLChatWidget.tsx`; Three new env vars (`VITE_GHL_WIDGET_ID_SALES`, `VITE_GHL_WIDGET_ID_SUPPORT`, `VITE_GHL_WIDGET_ID_DEMO`); Launcher hiding via JS shadow DOM penetration (code-based approach retained); Section 17.5 rewritten with multi-widget architecture and route mapping logic |
 | v32.11 | Dec 18 | **SSG Configuration Pattern Documented**: Added Appendix H with complete `vite-react-ssg` configuration patterns; Documented critical anti-patterns (manualChunks, catch-all rewrites); Added ClientOnly and isMounted patterns for Radix UI components; Added QueryClient placement rules; Full SSG routes restored (was limited to 6 during debugging); This appendix is REQUIRED reading for any Lovable project using SSG |
 | **v33.0** | **Dec 20** | **Product-First Restructure (Major)**: Complete restructuring of product/service model based on market research and persona analysis. Key changes: (1) Products are now primary, packages bundle them — eliminates "add-on" framing; (2) Smart Launch package added ($2,500-$4,500 + $297/mo) to capture "missing middle" between T4 and Custom; (3) SmartStart Strategy Session added ($500-750) for paid discovery/qualification; (4) Product-category landing pages added (/services/seo, /services/web-design, /services/reputation, /services/ai-automation, /services/booking) for SEO alignment with buyer search intent; (5) Navigation updates: Portfolio → Our Work, Careers added to footer; (6) GTM Section 19 updated with product-first positioning and standalone product campaigns; (7) Tier naming consideration documented (pending decision); (8) Persona buying behavior integrated into Section 9 Customer Journey. Sources: docs/menu-structure-proposal.md, docs/chatgpt-research-alignment.md, docs/research-alignment.md, docs/persona-spec.md |
+| v33.1 | Dec 20 | **Footer Restructure**: Replaced Services + Industries footer columns with Products + Packages columns. Products column links to `/services/*` pages (web-design, seo, lead-capture, booking, reputation, ai-automation) for SEO value. Packages column links to `/checkout/*` pages for direct conversion paths. Header retains benefit-oriented Services dropdown for buyer journey. Industries moved to header-only access. |
 
 ### Related Specification Documents
 
