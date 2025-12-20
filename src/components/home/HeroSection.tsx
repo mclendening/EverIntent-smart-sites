@@ -1,6 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import { CTAButton } from '@/components/CTAButton';
-import heroBackground from '@/assets/hero-background.jpg';
+import heroBackground from '@/assets/hero-browsers-burst.jpg';
 
 export function HeroSection() {
   return (
