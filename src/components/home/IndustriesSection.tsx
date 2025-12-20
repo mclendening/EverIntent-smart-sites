@@ -108,7 +108,7 @@ export function IndustriesSection() {
                   gradientId="gradient-ocean"
                   className="w-5 h-5 flex-shrink-0"
                 />
-                <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
+                <h3 className="text-base font-semibold text-foreground flex items-center gap-2 whitespace-nowrap">
                   {industry.name}
                   <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-muted-foreground" />
                 </h3>
