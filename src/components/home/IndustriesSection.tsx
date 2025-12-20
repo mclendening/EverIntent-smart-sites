@@ -115,7 +115,11 @@ export function IndustriesSection() {
               </div>
               
               {/* Description */}
-              <p className="text-sm text-muted-foreground mb-2 pl-8">{industry.description}</p>
+              <p className="text-sm text-muted-foreground pl-8">{industry.description}</p>
+              
+              {/* Full-width separator */}
+              <div className="my-3 -mx-5 md:-mx-6 h-px bg-gradient-to-r from-transparent via-border/50 to-transparent" />
+              
               <span className="text-xs text-foreground font-medium pl-8 flex items-center gap-2">
                 {industry.verticals}
                 <span className="w-6 h-px bg-gradient-to-l from-accent to-transparent" />
