@@ -163,8 +163,12 @@ export function Footer() {
 
             {/* CTA + Social */}
             <div className="flex flex-col sm:flex-row items-center gap-6">
-              <Button variant="glow" size="lg" asChild>
-                <Link to="/contact">Book a Call</Link>
+              <Button variant="glow" size="lg" asChild className="group">
+                <Link to="/contact" className="flex items-center gap-3">
+                  <Sparkles className="w-4 h-4 text-accent transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
+                  <span>Book a Call</span>
+                  <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                </Link>
               </Button>
 
               <div className="flex items-center gap-2">
