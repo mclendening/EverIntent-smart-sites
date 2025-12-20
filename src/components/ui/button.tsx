@@ -3,28 +3,27 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium tracking-wide ring-offset-background transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary/95 backdrop-blur-sm border border-accent/30 shadow-lg text-primary-foreground hover:bg-primary hover:border-accent hover:shadow-xl hover:shadow-accent/20",
   {
     variants: {
       variant: {
-        default: "bg-primary/95 backdrop-blur-sm text-primary-foreground border border-border/30 shadow-lg hover:bg-primary hover:border-accent/50 hover:shadow-xl hover:shadow-accent/10 hover:-translate-y-0.5 active:translate-y-0",
-        destructive: "bg-destructive text-destructive-foreground border border-destructive/30 shadow-lg hover:bg-destructive/90",
-        outline: "bg-transparent border border-border/50 hover:bg-muted/50 hover:border-accent/50 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0",
-        secondary: "bg-secondary/95 backdrop-blur-sm text-secondary-foreground border border-border/30 shadow-lg hover:bg-secondary hover:border-accent/50",
-        ghost: "hover:bg-muted/50",
-        link: "text-accent underline-offset-4 hover:underline",
-        // Premium CTA variants matching chat button pattern
-        glow: "bg-accent/95 backdrop-blur-sm text-accent-foreground font-semibold border border-accent/30 shadow-lg hover:bg-accent hover:border-accent hover:shadow-xl hover:shadow-accent/20 hover:-translate-y-0.5 active:translate-y-0",
-        "glow-outline": "bg-transparent border border-accent/30 text-accent hover:bg-accent/10 hover:border-accent shadow-lg hover:shadow-xl hover:shadow-accent/20 hover:-translate-y-0.5 active:translate-y-0",
-        premium: "bg-gradient-cta backdrop-blur-sm text-accent-foreground font-semibold border border-accent/30 shadow-lg hover:shadow-xl hover:shadow-accent/20 hover:-translate-y-0.5 active:translate-y-0 relative overflow-hidden",
-        "premium-dark": "bg-primary/95 backdrop-blur-sm text-primary-foreground border border-border/30 hover:border-accent/50 shadow-lg hover:shadow-xl hover:shadow-accent/10 hover:-translate-y-0.5 active:translate-y-0",
+        default: "",
+        destructive: "bg-destructive/95 text-destructive-foreground border-destructive/30 hover:bg-destructive hover:border-destructive hover:shadow-destructive/20",
+        outline: "bg-transparent text-foreground border-border/50 hover:bg-muted/30 hover:border-accent/50 hover:shadow-accent/10",
+        secondary: "bg-secondary/95 text-secondary-foreground border-border/30 hover:bg-secondary hover:border-accent/50 hover:shadow-accent/10",
+        ghost: "bg-transparent border-transparent shadow-none hover:bg-muted/50 hover:border-transparent hover:shadow-none",
+        link: "bg-transparent border-transparent shadow-none text-accent underline-offset-4 hover:underline hover:bg-transparent hover:border-transparent hover:shadow-none",
+        glow: "bg-accent/95 text-accent-foreground border-accent/50 hover:bg-accent hover:border-accent",
+        "glow-outline": "bg-transparent text-accent border-accent/50 hover:bg-accent/10 hover:border-accent",
+        premium: "bg-gradient-cta text-accent-foreground border-accent/50 hover:border-accent relative overflow-hidden",
+        "premium-dark": "",
       },
       size: {
-        default: "h-10 px-5 py-2",
-        sm: "h-8 px-4 text-xs",
-        lg: "h-11 px-6",
-        xl: "h-12 px-8 text-base",
-        icon: "h-10 w-10",
+        default: "h-auto px-5 py-3",
+        sm: "px-4 py-2 text-xs",
+        lg: "px-6 py-3.5",
+        xl: "px-8 py-4 text-base",
+        icon: "h-10 w-10 p-0",
       },
     },
     defaultVariants: {
