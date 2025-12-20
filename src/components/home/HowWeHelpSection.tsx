@@ -8,9 +8,6 @@ const outcomes = [
     description: "Show up when customers search for your services with SEO-optimized websites that rank.",
     link: "/services/web-design",
     linkText: "Web Design & SEO",
-    step: "01",
-    color: "text-accent",
-    bgColor: "bg-accent/10",
   },
   {
     icon: TrendingUp,
@@ -18,9 +15,6 @@ const outcomes = [
     description: "Convert visitors into leads with targeted campaigns that drive real business results.",
     link: "/services/lead-generation",
     linkText: "Lead Generation",
-    step: "02",
-    color: "text-primary",
-    bgColor: "bg-primary/10",
   },
   {
     icon: MessageSquare,
@@ -28,9 +22,6 @@ const outcomes = [
     description: "Respond instantly 24/7 with AI-powered chat and automated follow-ups that close deals.",
     link: "/services/ai-automation",
     linkText: "AI Automation",
-    step: "03",
-    color: "text-secondary",
-    bgColor: "bg-secondary/10",
   },
 ];
 
@@ -67,15 +58,15 @@ const HowWeHelpSection = () => {
               className="group relative bg-card rounded-2xl p-8 border border-border/50 hover:border-accent/50 transition-all duration-500 hover:shadow-2xl hover:shadow-accent/5"
               style={{ animationDelay: `${index * 150}ms` }}
             >
-              {/* Step Number */}
-              <div className="absolute -top-4 -left-2 w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center border border-accent/30">
-                <span className="text-accent font-bold text-sm">{outcome.step}</span>
-              </div>
-
               {/* Icon & Title Row */}
               <div className="flex items-center gap-3 mb-4">
-                <div className={`w-10 h-10 rounded-lg ${outcome.bgColor} flex items-center justify-center flex-shrink-0`}>
-                  <outcome.icon className={`w-5 h-5 ${outcome.color}`} />
+                <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
+                  <outcome.icon 
+                    className="w-5 h-5" 
+                    style={{
+                      stroke: 'url(#icon-gradient)',
+                    }}
+                  />
                 </div>
                 <h3 className="text-xl font-bold text-foreground">
                   {outcome.title}
@@ -90,14 +81,31 @@ const HowWeHelpSection = () => {
               {/* Link */}
               <Link
                 to={outcome.link}
-                className="inline-flex items-center gap-2 text-accent font-semibold group-hover:gap-3 transition-all duration-300"
+                className="inline-flex items-center gap-2 font-semibold group-hover:gap-3 transition-all duration-300"
+                style={{
+                  background: 'linear-gradient(135deg, rgb(245, 159, 10) 0%, rgb(248, 198, 48) 50%, rgb(245, 159, 10) 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
               >
                 {outcome.linkText}
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4" style={{ color: 'rgb(245, 159, 10)' }} />
               </Link>
             </div>
           ))}
         </div>
+
+        {/* SVG Gradient Definition */}
+        <svg width="0" height="0" className="absolute">
+          <defs>
+            <linearGradient id="icon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgb(245, 159, 10)" />
+              <stop offset="50%" stopColor="rgb(248, 198, 48)" />
+              <stop offset="100%" stopColor="rgb(245, 159, 10)" />
+            </linearGradient>
+          </defs>
+        </svg>
       </div>
     </section>
   );
