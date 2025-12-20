@@ -36,19 +36,17 @@ export function HeroSection() {
           </p>
           
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 mb-10 md:mb-12 animate-fade-in" style={{ animationDelay: '300ms' }}>
+          <div className="flex flex-row items-center justify-center gap-3 md:gap-4 mb-10 md:mb-12 animate-fade-in" style={{ animationDelay: '300ms' }}>
             <CTAButton 
               to="/pricing" 
               defaultText="Get Started — $249"
               hoverText="See All Plans"
-              fullWidth
-              className="sm:w-auto"
             />
             <a 
               href="/our-work" 
-              className="group inline-flex items-center gap-2 px-6 py-3 text-foreground hover:text-primary transition-colors duration-300"
+              className="group inline-flex items-center gap-2 px-4 sm:px-6 py-3 text-foreground hover:text-primary transition-colors duration-300"
             >
-              <span className="story-link">See Our Work</span>
+              <span className="story-link whitespace-nowrap">See Our Work</span>
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </a>
           </div>
