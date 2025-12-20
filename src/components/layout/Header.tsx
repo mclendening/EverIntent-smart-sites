@@ -114,7 +114,10 @@ export function Header() {
             <NavLink to="/pricing">Pricing</NavLink>
           </Button>
           <Button variant="ghost" asChild className="text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
-            <NavLink to="/portfolio">Portfolio</NavLink>
+            <NavLink to="/our-work">Our Work</NavLink>
+          </Button>
+          <Button variant="ghost" asChild className="text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
+            <NavLink to="/about">About</NavLink>
           </Button>
         </nav>
 
@@ -207,11 +210,11 @@ export function Header() {
                 Pricing
               </Link>
               <Link 
-                to="/portfolio" 
+                to="/our-work" 
                 className="py-2 text-lg font-medium text-foreground"
                 onClick={closeMobileMenu}
               >
-                Portfolio
+                Our Work
               </Link>
               <Link 
                 to="/about" 

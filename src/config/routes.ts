@@ -11,10 +11,12 @@ export interface RouteConfig {
 export const coreRoutes: RouteConfig[] = [
   { path: '/', title: 'Home', description: 'Professional websites for local businesses' },
   { path: '/pricing', title: 'Pricing', description: 'Simple, transparent pricing' },
-  { path: '/portfolio', title: 'Portfolio', description: 'See our work' },
+  { path: '/our-work', title: 'Our Work', description: 'See our work' },
   { path: '/about', title: 'About', description: 'About EverIntent SmartSites' },
   { path: '/contact', title: 'Contact', description: 'Get in touch' },
   { path: '/book-call', title: 'Book a Call', description: 'Schedule a consultation' },
+  { path: '/strategy-session', title: 'Strategy Session', description: 'Book a SmartStart Strategy Session' },
+  { path: '/careers', title: 'Careers', description: 'Join the EverIntent team' },
 ];
 
 // Primary service
@@ -146,6 +148,7 @@ export const checkoutRoutes: RouteConfig[] = [
   { path: '/checkout/smart-lead', title: 'Smart Lead Checkout', description: 'Get Smart Lead' },
   { path: '/checkout/smart-business', title: 'Smart Business Checkout', description: 'Get Smart Business' },
   { path: '/checkout/smart-growth', title: 'Smart Growth Checkout', description: 'Get Smart Growth' },
+  { path: '/checkout/smart-launch', title: 'Smart Launch Checkout', description: 'Get Smart Launch' },
   { path: '/checkout/success', title: 'Checkout Success', description: 'Thank you for your purchase' },
 ];
 
@@ -156,10 +159,11 @@ export const legalRoutes: RouteConfig[] = [
   { path: '/legal/data-request', title: 'Data Request', description: 'Request your data' },
 ];
 
-// LocalPros routes (per BRD v32.6 - only /localpros and /localpros/apply)
+// LocalPros routes
 export const localProsRoutes: RouteConfig[] = [
   { path: '/localpros', title: 'LocalPros Network', description: 'Get exclusive leads from our ranking sites' },
   { path: '/localpros/apply', title: 'Apply to LocalPros', description: 'Apply to become a LocalPros partner' },
+  { path: '/localpros/success-stories', title: 'LocalPros Success Stories', description: 'See how partners grow with LocalPros' },
 ];
 
 // Upgrade route
