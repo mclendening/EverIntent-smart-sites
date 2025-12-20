@@ -1,5 +1,5 @@
 // Route configuration for EverIntent SmartSites
-// Based on BRD v32.6 Section 15.1.1
+// Based on BRD v33.0 Section 16
 
 export interface RouteConfig {
   path: string;
@@ -41,9 +41,10 @@ export const serviceRoutes: RouteConfig[] = [
 export const productCategoryRoutes: RouteConfig[] = [
   { path: '/services/web-design', title: 'Web Design Services', description: 'Professional website design for local businesses' },
   { path: '/services/seo', title: 'Local SEO Services', description: 'Get found on Google and local search' },
+  { path: '/services/lead-capture', title: 'Lead Capture', description: 'Never miss another customer inquiry' },
+  { path: '/services/booking', title: 'Online Booking', description: 'Online scheduling and appointment booking' },
   { path: '/services/reputation', title: 'Reputation Management', description: 'Build and manage your online reviews' },
   { path: '/services/ai-automation', title: 'AI Automation', description: 'AI solutions for small business automation' },
-  { path: '/services/booking', title: 'Online Booking', description: 'Online scheduling and appointment booking' },
 ];
 
 // Features
@@ -164,8 +165,16 @@ export const checkoutRoutes: RouteConfig[] = [
 // Legal routes
 export const legalRoutes: RouteConfig[] = [
   { path: '/legal/privacy', title: 'Privacy Policy', description: 'Our privacy policy' },
+  { path: '/legal/cookies', title: 'Cookie Policy', description: 'Our cookie policy' },
   { path: '/legal/terms', title: 'Terms of Service', description: 'Our terms of service' },
   { path: '/legal/data-request', title: 'Data Request', description: 'Request your data' },
+];
+
+// Resources routes
+export const resourceRoutes: RouteConfig[] = [
+  { path: '/help', title: 'Help', description: 'Get help with SmartSites' },
+  { path: '/faq', title: 'FAQ', description: 'Frequently asked questions' },
+  { path: '/support', title: 'Support', description: 'Contact support' },
 ];
 
 // LocalPros routes
@@ -214,6 +223,8 @@ export const prerenderRoutes: string[] = [
   ...checkoutRoutes.map(r => r.path),
   // Legal
   ...legalRoutes.map(r => r.path),
+  // Resources
+  ...resourceRoutes.map(r => r.path),
   // LocalPros
   ...localProsRoutes.map(r => r.path),
   // Upgrade
@@ -234,6 +245,7 @@ export const allRoutes: RouteConfig[] = [
   ...automotiveServicesRoutes,
   ...checkoutRoutes,
   ...legalRoutes,
+  ...resourceRoutes,
   ...localProsRoutes,
   upgradeRoute,
   ...adminRoutes,
