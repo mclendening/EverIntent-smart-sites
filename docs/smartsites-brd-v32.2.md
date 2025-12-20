@@ -1,7 +1,7 @@
-# EverIntent SmartSites — Complete Business Requirements Document v32.10
+# EverIntent SmartSites — Complete Business Requirements Document v33.0
 
-**Last Updated:** December 17, 2025  
-**Version:** 32.10 (Multi-Widget Chat Architecture)
+**Last Updated:** December 20, 2025  
+**Version:** 33.0 (Product-First Restructure)
 **Status:** BUILD-READY
 **Owner:** EverIntent LLC  
 **GitHub Path:** /docs/BRD/SmartSites-BRD-v32.md
@@ -351,6 +351,51 @@ One ranking WordPress site. Three ways to make money:
 - 1000 SMS/month included
 - 100 AI minutes/month included
 
+### Smart Launch ($2,500-$4,500 one-time + $297/month)
+
+**Who it's for:** Businesses that need more than a template but aren't ready for full custom.
+
+**Includes:**
+- Custom 10-page website (not template)
+- Brand photography consultation
+- Google Business Profile optimization
+- 90-day marketing sprint (SEO + Google Ads setup)
+- All T3 (Booking & Reputation) features ongoing
+
+**Target segment:** Business owners who need more than T4 but find $5k+ custom "overkill"
+
+**Revenue model:** Hybrid (one-time project + monthly retainer)
+
+### SmartStart Strategy Session ($500-$750)
+
+**Who it's for:** Prospects who need clarity before committing.
+
+**Includes:**
+- 60-minute strategy consultation
+- Website/marketing audit
+- Competitive analysis
+- Custom recommendation report
+- Full credit toward any package purchase
+
+**Why this exists:**
+- Generates revenue from sales process
+- Filters serious buyers from tire-kickers
+- Creates natural upsell opportunity
+- Provides value even if they don't buy
+
+### Tier Naming Consideration
+
+Current tier names are internal-facing. Outcome-oriented alternatives under consideration:
+
+| Current | Consideration | Rationale |
+|---------|---------------|-----------|
+| T1 Smart Site | Starter Site | Clear entry point |
+| T2 Smart Lead | Lead Booster | Outcome-focused |
+| T3 Smart Business | Booking & Reputation | Features named |
+| T4 Smart Growth | AI Growth | AI differentiation |
+
+**Decision status:** Pending approval
+
 ---
 
 ## 7. Complete Feature Matrix
@@ -377,6 +422,28 @@ One ranking WordPress site. Three ways to make money:
 | Unified Inbox | — | — | — | ✓ |
 | Strategy Calls | — | — | — | Quarterly |
 
+### 7.1 Smart Launch Feature Set
+
+| Feature | Smart Launch |
+|---------|:------------:|
+| Custom Website (10+ pages) | ✓ |
+| Mobile Responsive | ✓ |
+| SSL Certificate | ✓ |
+| 90-Day SEO Sprint | ✓ |
+| Google Ads Setup | ✓ |
+| Brand Photography Consult | ✓ |
+| Google Business Profile Optimization | ✓ |
+| Missed Call Text-Back | ✓ |
+| AI Chat Widget | ✓ (50 min/mo) |
+| CRM / Contacts | ✓ |
+| SMS/Email | ✓ (600/mo) |
+| Mobile App | ✓ |
+| Online Booking | ✓ |
+| Pipeline Management | ✓ |
+| Review Automation | ✓ |
+| **One-time Investment** | $2,500-$4,500 |
+| **Monthly Ongoing** | $297 |
+
 ---
 
 ## 8. Competitive Analysis
@@ -398,16 +465,31 @@ One ranking WordPress site. Three ways to make money:
 ### Entry Points
 
 ```
-┌─────────────────────────────────────┐
-│ EverIntentSmartSites.com            │
-│                                     │
-│ Ready to start?     Need help?      │
-│  [Get Started]    [Book 30min Call] │
-└─────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│ EverIntentSmartSites.com                                    │
+│                                                             │
+│ Ready to start?     Not sure yet?        Need help?         │
+│  [Get Started]    [Strategy Session]    [Book 30min Call]   │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 **Path A: Ready to Buy** → Checkout flow
-**Path B: Need Help** → GHL calendar booking → 30-min consultation
+**Path B: Want Clarity** → SmartStart Strategy Session ($500-$750) → Paid consultation with credit toward purchase
+**Path C: Need Help** → GHL calendar booking → 30-min free consultation
+
+### How Buyers Actually Find Us (Persona-Based)
+
+Local service businesses don't search for "T2 package." They experience **trigger events**:
+
+| Trigger Event | What They Say | What They Search |
+|---------------|---------------|------------------|
+| Lost deal to competitor | "Their website looked more professional" | "web design for [industry]" |
+| Slow month | "I'm not getting enough calls" | "how to get more leads" |
+| Bad review | "My Google rating dropped" | "reputation management" |
+| Missed calls | "I can't answer my phone when I'm working" | "missed call text back" |
+| Schedule chaos | "I'm double-booked again" | "online booking for [industry]" |
+
+**Key insight:** They search for **products/solutions**, not tier comparisons. This is why product-category landing pages (Section 16.1) are important for SEO.
 
 ### Checkout Flow (All Tiers)
 
@@ -1246,26 +1328,52 @@ CREATE POLICY "Submissions admin only" ON checkout_submissions
 
 ## 16. Sitemap
 
+### 16.1 Product-Category Landing Pages (NEW in v33)
+
+These pages exist for SEO — buyers search "SEO services" not "tier comparison":
+
+| Product Category | URL | Buyer Search Intent |
+|------------------|-----|---------------------|
+| Web Design | `/services/web-design` | "web design for [industry]" |
+| Local SEO | `/services/seo` | "SEO services", "local SEO" |
+| Reputation Management | `/services/reputation` | "reputation management", "get more reviews" |
+| AI Automation | `/services/ai-automation` | "AI for small business", "AI receptionist" |
+| Online Booking | `/services/booking` | "online scheduling", "appointment booking" |
+
+Each product page should:
+- Explain what the product does (outcome-focused)
+- Show standalone pricing
+- Show which packages include this product
+- Have its own conversion path
+
+**Note:** Main Services dropdown continues to use benefit-oriented routes (`/get-found-online`, etc.). These product-category pages are additional SEO entry points.
+
 ### Marketing Site (everintentsmartsites.com)
 
 ```
 /                               # Homepage
 ├── /beautiful-websites/        # Hero service page
 ├── /pricing/                   # Tier comparison + CTAs
+├── /strategy-session/          # SmartStart Strategy Session booking (NEW)
 ├── /checkout/
 │   ├── /smart-site/            # T1 pre-checkout
 │   ├── /smart-lead/            # T2 pre-checkout
 │   ├── /smart-business/        # T3 pre-checkout
 │   ├── /smart-growth/          # T4 pre-checkout
+│   ├── /smart-launch/          # Smart Launch pre-checkout (NEW)
 │   └── /success/               # Post-payment success
 ├── /services/                  # Services hub
-│   ├── /get-found-online/
+│   ├── /web-design/            # Product category page (NEW)
+│   ├── /seo/                   # Product category page (NEW)
+│   ├── /reputation/            # Product category page (NEW)
+│   ├── /ai-automation/         # Product category page (NEW)
+│   ├── /booking/               # Product category page (NEW)
+│   ├── /get-found-online/      # Benefit page (existing)
 │   ├── /never-miss-a-lead/
 │   ├── /book-more-jobs/
 │   ├── /run-from-your-phone/
 │   ├── /build-your-reputation/
 │   └── /let-ai-handle-it/
-├── /domains/                   # Domain search utility
 ├── /features/                  # Feature deep-dives (SEO pages)
 │   ├── /lead-capture/
 │   ├── /ai-chat/
@@ -1349,22 +1457,26 @@ CREATE POLICY "Submissions admin only" ON checkout_submissions
 │       ├── /mobile-car-wash/
 │       ├── /window-tinting/
 │       └── /audio-installation/
-├── /portfolio/                 # Live sites as proof
+├── /our-work/                  # Live sites as proof (renamed from /portfolio/)
 ├── /about/                     # Company story
 ├── /contact/                   # Contact form + "Book a Call" destination
+├── /careers/                   # Job listings (NEW)
+│   └── /:slug/                 # Individual job posting
 ├── /localpros/                 # Partner program
 │   ├── /apply/
 │   └── /success-stories/
 ├── /legal/
 │   ├── /privacy/
 │   ├── /terms/
+│   ├── /cookies/               # Cookie preferences page
 │   └── /data-request/          # DSAR
 ├── /upgrade/                   # T1 upsell page
 └── /admin/                     # Admin portal (protected)
     ├── /login/
     ├── /submissions/
     ├── /portfolio/
-    └── /testimonials/
+    ├── /testimonials/
+    └── /careers/               # Jobs CRUD (NEW)
 ```
 
 ### Customer Portal (GHL)
@@ -1385,8 +1497,10 @@ app.everintentsmartsites.com/
 ### Primary Navigation (Desktop)
 
 ```
-[Logo] | Services ▼ | Industries ▼ | Pricing | Portfolio | About | [Get Started]
+[Logo] | Services ▼ | Industries ▼ | Pricing | Our Work | About | [Get Started]
 ```
+
+**Change from v32.10:** "Portfolio" renamed to "Our Work" (more inviting, action-oriented)
 
 **Services Dropdown:**
 1. Beautiful Websites (top position)
@@ -1426,14 +1540,19 @@ app.everintentsmartsites.com/
 
 | Services | Industries | Resources | Company |
 |----------|------------|-----------|---------|
-| Beautiful Websites | Home Services | Help | About |
-| Get Found Online | Professional Services | FAQ | Contact |
-| Never Miss a Lead | Health & Wellness | Support | Portfolio |
-| Book More Jobs | Automotive Services | | |
+| Beautiful Websites | Home Services | LocalPros Network | About |
+| Get Found Online | Professional Services | Help | Contact |
+| Never Miss a Lead | Health & Wellness | FAQ | **Our Work** |
+| Book More Jobs | Automotive Services | Support | **Careers** |
 | Run From Your Phone | | | |
 | Build Your Reputation | | | |
 | Let AI Handle It | | | |
 | Pricing | | | |
+
+**Changes from v32.10:**
+- "Portfolio" → "Our Work" in Company column
+- Added "Careers" to Company column
+- Added "LocalPros Network" to Resources column (was specified but missing from implementation)
 
 **Branded Footer Section (below nav columns):**
 - SmartSites logo
@@ -1777,7 +1896,32 @@ For MVP and near-term growth, manual process is the right choice.
 
 ## 19. Go-To-Market Strategy
 
-### Channel Strategy
+### 19.1 Product-First Positioning (NEW in v33)
+
+Products are primary, packages bundle them. Each segment has a primary product they search for:
+
+| Segment | Pain Point | Primary Product | Package Entry | Price |
+|---------|------------|-----------------|---------------|-------|
+| Legitimacy-focused | "I need a professional website" | Web Design | Starter Site (T1) | $249 |
+| Lead-focused | "I'm missing calls and leads" | Lead Capture | Lead Booster (T2) | $97/mo |
+| Operations-focused | "My schedule is chaos" | Online Booking | Booking & Reputation (T3) | $197/mo |
+| Growth-focused | "I want AI to help" | AI Automation | AI Growth (T4) | $497/mo |
+| Premium DIY | "I need more than template" | Custom Web + Sprint | **Smart Launch** | $2,500+ |
+| Bespoke | "I want fully custom" | Custom Design | Custom | $5,000+ |
+| Uncertain | "Not sure what I need" | Discovery | **SmartStart Session** | $500-750 |
+
+### 19.2 Standalone Product Campaigns
+
+Buyers with existing sites can purchase products à la carte:
+
+| Campaign | Product | Target | Entry Point | Price |
+|----------|---------|--------|-------------|-------|
+| "Get Found" | SEO Sprint (3-month) | Existing site owners | `/services/seo` | $1,500 |
+| "More Reviews" | Reputation Management | T1/T2 customers | `/services/reputation` | $100/mo |
+| "AI Reception" | AI Voice Agent | T3 customers | `/services/ai-automation` | $300/mo |
+| "More Traffic" | Google Ads Management | Any business | `/services/ads` | $500/mo + spend |
+
+### 19.3 Channel Strategy
 
 **Primary Channels:**
 1. **Craigslist** - "Services > Computer" in target markets
@@ -2259,11 +2403,27 @@ Is this a good time to chat for 2 minutes?"
 | Missing prerender routes | Added /checkout/success, /localpros/*, /upgrade, /services |
 | Admin route naming | `/admin/submissions` (not /checkouts), `/admin/login` added |
 
+### Resolved in v33
+
+| Question | Decision |
+|----------|----------|
+| Product vs tier framing | Products are primary, packages bundle them |
+| Navigation rename | Portfolio → Our Work |
+| Footer additions | Careers link added to Company column |
+| Missing middle gap | Smart Launch package ($2,500-$4,500 + $297/mo) |
+| Paid discovery | SmartStart Strategy Session ($500-750) |
+| Product-category pages | /services/seo, /services/web-design, etc. for SEO |
+| Tier naming | Consideration documented; pending final decision |
+
 ### Still Open
 
 1. **Checkout subdomain:** `checkout.smartsites.everintent.com` vs `checkout.everintentsmartsites.com`
 2. **Wallet initial funding:** Start at $0 with auto-recharge prompt vs pre-fund at signup
 3. **Looker Studio:** Build template later if requested (not MVP)
+4. **Tier naming decision:** Keep Smart Site/Lead/Business/Growth or adopt Starter Site/Lead Booster/Booking & Reputation/AI Growth?
+5. **Smart Launch pricing:** Fixed price ($3,000) or range ($2,500-$4,500 based on scope)?
+6. **SmartStart credit:** Full credit toward any package, or partial credit?
+7. **Standalone product availability:** Available to anyone, or only existing customers?
 
 ---
 
@@ -2293,16 +2453,21 @@ Is this a good time to chat for 2 minutes?"
 | v32.5 | Dec 14 | Header + Footer implementation complete |
 | v32.6 | Dec 14 | LocalPros Business Model Complete: Core revenue principles; Three revenue paths (Sell Leads, Sell/Rent Site, Ice Breaker→SmartSites); GHL master vs sub-account structure; Decision framework; Easy Money Map; Tiered lead pricing ($25-150 by vertical); Territory/Conversion/Incentive policies; Routes reduced to /localpros and /localpros/apply only |
 | v32.7 | Dec 14 | Navigation Cleanup: Removed About from desktop header navigation (remains in mobile menu and footer Company column); Route /about preserved |
-| **v32.8** | **Dec 14** | **Careers Feature Spec**: Added /careers and /careers/:slug routes; jobs table in Supabase with admin-configurable form fields (loom_required, portfolio_required, custom_questions); GHL v2 API integration via Edge Function (submit-job-application); Admin CRUD at /admin/careers; Full spec documented in docs/careers-spec.md |
-| **v32.9** | **Dec 16** | **Domain Integration Simplified**: Removed Namecheap API integration; Domain purchase moved to manual process during onboarding via GHL or Namecheap dashboard; Simplified checkout flow (yes/no domain question); Domain preferences collected in post-payment GHL intake form; /domains page removed from scope; Namecheap environment variables removed; n8n workflow simplified to notification/task creation only |
-| **v32.10** | **Dec 17** | **Multi-Widget Chat Architecture**: GHL chat widgets now support multiple bots per page type (Sales, Support, Demo); Route-based widget selection via `GHLChatWidget.tsx`; Three new env vars (`VITE_GHL_WIDGET_ID_SALES`, `VITE_GHL_WIDGET_ID_SUPPORT`, `VITE_GHL_WIDGET_ID_DEMO`); Launcher hiding via JS shadow DOM penetration (code-based approach retained); Section 17.5 rewritten with multi-widget architecture and route mapping logic |
-| **v32.11** | **Dec 18** | **SSG Configuration Pattern Documented**: Added Appendix H with complete `vite-react-ssg` configuration patterns; Documented critical anti-patterns (manualChunks, catch-all rewrites); Added ClientOnly and isMounted patterns for Radix UI components; Added QueryClient placement rules; Full SSG routes restored (was limited to 6 during debugging); This appendix is REQUIRED reading for any Lovable project using SSG |
+| v32.8 | Dec 14 | **Careers Feature Spec**: Added /careers and /careers/:slug routes; jobs table in Supabase with admin-configurable form fields (loom_required, portfolio_required, custom_questions); GHL v2 API integration via Edge Function (submit-job-application); Admin CRUD at /admin/careers; Full spec documented in docs/careers-spec.md |
+| v32.9 | Dec 16 | **Domain Integration Simplified**: Removed Namecheap API integration; Domain purchase moved to manual process during onboarding via GHL or Namecheap dashboard; Simplified checkout flow (yes/no domain question); Domain preferences collected in post-payment GHL intake form; /domains page removed from scope; Namecheap environment variables removed; n8n workflow simplified to notification/task creation only |
+| v32.10 | Dec 17 | **Multi-Widget Chat Architecture**: GHL chat widgets now support multiple bots per page type (Sales, Support, Demo); Route-based widget selection via `GHLChatWidget.tsx`; Three new env vars (`VITE_GHL_WIDGET_ID_SALES`, `VITE_GHL_WIDGET_ID_SUPPORT`, `VITE_GHL_WIDGET_ID_DEMO`); Launcher hiding via JS shadow DOM penetration (code-based approach retained); Section 17.5 rewritten with multi-widget architecture and route mapping logic |
+| v32.11 | Dec 18 | **SSG Configuration Pattern Documented**: Added Appendix H with complete `vite-react-ssg` configuration patterns; Documented critical anti-patterns (manualChunks, catch-all rewrites); Added ClientOnly and isMounted patterns for Radix UI components; Added QueryClient placement rules; Full SSG routes restored (was limited to 6 during debugging); This appendix is REQUIRED reading for any Lovable project using SSG |
+| **v33.0** | **Dec 20** | **Product-First Restructure (Major)**: Complete restructuring of product/service model based on market research and persona analysis. Key changes: (1) Products are now primary, packages bundle them — eliminates "add-on" framing; (2) Smart Launch package added ($2,500-$4,500 + $297/mo) to capture "missing middle" between T4 and Custom; (3) SmartStart Strategy Session added ($500-750) for paid discovery/qualification; (4) Product-category landing pages added (/services/seo, /services/web-design, /services/reputation, /services/ai-automation, /services/booking) for SEO alignment with buyer search intent; (5) Navigation updates: Portfolio → Our Work, Careers added to footer; (6) GTM Section 19 updated with product-first positioning and standalone product campaigns; (7) Tier naming consideration documented (pending decision); (8) Persona buying behavior integrated into Section 9 Customer Journey. Sources: docs/menu-structure-proposal.md, docs/chatgpt-research-alignment.md, docs/research-alignment.md, docs/persona-spec.md |
 
 ### Related Specification Documents
 
 | Document | Path | Description |
 |----------|------|-------------|
 | Careers Feature Spec | `docs/careers-spec.md` | Complete careers/jobs feature specification including GHL v2 API integration, database schema, admin configuration, and UX flow |
+| Menu Structure Proposal | `docs/menu-structure-proposal.md` | Navigation changes (Portfolio→Our Work, add Careers) and product/package structure with product-first framing |
+| Market Research Alignment | `docs/chatgpt-research-alignment.md` | Synthesized market research: persona buying behavior, missing middle gap, standalone products, paid discovery, hybrid revenue model |
+| Independent Research | `docs/research-alignment.md` | Original research identifying 5 structural gaps ChatGPT missed |
+| Persona Spec | `docs/persona-spec.md` | External and internal personas with system touchpoints |
 
 ---
 
