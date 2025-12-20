@@ -1,12 +1,23 @@
 import { ArrowRight } from 'lucide-react';
 import { CTAButton } from '@/components/CTAButton';
-import { WebsiteBurstBackground } from './WebsiteBurstBackground';
+import heroBackground from '@/assets/hero-background.jpg';
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-background">
-      {/* Animated website burst background */}
-      <WebsiteBurstBackground />
+    <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+      {/* Hero image background */}
+      <div className="absolute inset-0">
+        <img 
+          src={heroBackground} 
+          alt="" 
+          className="w-full h-full object-cover object-center"
+        />
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-background/80" />
+      </div>
+      
+      {/* Subtle mesh overlay */}
+      <div className="absolute inset-0 bg-mesh opacity-30" />
       
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 py-16 md:py-20">
@@ -61,7 +72,7 @@ export function HeroSection() {
       </div>
       
       {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 md:h-32 bg-gradient-to-t from-background to-transparent z-20" />
+      <div className="absolute bottom-0 left-0 right-0 h-24 md:h-32 bg-gradient-to-t from-background to-transparent" />
     </section>
   );
 }
