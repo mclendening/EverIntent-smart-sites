@@ -12,13 +12,13 @@ const Index = () => {
   return (
     <main>
       <HeroSection />
+      <SocialProofBar />
       <HowWeHelpSection />
       <TransformationSection />
       <PricingTeaser />
       <PortfolioPreview />
       <TestimonialsSection />
       <IndustriesSection />
-      <SocialProofBar />
       <FinalCTASection />
     </main>
   );
