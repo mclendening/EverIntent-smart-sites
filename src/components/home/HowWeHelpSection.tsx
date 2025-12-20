@@ -67,6 +67,11 @@ const HowWeHelpSection = () => {
               className="group relative bg-card rounded-2xl p-8 border border-border/50 hover:border-accent/50 transition-all duration-500 hover:shadow-2xl hover:shadow-accent/5"
               style={{ animationDelay: `${index * 150}ms` }}
             >
+              {/* Step Number */}
+              <div className="absolute -top-4 -left-2 w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center border border-accent/30">
+                <span className="text-accent font-bold text-sm">{outcome.step}</span>
+              </div>
+
               {/* Icon & Title Row */}
               <div className="flex items-center gap-3 mb-4">
                 <div className={`w-10 h-10 rounded-lg ${outcome.bgColor} flex items-center justify-center flex-shrink-0`}>
