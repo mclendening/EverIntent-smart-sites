@@ -32,7 +32,7 @@ export function SocialProofBar() {
   const duplicatedStats = [...stats, ...stats, ...stats, ...stats];
 
   return (
-    <div className="relative py-4 overflow-hidden bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10">
+    <div className="relative py-2 -mt-[50px] overflow-hidden bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10">
       {/* Hidden SVG gradient definition */}
       <GradientDefs />
       
