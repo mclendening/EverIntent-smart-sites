@@ -7,17 +7,18 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // Default: Dark style like "Need help?" chat button
-        default: "bg-primary/95 backdrop-blur-sm text-primary-foreground border border-accent/30 shadow-lg hover:bg-primary hover:border-accent hover:shadow-xl hover:shadow-accent/20",
-        destructive: "bg-destructive/95 backdrop-blur-sm text-destructive-foreground border border-destructive/30 shadow-lg hover:bg-destructive hover:border-destructive",
-        outline: "bg-transparent text-foreground border border-border/50 shadow-lg hover:bg-muted/30 hover:border-accent/50 hover:shadow-accent/10",
-        secondary: "bg-secondary/95 backdrop-blur-sm text-secondary-foreground border border-border/30 shadow-lg hover:bg-secondary hover:border-accent/50",
+        // Default: standard dark button
+        default: "bg-primary text-primary-foreground border border-border/50 shadow-md hover:bg-primary/90 hover:border-border",
+        destructive: "bg-destructive text-destructive-foreground shadow-md hover:bg-destructive/90",
+        outline: "bg-transparent text-foreground border border-border/50 hover:bg-muted/30 hover:border-accent/50",
+        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-muted/50",
         link: "text-accent underline-offset-4 hover:underline",
-        // Amber CTA style like "Get Started" / "Book a Call"
-        glow: "bg-accent text-primary font-semibold shadow-lg hover:brightness-110 hover:shadow-xl",
-        "glow-outline": "bg-transparent text-accent border border-accent/50 shadow-lg hover:bg-accent/10 hover:border-accent",
-        premium: "bg-accent text-primary font-semibold shadow-lg hover:brightness-110 hover:shadow-xl",
+        // CTA: Matches "Need help?" chat button exactly
+        glow: "bg-primary/95 backdrop-blur-sm text-primary-foreground border border-accent/30 shadow-lg hover:bg-primary hover:border-accent hover:shadow-xl hover:shadow-accent/20",
+        "glow-outline": "bg-transparent text-accent border border-accent/30 shadow-lg hover:bg-accent/10 hover:border-accent hover:shadow-accent/20",
+        // Solid amber style (for contrast when needed)
+        premium: "bg-accent text-primary font-semibold shadow-lg hover:brightness-110",
         "premium-dark": "bg-primary/95 backdrop-blur-sm text-primary-foreground border border-accent/30 shadow-lg hover:bg-primary hover:border-accent hover:shadow-xl hover:shadow-accent/20",
       },
       size: {
