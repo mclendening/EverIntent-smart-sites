@@ -26,7 +26,7 @@ export const primaryServiceRoute: RouteConfig = {
   description: 'Professional websites that get you customers',
 };
 
-// Services
+// Services (benefit-oriented pages - used in nav dropdown)
 export const serviceRoutes: RouteConfig[] = [
   { path: '/services', title: 'Services', description: 'All our services' },
   { path: '/get-found-online', title: 'Get Found Online', description: 'SEO and local search visibility' },
@@ -35,6 +35,15 @@ export const serviceRoutes: RouteConfig[] = [
   { path: '/run-from-your-phone', title: 'Run From Your Phone', description: 'Mobile app access' },
   { path: '/build-your-reputation', title: 'Build Your Reputation', description: 'Review automation' },
   { path: '/let-ai-handle-it', title: 'Let AI Handle It', description: 'AI automation' },
+];
+
+// Product category pages (SEO landing pages - per BRD v33.0 Section 16.1)
+export const productCategoryRoutes: RouteConfig[] = [
+  { path: '/services/web-design', title: 'Web Design Services', description: 'Professional website design for local businesses' },
+  { path: '/services/seo', title: 'Local SEO Services', description: 'Get found on Google and local search' },
+  { path: '/services/reputation', title: 'Reputation Management', description: 'Build and manage your online reviews' },
+  { path: '/services/ai-automation', title: 'AI Automation', description: 'AI solutions for small business automation' },
+  { path: '/services/booking', title: 'Online Booking', description: 'Online scheduling and appointment booking' },
 ];
 
 // Features
@@ -190,6 +199,8 @@ export const prerenderRoutes: string[] = [
   primaryServiceRoute.path,
   // Services
   ...serviceRoutes.map(r => r.path),
+  // Product category pages (SEO)
+  ...productCategoryRoutes.map(r => r.path),
   // Features
   ...featureRoutes.map(r => r.path),
   // Industry hubs
@@ -214,6 +225,7 @@ export const allRoutes: RouteConfig[] = [
   ...coreRoutes,
   primaryServiceRoute,
   ...serviceRoutes,
+  ...productCategoryRoutes,
   ...featureRoutes,
   ...industryHubRoutes,
   ...homeServicesRoutes,
