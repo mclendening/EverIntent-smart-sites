@@ -22,13 +22,6 @@ export function HeroSection() {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 py-16 md:py-20">
         <div className="max-w-4xl mx-auto text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-border/50 mb-6 md:mb-8 animate-fade-in">
-            <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-            <span className="text-xs md:text-sm text-muted-foreground">
-              Trusted by 500+ local businesses
-            </span>
-          </div>
           
           {/* Headline */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] mb-4 md:mb-6 animate-fade-in" style={{ animationDelay: '100ms' }}>
