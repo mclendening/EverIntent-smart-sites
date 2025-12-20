@@ -79,7 +79,7 @@ const coreRoutePaths = ['/', '/pricing', '/our-work', '/about', '/contact', '/bo
 // Primary service
 const primaryServicePath = '/beautiful-websites';
 
-// Services
+// Services (benefit-oriented pages)
 const servicePaths = [
   '/services',
   '/get-found-online',
@@ -88,6 +88,15 @@ const servicePaths = [
   '/run-from-your-phone',
   '/build-your-reputation',
   '/let-ai-handle-it',
+];
+
+// Product category pages (SEO landing pages - per BRD v33.0 Section 16.1)
+const productCategoryPaths = [
+  '/services/web-design',
+  '/services/seo',
+  '/services/reputation',
+  '/services/ai-automation',
+  '/services/booking',
 ];
 
 // Features
@@ -228,6 +237,7 @@ export const prerenderRoutes: string[] = [
   ...coreRoutePaths,
   primaryServicePath,
   ...servicePaths,
+  ...productCategoryPaths,
   ...featurePaths,
   ...industryHubPaths,
   ...homeServicesPaths,
@@ -264,6 +274,8 @@ export const routes: RouteRecord[] = [
       createPlaceholderChild(primaryServicePath),
       // Services
       ...servicePaths.map(createPlaceholderChild),
+      // Product category pages (SEO)
+      ...productCategoryPaths.map(createPlaceholderChild),
       // Features
       ...featurePaths.map(createPlaceholderChild),
       // Industry hubs
