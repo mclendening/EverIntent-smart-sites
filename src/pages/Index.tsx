@@ -1,6 +1,6 @@
 import { HeroSection } from '@/components/home/HeroSection';
 import { SocialProofBar } from '@/components/home/SocialProofBar';
-import { HowWeHelpSection } from '@/components/home/HowWeHelpSection';
+import HowWeHelpSection from '@/components/home/HowWeHelpSection';
 import { TransformationSection } from '@/components/home/TransformationSection';
 import { PricingTeaser } from '@/components/home/PricingTeaser';
 import { PortfolioPreview } from '@/components/home/PortfolioPreview';
