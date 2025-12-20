@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Linkedin, Twitter, Facebook, Globe } from 'lucide-react';
+import { Linkedin, Twitter, Facebook, Sparkles, ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { triggerCookiePreferences } from '@/components/CookieConsent';
 
@@ -43,7 +43,7 @@ const companyLinks = [
 const legalLinks = [
   { title: 'Privacy', path: '/legal/privacy' },
   { title: 'Cookies', path: '/legal/cookies' },
-  { title: 'Terms of Service', path: '/legal/terms' },
+  { title: 'Terms', path: '/legal/terms' },
   { title: 'Data Rights', path: '/legal/data-request' },
 ];
 
@@ -57,21 +57,25 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-primary text-primary-foreground">
-      <div className="container py-12 md:py-16">
+    <footer className="relative border-t border-border bg-card">
+      {/* Gradient glow effect at top */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
+      
+      <div className="container py-16 md:py-20">
         {/* Main footer grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {/* Products */}
           <div>
-            <h3 className="font-semibold text-primary-foreground mb-4">Products</h3>
-            <ul className="space-y-2">
+            <h3 className="font-display font-semibold text-foreground mb-5 text-sm uppercase tracking-wider">Products</h3>
+            <ul className="space-y-3">
               {productsLinks.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className="text-sm text-primary-foreground/70 hover:text-accent transition-colors"
+                    className="text-sm text-muted-foreground hover:text-accent transition-colors inline-flex items-center gap-1 group"
                   >
                     {link.title}
+                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" />
                   </Link>
                 </li>
               ))}
@@ -80,15 +84,16 @@ export function Footer() {
 
           {/* Packages */}
           <div>
-            <h3 className="font-semibold text-primary-foreground mb-4">Packages</h3>
-            <ul className="space-y-2">
+            <h3 className="font-display font-semibold text-foreground mb-5 text-sm uppercase tracking-wider">Packages</h3>
+            <ul className="space-y-3">
               {packagesLinks.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className="text-sm text-primary-foreground/70 hover:text-accent transition-colors"
+                    className="text-sm text-muted-foreground hover:text-accent transition-colors inline-flex items-center gap-1 group"
                   >
                     {link.title}
+                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" />
                   </Link>
                 </li>
               ))}
@@ -97,15 +102,16 @@ export function Footer() {
 
           {/* Resources */}
           <div>
-            <h3 className="font-semibold text-primary-foreground mb-4">Resources</h3>
-            <ul className="space-y-2">
+            <h3 className="font-display font-semibold text-foreground mb-5 text-sm uppercase tracking-wider">Resources</h3>
+            <ul className="space-y-3">
               {resourcesLinks.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className="text-sm text-primary-foreground/70 hover:text-accent transition-colors"
+                    className="text-sm text-muted-foreground hover:text-accent transition-colors inline-flex items-center gap-1 group"
                   >
                     {link.title}
+                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" />
                   </Link>
                 </li>
               ))}
@@ -114,15 +120,16 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="font-semibold text-primary-foreground mb-4">Company</h3>
-            <ul className="space-y-2">
+            <h3 className="font-display font-semibold text-foreground mb-5 text-sm uppercase tracking-wider">Company</h3>
+            <ul className="space-y-3">
               {companyLinks.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className="text-sm text-primary-foreground/70 hover:text-accent transition-colors"
+                    className="text-sm text-muted-foreground hover:text-accent transition-colors inline-flex items-center gap-1 group"
                   >
                     {link.title}
+                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" />
                   </Link>
                 </li>
               ))}
@@ -131,101 +138,98 @@ export function Footer() {
         </div>
 
         {/* Branded Footer Section */}
-        <div className="mt-12 pt-4 border-t border-primary-foreground/20">
-          {/* Logo, CTA, Social, and Contact */}
-          <div className="flex flex-col space-y-8">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-              {/* Brand Name */}
-              <Link
-                to="/"
-                className="flex items-center justify-center md:justify-start gap-2 text-xl font-semibold text-primary-foreground"
-              >
-                <Globe className="w-6 h-6 text-accent" />
-                EverIntent Smart Sites
-              </Link>
-
-              {/* CTA + Social Icons Row */}
-              <div className="mt-8 md:mt-0 flex flex-row flex-wrap items-center justify-center md:justify-end gap-6">
-                <Button
-                  asChild
-                  className="bg-accent text-accent-foreground hover:bg-accent-hover font-medium px-4 shadow-button"
-                >
-                  <Link to="/contact">Book a Call</Link>
-                </Button>
-
-                {/* Social Icons */}
-                <div className="flex items-center gap-2">
-                  {socialLinks.map((social) => (
-                    <a
-                      key={social.label}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2 rounded-full bg-primary-foreground/10 hover:bg-accent hover:text-accent-foreground transition-colors"
-                      aria-label={social.label}
-                    >
-                      <social.icon className="w-5 h-5" />
-                    </a>
-                  ))}
+        <div className="mt-16 pt-8 border-t border-border">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+            {/* Brand */}
+            <div className="flex flex-col items-center lg:items-start gap-4">
+              <Link to="/" className="flex items-center gap-3 group">
+                <div className="relative">
+                  <Sparkles className="w-8 h-8 text-accent" />
+                  <div className="absolute inset-0 bg-accent/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
-              </div>
+                <div className="flex flex-col">
+                  <span className="text-xl font-display font-bold text-foreground tracking-tight">
+                    Smart<span className="text-gradient">Sites</span>
+                  </span>
+                  <span className="text-[10px] text-muted-foreground font-medium tracking-widest uppercase">
+                    by EverIntent
+                  </span>
+                </div>
+              </Link>
+              <p className="text-sm text-muted-foreground text-center lg:text-left max-w-xs">
+                Professional websites that actually get you customers. Starting at $249.
+              </p>
             </div>
 
+            {/* CTA + Social */}
+            <div className="flex flex-col sm:flex-row items-center gap-6">
+              <Button variant="glow" size="lg" asChild>
+                <Link to="/contact">Book a Call</Link>
+              </Button>
+
+              <div className="flex items-center gap-2">
+                {socialLinks.map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 rounded-full bg-muted hover:bg-accent hover:text-accent-foreground transition-all duration-200 hover:scale-110"
+                    aria-label={social.label}
+                  >
+                    <social.icon className="w-4 h-4" />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+
           {/* Contact Info */}
-          <div className="flex flex-col items-center gap-1 text-sm text-primary-foreground/70">
-            <div className="flex flex-row flex-wrap items-center justify-center gap-3">
+          <div className="mt-8 flex flex-col items-center gap-2 text-sm text-muted-foreground">
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
               <a href="mailto:info@everintent.com" className="hover:text-accent transition-colors">
                 info@everintent.com
               </a>
+              <span className="hidden sm:inline text-border">•</span>
               <a href="tel:+15626859500" className="hover:text-accent transition-colors">
                 (562) 685-9500
               </a>
             </div>
-            <p className="mt-1 text-center">
-              EverIntent LLC, 2892 N Bellflower Blvd, PMB 1018, Long Beach, CA 90815
+            <p className="text-center text-xs text-muted-foreground/70">
+              2892 N Bellflower Blvd, PMB 1018, Long Beach, CA 90815
             </p>
           </div>
-          </div>
+        </div>
 
-          {/* Divider */}
-          <div className="my-8 border-t border-primary-foreground/20" />
+        {/* Bottom bar */}
+        <div className="mt-12 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* Copyright */}
+          <p className="text-xs text-muted-foreground">
+            © {currentYear} EverIntent LLC. All rights reserved.
+          </p>
 
           {/* Legal Links */}
-          <div className="flex flex-wrap justify-center gap-2 text-xs md:text-sm text-primary-foreground/70">
-            {legalLinks.map((link, index) => (
-              <span key={link.path} className="flex items-center">
-                {link.path === '/legal/cookies' ? (
-                  <button
-                    onClick={triggerCookiePreferences}
-                    className="hover:text-accent transition-colors whitespace-nowrap"
-                  >
-                    {link.title}
-                  </button>
-                ) : (
-                  <Link
-                    to={link.path}
-                    className="hover:text-accent transition-colors whitespace-nowrap"
-                  >
-                    {link.title}
-                  </Link>
-                )}
-                {index < legalLinks.length - 1 && (
-                  <span className="ml-2 text-primary-foreground/30">|</span>
-                )}
-              </span>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+            {legalLinks.map((link) => (
+              link.path === '/legal/cookies' ? (
+                <button
+                  key={link.path}
+                  onClick={triggerCookiePreferences}
+                  className="hover:text-accent transition-colors"
+                >
+                  {link.title}
+                </button>
+              ) : (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className="hover:text-accent transition-colors"
+                >
+                  {link.title}
+                </Link>
+              )
             ))}
           </div>
-
-          {/* Copyright and Tagline */}
-          <div className="mt-6 text-center">
-            <p className="text-sm text-primary-foreground/70">
-              © {currentYear} EverIntent LLC. All rights reserved.
-            </p>
-            <p className="text-sm text-primary-foreground/50 mt-2">
-              Professional websites for local businesses.
-            </p>
-          </div>
-
         </div>
       </div>
     </footer>
