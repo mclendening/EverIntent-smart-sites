@@ -51,7 +51,6 @@ const industries = [
     description: 'HVAC, plumbing, electrical, roofing, landscaping & more',
     verticals: '31 verticals',
     href: '/industries/home-services',
-    gradientId: 'gradient-ocean',
   },
   {
     icon: Briefcase,
@@ -59,7 +58,6 @@ const industries = [
     description: 'Legal, real estate, accounting, insurance & consulting',
     verticals: '15 verticals',
     href: '/industries/professional-services',
-    gradientId: 'gradient-royal',
   },
   {
     icon: Heart,
@@ -67,7 +65,6 @@ const industries = [
     description: 'Dental, chiropractic, medspa, salons & fitness',
     verticals: '15 verticals',
     href: '/industries/health-wellness',
-    gradientId: 'gradient-sky',
   },
   {
     icon: Car,
@@ -75,7 +72,6 @@ const industries = [
     description: 'Auto repair, detailing, tire shops, body shops & towing',
     verticals: '10 verticals',
     href: '/industries/automotive-services',
-    gradientId: 'gradient-electric',
   },
 ];
 
@@ -109,7 +105,7 @@ export function IndustriesSection() {
               <div className="flex items-center gap-3 mb-2">
                 <GradientIcon 
                   icon={industry.icon} 
-                  gradientId={industry.gradientId}
+                  gradientId="gradient-ocean"
                   className="w-5 h-5 flex-shrink-0"
                 />
                 <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
