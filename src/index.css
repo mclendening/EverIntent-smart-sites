@@ -367,6 +367,17 @@
     animation: pulse-glow 2s ease-in-out infinite;
   }
 
+  /* Radial vignette for hero background */
+  .bg-radial-vignette {
+    background: radial-gradient(
+      ellipse 50% 50% at 50% 50%,
+      hsl(var(--background) / 0.95) 0%,
+      hsl(var(--background) / 0.8) 30%,
+      hsl(var(--background) / 0.3) 60%,
+      transparent 100%
+    );
+  }
+
   /* Footer link hover */
   .footer-link {
     @apply relative text-muted-foreground transition-all duration-300;
