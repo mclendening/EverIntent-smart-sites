@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, ChevronDown, Globe, X } from 'lucide-react';
+import { Menu, ChevronDown, X, Sparkles } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { Button } from '@/components/ui/button';
 
@@ -30,12 +30,19 @@ export function Header() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [industriesOpen, setIndustriesOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
+    
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu on route change
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
     setMobileServicesOpen(false);
@@ -43,88 +50,125 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/20 bg-primary">
-      <div className="container flex h-16 items-center justify-between">
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled 
+          ? 'bg-background/95 backdrop-blur-lg border-b border-border/50 shadow-lg' 
+          : 'bg-transparent'
+      }`}
+    >
+      <div className="container flex h-20 items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2">
-          <Globe className="w-5 h-5 text-accent" />
-          <span className="text-lg font-medium text-primary-foreground">EverIntent Smart Sites</span>
+        <Link to="/" className="flex items-center gap-3 group">
+          <div className="relative">
+            <Sparkles className="w-8 h-8 text-accent transition-transform duration-300 group-hover:scale-110" />
+            <div className="absolute inset-0 bg-accent/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-xl font-display font-bold text-foreground tracking-tight">
+              Smart<span className="text-gradient">Sites</span>
+            </span>
+            <span className="text-[10px] text-muted-foreground font-medium tracking-widest uppercase">
+              by EverIntent
+            </span>
+          </div>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-1">
-          {/* Services Dropdown - Pure CSS/State based, no Radix */}
+        <nav className="hidden lg:flex items-center space-x-1">
+          {/* Services Dropdown */}
           <div className="relative">
-            <Button 
-              variant="ghost" 
-              className="flex items-center gap-1 text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10"
+            <button 
+              className={`flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                servicesOpen 
+                  ? 'text-accent bg-muted' 
+                  : 'text-foreground/80 hover:text-foreground hover:bg-muted/50'
+              }`}
               onClick={() => setServicesOpen(!servicesOpen)}
               onBlur={() => setTimeout(() => setServicesOpen(false), 150)}
             >
               Services
-              <ChevronDown className={`h-4 w-4 transition-transform ${servicesOpen ? 'rotate-180' : ''}`} />
-            </Button>
+              <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} />
+            </button>
             {isMounted && servicesOpen && (
-              <div className="absolute top-full left-0 mt-1 w-64 bg-popover border border-border rounded-md shadow-lg z-50">
-                {servicesItems.map((item) => (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    className="flex flex-col items-start px-3 py-2 hover:bg-muted transition-colors"
-                    onClick={() => setServicesOpen(false)}
-                  >
-                    <span className="font-medium text-foreground">{item.title}</span>
-                    <span className="text-xs text-muted-foreground">{item.description}</span>
-                  </Link>
-                ))}
+              <div className="absolute top-full left-0 mt-2 w-72 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden animate-fade-in">
+                <div className="p-2">
+                  {servicesItems.map((item) => (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      className="flex flex-col items-start px-4 py-3 rounded-lg hover:bg-muted transition-colors group"
+                      onClick={() => setServicesOpen(false)}
+                    >
+                      <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{item.title}</span>
+                      <span className="text-xs text-muted-foreground mt-0.5">{item.description}</span>
+                    </Link>
+                  ))}
+                </div>
               </div>
             )}
           </div>
 
-          {/* Industries Dropdown - Pure CSS/State based, no Radix */}
+          {/* Industries Dropdown */}
           <div className="relative">
-            <Button 
-              variant="ghost" 
-              className="flex items-center gap-1 text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10"
+            <button 
+              className={`flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                industriesOpen 
+                  ? 'text-accent bg-muted' 
+                  : 'text-foreground/80 hover:text-foreground hover:bg-muted/50'
+              }`}
               onClick={() => setIndustriesOpen(!industriesOpen)}
               onBlur={() => setTimeout(() => setIndustriesOpen(false), 150)}
             >
               Industries
-              <ChevronDown className={`h-4 w-4 transition-transform ${industriesOpen ? 'rotate-180' : ''}`} />
-            </Button>
+              <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${industriesOpen ? 'rotate-180' : ''}`} />
+            </button>
             {isMounted && industriesOpen && (
-              <div className="absolute top-full left-0 mt-1 w-64 bg-popover border border-border rounded-md shadow-lg z-50">
-                {industriesItems.map((item) => (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    className="flex flex-col items-start px-3 py-2 hover:bg-muted transition-colors"
-                    onClick={() => setIndustriesOpen(false)}
-                  >
-                    <span className="font-medium text-foreground">{item.title}</span>
-                    <span className="text-xs text-muted-foreground">{item.description}</span>
-                  </Link>
-                ))}
+              <div className="absolute top-full left-0 mt-2 w-72 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden animate-fade-in">
+                <div className="p-2">
+                  {industriesItems.map((item) => (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      className="flex flex-col items-start px-4 py-3 rounded-lg hover:bg-muted transition-colors group"
+                      onClick={() => setIndustriesOpen(false)}
+                    >
+                      <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{item.title}</span>
+                      <span className="text-xs text-muted-foreground mt-0.5">{item.description}</span>
+                    </Link>
+                  ))}
+                </div>
               </div>
             )}
           </div>
 
           {/* Static Links */}
-          <Button variant="ghost" asChild className="text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
-            <NavLink to="/pricing">Pricing</NavLink>
-          </Button>
-          <Button variant="ghost" asChild className="text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
-            <NavLink to="/our-work">Our Work</NavLink>
-          </Button>
-          <Button variant="ghost" asChild className="text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10">
-            <NavLink to="/about">About</NavLink>
-          </Button>
+          <NavLink 
+            to="/pricing" 
+            className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-muted/50 rounded-lg transition-all duration-200"
+          >
+            Pricing
+          </NavLink>
+          <NavLink 
+            to="/our-work" 
+            className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-muted/50 rounded-lg transition-all duration-200"
+          >
+            Our Work
+          </NavLink>
+          <NavLink 
+            to="/about" 
+            className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-muted/50 rounded-lg transition-all duration-200"
+          >
+            About
+          </NavLink>
         </nav>
 
         {/* Desktop CTA */}
-        <div className="hidden md:flex items-center space-x-2">
-          <Button asChild className="bg-accent text-primary hover:bg-accent/90">
-            <NavLink to="/pricing">Get Started</NavLink>
+        <div className="hidden lg:flex items-center gap-3">
+          <Button variant="glow" size="lg" asChild>
+            <NavLink to="/pricing">
+              Get Started
+            </NavLink>
           </Button>
         </div>
 
@@ -132,7 +176,7 @@ export function Header() {
         <Button 
           variant="ghost" 
           size="icon" 
-          className="md:hidden text-primary-foreground"
+          className="lg:hidden"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -140,33 +184,33 @@ export function Header() {
         </Button>
       </div>
 
-      {/* Mobile Menu - Simple div, no Radix Sheet */}
+      {/* Mobile Menu */}
       {isMounted && mobileMenuOpen && (
         <>
           {/* Backdrop */}
           <div 
-            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+            className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 lg:hidden"
             onClick={closeMobileMenu}
           />
           {/* Menu Panel */}
-          <div className="fixed top-16 right-0 bottom-0 w-80 bg-background z-50 md:hidden overflow-y-auto animate-in slide-in-from-right duration-300">
-            <div className="flex flex-col space-y-4 p-6">
+          <div className="fixed top-20 right-0 bottom-0 w-full max-w-sm bg-card border-l border-border z-50 lg:hidden overflow-y-auto animate-slide-in-right">
+            <div className="flex flex-col p-6 space-y-2">
               {/* Services Collapsible */}
-              <div>
+              <div className="border-b border-border/50 pb-2">
                 <button
-                  className="flex items-center justify-between w-full py-2 text-lg font-medium text-foreground"
+                  className="flex items-center justify-between w-full py-3 text-lg font-semibold text-foreground"
                   onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
                 >
                   Services
-                  <ChevronDown className={`h-5 w-5 transition-transform ${mobileServicesOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`h-5 w-5 text-muted-foreground transition-transform ${mobileServicesOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {mobileServicesOpen && (
-                  <div className="pl-4 space-y-2 mt-2">
+                  <div className="pl-4 space-y-1 mt-2 animate-fade-in">
                     {servicesItems.map((item) => (
                       <Link
                         key={item.path}
                         to={item.path}
-                        className="block py-2 text-muted-foreground hover:text-foreground transition-colors"
+                        className="block py-2.5 text-muted-foreground hover:text-accent transition-colors"
                         onClick={closeMobileMenu}
                       >
                         {item.title}
@@ -177,21 +221,21 @@ export function Header() {
               </div>
 
               {/* Industries Collapsible */}
-              <div>
+              <div className="border-b border-border/50 pb-2">
                 <button
-                  className="flex items-center justify-between w-full py-2 text-lg font-medium text-foreground"
+                  className="flex items-center justify-between w-full py-3 text-lg font-semibold text-foreground"
                   onClick={() => setMobileIndustriesOpen(!mobileIndustriesOpen)}
                 >
                   Industries
-                  <ChevronDown className={`h-5 w-5 transition-transform ${mobileIndustriesOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`h-5 w-5 text-muted-foreground transition-transform ${mobileIndustriesOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {mobileIndustriesOpen && (
-                  <div className="pl-4 space-y-2 mt-2">
+                  <div className="pl-4 space-y-1 mt-2 animate-fade-in">
                     {industriesItems.map((item) => (
                       <Link
                         key={item.path}
                         to={item.path}
-                        className="block py-2 text-muted-foreground hover:text-foreground transition-colors"
+                        className="block py-2.5 text-muted-foreground hover:text-accent transition-colors"
                         onClick={closeMobileMenu}
                       >
                         {item.title}
@@ -204,29 +248,29 @@ export function Header() {
               {/* Static Links */}
               <Link 
                 to="/pricing" 
-                className="py-2 text-lg font-medium text-foreground"
+                className="py-3 text-lg font-semibold text-foreground border-b border-border/50"
                 onClick={closeMobileMenu}
               >
                 Pricing
               </Link>
               <Link 
                 to="/our-work" 
-                className="py-2 text-lg font-medium text-foreground"
+                className="py-3 text-lg font-semibold text-foreground border-b border-border/50"
                 onClick={closeMobileMenu}
               >
                 Our Work
               </Link>
               <Link 
                 to="/about" 
-                className="py-2 text-lg font-medium text-foreground"
+                className="py-3 text-lg font-semibold text-foreground border-b border-border/50"
                 onClick={closeMobileMenu}
               >
                 About
               </Link>
 
               {/* Mobile CTAs */}
-              <div className="pt-4 border-t border-border space-y-3">
-                <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+              <div className="pt-6 space-y-3">
+                <Button variant="glow" size="lg" className="w-full" asChild>
                   <Link to="/pricing" onClick={closeMobileMenu}>Get Started</Link>
                 </Button>
               </div>
