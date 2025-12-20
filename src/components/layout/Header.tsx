@@ -52,18 +52,23 @@ export function Header() {
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled 
-          ? 'bg-background/95 backdrop-blur-lg border-b border-border/50 shadow-lg' 
+          ? 'bg-background/95 backdrop-blur-xl border-b border-border/30 shadow-layered' 
           : 'bg-transparent'
       }`}
     >
+      {/* Subtle gradient line at bottom when scrolled */}
+      {scrolled && (
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+      )}
+
       <div className="container flex h-20 items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3 group">
           <div className="relative">
-            <Sparkles className="w-8 h-8 text-accent transition-transform duration-300 group-hover:scale-110" />
-            <div className="absolute inset-0 bg-accent/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <Sparkles className="w-8 h-8 text-accent transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" />
+            <div className="absolute inset-0 bg-accent/30 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500" />
           </div>
           <div className="flex flex-col">
             <span className="text-xl font-display font-bold text-foreground tracking-tight">
@@ -76,33 +81,35 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center space-x-1">
+        <nav className="hidden lg:flex items-center gap-1">
           {/* Services Dropdown */}
           <div className="relative">
             <button 
-              className={`flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+              className={`nav-link flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium transition-all duration-300 ${
                 servicesOpen 
-                  ? 'text-accent bg-muted' 
-                  : 'text-foreground/80 hover:text-foreground hover:bg-muted/50'
+                  ? 'text-accent' 
+                  : 'text-foreground/70 hover:text-foreground'
               }`}
               onClick={() => setServicesOpen(!servicesOpen)}
               onBlur={() => setTimeout(() => setServicesOpen(false), 150)}
             >
               Services
-              <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${servicesOpen ? 'rotate-180' : ''}`} />
             </button>
             {isMounted && servicesOpen && (
-              <div className="absolute top-full left-0 mt-2 w-72 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden animate-fade-in">
-                <div className="p-2">
-                  {servicesItems.map((item) => (
+              <div className="absolute top-full left-0 mt-3 w-80 bg-card/95 backdrop-blur-xl border border-border/50 rounded-2xl shadow-layered-lg overflow-hidden animate-fade-in">
+                <div className="absolute inset-0 bg-gradient-to-b from-accent/5 to-transparent pointer-events-none" />
+                <div className="relative p-2">
+                  {servicesItems.map((item, index) => (
                     <Link
                       key={item.path}
                       to={item.path}
-                      className="flex flex-col items-start px-4 py-3 rounded-lg hover:bg-muted transition-colors group"
+                      className="flex flex-col items-start px-4 py-3 rounded-xl hover:bg-accent/10 transition-all duration-200 group"
                       onClick={() => setServicesOpen(false)}
+                      style={{ animationDelay: `${index * 30}ms` }}
                     >
                       <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{item.title}</span>
-                      <span className="text-xs text-muted-foreground mt-0.5">{item.description}</span>
+                      <span className="text-xs text-muted-foreground mt-0.5 group-hover:text-muted-foreground/80">{item.description}</span>
                     </Link>
                   ))}
                 </div>
@@ -113,29 +120,31 @@ export function Header() {
           {/* Industries Dropdown */}
           <div className="relative">
             <button 
-              className={`flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+              className={`nav-link flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium transition-all duration-300 ${
                 industriesOpen 
-                  ? 'text-accent bg-muted' 
-                  : 'text-foreground/80 hover:text-foreground hover:bg-muted/50'
+                  ? 'text-accent' 
+                  : 'text-foreground/70 hover:text-foreground'
               }`}
               onClick={() => setIndustriesOpen(!industriesOpen)}
               onBlur={() => setTimeout(() => setIndustriesOpen(false), 150)}
             >
               Industries
-              <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${industriesOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${industriesOpen ? 'rotate-180' : ''}`} />
             </button>
             {isMounted && industriesOpen && (
-              <div className="absolute top-full left-0 mt-2 w-72 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden animate-fade-in">
-                <div className="p-2">
-                  {industriesItems.map((item) => (
+              <div className="absolute top-full left-0 mt-3 w-80 bg-card/95 backdrop-blur-xl border border-border/50 rounded-2xl shadow-layered-lg overflow-hidden animate-fade-in">
+                <div className="absolute inset-0 bg-gradient-to-b from-accent/5 to-transparent pointer-events-none" />
+                <div className="relative p-2">
+                  {industriesItems.map((item, index) => (
                     <Link
                       key={item.path}
                       to={item.path}
-                      className="flex flex-col items-start px-4 py-3 rounded-lg hover:bg-muted transition-colors group"
+                      className="flex flex-col items-start px-4 py-3 rounded-xl hover:bg-accent/10 transition-all duration-200 group"
                       onClick={() => setIndustriesOpen(false)}
+                      style={{ animationDelay: `${index * 30}ms` }}
                     >
                       <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{item.title}</span>
-                      <span className="text-xs text-muted-foreground mt-0.5">{item.description}</span>
+                      <span className="text-xs text-muted-foreground mt-0.5 group-hover:text-muted-foreground/80">{item.description}</span>
                     </Link>
                   ))}
                 </div>
@@ -143,22 +152,25 @@ export function Header() {
             )}
           </div>
 
-          {/* Static Links */}
+          {/* Separator */}
+          <div className="w-px h-5 bg-border/50 mx-2" />
+
+          {/* Static Links with animated underline */}
           <NavLink 
             to="/pricing" 
-            className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-muted/50 rounded-lg transition-all duration-200"
+            className="nav-link px-4 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300"
           >
             Pricing
           </NavLink>
           <NavLink 
             to="/our-work" 
-            className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-muted/50 rounded-lg transition-all duration-200"
+            className="nav-link px-4 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300"
           >
             Our Work
           </NavLink>
           <NavLink 
             to="/about" 
-            className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-muted/50 rounded-lg transition-all duration-200"
+            className="nav-link px-4 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300"
           >
             About
           </NavLink>
