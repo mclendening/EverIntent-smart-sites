@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Linkedin, Twitter, Facebook, Sparkles, ArrowUpRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { triggerCookiePreferences } from '@/components/CookieConsent';
+import { CTAButton } from '@/components/CTAButton';
 
 // Products links (SEO-focused product category pages)
 const productsLinks = [
@@ -163,13 +163,7 @@ export function Footer() {
 
             {/* CTA + Social */}
             <div className="flex flex-col sm:flex-row items-center gap-6">
-              <Button variant="glow" size="lg" asChild className="group">
-                <Link to="/contact" className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-accent transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
-                  <span>Book a Call</span>
-                  <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-                </Link>
-              </Button>
+              <CTAButton to="/contact" defaultText="Book a Call" hoverText="Let's Talk" />
 
               <div className="flex items-center gap-2">
                 {socialLinks.map((social) => (

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Menu, ChevronDown, X, Sparkles } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { Button } from '@/components/ui/button';
+import { CTAButton } from '@/components/CTAButton';
 
 // Services dropdown items - Beautiful Websites at TOP per BRD
 const servicesItems = [
@@ -165,13 +166,7 @@ export function Header() {
 
         {/* Desktop CTA */}
         <div className="hidden lg:flex items-center gap-3">
-          <Button variant="glow" size="lg" asChild className="group">
-            <NavLink to="/pricing" className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-accent transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
-              <span>Get Started</span>
-              <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-            </NavLink>
-          </Button>
+          <CTAButton to="/pricing" defaultText="Get Started" hoverText="Let's Go!" />
         </div>
 
         {/* Mobile Menu Button */}
@@ -270,14 +265,15 @@ export function Header() {
                 About
               </Link>
 
+              {/* Mobile CTAs */}
               <div className="pt-6 space-y-3">
-                <Button variant="glow" size="lg" className="w-full group" asChild>
-                  <Link to="/pricing" onClick={closeMobileMenu} className="flex items-center justify-center gap-2">
-                    <Sparkles className="w-4 h-4 text-accent transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
-                    <span>Get Started</span>
-                    <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-                  </Link>
-                </Button>
+                <CTAButton 
+                  to="/pricing" 
+                  defaultText="Get Started" 
+                  hoverText="Let's Go!" 
+                  onClick={closeMobileMenu}
+                  fullWidth
+                />
               </div>
             </div>
           </div>
