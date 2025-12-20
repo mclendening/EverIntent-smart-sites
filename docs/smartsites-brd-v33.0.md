@@ -1,7 +1,7 @@
-# EverIntent SmartSites — Complete Business Requirements Document v33.0
+# EverIntent SmartSites — Complete Business Requirements Document v33.2
 
 **Last Updated:** December 20, 2025  
-**Version:** 33.0 (Product-First Restructure)
+**Version:** 33.2 (Design System Overhaul)
 **Status:** BUILD-READY
 **Owner:** EverIntent LLC  
 **GitHub Path:** /docs/BRD/SmartSites-BRD-v32.md
@@ -2474,6 +2474,7 @@ Is this a good time to chat for 2 minutes?"
 | v32.11 | Dec 18 | **SSG Configuration Pattern Documented**: Added Appendix H with complete `vite-react-ssg` configuration patterns; Documented critical anti-patterns (manualChunks, catch-all rewrites); Added ClientOnly and isMounted patterns for Radix UI components; Added QueryClient placement rules; Full SSG routes restored (was limited to 6 during debugging); This appendix is REQUIRED reading for any Lovable project using SSG |
 | **v33.0** | **Dec 20** | **Product-First Restructure (Major)**: Complete restructuring of product/service model based on market research and persona analysis. Key changes: (1) Products are now primary, packages bundle them — eliminates "add-on" framing; (2) Smart Launch package added ($2,500-$4,500 + $297/mo) to capture "missing middle" between T4 and Custom; (3) SmartStart Strategy Session added ($500-750) for paid discovery/qualification; (4) Product-category landing pages added (/services/seo, /services/web-design, /services/reputation, /services/ai-automation, /services/booking) for SEO alignment with buyer search intent; (5) Navigation updates: Portfolio → Our Work, Careers added to footer; (6) GTM Section 19 updated with product-first positioning and standalone product campaigns; (7) Tier naming consideration documented (pending decision); (8) Persona buying behavior integrated into Section 9 Customer Journey. Sources: docs/menu-structure-proposal.md, docs/chatgpt-research-alignment.md, docs/research-alignment.md, docs/persona-spec.md |
 | v33.1 | Dec 20 | **Footer Restructure**: Replaced Services + Industries footer columns with Products + Packages columns. Products column links to `/services/*` pages (web-design, seo, lead-capture, booking, reputation, ai-automation) for SEO value. Packages column links to `/checkout/*` pages for direct conversion paths. Header retains benefit-oriented Services dropdown for buyer journey. Industries moved to header-only access. |
+| **v33.2** | **Dec 20** | **Design System Overhaul (Major)**: Complete visual redesign inspired by award-winning agency sites (SPINX Digital, Shape, VRRB). Key changes: (1) Color palette updated: Deep Navy → Rich Slate (`222 47% 7%`), Muted Gold → Electric Amber (`38 92% 50%`); (2) Typography updated: System fonts → Space Grotesk (display) + Inter (body) via Google Fonts; (3) CTA Button Pattern established: Dark glassmorphic buttons with backdrop-blur, amber border (`border-accent/30`), shadow-lg, hover glow (`hover:shadow-accent/20`), text change on hover ("Get Started" → "Let's Go!"), Sparkles icon + pulse dot; (4) CTAButton component created for consistent CTA usage across site; (5) Header polish: Animated nav underlines, glassmorphic dropdowns with gradient overlays, layered shadows, gradient border on scroll; (6) Footer polish: Mesh gradient backgrounds, section headers with accent gradient lines, footer-link hover animation (slide-in accent bar), enhanced social icons with glow, gradient border separators; (7) New CSS utilities: `.nav-link`, `.footer-link`, `.shadow-layered`, `.shadow-layered-lg`, `.transition-spring`, `.bg-mesh`, `.bg-noise`; (8) Business rationale documented in Appendix F.0 explaining why each design decision converts. Sources: SPINX Digital, Shape Agency, VRRB, Isadora Agency research. |
 
 ### Related Specification Documents
 
@@ -2724,55 +2725,140 @@ CLICKUP_LIST_ID=xxx
 
 ## Appendix F: Design System & Component Patterns
 
+### F.0 Design Philosophy & Business Rationale
+
+**Why Our Design Looks This Way:**
+
+SmartSites' design is intentionally modeled after award-winning agency websites (SPINX Digital, Shape, Isadora Agency) that convert visitors into paying customers. The design decisions below are not arbitrary aesthetic choices—they're proven conversion patterns.
+
+| Design Decision | Business Rationale | Research Source |
+|-----------------|---------------------|-----------------|
+| **Dark base with amber accent** | Premium positioning without alienating SMB buyers; dark conveys sophistication, amber signals action | SPINX Digital ($5-50K projects), in-house agency aesthetic |
+| **Glassmorphic CTAs** | Creates depth and "floating" effect that draws eye to conversion points; higher click-through than flat buttons | Shape agency pattern; modern SaaS standard |
+| **Animated underlines on nav** | Provides feedback without page reload; signals interactivity; reduces perceived friction | UX research on micro-interactions |
+| **Mesh gradient backgrounds** | Adds visual interest without distraction; creates atmosphere that feels "designed" not "templated" | Isadora Agency; differentiates from DIY builders |
+| **Text-on-hover CTA changes** | Creates delight and engagement; "Get Started" → "Let's Go!" builds momentum | Psychological continuity; reduces commitment anxiety |
+| **Layered shadows** | Multi-level shadows create depth hierarchy; premium feel vs flat DIY site look | VRRB; enterprise SaaS standard |
+| **Animated sparkle icons** | Associates brand with "smart" and "magic"; reinforces AI/automation messaging | Consistent with "SmartSites" brand promise |
+
+**Target Aesthetic:** Premium but approachable. We sell to HVAC contractors and dentists, not Fortune 500. The design should say "these people know what they're doing" without saying "this is too expensive for me."
+
+**Anti-Patterns Explicitly Avoided:**
+- Generic purple gradients (screams "AI tool" and "template")
+- Inter/Poppins system fonts (every AI builder uses these)
+- Flat white backgrounds (looks like unfinished wireframe)
+- Rounded-full buttons (too playful for B2B trust)
+- Stock photography (instant credibility killer)
+
 ### F.1 Color Palette (HSL Tokens)
 
-| Token | Light Mode | Dark Mode | Usage |
-|-------|------------|-----------|-------|
-| `--primary` | `210 73% 15%` (Deep Navy) | `208 65% 34%` | Trust & Authority |
-| `--primary-light` | `208 65% 34%` | `208 60% 45%` | Hover states |
-| `--accent` | `44 44% 62%` (Rich Gold) | Same | Prestige (10% usage) |
-| `--accent-hover` | `43 89% 38%` | Same | Gold interactions |
-| `--background` | `0 0% 100%` | `240 28% 9%` | Page background |
-| `--foreground` | `240 28% 14%` | `0 0% 98%` | Body text |
-| `--muted-foreground` | `215 19% 35%` | `215 19% 65%` | Secondary text |
-| `--border` | `214 32% 91%` | `210 30% 20%` | Borders |
+**Light Mode:**
+
+| Token | HSL Value | Usage |
+|-------|-----------|-------|
+| `--background` | `0 0% 100%` | Page background |
+| `--foreground` | `222 47% 11%` | Body text |
+| `--primary` | `222 47% 11%` | Rich Slate - Sophisticated base |
+| `--primary-light` | `215 25% 27%` | Hover states |
+| `--primary-foreground` | `0 0% 100%` | Text on primary |
+| `--accent` | `38 92% 50%` | Electric Amber - HIGH IMPACT (the money color) |
+| `--accent-hover` | `32 95% 44%` | Darker amber for interactions |
+| `--accent-foreground` | `222 47% 11%` | Text on accent |
+| `--muted` | `60 5% 96%` | Subtle backgrounds |
+| `--muted-foreground` | `215 16% 47%` | Secondary text |
+| `--border` | `220 13% 91%` | Borders |
+
+**Dark Mode:**
+
+| Token | HSL Value | Usage |
+|-------|-----------|-------|
+| `--background` | `222 47% 7%` | Deep slate page background |
+| `--foreground` | `60 9% 98%` | Light text |
+| `--primary` | `215 25% 27%` | Lighter slate for dark |
+| `--primary-light` | `215 20% 40%` | Hover states |
+| `--accent` | `38 92% 50%` | Electric Amber (same as light) |
+| `--muted` | `222 47% 15%` | Muted backgrounds |
+| `--muted-foreground` | `215 16% 65%` | Secondary text |
+| `--card` | `222 47% 10%` | Card backgrounds |
+| `--border` | `215 25% 20%` | Borders |
 
 ### F.2 Typography
 
 ```css
-font-heading: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif
-font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif
+/* Font Families */
+font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif
+font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
 
-text-hero: 3rem / 1.1 / 900
-text-section: 2.5rem / 1.2 / 800  
-text-subheading: 2rem / 1.3 / 700
-text-lead: 1.125rem / 1.6 / 400
-text-stat: 3rem / 1 / 900
+/* Display Sizes (Headlines) */
+display-2xl: 4.5rem / line-height 1 / letter-spacing -0.02em / weight 700
+display-xl: 3.75rem / line-height 1 / letter-spacing -0.02em / weight 700
+display-lg: 3rem / line-height 1.1 / letter-spacing -0.02em / weight 700
+display-md: 2.25rem / line-height 1.2 / letter-spacing -0.01em / weight 700
+display-sm: 1.875rem / line-height 1.2 / letter-spacing -0.01em / weight 600
+
+/* Body Sizes */
+body-xl: 1.25rem / line-height 1.6 / weight 400
+body-lg: 1.125rem / line-height 1.6 / weight 400
+body-md: 1rem / line-height 1.6 / weight 400
+body-sm: 0.875rem / line-height 1.5 / weight 400
 ```
+
+**Font Loading:** Google Fonts loaded in `index.html` with `display=swap` for performance.
 
 ### F.3 Gradients
 
 ```css
---gradient-hero: linear-gradient(135deg, hsl(210 73% 15%) 0%, hsl(208 65% 34%) 100%)
---gradient-innovation: linear-gradient(135deg, hsl(44 44% 62%) 0%, hsl(43 89% 38%) 100%)
---gradient-ai: linear-gradient(180deg, hsl(210 17% 98%) 0%, hsl(0 0% 100%) 100%)
+/* Hero gradient - diagonal sweep */
+--gradient-hero: linear-gradient(135deg, hsl(222 47% 7%) 0%, hsl(222 47% 12%) 50%, hsl(222 47% 7%) 100%)
+
+/* Text gradient - gold shimmer */
+--gradient-text: linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(45 93% 58%) 50%, hsl(38 92% 50%) 100%)
+
+/* CTA gradient - amber depth */
+--gradient-cta: linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(32 95% 44%) 100%)
+
+/* Glow gradient - radial amber */
+--gradient-glow: radial-gradient(ellipse at center, hsl(38 92% 50% / 0.2) 0%, transparent 70%)
+
+/* Mesh gradient - multi-point radial for backgrounds */
+--gradient-mesh: radial-gradient(at 40% 20%, hsl(38 92% 50% / 0.12) 0px, transparent 50%), 
+                 radial-gradient(at 80% 0%, hsl(215 25% 27% / 0.15) 0px, transparent 50%), 
+                 radial-gradient(at 0% 50%, hsl(38 92% 50% / 0.08) 0px, transparent 50%)
 ```
 
 ### F.4 Shadows
 
 ```css
---shadow-elevated: 0 10px 30px -10px hsl(210 73% 15% / 0.15)
---shadow-button: 0 4px 15px hsl(44 44% 62% / 0.2)
---shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08)
---shadow-glow: 0 0 20px hsl(44 44% 62% / 0.2)
+/* Layered shadows for depth */
+--shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.3)
+--shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.4), 0 2px 4px -2px hsl(0 0% 0% / 0.3)
+--shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.4), 0 4px 6px -4px hsl(0 0% 0% / 0.3)
+--shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.4), 0 8px 10px -6px hsl(0 0% 0% / 0.3)
+
+/* Accent glow shadows */
+--shadow-glow: 0 0 40px hsl(38 92% 50% / 0.25)
+--shadow-glow-lg: 0 0 60px hsl(38 92% 50% / 0.35)
+--shadow-button: 0 4px 14px 0 hsl(38 92% 50% / 0.3)
+
+/* Multi-layer depth shadows (CSS utility classes) */
+.shadow-layered: 0 1px 2px hsl(0 0% 0% / 0.05), 0 4px 8px hsl(0 0% 0% / 0.05), 0 16px 32px hsl(0 0% 0% / 0.05)
+.shadow-layered-lg: 0 2px 4px hsl(0 0% 0% / 0.03), 0 8px 16px hsl(0 0% 0% / 0.05), 0 24px 48px hsl(0 0% 0% / 0.08)
 ```
 
-### F.5 Animations
+### F.5 Animations & Transitions
 
 ```css
---transition-smooth: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+/* Timing functions */
+--transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
 --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)
-animate-fade-in, animate-fade-up, animate-scale-in, animate-pulse-glow
+--transition-spring: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)
+
+/* Keyframe animations */
+animate-fade-in: fade-in 0.5s ease-out
+animate-fade-in-up: fade-in-up 0.6s ease-out
+animate-pulse-glow: pulse-glow 2s ease-in-out infinite
+animate-shimmer: shimmer 2s ease-in-out infinite
+animate-float: float 3s ease-in-out infinite
 ```
 
 ### F.6 Z-Index Strategy
@@ -2841,6 +2927,8 @@ export function CookieConsent() {
 
 ### F.8 Desktop Chat Button Component Pattern
 
+The Desktop Chat Button serves as the reference design for all CTA buttons. Its styling defines the "glow" button variant.
+
 ```tsx
 // src/components/DesktopChatButton.tsx
 import { Sparkles } from 'lucide-react';
@@ -2851,30 +2939,7 @@ export function DesktopChatButton() {
   const [isVisible, setIsVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  useEffect(() => {
-    const checkConsent = () => {
-      const consent = localStorage.getItem('cookie-consent');
-      setHasConsent(!!consent);
-    };
-    checkConsent();
-    window.addEventListener('cookie-consent-changed', checkConsent);
-    window.addEventListener('storage', checkConsent);
-    return () => {
-      window.removeEventListener('cookie-consent-changed', checkConsent);
-      window.removeEventListener('storage', checkConsent);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (hasConsent) {
-      const timer = setTimeout(() => setIsVisible(true), 300);
-      return () => clearTimeout(timer);
-    }
-  }, [hasConsent]);
-
-  const handleClick = () => {
-    if (window.toggleGHLChat) window.toggleGHLChat();
-  };
+  // Consent checking logic...
 
   if (!hasConsent) return null;
 
@@ -2883,17 +2948,222 @@ export function DesktopChatButton() {
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="hidden md:flex fixed right-6 z-40 items-center gap-3 px-5 py-3 bg-primary/95 backdrop-blur-sm border border-accent/30 rounded-lg shadow-lg transition-all duration-300 hover:bg-primary hover:border-accent hover:shadow-xl hover:shadow-accent/20 group"
+      className="hidden md:flex fixed right-6 z-40 items-center gap-3 px-5 py-3 
+                 bg-primary/95 backdrop-blur-sm 
+                 border border-accent/30 rounded-lg 
+                 shadow-lg transition-all duration-300 ease-out 
+                 hover:bg-primary hover:border-accent 
+                 hover:shadow-xl hover:shadow-accent/20 group"
       style={{ bottom: isVisible ? '24px' : '-80px' }}
       aria-label="Chat with our AI assistant"
     >
-      <Sparkles className="w-5 h-5 text-accent" />
-      <span className="text-primary-foreground font-medium">
+      <Sparkles 
+        className="text-accent transition-transform duration-300 
+                   group-hover:scale-110 group-hover:rotate-12"
+        size={18}
+        strokeWidth={2}
+      />
+      <span className="text-primary-foreground font-medium text-sm tracking-wide whitespace-nowrap">
         {isHovered ? 'Chat with us' : 'Need help?'}
       </span>
+      <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
     </button>
   );
 }
+```
+
+**Key Design Elements (apply to all CTAs):**
+| Element | Class | Purpose |
+|---------|-------|---------|
+| Background | `bg-primary/95 backdrop-blur-sm` | Dark with subtle transparency |
+| Border | `border border-accent/30` | Subtle amber outline |
+| Shadow | `shadow-lg` | Depth/lift |
+| Hover border | `hover:border-accent` | Full amber on hover |
+| Hover glow | `hover:shadow-xl hover:shadow-accent/20` | Amber glow effect |
+| Icon | `text-accent group-hover:scale-110 group-hover:rotate-12` | Animated sparkle |
+| Pulse dot | `w-2 h-2 rounded-full bg-accent animate-pulse` | Activity indicator |
+| Text change | `isHovered ? 'Chat with us' : 'Need help?'` | Engagement pattern |
+
+### F.8.1 CTAButton Reusable Component
+
+For consistent CTAs across the site, use the CTAButton component:
+
+```tsx
+// src/components/CTAButton.tsx
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Sparkles } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
+interface CTAButtonProps {
+  to: string;
+  defaultText: string;
+  hoverText: string;
+  onClick?: () => void;
+  className?: string;
+  fullWidth?: boolean;
+}
+
+export function CTAButton({ 
+  to, defaultText, hoverText, onClick, className = '', fullWidth = false
+}: CTAButtonProps) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <Button 
+      variant="glow" 
+      size="lg" 
+      asChild 
+      className={`group ${fullWidth ? 'w-full' : ''} ${className}`}
+    >
+      <Link 
+        to={to} 
+        onClick={onClick}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className={`flex items-center ${fullWidth ? 'justify-center' : ''} gap-2`}
+      >
+        <Sparkles 
+          className="w-4 h-4 text-accent transition-transform duration-300 
+                     group-hover:scale-110 group-hover:rotate-12" 
+        />
+        {/* Fixed width container to prevent layout shift */}
+        <span className="relative">
+          <span className="invisible whitespace-nowrap">
+            {defaultText.length >= hoverText.length ? defaultText : hoverText}
+          </span>
+          <span className="absolute inset-0 flex items-center justify-center whitespace-nowrap">
+            {isHovered ? hoverText : defaultText}
+          </span>
+        </span>
+        <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+      </Link>
+    </Button>
+  );
+}
+```
+
+**Usage:**
+```tsx
+<CTAButton to="/pricing" defaultText="Get Started" hoverText="Let's Go!" />
+<CTAButton to="/contact" defaultText="Book a Call" hoverText="Let's Talk" />
+```
+
+### F.8.2 Header Navigation Pattern
+
+The Header uses these key design elements:
+
+```tsx
+// Scrolled state with gradient border
+<header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+  scrolled 
+    ? 'bg-background/95 backdrop-blur-xl border-b border-border/30 shadow-layered' 
+    : 'bg-transparent'
+}`}>
+  {/* Gradient line on scroll */}
+  {scrolled && (
+    <div className="absolute bottom-0 left-0 right-0 h-px 
+                    bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+  )}
+```
+
+**Nav Link with Animated Underline:**
+```css
+/* In index.css */
+.nav-link {
+  @apply relative;
+}
+
+.nav-link::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-full h-[2px] origin-left scale-x-0 transition-transform duration-300;
+  background: linear-gradient(90deg, hsl(var(--accent)) 0%, hsl(var(--accent) / 0.5) 100%);
+}
+
+.nav-link:hover::after {
+  @apply scale-x-100;
+}
+```
+
+**Glassmorphic Dropdown:**
+```tsx
+<div className="absolute top-full left-0 mt-3 w-80 
+                bg-card/95 backdrop-blur-xl 
+                border border-border/50 rounded-2xl 
+                shadow-layered-lg overflow-hidden animate-fade-in">
+  {/* Subtle gradient overlay */}
+  <div className="absolute inset-0 bg-gradient-to-b from-accent/5 to-transparent pointer-events-none" />
+  
+  {/* Content */}
+  <div className="relative p-2">
+    {items.map((item) => (
+      <Link className="flex flex-col items-start px-4 py-3 rounded-xl 
+                       hover:bg-accent/10 transition-all duration-200 group">
+        <span className="font-semibold text-foreground group-hover:text-accent">{item.title}</span>
+        <span className="text-xs text-muted-foreground">{item.description}</span>
+      </Link>
+    ))}
+  </div>
+</div>
+```
+
+### F.8.3 Footer Navigation Pattern
+
+The Footer uses these key design elements:
+
+```tsx
+// Footer wrapper with mesh background
+<footer className="relative bg-card overflow-hidden">
+  {/* Background mesh gradient */}
+  <div className="absolute inset-0 bg-mesh opacity-50 pointer-events-none" />
+  
+  {/* Gradient glow at top */}
+  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px 
+                  bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
+  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-8 
+                  bg-gradient-to-b from-accent/10 to-transparent blur-2xl" />
+```
+
+**Section Headers with Accent Line:**
+```tsx
+<h3 className="font-display font-bold text-foreground text-sm uppercase tracking-wider 
+               flex items-center gap-2">
+  <span className="w-6 h-px bg-gradient-to-r from-accent to-transparent" />
+  Products
+</h3>
+```
+
+**Footer Link with Slide-in Bar:**
+```css
+/* In index.css */
+.footer-link {
+  @apply relative text-muted-foreground transition-all duration-300;
+}
+
+.footer-link:hover {
+  @apply text-foreground pl-1;
+}
+
+.footer-link::before {
+  content: '';
+  @apply absolute left-0 top-1/2 -translate-y-1/2 w-0 h-0.5 bg-accent transition-all duration-300;
+}
+
+.footer-link:hover::before {
+  @apply w-2;
+}
+```
+
+**Social Icons with Glow:**
+```tsx
+<a className="relative p-2.5 rounded-xl 
+              bg-muted/50 border border-border/50 text-muted-foreground 
+              hover:text-foreground hover:border-accent/50 hover:bg-accent/10 
+              transition-all duration-300 hover:scale-110 hover:-translate-y-0.5 group">
+  <social.icon className="w-4 h-4 relative z-10" />
+  <div className="absolute inset-0 rounded-xl bg-accent/20 blur-lg 
+                  opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+</a>
 ```
 
 ### F.9 GHL Loader Utility Pattern
