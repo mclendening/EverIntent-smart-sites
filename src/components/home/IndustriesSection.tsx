@@ -116,7 +116,7 @@ export function IndustriesSection() {
               
               {/* Description */}
               <p className="text-sm text-muted-foreground mb-2 pl-8">{industry.description}</p>
-              <span className="text-xs text-accent font-medium pl-8">{industry.verticals}</span>
+              <span className="text-xs text-foreground/70 font-medium pl-8">{industry.verticals}</span>
             </Link>
           ))}
         </div>
