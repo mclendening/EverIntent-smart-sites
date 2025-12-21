@@ -63,7 +63,31 @@ export const LogoRenderer: React.FC<LogoRendererProps> = ({
   // Generate unique gradient IDs to avoid SVG conflicts when multiple logos are rendered
   const gradientId = useMemo(() => `streak-gradient-${Math.random().toString(36).substr(2, 9)}`, []);
 
-  const getTextStyle = (cfg: TextElementConfig): React.CSSProperties => {
+  // Convert HSL string to hex for use in styles
+  const hslToHex = (hslStr: string): string => {
+    const parts = hslStr.split(' ').map(p => parseFloat(p));
+    const h = parts[0] || 0;
+    const s = (parts[1] || 0) / 100;
+    const l = (parts[2] || 0) / 100;
+    
+    const c = (1 - Math.abs(2 * l - 1)) * s;
+    const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+    const m = l - c / 2;
+    let r = 0, g = 0, b = 0;
+    if (h < 60) { r = c; g = x; }
+    else if (h < 120) { r = x; g = c; }
+    else if (h < 180) { g = c; b = x; }
+    else if (h < 240) { g = x; b = c; }
+    else if (h < 300) { r = x; b = c; }
+    else { r = c; b = x; }
+    const toHex = (n: number) => Math.round((n + m) * 255).toString(16).padStart(2, '0');
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+  };
+
+  // Get the accent color to use (override or from config)
+  const accentColor = accentHsl ? hslToHex(accentHsl) : intentConfig.solidColor;
+
+  const getTextStyle = (cfg: TextElementConfig, isAccentElement: boolean = false): React.CSSProperties => {
     const base: React.CSSProperties = {
       fontSize: cfg.size * scale,
       fontWeight: cfg.weight,
@@ -73,6 +97,20 @@ export const LogoRenderer: React.FC<LogoRendererProps> = ({
       top: cfg.verticalOffset * scale,
       lineHeight: 1,
     };
+
+    // Apply accent override for Intent element
+    if (isAccentElement && accentHsl) {
+      if (cfg.useGradient) {
+        return {
+          ...base,
+          background: `linear-gradient(${cfg.gradientAngle}deg, ${accentColor}, ${cfg.gradientTo})`,
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+        };
+      }
+      return { ...base, color: accentColor };
+    }
 
     if (cfg.useGradient) {
       return {
@@ -125,6 +163,10 @@ export const LogoRenderer: React.FC<LogoRendererProps> = ({
 
     const points = `0,${topLeft} ${width},${topRight} ${width},${bottomRight} 0,${bottomLeft}`;
 
+    // Use accent override for streak gradient/solid if provided
+    const streakFromColor = accentHsl ? accentColor : cfg.gradientFrom;
+    const streakSolidColor = accentHsl ? accentColor : cfg.solidColor;
+
     return (
       <svg
         width={width}
@@ -142,14 +184,14 @@ export const LogoRenderer: React.FC<LogoRendererProps> = ({
               id={gradientId}
               gradientTransform={`rotate(${cfg.gradientAngle - 90})`}
             >
-              <stop offset="0%" stopColor={cfg.gradientFrom} />
+              <stop offset="0%" stopColor={streakFromColor} />
               <stop offset="100%" stopColor={cfg.gradientTo} />
             </linearGradient>
           )}
         </defs>
         <polygon
           points={points}
-          fill={cfg.useGradient ? `url(#${gradientId})` : cfg.solidColor}
+          fill={cfg.useGradient ? `url(#${gradientId})` : streakSolidColor}
         />
       </svg>
     );
@@ -159,8 +201,8 @@ export const LogoRenderer: React.FC<LogoRendererProps> = ({
     <div className={`text-left ${className}`}>
       {/* Main Logo Text */}
       <div className="leading-none whitespace-nowrap">
-        <span style={getTextStyle(everConfig)}>Ever</span>
-        <span style={getTextStyle(intentConfig)}>Intent</span>
+        <span style={getTextStyle(everConfig, false)}>Ever</span>
+        <span style={getTextStyle(intentConfig, true)}>Intent</span>
       </div>
 
       {/* Streak */}
