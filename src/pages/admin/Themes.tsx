@@ -16,7 +16,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { LogoRenderer } from '@/components/logo';
-import { ArrowLeft, Palette, Edit, Trash2, Check, Loader2, Eye, Rocket, Copy, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Palette, Edit, Trash2, Check, Loader2, Eye, Rocket, Copy, CheckCircle, Github } from 'lucide-react';
 import type { Tables, Json } from '@/integrations/supabase/types';
 
 type Theme = Tables<'site_themes'>;
@@ -77,6 +77,9 @@ export default function AdminThemes() {
   const [showPublishDialog, setShowPublishDialog] = useState(false);
   const [generatedConfig, setGeneratedConfig] = useState<string>('');
   const [copied, setCopied] = useState(false);
+  const [isPublishingToGithub, setIsPublishingToGithub] = useState(false);
+  const [publishedVersion, setPublishedVersion] = useState<number | null>(null);
+  const [commitUrl, setCommitUrl] = useState<string | null>(null);
 
   // Parsed config states for editing
   const [accentConfig, setAccentConfig] = useState<AccentConfig>({
@@ -471,6 +474,93 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
       title: 'Copied!',
       description: 'Config copied to clipboard. Paste into src/config/themes.ts',
     });
+  };
+
+  // Save config to database for GitHub sync
+  const saveToDatabase = async (): Promise<number | null> => {
+    const activeTheme = themes.find(t => t.is_active);
+    if (!activeTheme || !generatedConfig) return null;
+
+    try {
+      // Get next version number
+      const { data: versionData } = await supabase.rpc('get_next_theme_config_version');
+      const nextVersion = versionData || 1;
+
+      // Insert the published config
+      const { error } = await supabase
+        .from('published_theme_configs')
+        .insert({
+          source_theme_id: activeTheme.id,
+          source_theme_name: activeTheme.name,
+          version: nextVersion,
+          config_typescript: generatedConfig,
+          config_json: {
+            accentConfig: activeTheme.accent_config,
+            staticColors: activeTheme.static_colors,
+            gradientConfigs: activeTheme.gradient_configs,
+          },
+          is_active: true,
+          notes: `Published from admin UI`,
+        });
+
+      if (error) throw error;
+
+      // Deactivate previous versions
+      await supabase
+        .from('published_theme_configs')
+        .update({ is_active: false })
+        .neq('version', nextVersion);
+
+      setPublishedVersion(nextVersion);
+      return nextVersion;
+    } catch (error) {
+      console.error('Error saving to database:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Database Error',
+        description: 'Failed to save theme config to database',
+      });
+      return null;
+    }
+  };
+
+  // Publish to GitHub via edge function
+  const publishToGithub = async () => {
+    setIsPublishingToGithub(true);
+    setCommitUrl(null);
+
+    try {
+      // First save to database
+      const version = await saveToDatabase();
+      if (!version) {
+        setIsPublishingToGithub(false);
+        return;
+      }
+
+      // Call edge function
+      const { data, error } = await supabase.functions.invoke('sync-theme-to-github');
+
+      if (error) throw error;
+
+      if (data?.success) {
+        setCommitUrl(data.commitUrl);
+        toast({
+          title: 'Published to GitHub!',
+          description: `Theme v${data.version} committed successfully.`,
+        });
+      } else {
+        throw new Error(data?.error || 'Unknown error');
+      }
+    } catch (error) {
+      console.error('GitHub publish error:', error);
+      toast({
+        variant: 'destructive',
+        title: 'GitHub Error',
+        description: error instanceof Error ? error.message : 'Failed to publish to GitHub',
+      });
+    } finally {
+      setIsPublishingToGithub(false);
+    }
   };
 
   const getLogoForTheme = (theme: Theme): LogoVersion | undefined => {
@@ -1348,7 +1438,13 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
       </main>
 
       {/* Publish to Production Dialog */}
-      <Dialog open={showPublishDialog} onOpenChange={setShowPublishDialog}>
+      <Dialog open={showPublishDialog} onOpenChange={(open) => {
+        setShowPublishDialog(open);
+        if (!open) {
+          setCommitUrl(null);
+          setPublishedVersion(null);
+        }
+      }}>
         <DialogContent className="max-w-4xl max-h-[80vh]">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
@@ -1356,32 +1452,71 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
               Publish Theme to Production
             </DialogTitle>
             <DialogDescription>
-              Copy this configuration to <code className="bg-muted px-1 rounded">src/config/themes.ts</code> to deploy your theme.
-              This ensures zero runtime DB calls and eliminates theme flash on page load.
+              Publish directly to GitHub or copy to clipboard. Publishing to GitHub commits the config to <code className="bg-muted px-1 rounded">src/config/themes.ts</code>.
             </DialogDescription>
           </DialogHeader>
-          <ScrollArea className="h-[50vh] border rounded-lg">
+          
+          {commitUrl && (
+            <div className="flex items-center gap-2 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span className="text-sm">
+                Successfully published v{publishedVersion}!{' '}
+                <a 
+                  href={commitUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-accent hover:underline"
+                >
+                  View commit →
+                </a>
+              </span>
+            </div>
+          )}
+
+          <ScrollArea className="h-[45vh] border rounded-lg">
             <pre className="p-4 text-xs font-mono bg-muted/50">
               {generatedConfig}
             </pre>
           </ScrollArea>
-          <div className="flex justify-end gap-2">
+          <div className="flex justify-between gap-2">
             <Button variant="outline" onClick={() => setShowPublishDialog(false)}>
               Cancel
             </Button>
-            <Button onClick={copyToClipboard} className="bg-accent hover:bg-accent-hover text-accent-foreground">
-              {copied ? (
-                <>
-                  <CheckCircle className="h-4 w-4 mr-2" />
-                  Copied!
-                </>
-              ) : (
-                <>
-                  <Copy className="h-4 w-4 mr-2" />
-                  Copy to Clipboard
-                </>
-              )}
-            </Button>
+            <div className="flex gap-2">
+              <Button 
+                variant="outline" 
+                onClick={copyToClipboard}
+              >
+                {copied ? (
+                  <>
+                    <CheckCircle className="h-4 w-4 mr-2" />
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy className="h-4 w-4 mr-2" />
+                    Copy to Clipboard
+                  </>
+                )}
+              </Button>
+              <Button 
+                onClick={publishToGithub} 
+                disabled={isPublishingToGithub}
+                className="bg-accent hover:bg-accent-hover text-accent-foreground"
+              >
+                {isPublishingToGithub ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Publishing...
+                  </>
+                ) : (
+                  <>
+                    <Github className="h-4 w-4 mr-2" />
+                    Publish to GitHub
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
