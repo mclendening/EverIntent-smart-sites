@@ -12,7 +12,7 @@
 
 - **GITHUB_PAT**: `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`
 - **GITHUB_REPO_OWNER**: `mclendening`
-- **GITHUB_REPO_NAME**: (your repository name)
+- **GITHUB_REPO_NAME**: `EverIntent-smart-sites`
 
 ---
 
