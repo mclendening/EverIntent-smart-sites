@@ -2,7 +2,7 @@ import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
-import { FileText, Image, MessageSquare, LogOut } from 'lucide-react';
+import { FileText, Image, MessageSquare, LogOut, Palette } from 'lucide-react';
 
 export default function AdminDashboard() {
   const { user, signOut } = useAdminAuth();
@@ -28,6 +28,25 @@ export default function AdminDashboard() {
 
       <main className="container py-8">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <Link to="/admin/themes">
+            <Card className="transition-colors hover:border-primary">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Palette className="h-5 w-5" />
+                  Themes
+                </CardTitle>
+                <CardDescription>
+                  Manage site themes and colors
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Create, edit, and activate visual themes
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
           <Link to="/admin/submissions">
             <Card className="transition-colors hover:border-primary">
               <CardHeader>

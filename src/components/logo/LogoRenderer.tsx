@@ -7,11 +7,42 @@ import {
   defaultLogoConfig,
 } from './types';
 
+// Database format uses snake_case, this interface supports both
+interface DatabaseLogoConfig {
+  ever_config?: unknown;
+  intent_config?: unknown;
+  streak_config?: unknown;
+  tagline_config?: unknown;
+  tagline_text?: string | null;
+}
+
 interface LogoRendererProps {
-  config?: LogoVersionConfig;
+  config?: LogoVersionConfig | DatabaseLogoConfig;
   scale?: number;
   showTagline?: boolean;
   className?: string;
+  accentHsl?: string; // Optional HSL accent color override (e.g., "38 92% 50%")
+}
+
+// Type guard to check if config is database format
+function isDbConfig(config: LogoVersionConfig | DatabaseLogoConfig): config is DatabaseLogoConfig {
+  return 'ever_config' in config || 'intent_config' in config;
+}
+
+// Convert database config to internal format
+function normalizeConfig(config: LogoVersionConfig | DatabaseLogoConfig): LogoVersionConfig {
+  if (!isDbConfig(config)) {
+    return config;
+  }
+  
+  return {
+    name: 'Database Logo',
+    taglineText: config.tagline_text || '',
+    everConfig: config.ever_config as TextElementConfig || defaultLogoConfig.everConfig,
+    intentConfig: config.intent_config as TextElementConfig || defaultLogoConfig.intentConfig,
+    streakConfig: config.streak_config as StreakConfig || defaultLogoConfig.streakConfig,
+    taglineConfig: config.tagline_config as TaglineConfig || defaultLogoConfig.taglineConfig,
+  };
 }
 
 /**
@@ -23,8 +54,11 @@ export const LogoRenderer: React.FC<LogoRendererProps> = ({
   scale = 1,
   showTagline = true,
   className = '',
+  accentHsl,
 }) => {
-  const { everConfig, intentConfig, streakConfig, taglineConfig, taglineText } = config;
+  // Normalize config to internal format
+  const normalizedConfig = useMemo(() => normalizeConfig(config), [config]);
+  const { everConfig, intentConfig, streakConfig, taglineConfig, taglineText } = normalizedConfig;
 
   // Generate unique gradient IDs to avoid SVG conflicts when multiple logos are rendered
   const gradientId = useMemo(() => `streak-gradient-${Math.random().toString(36).substr(2, 9)}`, []);
