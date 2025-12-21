@@ -170,8 +170,8 @@ const LogoExplorer = () => {
               
               {/* Logo Preview */}
               <div className="flex flex-col items-start mb-4">
-                <p className="text-2xl font-display font-bold tracking-tight leading-none m-0 p-0">
-                  <span className={`${v.everColor}`} style={{ lineHeight: 1 }}>Ever</span><span className={`${v.intentColor}`} style={{ lineHeight: 1 }}>Intent</span>
+                <p className="text-2xl font-display font-bold tracking-tight m-0 p-0" style={{ lineHeight: '1.2' }}>
+                  <span className={v.everColor} style={{ display: 'inline', verticalAlign: 'baseline' }}>Ever</span><span className={v.intentColor} style={{ display: 'inline', verticalAlign: 'baseline', WebkitBackgroundClip: v.intentColor.includes('bg-clip') ? 'text' : undefined }}>Intent</span>
                 </p>
                 <div 
                   className={`h-1 w-full mt-2 ${v.streakStyle}`} 
