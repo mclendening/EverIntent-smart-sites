@@ -39,10 +39,10 @@ const LogoExplorer = () => {
     { id: 16, everColor: "text-[hsl(175,70%,45%)]", intentColor: "text-[hsl(175,70%,45%)]", streakStyle: "bg-gradient-to-r from-amber-500 to-amber-500/30", taglineStyle: "text-gray-400", description: "All Teal + Gold gradient streak" },
     { id: 17, everColor: "text-amber-500", intentColor: "text-amber-500", streakStyle: "bg-gradient-to-r from-white to-white/30", taglineStyle: "text-gray-400", description: "All Gold + White gradient streak" },
     
-    // Gradient text on Intent
-    { id: 18, everColor: "text-white", intentColor: "bg-gradient-to-r from-[hsl(200,100%,50%)] to-[hsl(175,70%,45%)] bg-clip-text text-transparent", streakStyle: "bg-gradient-to-r from-amber-500 to-amber-500/30", taglineStyle: "text-gray-400", description: "White + Cyan→Teal gradient Intent" },
-    { id: 19, everColor: "text-white", intentColor: "bg-gradient-to-r from-[hsl(225,85%,55%)] to-[hsl(200,100%,50%)] bg-clip-text text-transparent", streakStyle: "bg-gradient-to-r from-amber-500 to-amber-500/30", taglineStyle: "text-gray-400", description: "White + Cobalt→Cyan gradient Intent" },
-    { id: 20, everColor: "text-white", intentColor: "bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent", streakStyle: "bg-gradient-to-r from-[hsl(200,100%,50%)] to-[hsl(200,100%,50%)]/30", taglineStyle: "text-gray-400", description: "White + Gold gradient Intent + Cyan streak" },
+    // Solid color alternatives (gradient text removed due to alignment issues)
+    { id: 18, everColor: "text-white", intentColor: "text-[hsl(188,85%,48%)]", streakStyle: "bg-gradient-to-r from-amber-500 to-amber-500/30", taglineStyle: "text-gray-400", description: "Cyan-Teal blend + Gold gradient" },
+    { id: 19, everColor: "text-white", intentColor: "text-[hsl(212,90%,53%)]", streakStyle: "bg-gradient-to-r from-amber-500 to-amber-500/30", taglineStyle: "text-gray-400", description: "Cobalt-Cyan blend + Gold gradient" },
+    { id: 20, everColor: "text-white", intentColor: "text-amber-500", streakStyle: "bg-gradient-to-r from-[hsl(200,100%,50%)] to-[hsl(200,100%,50%)]/30", taglineStyle: "text-gray-400", description: "Gold Intent + Cyan streak" },
     
     // Colored taglines
     { id: 21, everColor: "text-white", intentColor: "text-[hsl(200,100%,50%)]", streakStyle: "bg-gradient-to-r from-amber-500 to-amber-500/30", taglineStyle: "text-[hsl(200,100%,50%)]/60", description: "Cyan Intent + Cyan tinted tagline" },
@@ -170,9 +170,9 @@ const LogoExplorer = () => {
               
               {/* Logo Preview */}
               <div className="flex flex-col items-start mb-4">
-                <p className="text-2xl font-display font-bold tracking-tight m-0 p-0" style={{ lineHeight: '1.2' }}>
-                  <span className={v.everColor} style={{ display: 'inline', verticalAlign: 'baseline' }}>Ever</span><span className={v.intentColor} style={{ display: 'inline', verticalAlign: 'baseline', WebkitBackgroundClip: v.intentColor.includes('bg-clip') ? 'text' : undefined }}>Intent</span>
-                </p>
+                <span className="text-2xl font-display font-bold tracking-tight" style={{ display: 'inline-table' }}>
+                  <span className={v.everColor} style={{ display: 'table-cell' }}>Ever</span><span className={v.intentColor} style={{ display: 'table-cell' }}>Intent</span>
+                </span>
                 <div 
                   className={`h-1 w-full mt-2 ${v.streakStyle}`} 
                   style={{ clipPath: 'polygon(0 15%, 100% 40%, 100% 60%, 0 85%)' }}
