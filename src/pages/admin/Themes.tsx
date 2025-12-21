@@ -41,21 +41,27 @@ interface AccentConfig {
 
 interface StaticColors {
   primary: string;
+  primaryLight: string;
+  primaryForeground: string;
+  secondary: string;
+  secondaryForeground: string;
   background: string;
   foreground: string;
+  card: string;
+  cardForeground: string;
+  muted: string;
+  mutedForeground: string;
+  border: string;
+  input: string;
+  ring: string;
+  popover: string;
+  popoverForeground: string;
 }
 
 interface GradientConfig {
-  hero?: {
-    from: string;
-    to: string;
-    angle: number;
-  };
-  cta?: {
-    from: string;
-    to: string;
-    angle: number;
-  };
+  hero?: string;
+  cta?: string;
+  text?: string;
 }
 
 export default function AdminThemes() {
@@ -78,10 +84,27 @@ export default function AdminThemes() {
   });
   const [staticColors, setStaticColors] = useState<StaticColors>({
     primary: '222 47% 11%',
+    primaryLight: '215 25% 27%',
+    primaryForeground: '0 0% 100%',
+    secondary: '60 9% 98%',
+    secondaryForeground: '222 47% 11%',
     background: '0 0% 100%',
     foreground: '222 47% 11%',
+    card: '0 0% 100%',
+    cardForeground: '222 47% 11%',
+    muted: '60 5% 96%',
+    mutedForeground: '215 16% 47%',
+    border: '220 13% 91%',
+    input: '220 13% 91%',
+    ring: '38 92% 50%',
+    popover: '0 0% 100%',
+    popoverForeground: '222 47% 11%',
   });
-  const [gradientConfigs, setGradientConfigs] = useState<GradientConfig>({});
+  const [gradientConfigs, setGradientConfigs] = useState<GradientConfig>({
+    hero: 'linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(215 25% 27%) 50%, hsl(222 47% 11%) 100%)',
+    cta: 'linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(32 95% 44%) 100%)',
+    text: 'linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(45 93% 58%) 50%, hsl(38 92% 50%) 100%)',
+  });
 
   // Fetch themes and logo versions
   useEffect(() => {
@@ -109,8 +132,21 @@ export default function AdminThemes() {
       const colors = selectedTheme.static_colors as Record<string, string> || {};
       setStaticColors({
         primary: colors.primary || '222 47% 11%',
+        primaryLight: colors.primaryLight || '215 25% 27%',
+        primaryForeground: colors.primaryForeground || '0 0% 100%',
+        secondary: colors.secondary || '60 9% 98%',
+        secondaryForeground: colors.secondaryForeground || '222 47% 11%',
         background: colors.background || '0 0% 100%',
         foreground: colors.foreground || '222 47% 11%',
+        card: colors.card || '0 0% 100%',
+        cardForeground: colors.cardForeground || '222 47% 11%',
+        muted: colors.muted || '60 5% 96%',
+        mutedForeground: colors.mutedForeground || '215 16% 47%',
+        border: colors.border || '220 13% 91%',
+        input: colors.input || '220 13% 91%',
+        ring: colors.ring || '38 92% 50%',
+        popover: colors.popover || '0 0% 100%',
+        popoverForeground: colors.popoverForeground || '222 47% 11%',
       });
 
       setGradientConfigs(selectedTheme.gradient_configs as GradientConfig || {});
@@ -280,7 +316,146 @@ export default function AdminThemes() {
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
   };
 
-  // Color Controls Component
+  // Parse HSL string to object
+  const parseHsl = (hslStr: string): { h: number; s: number; l: number } => {
+    const parts = hslStr.split(' ').map((p) => parseFloat(p.replace('%', '')));
+    return { h: parts[0] || 0, s: parts[1] || 0, l: parts[2] || 0 };
+  };
+
+  // Format HSL object to string
+  const formatHsl = (h: number, s: number, l: number): string => {
+    return `${Math.round(h)} ${Math.round(s)}% ${Math.round(l)}%`;
+  };
+
+  // HSL Editor Component with sliders AND number inputs
+  const HslEditor = ({ 
+    label, 
+    value, 
+    onChange,
+    description 
+  }: { 
+    label: string; 
+    value: string; 
+    onChange: (val: string) => void;
+    description?: string;
+  }) => {
+    const hsl = parseHsl(value);
+    
+    const updateHsl = (key: 'h' | 's' | 'l', newValue: number) => {
+      const updated = { ...hsl, [key]: newValue };
+      onChange(formatHsl(updated.h, updated.s, updated.l));
+    };
+
+    return (
+      <AccordionItem value={label.toLowerCase().replace(/\s/g, '-')}>
+        <AccordionTrigger className="text-sm py-2">
+          <div className="flex items-center gap-2">
+            <div 
+              className="h-4 w-4 rounded border shrink-0"
+              style={{ backgroundColor: `hsl(${value})` }}
+            />
+            {label}
+          </div>
+        </AccordionTrigger>
+        <AccordionContent className="space-y-3 pb-4">
+          {description && (
+            <p className="text-xs text-muted-foreground">{description}</p>
+          )}
+          
+          {/* Color preview */}
+          <div className="flex items-center gap-3">
+            <div 
+              className="h-10 w-10 rounded-lg border shrink-0"
+              style={{ backgroundColor: `hsl(${value})` }}
+            />
+            <Input
+              value={value}
+              onChange={(e) => onChange(e.target.value)}
+              placeholder="0 0% 100%"
+              className="font-mono text-xs flex-1"
+            />
+          </div>
+          
+          {/* Hue slider + number input */}
+          <div className="space-y-1">
+            <div className="flex justify-between items-center">
+              <Label className="text-xs text-muted-foreground">Hue</Label>
+              <Input
+                type="number"
+                min={0}
+                max={360}
+                value={Math.round(hsl.h)}
+                onChange={(e) => updateHsl('h', Number(e.target.value))}
+                className="w-16 h-6 text-xs font-mono"
+              />
+            </div>
+            <Slider 
+              value={[hsl.h]} 
+              max={360} 
+              onValueChange={(v) => updateHsl('h', v[0])} 
+              className="[&_.relative]:h-2"
+            />
+            <div 
+              className="h-2 rounded"
+              style={{ 
+                background: `linear-gradient(90deg, 
+                  hsl(0, ${hsl.s}%, ${hsl.l}%), 
+                  hsl(60, ${hsl.s}%, ${hsl.l}%), 
+                  hsl(120, ${hsl.s}%, ${hsl.l}%), 
+                  hsl(180, ${hsl.s}%, ${hsl.l}%), 
+                  hsl(240, ${hsl.s}%, ${hsl.l}%), 
+                  hsl(300, ${hsl.s}%, ${hsl.l}%), 
+                  hsl(360, ${hsl.s}%, ${hsl.l}%)
+                )`
+              }}
+            />
+          </div>
+          
+          {/* Saturation slider + number input */}
+          <div className="space-y-1">
+            <div className="flex justify-between items-center">
+              <Label className="text-xs text-muted-foreground">Saturation</Label>
+              <Input
+                type="number"
+                min={0}
+                max={100}
+                value={Math.round(hsl.s)}
+                onChange={(e) => updateHsl('s', Number(e.target.value))}
+                className="w-16 h-6 text-xs font-mono"
+              />
+            </div>
+            <Slider 
+              value={[hsl.s]} 
+              max={100} 
+              onValueChange={(v) => updateHsl('s', v[0])} 
+            />
+          </div>
+          
+          {/* Lightness slider + number input */}
+          <div className="space-y-1">
+            <div className="flex justify-between items-center">
+              <Label className="text-xs text-muted-foreground">Lightness</Label>
+              <Input
+                type="number"
+                min={0}
+                max={100}
+                value={Math.round(hsl.l)}
+                onChange={(e) => updateHsl('l', Number(e.target.value))}
+                className="w-16 h-6 text-xs font-mono"
+              />
+            </div>
+            <Slider 
+              value={[hsl.l]} 
+              max={100} 
+              onValueChange={(v) => updateHsl('l', v[0])} 
+            />
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    );
+  };
+
+  // Color Controls Component (for accent which has gradient option)
   const ColorSliderControls = ({ 
     label,
     hsl,
@@ -297,7 +472,15 @@ export default function AdminThemes() {
     onGradientChange?: (g: { useGradient?: boolean; gradientFrom?: string; gradientTo?: string; gradientAngle?: number }) => void;
   }) => (
     <AccordionItem value={label.toLowerCase().replace(/\s/g, '-')}>
-      <AccordionTrigger className="text-sm py-2">{label}</AccordionTrigger>
+      <AccordionTrigger className="text-sm py-2">
+        <div className="flex items-center gap-2">
+          <div 
+            className="h-4 w-4 rounded border shrink-0"
+            style={{ backgroundColor: `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)` }}
+          />
+          {label}
+        </div>
+      </AccordionTrigger>
       <AccordionContent className="space-y-3 pb-4">
         <Tabs defaultValue="hsl" className="w-full">
           <TabsList className="grid w-full grid-cols-3 h-8">
@@ -332,9 +515,19 @@ export default function AdminThemes() {
                 {hsl.h}° {hsl.s}% {hsl.l}%
               </div>
             </div>
-            <div className="space-y-2">
-              <div className="flex justify-between text-xs text-muted-foreground">
-                <span>Hue</span><span>{hsl.h}°</span>
+            
+            {/* Hue with number input */}
+            <div className="space-y-1">
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-muted-foreground">Hue</span>
+                <Input
+                  type="number"
+                  min={0}
+                  max={360}
+                  value={Math.round(hsl.h)}
+                  onChange={(e) => onHslChange({ ...hsl, h: Number(e.target.value) })}
+                  className="w-16 h-6 text-xs font-mono"
+                />
               </div>
               <Slider 
                 value={[hsl.h]} 
@@ -342,9 +535,19 @@ export default function AdminThemes() {
                 onValueChange={(v) => onHslChange({ ...hsl, h: v[0] })} 
               />
             </div>
-            <div className="space-y-2">
-              <div className="flex justify-between text-xs text-muted-foreground">
-                <span>Saturation</span><span>{hsl.s}%</span>
+            
+            {/* Saturation with number input */}
+            <div className="space-y-1">
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-muted-foreground">Saturation</span>
+                <Input
+                  type="number"
+                  min={0}
+                  max={100}
+                  value={Math.round(hsl.s)}
+                  onChange={(e) => onHslChange({ ...hsl, s: Number(e.target.value) })}
+                  className="w-16 h-6 text-xs font-mono"
+                />
               </div>
               <Slider 
                 value={[hsl.s]} 
@@ -352,9 +555,19 @@ export default function AdminThemes() {
                 onValueChange={(v) => onHslChange({ ...hsl, s: v[0] })} 
               />
             </div>
-            <div className="space-y-2">
-              <div className="flex justify-between text-xs text-muted-foreground">
-                <span>Lightness</span><span>{hsl.l}%</span>
+            
+            {/* Lightness with number input */}
+            <div className="space-y-1">
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-muted-foreground">Lightness</span>
+                <Input
+                  type="number"
+                  min={0}
+                  max={100}
+                  value={Math.round(hsl.l)}
+                  onChange={(e) => onHslChange({ ...hsl, l: Number(e.target.value) })}
+                  className="w-16 h-6 text-xs font-mono"
+                />
               </div>
               <Slider 
                 value={[hsl.l]} 
@@ -393,9 +606,17 @@ export default function AdminThemes() {
                   />
                 </div>
               </div>
-              <div className="space-y-2">
-                <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>Angle</span><span>{gradient.gradientAngle || 90}°</span>
+              <div className="space-y-1">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-muted-foreground">Angle</span>
+                  <Input
+                    type="number"
+                    min={0}
+                    max={360}
+                    value={gradient.gradientAngle || 90}
+                    onChange={(e) => onGradientChange({ ...gradient, gradientAngle: Number(e.target.value) })}
+                    className="w-16 h-6 text-xs font-mono"
+                  />
                 </div>
                 <Slider 
                   value={[gradient.gradientAngle || 90]} 
@@ -674,8 +895,9 @@ export default function AdminThemes() {
                       {/* Right Column - Color Controls */}
                       <div className="space-y-2">
                         <Label className="text-base font-semibold">Color Controls</Label>
-                        <ScrollArea className="h-[500px] pr-4">
-                          <Accordion type="multiple" defaultValue={['accent-color', 'primary-background', 'gradients']} className="w-full">
+                        <ScrollArea className="h-[600px] pr-4">
+                          <Accordion type="multiple" defaultValue={['accent-color']} className="w-full">
+                            {/* Accent Color - Main CTA color */}
                             <ColorSliderControls
                               label="Accent Color"
                               hsl={{ h: accentConfig.h, s: accentConfig.s, l: accentConfig.l }}
@@ -685,124 +907,186 @@ export default function AdminThemes() {
                               onGradientChange={(g) => setAccentConfig({ ...accentConfig, ...g })}
                             />
 
-                            <AccordionItem value="primary-background">
-                              <AccordionTrigger className="text-sm py-2">Primary Background</AccordionTrigger>
-                              <AccordionContent className="space-y-3 pb-4">
-                                <div className="space-y-2">
-                                  <Label className="text-xs text-muted-foreground">HSL Value</Label>
-                                  <Input
-                                    value={staticColors.primary}
-                                    onChange={(e) => setStaticColors({ ...staticColors, primary: e.target.value })}
-                                    placeholder="222 47% 11%"
-                                    className="font-mono text-sm"
-                                  />
-                                </div>
-                                <div 
-                                  className="h-10 rounded-lg border"
-                                  style={{ backgroundColor: `hsl(${staticColors.primary})` }}
-                                />
-                              </AccordionContent>
-                            </AccordionItem>
+                            {/* Core Colors Section */}
+                            <HslEditor
+                              label="Primary"
+                              value={staticColors.primary}
+                              onChange={(v) => setStaticColors({ ...staticColors, primary: v })}
+                              description="Main dark color for headers, nav backgrounds"
+                            />
+                            <HslEditor
+                              label="Primary Light"
+                              value={staticColors.primaryLight}
+                              onChange={(v) => setStaticColors({ ...staticColors, primaryLight: v })}
+                              description="Lighter variant of primary"
+                            />
+                            <HslEditor
+                              label="Primary Foreground"
+                              value={staticColors.primaryForeground}
+                              onChange={(v) => setStaticColors({ ...staticColors, primaryForeground: v })}
+                              description="Text color on primary backgrounds"
+                            />
 
+                            {/* Background & Foreground */}
+                            <HslEditor
+                              label="Background"
+                              value={staticColors.background}
+                              onChange={(v) => setStaticColors({ ...staticColors, background: v })}
+                              description="Main page background"
+                            />
+                            <HslEditor
+                              label="Foreground"
+                              value={staticColors.foreground}
+                              onChange={(v) => setStaticColors({ ...staticColors, foreground: v })}
+                              description="Main text color"
+                            />
+
+                            {/* Secondary */}
+                            <HslEditor
+                              label="Secondary"
+                              value={staticColors.secondary}
+                              onChange={(v) => setStaticColors({ ...staticColors, secondary: v })}
+                              description="Secondary surface color"
+                            />
+                            <HslEditor
+                              label="Secondary Foreground"
+                              value={staticColors.secondaryForeground}
+                              onChange={(v) => setStaticColors({ ...staticColors, secondaryForeground: v })}
+                              description="Text on secondary surfaces"
+                            />
+
+                            {/* Card */}
+                            <HslEditor
+                              label="Card"
+                              value={staticColors.card}
+                              onChange={(v) => setStaticColors({ ...staticColors, card: v })}
+                              description="Card background color"
+                            />
+                            <HslEditor
+                              label="Card Foreground"
+                              value={staticColors.cardForeground}
+                              onChange={(v) => setStaticColors({ ...staticColors, cardForeground: v })}
+                              description="Text on cards"
+                            />
+
+                            {/* Muted */}
+                            <HslEditor
+                              label="Muted"
+                              value={staticColors.muted}
+                              onChange={(v) => setStaticColors({ ...staticColors, muted: v })}
+                              description="Muted background areas"
+                            />
+                            <HslEditor
+                              label="Muted Foreground"
+                              value={staticColors.mutedForeground}
+                              onChange={(v) => setStaticColors({ ...staticColors, mutedForeground: v })}
+                              description="Subdued text color"
+                            />
+
+                            {/* Border & Input */}
+                            <HslEditor
+                              label="Border"
+                              value={staticColors.border}
+                              onChange={(v) => setStaticColors({ ...staticColors, border: v })}
+                              description="Border color for elements"
+                            />
+                            <HslEditor
+                              label="Input"
+                              value={staticColors.input}
+                              onChange={(v) => setStaticColors({ ...staticColors, input: v })}
+                              description="Input field border color"
+                            />
+                            <HslEditor
+                              label="Ring"
+                              value={staticColors.ring}
+                              onChange={(v) => setStaticColors({ ...staticColors, ring: v })}
+                              description="Focus ring color"
+                            />
+
+                            {/* Popover */}
+                            <HslEditor
+                              label="Popover"
+                              value={staticColors.popover}
+                              onChange={(v) => setStaticColors({ ...staticColors, popover: v })}
+                              description="Popover/dropdown background"
+                            />
+                            <HslEditor
+                              label="Popover Foreground"
+                              value={staticColors.popoverForeground}
+                              onChange={(v) => setStaticColors({ ...staticColors, popoverForeground: v })}
+                              description="Popover text color"
+                            />
+
+                            {/* Gradients Section */}
                             <AccordionItem value="gradients">
-                              <AccordionTrigger className="text-sm py-2">Gradient Configs</AccordionTrigger>
+                              <AccordionTrigger className="text-sm py-2">
+                                <div className="flex items-center gap-2">
+                                  <div className="h-4 w-4 rounded border bg-gradient-to-r from-primary to-accent shrink-0" />
+                                  Gradients
+                                </div>
+                              </AccordionTrigger>
                               <AccordionContent className="space-y-4 pb-4">
-                                <div className="space-y-3">
+                                <div className="space-y-2">
                                   <Label className="text-xs font-medium">Hero Gradient</Label>
-                                  <div className="grid grid-cols-2 gap-2">
-                                    <div className="space-y-1">
-                                      <Label className="text-xs text-muted-foreground">From</Label>
-                                      <Input 
-                                        type="color" 
-                                        value={gradientConfigs.hero?.from || '#F97316'} 
-                                        onChange={(e) => setGradientConfigs({ 
-                                          ...gradientConfigs, 
-                                          hero: { ...gradientConfigs.hero, from: e.target.value, to: gradientConfigs.hero?.to || '#EF4444', angle: gradientConfigs.hero?.angle || 90 }
-                                        })} 
-                                        className="h-8 cursor-pointer" 
-                                      />
-                                    </div>
-                                    <div className="space-y-1">
-                                      <Label className="text-xs text-muted-foreground">To</Label>
-                                      <Input 
-                                        type="color" 
-                                        value={gradientConfigs.hero?.to || '#EF4444'} 
-                                        onChange={(e) => setGradientConfigs({ 
-                                          ...gradientConfigs, 
-                                          hero: { ...gradientConfigs.hero, from: gradientConfigs.hero?.from || '#F97316', to: e.target.value, angle: gradientConfigs.hero?.angle || 90 }
-                                        })} 
-                                        className="h-8 cursor-pointer"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <div className="flex justify-between text-xs text-muted-foreground">
-                                      <span>Angle</span><span>{gradientConfigs.hero?.angle || 90}°</span>
-                                    </div>
-                                    <Slider 
-                                      value={[gradientConfigs.hero?.angle || 90]} 
-                                      max={360} 
-                                      onValueChange={(v) => setGradientConfigs({ 
-                                        ...gradientConfigs, 
-                                        hero: { ...gradientConfigs.hero, from: gradientConfigs.hero?.from || '#F97316', to: gradientConfigs.hero?.to || '#EF4444', angle: v[0] }
-                                      })} 
-                                    />
-                                  </div>
-                                  <div 
-                                    className="h-8 rounded-lg border"
-                                    style={{ 
-                                      background: `linear-gradient(${gradientConfigs.hero?.angle || 90}deg, ${gradientConfigs.hero?.from || '#F97316'}, ${gradientConfigs.hero?.to || '#EF4444'})` 
-                                    }}
+                                  <p className="text-xs text-muted-foreground">Dark header/hero backgrounds</p>
+                                  <Textarea
+                                    value={gradientConfigs.hero || ''}
+                                    onChange={(e) => setGradientConfigs({ 
+                                      ...gradientConfigs, 
+                                      hero: e.target.value
+                                    })} 
+                                    placeholder="linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(215 25% 27%) 100%)"
+                                    className="font-mono text-xs"
+                                    rows={2}
                                   />
+                                  {gradientConfigs.hero && (
+                                    <div 
+                                      className="h-8 rounded-lg border"
+                                      style={{ background: gradientConfigs.hero }}
+                                    />
+                                  )}
                                 </div>
 
-                                <div className="space-y-3">
+                                <div className="space-y-2">
                                   <Label className="text-xs font-medium">CTA Gradient</Label>
-                                  <div className="grid grid-cols-2 gap-2">
-                                    <div className="space-y-1">
-                                      <Label className="text-xs text-muted-foreground">From</Label>
-                                      <Input 
-                                        type="color" 
-                                        value={gradientConfigs.cta?.from || '#3B82F6'} 
-                                        onChange={(e) => setGradientConfigs({ 
-                                          ...gradientConfigs, 
-                                          cta: { ...gradientConfigs.cta, from: e.target.value, to: gradientConfigs.cta?.to || '#8B5CF6', angle: gradientConfigs.cta?.angle || 90 }
-                                        })} 
-                                        className="h-8 cursor-pointer" 
-                                      />
-                                    </div>
-                                    <div className="space-y-1">
-                                      <Label className="text-xs text-muted-foreground">To</Label>
-                                      <Input 
-                                        type="color" 
-                                        value={gradientConfigs.cta?.to || '#8B5CF6'} 
-                                        onChange={(e) => setGradientConfigs({ 
-                                          ...gradientConfigs, 
-                                          cta: { ...gradientConfigs.cta, from: gradientConfigs.cta?.from || '#3B82F6', to: e.target.value, angle: gradientConfigs.cta?.angle || 90 }
-                                        })} 
-                                        className="h-8 cursor-pointer"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <div className="flex justify-between text-xs text-muted-foreground">
-                                      <span>Angle</span><span>{gradientConfigs.cta?.angle || 90}°</span>
-                                    </div>
-                                    <Slider 
-                                      value={[gradientConfigs.cta?.angle || 90]} 
-                                      max={360} 
-                                      onValueChange={(v) => setGradientConfigs({ 
-                                        ...gradientConfigs, 
-                                        cta: { ...gradientConfigs.cta, from: gradientConfigs.cta?.from || '#3B82F6', to: gradientConfigs.cta?.to || '#8B5CF6', angle: v[0] }
-                                      })} 
-                                    />
-                                  </div>
-                                  <div 
-                                    className="h-8 rounded-lg border"
-                                    style={{ 
-                                      background: `linear-gradient(${gradientConfigs.cta?.angle || 90}deg, ${gradientConfigs.cta?.from || '#3B82F6'}, ${gradientConfigs.cta?.to || '#8B5CF6'})` 
-                                    }}
+                                  <p className="text-xs text-muted-foreground">Buttons and call-to-action elements</p>
+                                  <Textarea
+                                    value={gradientConfigs.cta || ''}
+                                    onChange={(e) => setGradientConfigs({ 
+                                      ...gradientConfigs, 
+                                      cta: e.target.value
+                                    })} 
+                                    placeholder="linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(32 95% 44%) 100%)"
+                                    className="font-mono text-xs"
+                                    rows={2}
                                   />
+                                  {gradientConfigs.cta && (
+                                    <div 
+                                      className="h-8 rounded-lg border"
+                                      style={{ background: gradientConfigs.cta }}
+                                    />
+                                  )}
+                                </div>
+
+                                <div className="space-y-2">
+                                  <Label className="text-xs font-medium">Text Gradient</Label>
+                                  <p className="text-xs text-muted-foreground">Gradient text highlights</p>
+                                  <Textarea
+                                    value={gradientConfigs.text || ''}
+                                    onChange={(e) => setGradientConfigs({ 
+                                      ...gradientConfigs, 
+                                      text: e.target.value
+                                    })} 
+                                    placeholder="linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(45 93% 58%) 100%)"
+                                    className="font-mono text-xs"
+                                    rows={2}
+                                  />
+                                  {gradientConfigs.text && (
+                                    <div 
+                                      className="h-8 rounded-lg border"
+                                      style={{ background: gradientConfigs.text }}
+                                    />
+                                  )}
                                 </div>
                               </AccordionContent>
                             </AccordionItem>

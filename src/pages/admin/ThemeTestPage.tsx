@@ -56,32 +56,67 @@ export default function ThemeTestPage() {
     const root = document.documentElement;
     const accentConfig = activeTheme.accent_config as Record<string, any> || {};
     const staticColors = activeTheme.static_colors as Record<string, string> || {};
+    const gradientConfigs = activeTheme.gradient_configs as Record<string, any> || {};
 
-    // Apply accent color
+    // List of all CSS variables we'll set (for cleanup)
+    const appliedVars: string[] = [];
+
+    const setVar = (name: string, value: string) => {
+      root.style.setProperty(name, value);
+      appliedVars.push(name);
+    };
+
+    // Apply accent colors
     const accent = accentConfig.accent || '38 92% 50%';
-    root.style.setProperty('--accent', accent);
-    root.style.setProperty('--accent-foreground', staticColors.primary || '222 47% 11%');
+    setVar('--accent', accent);
+    if (accentConfig.accentHover) setVar('--accent-hover', accentConfig.accentHover);
+    if (accentConfig.accentGlow) setVar('--accent-glow', accentConfig.accentGlow);
+    if (accentConfig.accentForeground) setVar('--accent-foreground', accentConfig.accentForeground);
 
-    // Apply other theme colors
-    if (staticColors.primary) {
-      root.style.setProperty('--primary', staticColors.primary);
-      root.style.setProperty('--primary-foreground', staticColors.background || '0 0% 100%');
+    // Apply all static colors
+    const colorMappings: Record<string, string> = {
+      primary: '--primary',
+      primaryLight: '--primary-light',
+      primaryForeground: '--primary-foreground',
+      secondary: '--secondary',
+      secondaryForeground: '--secondary-foreground',
+      background: '--background',
+      foreground: '--foreground',
+      card: '--card',
+      cardForeground: '--card-foreground',
+      popover: '--popover',
+      popoverForeground: '--popover-foreground',
+      muted: '--muted',
+      mutedForeground: '--muted-foreground',
+      border: '--border',
+      input: '--input',
+      ring: '--ring',
+      destructive: '--destructive',
+      destructiveForeground: '--destructive-foreground',
+    };
+
+    Object.entries(colorMappings).forEach(([key, cssVar]) => {
+      if (staticColors[key]) {
+        setVar(cssVar, staticColors[key]);
+      }
+    });
+
+    // Apply gradient configs
+    if (gradientConfigs.hero) {
+      setVar('--gradient-hero', gradientConfigs.hero);
     }
-    if (staticColors.background) {
-      root.style.setProperty('--background', staticColors.background);
+    if (gradientConfigs.cta) {
+      setVar('--gradient-cta', gradientConfigs.cta);
     }
-    if (staticColors.foreground) {
-      root.style.setProperty('--foreground', staticColors.foreground);
+    if (gradientConfigs.text) {
+      setVar('--gradient-text', gradientConfigs.text);
     }
 
-    // Cleanup on unmount
+    // Cleanup on unmount - remove all applied variables
     return () => {
-      root.style.removeProperty('--accent');
-      root.style.removeProperty('--accent-foreground');
-      root.style.removeProperty('--primary');
-      root.style.removeProperty('--primary-foreground');
-      root.style.removeProperty('--background');
-      root.style.removeProperty('--foreground');
+      appliedVars.forEach(varName => {
+        root.style.removeProperty(varName);
+      });
     };
   }, [activeTheme]);
 
