@@ -110,21 +110,21 @@ export default function ThemeTestPage() {
     <div className="min-h-screen" style={{ backgroundColor: `hsl(${staticColors.background})` }}>
       {/* Control Bar */}
       <div className="sticky top-0 z-50 border-b bg-card/95 backdrop-blur">
-        <div className="container flex items-center justify-between h-14 gap-4">
-          <div className="flex items-center gap-4">
+        <div className="container flex items-center justify-between h-14 gap-2 sm:gap-4 px-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <Link to="/admin/themes">
-              <Button variant="ghost" size="sm">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back
+              <Button variant="ghost" size="sm" className="px-2 sm:px-3">
+                <ArrowLeft className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Back</span>
               </Button>
             </Link>
-            <h1 className="text-lg font-semibold">Theme Test Page</h1>
+            <h1 className="text-sm sm:text-lg font-semibold">Theme Test</h1>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center">
             <Select value={selectedThemeId || ''} onValueChange={setSelectedThemeId}>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Select theme" />
+              <SelectTrigger className="w-32 sm:w-48">
+                <SelectValue placeholder="Theme" />
               </SelectTrigger>
               <SelectContent>
                 {themes.map((theme) => (
@@ -140,10 +140,10 @@ export default function ThemeTestPage() {
 
       {/* Live HSL Controls */}
       <div className="border-b bg-muted/50">
-        <div className="container py-4">
-          <div className="grid gap-4 md:grid-cols-4">
+        <div className="container py-3 sm:py-4 px-4">
+          <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             <div>
-              <Label className="text-xs text-muted-foreground">Accent Hue Override</Label>
+              <Label className="text-xs text-muted-foreground">Hue</Label>
               <div className="flex items-center gap-2 mt-1">
                 <Slider 
                   value={[hueOverride ?? 38]} 
@@ -151,14 +151,14 @@ export default function ThemeTestPage() {
                   onValueChange={(v) => setHueOverride(v[0])} 
                   className="flex-1"
                 />
-                <span className="text-xs w-10">{hueOverride ?? 38}°</span>
-                <Button size="sm" variant="ghost" onClick={() => setHueOverride(null)} className="h-6 px-2 text-xs">
-                  Reset
+                <span className="text-xs w-8">{hueOverride ?? 38}°</span>
+                <Button size="sm" variant="ghost" onClick={() => setHueOverride(null)} className="h-6 px-1.5 text-xs">
+                  ×
                 </Button>
               </div>
             </div>
             <div>
-              <Label className="text-xs text-muted-foreground">Saturation Override</Label>
+              <Label className="text-xs text-muted-foreground">Saturation</Label>
               <div className="flex items-center gap-2 mt-1">
                 <Slider 
                   value={[satOverride ?? 92]} 
@@ -166,14 +166,14 @@ export default function ThemeTestPage() {
                   onValueChange={(v) => setSatOverride(v[0])} 
                   className="flex-1"
                 />
-                <span className="text-xs w-10">{satOverride ?? 92}%</span>
-                <Button size="sm" variant="ghost" onClick={() => setSatOverride(null)} className="h-6 px-2 text-xs">
-                  Reset
+                <span className="text-xs w-8">{satOverride ?? 92}%</span>
+                <Button size="sm" variant="ghost" onClick={() => setSatOverride(null)} className="h-6 px-1.5 text-xs">
+                  ×
                 </Button>
               </div>
             </div>
             <div>
-              <Label className="text-xs text-muted-foreground">Lightness Override</Label>
+              <Label className="text-xs text-muted-foreground">Lightness</Label>
               <div className="flex items-center gap-2 mt-1">
                 <Slider 
                   value={[lightOverride ?? 50]} 
@@ -181,18 +181,18 @@ export default function ThemeTestPage() {
                   onValueChange={(v) => setLightOverride(v[0])} 
                   className="flex-1"
                 />
-                <span className="text-xs w-10">{lightOverride ?? 50}%</span>
-                <Button size="sm" variant="ghost" onClick={() => setLightOverride(null)} className="h-6 px-2 text-xs">
-                  Reset
+                <span className="text-xs w-8">{lightOverride ?? 50}%</span>
+                <Button size="sm" variant="ghost" onClick={() => setLightOverride(null)} className="h-6 px-1.5 text-xs">
+                  ×
                 </Button>
               </div>
             </div>
             <div className="flex items-end gap-2">
               <div 
-                className="h-10 w-20 rounded-lg border"
+                className="h-8 sm:h-10 w-16 sm:w-20 rounded-lg border"
                 style={{ backgroundColor: `hsl(${accentHsl})` }}
               />
-              <code className="text-xs text-muted-foreground">{accentHsl}</code>
+              <code className="text-xs text-muted-foreground truncate">{accentHsl}</code>
             </div>
           </div>
         </div>
