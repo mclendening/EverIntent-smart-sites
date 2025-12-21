@@ -23,6 +23,7 @@ interface ElementControls {
   gradientAngle: number;
   marginLeft: number;
   marginRight: number;
+  offsetY: number;
 }
 
 interface StreakControls {
@@ -54,6 +55,7 @@ const defaultElement = (): ElementControls => ({
   gradientAngle: 90,
   marginLeft: 0,
   marginRight: 0,
+  offsetY: 0,
 });
 
 const LogoExplorer = () => {
@@ -122,6 +124,8 @@ const LogoExplorer = () => {
       fontWeight: ctrl.weight,
       marginLeft: ctrl.marginLeft,
       marginRight: ctrl.marginRight,
+      position: 'relative' as const,
+      top: ctrl.offsetY,
     };
     if (ctrl.useGradient) {
       return {
@@ -262,6 +266,12 @@ const LogoExplorer = () => {
             </div>
             <Slider value={[ctrl.marginRight]} min={-50} max={50} onValueChange={(v) => setCtrl({ ...ctrl, marginRight: v[0] })} />
           </div>
+        </div>
+        <div className="space-y-1">
+          <div className="flex justify-between text-xs text-zinc-400">
+            <span>Vertical Offset</span><span>{ctrl.offsetY}px</span>
+          </div>
+          <Slider value={[ctrl.offsetY]} min={-20} max={20} onValueChange={(v) => setCtrl({ ...ctrl, offsetY: v[0] })} />
         </div>
         <ColorControls ctrl={ctrl} setCtrl={setCtrl} />
       </AccordionContent>
