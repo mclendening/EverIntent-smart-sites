@@ -207,6 +207,96 @@ Publish flow:
 
 ---
 
+## Phase 1.6: Theme System Completion
+
+> **Purpose:** Complete all gaps in theme system: CSS variable coverage, logo integration, admin CRUD, export functionality.
+
+### Task 1.6.1 [LOVABLE] - Header Logo Integration
+**Status:** ⬜ Not Started
+
+Current `Header.tsx` uses hardcoded text:
+```tsx
+<span className="text-white">Ever</span><span className="text-intent-blue">Intent</span>
+```
+
+**Fix:** Replace with `<LogoRenderer />` component that accepts `accentHsl` prop from theme.
+
+**Acceptance:**
+- Header renders LogoRenderer at appropriate scale
+- Logo "Intent" color matches current theme accent
+- Streak and tagline visibility controlled via props
+
+### Task 1.6.2 [LOVABLE] - Missing CSS Variables in ThemeConfig
+**Status:** ⬜ Not Started
+
+**Variables in index.css NOT in themes.ts:**
+| Variable | Purpose |
+|----------|---------|
+| `--intent-blue` | Brand color for "Intent" in logo |
+| `--highlight` / `--highlight-foreground` | Success/highlight color |
+| `--destructive` / `--destructive-foreground` | Error states |
+| `--radius` | Border radius |
+| `--shadow-sm/md/lg/xl` | Shadow system |
+| `--shadow-glow/glow-lg/button` | Glow shadows |
+| `--sidebar-*` (7 vars) | Sidebar styling |
+| `--gradient-glow` | Radial glow gradient |
+| `--gradient-mesh` | Mesh background gradient |
+
+**Fix:**
+1. Add missing types to `ThemeConfig` interface in `themes.ts`
+2. Add to admin CRUD UI (Themes.tsx)
+3. Add to `applyThemeToRoot()` function
+4. Update `generateProductionConfig()` to include them
+
+### Task 1.6.3 [LOVABLE] - Admin Theme CRUD Gaps
+**Status:** ⬜ Not Started
+
+Current admin (`Themes.tsx`) lacks controls for:
+- Intent blue color (logo brand color)
+- Highlight/destructive colors
+- Border radius
+- Shadow system (all 7 shadow vars)
+- Sidebar colors (7 vars)
+- Mesh/glow gradients
+
+**Fix:** Add accordion sections for these in the editor.
+
+### Task 1.6.4 [LOVABLE] - Logo Export (SVG/PNG)
+**Status:** ⬜ Not Started
+
+`LogoRenderer` renders to DOM but lacks export capability.
+
+**Requirements:**
+- Export as SVG (vector, scalable)
+- Export as PNG (raster, with configurable resolution)
+- Available in LogoExplorer and/or Admin Themes
+
+**Approach:**
+1. For SVG: Serialize the rendered SVG element to string
+2. For PNG: Use `<canvas>` with SVG → drawImage → toDataURL
+
+**Deliverables:**
+- Add "Export SVG" and "Export PNG" buttons to LogoExplorer
+- Possibly add to Admin Themes for quick logo download
+
+### Task 1.6.5 [LOVABLE] - Logo Theme Testing
+**Status:** ⬜ Not Started
+
+Verify LogoRenderer correctly applies theme accent:
+- Test with multiple themes (different accent colors)
+- Verify streak gradient uses accent
+- Verify "Intent" text uses accent
+- Test scale prop works correctly
+
+### Task 1.6.6 [LOVABLE] - Cleanup LogoExplorer
+**Status:** ⬜ Not Started
+
+`LogoExplorer` page has its own inline logo rendering instead of using `LogoRenderer`.
+
+**Fix:** Refactor to use `LogoRenderer` with passed config.
+
+---
+
 ## Phase 2: Cookie Consent & GHL Widget
 
 ### Task 2.1 [LOVABLE] - Create Cookie Consent Component
