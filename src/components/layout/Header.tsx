@@ -71,7 +71,7 @@ export function Header() {
             <div className="absolute inset-0 bg-intent-blue/30 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500" />
           </div>
           <div className="flex flex-col">
-            <span className="text-xl font-display font-bold tracking-tight">
+            <span className="text-2xl font-display font-bold tracking-tight">
               <span className="text-white">Ever</span><span className="text-intent-blue">Intent</span>
             </span>
             <span className="text-[10px] text-muted-foreground font-medium tracking-widest uppercase">
