@@ -14,19 +14,19 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card">
-        <div className="container flex h-16 items-center justify-between">
-          <h1 className="text-xl font-bold">Admin Dashboard</h1>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">{user?.email}</span>
-            <Button variant="outline" size="sm" onClick={handleSignOut}>
-              <LogOut className="mr-2 h-4 w-4" />
-              Sign Out
+        <div className="container flex h-14 sm:h-16 items-center justify-between px-4">
+          <h1 className="text-base sm:text-xl font-bold">Admin</h1>
+          <div className="flex items-center gap-2 sm:gap-4">
+            <span className="hidden sm:inline text-sm text-muted-foreground truncate max-w-[150px]">{user?.email}</span>
+            <Button variant="outline" size="sm" onClick={handleSignOut} className="px-2 sm:px-3">
+              <LogOut className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Sign Out</span>
             </Button>
           </div>
         </div>
       </header>
 
-      <main className="container py-8">
+      <main className="container py-4 sm:py-8 px-4">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <Link to="/admin/themes">
             <Card className="transition-colors hover:border-primary">
