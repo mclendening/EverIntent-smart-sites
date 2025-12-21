@@ -74,6 +74,7 @@ import PlaceholderPage from './pages/Placeholder';
 const AdminLogin = React.lazy(() => import('./pages/admin/Login'));
 const AdminDashboard = React.lazy(() => import('./pages/admin/Dashboard'));
 const AdminThemes = React.lazy(() => import('./pages/admin/Themes'));
+const ThemeTestPage = React.lazy(() => import('./pages/admin/ThemeTestPage'));
 
 // Core routes (v33.0 - renamed portfolio to our-work, added strategy-session, careers)
 const coreRoutePaths = ['/', '/pricing', '/our-work', '/about', '/contact', '/book-call', '/strategy-session', '/careers'];
@@ -337,6 +338,14 @@ export const routes: RouteRecord[] = [
         element: (
           <AdminGuard>
             <AdminThemes />
+          </AdminGuard>
+        ),
+      },
+      {
+        path: 'theme-test',
+        element: (
+          <AdminGuard>
+            <ThemeTestPage />
           </AdminGuard>
         ),
       },
