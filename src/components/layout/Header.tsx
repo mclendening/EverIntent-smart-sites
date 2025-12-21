@@ -71,7 +71,7 @@ export function Header() {
               <span className="text-white">Ever</span><span className="text-intent-blue">Intent</span>
             </span>
             <div className="h-0.5 w-full bg-gradient-to-r from-intent-blue to-intent-blue/30 rounded-full mt-2" />
-            <span className="text-xs text-muted-foreground/80 font-normal tracking-wide leading-tight mt-1">
+            <span className="text-xs text-muted-foreground/80 font-normal tracking-wide leading-tight mt-2">
               Web Design & Automation
             </span>
           </div>
