@@ -462,6 +462,56 @@ export type Database = {
         }
         Relationships: []
       }
+      published_theme_configs: {
+        Row: {
+          config_json: Json
+          config_typescript: string
+          created_at: string
+          created_by: string | null
+          id: string
+          is_active: boolean | null
+          is_default: boolean | null
+          notes: string | null
+          source_theme_id: string | null
+          source_theme_name: string
+          version: number
+        }
+        Insert: {
+          config_json: Json
+          config_typescript: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_default?: boolean | null
+          notes?: string | null
+          source_theme_id?: string | null
+          source_theme_name: string
+          version?: number
+        }
+        Update: {
+          config_json?: Json
+          config_typescript?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_default?: boolean | null
+          notes?: string | null
+          source_theme_id?: string | null
+          source_theme_name?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "published_theme_configs_source_theme_id_fkey"
+            columns: ["source_theme_id"]
+            isOneToOne: false
+            referencedRelation: "site_themes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       site_themes: {
         Row: {
           accent_config: Json
@@ -598,6 +648,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_next_theme_config_version: { Args: never; Returns: number }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
