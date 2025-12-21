@@ -309,10 +309,16 @@ export default function AdminThemes() {
       return;
     }
 
-    // Fetch page assignments
-    const { data: assignments } = await supabase
-      .from('page_theme_assignments')
-      .select('page_route, theme_id');
+    // Fetch page assignments and logo config in parallel
+    const [assignmentsResult, logoResult] = await Promise.all([
+      supabase.from('page_theme_assignments').select('page_route, theme_id'),
+      activeTheme.logo_version_id 
+        ? supabase.from('logo_versions').select('*').eq('id', activeTheme.logo_version_id).single()
+        : Promise.resolve({ data: null })
+    ]);
+
+    const assignments = assignmentsResult.data;
+    const logoVersion = logoResult.data;
 
     const accentCfg = activeTheme.accent_config as Record<string, any>;
     const staticCols = activeTheme.static_colors as Record<string, string>;
@@ -320,6 +326,29 @@ export default function AdminThemes() {
 
     const themeName = activeTheme.name;
     const themeId = themeName.toLowerCase().replace(/\s+/g, '-');
+
+    // Build logo config section if we have a logo
+    let logoConfigSection = '';
+    let logoTypeSection = '';
+    if (logoVersion) {
+      logoTypeSection = `
+  logoConfig?: {
+    taglineText: string;
+    everConfig: LogoElementConfig;
+    intentConfig: LogoElementConfig;
+    streakConfig: StreakElementConfig;
+    taglineConfig: TaglineElementConfig;
+  };`;
+      
+      logoConfigSection = `
+  logoConfig: {
+    taglineText: '${(logoVersion.tagline_text || 'Web Design & Automation').replace(/'/g, "\\'")}',
+    everConfig: ${JSON.stringify(logoVersion.ever_config, null, 4).replace(/\n/g, '\n    ')},
+    intentConfig: ${JSON.stringify(logoVersion.intent_config, null, 4).replace(/\n/g, '\n    ')},
+    streakConfig: ${JSON.stringify(logoVersion.streak_config, null, 4).replace(/\n/g, '\n    ')},
+    taglineConfig: ${JSON.stringify(logoVersion.tagline_config, null, 4).replace(/\n/g, '\n    ')},
+  },`;
+    }
 
     const config = `/**
  * Static Theme Configuration
@@ -333,6 +362,46 @@ export default function AdminThemes() {
  * 
  * @generated ${new Date().toISOString().split('T')[0]}
  */
+
+// Logo element types for embedded config
+export interface LogoElementConfig {
+  size: number;
+  weight: number;
+  solidColor: string;
+  useGradient: boolean;
+  gradientFrom: string;
+  gradientTo: string;
+  gradientAngle: number;
+  marginLeft: number;
+  marginRight: number;
+  verticalOffset?: number;
+}
+
+export interface StreakElementConfig {
+  length: number;
+  leftThick: number;
+  rightThick: number;
+  solidColor: string;
+  useGradient: boolean;
+  gradientFrom: string;
+  gradientTo: string;
+  gradientAngle: number;
+  marginLeft: number;
+  marginRight: number;
+}
+
+export interface TaglineElementConfig {
+  size: number;
+  weight: number;
+  solidColor: string;
+  useGradient: boolean;
+  gradientFrom: string;
+  gradientTo: string;
+  gradientAngle: number;
+  marginLeft: number;
+  marginRight: number;
+  marginTop: number;
+}
 
 export interface ThemeConfig {
   id: string;
@@ -370,7 +439,7 @@ export interface ThemeConfig {
     cta: string;
     text: string;
   };
-  logoVersionId?: string;
+  logoVersionId?: string;${logoTypeSection}
 }
 
 export interface RouteThemeMapping {
@@ -417,7 +486,7 @@ export const activeTheme: ThemeConfig = {
     cta: '${gradientCfg.cta || "linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(32 95% 44%) 100%)"}',
     text: '${gradientCfg.text || "linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(45 93% 58%) 50%, hsl(38 92% 50%) 100%)"}',
   },${activeTheme.logo_version_id ? `
-  logoVersionId: '${activeTheme.logo_version_id}',` : ''}
+  logoVersionId: '${activeTheme.logo_version_id}',` : ''}${logoConfigSection}
 };
 
 // ============================================

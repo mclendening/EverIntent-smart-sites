@@ -71,6 +71,14 @@ export function Header() {
             scale={0.42} 
             showTagline={true}
             accentHsl={activeTheme.accentConfig.accent}
+            config={activeTheme.logoConfig ? {
+              name: activeTheme.name,
+              taglineText: activeTheme.logoConfig.taglineText,
+              everConfig: activeTheme.logoConfig.everConfig,
+              intentConfig: activeTheme.logoConfig.intentConfig,
+              streakConfig: activeTheme.logoConfig.streakConfig,
+              taglineConfig: activeTheme.logoConfig.taglineConfig,
+            } : undefined}
           />
         </Link>
 
