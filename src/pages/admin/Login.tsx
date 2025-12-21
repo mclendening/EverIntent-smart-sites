@@ -7,10 +7,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, Mail, ShieldCheck, CheckCircle } from 'lucide-react';
+import { Loader2, Mail, ShieldCheck, Lock } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
-const emailSchema = z.string().email('Please enter a valid email address');
+const loginSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(1, 'Password is required'),
+});
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -18,9 +21,9 @@ export default function AdminLogin() {
   const { user, isAdmin, isLoading: authLoading } = useAdminAuth();
   
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [emailSent, setEmailSent] = useState(false);
 
   // Get error from navigation state
   const stateError = location.state?.error as string | undefined;
@@ -33,12 +36,12 @@ export default function AdminLogin() {
     }
   }, [user, isAdmin, authLoading, navigate, location.state]);
 
-  const handleEmailSubmit = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
-    // Validate email
-    const result = emailSchema.safeParse(email);
+    // Validate inputs
+    const result = loginSchema.safeParse({ email, password });
     if (!result.success) {
       setError(result.error.errors[0].message);
       return;
@@ -47,34 +50,27 @@ export default function AdminLogin() {
     setIsLoading(true);
 
     try {
-      // Call the verify-admin-email edge function
-      const { data, error: fnError } = await supabase.functions.invoke('verify-admin-email', {
-        body: { email: email.toLowerCase() },
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: email.toLowerCase(),
+        password,
       });
 
-      if (fnError) {
-        console.error('Edge function error:', fnError);
-        setError('Failed to send login link. Please try again.');
+      if (signInError) {
+        if (signInError.message.includes('Invalid login credentials')) {
+          setError('Invalid email or password.');
+        } else {
+          setError(signInError.message);
+        }
         return;
       }
 
-      if (data?.error) {
-        setError(data.error);
-        return;
-      }
-
-      setEmailSent(true);
+      // Auth state change will trigger redirect via useEffect
     } catch (err) {
       console.error('Unexpected error:', err);
       setError('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleTryAgain = () => {
-    setEmailSent(false);
-    setError(null);
   };
 
   if (authLoading) {
@@ -93,20 +89,11 @@ export default function AdminLogin() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-            {emailSent ? (
-              <CheckCircle className="h-6 w-6 text-green-600" />
-            ) : (
-              <ShieldCheck className="h-6 w-6 text-primary" />
-            )}
+            <ShieldCheck className="h-6 w-6 text-primary" />
           </div>
-          <CardTitle className="text-2xl">
-            {emailSent ? 'Check Your Email' : 'Admin Login'}
-          </CardTitle>
+          <CardTitle className="text-2xl">Admin Login</CardTitle>
           <CardDescription>
-            {emailSent 
-              ? `We sent a magic link to ${email}. Click the link in your email to sign in.`
-              : 'Enter your admin email to receive a magic link'
-            }
+            Enter your credentials to access the admin panel
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -116,56 +103,51 @@ export default function AdminLogin() {
             </Alert>
           )}
 
-          {emailSent ? (
-            <div className="space-y-4">
-              <Alert className="border-green-500 bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
-                <AlertDescription>
-                  Magic link sent! Check your inbox and click the link to sign in.
-                </AlertDescription>
-              </Alert>
-              <p className="text-sm text-muted-foreground text-center">
-                Didn't receive the email? Check your spam folder or try again.
-              </p>
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full"
-                onClick={handleTryAgain}
-              >
-                Try a different email
-              </Button>
-            </div>
-          ) : (
-            <form onSubmit={handleEmailSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="admin@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10"
-                    disabled={isLoading}
-                    autoComplete="email"
-                    autoFocus
-                  />
-                </div>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email Address</Label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="admin@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="pl-10"
+                  disabled={isLoading}
+                  autoComplete="email"
+                  autoFocus
+                />
               </div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Sending Link...
-                  </>
-                ) : (
-                  'Send Magic Link'
-                )}
-              </Button>
-            </form>
-          )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="pl-10"
+                  disabled={isLoading}
+                  autoComplete="current-password"
+                />
+              </div>
+            </div>
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Signing in...
+                </>
+              ) : (
+                'Sign In'
+              )}
+            </Button>
+          </form>
         </CardContent>
       </Card>
     </div>
