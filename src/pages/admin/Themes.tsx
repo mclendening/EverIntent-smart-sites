@@ -144,7 +144,15 @@ export default function AdminThemes() {
 
   const handleSetActive = async (theme: Theme) => {
     try {
-      await supabase.from('site_themes').update({ is_active: false }).neq('id', 'placeholder');
+      // First deactivate ALL themes
+      const { error: deactivateError } = await supabase
+        .from('site_themes')
+        .update({ is_active: false })
+        .neq('id', theme.id);
+
+      if (deactivateError) throw deactivateError;
+
+      // Then activate the selected theme
       const { error } = await supabase
         .from('site_themes')
         .update({ is_active: true })
