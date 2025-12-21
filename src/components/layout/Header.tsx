@@ -68,7 +68,7 @@ export function Header() {
         {/* Logo */}
         <Link to="/" className="flex items-center group">
           <LogoRenderer 
-            scale={0.6} 
+            scale={0.42} 
             showTagline={true}
             accentHsl={activeTheme.accentConfig.accent}
           />
