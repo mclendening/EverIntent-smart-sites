@@ -3,8 +3,8 @@
 // Format: react-router-dom data routes for vite-react-ssg
 
 import type { RouteRecord } from 'vite-react-ssg';
-import React, { Suspense, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { Suspense, useState, useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 
 // Providers
 import { Toaster } from '@/components/ui/toaster';
@@ -14,6 +14,19 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Layout } from '@/components/layout/Layout';
 import { AdminGuard } from '@/components/admin/AdminGuard';
 import { ClientOnly } from '@/components/ClientOnly';
+import { getThemeForRoute, applyThemeToRoot } from '@/config/themes';
+
+// Theme application component - applies theme CSS vars based on route
+function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const location = useLocation();
+  
+  useEffect(() => {
+    const theme = getThemeForRoute(location.pathname);
+    applyThemeToRoot(theme);
+  }, [location.pathname]);
+  
+  return <>{children}</>;
+}
 
 // Root layout wrapper with all providers
 // Fix 2 & 3: QueryClient created inside component, portal-based components wrapped in ClientOnly
@@ -23,11 +36,13 @@ function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Layout>
-        <Suspense fallback={<div className="min-h-screen" />}>
-          <Outlet />
-        </Suspense>
-      </Layout>
+      <ThemeProvider>
+        <Layout>
+          <Suspense fallback={<div className="min-h-screen" />}>
+            <Outlet />
+          </Suspense>
+        </Layout>
+      </ThemeProvider>
 
       {/* Fix 2: Portal-based components only render client-side to prevent hydration mismatches */}
       <ClientOnly>

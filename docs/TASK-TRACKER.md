@@ -144,12 +144,23 @@ Creates:
 ## Phase 1.5: Theme Publishing System
 
 > **Purpose:** Enable one-click publishing of theme configurations from admin to GitHub repository, eliminating manual copy-paste workflow.
+> **BRD Reference:** `docs/BRD-theming-system.md`
+
+### Task 1.5.0 [LOVABLE] - Wire Up Theme Application
+**Status:** ✅ Complete
+
+Updated `src/routes.tsx`:
+- Added `ThemeProvider` component that wraps RootLayout children
+- Calls `applyThemeToRoot()` on route change
+- Theme CSS variables now dynamically applied based on `src/config/themes.ts`
+
+**How it works:**
+1. `index.css` = SSG baseline (prevents flash on initial load)
+2. `themes.ts` = static config (source of truth, committed via GitHub publish)
+3. `applyThemeToRoot()` = client-side override for route-based switching
 
 ### Task 1.5.1 [MANUAL] - Add GitHub Secrets to Supabase
 **Status:** ✅ Complete
-
-1. Go to Supabase Dashboard: https://supabase.com/dashboard/project/nweklcxzoemcnwaoakvq/settings/functions
-2. Add secrets:
 
 | Secret Name | Value |
 |-------------|-------|
@@ -162,7 +173,6 @@ Creates:
 
 Created `supabase/functions/sync-theme-to-github/index.ts`:
 - Fetches active theme from `published_theme_configs` table
-- Generates TypeScript config string
 - Commits to `src/config/themes.ts` via GitHub API
 - Returns commit SHA and URL on success
 - Requires JWT auth (admin only)
@@ -179,10 +189,21 @@ Updated `src/pages/admin/Themes.tsx`:
 ### Task 1.5.4 [LOVABLE] - Save Config to Database Before GitHub Sync
 **Status:** ✅ Complete (merged into Task 1.5.3)
 
-Publish flow now:
-1. Generates TypeScript config from active theme
+Publish flow:
+1. Generates TypeScript config from active theme in `site_themes`
 2. Saves to `published_theme_configs` with version number
 3. Calls edge function which reads from database and commits to GitHub
+
+### Database Tables (Reference)
+
+| Table | Purpose |
+|-------|---------|
+| `site_themes` | Theme definitions (10 seed themes exist) |
+| `logo_versions` | Logo configurations |
+| `page_theme_assignments` | Route → theme mappings |
+| `published_theme_configs` | Published configs for GitHub sync |
+
+**Current Active Theme in DB:** Indigo Night (but `themes.ts` has Golden Amber - will sync on first publish)
 
 ---
 
