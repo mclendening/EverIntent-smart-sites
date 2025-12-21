@@ -70,11 +70,12 @@ export function Header() {
             <Sparkles className="w-8 h-8 text-intent-blue transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" strokeWidth={1.5} />
             <div className="absolute inset-0 bg-intent-blue/30 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500" />
           </div>
-          <div className="flex flex-col">
-            <span className="text-2xl font-display font-bold tracking-tight">
+          <div className="flex flex-col gap-0">
+            <span className="text-2xl font-display font-bold tracking-tight leading-none">
               <span className="text-white">Ever</span><span className="text-intent-blue">Intent</span>
             </span>
-            <span className="text-xs text-muted-foreground/80 font-normal tracking-wide">
+            <div className="h-0.5 w-full bg-gradient-to-r from-intent-blue to-intent-blue/30 rounded-full" />
+            <span className="text-xs text-muted-foreground/80 font-normal tracking-wide leading-tight mt-0.5">
               Web Design & Automation
             </span>
           </div>
