@@ -64,6 +64,7 @@ function AdminLayout() {
 // Lazy load page components (but NOT shared components like PlaceholderPage)
 const Index = React.lazy(() => import('./pages/Index'));
 const NotFound = React.lazy(() => import('./pages/NotFound'));
+const LogoExplorer = React.lazy(() => import('./pages/LogoExplorer'));
 
 // Direct import for shared components used across many routes
 // React.lazy on shared components causes SSG build errors: "_payload._result.toString is not a function"
@@ -272,6 +273,11 @@ export const routes: RouteRecord[] = [
       {
         index: true,
         Component: Index,
+      },
+      // Logo explorer (temporary)
+      {
+        path: 'logo-explorer',
+        Component: LogoExplorer,
       },
       // Core pages (placeholder for now, will be implemented)
       ...coreRoutePaths.slice(1).map(createPlaceholderChild),
