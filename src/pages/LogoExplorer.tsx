@@ -170,9 +170,22 @@ const LogoExplorer = () => {
               
               {/* Logo Preview */}
               <div className="flex flex-col items-start mb-4">
-                <span className="text-2xl font-display font-bold tracking-tight" style={{ display: 'inline-table' }}>
-                  <span className={v.everColor} style={{ display: 'table-cell' }}>Ever</span><span className={v.intentColor} style={{ display: 'table-cell' }}>Intent</span>
-                </span>
+                <svg viewBox="0 0 200 30" className="h-8 w-auto" aria-label="EverIntent">
+                  <text 
+                    x="0" 
+                    y="24" 
+                    className={`font-display font-bold ${v.everColor}`}
+                    style={{ fontSize: '28px', letterSpacing: '-0.025em' }}
+                    fill="currentColor"
+                  >Ever</text>
+                  <text 
+                    x="60" 
+                    y="24" 
+                    className={`font-display font-bold ${v.intentColor}`}
+                    style={{ fontSize: '28px', letterSpacing: '-0.025em' }}
+                    fill="currentColor"
+                  >Intent</text>
+                </svg>
                 <div 
                   className={`h-1 w-full mt-2 ${v.streakStyle}`} 
                   style={{ clipPath: 'polygon(0 15%, 100% 40%, 100% 60%, 0 85%)' }}
