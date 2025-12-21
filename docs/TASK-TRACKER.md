@@ -141,6 +141,51 @@ Creates:
 
 ---
 
+## Phase 1.5: Theme Publishing System
+
+> **Purpose:** Enable one-click publishing of theme configurations from admin to GitHub repository, eliminating manual copy-paste workflow.
+
+### Task 1.5.1 [MANUAL] - Add GitHub Secrets to Supabase
+**Status:** ✅ Complete
+
+1. Go to Supabase Dashboard: https://supabase.com/dashboard/project/nweklcxzoemcnwaoakvq/settings/functions
+2. Add secrets:
+
+| Secret Name | Value |
+|-------------|-------|
+| `GITHUB_PAT` | Personal Access Token with `repo` scope |
+| `GITHUB_REPO_OWNER` | `mclendening` |
+| `GITHUB_REPO_NAME` | `EverIntent-smart-sites` |
+
+### Task 1.5.2 [LOVABLE] - Create sync-theme-to-github Edge Function
+**Status:** ✅ Complete
+
+Created `supabase/functions/sync-theme-to-github/index.ts`:
+- Fetches active theme from `published_theme_configs` table
+- Generates TypeScript config string
+- Commits to `src/config/themes.ts` via GitHub API
+- Returns commit SHA and URL on success
+- Requires JWT auth (admin only)
+
+### Task 1.5.3 [LOVABLE] - Add Publish to GitHub Button in Admin
+**Status:** ✅ Complete
+
+Updated `src/pages/admin/Themes.tsx`:
+- Added "Publish to GitHub" button with GitHub icon
+- Shows loading spinner during publish
+- Displays success message with commit link
+- Saves to `published_theme_configs` table before GitHub sync
+
+### Task 1.5.4 [LOVABLE] - Save Config to Database Before GitHub Sync
+**Status:** ✅ Complete (merged into Task 1.5.3)
+
+Publish flow now:
+1. Generates TypeScript config from active theme
+2. Saves to `published_theme_configs` with version number
+3. Calls edge function which reads from database and commits to GitHub
+
+---
+
 ## Phase 2: Cookie Consent & GHL Widget
 
 ### Task 2.1 [LOVABLE] - Create Cookie Consent Component
@@ -457,6 +502,11 @@ Build after Tasks 3.2-3.4 are complete. Each follows same structure with copy fr
 **Completed:** 
 - Phase 0 (Prerequisites) - All GHL configuration complete
 - Phase 1 (Database Foundation) - All migrations and Edge Functions deployed
+- **Phase 1.5 (Theme Publishing System)** - All tasks complete:
+  - Task 1.5.1: GitHub secrets added to Supabase
+  - Task 1.5.2: sync-theme-to-github edge function created
+  - Task 1.5.3: Publish to GitHub button added to admin
+  - Task 1.5.4: Database save before GitHub sync (merged into 1.5.3)
 - Task 2.1 (Cookie Consent) - Component complete and integrated
 - SSG Configuration - vite-react-ssg patterns documented in BRD Appendix H
 - Brand Pivot Documentation - BRD v34.0 + everintent-pivot-plan.md aligned
