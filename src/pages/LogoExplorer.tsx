@@ -79,6 +79,43 @@ const LogoExplorer = () => {
     // Lighter/brighter variations
     { id: 39, everColor: "text-white", intentColor: "text-[hsl(190,100%,60%)]", streakStyle: "bg-gradient-to-r from-amber-400 to-amber-400/30", taglineStyle: "text-gray-400", description: "Bright Cyan + Light gold" },
     { id: 40, everColor: "text-white", intentColor: "text-[hsl(185,80%,55%)]", streakStyle: "bg-gradient-to-r from-amber-500 to-amber-500/30", taglineStyle: "text-gray-400", description: "Aqua + Gold gradient" },
+    
+    // ===== NEW: EverIntent.com Inspired Teal Family =====
+    // Dark Teal from everintent.com (~170 45% 35%)
+    { id: 41, everColor: "text-white", intentColor: "text-[hsl(170,45%,40%)]", streakStyle: "bg-gradient-to-r from-[hsl(170,45%,40%)] to-[hsl(170,45%,40%)]/30", taglineStyle: "text-gray-400", description: "EverIntent Teal + Matching streak" },
+    { id: 42, everColor: "text-white", intentColor: "text-[hsl(170,45%,45%)]", streakStyle: "bg-gradient-to-r from-[hsl(165,50%,50%)] to-[hsl(175,40%,35%)]", taglineStyle: "text-gray-400", description: "EverIntent Teal + Teal family gradient" },
+    { id: 43, everColor: "text-white", intentColor: "text-[hsl(165,50%,45%)]", streakStyle: "bg-[hsl(170,45%,40%)]", taglineStyle: "text-[hsl(170,45%,40%)]/60", description: "EverIntent Teal + Solid streak + Teal tagline" },
+    
+    // Teal-only family streaks (no mixing)
+    { id: 44, everColor: "text-white", intentColor: "text-[hsl(175,60%,45%)]", streakStyle: "bg-gradient-to-r from-[hsl(180,55%,50%)] to-[hsl(170,50%,35%)]", taglineStyle: "text-gray-400", description: "Teal + Teal→Dark Teal gradient" },
+    { id: 45, everColor: "text-white", intentColor: "text-[hsl(180,50%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(185,55%,55%)] to-[hsl(175,45%,40%)]", taglineStyle: "text-gray-400", description: "Light Teal + Teal family streak" },
+    { id: 46, everColor: "text-[hsl(170,45%,45%)]", intentColor: "text-white", streakStyle: "bg-gradient-to-r from-[hsl(170,45%,45%)] to-[hsl(175,40%,35%)]", taglineStyle: "text-gray-400", description: "Teal Ever + White Intent (inverted)" },
+    
+    // Blue-only family streaks
+    { id: 47, everColor: "text-white", intentColor: "text-[hsl(210,80%,55%)]", streakStyle: "bg-gradient-to-r from-[hsl(220,75%,60%)] to-[hsl(200,85%,45%)]", taglineStyle: "text-gray-400", description: "Blue + Blue family gradient streak" },
+    { id: 48, everColor: "text-white", intentColor: "text-[hsl(215,85%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(225,80%,55%)] to-[hsl(205,80%,40%)]", taglineStyle: "text-gray-400", description: "Azure + Navy→Sky gradient" },
+    { id: 49, everColor: "text-white", intentColor: "text-[hsl(220,75%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(210,80%,60%)] to-[hsl(230,70%,40%)]", taglineStyle: "text-[hsl(220,75%,50%)]/60", description: "Royal Blue + Blue streak + Blue tagline" },
+    
+    // Gold-only family streaks
+    { id: 50, everColor: "text-white", intentColor: "text-amber-400", streakStyle: "bg-gradient-to-r from-amber-300 to-amber-600", taglineStyle: "text-gray-400", description: "Gold Intent + Gold family streak" },
+    { id: 51, everColor: "text-white", intentColor: "text-[hsl(40,90%,55%)]", streakStyle: "bg-gradient-to-r from-[hsl(45,95%,60%)] to-[hsl(35,85%,45%)]", taglineStyle: "text-amber-500/60", description: "Bright Gold + Gold gradient + Gold tagline" },
+    { id: 52, everColor: "text-amber-400", intentColor: "text-amber-500", streakStyle: "bg-gradient-to-r from-amber-400 to-amber-600", taglineStyle: "text-gray-400", description: "All Gold family - Light→Dark" },
+    
+    // Cyan-only family streaks
+    { id: 53, everColor: "text-white", intentColor: "text-[hsl(190,90%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(195,85%,55%)] to-[hsl(185,80%,40%)]", taglineStyle: "text-gray-400", description: "Cyan + Cyan family streak" },
+    { id: 54, everColor: "text-white", intentColor: "text-[hsl(195,85%,55%)]", streakStyle: "bg-gradient-to-r from-[hsl(200,90%,60%)] to-[hsl(190,80%,45%)]", taglineStyle: "text-[hsl(195,85%,55%)]/60", description: "Light Cyan + Cyan streak + Cyan tagline" },
+    { id: 55, everColor: "text-[hsl(190,85%,50%)]", intentColor: "text-[hsl(195,90%,55%)]", streakStyle: "bg-gradient-to-r from-[hsl(195,85%,55%)] to-[hsl(185,80%,40%)]", taglineStyle: "text-gray-400", description: "All Cyan family" },
+    
+    // Purple-only family streaks
+    { id: 56, everColor: "text-white", intentColor: "text-[hsl(270,65%,55%)]", streakStyle: "bg-gradient-to-r from-[hsl(280,60%,60%)] to-[hsl(260,70%,45%)]", taglineStyle: "text-gray-400", description: "Violet + Purple family streak" },
+    { id: 57, everColor: "text-white", intentColor: "text-[hsl(265,70%,60%)]", streakStyle: "bg-gradient-to-r from-[hsl(275,65%,65%)] to-[hsl(255,75%,50%)]", taglineStyle: "text-[hsl(265,70%,60%)]/60", description: "Lavender + Purple streak + Purple tagline" },
+    
+    // Emerald/Green-only family streaks
+    { id: 58, everColor: "text-white", intentColor: "text-[hsl(155,65%,45%)]", streakStyle: "bg-gradient-to-r from-[hsl(160,60%,50%)] to-[hsl(150,70%,35%)]", taglineStyle: "text-gray-400", description: "Emerald + Green family streak" },
+    { id: 59, everColor: "text-white", intentColor: "text-[hsl(150,60%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(155,55%,55%)] to-[hsl(145,65%,40%)]", taglineStyle: "text-[hsl(150,60%,50%)]/60", description: "Mint + Green streak + Green tagline" },
+    
+    // White text with colored taglines (clean look)
+    { id: 60, everColor: "text-white", intentColor: "text-white", streakStyle: "bg-gradient-to-r from-[hsl(170,45%,45%)] to-[hsl(175,40%,35%)]", taglineStyle: "text-[hsl(170,45%,45%)]", description: "All white + EverIntent teal streak + Teal tagline" },
   ];
 
   return (
@@ -130,11 +167,18 @@ const LogoExplorer = () => {
             <li>• <strong className="text-amber-500">Gold/Amber</strong> = Premium, Success, Warmth, Trust</li>
             <li>• <strong className="text-[hsl(200,100%,50%)]">Cyan/Aqua</strong> = Modern Tech, Digital, Fresh</li>
             <li>• <strong className="text-[hsl(175,70%,45%)]">Teal</strong> = Professional, Calm, Sophisticated</li>
+            <li>• <strong className="text-[hsl(170,45%,45%)]">EverIntent Teal</strong> = Brand colors from everintent.com</li>
             <li>• <strong className="text-[hsl(225,85%,55%)]">Cobalt</strong> = Bold, Innovative, Trustworthy</li>
             <li>• <strong className="text-[hsl(220,80%,35%)]">Navy</strong> = Premium, Corporate, Established</li>
             <li>• <strong className="text-[hsl(270,70%,60%)]">Violet</strong> = Creative, Unique, Visionary</li>
-            <li>• <strong className="text-[hsl(160,70%,45%)]">Emerald</strong> = Growth, Success, Balance</li>
+            <li>• <strong className="text-[hsl(155,65%,45%)]">Emerald</strong> = Growth, Success, Balance</li>
           </ul>
+          
+          <h3 className="text-lg font-bold mt-6 mb-2 text-amber-500">Design Rule Applied:</h3>
+          <p className="text-gray-400 text-sm">
+            #41-60 keep colors in the same family for gradients (no blue+gold, green+gold mixing). 
+            Each streak uses shades within its color family for harmonious design.
+          </p>
         </div>
       </div>
     </div>
