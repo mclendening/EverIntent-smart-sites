@@ -421,17 +421,25 @@ export default function AdminThemes() {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-4">
+        <div className="container flex h-16 items-center justify-between px-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <Link to="/admin">
-              <Button variant="ghost" size="sm">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back
+              <Button variant="ghost" size="sm" className="px-2 sm:px-3">
+                <ArrowLeft className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Back</span>
               </Button>
             </Link>
-            <h1 className="text-xl font-bold">Theme Management</h1>
+            <h1 className="text-base sm:text-xl font-bold">Themes</h1>
           </div>
-          <span className="text-sm text-muted-foreground">{user?.email}</span>
+          <div className="flex items-center gap-2 sm:gap-4">
+            <Link to="/admin/theme-test">
+              <Button variant="outline" size="sm" className="text-xs sm:text-sm">
+                <Eye className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Test Page</span>
+              </Button>
+            </Link>
+            <span className="hidden md:inline text-sm text-muted-foreground">{user?.email}</span>
+          </div>
         </div>
       </header>
 
