@@ -1,16 +1,17 @@
-# EverIntent SmartSites — Complete Business Requirements Document v33.2
+# EverIntent — Complete Business Requirements Document v34.0
 
-**Last Updated:** December 20, 2025  
-**Version:** 33.2 (Design System Overhaul)
+**Last Updated:** December 21, 2025  
+**Version:** 34.0 (Brand Pivot: EverIntent Master Brand)
 **Status:** BUILD-READY
 **Owner:** EverIntent LLC  
-**GitHub Path:** /docs/BRD/SmartSites-BRD-v32.md
+**Tagline:** Web Design & Automation
+**GitHub Path:** /docs/BRD/EverIntent-BRD-v34.md
 
 ---
 
 ## Document Purpose
 
-This is the **single source of truth** for EverIntentSmartSites.com. It governs:
+This is the **single source of truth** for EverIntent.com (currently staging at EverIntentSmartSites.com). It governs:
 
 1. What customers buy (T1-T4 tiers, pricing, features)
 2. What customers experience (UX flows from ad to purchase to delivery to billing)
@@ -30,13 +31,38 @@ This is the **single source of truth** for EverIntentSmartSites.com. It governs:
 
 1. **SmartSites.com (smartsites.com)** — DO NOT reference, copy, or draw inspiration from this site in any way. This includes:
    - Their scattered/floating browser window hero effect
-   - Their color schemes
+   - Their color schemes (especially yellow/black)
    - Their layout patterns
    - Any visual elements whatsoever
 
-**Why:** We are building our own unique brand identity. We will not be a derivative of any competitor.
+**Why:** We are building our own unique brand identity under **EverIntent**. SmartSites is a large US digital marketing agency with strong common-law trademark rights. We use "smart website(s)" as descriptive product language, NOT as a brand name.
 
-**If you are an AI or developer reading this:** Never suggest SmartSites.com as a reference. Never attempt to recreate their design patterns. This is a hard rule with no exceptions.
+**If you are an AI or developer reading this:** Never suggest SmartSites.com as a reference. Never attempt to recreate their design patterns. Never use "SmartSites" as a brand name or logo lockup. This is a hard rule with no exceptions.
+
+---
+
+## ⚠️ BRAND PIVOT NOTICE (v34.0)
+
+**Master Brand:** EverIntent  
+**Tagline:** "Web Design & Automation"
+
+**Key Changes:**
+- "SmartSites by EverIntent" → "EverIntent"
+- "Beautiful Websites" service → "Smart Websites" service
+- Use "smart website(s)" / "smart site" as **descriptive language** (lowercase in prose), not a capital-S brand
+- Tier names remain: Smart Site, Smart Lead, Smart Business, Smart Growth, Smart Launch
+- All logos, headers, footers use **EverIntent** only
+- Footer "Products" column → "Solutions" column
+- Add "Solutions" nav item linking to verticals (Legal AI, future packages)
+- About page blends EverIntent + EverIntent Legal AI credibility
+
+**Safe Usage Examples:**
+- ✅ "EverIntent Smart Website Packages"
+- ✅ "Our smart website tiers"
+- ✅ "Get a smart site that..."
+- ❌ "EverIntent SmartSites™"
+- ❌ "SmartSites by EverIntent" (logo/brand)
+- ❌ Bidding on "SmartSites" as a Google Ads keyword
 
 ## Table of Contents
 
@@ -89,17 +115,26 @@ This is the **single source of truth** for EverIntentSmartSites.com. It governs:
 
 ## 2. Executive Summary
 
-EverIntent SmartSites delivers professional websites and automation to local service businesses at transparent, affordable prices. Four tiers from $249 one-time to $497/month recurring, with clear upgrade paths and guaranteed ROI.
+**EverIntent** delivers smart websites and AI automation to local service businesses at transparent, affordable prices. Four tiers from $249 one-time to $497/month recurring, with clear upgrade paths and guaranteed ROI.
+
+**Brand Positioning:** "Smart websites that pay for themselves — and are ready for AI when you are."
 
 **Target Market:** Local service businesses across 4 industry categories and 65+ verticals
 
-**Value Proposition:** "A professional website that actually gets you customers. Starting at $249."
+**Value Proposition:** "We build conversion-focused sites for local service businesses starting at $249. Every site ships upgrade-ready with automation and AI under the hood."
+
+**Product Lines Under EverIntent:**
+| Product | Description | Entry Point |
+|---------|-------------|-------------|
+| **Smart Websites** | T1–T4 website tiers ($249–$1,799) | Primary cash engine |
+| **AI & Automation** | n8n workflows, AI receptionist, missed-call text-back | Upsell from websites |
+| **Legal AI** | Specialized vertical at EverIntentLegalAI.com | Separate microsite |
 
 ---
 
 ## 2.1 Industry Verticals (65+ Total)
 
-SmartSites serves local businesses across four main categories:
+EverIntent serves local businesses across four main categories:
 
 ### Home Services (31 verticals)
 The core market. High-intent local searches, clear service areas, repeat business potential.
@@ -201,9 +236,10 @@ Essential services with strong repeat potential.
 ## 3. Operating Entity
 
 **Legal Name:** EverIntent LLC  
-**DBA:** EverIntent SmartSites  
+**DBA:** EverIntent (formerly "EverIntent SmartSites")  
 **Formation:** California LLC  
 **EIN:** [On file]
+**Tagline:** Web Design & Automation
 
 ---
 
@@ -250,13 +286,13 @@ One ranking WordPress site. Three ways to make money:
 
 ## 5. Services & Solutions
 
-### 5.1 Beautiful Websites (Primary Service)
+### 5.1 Smart Websites (Primary Service)
 
 **Problem:** Business owners know they need a website but are overwhelmed by options, jargon, and pricing games.
 
-**Solution:** Professional 5-page website built in 5 days. Mobile-first. SEO-ready. You own everything.
+**Solution:** Professional 5-page website built in 5 days. Mobile-first. SEO-ready. You own everything. Every site ships upgrade-ready with automation and AI under the hood.
 
-**Outcome:** A website you're proud to show customers. One that actually generates calls.
+**Outcome:** A smart website that pays for itself — and is ready for AI when you are.
 
 ### 5.2 Get Found Online
 
@@ -1511,19 +1547,26 @@ app.everintentsmartsites.com/
 ### Primary Navigation (Desktop)
 
 ```
-[Logo] | Services ▼ | Industries ▼ | Pricing | Our Work | About | [Get Started]
+[EverIntent Logo + "Web Design & Automation"] | Smart Websites ▼ | AI & Automation | Industries ▼ | Solutions ▼ | Pricing | Our Work | About | [Get Started]
 ```
 
-**Change from v32.10:** "Portfolio" renamed to "Our Work" (more inviting, action-oriented)
+**Changes from v33.0 (Brand Pivot):**
+- Logo: "EverIntent" with tagline "Web Design & Automation"
+- "Services" renamed to "Smart Websites" (top nav item)
+- "AI & Automation" added as second nav item
+- "Solutions" nav item added (links to verticals like Legal AI)
+- "Portfolio" renamed to "Our Work"
 
-**Services Dropdown:**
-1. Beautiful Websites (top position)
-2. Get Found Online
-3. Never Miss a Lead
-4. Book More Jobs
-5. Run From Your Phone
-6. Build Your Reputation
-7. Let AI Handle It
+**Smart Websites Dropdown:**
+1. **Smart Websites** ← renamed from "Beautiful Websites"
+2. **Let AI Handle It** ← elevated to position 2
+3. Get Found Online (SEO)
+4. Capture More Leads
+5. Reputation Management
+6. Social Media Management
+7. Content Marketing
+
+**AI & Automation:** Single link to `/services/ai-automation`
 
 **Industries Dropdown:**
 1. Home Services
@@ -1531,17 +1574,24 @@ app.everintentsmartsites.com/
 3. Health & Wellness
 4. Automotive Services
 
+**Solutions Dropdown:**
+1. For Law Firms → `https://everintentlegalai.com` (external)
+2. Future vertical packages
+3. InfoTrust and other products
+
 ### Mobile Navigation
 
 ```
-[Logo]                    [☰]
+[EverIntent Logo]         [☰]
                            │
                            ▼
 ┌─────────────────────────┐
-│ Services               >│
+│ Smart Websites         >│
+│ AI & Automation         │
 │ Industries             >│
+│ Solutions              >│
 │ Pricing                 │
-│ Portfolio               │
+│ Our Work                │
 │ About                   │
 │ ─────────────────────── │
 │ [Get Started]           │
@@ -1552,22 +1602,25 @@ app.everintentsmartsites.com/
 
 **4-Column Navigation Grid (Desktop) / 2-Column (Mobile):**
 
-| Products | Packages | Resources | Company |
-|----------|----------|-----------|---------|
-| Web Design | Smart Site | LocalPros Network | About |
-| SEO | Smart Lead | Help | Contact |
-| Lead Capture | Smart Business | FAQ | **Our Work** |
-| Booking | Smart Growth | Support | **Careers** |
-| Reputation | Smart Launch | | |
-| AI Automation | Strategy Session | | |
+| Solutions | Packages | Resources | Company |
+|-----------|----------|-----------|---------|
+| Smart Websites | Smart Site | LocalPros Network | About |
+| AI & Automation | Smart Lead | Help | Contact |
+| For Law Firms → | Smart Business | FAQ | **Our Work** |
+| (external link) | Smart Growth | Support | **Careers** |
+|  | Smart Launch | | |
+|  | Strategy Session | | |
 
-**Product Links** → `/services/*` pages (SEO value, buyer search intent):
-- Web Design → `/services/web-design`
-- SEO → `/services/seo`
-- Lead Capture → `/services/lead-capture`
-- Booking → `/services/booking`
-- Reputation → `/services/reputation`
-- AI Automation → `/services/ai-automation`
+**Changes from v33.0 (Brand Pivot):**
+- **"Products" column → "Solutions" column**
+- "For Law Firms" links to `https://everintentlegalai.com` (external)
+- Footer tagline: "Web Design & Automation"
+- Copyright: "© 2025 EverIntent LLC. All rights reserved."
+
+**Solutions Column Links:**
+- Smart Websites → `/pricing`
+- AI & Automation → `/services/ai-automation`
+- For Law Firms → `https://everintentlegalai.com` (external, opens new tab)
 
 **Package Links** → `/checkout/*` pages (direct conversion paths):
 - Smart Site → `/checkout/smart-site`
@@ -1577,10 +1630,9 @@ app.everintentsmartsites.com/
 - Smart Launch → `/checkout/smart-launch`
 - Strategy Session → `/strategy-session`
 
-**Changes from v33.0:**
-- **Footer restructured**: Services + Industries columns replaced with Products + Packages columns
-- Header retains benefit-oriented "Services" dropdown for buyer journey
-- Footer now provides product-focused SEO value and direct checkout paths
+**Footer restructured in v34 per Brand Pivot:**
+- Header uses "Smart Websites" dropdown for buyer journey
+- Footer "Solutions" column provides product-focused paths
 - Industries removed from footer (accessible via header dropdown and `/industries/*` pages)
 
 **Branded Footer Section (below nav columns):**
@@ -1680,17 +1732,17 @@ Icons are Lucide React components passed directly in the `icon` property:
 | `--accent` | Hover state background |
 | `--border` | Subtle dropdown border |
 
-### Services Dropdown Items
+### Smart Websites Dropdown Items (Updated v34)
 
 | Title | Description | Icon |
 |-------|-------------|------|
-| Beautiful Websites | Professional 5-page site in 5 days | `Globe` |
+| **Smart Websites** | Professional smart websites starting at $249 | `Globe` |
+| **Let AI Handle It** | AI automation and voice agents | `Bot` |
 | Get Found Online | SEO and local search visibility | `Search` |
-| Never Miss a Lead | Lead capture and follow-up | `MessageSquare` |
-| Book More Jobs | Online booking and scheduling | `Calendar` |
-| Run From Your Phone | Mobile app access | `Smartphone` |
-| Build Your Reputation | Review automation | `Star` |
-| Let AI Handle It | AI automation | `Bot` |
+| Capture More Leads | Lead capture and follow-up | `MessageSquare` |
+| Reputation Management | Review automation | `Star` |
+| Social Media Management | Social presence management | `Share2` |
+| Content Marketing | Blog and content strategy | `FileText` |
 
 ---
 
@@ -2444,9 +2496,22 @@ Is this a good time to chat for 2 minutes?"
 | Product-category pages | /services/seo, /services/web-design, etc. for SEO |
 | Tier naming | Consideration documented; pending final decision |
 
+### Resolved in v34 (Brand Pivot)
+
+| Question | Decision |
+|----------|----------|
+| **Tagline preference** | **"Web Design & Automation"** |
+| **Services dropdown rename** | **"Smart Websites"** (from "Beautiful Websites") |
+| **Solutions page** | **Nav link to `/solutions`**, hub page links to Legal AI + future verticals |
+| **About page** | **Blend EverIntent + Legal AI credibility**, route `/about` |
+| **Footer columns** | **"Products" → "Solutions"**, add "For Law Firms" external link |
+| **SmartSites trademark risk** | Use "smart website(s)" as lowercase descriptive language only; EverIntent as master brand |
+| **Nav structure** | Smart Websites \| AI & Automation \| Industries \| Solutions \| Pricing \| Our Work \| About |
+| **Hero messaging** | "Smart websites that pay for themselves — and are ready for AI when you are." |
+
 ### Still Open
 
-1. **Checkout subdomain:** `checkout.smartsites.everintent.com` vs `checkout.everintentsmartsites.com`
+1. **Checkout subdomain:** `checkout.everintent.com` vs `checkout.everintentsmartsites.com` (staging)
 2. **Wallet initial funding:** Start at $0 with auto-recharge prompt vs pre-fund at signup
 3. **Looker Studio:** Build template later if requested (not MVP)
 4. **Tier naming decision:** Keep Smart Site/Lead/Business/Growth or adopt Starter Site/Lead Booster/Booking & Reputation/AI Growth?
@@ -2486,14 +2551,16 @@ Is this a good time to chat for 2 minutes?"
 | v32.9 | Dec 16 | **Domain Integration Simplified**: Removed Namecheap API integration; Domain purchase moved to manual process during onboarding via GHL or Namecheap dashboard; Simplified checkout flow (yes/no domain question); Domain preferences collected in post-payment GHL intake form; /domains page removed from scope; Namecheap environment variables removed; n8n workflow simplified to notification/task creation only |
 | v32.10 | Dec 17 | **Multi-Widget Chat Architecture**: GHL chat widgets now support multiple bots per page type (Sales, Support, Demo); Route-based widget selection via `GHLChatWidget.tsx`; Three new env vars (`VITE_GHL_WIDGET_ID_SALES`, `VITE_GHL_WIDGET_ID_SUPPORT`, `VITE_GHL_WIDGET_ID_DEMO`); Launcher hiding via JS shadow DOM penetration (code-based approach retained); Section 17.5 rewritten with multi-widget architecture and route mapping logic |
 | v32.11 | Dec 18 | **SSG Configuration Pattern Documented**: Added Appendix H with complete `vite-react-ssg` configuration patterns; Documented critical anti-patterns (manualChunks, catch-all rewrites); Added ClientOnly and isMounted patterns for Radix UI components; Added QueryClient placement rules; Full SSG routes restored (was limited to 6 during debugging); This appendix is REQUIRED reading for any Lovable project using SSG |
-| **v33.0** | **Dec 20** | **Product-First Restructure (Major)**: Complete restructuring of product/service model based on market research and persona analysis. Key changes: (1) Products are now primary, packages bundle them — eliminates "add-on" framing; (2) Smart Launch package added ($2,500-$4,500 + $297/mo) to capture "missing middle" between T4 and Custom; (3) SmartStart Strategy Session added ($500-750) for paid discovery/qualification; (4) Product-category landing pages added (/services/seo, /services/web-design, /services/reputation, /services/ai-automation, /services/booking) for SEO alignment with buyer search intent; (5) Navigation updates: Portfolio → Our Work, Careers added to footer; (6) GTM Section 19 updated with product-first positioning and standalone product campaigns; (7) Tier naming consideration documented (pending decision); (8) Persona buying behavior integrated into Section 9 Customer Journey. Sources: docs/menu-structure-proposal.md, docs/chatgpt-research-alignment.md, docs/research-alignment.md, docs/persona-spec.md |
+| v33.0 | Dec 20 | **Product-First Restructure (Major)**: Complete restructuring of product/service model based on market research and persona analysis. Key changes: (1) Products are now primary, packages bundle them — eliminates "add-on" framing; (2) Smart Launch package added ($2,500-$4,500 + $297/mo) to capture "missing middle" between T4 and Custom; (3) SmartStart Strategy Session added ($500-750) for paid discovery/qualification; (4) Product-category landing pages added (/services/seo, /services/web-design, /services/reputation, /services/ai-automation, /services/booking) for SEO alignment with buyer search intent; (5) Navigation updates: Portfolio → Our Work, Careers added to footer; (6) GTM Section 19 updated with product-first positioning and standalone product campaigns; (7) Tier naming consideration documented (pending decision); (8) Persona buying behavior integrated into Section 9 Customer Journey. Sources: docs/menu-structure-proposal.md, docs/chatgpt-research-alignment.md, docs/research-alignment.md, docs/persona-spec.md |
 | v33.1 | Dec 20 | **Footer Restructure**: Replaced Services + Industries footer columns with Products + Packages columns. Products column links to `/services/*` pages (web-design, seo, lead-capture, booking, reputation, ai-automation) for SEO value. Packages column links to `/checkout/*` pages for direct conversion paths. Header retains benefit-oriented Services dropdown for buyer journey. Industries moved to header-only access. |
-| **v33.2** | **Dec 20** | **Design System Overhaul (Major)**: Complete visual redesign inspired by award-winning agency sites (SPINX Digital, Shape, VRRB). Key changes: (1) Color palette updated: Deep Navy → Rich Slate (`222 47% 7%`), Muted Gold → Electric Amber (`38 92% 50%`); (2) Typography updated: System fonts → Space Grotesk (display) + Inter (body) via Google Fonts; (3) CTA Button Pattern established: Dark glassmorphic buttons with backdrop-blur, amber border (`border-accent/30`), shadow-lg, hover glow (`hover:shadow-accent/20`), text change on hover ("Get Started" → "Let's Go!"), Sparkles icon + pulse dot; (4) CTAButton component created for consistent CTA usage across site; (5) Header polish: Animated nav underlines, glassmorphic dropdowns with gradient overlays, layered shadows, gradient border on scroll; (6) Footer polish: Mesh gradient backgrounds, section headers with accent gradient lines, footer-link hover animation (slide-in accent bar), enhanced social icons with glow, gradient border separators; (7) New CSS utilities: `.nav-link`, `.footer-link`, `.shadow-layered`, `.shadow-layered-lg`, `.transition-spring`, `.bg-mesh`, `.bg-noise`; (8) Business rationale documented in Appendix F.0 explaining why each design decision converts. Sources: SPINX Digital, Shape Agency, VRRB, Isadora Agency research. |
+| v33.2 | Dec 20 | **Design System Overhaul (Major)**: Complete visual redesign inspired by award-winning agency sites (SPINX Digital, Shape, VRRB). Key changes: (1) Color palette updated: Deep Navy → Rich Slate (`222 47% 7%`), Muted Gold → Electric Amber (`38 92% 50%`); (2) Typography updated: System fonts → Space Grotesk (display) + Inter (body) via Google Fonts; (3) CTA Button Pattern established: Dark glassmorphic buttons with backdrop-blur, amber border (`border-accent/30`), shadow-lg, hover glow (`hover:shadow-accent/20`), text change on hover ("Get Started" → "Let's Go!"), Sparkles icon + pulse dot; (4) CTAButton component created for consistent CTA usage across site; (5) Header polish: Animated nav underlines, glassmorphic dropdowns with gradient overlays, layered shadows, gradient border on scroll; (6) Footer polish: Mesh gradient backgrounds, section headers with accent gradient lines, footer-link hover animation (slide-in accent bar), enhanced social icons with glow, gradient border separators; (7) New CSS utilities: `.nav-link`, `.footer-link`, `.shadow-layered`, `.shadow-layered-lg`, `.transition-spring`, `.bg-mesh`, `.bg-noise`; (8) Business rationale documented in Appendix F.0 explaining why each design decision converts. Sources: SPINX Digital, Shape Agency, VRRB, Isadora Agency research. |
+| **v34.0** | **Dec 21** | **Brand Pivot to EverIntent Master Brand (Major)**: Complete pivot from "SmartSites by EverIntent" to "EverIntent" as master brand with "smart websites" as descriptive product language. Key changes: (1) Master brand is now EverIntent with tagline "Web Design & Automation"; (2) "Beautiful Websites" renamed to "Smart Websites" throughout; (3) Use lowercase "smart website(s)" / "smart site" as descriptive language, NOT a brand name; (4) Navigation restructured: Smart Websites \| AI & Automation \| Industries \| Solutions \| Pricing \| Our Work \| About; (5) Solutions nav item added linking to Legal AI and future verticals; (6) Footer "Products" column renamed to "Solutions" with For Law Firms external link; (7) SmartSites trademark risk mitigated by EverIntent master brand positioning; (8) About page to blend EverIntent + Legal AI credibility; (9) Hero messaging updated: "Smart websites that pay for themselves — and are ready for AI when you are."; (10) All workshop decisions closed. Sources: docs/everintent-pivot-plan.md, ChatGPT brand analysis. |
 
 ### Related Specification Documents
 
 | Document | Path | Description |
 |----------|------|-------------|
+| **Brand Pivot Plan** | `docs/everintent-pivot-plan.md` | Complete brand pivot specification: EverIntent master brand, SmartSites trademark context, navigation restructure, implementation phases |
 | Careers Feature Spec | `docs/careers-spec.md` | Complete careers/jobs feature specification including GHL v2 API integration, database schema, admin configuration, and UX flow |
 | Menu Structure Proposal | `docs/menu-structure-proposal.md` | Navigation changes (Portfolio→Our Work, add Careers) and product/package structure with product-first framing |
 | Market Research Alignment | `docs/chatgpt-research-alignment.md` | Synthesized market research: persona buying behavior, missing middle gap, standalone products, paid discovery, hybrid revenue model |
