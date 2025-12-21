@@ -16,7 +16,8 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { LogoRenderer } from '@/components/logo';
-import { ArrowLeft, Palette, Edit, Trash2, Check, Loader2, Eye, Rocket, Copy, CheckCircle, Github } from 'lucide-react';
+import { LogoConfigEditor } from '@/components/admin/LogoConfigEditor';
+import { ArrowLeft, Palette, Edit, Trash2, Check, Loader2, Eye, Rocket, Copy, CheckCircle, Github, Image } from 'lucide-react';
 import type { Tables, Json } from '@/integrations/supabase/types';
 
 type Theme = Tables<'site_themes'>;
@@ -1174,9 +1175,11 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
                       </div>
 
                       {/* Right Column - Color Controls */}
-                      <div className="space-y-2">
-                        <Label className="text-base font-semibold">Color Controls</Label>
-                        <ScrollArea className="h-[600px] pr-4">
+                      <div className="space-y-4">
+                        {/* Color Controls */}
+                        <div className="space-y-2">
+                          <Label className="text-base font-semibold">Color Controls</Label>
+                          <ScrollArea className="h-[400px] pr-4">
                           <Accordion type="multiple" defaultValue={['accent-color']} className="w-full">
                             {/* Accent Color - Main CTA color */}
                             <ColorSliderControls
@@ -1373,6 +1376,17 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
                             </AccordionItem>
                           </Accordion>
                         </ScrollArea>
+                        </div>
+                        
+                        {/* Logo Configuration */}
+                        <LogoConfigEditor
+                          selectedLogoId={selectedTheme.logo_version_id}
+                          onLogoChange={(logoId) => {
+                            setSelectedTheme({ ...selectedTheme, logo_version_id: logoId });
+                          }}
+                          accentHsl={`${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`}
+                          previewBgColor={`hsl(${staticColors.background})`}
+                        />
                       </div>
                     </div>
                   ) : (
