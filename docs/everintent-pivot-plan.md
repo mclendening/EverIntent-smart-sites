@@ -45,10 +45,9 @@ by EverIntent
 
 **New:**
 ```
-Ever Intent
-Digital Growth
+EverIntent
+Web Design & Automation
 ```
-*Or without tagline — just "EverIntent"*
 
 **Files to update:**
 - `src/components/layout/Header.tsx` (lines 74-79)
@@ -222,7 +221,7 @@ Set up 301 redirects:
 
 ## 9. Open Questions for Workshop
 
-1. **Tagline preference:** "Digital Growth" vs "Web + AI" vs no tagline?
+1. ~~**Tagline preference:** "Digital Growth" vs "Web + AI" vs no tagline?~~ **DECIDED: "Web Design & Automation"**
 2. **Services dropdown:** Rename "Beautiful Websites" to "Smart Websites" or keep as-is?
 3. **Solutions page:** Build as hub page or just dropdown menu initially?
 4. **About page:** Priority level? Pull content from Legal AI site's credibility elements?
@@ -245,3 +244,4 @@ Set up 301 redirects:
 | Date | Change |
 |------|--------|
 | 2025-01-20 | Initial draft created from conversation recommendations |
+| 2025-01-21 | Tagline decision finalized: "Web Design & Automation" |
