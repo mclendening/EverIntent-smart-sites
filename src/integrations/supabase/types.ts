@@ -325,6 +325,83 @@ export type Database = {
         }
         Relationships: []
       }
+      logo_versions: {
+        Row: {
+          changelog_notes: string | null
+          created_at: string
+          ever_config: Json
+          id: string
+          intent_config: Json
+          is_active: boolean | null
+          name: string
+          streak_config: Json
+          tagline_config: Json
+          tagline_text: string | null
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          changelog_notes?: string | null
+          created_at?: string
+          ever_config?: Json
+          id?: string
+          intent_config?: Json
+          is_active?: boolean | null
+          name: string
+          streak_config?: Json
+          tagline_config?: Json
+          tagline_text?: string | null
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          changelog_notes?: string | null
+          created_at?: string
+          ever_config?: Json
+          id?: string
+          intent_config?: Json
+          is_active?: boolean | null
+          name?: string
+          streak_config?: Json
+          tagline_config?: Json
+          tagline_text?: string | null
+          updated_at?: string
+          version?: number
+        }
+        Relationships: []
+      }
+      page_theme_assignments: {
+        Row: {
+          created_at: string
+          id: string
+          page_route: string
+          theme_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          page_route: string
+          theme_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          page_route?: string
+          theme_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "page_theme_assignments_theme_id_fkey"
+            columns: ["theme_id"]
+            isOneToOne: false
+            referencedRelation: "site_themes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       portfolio: {
         Row: {
           client_name: string | null
@@ -384,6 +461,65 @@ export type Database = {
           website_url?: string | null
         }
         Relationships: []
+      }
+      site_themes: {
+        Row: {
+          accent_config: Json
+          accent_locked_to_base: boolean | null
+          base_hue: number
+          changelog_notes: string | null
+          created_at: string
+          dark_mode_overrides: Json | null
+          gradient_configs: Json
+          id: string
+          is_active: boolean | null
+          logo_version_id: string | null
+          name: string
+          static_colors: Json
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          accent_config?: Json
+          accent_locked_to_base?: boolean | null
+          base_hue?: number
+          changelog_notes?: string | null
+          created_at?: string
+          dark_mode_overrides?: Json | null
+          gradient_configs?: Json
+          id?: string
+          is_active?: boolean | null
+          logo_version_id?: string | null
+          name: string
+          static_colors?: Json
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          accent_config?: Json
+          accent_locked_to_base?: boolean | null
+          base_hue?: number
+          changelog_notes?: string | null
+          created_at?: string
+          dark_mode_overrides?: Json | null
+          gradient_configs?: Json
+          id?: string
+          is_active?: boolean | null
+          logo_version_id?: string | null
+          name?: string
+          static_colors?: Json
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "site_themes_logo_version_id_fkey"
+            columns: ["logo_version_id"]
+            isOneToOne: false
+            referencedRelation: "logo_versions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       testimonials: {
         Row: {
