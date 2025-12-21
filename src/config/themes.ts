@@ -64,12 +64,12 @@ export const activeTheme: ThemeConfig = {
   baseHue: 240,
   accentConfig: {
     accent: '240 70% 60%',
-    accentHover: '240 70% 50%',
-    accentGlow: '240 70% 70%',
-    accentForeground: '0 0% 100%',
-    h: 38,
-    s: 92,
-    l: 50,
+    accentHover: '32 95% 44%',
+    accentGlow: '240 70% 60%',
+    accentForeground: '222 47% 11%',
+    h: 240,
+    s: 70,
+    l: 60,
   },
   staticColors: {
     background: '222 47% 7%',
@@ -87,7 +87,7 @@ export const activeTheme: ThemeConfig = {
     mutedForeground: '215 16% 65%',
     border: '215 25% 20%',
     input: '215 25% 20%',
-    ring: '38 92% 50%',
+    ring: '247 92% 50%',
   },
   gradientConfigs: {
     hero: 'linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(240 30% 18%) 50%, hsl(222 47% 11%) 100%)',
