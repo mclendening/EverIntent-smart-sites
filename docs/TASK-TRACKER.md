@@ -1,4 +1,7 @@
-# EverIntent SmartSites - Task Tracker
+# EverIntent - Task Tracker
+
+> **Brand:** EverIntent | **Tagline:** Web Design & Automation  
+> **BRD Version:** v34.0 (Brand Pivot)
 
 ## Complete Implementation Checklist (In Order)
 
@@ -6,18 +9,29 @@ Tasks marked `[MANUAL]` require user action. Tasks marked `[LOVABLE]` are AI-imp
 
 ---
 
-## Primary Reference Document
+## Primary Reference Documents
 
-**PRD Prompt:** `docs/smartsites-prd-prompt.md`
+| Document | Path | Purpose |
+|----------|------|---------|
+| **BRD v34.0** | `docs/smartsites-brd-v33.0.md` | Single source of truth for all requirements |
+| **Brand Pivot Plan** | `docs/everintent-pivot-plan.md` | Brand architecture, trademark context, implementation phases |
+| **PRD Prompt** | `docs/smartsites-prd-prompt.md` | Verbatim marketing copy for all pages |
 
-This is the authoritative source for all marketing page content including:
-- **Brand Voice Rules** (7 strict rules: plain language, 15 words max, benefit-first, no em dashes, active voice, second person)
-- **Tier Definitions** (T1: $249, T2: $97/mo, T3: $197/mo, T4: $497/mo)
-- **Verbatim Copy** for all 7 service pages (headlines, subheads, problem points, solution features)
-- **Component Patterns** (Hero, Feature Card, Tier Badge code snippets)
-- **SEO Requirements** (title 60 chars, meta 155 chars, JSON-LD schema)
+**Key Brand Guidelines (from Pivot Plan):**
+- Master brand: **EverIntent** (not "SmartSites by EverIntent")
+- Tagline: **"Web Design & Automation"**
+- Use "smart website(s)" / "smart site" as **lowercase descriptive language**, not a brand name
+- Tier names: Smart Site, Smart Lead, Smart Business, Smart Growth, Smart Launch
+- All logos, headers, footers use **EverIntent** only
+- ❌ Never use "SmartSites" as a brand name or logo lockup
+- ❌ Never bid on "SmartSites" as a Google Ads keyword
 
-All marketing pages MUST use exact copy from the PRD - no improvisation.
+**Navigation Structure (v34):**
+```
+Smart Websites | AI & Automation | Industries | Solutions | Pricing | Our Work | About
+```
+
+**PRD Copy Rules:** All marketing pages MUST use exact copy from PRD - no improvisation.
 
 ---
 
@@ -66,13 +80,15 @@ All marketing pages MUST use exact copy from the PRD - no improvisation.
 
 | Tag Name | Purpose |
 |----------|---------|
-| `SS: Checkout Started - T1` | Tier 1 checkout initiated |
-| `SS: Checkout Started - T2` | Tier 2 checkout initiated |
-| `SS: Checkout Started - T3` | Tier 3 checkout initiated |
-| `SS: Checkout Started - T4` | Tier 4 checkout initiated |
-| `SS: Contact Form` | Contact form submission |
+| `EI: Checkout Started - T1` | Tier 1 checkout initiated |
+| `EI: Checkout Started - T2` | Tier 2 checkout initiated |
+| `EI: Checkout Started - T3` | Tier 3 checkout initiated |
+| `EI: Checkout Started - T4` | Tier 4 checkout initiated |
+| `EI: Contact Form` | Contact form submission |
 | `LP: Partner Apply` | LocalPros partner application |
 | `Careers: Application` | Job application submitted |
+
+> Note: Tags updated from "SS:" to "EI:" prefix per brand pivot.
 
 ### Task 0.5 [MANUAL] - Add Supabase Secrets (GHL)
 **Status:** ✅ Complete
@@ -181,20 +197,48 @@ Update existing components for multi-widget support:
 
 ## Phase 3: Core Marketing Pages
 
-> **Source:** `docs/smartsites-prd-prompt.md` lines 550-945
+> **Source:** BRD v34.0 + `docs/smartsites-prd-prompt.md`
 
-### Task 3.0 [LOVABLE] - Create NavHoverMenu Component
+### Task 3.0 [LOVABLE] - Implement Brand Pivot (Phase 1)
+**Status:** ⬜ Not Started
+
+Update core branding per `docs/everintent-pivot-plan.md`:
+- **Header.tsx** — Logo: "EverIntent" with tagline "Web Design & Automation"
+- **Footer.tsx** — Same logo treatment, "Products" → "Solutions" column, add "For Law Firms" external link
+- **SEO.tsx** — SITE_NAME: "EverIntent", update DEFAULT_DESCRIPTION
+- **routes.ts** — Update descriptions to use EverIntent branding
+
+### Task 3.0.1 [LOVABLE] - Update Navigation Structure
+**Status:** ⬜ Not Started
+
+Per BRD v34 Section 17:
+- **Smart Websites dropdown** — Rename from "Services", reorder items (Smart Websites first, Let AI Handle It second)
+- **AI & Automation** — Add as second nav item → `/services/ai-automation`
+- **Solutions dropdown** — Add new nav item with: For Law Firms (external → everintentlegalai.com), future verticals
+- Keep: Industries, Pricing, Our Work, About
+
+### Task 3.0.2 [LOVABLE] - Create NavHoverMenu Component
 **Status:** ⬜ Not Started
 
 Create `src/components/NavHoverMenu.tsx` for desktop navigation dropdowns:
 
 **Requirements:**
-- `NavHoverItem` interface: `to`, `title`, `description?`, `icon?`, `nestedItems?`
+- `NavHoverItem` interface: `to`, `title`, `description?`, `icon?`, `nestedItems?`, `external?`
 - Lucide icons rendered with `text-primary` color, `h-5 w-5` size
 - Item layout: icon aligned to top, title (font-medium), description (text-xs text-muted-foreground)
 - Container: `w-80`, `bg-background` (solid), `z-50`, `shadow-lg`, `border border-border`
 - Hover state: `hover:bg-accent`
-- Update `Header.tsx` to use NavHoverMenu for Services and Industries dropdowns
+- Support external links (opens in new tab)
+- Update `Header.tsx` to use NavHoverMenu for Smart Websites, Industries, and Solutions dropdowns
+
+**Smart Websites Dropdown Items (v34):**
+| Title | Description | Icon |
+|-------|-------------|------|
+| **Smart Websites** | Professional smart websites starting at $249 | `Globe` |
+| **Let AI Handle It** | AI automation and voice agents | `Bot` |
+| Get Found Online | SEO and local search visibility | `Search` |
+| Capture More Leads | Lead capture and follow-up | `MessageSquare` |
+| Reputation Management | Review automation | `Star` |
 
 **Reference:** BRD Section 17.4 NavHoverMenu Component Specification
 
@@ -225,10 +269,13 @@ Create `src/components/sections/` with reusable marketing page sections:
 
 **SEO:** Title "Professional Websites for Local Businesses | SmartSites"
 
-### Task 3.3 [LOVABLE] - Beautiful Websites Service Page (/beautiful-websites)
+### Task 3.3 [LOVABLE] - Smart Websites Service Page (/smart-websites)
 **Status:** ⬜ Not Started
 
-> **Source:** PRD lines 584-612
+> **Source:** PRD lines 584-612 (update copy for "Smart Websites" branding)
+
+**H1:** "Smart Websites That Pay For Themselves"
+**Subhead:** "Built in 5 days. Starting at $249. Ready for AI when you are."
 
 **H1:** "A Professional Website That Actually Gets You Customers"
 **Subhead:** "Built in 5 days. Starting at $249. You own everything."
@@ -372,7 +419,7 @@ Build after Tasks 3.2-3.4 are complete. Each follows same structure with copy fr
 1. Go to https://analytics.google.com
 2. Click **Admin** (gear icon)
 3. Click **Create Property**
-4. Enter property name: `EverIntent SmartSites`
+4. Enter property name: `EverIntent`
 5. Select **Web** platform
 6. Enter your domain URL
 7. **Copy the Measurement ID** (starts with `G-`)
@@ -405,25 +452,28 @@ Build after Tasks 3.2-3.4 are complete. Each follows same structure with copy fr
 
 ## Current Status
 
+**BRD Version:** v34.0 (Brand Pivot to EverIntent Master Brand)
+
 **Completed:** 
 - Phase 0 (Prerequisites) - All GHL configuration complete
 - Phase 1 (Database Foundation) - All migrations and Edge Functions deployed
 - Task 2.1 (Cookie Consent) - Component complete and integrated
 - SSG Configuration - vite-react-ssg patterns documented in BRD Appendix H
+- Brand Pivot Documentation - BRD v34.0 + everintent-pivot-plan.md aligned
 
 **In Progress:** Phase 2 (Tasks 2.2-2.4 need multi-widget GHL setup)
 
-**Next Tasks:**
-1. Task 2.2 - Create GHL Chat Widgets (3 Bots) [MANUAL] - OR skip and proceed to Phase 3
-2. Task 3.0 - Create NavHoverMenu Component [LOVABLE]
-3. Task 3.1 - Create Reusable Section Components [LOVABLE]
-4. Task 3.2 - Homepage [LOVABLE]
-5. Task 3.3 - Beautiful Websites [LOVABLE]
-6. Task 3.4 - Pricing Page [LOVABLE]
+**Next Priority Tasks (Brand Pivot Implementation):**
+1. **Task 3.0** - Implement Brand Pivot Phase 1 [LOVABLE] - Header/Footer/SEO branding
+2. **Task 3.0.1** - Update Navigation Structure [LOVABLE] - Smart Websites dropdown, Solutions nav
+3. **Task 3.0.2** - Create NavHoverMenu Component [LOVABLE]
+4. Task 2.2 - Create GHL Chat Widgets (3 Bots) [MANUAL] - Can proceed in parallel
+5. Task 3.1 - Create Reusable Section Components [LOVABLE]
+6. Task 3.2 - Homepage [LOVABLE]
 
-**Phase 3 Source of Truth:** `docs/smartsites-prd-prompt.md`
-- All marketing copy is verbatim from PRD (no improvisation)
-- Component patterns defined at PRD lines 910-942
-- Brand voice rules at PRD lines 19-29
+**Key References:**
+- BRD v34.0: `docs/smartsites-brd-v33.0.md`
+- Brand Pivot: `docs/everintent-pivot-plan.md`
+- PRD Copy: `docs/smartsites-prd-prompt.md`
 
 **SSG Status:** ✅ Full 107-route pre-rendering operational
