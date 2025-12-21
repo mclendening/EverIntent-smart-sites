@@ -9,81 +9,19 @@
 */
 
 @layer base {
+  /* 
+   * Production Theme: Golden Amber Dark
+   * 
+   * IMPORTANT: These values MUST match src/config/themes.ts activeTheme
+   * This ensures zero flash on page load (SSG bakes these in).
+   * 
+   * To change the production theme:
+   * 1. Edit in Admin → Themes
+   * 2. Click "Publish to Production"
+   * 3. The generated themes.ts will update, and you should sync index.css
+   */
   :root {
-    /* Light Mode - Clean, Bold, Modern */
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-
-    /* Primary: Rich Slate - Sophisticated base */
-    --primary: 222 47% 11%;
-    --primary-light: 215 25% 27%;
-    --primary-foreground: 0 0% 100%;
-
-    /* Secondary: Warm off-white */
-    --secondary: 60 9% 98%;
-    --secondary-foreground: 222 47% 11%;
-
-    /* Muted: Subtle backgrounds */
-    --muted: 60 5% 96%;
-    --muted-foreground: 215 16% 47%;
-
-    /* Accent: Electric Amber - HIGH IMPACT (the money color) */
-    --accent: 38 92% 50%;
-    --accent-hover: 32 95% 44%;
-    --accent-glow: 38 92% 50%;
-    --accent-foreground: 222 47% 11%;
-
-    /* Intent Blue - Brand color for "Intent" in logo (Ocean Blue from industry icons) */
-    --intent-blue: 200 100% 50%;
-
-    /* Success/Highlight: Electric Lime (like SPINX/Shape) */
-    --highlight: 82 84% 67%;
-    --highlight-foreground: 222 47% 11%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 38 92% 50%;
-
-    --radius: 0.75rem;
-
-    /* Gradients - The Secret Sauce */
-    --gradient-hero: linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(215 25% 27%) 50%, hsl(222 47% 11%) 100%);
-    --gradient-text: linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(45 93% 58%) 50%, hsl(38 92% 50%) 100%);
-    --gradient-cta: linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(32 95% 44%) 100%);
-    --gradient-glow: radial-gradient(ellipse at center, hsl(38 92% 50% / 0.15) 0%, transparent 70%);
-    --gradient-mesh: radial-gradient(at 40% 20%, hsl(38 92% 50% / 0.08) 0px, transparent 50%), radial-gradient(at 80% 0%, hsl(215 25% 27% / 0.1) 0px, transparent 50%), radial-gradient(at 0% 50%, hsl(38 92% 50% / 0.05) 0px, transparent 50%);
-
-    /* Shadows - Depth & Dimension */
-    --shadow-sm: 0 1px 2px 0 hsl(222 47% 11% / 0.05);
-    --shadow-md: 0 4px 6px -1px hsl(222 47% 11% / 0.1), 0 2px 4px -2px hsl(222 47% 11% / 0.1);
-    --shadow-lg: 0 10px 15px -3px hsl(222 47% 11% / 0.1), 0 4px 6px -4px hsl(222 47% 11% / 0.1);
-    --shadow-xl: 0 20px 25px -5px hsl(222 47% 11% / 0.1), 0 8px 10px -6px hsl(222 47% 11% / 0.1);
-    --shadow-glow: 0 0 40px hsl(38 92% 50% / 0.3);
-    --shadow-glow-lg: 0 0 60px hsl(38 92% 50% / 0.4);
-    --shadow-button: 0 4px 14px 0 hsl(38 92% 50% / 0.35);
-
-    /* Sidebar */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 222 47% 11%;
-    --sidebar-primary: 222 47% 11%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 60 5% 96%;
-    --sidebar-accent-foreground: 222 47% 11%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 38 92% 50%;
-  }
-
-  .dark {
-    /* Dark Mode - Premium, Immersive, Award-Winning */
+    /* Dark Mode Base - Golden Amber Production Theme */
     --background: 222 47% 7%;
     --foreground: 60 9% 98%;
 
@@ -93,29 +31,31 @@
     --popover: 222 47% 10%;
     --popover-foreground: 60 9% 98%;
 
-    /* Primary: Lighter slate for dark */
+    /* Primary: Slate for dark theme */
     --primary: 215 25% 27%;
     --primary-light: 215 20% 40%;
     --primary-foreground: 0 0% 100%;
 
+    /* Secondary: Dark variant */
     --secondary: 222 47% 12%;
     --secondary-foreground: 60 9% 98%;
 
+    /* Muted: Dark backgrounds */
     --muted: 222 47% 15%;
     --muted-foreground: 215 16% 65%;
 
-    /* Accent: Electric Amber stays HOT */
+    /* Accent: Electric Amber - HIGH IMPACT (the money color) */
     --accent: 38 92% 50%;
     --accent-hover: 32 95% 44%;
     --accent-glow: 38 92% 50%;
     --accent-foreground: 222 47% 11%;
 
-    /* Highlight: Electric Lime */
-    --highlight: 82 84% 67%;
-    --highlight-foreground: 222 47% 11%;
-
     /* Intent Blue - Brand color for "Intent" in logo */
     --intent-blue: 200 100% 50%;
+
+    /* Success/Highlight: Electric Lime */
+    --highlight: 82 84% 67%;
+    --highlight-foreground: 222 47% 11%;
 
     --destructive: 0 62% 30%;
     --destructive-foreground: 60 9% 98%;
@@ -124,14 +64,16 @@
     --input: 215 25% 20%;
     --ring: 38 92% 50%;
 
-    /* Dark Gradients */
+    --radius: 0.75rem;
+
+    /* Gradients - Dark Theme */
     --gradient-hero: linear-gradient(135deg, hsl(222 47% 7%) 0%, hsl(222 47% 12%) 50%, hsl(222 47% 7%) 100%);
     --gradient-text: linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(45 93% 58%) 50%, hsl(38 92% 50%) 100%);
     --gradient-cta: linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(32 95% 44%) 100%);
     --gradient-glow: radial-gradient(ellipse at center, hsl(38 92% 50% / 0.2) 0%, transparent 70%);
     --gradient-mesh: radial-gradient(at 40% 20%, hsl(38 92% 50% / 0.12) 0px, transparent 50%), radial-gradient(at 80% 0%, hsl(215 25% 27% / 0.15) 0px, transparent 50%), radial-gradient(at 0% 50%, hsl(38 92% 50% / 0.08) 0px, transparent 50%);
 
-    /* Dark Shadows */
+    /* Shadows - Dark Theme */
     --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.3);
     --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.4), 0 2px 4px -2px hsl(0 0% 0% / 0.3);
     --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.4), 0 4px 6px -4px hsl(0 0% 0% / 0.3);
@@ -140,6 +82,7 @@
     --shadow-glow-lg: 0 0 60px hsl(38 92% 50% / 0.35);
     --shadow-button: 0 4px 14px 0 hsl(38 92% 50% / 0.3);
 
+    /* Sidebar - Dark */
     --sidebar-background: 222 47% 9%;
     --sidebar-foreground: 60 9% 98%;
     --sidebar-primary: 38 92% 50%;
@@ -148,6 +91,14 @@
     --sidebar-accent-foreground: 60 9% 98%;
     --sidebar-border: 215 25% 20%;
     --sidebar-ring: 38 92% 50%;
+  }
+
+  /* 
+   * Dark mode class - kept for compatibility but :root is already dark.
+   * This can be used if you need to toggle between light/dark modes in the future.
+   */
+  .dark {
+    /* Inherits from :root - already dark theme */
   }
 }
 
