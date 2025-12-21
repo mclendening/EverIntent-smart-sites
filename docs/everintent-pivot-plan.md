@@ -161,14 +161,26 @@ This becomes the hub for:
 
 ---
 
-## 6. Domain Hygiene
+## 6. Domain & Deployment Strategy
 
-### 6.1 Redirects
+### 6.1 Staging Domain
+**Current production URL:** `https://everintentsmartsites.com/`
+
+This site will remain public at the legacy URL until content is finalized. At cutover:
+- Update Vercel domain settings
+- Rename Supabase project
+- Rename GitHub repository
+- Update all code references from `everintentsmartsites.com` → `everintent.com`
+
+### 6.2 Naming Convention (Immediate)
+All code, components, SEO defaults, and branding should use **EverIntent** naming now. Only the production domain remains `everintentsmartsites.com` until final cutover.
+
+### 6.3 Redirects (Post-Cutover)
 Set up 301 redirects:
-- `everintentsmartsites.com/*` → `everintent.com/smart-websites/*`
+- `everintentsmartsites.com/*` → `everintent.com/*`
 - All old URLs map to corresponding new pages
 
-### 6.2 What NOT to Do
+### 6.4 What NOT to Do
 - Don't bid on "SmartSites" as a Google Ads keyword
 - Don't use `smartsites` in any new domains
 - Don't create a separate "SmartSites" logo lockup
@@ -212,7 +224,11 @@ Set up 301 redirects:
 - [ ] Create `/solutions/legal` bridge page
 - [ ] Build About page with credibility story
 
-### Phase 5: Domain & Analytics
+### Phase 5: Domain Cutover (Final Step)
+- [ ] Update Vercel domain from everintentsmartsites.com → everintent.com
+- [ ] Rename Supabase project to EverIntent
+- [ ] Rename GitHub repository to everintent
+- [ ] Update SITE_URL in code to everintent.com
 - [ ] Set up 301 redirects from everintentsmartsites.com
 - [ ] Update Search Console / Analytics properties
 - [ ] Verify all links work
@@ -245,3 +261,4 @@ Set up 301 redirects:
 |------|--------|
 | 2025-01-20 | Initial draft created from conversation recommendations |
 | 2025-01-21 | Tagline decision finalized: "Web Design & Automation" |
+| 2025-01-21 | Added staging domain strategy: stay on everintentsmartsites.com until content ready, use EverIntent naming in code now |
