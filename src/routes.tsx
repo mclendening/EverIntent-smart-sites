@@ -73,6 +73,7 @@ import PlaceholderPage from './pages/Placeholder';
 // Admin pages
 const AdminLogin = React.lazy(() => import('./pages/admin/Login'));
 const AdminDashboard = React.lazy(() => import('./pages/admin/Dashboard'));
+const AdminThemes = React.lazy(() => import('./pages/admin/Themes'));
 
 // Core routes (v33.0 - renamed portfolio to our-work, added strategy-session, careers)
 const coreRoutePaths = ['/', '/pricing', '/our-work', '/about', '/contact', '/book-call', '/strategy-session', '/careers'];
@@ -232,6 +233,7 @@ const upgradePath = '/upgrade';
 const adminPaths = [
   '/admin/login',
   '/admin',
+  '/admin/themes',
   '/admin/submissions',
   '/admin/portfolio',
   '/admin/testimonials',
@@ -327,6 +329,14 @@ export const routes: RouteRecord[] = [
         element: (
           <AdminGuard>
             <AdminDashboard />
+          </AdminGuard>
+        ),
+      },
+      {
+        path: 'themes',
+        element: (
+          <AdminGuard>
+            <AdminThemes />
           </AdminGuard>
         ),
       },
