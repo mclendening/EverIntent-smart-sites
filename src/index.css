@@ -39,6 +39,9 @@
     --accent-glow: 38 92% 50%;
     --accent-foreground: 222 47% 11%;
 
+    /* Intent Blue - Brand color for "Intent" in logo (Ocean Blue from industry icons) */
+    --intent-blue: 200 100% 50%;
+
     /* Success/Highlight: Electric Lime (like SPINX/Shape) */
     --highlight: 82 84% 67%;
     --highlight-foreground: 222 47% 11%;
@@ -110,6 +113,9 @@
     /* Highlight: Electric Lime */
     --highlight: 82 84% 67%;
     --highlight-foreground: 222 47% 11%;
+
+    /* Intent Blue - Brand color for "Intent" in logo */
+    --intent-blue: 200 100% 50%;
 
     --destructive: 0 62% 30%;
     --destructive-foreground: 60 9% 98%;

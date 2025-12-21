@@ -71,11 +71,11 @@ export function Header() {
             <div className="absolute inset-0 bg-accent/30 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500" />
           </div>
           <div className="flex flex-col">
-            <span className="text-xl font-display font-bold text-foreground tracking-tight">
-              Smart<span className="text-gradient">Sites</span>
+            <span className="text-xl font-display font-bold tracking-tight">
+              <span className="text-white">Ever</span><span className="text-intent-blue">Intent</span>
             </span>
             <span className="text-[10px] text-muted-foreground font-medium tracking-widest uppercase">
-              by EverIntent
+              Web Design & Automation
             </span>
           </div>
         </Link>
