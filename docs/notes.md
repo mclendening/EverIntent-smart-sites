@@ -8,6 +8,14 @@
 
 ---
 
+## GitHub Integration
+
+- **GITHUB_PAT**: `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`
+- **GITHUB_REPO_OWNER**: (your GitHub username or org)
+- **GITHUB_REPO_NAME**: (your repository name)
+
+---
+
 ## Misc Notes
 
 uEEs_o_eHWtK3Fc*!-n.
