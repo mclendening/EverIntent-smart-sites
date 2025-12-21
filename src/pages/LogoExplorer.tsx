@@ -168,7 +168,9 @@ const LogoExplorer = () => {
           type="color"
           value={ctrl.solidColor}
           onChange={(e) => setCtrl({ ...ctrl, solidColor: e.target.value, useGradient: false })}
-          className="h-7 w-full"
+          className="h-7 w-full cursor-pointer"
+          onClick={(e) => e.stopPropagation()}
+          onMouseDown={(e) => e.stopPropagation()}
         />
       </TabsContent>
 
@@ -207,14 +209,26 @@ const LogoExplorer = () => {
           <Switch checked={ctrl.useGradient} onCheckedChange={(v) => setCtrl({ ...ctrl, useGradient: v })} />
           <Label className="text-xs">Enable</Label>
         </div>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-2" onClick={(e) => e.stopPropagation()}>
           <div>
             <Label className="text-xs text-zinc-400">From</Label>
-            <Input type="color" value={ctrl.gradientFrom} onChange={(e) => setCtrl({ ...ctrl, gradientFrom: e.target.value })} className="h-6" />
+            <Input 
+              type="color" 
+              value={ctrl.gradientFrom} 
+              onChange={(e) => setCtrl({ ...ctrl, gradientFrom: e.target.value })} 
+              className="h-6 cursor-pointer" 
+              onMouseDown={(e) => e.stopPropagation()}
+            />
           </div>
           <div>
             <Label className="text-xs text-zinc-400">To</Label>
-            <Input type="color" value={ctrl.gradientTo} onChange={(e) => setCtrl({ ...ctrl, gradientTo: e.target.value })} className="h-6" />
+            <Input 
+              type="color" 
+              value={ctrl.gradientTo} 
+              onChange={(e) => setCtrl({ ...ctrl, gradientTo: e.target.value })} 
+              className="h-6 cursor-pointer"
+              onMouseDown={(e) => e.stopPropagation()}
+            />
           </div>
         </div>
         <div className="space-y-1">
