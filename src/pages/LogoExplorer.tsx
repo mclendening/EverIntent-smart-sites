@@ -116,6 +116,33 @@ const LogoExplorer = () => {
     
     // White text with colored taglines (clean look)
     { id: 60, everColor: "text-white", intentColor: "text-white", streakStyle: "bg-gradient-to-r from-[hsl(170,45%,45%)] to-[hsl(175,40%,35%)]", taglineStyle: "text-[hsl(170,45%,45%)]", description: "All white + EverIntent teal streak + Teal tagline" },
+    
+    // ===== NEW: Color→White fade streaks with matching taglines =====
+    // EverIntent Teal → Near White
+    { id: 61, everColor: "text-white", intentColor: "text-[hsl(170,45%,45%)]", streakStyle: "bg-gradient-to-r from-[hsl(170,45%,45%)] to-[hsl(170,20%,85%)]", taglineStyle: "text-[hsl(170,20%,85%)]", description: "EverIntent Teal → Near white fade" },
+    { id: 62, everColor: "text-white", intentColor: "text-[hsl(175,50%,40%)]", streakStyle: "bg-gradient-to-r from-[hsl(175,50%,40%)] to-[hsl(175,15%,88%)]", taglineStyle: "text-[hsl(175,15%,88%)]", description: "Deep Teal → Pale teal fade" },
+    
+    // Cyan → Near White
+    { id: 63, everColor: "text-white", intentColor: "text-[hsl(190,90%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(190,90%,50%)] to-[hsl(190,25%,85%)]", taglineStyle: "text-[hsl(190,25%,85%)]", description: "Cyan → Near white fade" },
+    { id: 64, everColor: "text-white", intentColor: "text-[hsl(195,85%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(195,85%,50%)] to-[hsl(195,20%,87%)]", taglineStyle: "text-[hsl(195,20%,87%)]", description: "Light Cyan → Pale fade" },
+    
+    // Ocean Blue → Near White
+    { id: 65, everColor: "text-white", intentColor: "text-[hsl(200,100%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(200,100%,50%)] to-[hsl(200,25%,85%)]", taglineStyle: "text-[hsl(200,25%,85%)]", description: "Ocean Blue → Near white fade" },
+    
+    // Azure → Near White
+    { id: 66, everColor: "text-white", intentColor: "text-[hsl(210,80%,55%)]", streakStyle: "bg-gradient-to-r from-[hsl(210,80%,55%)] to-[hsl(210,20%,87%)]", taglineStyle: "text-[hsl(210,20%,87%)]", description: "Azure → Near white fade" },
+    
+    // Steel Blue → Near White
+    { id: 67, everColor: "text-white", intentColor: "text-[hsl(215,70%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(215,70%,50%)] to-[hsl(215,18%,86%)]", taglineStyle: "text-[hsl(215,18%,86%)]", description: "Steel Blue → Near white fade" },
+    
+    // Royal Blue → Near White
+    { id: 68, everColor: "text-white", intentColor: "text-[hsl(220,75%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(220,75%,50%)] to-[hsl(220,20%,85%)]", taglineStyle: "text-[hsl(220,20%,85%)]", description: "Royal Blue → Near white fade" },
+    
+    // Cobalt → Near White
+    { id: 69, everColor: "text-white", intentColor: "text-[hsl(225,85%,55%)]", streakStyle: "bg-gradient-to-r from-[hsl(225,85%,55%)] to-[hsl(225,22%,86%)]", taglineStyle: "text-[hsl(225,22%,86%)]", description: "Cobalt → Near white fade" },
+    
+    // Deep Navy → Near White
+    { id: 70, everColor: "text-white", intentColor: "text-[hsl(220,80%,35%)]", streakStyle: "bg-gradient-to-r from-[hsl(220,80%,35%)] to-[hsl(220,15%,84%)]", taglineStyle: "text-[hsl(220,15%,84%)]", description: "Deep Navy → Near white fade" },
   ];
 
   return (
