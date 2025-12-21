@@ -117,32 +117,32 @@ const LogoExplorer = () => {
     // White text with colored taglines (clean look)
     { id: 60, everColor: "text-white", intentColor: "text-white", streakStyle: "bg-gradient-to-r from-[hsl(170,45%,45%)] to-[hsl(175,40%,35%)]", taglineStyle: "text-[hsl(170,45%,45%)]", description: "All white + EverIntent teal streak + Teal tagline" },
     
-    // ===== NEW: Color→White fade streaks with matching taglines =====
-    // EverIntent Teal → Near White
-    { id: 61, everColor: "text-white", intentColor: "text-[hsl(170,45%,45%)]", streakStyle: "bg-gradient-to-r from-[hsl(170,45%,45%)] to-[hsl(170,20%,85%)]", taglineStyle: "text-[hsl(170,20%,85%)]", description: "EverIntent Teal → Near white fade" },
-    { id: 62, everColor: "text-white", intentColor: "text-[hsl(175,50%,40%)]", streakStyle: "bg-gradient-to-r from-[hsl(175,50%,40%)] to-[hsl(175,15%,88%)]", taglineStyle: "text-[hsl(175,15%,88%)]", description: "Deep Teal → Pale teal fade" },
+    // ===== NEW: Color→Fade streaks (tapered) with matching taglines =====
+    // EverIntent Teal → Fade out
+    { id: 61, everColor: "text-white", intentColor: "text-[hsl(170,45%,45%)]", streakStyle: "bg-gradient-to-r from-[hsl(170,45%,45%)] via-[hsl(170,35%,65%)] to-transparent", taglineStyle: "text-[hsl(170,25%,75%)]", description: "EverIntent Teal → Fade taper" },
+    { id: 62, everColor: "text-white", intentColor: "text-[hsl(175,50%,40%)]", streakStyle: "bg-gradient-to-r from-[hsl(175,50%,40%)] via-[hsl(175,40%,60%)] to-transparent", taglineStyle: "text-[hsl(175,30%,70%)]", description: "Deep Teal → Fade taper" },
     
-    // Cyan → Near White
-    { id: 63, everColor: "text-white", intentColor: "text-[hsl(190,90%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(190,90%,50%)] to-[hsl(190,25%,85%)]", taglineStyle: "text-[hsl(190,25%,85%)]", description: "Cyan → Near white fade" },
-    { id: 64, everColor: "text-white", intentColor: "text-[hsl(195,85%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(195,85%,50%)] to-[hsl(195,20%,87%)]", taglineStyle: "text-[hsl(195,20%,87%)]", description: "Light Cyan → Pale fade" },
+    // Cyan → Fade out
+    { id: 63, everColor: "text-white", intentColor: "text-[hsl(190,90%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(190,90%,50%)] via-[hsl(190,60%,70%)] to-transparent", taglineStyle: "text-[hsl(190,40%,75%)]", description: "Cyan → Fade taper" },
+    { id: 64, everColor: "text-white", intentColor: "text-[hsl(195,85%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(195,85%,50%)] via-[hsl(195,55%,68%)] to-transparent", taglineStyle: "text-[hsl(195,35%,73%)]", description: "Light Cyan → Fade taper" },
     
-    // Ocean Blue → Near White
-    { id: 65, everColor: "text-white", intentColor: "text-[hsl(200,100%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(200,100%,50%)] to-[hsl(200,25%,85%)]", taglineStyle: "text-[hsl(200,25%,85%)]", description: "Ocean Blue → Near white fade" },
+    // Ocean Blue → Fade out
+    { id: 65, everColor: "text-white", intentColor: "text-[hsl(200,100%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(200,100%,50%)] via-[hsl(200,65%,70%)] to-transparent", taglineStyle: "text-[hsl(200,40%,75%)]", description: "Ocean Blue → Fade taper" },
     
-    // Azure → Near White
-    { id: 66, everColor: "text-white", intentColor: "text-[hsl(210,80%,55%)]", streakStyle: "bg-gradient-to-r from-[hsl(210,80%,55%)] to-[hsl(210,20%,87%)]", taglineStyle: "text-[hsl(210,20%,87%)]", description: "Azure → Near white fade" },
+    // Azure → Fade out
+    { id: 66, everColor: "text-white", intentColor: "text-[hsl(210,80%,55%)]", streakStyle: "bg-gradient-to-r from-[hsl(210,80%,55%)] via-[hsl(210,50%,72%)] to-transparent", taglineStyle: "text-[hsl(210,35%,76%)]", description: "Azure → Fade taper" },
     
-    // Steel Blue → Near White
-    { id: 67, everColor: "text-white", intentColor: "text-[hsl(215,70%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(215,70%,50%)] to-[hsl(215,18%,86%)]", taglineStyle: "text-[hsl(215,18%,86%)]", description: "Steel Blue → Near white fade" },
+    // Steel Blue → Fade out
+    { id: 67, everColor: "text-white", intentColor: "text-[hsl(215,70%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(215,70%,50%)] via-[hsl(215,45%,68%)] to-transparent", taglineStyle: "text-[hsl(215,30%,74%)]", description: "Steel Blue → Fade taper" },
     
-    // Royal Blue → Near White
-    { id: 68, everColor: "text-white", intentColor: "text-[hsl(220,75%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(220,75%,50%)] to-[hsl(220,20%,85%)]", taglineStyle: "text-[hsl(220,20%,85%)]", description: "Royal Blue → Near white fade" },
+    // Royal Blue → Fade out
+    { id: 68, everColor: "text-white", intentColor: "text-[hsl(220,75%,50%)]", streakStyle: "bg-gradient-to-r from-[hsl(220,75%,50%)] via-[hsl(220,48%,70%)] to-transparent", taglineStyle: "text-[hsl(220,32%,75%)]", description: "Royal Blue → Fade taper" },
     
-    // Cobalt → Near White
-    { id: 69, everColor: "text-white", intentColor: "text-[hsl(225,85%,55%)]", streakStyle: "bg-gradient-to-r from-[hsl(225,85%,55%)] to-[hsl(225,22%,86%)]", taglineStyle: "text-[hsl(225,22%,86%)]", description: "Cobalt → Near white fade" },
+    // Cobalt → Fade out
+    { id: 69, everColor: "text-white", intentColor: "text-[hsl(225,85%,55%)]", streakStyle: "bg-gradient-to-r from-[hsl(225,85%,55%)] via-[hsl(225,55%,72%)] to-transparent", taglineStyle: "text-[hsl(225,38%,76%)]", description: "Cobalt → Fade taper" },
     
-    // Deep Navy → Near White
-    { id: 70, everColor: "text-white", intentColor: "text-[hsl(220,80%,35%)]", streakStyle: "bg-gradient-to-r from-[hsl(220,80%,35%)] to-[hsl(220,15%,84%)]", taglineStyle: "text-[hsl(220,15%,84%)]", description: "Deep Navy → Near white fade" },
+    // Deep Navy → Fade out
+    { id: 70, everColor: "text-white", intentColor: "text-[hsl(220,80%,35%)]", streakStyle: "bg-gradient-to-r from-[hsl(220,80%,35%)] via-[hsl(220,50%,58%)] to-transparent", taglineStyle: "text-[hsl(220,35%,68%)]", description: "Deep Navy → Fade taper" },
   ];
 
   return (
@@ -174,7 +174,10 @@ const LogoExplorer = () => {
                   <span className={v.everColor}>Ever</span>
                   <span className={v.intentColor}>Intent</span>
                 </span>
-                <div className={`h-0.5 w-full rounded-full mt-2 ${v.streakStyle}`} />
+                <div 
+                  className={`h-1.5 w-full mt-2 ${v.streakStyle}`} 
+                  style={{ clipPath: 'polygon(0 0, 100% 35%, 100% 65%, 0 100%)' }}
+                />
                 <span className={`text-xs font-normal tracking-wide leading-tight mt-2 ${v.taglineStyle}`}>
                   Web Design & Automation
                 </span>
