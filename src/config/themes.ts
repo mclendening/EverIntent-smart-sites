@@ -11,6 +11,46 @@
  * @generated 2025-12-21
  */
 
+// Logo element types for embedded config
+export interface LogoElementConfig {
+  size: number;
+  weight: number;
+  solidColor: string;
+  useGradient: boolean;
+  gradientFrom: string;
+  gradientTo: string;
+  gradientAngle: number;
+  marginLeft: number;
+  marginRight: number;
+  verticalOffset: number;
+}
+
+export interface StreakElementConfig {
+  length: number;
+  leftThick: number;
+  rightThick: number;
+  solidColor: string;
+  useGradient: boolean;
+  gradientFrom: string;
+  gradientTo: string;
+  gradientAngle: number;
+  marginLeft: number;
+  marginRight: number;
+}
+
+export interface TaglineElementConfig {
+  size: number;
+  weight: number;
+  solidColor: string;
+  useGradient: boolean;
+  gradientFrom: string;
+  gradientTo: string;
+  gradientAngle: number;
+  marginLeft: number;
+  marginRight: number;
+  marginTop: number;
+}
+
 export interface ThemeConfig {
   id: string;
   name: string;
@@ -48,6 +88,13 @@ export interface ThemeConfig {
     text: string;
   };
   logoVersionId?: string;
+  logoConfig?: {
+    taglineText: string;
+    everConfig: LogoElementConfig;
+    intentConfig: LogoElementConfig;
+    streakConfig: StreakElementConfig;
+    taglineConfig: TaglineElementConfig;
+  };
 }
 
 export interface RouteThemeMapping {
@@ -95,6 +142,57 @@ export const activeTheme: ThemeConfig = {
     text: 'linear-gradient(135deg, hsl(240 70% 60%) 0%, hsl(250 70% 70%) 50%, hsl(240 70% 60%) 100%)',
   },
   logoVersionId: 'f427aa31-0016-408e-98d4-86a7573b1b15',
+  logoConfig: {
+    taglineText: 'Web Design & Automations',
+    everConfig: {
+      size: 72,
+      weight: 700,
+      solidColor: '#FFFFFF',
+      useGradient: false,
+      gradientFrom: '#FFFFFF',
+      gradientTo: '#A855F7',
+      gradientAngle: 135,
+      marginLeft: 0,
+      marginRight: 3,
+      verticalOffset: -1,
+    },
+    intentConfig: {
+      size: 72,
+      weight: 700,
+      solidColor: '#A855F7',
+      useGradient: false,
+      gradientFrom: '#A855F7',
+      gradientTo: '#FFFFFF',
+      gradientAngle: 135,
+      marginLeft: 0,
+      marginRight: 0,
+      verticalOffset: 1,
+    },
+    streakConfig: {
+      length: 373,
+      leftThick: 4,
+      rightThick: 1,
+      solidColor: '#A855F7',
+      useGradient: true,
+      gradientFrom: '#A855F7',
+      gradientTo: '#FBF9F9',
+      gradientAngle: 90,
+      marginLeft: 0,
+      marginRight: 0,
+    },
+    taglineConfig: {
+      size: 29,
+      weight: 400,
+      solidColor: '#FFFFFF',
+      useGradient: false,
+      gradientFrom: '#FFFFFF',
+      gradientTo: '#A855F7',
+      gradientAngle: 135,
+      marginLeft: 0,
+      marginRight: 0,
+      marginTop: 5,
+    },
+  },
 };
 
 // ============================================
