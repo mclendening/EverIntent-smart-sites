@@ -67,8 +67,8 @@ export function Header() {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3 group">
           <div className="relative">
-            <Sparkles className="w-8 h-8 text-accent transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" />
-            <div className="absolute inset-0 bg-accent/30 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500" />
+            <Sparkles className="w-8 h-8 text-intent-blue transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" strokeWidth={1.5} />
+            <div className="absolute inset-0 bg-intent-blue/30 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500" />
           </div>
           <div className="flex flex-col">
             <span className="text-xl font-display font-bold tracking-tight">
