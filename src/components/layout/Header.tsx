@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, ChevronDown, X, Sparkles } from 'lucide-react';
+import { Menu, ChevronDown, X } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { Button } from '@/components/ui/button';
 import { CTAButton } from '@/components/CTAButton';
-
+import { LogoRenderer } from '@/components/logo/LogoRenderer';
+import { activeTheme } from '@/config/themes';
 // Services dropdown items - Beautiful Websites at TOP per BRD
 const servicesItems = [
   { title: 'Beautiful Websites', path: '/beautiful-websites', description: 'Professional websites that get you customers' },
@@ -66,15 +67,11 @@ export function Header() {
       <div className="container flex h-20 items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center group">
-          <div className="flex flex-col gap-0">
-            <span className="text-2xl font-display font-bold tracking-tight leading-none">
-              <span className="text-white">Ever</span><span className="text-intent-blue">Intent</span>
-            </span>
-            <div className="h-0.5 w-full bg-gradient-to-r from-accent to-accent/30 rounded-full mt-2" />
-            <span className="text-xs text-muted-foreground/80 font-normal tracking-wide leading-tight mt-2">
-              Web Design & Automation
-            </span>
-          </div>
+          <LogoRenderer 
+            scale={0.6} 
+            showTagline={true}
+            accentHsl={activeTheme.accentConfig.accent}
+          />
         </Link>
 
         {/* Desktop Navigation */}
