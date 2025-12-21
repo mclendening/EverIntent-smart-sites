@@ -170,7 +170,7 @@ const LogoExplorer = () => {
               
               {/* Logo Preview */}
               <div className="flex flex-col items-start mb-4">
-                <div className="text-2xl font-display font-bold tracking-tight leading-none inline-flex items-end">
+                <div className="text-2xl font-display font-bold tracking-tight leading-none inline-flex items-baseline">
                   <span className={v.everColor}>Ever</span>
                   <span className={v.intentColor}>Intent</span>
                 </div>
