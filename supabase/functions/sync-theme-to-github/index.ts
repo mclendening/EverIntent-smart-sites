@@ -6,6 +6,12 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+interface FileUpdate {
+  path: string;
+  content: string;
+  sha?: string;
+}
+
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -48,16 +54,57 @@ serve(async (req) => {
       );
     }
 
-    const filePath = "src/config/themes.ts";
-    const fileContent = publishedConfig.config_typescript;
-    const commitMessage = `chore: update theme config to v${publishedConfig.version} (${publishedConfig.source_theme_name})`;
-
     console.log(`Publishing theme v${publishedConfig.version} to GitHub...`);
 
-    // Step 1: Get current file SHA (if it exists)
-    let currentSha: string | null = null;
-    const getFileResponse = await fetch(
-      `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`,
+    // Define files to update
+    const filesToUpdate: FileUpdate[] = [
+      {
+        path: "src/config/themes.ts",
+        content: publishedConfig.config_typescript,
+      },
+    ];
+
+    // Add CSS file if it exists
+    if (publishedConfig.config_css) {
+      filesToUpdate.push({
+        path: "src/index.css",
+        content: publishedConfig.config_css,
+      });
+    }
+
+    // Get current SHAs for all files
+    for (const file of filesToUpdate) {
+      const getFileResponse = await fetch(
+        `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${file.path}`,
+        {
+          headers: {
+            Authorization: `Bearer ${githubPat}`,
+            Accept: "application/vnd.github.v3+json",
+          },
+        }
+      );
+
+      if (getFileResponse.ok) {
+        const fileData = await getFileResponse.json();
+        file.sha = fileData.sha;
+        console.log(`Found existing ${file.path} with SHA: ${file.sha}`);
+      } else if (getFileResponse.status !== 404) {
+        const errorText = await getFileResponse.text();
+        console.error(`Error checking ${file.path}:`, errorText);
+      }
+    }
+
+    // Create a tree with all file changes
+    const treeItems = filesToUpdate.map((file) => ({
+      path: file.path,
+      mode: "100644" as const,
+      type: "blob" as const,
+      content: file.content,
+    }));
+
+    // Get the current commit SHA for the main branch
+    const refResponse = await fetch(
+      `https://api.github.com/repos/${repoOwner}/${repoName}/git/refs/heads/main`,
       {
         headers: {
           Authorization: `Bearer ${githubPat}`,
@@ -66,68 +113,142 @@ serve(async (req) => {
       }
     );
 
-    if (getFileResponse.ok) {
-      const fileData = await getFileResponse.json();
-      currentSha = fileData.sha;
-      console.log(`Found existing file with SHA: ${currentSha}`);
-    } else if (getFileResponse.status !== 404) {
-      const errorText = await getFileResponse.text();
-      console.error("Error checking existing file:", errorText);
+    if (!refResponse.ok) {
+      const errorText = await refResponse.text();
+      console.error("Error getting branch ref:", errorText);
       return new Response(
-        JSON.stringify({ error: `Failed to check existing file: ${errorText}` }),
+        JSON.stringify({ error: `Failed to get branch ref: ${errorText}` }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    // Step 2: Create or update the file
-    const contentBase64 = btoa(unescape(encodeURIComponent(fileContent)));
-    
-    const updatePayload: Record<string, string> = {
-      message: commitMessage,
-      content: contentBase64,
-      branch: "main",
-    };
+    const refData = await refResponse.json();
+    const baseCommitSha = refData.object.sha;
+    console.log(`Base commit SHA: ${baseCommitSha}`);
 
-    if (currentSha) {
-      updatePayload.sha = currentSha;
+    // Get the base tree
+    const baseCommitResponse = await fetch(
+      `https://api.github.com/repos/${repoOwner}/${repoName}/git/commits/${baseCommitSha}`,
+      {
+        headers: {
+          Authorization: `Bearer ${githubPat}`,
+          Accept: "application/vnd.github.v3+json",
+        },
+      }
+    );
+
+    if (!baseCommitResponse.ok) {
+      const errorText = await baseCommitResponse.text();
+      console.error("Error getting base commit:", errorText);
+      return new Response(
+        JSON.stringify({ error: `Failed to get base commit: ${errorText}` }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
     }
 
-    const updateResponse = await fetch(
-      `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`,
+    const baseCommitData = await baseCommitResponse.json();
+    const baseTreeSha = baseCommitData.tree.sha;
+
+    // Create a new tree
+    const createTreeResponse = await fetch(
+      `https://api.github.com/repos/${repoOwner}/${repoName}/git/trees`,
       {
-        method: "PUT",
+        method: "POST",
         headers: {
           Authorization: `Bearer ${githubPat}`,
           Accept: "application/vnd.github.v3+json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(updatePayload),
+        body: JSON.stringify({
+          base_tree: baseTreeSha,
+          tree: treeItems,
+        }),
       }
     );
 
-    if (!updateResponse.ok) {
-      const errorText = await updateResponse.text();
-      console.error("GitHub API error:", errorText);
+    if (!createTreeResponse.ok) {
+      const errorText = await createTreeResponse.text();
+      console.error("Error creating tree:", errorText);
       return new Response(
-        JSON.stringify({ error: `GitHub API error: ${errorText}` }),
+        JSON.stringify({ error: `Failed to create tree: ${errorText}` }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    const result = await updateResponse.json();
-    const commitSha = result.commit?.sha;
-    const commitUrl = result.commit?.html_url;
+    const newTree = await createTreeResponse.json();
+    console.log(`Created new tree: ${newTree.sha}`);
 
-    console.log(`Successfully committed: ${commitSha}`);
+    // Create a commit
+    const filesUpdated = filesToUpdate.map(f => f.path.split('/').pop()).join(' and ');
+    const commitMessage = `chore: update theme config to v${publishedConfig.version} (${publishedConfig.source_theme_name})\n\nUpdated files: ${filesUpdated}`;
+
+    const createCommitResponse = await fetch(
+      `https://api.github.com/repos/${repoOwner}/${repoName}/git/commits`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${githubPat}`,
+          Accept: "application/vnd.github.v3+json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: commitMessage,
+          tree: newTree.sha,
+          parents: [baseCommitSha],
+        }),
+      }
+    );
+
+    if (!createCommitResponse.ok) {
+      const errorText = await createCommitResponse.text();
+      console.error("Error creating commit:", errorText);
+      return new Response(
+        JSON.stringify({ error: `Failed to create commit: ${errorText}` }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const newCommit = await createCommitResponse.json();
+    console.log(`Created commit: ${newCommit.sha}`);
+
+    // Update the branch reference
+    const updateRefResponse = await fetch(
+      `https://api.github.com/repos/${repoOwner}/${repoName}/git/refs/heads/main`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${githubPat}`,
+          Accept: "application/vnd.github.v3+json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sha: newCommit.sha,
+        }),
+      }
+    );
+
+    if (!updateRefResponse.ok) {
+      const errorText = await updateRefResponse.text();
+      console.error("Error updating ref:", errorText);
+      return new Response(
+        JSON.stringify({ error: `Failed to update branch: ${errorText}` }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const commitUrl = `https://github.com/${repoOwner}/${repoName}/commit/${newCommit.sha}`;
+    console.log(`Successfully committed: ${newCommit.sha}`);
+    console.log(`Files updated: ${filesToUpdate.map(f => f.path).join(', ')}`);
 
     return new Response(
       JSON.stringify({
         success: true,
         message: `Theme v${publishedConfig.version} published to GitHub`,
-        commitSha,
+        commitSha: newCommit.sha,
         commitUrl,
         version: publishedConfig.version,
         themeName: publishedConfig.source_theme_name,
+        filesUpdated: filesToUpdate.map(f => f.path),
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );

@@ -464,6 +464,7 @@ export type Database = {
       }
       published_theme_configs: {
         Row: {
+          config_css: string | null
           config_json: Json
           config_typescript: string
           created_at: string
@@ -477,6 +478,7 @@ export type Database = {
           version: number
         }
         Insert: {
+          config_css?: string | null
           config_json: Json
           config_typescript: string
           created_at?: string
@@ -490,6 +492,7 @@ export type Database = {
           version?: number
         }
         Update: {
+          config_css?: string | null
           config_json?: Json
           config_typescript?: string
           created_at?: string

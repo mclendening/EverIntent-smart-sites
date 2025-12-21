@@ -77,6 +77,7 @@ export default function AdminThemes() {
   const [isSaving, setIsSaving] = useState(false);
   const [showPublishDialog, setShowPublishDialog] = useState(false);
   const [generatedConfig, setGeneratedConfig] = useState<string>('');
+  const [generatedCss, setGeneratedCss] = useState<string>('');
   const [copied, setCopied] = useState(false);
   const [isPublishingToGithub, setIsPublishingToGithub] = useState(false);
   const [publishedVersion, setPublishedVersion] = useState<number | null>(null);
@@ -533,7 +534,458 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
 `;
 
     setGeneratedConfig(config);
+    
+    // Generate matching CSS for index.css
+    const cssContent = generateProductionCss(activeTheme);
+    setGeneratedCss(cssContent);
+    
     setShowPublishDialog(true);
+  };
+
+  // Generate CSS content for index.css that matches the theme
+  const generateProductionCss = (theme: Theme): string => {
+    const accentCfg = theme.accent_config as Record<string, any>;
+    const staticCols = theme.static_colors as Record<string, string>;
+    const gradientCfg = theme.gradient_configs as Record<string, string>;
+    
+    // Parse accent HSL for gradient generation
+    const accentParts = (accentCfg.accent || '240 70% 60%').split(' ');
+    const h = parseFloat(accentParts[0]) || 240;
+    const s = parseFloat(accentParts[1]) || 70;
+    const l = parseFloat(accentParts[2]) || 60;
+    
+    return `@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* SmartSites Design System v2.0
+   Award-Winning Agency Aesthetic
+   Inspired by SPINX, Shape, VRRB - proven converters
+   All colors MUST be HSL.
+   
+   AUTO-GENERATED from theme: ${theme.name}
+   Generated: ${new Date().toISOString().split('T')[0]}
+   DO NOT edit manually - use admin theme editor and "Publish to Production".
+*/
+
+@layer base {
+  :root {
+    /* Dark Mode Base - ${theme.name} */
+    --background: ${staticCols.background || '222 47% 7%'};
+    --foreground: ${staticCols.foreground || '60 9% 98%'};
+
+    --card: ${staticCols.card || '222 47% 10%'};
+    --card-foreground: ${staticCols.cardForeground || '60 9% 98%'};
+
+    --popover: ${staticCols.popover || '222 47% 10%'};
+    --popover-foreground: ${staticCols.popoverForeground || '60 9% 98%'};
+
+    /* Primary: Slate for dark theme */
+    --primary: ${staticCols.primary || '215 25% 27%'};
+    --primary-light: ${staticCols.primaryLight || '215 20% 40%'};
+    --primary-foreground: ${staticCols.primaryForeground || '0 0% 100%'};
+
+    /* Secondary: Dark variant */
+    --secondary: ${staticCols.secondary || '222 47% 12%'};
+    --secondary-foreground: ${staticCols.secondaryForeground || '60 9% 98%'};
+
+    /* Muted: Dark backgrounds */
+    --muted: ${staticCols.muted || '222 47% 15%'};
+    --muted-foreground: ${staticCols.mutedForeground || '215 16% 65%'};
+
+    /* Accent: ${theme.name} - HIGH IMPACT (the brand color) */
+    --accent: ${accentCfg.accent || '240 70% 60%'};
+    --accent-hover: ${accentCfg.accentHover || `${h} ${s}% ${Math.max(l - 10, 20)}%`};
+    --accent-glow: ${accentCfg.accentGlow || `${h} ${s}% ${Math.min(l + 10, 80)}%`};
+    --accent-foreground: ${accentCfg.accentForeground || '0 0% 100%'};
+
+    /* Intent Blue - Brand color for "Intent" in logo */
+    --intent-blue: 200 100% 50%;
+
+    /* Success/Highlight: Electric Lime */
+    --highlight: 82 84% 67%;
+    --highlight-foreground: 222 47% 11%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 60 9% 98%;
+
+    --border: ${staticCols.border || '215 25% 20%'};
+    --input: ${staticCols.input || '215 25% 20%'};
+    --ring: ${staticCols.ring || accentCfg.accent || '240 70% 60%'};
+
+    --radius: 0.75rem;
+
+    /* Gradients - ${theme.name} */
+    --gradient-hero: ${gradientCfg.hero || `linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(${h} 30% 18%) 50%, hsl(222 47% 11%) 100%)`};
+    --gradient-text: ${gradientCfg.text || `linear-gradient(135deg, hsl(${h} ${s}% ${l}%) 0%, hsl(${h + 10} ${s}% ${Math.min(l + 10, 80)}%) 50%, hsl(${h} ${s}% ${l}%) 100%)`};
+    --gradient-cta: ${gradientCfg.cta || `linear-gradient(135deg, hsl(${h} ${s}% ${l}%) 0%, hsl(${h + 10} ${s}% ${Math.max(l - 10, 30)}%) 100%)`};
+    --gradient-glow: radial-gradient(ellipse at center, hsl(${h} ${s}% ${l}% / 0.2) 0%, transparent 70%);
+    --gradient-mesh: radial-gradient(at 40% 20%, hsl(${h} ${s}% ${l}% / 0.12) 0px, transparent 50%), radial-gradient(at 80% 0%, hsl(215 25% 27% / 0.15) 0px, transparent 50%), radial-gradient(at 0% 50%, hsl(${h} ${s}% ${l}% / 0.08) 0px, transparent 50%);
+
+    /* Shadows - ${theme.name} */
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.3);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.4), 0 2px 4px -2px hsl(0 0% 0% / 0.3);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.4), 0 4px 6px -4px hsl(0 0% 0% / 0.3);
+    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.4), 0 8px 10px -6px hsl(0 0% 0% / 0.3);
+    --shadow-glow: 0 0 40px hsl(${h} ${s}% ${l}% / 0.25);
+    --shadow-glow-lg: 0 0 60px hsl(${h} ${s}% ${l}% / 0.35);
+    --shadow-button: 0 4px 14px 0 hsl(${h} ${s}% ${l}% / 0.3);
+
+    /* Sidebar - Dark */
+    --sidebar-background: 222 47% 9%;
+    --sidebar-foreground: 60 9% 98%;
+    --sidebar-primary: ${accentCfg.accent || '240 70% 60%'};
+    --sidebar-primary-foreground: ${accentCfg.accentForeground || '0 0% 100%'};
+    --sidebar-accent: 222 47% 15%;
+    --sidebar-accent-foreground: 60 9% 98%;
+    --sidebar-border: 215 25% 20%;
+    --sidebar-ring: ${accentCfg.accent || '240 70% 60%'};
+  }
+
+  .dark {
+    /* Inherits from :root - already dark theme */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    @apply font-bold tracking-tight;
+  }
+
+  h1 {
+    @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl;
+  }
+
+  h2 {
+    @apply text-3xl sm:text-4xl md:text-5xl;
+  }
+
+  h3 {
+    @apply text-2xl sm:text-3xl;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-light {
+    background: linear-gradient(135deg, hsl(60 9% 98%) 0%, hsl(var(--accent)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .icon-gradient-ocean {
+    background: linear-gradient(135deg, hsl(210 100% 45%) 0%, hsl(195 100% 50%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .icon-gradient-royal {
+    background: linear-gradient(135deg, hsl(230 80% 55%) 0%, hsl(200 100% 60%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .icon-gradient-sky {
+    background: linear-gradient(135deg, hsl(200 85% 50%) 0%, hsl(180 70% 55%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .icon-gradient-electric {
+    background: linear-gradient(135deg, hsl(220 90% 55%) 0%, hsl(190 95% 45%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .glow-lg {
+    box-shadow: var(--shadow-glow-lg);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 40px hsl(${h} ${s}% ${l}% / 0.5);
+  }
+
+  .bg-mesh {
+    background-image: var(--gradient-mesh);
+  }
+
+  .bg-hero {
+    background: var(--gradient-hero);
+  }
+
+  .bg-noise {
+    position: relative;
+  }
+  
+  .bg-noise::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .transition-bounce {
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .transition-spring {
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-105;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .hover-glow {
+    @apply transition-shadow duration-300;
+  }
+
+  .hover-glow:hover {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .nav-link {
+    @apply relative;
+  }
+
+  .nav-link::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-full h-[2px] origin-left scale-x-0 transition-transform duration-300;
+    background: linear-gradient(90deg, hsl(var(--accent)) 0%, hsl(var(--accent) / 0.5) 100%);
+  }
+
+  .nav-link:hover::after {
+    @apply scale-x-100;
+  }
+
+  .nav-link.active::after {
+    @apply scale-x-100;
+  }
+
+  .story-link {
+    @apply relative inline-block;
+  }
+
+  .story-link::after {
+    content: '';
+    @apply absolute w-full h-0.5 bottom-0 left-0 origin-bottom-right transition-transform duration-300 scale-x-0;
+    background: hsl(var(--accent));
+  }
+
+  .story-link:hover::after {
+    @apply origin-bottom-left scale-x-100;
+  }
+
+  .glass {
+    @apply bg-background/80 backdrop-blur-lg border border-border/50;
+  }
+
+  .glass-dark {
+    @apply bg-primary/80 backdrop-blur-lg border border-border/20;
+  }
+
+  .shadow-layered {
+    box-shadow: 
+      0 1px 2px hsl(0 0% 0% / 0.05),
+      0 4px 8px hsl(0 0% 0% / 0.05),
+      0 16px 32px hsl(0 0% 0% / 0.05);
+  }
+
+  .shadow-layered-lg {
+    box-shadow: 
+      0 2px 4px hsl(0 0% 0% / 0.03),
+      0 8px 16px hsl(0 0% 0% / 0.05),
+      0 24px 48px hsl(0 0% 0% / 0.08);
+  }
+
+  .border-glow {
+    position: relative;
+  }
+
+  .border-glow::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: var(--gradient-cta);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .border-glow:hover::before {
+    opacity: 1;
+  }
+
+  .border-gradient-top {
+    position: relative;
+  }
+
+  .border-gradient-top::before {
+    content: '';
+    @apply absolute top-0 left-0 right-0 h-px;
+    background: linear-gradient(90deg, transparent 0%, hsl(var(--accent) / 0.5) 50%, transparent 100%);
+  }
+
+  .fade-edges-x {
+    mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
+
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .bg-radial-vignette {
+    background: radial-gradient(
+      ellipse 50% 50% at 50% 50%,
+      hsl(var(--background) / 0.95) 0%,
+      hsl(var(--background) / 0.8) 30%,
+      hsl(var(--background) / 0.3) 60%,
+      transparent 100%
+    );
+  }
+
+  .footer-link {
+    @apply relative text-muted-foreground transition-all duration-300;
+  }
+
+  .footer-link:hover {
+    @apply text-foreground pl-1;
+  }
+
+  .footer-link::before {
+    content: '';
+    @apply absolute left-0 top-1/2 -translate-y-1/2 w-0 h-0.5 bg-accent transition-all duration-300;
+  }
+
+  .footer-link:hover::before {
+    @apply w-2;
+  }
+}
+
+@layer components {
+  .btn-glow {
+    @apply relative overflow-hidden;
+    box-shadow: var(--shadow-button);
+  }
+
+  .btn-glow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+  }
+
+  .btn-glow:hover::before {
+    transform: translateX(100%);
+  }
+
+  .btn-glow:hover {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 border border-border/50;
+  }
+
+  .card-hover:hover {
+    @apply border-accent/50;
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-2px);
+  }
+
+  .section {
+    @apply py-16 sm:py-20 md:py-24 lg:py-32;
+  }
+
+  .hero {
+    @apply relative min-h-[80vh] flex items-center justify-center overflow-hidden;
+    background: var(--gradient-hero);
+  }
+
+  .hero::before {
+    content: '';
+    @apply absolute inset-0 bg-mesh pointer-events-none;
+  }
+}
+
+#chat-widget,
+.chat-widget,
+[class*="chat-widget"],
+.leadconnector-chat {
+  z-index: 40 !important;
+}
+
+::selection {
+  background: hsl(${h} ${s}% ${l}% / 0.3);
+  color: hsl(var(--foreground));
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.7);
+}`;
   };
 
   const copyToClipboard = async () => {
@@ -556,7 +1008,7 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
       const { data: versionData } = await supabase.rpc('get_next_theme_config_version');
       const nextVersion = versionData || 1;
 
-      // Insert the published config
+      // Insert the published config with CSS
       const { error } = await supabase
         .from('published_theme_configs')
         .insert({
@@ -564,6 +1016,7 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
           source_theme_name: activeTheme.name,
           version: nextVersion,
           config_typescript: generatedConfig,
+          config_css: generatedCss,
           config_json: {
             accentConfig: activeTheme.accent_config,
             staticColors: activeTheme.static_colors,
