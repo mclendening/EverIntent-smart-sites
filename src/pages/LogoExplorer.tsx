@@ -175,8 +175,8 @@ const LogoExplorer = () => {
                   <span className={v.intentColor}>Intent</span>
                 </span>
                 <div 
-                  className={`h-1.5 w-full mt-2 ${v.streakStyle}`} 
-                  style={{ clipPath: 'polygon(0 0, 100% 35%, 100% 65%, 0 100%)' }}
+                  className={`h-1 w-full mt-2 ${v.streakStyle}`} 
+                  style={{ clipPath: 'polygon(0 15%, 100% 40%, 100% 60%, 0 85%)' }}
                 />
                 <span className={`text-xs font-normal tracking-wide leading-tight mt-2 ${v.taglineStyle}`}>
                   Web Design & Automation
