@@ -90,6 +90,8 @@ const LogoExplorer = () => {
     distanceFromStreak: 12,
   });
 
+  const [taglineText, setTaglineText] = useState('Websites That Work While You Sleep');
+
   const hslToHex = (h: number, s: number, l: number): string => {
     const sNorm = s / 100;
     const lNorm = l / 100;
@@ -269,7 +271,7 @@ const LogoExplorer = () => {
   return (
     <div className="h-screen bg-zinc-900 flex overflow-hidden">
       {/* Controls Panel */}
-      <div className="w-72 bg-zinc-800 border-r border-zinc-700 overflow-y-auto">
+      <div className="w-72 bg-zinc-800 border-r border-zinc-700 overflow-y-auto pt-16">
         <div className="p-3">
           <h1 className="text-sm font-bold text-zinc-300 mb-2">Logo Explorer</h1>
           
@@ -323,6 +325,15 @@ const LogoExplorer = () => {
             <AccordionItem value="tagline">
               <AccordionTrigger className="text-sm py-2">Tagline</AccordionTrigger>
               <AccordionContent className="space-y-3 pb-4">
+                <div className="space-y-1">
+                  <Label className="text-xs text-zinc-400">Text</Label>
+                  <Input 
+                    value={taglineText} 
+                    onChange={(e) => setTaglineText(e.target.value)} 
+                    className="h-7 text-xs"
+                    placeholder="Enter tagline..."
+                  />
+                </div>
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs text-zinc-400">
                     <span>Distance from Streak</span><span>{tagline.distanceFromStreak}px</span>
@@ -404,7 +415,7 @@ const LogoExplorer = () => {
             marginTop: tagline.distanceFromStreak,
             display: 'block',
           }}>
-            Websites That Work While You Sleep
+            {taglineText}
           </p>
         </div>
       </div>
