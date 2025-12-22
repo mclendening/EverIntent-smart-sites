@@ -49,9 +49,7 @@ export function CookieConsent() {
     // Check if consent already given
     const checkConsent = () => {
       const consent = localStorage.getItem(CONSENT_KEY);
-      console.log('[CookieConsent] checkConsent called, consent:', consent);
       if (!consent) {
-        console.log('[CookieConsent] No consent, showing banner');
         setShowBanner(true);
       }
     };
@@ -60,22 +58,25 @@ export function CookieConsent() {
     const timer = setTimeout(checkConsent, 1000);
 
     // Listen for consent changes (from triggerCookiePreferences)
-    const handleConsentChange = () => {
-      console.log('[CookieConsent] cookie-consent-changed event received');
+    const handleConsentChange = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      // If triggered with openModal flag, open modal directly
+      if (customEvent.detail?.openModal) {
+        setShowModal(true);
+        return;
+      }
+      // Otherwise show banner if no consent
       const consent = localStorage.getItem(CONSENT_KEY);
       if (!consent) {
-        console.log('[CookieConsent] Showing banner after event');
         setShowBanner(true);
       }
     };
 
     window.addEventListener('cookie-consent-changed', handleConsentChange);
-    window.addEventListener('storage', handleConsentChange);
 
     return () => {
       clearTimeout(timer);
       window.removeEventListener('cookie-consent-changed', handleConsentChange);
-      window.removeEventListener('storage', handleConsentChange);
     };
   }, []);
 
@@ -109,67 +110,60 @@ export function CookieConsent() {
     setShowBanner(false);
   };
 
-  // Hide banner when modal is open
-  if (!showBanner || showModal) {
-    return (
-      <CookiePreferencesModal
-        open={showModal}
-        onOpenChange={setShowModal}
-        onSave={handleSavePreferences}
-      />
-    );
-  }
-
+  // Always render the modal (controlled by showModal state)
+  // Only render banner if showBanner is true AND modal is not open
   return (
     <>
-      <div 
-        className="fixed bottom-0 left-0 right-0 z-[2147483647] px-3 py-2 bg-card border-t border-border shadow-elevated animate-in slide-in-from-bottom duration-300"
-        role="dialog"
-        aria-label="Cookie consent"
-      >
-        <div className="container mx-auto max-w-4xl">
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-xs text-muted-foreground flex-1">
-              We use cookies.{' '}
-              <a 
-                href="/legal/cookies" 
-                className="text-accent hover:text-accent-hover underline"
-              >
-                Learn more
-              </a>
-            </p>
-            <div className="flex items-center gap-1.5 shrink-0">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleRejectOptional}
-                className="text-muted-foreground h-8 px-2 text-xs"
-                type="button"
-              >
-                Reject
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowModal(true)}
-                className="h-8 px-2 text-xs"
-                type="button"
-              >
-                <Settings className="h-3 w-3 mr-1" aria-hidden="true" />
-                Settings
-              </Button>
-              <Button
-                size="sm"
-                onClick={handleAcceptAll}
-                className="bg-accent text-accent-foreground hover:bg-accent-hover h-8 px-3 text-xs"
-                type="button"
-              >
-                Accept
-              </Button>
+      {showBanner && !showModal && (
+        <div 
+          className="fixed bottom-0 left-0 right-0 z-[2147483647] px-3 py-2 bg-card border-t border-border shadow-elevated animate-in slide-in-from-bottom duration-300"
+          role="dialog"
+          aria-label="Cookie consent"
+        >
+          <div className="container mx-auto max-w-4xl">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-xs text-muted-foreground flex-1">
+                We use cookies.{' '}
+                <a 
+                  href="/legal/cookies" 
+                  className="text-accent hover:text-accent-hover underline"
+                >
+                  Learn more
+                </a>
+              </p>
+              <div className="flex items-center gap-1.5 shrink-0">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleRejectOptional}
+                  className="text-muted-foreground h-8 px-2 text-xs"
+                  type="button"
+                >
+                  Reject
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowModal(true)}
+                  className="h-8 px-2 text-xs"
+                  type="button"
+                >
+                  <Settings className="h-3 w-3 mr-1" aria-hidden="true" />
+                  Settings
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={handleAcceptAll}
+                  className="bg-accent text-accent-foreground hover:bg-accent-hover h-8 px-3 text-xs"
+                  type="button"
+                >
+                  Accept
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       <CookiePreferencesModal
         open={showModal}
@@ -181,19 +175,16 @@ export function CookieConsent() {
 }
 
 /**
- * triggerCookiePreferences - Opens the cookie preferences modal
+ * triggerCookiePreferences - Opens the cookie preferences modal directly
  * 
  * Called from Footer "Cookies" link or Cookie Policy page to allow
  * users to change their preferences at any time.
  */
 export function triggerCookiePreferences() {
-  console.log('[CookieConsent] triggerCookiePreferences called');
-  // Remove existing consent to show banner again
-  localStorage.removeItem(CONSENT_KEY);
-  localStorage.removeItem(COOKIE_PREFERENCES_KEY);
-  // Dispatch custom event that the CookieConsent component listens for
-  window.dispatchEvent(new CustomEvent('cookie-consent-changed'));
-  console.log('[CookieConsent] Events dispatched');
+  // Dispatch event with openModal flag to open modal directly
+  window.dispatchEvent(new CustomEvent('cookie-consent-changed', { 
+    detail: { openModal: true } 
+  }));
 }
 
 // Re-export for convenience
