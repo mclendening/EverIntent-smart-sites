@@ -1,6 +1,21 @@
-// SSG Route configuration for EverIntent SmartSites
-// Based on BRD v33.0 Section 16
-// Format: react-router-dom data routes for vite-react-ssg
+/**
+ * @fileoverview SSG route configuration for vite-react-ssg.
+ * @module routes
+ * 
+ * Defines the complete route tree for static site generation using vite-react-ssg.
+ * Handles both marketing pages (SSG pre-rendered) and admin pages (CSR only).
+ * 
+ * Architecture:
+ * - RootLayout: Wraps marketing pages with Header/Footer and providers
+ * - AdminLayout: Wraps admin pages without marketing layout
+ * - ThemeProvider: Applies route-specific theme CSS variables
+ * - ClientOnly: Prevents SSR hydration mismatches for browser-dependent components
+ * 
+ * SSG Considerations:
+ * - Uses direct imports (not React.lazy) to prevent hydration mismatches
+ * - QueryClient created inside components to prevent state persistence across renders
+ * - Portal-based components (Toaster, Sonner) wrapped in ClientOnly
+ */
 
 import type { RouteRecord } from 'vite-react-ssg';
 import React, { Suspense, useState, useEffect } from 'react';
@@ -16,7 +31,25 @@ import { AdminGuard } from '@/components/admin/AdminGuard';
 import { ClientOnly } from '@/components/ClientOnly';
 import { getThemeForRoute, applyThemeToRoot } from '@/config/themes';
 
-// Theme application component - applies theme CSS vars based on route
+// Direct page imports for SSG compatibility
+import Index from './pages/Index';
+import NotFound from './pages/NotFound';
+import PlaceholderPage from './pages/Placeholder';
+import AdminLogin from './pages/admin/Login';
+import AdminDashboard from './pages/admin/Dashboard';
+import AdminThemes from './pages/admin/Themes';
+import ThemeTestPage from './pages/admin/ThemeTestPage';
+
+// ============================================
+// LAYOUT COMPONENTS
+// ============================================
+
+/**
+ * Applies theme CSS variables based on current route.
+ * Watches for route changes and updates theme accordingly.
+ * 
+ * @param props.children - Child components to render
+ */
 function ThemeProvider({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   
@@ -28,10 +61,14 @@ function ThemeProvider({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-// Root layout wrapper with all providers
-// Fix 2 & 3: QueryClient created inside component, portal-based components wrapped in ClientOnly
+/**
+ * Root layout wrapper for marketing pages.
+ * Provides QueryClient, theme application, Header/Footer, and toast notifications.
+ * 
+ * Creates QueryClient inside component to prevent state persistence across SSR renders.
+ * Portal-based components wrapped in ClientOnly to prevent hydration mismatches.
+ */
 function RootLayout() {
-  // Fix 3: Create QueryClient inside component to prevent state persistence across SSR renders
   const [queryClient] = useState(() => new QueryClient());
 
   return (
@@ -44,7 +81,7 @@ function RootLayout() {
         </Layout>
       </ThemeProvider>
 
-      {/* Fix 2: Portal-based components only render client-side to prevent hydration mismatches */}
+      {/* Portal-based components only render client-side to prevent hydration mismatches */}
       <ClientOnly>
         <TooltipProvider>
           <Toaster />
@@ -55,8 +92,14 @@ function RootLayout() {
   );
 }
 
-// Admin layout without marketing Layout wrapper
-// Fix 2 & 3: Same fixes applied to AdminLayout
+/**
+ * Admin layout wrapper without marketing Header/Footer.
+ * Used for admin dashboard pages that require authentication.
+ * 
+ * Same SSG-safe patterns as RootLayout:
+ * - QueryClient created inside component
+ * - Portal components wrapped in ClientOnly
+ */
 function AdminLayout() {
   const [queryClient] = useState(() => new QueryClient());
 
@@ -76,25 +119,17 @@ function AdminLayout() {
   );
 }
 
-// Direct imports for SSG - React.lazy() causes hydration mismatches (#418/#423)
-import Index from './pages/Index';
-import NotFound from './pages/NotFound';
+// ============================================
+// ROUTE PATH DEFINITIONS
+// ============================================
 
-import PlaceholderPage from './pages/Placeholder';
-
-// Admin pages - also direct imports for consistency
-import AdminLogin from './pages/admin/Login';
-import AdminDashboard from './pages/admin/Dashboard';
-import AdminThemes from './pages/admin/Themes';
-import ThemeTestPage from './pages/admin/ThemeTestPage';
-
-// Core routes (v33.0 - renamed portfolio to our-work, added strategy-session, careers)
+// Core marketing pages
 const coreRoutePaths = ['/', '/pricing', '/our-work', '/about', '/contact', '/book-call', '/strategy-session', '/careers'];
 
-// Primary service
+// Primary service landing page
 const primaryServicePath = '/beautiful-websites';
 
-// Services (benefit-oriented pages)
+// Benefit-oriented service pages
 const servicePaths = [
   '/services',
   '/get-found-online',
@@ -105,7 +140,7 @@ const servicePaths = [
   '/let-ai-handle-it',
 ];
 
-// Product category pages (SEO landing pages - per BRD v33.0 Section 16.1)
+// SEO-focused product category pages
 const productCategoryPaths = [
   '/services/web-design',
   '/services/seo',
@@ -115,7 +150,7 @@ const productCategoryPaths = [
   '/services/ai-automation',
 ];
 
-// Features
+// Feature landing pages
 const featurePaths = [
   '/features/lead-capture',
   '/features/ai-chat',
@@ -125,7 +160,7 @@ const featurePaths = [
   '/features/analytics',
 ];
 
-// Industry hubs
+// Industry hub pages
 const industryHubPaths = [
   '/industries/home-services',
   '/industries/professional-services',
@@ -133,7 +168,7 @@ const industryHubPaths = [
   '/industries/automotive-services',
 ];
 
-// Home Services verticals (31)
+// Home Services industry verticals (31)
 const homeServicesPaths = [
   '/industries/home-services/hvac',
   '/industries/home-services/plumbing',
@@ -168,7 +203,7 @@ const homeServicesPaths = [
   '/industries/home-services/security-systems',
 ];
 
-// Professional Services verticals (15)
+// Professional Services industry verticals (15)
 const professionalServicesPaths = [
   '/industries/professional-services/legal',
   '/industries/professional-services/real-estate',
@@ -187,7 +222,7 @@ const professionalServicesPaths = [
   '/industries/professional-services/property-management',
 ];
 
-// Health & Wellness verticals (15)
+// Health & Wellness industry verticals (15)
 const healthWellnessPaths = [
   '/industries/health-wellness/medspa',
   '/industries/health-wellness/dental',
@@ -206,7 +241,7 @@ const healthWellnessPaths = [
   '/industries/health-wellness/spa',
 ];
 
-// Automotive Services verticals (10)
+// Automotive Services industry verticals (10)
 const automotiveServicesPaths = [
   '/industries/automotive-services/auto-repair',
   '/industries/automotive-services/auto-detailing',
@@ -220,7 +255,7 @@ const automotiveServicesPaths = [
   '/industries/automotive-services/audio-installation',
 ];
 
-// Checkout routes (v33.0 - added smart-launch)
+// Checkout flow pages
 const checkoutPaths = [
   '/checkout/smart-site',
   '/checkout/smart-lead',
@@ -230,19 +265,19 @@ const checkoutPaths = [
   '/checkout/success',
 ];
 
-// Legal routes
+// Legal and compliance pages
 const legalPaths = ['/legal/privacy', '/legal/cookies', '/legal/terms', '/legal/data-request'];
 
-// Resources routes
+// Help and support pages
 const resourcePaths = ['/help', '/faq', '/support'];
 
-// LocalPros routes (v33.0 - added success-stories)
+// LocalPros partner network pages
 const localProsPaths = ['/localpros', '/localpros/apply', '/localpros/success-stories'];
 
-// Upgrade route
+// Upgrade page for existing customers
 const upgradePath = '/upgrade';
 
-// Admin routes (NOT pre-rendered - handled separately with CSR)
+// Admin dashboard pages (CSR only, not pre-rendered)
 const adminPaths = [
   '/admin/login',
   '/admin',
@@ -252,7 +287,14 @@ const adminPaths = [
   '/admin/testimonials',
 ];
 
-// All marketing routes for pre-rendering (excludes admin)
+// ============================================
+// SSG CONFIGURATION
+// ============================================
+
+/**
+ * All marketing routes for SSG pre-rendering.
+ * Excludes admin routes which are CSR-only.
+ */
 export const prerenderRoutes: string[] = [
   ...coreRoutePaths,
   primaryServicePath,
@@ -271,13 +313,28 @@ export const prerenderRoutes: string[] = [
   upgradePath,
 ];
 
-// Helper to create placeholder routes as children
+/**
+ * Creates a placeholder child route for unimplemented pages.
+ * 
+ * @param path - Full path (leading slash removed for child route)
+ * @returns RouteRecord for placeholder page
+ */
 const createPlaceholderChild = (path: string): RouteRecord => ({
-  path: path.substring(1), // Remove leading slash for child routes
+  path: path.substring(1),
   Component: PlaceholderPage,
 });
 
-// Build routes array for vite-react-ssg
+// ============================================
+// ROUTE TREE
+// ============================================
+
+/**
+ * Complete route tree for vite-react-ssg.
+ * 
+ * Structure:
+ * - Marketing routes: Use RootLayout with Header/Footer
+ * - Admin routes: Use AdminLayout with AdminGuard authentication
+ */
 export const routes: RouteRecord[] = [
   // Marketing routes with Layout
   {
@@ -289,8 +346,7 @@ export const routes: RouteRecord[] = [
         index: true,
         Component: Index,
       },
-      // (theme-test moved to admin routes)
-      // Core pages (placeholder for now, will be implemented)
+      // Core pages (placeholder for now)
       ...coreRoutePaths.slice(1).map(createPlaceholderChild),
       // Primary service
       createPlaceholderChild(primaryServicePath),
@@ -324,7 +380,7 @@ export const routes: RouteRecord[] = [
       },
     ],
   },
-  // Admin routes (CSR only, not pre-rendered, no marketing Layout)
+  // Admin routes (CSR only, not pre-rendered)
   {
     path: '/admin',
     Component: AdminLayout,

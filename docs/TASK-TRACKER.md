@@ -37,28 +37,32 @@ Smart Websites | AI & Automation | Industries | Solutions | Pricing | Our Work |
 
 ## JSDoc Standards (All [LOVABLE] Tasks)
 
-> **Mandatory:** Every component, hook, utility, type, and edge function MUST include JSDoc documentation referencing the BRD.
+> **CRITICAL REQUIREMENT:** JSDoc documentation MUST be **self-contained** and describe the code as it stands. 
+> **NEVER** reference BRD documents, external docs, or file paths in JSDoc comments.
+> The BRD may not survive the project - documentation must stand alone.
 
 ### Component JSDoc Template
 ```typescript
 /**
- * @component ComponentName
- * @description Brief description of what this component does
- * @brdref BRD v34.0 Section X.X - Section Name
+ * @fileoverview Brief description of file purpose
+ * @module path/to/module
+ */
+
+/**
+ * Brief description of component purpose and functionality.
+ * Include business context (e.g., "Displays service tiers for local business pricing").
  * 
+ * @component
  * @example
  * <ComponentName prop1="value" prop2={data} />
- * 
- * @see docs/smartsites-brd-v33.0.md
  */
 ```
 
 ### Hook JSDoc Template
 ```typescript
 /**
- * @hook useHookName
- * @description What this hook does and when to use it
- * @brdref BRD v34.0 Section X.X - Section Name
+ * Brief description of hook purpose.
+ * Include when to use and what problem it solves.
  * 
  * @returns {ReturnType} Description of return value
  * 
@@ -70,9 +74,12 @@ Smart Websites | AI & Automation | Industries | Solutions | Pricing | Our Work |
 ### Edge Function JSDoc Template
 ```typescript
 /**
- * @function functionName
- * @description What this edge function handles
- * @brdref BRD v34.0 Section X.X - Section Name
+ * @fileoverview Brief description of edge function purpose
+ * @module supabase/functions/function-name
+ */
+
+/**
+ * Handles [specific purpose].
  * 
  * @param {RequestType} req - Request body shape
  * @returns {ResponseType} Response shape
@@ -85,26 +92,25 @@ Smart Websites | AI & Automation | Industries | Solutions | Pricing | Our Work |
 ### Type/Interface JSDoc Template
 ```typescript
 /**
- * @interface InterfaceName
- * @description What this type represents in the system
- * @brdref BRD v34.0 Section X.X - Section Name
+ * Represents [what this type models in the system].
+ * Used by [which components/functions use it].
  */
+interface InterfaceName { ... }
 ```
 
-### Key BRD Section References
+### What to Include in JSDoc
+- **Purpose**: What the code does
+- **Business Context**: Why it exists (e.g., "Captures leads for local service businesses")
+- **Props/Params**: All inputs with types and descriptions
+- **Returns**: Output type and meaning
+- **Examples**: Usage examples where helpful
+- **Dependencies**: Key integrations (e.g., "Integrates with GoHighLevel CRM")
 
-| Section | Topic | Use For |
-|---------|-------|---------|
-| 2 | Executive Summary | Brand positioning, value prop |
-| 5 | Services & Solutions | Service page components |
-| 6 | Tier Definitions | Pricing components, checkout |
-| 7 | Complete Feature Matrix | Feature flags, tier comparison |
-| 9 | Customer Journey | UX flows, conversion tracking |
-| 10 | Checkout & Billing | Payment flows, Stripe integration |
-| 15 | Marketing Site Spec | Tech stack, SSG, routing |
-| 17 | Navigation Structure | Nav components, menu items |
-| 20 | LocalPros Network | Partner pages, lead forms |
-| 21 | Compliance & Legal | Legal pages, CCPA, cookies |
+### What NOT to Include
+- ❌ BRD references (`@brdref`, `@see docs/...`)
+- ❌ Version numbers that will become stale
+- ❌ File paths to external documentation
+- ❌ "See X document for more info"
 
 ---
 

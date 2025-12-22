@@ -1,13 +1,40 @@
-// Route configuration for EverIntent SmartSites
-// Based on BRD v33.0 Section 16
+/**
+ * @fileoverview Centralized route configuration for EverIntent marketing site.
+ * @module config/routes
+ * 
+ * Defines all application routes organized by category:
+ * - Core pages (home, pricing, about, contact, etc.)
+ * - Service pages (benefit-oriented and SEO category pages)
+ * - Industry verticals (65+ local business verticals across 4 hubs)
+ * - Checkout flows (tier-based purchase pages)
+ * - Legal/compliance pages
+ * - Admin pages (CSR only, not pre-rendered)
+ * 
+ * Used by:
+ * - vite-react-ssg for static pre-rendering
+ * - Navigation components for menu generation
+ * - Sitemap generation
+ */
 
+/**
+ * Configuration for a single route.
+ */
 export interface RouteConfig {
+  /** URL path (e.g., '/pricing') */
   path: string;
+  /** Page title for navigation and SEO */
   title: string;
+  /** Meta description for SEO */
   description?: string;
 }
 
-// Core pages
+// ============================================
+// CORE PAGES
+// ============================================
+
+/**
+ * Primary marketing pages accessible from main navigation.
+ */
 export const coreRoutes: RouteConfig[] = [
   { path: '/', title: 'Home', description: 'Professional websites for local businesses' },
   { path: '/pricing', title: 'Pricing', description: 'Simple, transparent pricing' },
@@ -19,14 +46,23 @@ export const coreRoutes: RouteConfig[] = [
   { path: '/careers', title: 'Careers', description: 'Join the EverIntent team' },
 ];
 
-// Primary service
+// ============================================
+// SERVICE PAGES
+// ============================================
+
+/**
+ * Primary service landing page for web design.
+ */
 export const primaryServiceRoute: RouteConfig = {
   path: '/beautiful-websites',
   title: 'Beautiful Websites',
   description: 'Professional websites that get you customers',
 };
 
-// Services (benefit-oriented pages - used in nav dropdown)
+/**
+ * Benefit-oriented service pages for navigation dropdowns.
+ * Focus on outcomes rather than features.
+ */
 export const serviceRoutes: RouteConfig[] = [
   { path: '/services', title: 'Services', description: 'All our services' },
   { path: '/get-found-online', title: 'Get Found Online', description: 'SEO and local search visibility' },
@@ -37,7 +73,10 @@ export const serviceRoutes: RouteConfig[] = [
   { path: '/let-ai-handle-it', title: 'Let AI Handle It', description: 'AI automation' },
 ];
 
-// Product category pages (SEO landing pages - per BRD v33.0 Section 16.1)
+/**
+ * SEO-focused product category landing pages.
+ * Optimized for search traffic with keyword-targeted content.
+ */
 export const productCategoryRoutes: RouteConfig[] = [
   { path: '/services/web-design', title: 'Web Design Services', description: 'Professional website design for local businesses' },
   { path: '/services/seo', title: 'Local SEO Services', description: 'Get found on Google and local search' },
@@ -47,7 +86,9 @@ export const productCategoryRoutes: RouteConfig[] = [
   { path: '/services/ai-automation', title: 'AI Automation', description: 'AI solutions for small business automation' },
 ];
 
-// Features
+/**
+ * Feature-specific landing pages.
+ */
 export const featureRoutes: RouteConfig[] = [
   { path: '/features/lead-capture', title: 'Lead Capture', description: 'Capture every lead' },
   { path: '/features/ai-chat', title: 'AI Chat', description: 'AI-powered chat widget' },
@@ -57,7 +98,13 @@ export const featureRoutes: RouteConfig[] = [
   { path: '/features/analytics', title: 'Analytics', description: 'Track your performance' },
 ];
 
-// Industry hubs
+// ============================================
+// INDUSTRY PAGES
+// ============================================
+
+/**
+ * Top-level industry hub pages linking to verticals.
+ */
 export const industryHubRoutes: RouteConfig[] = [
   { path: '/industries/home-services', title: 'Home Services', description: 'Websites for home service businesses' },
   { path: '/industries/professional-services', title: 'Professional Services', description: 'Websites for professional services' },
@@ -65,7 +112,10 @@ export const industryHubRoutes: RouteConfig[] = [
   { path: '/industries/automotive-services', title: 'Automotive Services', description: 'Websites for automotive businesses' },
 ];
 
-// Home Services verticals (31)
+/**
+ * Home Services industry vertical pages (31 verticals).
+ * Contractors, trades, and residential service providers.
+ */
 export const homeServicesRoutes: RouteConfig[] = [
   { path: '/industries/home-services/hvac', title: 'HVAC', description: 'Websites for HVAC contractors' },
   { path: '/industries/home-services/plumbing', title: 'Plumbing', description: 'Websites for plumbers' },
@@ -100,7 +150,10 @@ export const homeServicesRoutes: RouteConfig[] = [
   { path: '/industries/home-services/security-systems', title: 'Security Systems', description: 'Websites for security system installers' },
 ];
 
-// Professional Services verticals (15)
+/**
+ * Professional Services industry vertical pages (15 verticals).
+ * Legal, financial, creative, and consulting professionals.
+ */
 export const professionalServicesRoutes: RouteConfig[] = [
   { path: '/industries/professional-services/legal', title: 'Legal', description: 'Websites for attorneys' },
   { path: '/industries/professional-services/real-estate', title: 'Real Estate', description: 'Websites for real estate agents' },
@@ -119,7 +172,10 @@ export const professionalServicesRoutes: RouteConfig[] = [
   { path: '/industries/professional-services/property-management', title: 'Property Management', description: 'Websites for property managers' },
 ];
 
-// Health & Wellness verticals (15)
+/**
+ * Health & Wellness industry vertical pages (15 verticals).
+ * Medical, dental, wellness, and personal care providers.
+ */
 export const healthWellnessRoutes: RouteConfig[] = [
   { path: '/industries/health-wellness/medspa', title: 'MedSpa', description: 'Websites for medspas' },
   { path: '/industries/health-wellness/dental', title: 'Dental', description: 'Websites for dentists' },
@@ -138,7 +194,10 @@ export const healthWellnessRoutes: RouteConfig[] = [
   { path: '/industries/health-wellness/spa', title: 'Spa', description: 'Websites for spas' },
 ];
 
-// Automotive Services verticals (10)
+/**
+ * Automotive Services industry vertical pages (10 verticals).
+ * Auto repair, detailing, and vehicle service providers.
+ */
 export const automotiveServicesRoutes: RouteConfig[] = [
   { path: '/industries/automotive-services/auto-repair', title: 'Auto Repair', description: 'Websites for auto repair shops' },
   { path: '/industries/automotive-services/auto-detailing', title: 'Auto Detailing', description: 'Websites for auto detailers' },
@@ -152,7 +211,14 @@ export const automotiveServicesRoutes: RouteConfig[] = [
   { path: '/industries/automotive-services/audio-installation', title: 'Audio Installation', description: 'Websites for car audio installers' },
 ];
 
-// Checkout routes
+// ============================================
+// CHECKOUT & CONVERSION PAGES
+// ============================================
+
+/**
+ * Checkout pages for each service tier.
+ * Direct conversion paths from pricing page.
+ */
 export const checkoutRoutes: RouteConfig[] = [
   { path: '/checkout/smart-site', title: 'Smart Site Checkout', description: 'Get your Smart Site' },
   { path: '/checkout/smart-lead', title: 'Smart Lead Checkout', description: 'Get Smart Lead' },
@@ -162,7 +228,13 @@ export const checkoutRoutes: RouteConfig[] = [
   { path: '/checkout/success', title: 'Checkout Success', description: 'Thank you for your purchase' },
 ];
 
-// Legal routes
+// ============================================
+// LEGAL & COMPLIANCE PAGES
+// ============================================
+
+/**
+ * Legal and compliance pages required for CCPA/privacy compliance.
+ */
 export const legalRoutes: RouteConfig[] = [
   { path: '/legal/privacy', title: 'Privacy Policy', description: 'Our privacy policy' },
   { path: '/legal/cookies', title: 'Cookie Policy', description: 'Our cookie policy' },
@@ -170,28 +242,46 @@ export const legalRoutes: RouteConfig[] = [
   { path: '/legal/data-request', title: 'Data Request', description: 'Request your data' },
 ];
 
-// Resources routes
+// ============================================
+// RESOURCE & SUPPORT PAGES
+// ============================================
+
+/**
+ * Help and support resource pages.
+ */
 export const resourceRoutes: RouteConfig[] = [
   { path: '/help', title: 'Help', description: 'Get help with SmartSites' },
   { path: '/faq', title: 'FAQ', description: 'Frequently asked questions' },
   { path: '/support', title: 'Support', description: 'Contact support' },
 ];
 
-// LocalPros routes
+/**
+ * LocalPros partner network pages.
+ * Lead generation network for verified local service providers.
+ */
 export const localProsRoutes: RouteConfig[] = [
   { path: '/localpros', title: 'LocalPros Network', description: 'Get exclusive leads from our ranking sites' },
   { path: '/localpros/apply', title: 'Apply to LocalPros', description: 'Apply to become a LocalPros partner' },
   { path: '/localpros/success-stories', title: 'LocalPros Success Stories', description: 'See how partners grow with LocalPros' },
 ];
 
-// Upgrade route
+/**
+ * Upgrade page for existing customers.
+ */
 export const upgradeRoute: RouteConfig = {
   path: '/upgrade',
   title: 'Upgrade',
   description: 'Upgrade your plan',
 };
 
-// Admin routes (NOT pre-rendered)
+// ============================================
+// ADMIN PAGES (CSR Only)
+// ============================================
+
+/**
+ * Admin dashboard pages. NOT pre-rendered - client-side only.
+ * Requires authentication via AdminGuard.
+ */
 export const adminRoutes: RouteConfig[] = [
   { path: '/admin/login', title: 'Admin Login', description: 'Admin login' },
   { path: '/admin', title: 'Admin Dashboard', description: 'Admin dashboard' },
@@ -200,38 +290,35 @@ export const adminRoutes: RouteConfig[] = [
   { path: '/admin/testimonials', title: 'Testimonials Management', description: 'Manage testimonials' },
 ];
 
-// All marketing routes (for pre-rendering) - excludes admin routes
+// ============================================
+// ROUTE AGGREGATIONS
+// ============================================
+
+/**
+ * All marketing routes for SSG pre-rendering.
+ * Excludes admin routes which are CSR-only.
+ */
 export const prerenderRoutes: string[] = [
-  // Core
   ...coreRoutes.map(r => r.path),
-  // Primary service
   primaryServiceRoute.path,
-  // Services
   ...serviceRoutes.map(r => r.path),
-  // Product category pages (SEO)
   ...productCategoryRoutes.map(r => r.path),
-  // Features
   ...featureRoutes.map(r => r.path),
-  // Industry hubs
   ...industryHubRoutes.map(r => r.path),
-  // Industry verticals
   ...homeServicesRoutes.map(r => r.path),
   ...professionalServicesRoutes.map(r => r.path),
   ...healthWellnessRoutes.map(r => r.path),
   ...automotiveServicesRoutes.map(r => r.path),
-  // Checkout
   ...checkoutRoutes.map(r => r.path),
-  // Legal
   ...legalRoutes.map(r => r.path),
-  // Resources
   ...resourceRoutes.map(r => r.path),
-  // LocalPros
   ...localProsRoutes.map(r => r.path),
-  // Upgrade
   upgradeRoute.path,
 ];
 
-// All routes combined
+/**
+ * All routes combined for sitemap generation and validation.
+ */
 export const allRoutes: RouteConfig[] = [
   ...coreRoutes,
   primaryServiceRoute,

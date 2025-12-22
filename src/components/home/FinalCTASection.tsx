@@ -1,7 +1,20 @@
+/**
+ * @fileoverview Homepage final call-to-action section.
+ * @module components/home/FinalCTASection
+ */
+
 import { ArrowRight, Phone, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { CTAButton } from '@/components/CTAButton';
 
+/**
+ * Full-width CTA section at bottom of homepage.
+ * Features gradient background, headline, dual CTAs, and trust signals.
+ * 
+ * @component
+ * @example
+ * <FinalCTASection />
+ */
 export function FinalCTASection() {
   return (
     <section className="relative py-20 md:py-32 overflow-hidden">

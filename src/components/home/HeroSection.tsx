@@ -1,7 +1,26 @@
+/**
+ * @fileoverview Homepage hero section with headline, CTAs, and value props.
+ * @module components/home/HeroSection
+ */
+
 import { ArrowRight } from 'lucide-react';
 import { CTAButton } from '@/components/CTAButton';
 import heroBackground from '@/assets/hero-background.jpg';
 
+/**
+ * Full-viewport hero section for the homepage.
+ * Features background image, gradient headline, dual CTAs, and trust indicators.
+ * 
+ * Layout:
+ * - Background image with dark overlay for text readability
+ * - Centered content with animated fade-in elements
+ * - Primary CTA (Get Started) and secondary CTA (See Our Work)
+ * - Value prop badges: "Ready in 5 days", "You own everything", "No hidden fees"
+ * 
+ * @component
+ * @example
+ * <HeroSection />
+ */
 export function HeroSection() {
   return (
     <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">

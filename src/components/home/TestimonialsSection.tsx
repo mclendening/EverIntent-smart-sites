@@ -1,6 +1,13 @@
+/**
+ * @fileoverview Homepage testimonials grid with client quotes.
+ * @module components/home/TestimonialsSection
+ */
+
 import { Star, Quote } from 'lucide-react';
 
-// Placeholder testimonials - will be replaced with real data from Supabase
+/**
+ * Sample testimonials. Will be replaced with Supabase data.
+ */
 const testimonials = [
   {
     id: '1',
@@ -28,6 +35,14 @@ const testimonials = [
   },
 ];
 
+/**
+ * Three-column testimonials grid with client quotes and ratings.
+ * Displays avatar initials, star ratings, and company info.
+ * 
+ * @component
+ * @example
+ * <TestimonialsSection />
+ */
 export function TestimonialsSection() {
   return (
     <section className="relative py-16 md:py-24 overflow-hidden">
@@ -52,22 +67,18 @@ export function TestimonialsSection() {
               key={testimonial.id}
               className="relative glass rounded-2xl p-6 md:p-8 border border-border/30"
             >
-              {/* Quote icon */}
               <Quote className="w-8 h-8 text-primary/30 mb-4" />
               
-              {/* Rating */}
               <div className="flex gap-1 mb-4">
                 {[...Array(testimonial.rating)].map((_, i) => (
                   <Star key={i} className="w-4 h-4 fill-accent text-accent" />
                 ))}
               </div>
               
-              {/* Quote */}
               <blockquote className="text-foreground text-base md:text-lg mb-6 leading-relaxed">
                 "{testimonial.quote}"
               </blockquote>
               
-              {/* Author */}
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
                   <span className="text-primary font-semibold text-sm">
