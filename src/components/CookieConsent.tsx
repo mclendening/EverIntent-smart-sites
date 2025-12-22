@@ -1,9 +1,44 @@
+/**
+ * @fileoverview CookieConsent Component - GDPR/CCPA Cookie Consent Banner
+ * @description Displays cookie consent banner per BRD v33.0 Section 21 (Legal & Compliance).
+ *              Controls access to chat widgets, analytics, and third-party scripts.
+ * 
+ * @module components/CookieConsent
+ * @see {@link https://docs.lovable.dev} Lovable Documentation
+ * 
+ * @brd-reference BRD v33.0 Section 21 - Legal & Compliance
+ * @brd-reference BRD v33.0 Section 19 - TCPA Compliance
+ * @brd-reference BRD v33.0 Section 14 - GHL Chat Widget Integration
+ */
+
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 
+/**
+ * LocalStorage key for persisting cookie consent choice
+ * @constant {string}
+ */
 const CONSENT_KEY = 'cookie-consent';
 
+/**
+ * CookieConsent - GDPR/CCPA compliant cookie consent banner
+ * 
+ * Behavior per BRD v33.0:
+ * - Appears 1 second after page load if no consent exists
+ * - Accept/Decline buttons persist choice to localStorage
+ * - Dispatches 'cookie-consent-changed' event for other components
+ * - MobileBottomBar, DesktopChatButton, GHLChatWidget listen for this event
+ * 
+ * @component
+ * @example
+ * // In Layout.tsx, wrapped in ClientOnly for SSG safety
+ * <ClientOnly>
+ *   <CookieConsent />
+ * </ClientOnly>
+ * 
+ * @returns {JSX.Element | null} Cookie consent banner or null if consent already given
+ */
 export function CookieConsent() {
   const [showBanner, setShowBanner] = useState(false);
 
@@ -17,6 +52,10 @@ export function CookieConsent() {
     }
   }, []);
 
+  /**
+   * Handle user accepting cookies
+   * Sets consent to 'accepted' and notifies other components
+   */
   const handleAccept = () => {
     localStorage.setItem(CONSENT_KEY, 'accepted');
     setShowBanner(false);
@@ -24,6 +63,10 @@ export function CookieConsent() {
     window.dispatchEvent(new CustomEvent('cookie-consent-changed'));
   };
 
+  /**
+   * Handle user declining cookies
+   * Sets consent to 'declined' - chat features remain hidden
+   */
   const handleDecline = () => {
     localStorage.setItem(CONSENT_KEY, 'declined');
     setShowBanner(false);
@@ -82,7 +125,19 @@ export function CookieConsent() {
   );
 }
 
-// Helper to trigger cookie preferences from footer
+/**
+ * triggerCookiePreferences - Helper to re-show cookie preferences banner
+ * 
+ * Called from Footer "Cookies" link to allow users to change their preference.
+ * Removes existing consent and forces banner to re-render.
+ * 
+ * @function
+ * @example
+ * // In Footer.tsx
+ * <button onClick={triggerCookiePreferences}>Cookies</button>
+ * 
+ * @returns {void}
+ */
 export function triggerCookiePreferences() {
   // Remove existing consent to show banner again
   localStorage.removeItem(CONSENT_KEY);

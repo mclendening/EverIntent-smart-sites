@@ -1,3 +1,16 @@
+/**
+ * @fileoverview Header Component - Main Site Navigation
+ * @description Responsive header with logo, navigation dropdowns, and CTA.
+ *              Features scroll-aware styling and mobile menu drawer.
+ * 
+ * @module components/layout/Header
+ * @see {@link https://docs.lovable.dev} Lovable Documentation
+ * 
+ * @brd-reference BRD v33.0 Section 8 - Navigation Structure
+ * @brd-reference BRD v33.0 Section 8.1 - Services Dropdown
+ * @brd-reference BRD v33.0 Section 8.2 - Industries Dropdown
+ */
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, ChevronDown, X } from 'lucide-react';
@@ -6,7 +19,11 @@ import { Button } from '@/components/ui/button';
 import { CTAButton } from '@/components/CTAButton';
 import { LogoRenderer } from '@/components/logo/LogoRenderer';
 import { activeTheme } from '@/config/themes';
-// Services dropdown items - Beautiful Websites at TOP per BRD
+
+/**
+ * Services dropdown items - Beautiful Websites at TOP per BRD
+ * @constant {Array<{title: string, path: string, description: string}>}
+ */
 const servicesItems = [
   { title: 'Beautiful Websites', path: '/beautiful-websites', description: 'Professional websites that get you customers' },
   { title: 'Get Found Online', path: '/get-found-online', description: 'SEO and local search visibility' },
@@ -17,7 +34,10 @@ const servicesItems = [
   { title: 'Let AI Handle It', path: '/let-ai-handle-it', description: 'AI automation' },
 ];
 
-// Industries dropdown items
+/**
+ * Industries dropdown items - Hub pages per BRD
+ * @constant {Array<{title: string, path: string, description: string}>}
+ */
 const industriesItems = [
   { title: 'Home Services', path: '/industries/home-services', description: 'HVAC, Plumbing, Electrical & more' },
   { title: 'Professional Services', path: '/industries/professional-services', description: 'Legal, Real Estate, Accounting & more' },
@@ -25,6 +45,23 @@ const industriesItems = [
   { title: 'Automotive Services', path: '/industries/automotive-services', description: 'Auto Repair, Detailing, Towing & more' },
 ];
 
+/**
+ * Header - Main site navigation component
+ * 
+ * Features per BRD v33.0:
+ * - Fixed position with scroll-aware styling
+ * - Logo with tagline (from theme config)
+ * - Services dropdown (benefit-oriented pages)
+ * - Industries dropdown (hub pages)
+ * - Static links: Pricing, Our Work, About
+ * - Primary CTA button
+ * - Mobile hamburger menu with full nav
+ * 
+ * SSG-safe: Uses isMounted state to prevent hydration mismatches
+ * 
+ * @component
+ * @returns {JSX.Element} Header with navigation
+ */
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
@@ -160,25 +197,10 @@ export function Header() {
           {/* Separator */}
           <div className="w-px h-5 bg-border/50 mx-2" />
 
-          {/* Static Links with animated underline */}
-          <NavLink 
-            to="/pricing" 
-            className="nav-link px-4 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300"
-          >
-            Pricing
-          </NavLink>
-          <NavLink 
-            to="/our-work" 
-            className="nav-link px-4 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300"
-          >
-            Our Work
-          </NavLink>
-          <NavLink 
-            to="/about" 
-            className="nav-link px-4 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300"
-          >
-            About
-          </NavLink>
+          {/* Static Links */}
+          <NavLink to="/pricing" className="nav-link px-4 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300">Pricing</NavLink>
+          <NavLink to="/our-work" className="nav-link px-4 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300">Our Work</NavLink>
+          <NavLink to="/about" className="nav-link px-4 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300">About</NavLink>
         </nav>
 
         {/* Desktop CTA */}
@@ -187,12 +209,7 @@ export function Header() {
         </div>
 
         {/* Mobile Menu Button */}
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="lg:hidden"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
+        <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           <span className="sr-only">Toggle menu</span>
         </Button>
@@ -201,34 +218,19 @@ export function Header() {
       {/* Mobile Menu */}
       {isMounted && mobileMenuOpen && (
         <>
-          {/* Backdrop */}
-          <div 
-            className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 lg:hidden"
-            onClick={closeMobileMenu}
-          />
-          {/* Menu Panel */}
+          <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 lg:hidden" onClick={closeMobileMenu} />
           <div className="fixed top-20 right-0 bottom-0 w-full max-w-sm bg-card border-l border-border z-50 lg:hidden overflow-y-auto animate-slide-in-right">
             <div className="flex flex-col p-6 space-y-2">
               {/* Services Collapsible */}
               <div className="border-b border-border/50 pb-2">
-                <button
-                  className="flex items-center justify-between w-full py-3 text-lg font-semibold text-foreground"
-                  onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                >
+                <button className="flex items-center justify-between w-full py-3 text-lg font-semibold text-foreground" onClick={() => setMobileServicesOpen(!mobileServicesOpen)}>
                   Services
                   <ChevronDown className={`h-5 w-5 text-muted-foreground transition-transform ${mobileServicesOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {mobileServicesOpen && (
                   <div className="pl-4 space-y-1 mt-2 animate-fade-in">
                     {servicesItems.map((item) => (
-                      <Link
-                        key={item.path}
-                        to={item.path}
-                        className="block py-2.5 text-muted-foreground hover:text-accent transition-colors"
-                        onClick={closeMobileMenu}
-                      >
-                        {item.title}
-                      </Link>
+                      <Link key={item.path} to={item.path} className="block py-2.5 text-muted-foreground hover:text-accent transition-colors" onClick={closeMobileMenu}>{item.title}</Link>
                     ))}
                   </div>
                 )}
@@ -236,61 +238,27 @@ export function Header() {
 
               {/* Industries Collapsible */}
               <div className="border-b border-border/50 pb-2">
-                <button
-                  className="flex items-center justify-between w-full py-3 text-lg font-semibold text-foreground"
-                  onClick={() => setMobileIndustriesOpen(!mobileIndustriesOpen)}
-                >
+                <button className="flex items-center justify-between w-full py-3 text-lg font-semibold text-foreground" onClick={() => setMobileIndustriesOpen(!mobileIndustriesOpen)}>
                   Industries
                   <ChevronDown className={`h-5 w-5 text-muted-foreground transition-transform ${mobileIndustriesOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {mobileIndustriesOpen && (
                   <div className="pl-4 space-y-1 mt-2 animate-fade-in">
                     {industriesItems.map((item) => (
-                      <Link
-                        key={item.path}
-                        to={item.path}
-                        className="block py-2.5 text-muted-foreground hover:text-accent transition-colors"
-                        onClick={closeMobileMenu}
-                      >
-                        {item.title}
-                      </Link>
+                      <Link key={item.path} to={item.path} className="block py-2.5 text-muted-foreground hover:text-accent transition-colors" onClick={closeMobileMenu}>{item.title}</Link>
                     ))}
                   </div>
                 )}
               </div>
 
               {/* Static Links */}
-              <Link 
-                to="/pricing" 
-                className="py-3 text-lg font-semibold text-foreground border-b border-border/50"
-                onClick={closeMobileMenu}
-              >
-                Pricing
-              </Link>
-              <Link 
-                to="/our-work" 
-                className="py-3 text-lg font-semibold text-foreground border-b border-border/50"
-                onClick={closeMobileMenu}
-              >
-                Our Work
-              </Link>
-              <Link 
-                to="/about" 
-                className="py-3 text-lg font-semibold text-foreground border-b border-border/50"
-                onClick={closeMobileMenu}
-              >
-                About
-              </Link>
+              <Link to="/pricing" className="py-3 text-lg font-semibold text-foreground border-b border-border/50" onClick={closeMobileMenu}>Pricing</Link>
+              <Link to="/our-work" className="py-3 text-lg font-semibold text-foreground border-b border-border/50" onClick={closeMobileMenu}>Our Work</Link>
+              <Link to="/about" className="py-3 text-lg font-semibold text-foreground border-b border-border/50" onClick={closeMobileMenu}>About</Link>
 
               {/* Mobile CTAs */}
               <div className="pt-6 space-y-3">
-                <CTAButton 
-                  to="/pricing" 
-                  defaultText="Get Started" 
-                  hoverText="Let's Go!" 
-                  onClick={closeMobileMenu}
-                  fullWidth
-                />
+                <CTAButton to="/pricing" defaultText="Get Started" hoverText="Let's Go!" onClick={closeMobileMenu} fullWidth />
               </div>
             </div>
           </div>

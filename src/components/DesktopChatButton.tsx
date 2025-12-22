@@ -1,13 +1,51 @@
+/**
+ * @fileoverview DesktopChatButton Component - Desktop Chat Trigger Button
+ * @description Fixed-position chat trigger button for desktop viewports (hidden on mobile).
+ *              Appears only after cookie consent is granted. Triggers GHL chat widget.
+ * 
+ * @module components/DesktopChatButton
+ * @see {@link https://docs.lovable.dev} Lovable Documentation
+ * 
+ * @brd-reference BRD v33.0 Section 14 - GHL Chat Widget Integration
+ * @brd-reference BRD v33.0 Section 21 - Cookie Consent Requirements
+ */
+
 import { useEffect, useState } from 'react';
 import { Sparkles } from 'lucide-react';
 
+/**
+ * LocalStorage key for cookie consent status
+ * @constant {string}
+ */
 const CONSENT_KEY = 'cookie-consent';
 
+/**
+ * DesktopChatButton - Fixed desktop chat trigger (hidden on mobile)
+ * 
+ * Features per BRD v33.0:
+ * - Only renders after cookie consent is accepted
+ * - Fixed position bottom-right (desktop only, hidden md:flex)
+ * - Slide-up animation after consent
+ * - Triggers global toggleGHLChat() function
+ * - Text swaps on hover for engagement
+ * 
+ * @component
+ * @example
+ * // In Layout.tsx, wrapped in ClientOnly
+ * <ClientOnly>
+ *   <DesktopChatButton />
+ * </ClientOnly>
+ * 
+ * @returns {JSX.Element | null} Desktop chat button or null if no consent
+ */
 export function DesktopChatButton() {
   const [hasConsent, setHasConsent] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
+  /**
+   * Check and listen for cookie consent changes
+   */
   useEffect(() => {
     const checkConsent = () => {
       const consent = localStorage.getItem(CONSENT_KEY);
@@ -24,6 +62,9 @@ export function DesktopChatButton() {
     };
   }, []);
 
+  /**
+   * Animate button sliding up after consent granted
+   */
   useEffect(() => {
     // Slide up after consent (delayed fade-up animation)
     if (hasConsent) {
@@ -32,6 +73,9 @@ export function DesktopChatButton() {
     }
   }, [hasConsent]);
 
+  /**
+   * Handle click - trigger GHL chat widget
+   */
   const handleClick = () => {
     if (window.toggleGHLChat) {
       window.toggleGHLChat();
