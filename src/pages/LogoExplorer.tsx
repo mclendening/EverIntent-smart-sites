@@ -64,6 +64,7 @@ const defaultElement = (): ElementControls => ({
 const LogoExplorer = () => {
   const logoContainerRef = useRef<HTMLDivElement>(null);
   const { exportAsSvg, exportAsPngNative } = useLogoExport(logoContainerRef);
+  const [exportScale, setExportScale] = useState(2);
   const [ever, setEver] = useState<ElementControls>({
     ...defaultElement(),
     solidColor: '#ffffff',
@@ -304,35 +305,39 @@ const LogoExplorer = () => {
         <div className="p-3">
           <h1 className="text-sm font-bold text-zinc-300 mb-2">Logo Explorer</h1>
           
-          {/* Export Buttons */}
-          <div className="flex gap-2 mb-4">
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex-1 text-xs"
-              onClick={() => exportAsSvg('everintent-logo.svg')}
-            >
-              <FileCode className="h-3 w-3 mr-1" />
-              SVG
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex-1 text-xs"
-              onClick={() => exportAsPngNative('everintent-logo.png', { scale: 2 })}
-            >
-              <FileImage className="h-3 w-3 mr-1" />
-              PNG
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex-1 text-xs"
-              onClick={() => exportAsPngNative('everintent-logo@2x.png', { scale: 4 })}
-            >
-              <Download className="h-3 w-3 mr-1" />
-              @2x
-            </Button>
+          {/* Export Controls */}
+          <div className="mb-4 p-3 bg-zinc-700/50 rounded-lg space-y-3">
+            <div className="flex items-center justify-between">
+              <Label className="text-xs text-zinc-300">Export Size</Label>
+              <span className="text-xs text-zinc-400">{exportScale}x</span>
+            </div>
+            <Slider 
+              value={[exportScale]} 
+              min={1} 
+              max={8} 
+              step={1}
+              onValueChange={(v) => setExportScale(v[0])} 
+            />
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex-1 text-xs"
+                onClick={() => exportAsSvg('everintent-logo.svg')}
+              >
+                <FileCode className="h-3 w-3 mr-1" />
+                SVG
+              </Button>
+              <Button
+                variant="default"
+                size="sm"
+                className="flex-1 text-xs"
+                onClick={() => exportAsPngNative(`everintent-logo@${exportScale}x.png`, { scale: exportScale })}
+              >
+                <Download className="h-3 w-3 mr-1" />
+                PNG {exportScale}x
+              </Button>
+            </div>
           </div>
           <Accordion type="multiple" defaultValue={['ever', 'intent', 'streak', 'tagline']} className="w-full">
             <TextElementControls label="Ever" ctrl={ever} setCtrl={setEver} />
