@@ -81,7 +81,10 @@ function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <ScrollToTop />
+        {/* ScrollToTop uses window/document APIs, must be client-only */}
+        <ClientOnly>
+          <ScrollToTop />
+        </ClientOnly>
         <Layout>
           <Suspense fallback={<div className="min-h-screen" />}>
             <Outlet />
@@ -113,7 +116,10 @@ function AdminLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ScrollToTop />
+      {/* ScrollToTop uses window/document APIs, must be client-only */}
+      <ClientOnly>
+        <ScrollToTop />
+      </ClientOnly>
       <Suspense fallback={<div className="min-h-screen" />}>
         <Outlet />
       </Suspense>
