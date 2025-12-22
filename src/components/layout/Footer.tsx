@@ -270,12 +270,16 @@ export function Footer() {
                 <button
                   key={link.path}
                   type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+                  onClick={() => {
+                    console.log('[Footer] Cookie button clicked');
                     triggerCookiePreferences();
                   }}
-                  className="text-muted-foreground/60 hover:text-accent transition-colors duration-300 py-3 px-1 touch-manipulation active:text-accent"
+                  onTouchEnd={(e) => {
+                    console.log('[Footer] Cookie button touched');
+                    e.preventDefault();
+                    triggerCookiePreferences();
+                  }}
+                  className="text-muted-foreground/60 hover:text-accent transition-colors duration-300 py-3 px-2 touch-manipulation active:text-accent select-none"
                 >
                   {link.title}
                 </button>
