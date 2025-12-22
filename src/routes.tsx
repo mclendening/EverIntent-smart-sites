@@ -76,20 +76,17 @@ function AdminLayout() {
   );
 }
 
-// Lazy load page components (but NOT shared components like PlaceholderPage)
-const Index = React.lazy(() => import('./pages/Index'));
-const NotFound = React.lazy(() => import('./pages/NotFound'));
-const LogoExplorer = React.lazy(() => import('./pages/LogoExplorer'));
-
-// Direct import for shared components used across many routes
-// React.lazy on shared components causes SSG build errors: "_payload._result.toString is not a function"
+// Direct imports for SSG - React.lazy() causes hydration mismatches (#418/#423)
+import Index from './pages/Index';
+import NotFound from './pages/NotFound';
+import LogoExplorer from './pages/LogoExplorer';
 import PlaceholderPage from './pages/Placeholder';
 
-// Admin pages
-const AdminLogin = React.lazy(() => import('./pages/admin/Login'));
-const AdminDashboard = React.lazy(() => import('./pages/admin/Dashboard'));
-const AdminThemes = React.lazy(() => import('./pages/admin/Themes'));
-const ThemeTestPage = React.lazy(() => import('./pages/admin/ThemeTestPage'));
+// Admin pages - also direct imports for consistency
+import AdminLogin from './pages/admin/Login';
+import AdminDashboard from './pages/admin/Dashboard';
+import AdminThemes from './pages/admin/Themes';
+import ThemeTestPage from './pages/admin/ThemeTestPage';
 
 // Core routes (v33.0 - renamed portfolio to our-work, added strategy-session, careers)
 const coreRoutePaths = ['/', '/pricing', '/our-work', '/about', '/contact', '/book-call', '/strategy-session', '/careers'];
