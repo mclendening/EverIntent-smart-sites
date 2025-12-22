@@ -317,62 +317,7 @@ Create 3 separate GHL chat widgets with different training/personas:
 5. Set launcher icon to **1x1 pixel** (for code-based control)
 6. **Copy the Widget ID** from the embed code
 
-### Task 2.3 [MANUAL] - Configure Environment Variables for Open-Source Repo
-**Status:** ⬜ Not Started
-
-> **Goal:** Remove all env values from committed code so repo can be public/open-source.
-
-**Step 1: Secure the `.env` file**
-1. Add `.env` to `.gitignore` (prevent values from being committed)
-2. Create `.env.example` with placeholder values (committed, shows required vars)
-
-```bash
-# .env.example (committed to repo)
-VITE_SUPABASE_PROJECT_ID="your-project-id"
-VITE_SUPABASE_PUBLISHABLE_KEY="your-anon-key"
-VITE_SUPABASE_URL="https://your-project.supabase.co"
-VITE_GHL_LOCATION_ID="your-location-id"
-VITE_GHL_WIDGET_ID="your-widget-id"
-VITE_GHL_WIDGET_ID_SALES="your-sales-widget-id"
-VITE_GHL_WIDGET_ID_SUPPORT="your-support-widget-id"
-VITE_GHL_WIDGET_ID_DEMO="your-demo-widget-id"
-```
-
-**Step 2: Configure Vercel Pro**
-1. Go to Vercel Dashboard → Project → **Settings** → **Environment Variables**
-2. Add all variables with real values (Production, Preview, Development):
-
-| Name | Notes |
-|------|-------|
-| `VITE_SUPABASE_PROJECT_ID` | Supabase project identifier |
-| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase anon/public key |
-| `VITE_SUPABASE_URL` | Supabase API URL |
-| `VITE_GHL_LOCATION_ID` | GHL location ID |
-| `VITE_GHL_WIDGET_ID` | Current widget (pre-multi-bot) |
-| `VITE_GHL_WIDGET_ID_SALES` | Sales bot widget ID |
-| `VITE_GHL_WIDGET_ID_SUPPORT` | Support bot widget ID |
-| `VITE_GHL_WIDGET_ID_DEMO` | Demo bot widget ID |
-
-**Step 3: Lovable Development**
-- Lovable preview uses the `.env` file (not committed after gitignore update)
-- Values stay in Lovable's environment but not in public repo
-
-**Why VITE_ prefix?** Vite requires this prefix to expose env vars to client-side code.
-
-### Task 2.4 [LOVABLE] - Create GHL Widget Components (Multi-Widget)
-**Status:** 🔄 Partial
-
-**Completed:**
-- `src/lib/ghlLoader.ts` - Widget loader with hideLauncher shadow DOM penetration
-- `src/components/GHLChatWidget.tsx` - Basic widget component
-- `src/components/DesktopChatButton.tsx` - Custom "Need help?" button with hover effects
-- `src/components/MobileBottomBar.tsx` - Mobile chat trigger
-
-**Still Needed:**
-- Multi-widget support (route-aware widget selection)
-- Environment variable integration for widget IDs
-
-### Task 2.5 [LOVABLE] - Create Legal Pages
+### Task 2.3 [LOVABLE] - Create Legal Pages
 **Status:** ⬜ Not Started
 
 > **Source:** BRD v34.0 Section 21.1
@@ -424,6 +369,60 @@ Create 4 legal pages for EverIntent and LocalPros portfolio sites:
 **Footer Integration:**
 - Add links to all 4 legal pages in Footer.tsx
 
+### Task 2.4 [MANUAL] - Configure Environment Variables for Open-Source Repo
+**Status:** ⬜ Not Started
+
+> **Goal:** Remove all env values from committed code so repo can be public/open-source.
+
+**Step 1: Secure the `.env` file**
+1. Add `.env` to `.gitignore` (prevent values from being committed)
+2. Create `.env.example` with placeholder values (committed, shows required vars)
+
+```bash
+# .env.example (committed to repo)
+VITE_SUPABASE_PROJECT_ID="your-project-id"
+VITE_SUPABASE_PUBLISHABLE_KEY="your-anon-key"
+VITE_SUPABASE_URL="https://your-project.supabase.co"
+VITE_GHL_LOCATION_ID="your-location-id"
+VITE_GHL_WIDGET_ID="your-widget-id"
+VITE_GHL_WIDGET_ID_SALES="your-sales-widget-id"
+VITE_GHL_WIDGET_ID_SUPPORT="your-support-widget-id"
+VITE_GHL_WIDGET_ID_DEMO="your-demo-widget-id"
+```
+
+**Step 2: Configure Vercel Pro**
+1. Go to Vercel Dashboard → Project → **Settings** → **Environment Variables**
+2. Add all variables with real values (Production, Preview, Development):
+
+| Name | Notes |
+|------|-------|
+| `VITE_SUPABASE_PROJECT_ID` | Supabase project identifier |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase anon/public key |
+| `VITE_SUPABASE_URL` | Supabase API URL |
+| `VITE_GHL_LOCATION_ID` | GHL location ID |
+| `VITE_GHL_WIDGET_ID` | Current widget (pre-multi-bot) |
+| `VITE_GHL_WIDGET_ID_SALES` | Sales bot widget ID |
+| `VITE_GHL_WIDGET_ID_SUPPORT` | Support bot widget ID |
+| `VITE_GHL_WIDGET_ID_DEMO` | Demo bot widget ID |
+
+**Step 3: Lovable Development**
+- Lovable preview uses the `.env` file (not committed after gitignore update)
+- Values stay in Lovable's environment but not in public repo
+
+**Why VITE_ prefix?** Vite requires this prefix to expose env vars to client-side code.
+
+### Task 2.5 [LOVABLE] - Create GHL Widget Components (Multi-Widget)
+**Status:** 🔄 Partial
+
+**Completed:**
+- `src/lib/ghlLoader.ts` - Widget loader with hideLauncher shadow DOM penetration
+- `src/components/GHLChatWidget.tsx` - Basic widget component
+- `src/components/DesktopChatButton.tsx` - Custom "Need help?" button with hover effects
+- `src/components/MobileBottomBar.tsx` - Mobile chat trigger
+
+**Still Needed:**
+- Multi-widget support (route-aware widget selection)
+- Environment variable integration for widget IDs
 ---
 
 ## Phase 3: Core Marketing Pages
