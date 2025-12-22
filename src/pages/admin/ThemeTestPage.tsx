@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
 import { HeroSection } from '@/components/home/HeroSection';
 import { SocialProofBar } from '@/components/home/SocialProofBar';
 import HowWeHelpSection from '@/components/home/HowWeHelpSection';
@@ -138,16 +140,20 @@ export default function ThemeTestPage() {
   }, [activeTheme]);
 
   return (
-    <main>
-      <HeroSection />
-      <SocialProofBar />
-      <HowWeHelpSection />
-      <TransformationSection />
-      <PricingTeaser />
-      <PortfolioPreview />
-      <TestimonialsSection />
-      <IndustriesSection />
-      <FinalCTASection />
-    </main>
+    <>
+      <Header />
+      <main>
+        <HeroSection />
+        <SocialProofBar />
+        <HowWeHelpSection />
+        <TransformationSection />
+        <PricingTeaser />
+        <PortfolioPreview />
+        <TestimonialsSection />
+        <IndustriesSection />
+        <FinalCTASection />
+      </main>
+      <Footer />
+    </>
   );
 }
