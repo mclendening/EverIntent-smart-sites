@@ -256,8 +256,8 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-10 pt-6 border-t border-border/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+        {/* Bottom bar - extra padding on mobile for MobileBottomBar (h-16 = 64px) */}
+        <div className="mt-10 pt-6 pb-20 md:pb-0 border-t border-border/20 flex flex-col sm:flex-row items-center justify-between gap-4">
           {/* Copyright */}
           <p className="text-xs text-muted-foreground/60">
             © {currentYear} EverIntent LLC. All rights reserved.
@@ -270,7 +270,7 @@ export function Footer() {
                 <button
                   key={link.path}
                   onClick={triggerCookiePreferences}
-                  className="text-muted-foreground/60 hover:text-accent transition-colors duration-300"
+                  className="text-muted-foreground/60 hover:text-accent transition-colors duration-300 min-h-[44px] flex items-center touch-manipulation"
                 >
                   {link.title}
                 </button>
@@ -278,7 +278,7 @@ export function Footer() {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className="text-muted-foreground/60 hover:text-accent transition-colors duration-300"
+                  className="text-muted-foreground/60 hover:text-accent transition-colors duration-300 min-h-[44px] flex items-center touch-manipulation"
                 >
                   {link.title}
                 </Link>
