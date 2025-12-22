@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { HeroSection } from '@/components/home/HeroSection';
 import { SocialProofBar } from '@/components/home/SocialProofBar';
@@ -14,40 +15,56 @@ import type { Tables } from '@/integrations/supabase/types';
 type Theme = Tables<'site_themes'>;
 
 export default function ThemeTestPage() {
+  const [searchParams] = useSearchParams();
   const [activeTheme, setActiveTheme] = useState<Theme | null>(null);
+  const themeId = searchParams.get('themeId');
 
-  // Fetch and apply the active theme
+  // Fetch theme by ID or most recently updated
   useEffect(() => {
-    const fetchActiveTheme = async () => {
-      const { data } = await supabase
-        .from('site_themes')
-        .select('*')
-        .eq('is_active', true)
-        .maybeSingle();
+    const fetchTheme = async () => {
+      let query = supabase.from('site_themes').select('*');
+      
+      if (themeId) {
+        // Fetch specific theme by ID
+        query = query.eq('id', themeId);
+      } else {
+        // Fallback to most recently updated theme
+        query = query.order('updated_at', { ascending: false }).limit(1);
+      }
+      
+      const { data } = await query.maybeSingle();
       
       if (data) {
         setActiveTheme(data);
       }
     };
 
-    fetchActiveTheme();
+    fetchTheme();
 
-    // Subscribe to changes
+    // Subscribe to changes for the specific theme or all themes
     const channel = supabase
       .channel('theme-changes')
       .on('postgres_changes', { 
         event: '*', 
         schema: 'public', 
         table: 'site_themes' 
-      }, () => {
-        fetchActiveTheme();
+      }, (payload) => {
+        // If we're watching a specific theme, only update if it matches
+        if (themeId) {
+          if (payload.new && (payload.new as Theme).id === themeId) {
+            setActiveTheme(payload.new as Theme);
+          }
+        } else {
+          // Otherwise refetch
+          fetchTheme();
+        }
       })
       .subscribe();
 
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [themeId]);
 
   // Apply theme CSS variables when active theme changes
   useEffect(() => {

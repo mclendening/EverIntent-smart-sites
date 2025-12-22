@@ -1471,7 +1471,7 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
               <Rocket className="h-4 w-4 sm:mr-2" />
               <span className="hidden sm:inline">Publish to Prod</span>
             </Button>
-            <Link to="/admin/theme-test">
+            <Link to={`/admin/theme-test${selectedTheme ? `?themeId=${selectedTheme.id}` : ''}`} target="_blank">
               <Button variant="outline" size="sm" className="text-xs sm:text-sm">
                 <Eye className="h-4 w-4 sm:mr-2" />
                 <span className="hidden sm:inline">Test Page</span>

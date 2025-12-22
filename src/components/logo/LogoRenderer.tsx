@@ -16,32 +16,66 @@ interface DatabaseLogoConfig {
   tagline_text?: string | null;
 }
 
+// Partial config for themes.ts format (camelCase with optional fields)
+interface PartialLogoConfig {
+  name?: string;
+  taglineText?: string;
+  everConfig?: Partial<TextElementConfig>;
+  intentConfig?: Partial<TextElementConfig>;
+  streakConfig?: Partial<StreakConfig>;
+  taglineConfig?: Partial<TaglineConfig>;
+}
+
 interface LogoRendererProps {
-  config?: LogoVersionConfig | DatabaseLogoConfig;
+  config?: LogoVersionConfig | DatabaseLogoConfig | PartialLogoConfig;
   scale?: number;
   showTagline?: boolean;
   className?: string;
   accentHsl?: string; // Optional HSL accent color override (e.g., "38 92% 50%")
 }
 
-// Type guard to check if config is database format
-function isDbConfig(config: LogoVersionConfig | DatabaseLogoConfig): config is DatabaseLogoConfig {
-  return 'ever_config' in config || 'intent_config' in config;
+// Type guard to check if config is database format (snake_case)
+function isDbConfig(config: unknown): config is DatabaseLogoConfig {
+  return typeof config === 'object' && config !== null && ('ever_config' in config || 'intent_config' in config);
 }
 
-// Convert database config to internal format
-function normalizeConfig(config: LogoVersionConfig | DatabaseLogoConfig): LogoVersionConfig {
-  if (!isDbConfig(config)) {
+// Type guard to check if config is full LogoVersionConfig
+function isFullConfig(config: unknown): config is LogoVersionConfig {
+  return typeof config === 'object' && config !== null && 'name' in config && 'everConfig' in config && 'taglineText' in config;
+}
+
+// Helper to merge partial config with defaults
+function mergeWithDefaults<T extends object>(partial: Partial<T> | undefined, defaults: T): T {
+  if (!partial) return defaults;
+  return { ...defaults, ...partial };
+}
+
+// Convert any config format to internal LogoVersionConfig
+function normalizeConfig(config: LogoVersionConfig | DatabaseLogoConfig | PartialLogoConfig): LogoVersionConfig {
+  if (isFullConfig(config)) {
     return config;
   }
   
+  if (isDbConfig(config)) {
+    return {
+      name: 'Database Logo',
+      taglineText: config.tagline_text || '',
+      everConfig: mergeWithDefaults(config.ever_config as Partial<TextElementConfig>, defaultLogoConfig.everConfig),
+      intentConfig: mergeWithDefaults(config.intent_config as Partial<TextElementConfig>, defaultLogoConfig.intentConfig),
+      streakConfig: mergeWithDefaults(config.streak_config as Partial<StreakConfig>, defaultLogoConfig.streakConfig),
+      taglineConfig: mergeWithDefaults(config.tagline_config as Partial<TaglineConfig>, defaultLogoConfig.taglineConfig),
+    };
+  }
+  
+  // PartialLogoConfig (camelCase with optional fields from themes.ts)
+  const partial = config as PartialLogoConfig;
   return {
-    name: 'Database Logo',
-    taglineText: config.tagline_text || '',
-    everConfig: config.ever_config as TextElementConfig || defaultLogoConfig.everConfig,
-    intentConfig: config.intent_config as TextElementConfig || defaultLogoConfig.intentConfig,
-    streakConfig: config.streak_config as StreakConfig || defaultLogoConfig.streakConfig,
-    taglineConfig: config.tagline_config as TaglineConfig || defaultLogoConfig.taglineConfig,
+    name: partial.name || 'Theme Logo',
+    taglineText: partial.taglineText || '',
+    everConfig: mergeWithDefaults(partial.everConfig, defaultLogoConfig.everConfig),
+    intentConfig: mergeWithDefaults(partial.intentConfig, defaultLogoConfig.intentConfig),
+    streakConfig: mergeWithDefaults(partial.streakConfig, defaultLogoConfig.streakConfig),
+    taglineConfig: mergeWithDefaults(partial.taglineConfig, defaultLogoConfig.taglineConfig),
   };
 }
 
