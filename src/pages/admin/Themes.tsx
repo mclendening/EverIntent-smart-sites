@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { supabase } from '@/integrations/supabase/client';
@@ -15,9 +15,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
-import { LogoRenderer } from '@/components/logo';
+import { LogoRenderer, useLogoExport } from '@/components/logo';
 import { LogoConfigEditor } from '@/components/admin/LogoConfigEditor';
-import { ArrowLeft, Palette, Edit, Trash2, Check, Loader2, Eye, Rocket, Copy, CheckCircle, Github, Image } from 'lucide-react';
+import { ArrowLeft, Palette, Edit, Trash2, Check, Loader2, Eye, Rocket, Copy, CheckCircle, Github, Image, Download, FileCode, FileImage } from 'lucide-react';
 import type { Tables, Json } from '@/integrations/supabase/types';
 
 type Theme = Tables<'site_themes'>;
@@ -70,6 +70,11 @@ interface GradientConfig {
 export default function AdminThemes() {
   const { user, signOut } = useAdminAuth();
   const { toast } = useToast();
+  
+  // Logo export
+  const logoPreviewRef = useRef<HTMLDivElement>(null);
+  const { exportAsSvg, exportAsPngNative } = useLogoExport(logoPreviewRef);
+  const [exportScale, setExportScale] = useState(2);
   
   const [themes, setThemes] = useState<Theme[]>([]);
   const [logoVersions, setLogoVersions] = useState<LogoVersion[]>([]);
@@ -1687,8 +1692,22 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
 
                         {/* Live Preview */}
                         <div className="space-y-2">
-                          <Label>Live Preview</Label>
+                          <div className="flex items-center justify-between">
+                            <Label>Live Preview</Label>
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs text-muted-foreground">{exportScale}x</span>
+                              <Slider 
+                                value={[exportScale]} 
+                                min={1} 
+                                max={8} 
+                                step={1}
+                                onValueChange={(v) => setExportScale(v[0])}
+                                className="w-20"
+                              />
+                            </div>
+                          </div>
                           <div 
+                            ref={logoPreviewRef}
                             className="rounded-lg p-6 flex items-center justify-center border"
                             style={{ backgroundColor: `hsl(${staticColors.primary})` }}
                           >
@@ -1698,6 +1717,27 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
                                 accentHsl={`${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`}
                               />
                             )}
+                          </div>
+                          {/* Export Buttons */}
+                          <div className="flex gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="flex-1"
+                              onClick={() => exportAsSvg('everintent-logo.svg')}
+                            >
+                              <FileCode className="h-3 w-3 mr-1" />
+                              SVG
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="flex-1"
+                              onClick={() => exportAsPngNative(`everintent-logo@${exportScale}x.png`, { scale: exportScale })}
+                            >
+                              <Download className="h-3 w-3 mr-1" />
+                              PNG {exportScale}x
+                            </Button>
                           </div>
                         </div>
                       </div>
