@@ -51,16 +51,19 @@ export function Header() {
     setMobileIndustriesOpen(false);
   };
 
+  // Use scrolled state only after mount to prevent hydration mismatch
+  const showScrolledStyles = isMounted && scrolled;
+
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled 
+        showScrolledStyles 
           ? 'bg-background/95 backdrop-blur-xl border-b border-border/30 shadow-layered' 
           : 'bg-transparent'
       }`}
     >
       {/* Subtle gradient line at bottom when scrolled */}
-      {scrolled && (
+      {showScrolledStyles && (
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
       )}
 
