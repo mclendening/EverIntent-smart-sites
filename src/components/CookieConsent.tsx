@@ -116,50 +116,51 @@ export function CookieConsent() {
     <>
       {showBanner && !showModal && (
         <div 
-          className="fixed bottom-0 left-0 right-0 z-[2147483647] px-3 py-2 bg-card border-t border-border shadow-elevated animate-in slide-in-from-bottom duration-300"
+          className="fixed bottom-0 left-0 right-0 z-[2147483647] bg-card border-t border-border shadow-elevated animate-in slide-in-from-bottom duration-300"
           role="dialog"
           aria-label="Cookie consent"
         >
-          <div className="container mx-auto max-w-4xl">
-            <div className="flex items-center justify-between gap-3">
-              <p className="text-xs text-muted-foreground flex-1">
-                We use cookies.{' '}
-                <a 
-                  href="/legal/cookies" 
-                  className="text-accent hover:text-accent-hover underline"
-                >
-                  Learn more
-                </a>
-              </p>
-              <div className="flex items-center gap-1.5 shrink-0">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleRejectOptional}
-                  className="text-muted-foreground h-8 px-2 text-xs"
-                  type="button"
-                >
-                  Reject
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowModal(true)}
-                  className="h-8 px-2 text-xs"
-                  type="button"
-                >
-                  <Settings className="h-3 w-3 mr-1" aria-hidden="true" />
-                  Settings
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={handleAcceptAll}
-                  className="bg-accent text-accent-foreground hover:bg-accent-hover h-8 px-3 text-xs"
-                  type="button"
-                >
-                  Accept
-                </Button>
-              </div>
+          <div className="container mx-auto max-w-4xl px-4 py-4">
+            {/* Text row */}
+            <p className="text-sm text-muted-foreground mb-3">
+              We use cookies to improve your experience.{' '}
+              <a 
+                href="/legal/cookies" 
+                className="text-accent hover:text-accent-hover underline"
+              >
+                Learn more
+              </a>
+            </p>
+            
+            {/* Buttons row - evenly spaced */}
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleRejectOptional}
+                className="flex-1 h-9 text-sm"
+                type="button"
+              >
+                Reject
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowModal(true)}
+                className="flex-1 h-9 text-sm"
+                type="button"
+              >
+                <Settings className="h-4 w-4 mr-1.5" aria-hidden="true" />
+                Settings
+              </Button>
+              <Button
+                size="sm"
+                onClick={handleAcceptAll}
+                className="flex-1 bg-accent text-accent-foreground hover:bg-accent-hover h-9 text-sm"
+                type="button"
+              >
+                Accept All
+              </Button>
             </div>
           </div>
         </div>
