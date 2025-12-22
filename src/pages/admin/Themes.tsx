@@ -17,7 +17,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { LogoRenderer, useLogoExport } from '@/components/logo';
 import { LogoConfigEditor } from '@/components/admin/LogoConfigEditor';
-import { ArrowLeft, Palette, Edit, Trash2, Check, Loader2, Eye, Rocket, Copy, CheckCircle, Github, Image, Download, FileCode, FileImage } from 'lucide-react';
+import { ArrowLeft, Palette, Edit, Trash2, Check, Loader2, Eye, Rocket, Copy, CheckCircle, Github, Image, Download, FileCode, FileImage, ChevronUp, ChevronDown } from 'lucide-react';
 import type { Tables, Json } from '@/integrations/supabase/types';
 
 type Theme = Tables<'site_themes'>;
@@ -1649,9 +1649,44 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
                         </div>
 
                         <div className="space-y-2">
-                          <div className="flex justify-between">
+                          <div className="flex justify-between items-center">
                             <Label>Base Hue</Label>
-                            <span className="text-sm text-muted-foreground">{selectedTheme.base_hue}°</span>
+                            <div className="flex items-center gap-2">
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                className="h-6 w-6"
+                                onClick={() => setSelectedTheme({ 
+                                  ...selectedTheme, 
+                                  base_hue: Math.max(0, selectedTheme.base_hue - 1) 
+                                })}
+                              >
+                                <ChevronDown className="h-3 w-3" />
+                              </Button>
+                              <Input
+                                type="number"
+                                min={0}
+                                max={360}
+                                value={selectedTheme.base_hue}
+                                onChange={(e) => setSelectedTheme({ 
+                                  ...selectedTheme, 
+                                  base_hue: Math.min(360, Math.max(0, parseInt(e.target.value) || 0))
+                                })}
+                                className="w-16 h-6 text-center text-sm"
+                              />
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                className="h-6 w-6"
+                                onClick={() => setSelectedTheme({ 
+                                  ...selectedTheme, 
+                                  base_hue: Math.min(360, selectedTheme.base_hue + 1) 
+                                })}
+                              >
+                                <ChevronUp className="h-3 w-3" />
+                              </Button>
+                              <span className="text-sm text-muted-foreground w-8">°</span>
+                            </div>
                           </div>
                           <Slider
                             value={[selectedTheme.base_hue]}
