@@ -38,6 +38,8 @@ interface AccentConfig {
   gradientFrom?: string;
   gradientTo?: string;
   gradientAngle?: number;
+  hoverBrightness?: number;
+  iconGlowOpacity?: number;
 }
 
 interface StaticColors {
@@ -135,6 +137,8 @@ export default function AdminThemes() {
         gradientFrom: accent.gradientFrom || '#F97316',
         gradientTo: accent.gradientTo || '#EF4444',
         gradientAngle: accent.gradientAngle || 90,
+        hoverBrightness: accent.hoverBrightness ?? 1.1,
+        iconGlowOpacity: accent.iconGlowOpacity ?? 0.3,
       });
 
       const colors = selectedTheme.static_colors as Record<string, string> || {};
@@ -239,6 +243,8 @@ export default function AdminThemes() {
             gradientFrom: accentConfig.gradientFrom,
             gradientTo: accentConfig.gradientTo,
             gradientAngle: accentConfig.gradientAngle,
+            hoverBrightness: accentConfig.hoverBrightness,
+            iconGlowOpacity: accentConfig.iconGlowOpacity,
           } as unknown as Json,
           static_colors: staticColors as unknown as Json,
           gradient_configs: gradientConfigs as unknown as Json,
@@ -1713,7 +1719,55 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
                               onGradientChange={(g) => setAccentConfig({ ...accentConfig, ...g })}
                             />
 
-                            {/* Core Colors Section */}
+                            {/* Hover Effects Section */}
+                            <AccordionItem value="hover-effects">
+                              <AccordionTrigger className="text-sm font-medium">
+                                Hover Effects
+                              </AccordionTrigger>
+                              <AccordionContent className="space-y-4 pt-2">
+                                <div className="space-y-2">
+                                  <div className="flex items-center justify-between">
+                                    <Label className="text-sm">Hover Brightness</Label>
+                                    <span className="text-xs text-muted-foreground">
+                                      {((accentConfig.hoverBrightness ?? 1.1) * 100).toFixed(0)}%
+                                    </span>
+                                  </div>
+                                  <Slider
+                                    value={[(accentConfig.hoverBrightness ?? 1.1) * 100]}
+                                    onValueChange={([v]) => setAccentConfig({ ...accentConfig, hoverBrightness: v / 100 })}
+                                    min={100}
+                                    max={150}
+                                    step={5}
+                                    className="w-full"
+                                  />
+                                  <p className="text-xs text-muted-foreground">
+                                    How much buttons brighten on hover (100% = no change)
+                                  </p>
+                                </div>
+
+                                <div className="space-y-2">
+                                  <div className="flex items-center justify-between">
+                                    <Label className="text-sm">Icon Glow Opacity</Label>
+                                    <span className="text-xs text-muted-foreground">
+                                      {((accentConfig.iconGlowOpacity ?? 0.3) * 100).toFixed(0)}%
+                                    </span>
+                                  </div>
+                                  <Slider
+                                    value={[(accentConfig.iconGlowOpacity ?? 0.3) * 100]}
+                                    onValueChange={([v]) => setAccentConfig({ ...accentConfig, iconGlowOpacity: v / 100 })}
+                                    min={0}
+                                    max={100}
+                                    step={5}
+                                    className="w-full"
+                                  />
+                                  <p className="text-xs text-muted-foreground">
+                                    Opacity of icon glow effect on hover (0% = none)
+                                  </p>
+                                </div>
+                              </AccordionContent>
+                            </AccordionItem>
+
+
                             <HslEditor
                               label="Primary"
                               value={staticColors.primary}
