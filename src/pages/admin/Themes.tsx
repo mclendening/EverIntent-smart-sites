@@ -1744,15 +1744,16 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
                             </div>
                           </div>
                           <div 
-                            ref={logoPreviewRef}
                             className="rounded-lg p-6 flex items-center justify-center border"
                             style={{ backgroundColor: `hsl(${staticColors.primary})` }}
                           >
                             {getLogoForTheme(selectedTheme) && (
-                              <LogoRenderer 
-                                config={getLogoForTheme(selectedTheme)!}
-                                accentHsl={`${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`}
-                              />
+                              <div ref={logoPreviewRef}>
+                                <LogoRenderer 
+                                  config={getLogoForTheme(selectedTheme)!}
+                                  accentHsl={`${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`}
+                                />
+                              </div>
                             )}
                           </div>
                           {/* Export Buttons */}
