@@ -77,13 +77,23 @@ export function CookieConsent() {
 
   return (
     <div 
-      className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-card border-t border-border shadow-elevated animate-in slide-in-from-bottom duration-300"
+      className="fixed bottom-0 left-0 right-0 z-[2147483647] p-4 bg-card border-t border-border shadow-elevated animate-in slide-in-from-bottom duration-300"
       role="dialog"
       aria-label="Cookie consent"
     >
-      <div className="container mx-auto max-w-4xl">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex-1 pr-4">
+      <div className="container mx-auto max-w-4xl relative">
+        {/* Mobile close button - positioned relative to container */}
+        <button
+          onClick={handleDecline}
+          className="sm:hidden absolute -top-1 right-0 p-2 text-muted-foreground hover:text-foreground transition-colors touch-manipulation"
+          aria-label="Close cookie banner"
+          type="button"
+        >
+          <X className="h-5 w-5" aria-hidden="true" />
+        </button>
+        
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pr-8 sm:pr-0">
+          <div className="flex-1">
             <p className="text-sm text-foreground">
               We use cookies to enhance your experience and enable features like our chat support. 
               By clicking "Accept", you consent to our use of cookies.{' '}
@@ -95,30 +105,25 @@ export function CookieConsent() {
               </a>
             </p>
           </div>
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-3 shrink-0 w-full sm:w-auto">
             <Button
               variant="outline"
-              size="sm"
+              size="default"
               onClick={handleDecline}
-              className="text-muted-foreground"
+              className="text-muted-foreground flex-1 sm:flex-none min-h-[44px] touch-manipulation"
+              type="button"
             >
               Decline
             </Button>
             <Button
-              size="sm"
+              size="default"
               onClick={handleAccept}
-              className="bg-accent text-accent-foreground hover:bg-accent-hover"
+              className="bg-accent text-accent-foreground hover:bg-accent-hover flex-1 sm:flex-none min-h-[44px] touch-manipulation"
+              type="button"
             >
               Accept
             </Button>
           </div>
-          <button
-            onClick={handleDecline}
-            className="absolute top-2 right-2 sm:hidden p-1 text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Close cookie banner"
-          >
-            <X className="h-4 w-4" />
-          </button>
         </div>
       </div>
     </div>
