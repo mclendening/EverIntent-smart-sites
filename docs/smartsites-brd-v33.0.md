@@ -2208,16 +2208,171 @@ Label: "LocalPros Network" or "Partner Program"
 
 ## 21. Compliance & Legal
 
-### TCPA Consent Language
+### 21.1 Legal Pages (Standard Language)
+
+All EverIntent properties and LocalPros portfolio sites must include these four legal pages:
+
+| Page | Route | Purpose |
+|------|-------|---------|
+| Privacy Policy | `/legal/privacy` | Data collection, usage, sharing, rights |
+| Terms of Service | `/legal/terms` | Service agreement, payments, refunds, liability |
+| Cookie Policy | `/legal/cookies` | Cookie usage, categories, opt-out |
+| Data Rights Request | `/legal/data-request` | CCPA/DSAR submission form |
+
+#### 21.1.1 Privacy Policy Requirements
+
+**Required Sections:**
+1. **Data We Collect** - Contact info (name, email, phone, company), usage data (IP, browser, pages visited), cookies and tracking pixels
+2. **How We Use Your Data** - Service delivery, communication, marketing (with opt-out), analytics, fraud prevention
+3. **Who We Share Data With** - Service providers (GHL, Stripe, hosting), legal requirements, business transfers; **We never sell personal data**
+4. **Call & SMS Recording Disclosure** - "Calls and text messages may be recorded for quality assurance and training purposes"
+5. **Data Retention** - Customer data: duration of relationship + 7 years; Leads: 3 years from last contact; Analytics: 26 months
+6. **Your Rights (California/CCPA)** - Right to know, delete, opt-out of sale (we don't sell), non-discrimination
+7. **Contact Information** - Email: privacy@everintent.com
+
+**LocalPros-Specific Addition:**
+> "This site is part of the LocalPros Network, operated by EverIntent LLC. Leads generated through this site may be shared with the business featured on this site and EverIntent for service fulfillment."
+
+#### 21.1.2 Terms of Service Requirements
+
+**Required Sections:**
+
+1. **Agreement to Terms** - By using our services, you agree to these terms. If you disagree, do not use our services.
+
+2. **Services Description** - Overview of web design, hosting, and automation services provided under each tier.
+
+3. **Payment Terms**
+   - One-time setup fees charged at checkout
+   - Monthly subscriptions billed on the same day each month
+   - All payments processed via Stripe; major credit cards accepted
+   - Taxes calculated and collected where required
+
+4. **Refund & Cancellation Policy**
+
+   **California Law Note:** Civil Code §1723 applies to retail goods, not services. Web design services are not subject to statutory cooling-off periods. Our policy is standard for service businesses.
+
+   > **Before Work Begins:** Full refund available if you cancel before receiving the "Work Commencement" email notification. Once you receive this email, your project is in active development and no refund is available.
+   >
+   > **After Work Begins:** No refunds once work has commenced. You may cancel your subscription at any time; service continues through the end of your billing period.
+   >
+   > **Monthly Subscriptions:** Cancel anytime via the customer portal or by contacting support. No partial-month refunds.
+
+5. **Work Commencement Notification**
+   - Customer receives email titled "Your Project Is Starting" within 1-2 business days of payment
+   - Email includes: reminder of no-refund policy, expected timeline, intake form link (if not completed)
+   - This email triggers the refund window closure
+
+6. **Chargeback Policy**
+
+   **Note:** Chargebacks are governed by federal law (Fair Credit Billing Act / Regulation Z) and card network rules, not California state law.
+
+   > If you believe there is an error with your charge, contact us at billing@everintent.com within 60 days. We will investigate and resolve legitimate disputes.
+   >
+   > Filing a chargeback after receiving services, or for a transaction you authorized, may be considered fraud. We maintain detailed records of all transactions, communications, and service delivery. We reserve the right to pursue fraudulent chargebacks through appropriate legal channels and report them to credit bureaus.
+
+7. **Portfolio & Marketing Rights**
+   - **Opt-in at checkout:** "You may feature my completed website in your portfolio"
+   - If opted-in: We may display screenshots, describe the project, and link to the live site in marketing materials
+   - **LocalPros sites:** Hosted on our platform by default; portfolio rights included in standard agreement
+   - Customer may request removal from portfolio at any time after launch
+
+8. **Hosting & SLA (LocalPros/Subscription Sites)**
+   - 99.5% uptime target (excluding scheduled maintenance)
+   - Scheduled maintenance: Sundays 2-6am PT with 48-hour notice
+   - Support response: Within 24 business hours
+   - Backups: Daily, retained 30 days
+
+9. **Intellectual Property**
+   - Design work: Customer owns final deliverable upon full payment
+   - Templates, frameworks, code libraries: Remain property of EverIntent
+   - Customer content: Customer represents they have rights to all provided content
+
+10. **Limitation of Liability**
+    - Maximum liability: Amount paid in the 12 months prior to claim
+    - No liability for: Indirect, consequential, or punitive damages; lost profits; data loss
+    - Customer responsible for: Content accuracy, domain renewals (if self-managed), third-party integrations
+
+11. **Dispute Resolution**
+    - Informal resolution first: Contact support@everintent.com
+    - Mediation: Orange County, California
+    - Governing law: State of California
+    - Small claims: Either party may pursue in appropriate small claims court
+
+12. **Termination**
+    - We may terminate for: Non-payment (after 7-day grace period), ToS violation, abusive behavior
+    - Customer may terminate: Anytime via portal or support email
+    - Post-termination: Data retained 30 days for export, then deleted
+
+13. **Modifications**
+    - We may update these terms with 30-day notice via email
+    - Continued use after notice constitutes acceptance
+
+#### 21.1.3 Cookie Policy Requirements
+
+**Required Sections:**
+
+1. **What Are Cookies** - Brief explanation of cookies and similar technologies (pixels, local storage)
+
+2. **Cookie Categories**
+
+   | Category | Purpose | Examples | Can Disable? |
+   |----------|---------|----------|--------------|
+   | Strictly Necessary | Site functionality, security | Session cookies, CSRF tokens | No |
+   | Analytics | Usage tracking, improvements | Google Analytics, Hotjar | Yes |
+   | Marketing | Ad targeting, retargeting | Facebook Pixel, Google Ads | Yes |
+   | Functional | Preferences, chat widgets | Theme preference, GHL chat | Yes |
+
+3. **Third-Party Cookies** - List of third parties that may set cookies (Google, Facebook, GHL)
+
+4. **Managing Cookies** - How to disable via browser settings + link to privacy settings
+
+5. **Consent** - Banner on first visit with Accept/Customize options
+
+#### 21.1.4 Data Rights Request Page
+
+**Required Form Fields:**
+- Full Name (required)
+- Email Address (required)
+- Request Type (dropdown): Know what data we have | Delete my data | Correct my data | Opt-out of marketing | Other
+- Additional Details (textarea)
+- Verification acknowledgment checkbox
+
+**Response Commitment:**
+> We will respond to all verified requests within 45 days as required by CCPA. Complex requests may take up to 90 days with notification.
+
+**Backend:** Form submissions stored in `data_rights_requests` table; routed to privacy@everintent.com
+
+#### 21.1.5 Checkout Agreement Email
+
+**Triggered:** After successful payment, before Work Commencement email
+
+**Contains:**
+- Full Terms of Service (inline or PDF attachment)
+- Payment confirmation details
+- Portfolio rights selection confirmation (if applicable)
+- Hosting/SLA summary (for subscription tiers)
+- Signature acknowledgment: "By completing checkout, you agreed to these terms on [timestamp]"
+
+**Stored:** `checkout_submissions.agreement_sent_at`, PDF copy in Supabase storage
+
+#### 21.1.6 LocalPros Portfolio Sites
+
+All LocalPros portfolio sites include:
+- All four legal pages (Privacy, Terms, Cookies, Data Rights)
+- Simplified ToS referencing master EverIntent terms
+- Lead disclosure in Privacy Policy (see 21.1.1)
+- Footer links to all legal pages
+
+### 21.2 TCPA Consent Language
 
 ```
 By providing your phone number and checking this box, you consent to 
-receive calls, text messages, and emails from EverIntent SmartSites 
-and its partners regarding your inquiry. Message and data rates may 
-apply. You may opt out at any time by replying STOP.
+receive calls, text messages, and emails from EverIntent and its 
+partners regarding your inquiry. Message and data rates may apply. 
+You may opt out at any time by replying STOP.
 ```
 
-### California Bot Disclosure (AI Calling)
+### 21.3 California Bot Disclosure (AI Calling)
 
 ```
 "Hi [Name], this is [AI Name], an AI assistant from EverIntent. 
@@ -2225,16 +2380,15 @@ I'm an automated system calling to [purpose].
 Is this a good time to chat for 2 minutes?"
 ```
 
-### Privacy Policy Requirements
+### 21.4 Data Sale Policy
 
-- What data we collect
-- How we use it
-- Who we share it with
-- Call recording disclosure
-- Lead sharing disclosure (LocalPros)
-- Cookie policy
-- Data retention periods
-- DSAR process
+**EverIntent does not sell personal data.** This applies to:
+- Customer information collected during checkout or service delivery
+- Lead information from marketing forms
+- LocalPros visitor data
+- Any other personal information we collect
+
+This policy is disclosed in our Privacy Policy and honored in all CCPA requests.
 
 ---
 
