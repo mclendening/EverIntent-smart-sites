@@ -212,24 +212,24 @@ Publish flow:
 > **Purpose:** Complete all gaps in theme system: CSS variable coverage, logo integration, admin CRUD, export functionality.
 
 ### Task 1.6.1 [LOVABLE] - Header Logo Integration
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
-Current `Header.tsx` uses hardcoded text:
+Header.tsx now uses `<LogoRenderer />` component with theme accent:
 ```tsx
-<span className="text-white">Ever</span><span className="text-intent-blue">Intent</span>
+<LogoRenderer 
+  scale={0.42} 
+  showTagline={true}
+  accentHsl={activeTheme.accent}
+/>
 ```
 
-**Fix:** Replace with `<LogoRenderer />` component that accepts `accentHsl` prop from theme.
-
-**Acceptance:**
-- Header renders LogoRenderer at appropriate scale
-- Logo "Intent" color matches current theme accent
-- Streak and tagline visibility controlled via props
-
 ### Task 1.6.2 [LOVABLE] - Missing CSS Variables in ThemeConfig
-**Status:** ⬜ Not Started
+**Status:** 🔄 In Progress
 
-**Variables in index.css NOT in themes.ts:**
+**Completed:**
+- `accent_config` now includes `hoverBrightness` and `iconGlowOpacity` (added 2024-12-22)
+
+**Still Missing:**
 | Variable | Purpose |
 |----------|---------|
 | `--intent-blue` | Brand color for "Intent" in logo |
@@ -242,24 +242,22 @@ Current `Header.tsx` uses hardcoded text:
 | `--gradient-glow` | Radial glow gradient |
 | `--gradient-mesh` | Mesh background gradient |
 
-**Fix:**
-1. Add missing types to `ThemeConfig` interface in `themes.ts`
-2. Add to admin CRUD UI (Themes.tsx)
-3. Add to `applyThemeToRoot()` function
-4. Update `generateProductionConfig()` to include them
-
 ### Task 1.6.3 [LOVABLE] - Admin Theme CRUD Gaps
-**Status:** ⬜ Not Started
+**Status:** 🔄 In Progress
 
-Current admin (`Themes.tsx`) lacks controls for:
+**Completed:**
+- Basic accent config controls (H/S/L)
+- Logo preview with theme accent
+- Theme publish to GitHub workflow
+
+**Still Needed:**
+- Surface `hoverBrightness` and `iconGlowOpacity` controls in UI
 - Intent blue color (logo brand color)
 - Highlight/destructive colors
 - Border radius
 - Shadow system (all 7 shadow vars)
 - Sidebar colors (7 vars)
 - Mesh/glow gradients
-
-**Fix:** Add accordion sections for these in the editor.
 
 ### Task 1.6.4 [LOVABLE] - Logo Export (SVG/PNG)
 **Status:** ⬜ Not Started
@@ -271,22 +269,13 @@ Current admin (`Themes.tsx`) lacks controls for:
 - Export as PNG (raster, with configurable resolution)
 - Available in LogoExplorer and/or Admin Themes
 
-**Approach:**
-1. For SVG: Serialize the rendered SVG element to string
-2. For PNG: Use `<canvas>` with SVG → drawImage → toDataURL
-
-**Deliverables:**
-- Add "Export SVG" and "Export PNG" buttons to LogoExplorer
-- Possibly add to Admin Themes for quick logo download
-
 ### Task 1.6.5 [LOVABLE] - Logo Theme Testing
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
-Verify LogoRenderer correctly applies theme accent:
-- Test with multiple themes (different accent colors)
-- Verify streak gradient uses accent
-- Verify "Intent" text uses accent
-- Test scale prop works correctly
+LogoRenderer correctly applies theme accent:
+- Admin Themes page shows logo preview with accent color
+- Header renders LogoRenderer with activeTheme.accent
+- Scale prop works correctly (0.42 in header)
 
 ### Task 1.6.6 [LOVABLE] - Cleanup LogoExplorer
 **Status:** ⬜ Not Started
@@ -307,6 +296,7 @@ Created `src/components/CookieConsent.tsx` with:
 - localStorage consent storage (`cookie-consent` key)
 - `cookie-consent-changed` event dispatch
 - Footer "Cookie Preferences" integration via `triggerCookiePreferences()`
+- Integrated into Layout.tsx
 
 ### Task 2.2 [MANUAL] - Create GHL Chat Widgets (3 Bots)
 **Status:** ⬜ Not Started
@@ -341,13 +331,17 @@ Create 3 separate GHL chat widgets with different training/personas:
 | `VITE_GHL_WIDGET_ID_DEMO` | Demo bot widget ID from Task 2.2 | All |
 
 ### Task 2.4 [LOVABLE] - Create GHL Widget Components (Multi-Widget)
-**Status:** ⬜ Not Started
+**Status:** 🔄 Partial
 
-Update existing components for multi-widget support:
-- `src/lib/ghlLoader.ts` - Accept widget ID as parameter, use env vars
-- `src/components/GHLChatWidget.tsx` - Route-aware widget selection
-- `src/components/DesktopChatButton.tsx` - No changes needed (uses global toggle)
-- Keep `hideLauncher()` function (JS shadow DOM penetration approach)
+**Completed:**
+- `src/lib/ghlLoader.ts` - Widget loader with hideLauncher shadow DOM penetration
+- `src/components/GHLChatWidget.tsx` - Basic widget component
+- `src/components/DesktopChatButton.tsx` - Custom "Need help?" button with hover effects
+- `src/components/MobileBottomBar.tsx` - Mobile chat trigger
+
+**Still Needed:**
+- Multi-widget support (route-aware widget selection)
+- Environment variable integration for widget IDs
 
 ---
 
