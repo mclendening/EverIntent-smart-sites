@@ -343,6 +343,58 @@ Create 3 separate GHL chat widgets with different training/personas:
 - Multi-widget support (route-aware widget selection)
 - Environment variable integration for widget IDs
 
+### Task 2.5 [LOVABLE] - Create Legal Pages
+**Status:** ⬜ Not Started
+
+> **Source:** BRD v34.0 Section 21.1
+
+Create 4 legal pages for EverIntent and LocalPros portfolio sites:
+
+| Page | Route | Component |
+|------|-------|-----------|
+| Privacy Policy | `/legal/privacy` | `src/pages/legal/PrivacyPolicy.tsx` |
+| Terms of Service | `/legal/terms` | `src/pages/legal/TermsOfService.tsx` |
+| Cookie Policy | `/legal/cookies` | `src/pages/legal/CookiePolicy.tsx` |
+| Data Rights Request | `/legal/data-request` | `src/pages/legal/DataRightsRequest.tsx` |
+
+**Requirements per BRD 21.1:**
+
+**Privacy Policy:**
+- Data collection, usage, sharing sections
+- Call/SMS recording disclosure
+- "We never sell personal data" statement
+- Data retention periods (customer: 7 years, leads: 3 years, analytics: 26 months)
+- CCPA rights (know, delete, opt-out, non-discrimination)
+- LocalPros lead disclosure paragraph
+
+**Terms of Service:**
+- Payment terms (one-time + monthly subscriptions)
+- Refund policy: Full refund before "Work Commencement" email; no refunds after
+- Chargeback policy with fraud deterrence language
+- Portfolio/marketing rights (opt-in at checkout)
+- Hosting SLA (99.5% uptime, 24hr support response)
+- IP ownership (customer owns deliverable, EI retains templates/code)
+- Limitation of liability (12-month cap)
+- Dispute resolution (Orange County, CA)
+- Termination and modification clauses
+
+**Cookie Policy:**
+- Cookie categories table (Necessary, Analytics, Marketing, Functional)
+- Third-party cookies list (Google, Facebook, GHL)
+- Browser settings + privacy settings links
+
+**Data Rights Request:**
+- Form: Name, Email, Request Type dropdown, Details textarea
+- Request types: Know | Delete | Correct | Opt-out | Other
+- 45-day response commitment
+- Verification acknowledgment checkbox
+
+**Database Migration (if needed):**
+- Add `data_rights_requests` table for DSAR submissions
+
+**Footer Integration:**
+- Add links to all 4 legal pages in Footer.tsx
+
 ---
 
 ## Phase 3: Core Marketing Pages
