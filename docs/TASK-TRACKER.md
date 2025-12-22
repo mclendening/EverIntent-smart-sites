@@ -35,6 +35,79 @@ Smart Websites | AI & Automation | Industries | Solutions | Pricing | Our Work |
 
 ---
 
+## JSDoc Standards (All [LOVABLE] Tasks)
+
+> **Mandatory:** Every component, hook, utility, type, and edge function MUST include JSDoc documentation referencing the BRD.
+
+### Component JSDoc Template
+```typescript
+/**
+ * @component ComponentName
+ * @description Brief description of what this component does
+ * @brdref BRD v34.0 Section X.X - Section Name
+ * 
+ * @example
+ * <ComponentName prop1="value" prop2={data} />
+ * 
+ * @see docs/smartsites-brd-v33.0.md
+ */
+```
+
+### Hook JSDoc Template
+```typescript
+/**
+ * @hook useHookName
+ * @description What this hook does and when to use it
+ * @brdref BRD v34.0 Section X.X - Section Name
+ * 
+ * @returns {ReturnType} Description of return value
+ * 
+ * @example
+ * const { data, loading } = useHookName(params);
+ */
+```
+
+### Edge Function JSDoc Template
+```typescript
+/**
+ * @function functionName
+ * @description What this edge function handles
+ * @brdref BRD v34.0 Section X.X - Section Name
+ * 
+ * @param {RequestType} req - Request body shape
+ * @returns {ResponseType} Response shape
+ * 
+ * @endpoint POST /functions/v1/function-name
+ * @auth Required|Optional|Public
+ */
+```
+
+### Type/Interface JSDoc Template
+```typescript
+/**
+ * @interface InterfaceName
+ * @description What this type represents in the system
+ * @brdref BRD v34.0 Section X.X - Section Name
+ */
+```
+
+### Key BRD Section References
+
+| Section | Topic | Use For |
+|---------|-------|---------|
+| 2 | Executive Summary | Brand positioning, value prop |
+| 5 | Services & Solutions | Service page components |
+| 6 | Tier Definitions | Pricing components, checkout |
+| 7 | Complete Feature Matrix | Feature flags, tier comparison |
+| 9 | Customer Journey | UX flows, conversion tracking |
+| 10 | Checkout & Billing | Payment flows, Stripe integration |
+| 15 | Marketing Site Spec | Tech stack, SSG, routing |
+| 17 | Navigation Structure | Nav components, menu items |
+| 20 | LocalPros Network | Partner pages, lead forms |
+| 21 | Compliance & Legal | Legal pages, CCPA, cookies |
+
+---
+
 ## Phase 0: Prerequisites
 
 ### Task 0.1 [MANUAL] - Create GHL Private Integration Token
@@ -226,6 +299,8 @@ Header.tsx now uses `<LogoRenderer />` component with theme accent:
 ### Task 1.6.2 [LOVABLE] - Missing CSS Variables in ThemeConfig
 **Status:** 🔄 In Progress
 
+> **JSDoc:** All theme utility functions must document `@brdref BRD v34.0 Section 15.1 - Tech Stack` and reference design system.
+
 **Completed:**
 - `accent_config` now includes `hoverBrightness` and `iconGlowOpacity` (added 2024-12-22)
 
@@ -261,6 +336,8 @@ Header.tsx now uses `<LogoRenderer />` component with theme accent:
 
 ### Task 1.6.4 [LOVABLE] - Logo Export (SVG/PNG)
 **Status:** ⬜ Not Started
+
+> **JSDoc:** `useLogoExport` hook must document `@brdref BRD v34.0 Section 2 - Executive Summary` (brand identity).
 
 `LogoRenderer` renders to DOM but lacks export capability.
 
@@ -321,6 +398,7 @@ Create 3 separate GHL chat widgets with different training/personas:
 **Status:** ⬜ Not Started
 
 > **Source:** BRD v34.0 Section 21.1
+> **JSDoc:** Each page component must document `@brdref BRD v34.0 Section 21 - Compliance & Legal` with specific subsection.
 
 Create 4 legal pages for EverIntent and LocalPros portfolio sites:
 
@@ -414,6 +492,8 @@ VITE_GHL_WIDGET_ID_DEMO="your-demo-widget-id"
 ### Task 2.5 [LOVABLE] - Create GHL Widget Components (Multi-Widget)
 **Status:** 🔄 Partial
 
+> **JSDoc:** All GHL components must document `@brdref BRD v34.0 Section 17.6 - Cookie Consent` and `@brdref BRD v34.0 Section 11 - GHL Configuration`.
+
 **Completed:**
 - `src/lib/ghlLoader.ts` - Widget loader with hideLauncher shadow DOM penetration
 - `src/components/GHLChatWidget.tsx` - Basic widget component
@@ -423,6 +503,7 @@ VITE_GHL_WIDGET_ID_DEMO="your-demo-widget-id"
 **Still Needed:**
 - Multi-widget support (route-aware widget selection)
 - Environment variable integration for widget IDs
+- Add JSDoc to existing components (retroactive)
 ---
 
 ## Phase 3: Core Marketing Pages
@@ -431,6 +512,8 @@ VITE_GHL_WIDGET_ID_DEMO="your-demo-widget-id"
 
 ### Task 3.0 [LOVABLE] - Implement Brand Pivot (Phase 1)
 **Status:** ⬜ Not Started
+
+> **JSDoc:** All layout components must document `@brdref BRD v34.0 Section 2 - Executive Summary` (brand positioning).
 
 Update core branding per `docs/everintent-pivot-plan.md`:
 - **Header.tsx** — Logo: "EverIntent" with tagline "Web Design & Automation"
@@ -441,6 +524,8 @@ Update core branding per `docs/everintent-pivot-plan.md`:
 ### Task 3.0.1 [LOVABLE] - Update Navigation Structure
 **Status:** ⬜ Not Started
 
+> **JSDoc:** Nav components must document `@brdref BRD v34.0 Section 17 - Navigation Structure`.
+
 Per BRD v34 Section 17:
 - **Smart Websites dropdown** — Rename from "Services", reorder items (Smart Websites first, Let AI Handle It second)
 - **AI & Automation** — Add as second nav item → `/services/ai-automation`
@@ -449,6 +534,8 @@ Per BRD v34 Section 17:
 
 ### Task 3.0.2 [LOVABLE] - Create NavHoverMenu Component
 **Status:** ⬜ Not Started
+
+> **JSDoc:** `@brdref BRD v34.0 Section 17.4 - NavHoverMenu Component Specification`
 
 Create `src/components/NavHoverMenu.tsx` for desktop navigation dropdowns:
 
@@ -475,6 +562,8 @@ Create `src/components/NavHoverMenu.tsx` for desktop navigation dropdowns:
 ### Task 3.1 [LOVABLE] - Create Reusable Section Components
 **Status:** ⬜ Not Started
 
+> **JSDoc:** Each section component must document `@brdref` to corresponding PRD lines and BRD Section 15.
+
 Create `src/components/sections/` with reusable marketing page sections:
 
 | Component | Purpose | PRD Reference |
@@ -489,6 +578,8 @@ Create `src/components/sections/` with reusable marketing page sections:
 ### Task 3.2 [LOVABLE] - Homepage (/)
 **Status:** ⬜ Not Started
 
+> **JSDoc:** Page component must document `@brdref BRD v34.0 Section 15 - Marketing Site Specification`.
+
 **Sections (in order):**
 1. **Hero** - "A Professional Website That Actually Gets You Customers" + "Built in 5 days. Starting at $249. You own everything." + [Get Started → /pricing] + [Book a Call → /contact]
 2. **Problem** - "Sound Familiar?" with 4 pain point cards
@@ -497,12 +588,13 @@ Create `src/components/sections/` with reusable marketing page sections:
 5. **Social Proof** - Testimonials placeholder + stats
 6. **Final CTA** - Benefit restatement with dual CTAs
 
-**SEO:** Title "Professional Websites for Local Businesses | SmartSites"
+**SEO:** Title "Professional Websites for Local Businesses | EverIntent"
 
 ### Task 3.3 [LOVABLE] - Smart Websites Service Page (/smart-websites)
 **Status:** ⬜ Not Started
 
 > **Source:** PRD lines 584-612 (update copy for "Smart Websites" branding)
+> **JSDoc:** `@brdref BRD v34.0 Section 5.1 - Smart Websites` and `@brdref PRD lines 584-612`
 
 **H1:** "Smart Websites That Pay For Themselves"
 **Subhead:** "Built in 5 days. Starting at $249. Ready for AI when you are."
@@ -537,6 +629,7 @@ Create `src/components/sections/` with reusable marketing page sections:
 **Status:** ⬜ Not Started
 
 > **Source:** PRD lines 33-44, 807-809
+> **JSDoc:** `@brdref BRD v34.0 Section 6 - Tier Definitions` and `@brdref Section 7 - Complete Feature Matrix`
 
 **H1:** "Simple, Transparent Pricing"
 
@@ -558,6 +651,8 @@ Create `src/components/sections/` with reusable marketing page sections:
 
 ### Task 3.5 [LOVABLE] - Remaining 6 Service Pages
 **Status:** ⬜ Not Started
+
+> **JSDoc:** Each page must document `@brdref BRD v34.0 Section 5` (corresponding service subsection) and `@brdref PRD lines X-Y`.
 
 Build after Tasks 3.2-3.4 are complete. Each follows same structure with copy from PRD:
 
@@ -600,6 +695,8 @@ Build after Tasks 3.2-3.4 are complete. Each follows same structure with copy fr
 ### Task 4.3 [LOVABLE] - Build Checkout Pages & Components
 **Status:** ⬜ Not Started
 
+> **JSDoc:** All checkout components must document `@brdref BRD v34.0 Section 10 - Checkout & Billing Architecture`.
+
 ---
 
 ## Phase 5: LocalPros
@@ -607,8 +704,12 @@ Build after Tasks 3.2-3.4 are complete. Each follows same structure with copy fr
 ### Task 5.1 [LOVABLE] - LocalPros Landing Page
 **Status:** ⬜ Not Started
 
+> **JSDoc:** `@brdref BRD v34.0 Section 20 - LocalPros Network`
+
 ### Task 5.2 [LOVABLE] - LocalPros Apply Form
 **Status:** ⬜ Not Started
+
+> **JSDoc:** `@brdref BRD v34.0 Section 20 - LocalPros Network` (partner requirements)
 
 ---
 
@@ -617,11 +718,17 @@ Build after Tasks 3.2-3.4 are complete. Each follows same structure with copy fr
 ### Task 6.1 [LOVABLE] - Public Job Listing Page
 **Status:** ⬜ Not Started
 
+> **JSDoc:** `@brdref BRD v34.0 Section 23 - Operational SOPs` (hiring context)
+
 ### Task 6.2 [LOVABLE] - Job Application Form
 **Status:** ⬜ Not Started
 
+> **JSDoc:** References `job_applications` table, `@brdref BRD v34.0 Section 21` (CCPA compliance)
+
 ### Task 6.3 [LOVABLE] - Admin Careers CRUD
 **Status:** ⬜ Not Started
+
+> **JSDoc:** Admin components reference `jobs` table schema
 
 ---
 
@@ -629,17 +736,19 @@ Build after Tasks 3.2-3.4 are complete. Each follows same structure with copy fr
 
 ### Task 7.1 [LOVABLE] - Privacy Policy Page
 **Status:** ⬜ Not Started
+> **Note:** Consolidated into Task 2.3. See Phase 2.
 
 ### Task 7.2 [LOVABLE] - Terms of Service Page
 **Status:** ⬜ Not Started
+> **Note:** Consolidated into Task 2.3. See Phase 2.
 
 ### Task 7.3 [LOVABLE] - Cookie Settings Page
 **Status:** ⬜ Not Started
+> **Note:** Consolidated into Task 2.3. See Phase 2.
 
 ### Task 7.4 [LOVABLE] - Data Rights Request Page
 **Status:** ⬜ Not Started
-
----
+> **Note:** Consolidated into Task 2.3. See Phase 2.
 
 ## Phase 8: Analytics
 
@@ -666,6 +775,8 @@ Build after Tasks 3.2-3.4 are complete. Each follows same structure with copy fr
 
 ### Task 8.3 [LOVABLE] - Integrate GA4 Script
 **Status:** ⬜ Not Started
+
+> **JSDoc:** `@brdref BRD v34.0 Section 13 - GA4 & Analytics`
 
 ---
 
