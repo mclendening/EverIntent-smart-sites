@@ -1652,39 +1652,42 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
                           <div className="flex justify-between items-center">
                             <Label>Base Hue</Label>
                             <div className="flex items-center gap-1">
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                className="h-7 w-7"
-                                onClick={() => setSelectedTheme({ 
-                                  ...selectedTheme, 
-                                  base_hue: Math.max(0, selectedTheme.base_hue - 1) 
-                                })}
-                              >
-                                <ChevronDown className="h-4 w-4" />
-                              </Button>
                               <Input
-                                type="number"
-                                min={0}
-                                max={360}
+                                type="text"
                                 value={selectedTheme.base_hue}
-                                onChange={(e) => setSelectedTheme({ 
-                                  ...selectedTheme, 
-                                  base_hue: Math.min(360, Math.max(0, parseInt(e.target.value) || 0))
-                                })}
-                                className="w-20 h-7 text-center text-sm px-1"
+                                onChange={(e) => {
+                                  const val = parseInt(e.target.value) || 0;
+                                  setSelectedTheme({ 
+                                    ...selectedTheme, 
+                                    base_hue: Math.min(360, Math.max(0, val))
+                                  });
+                                }}
+                                className="w-14 h-8 text-center text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                               />
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                className="h-7 w-7"
-                                onClick={() => setSelectedTheme({ 
-                                  ...selectedTheme, 
-                                  base_hue: Math.min(360, selectedTheme.base_hue + 1) 
-                                })}
-                              >
-                                <ChevronUp className="h-4 w-4" />
-                              </Button>
+                              <div className="flex flex-col">
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  className="h-4 w-6 rounded-b-none border-b-0"
+                                  onClick={() => setSelectedTheme({ 
+                                    ...selectedTheme, 
+                                    base_hue: Math.min(360, selectedTheme.base_hue + 1) 
+                                  })}
+                                >
+                                  <ChevronUp className="h-3 w-3" />
+                                </Button>
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  className="h-4 w-6 rounded-t-none"
+                                  onClick={() => setSelectedTheme({ 
+                                    ...selectedTheme, 
+                                    base_hue: Math.max(0, selectedTheme.base_hue - 1) 
+                                  })}
+                                >
+                                  <ChevronDown className="h-3 w-3" />
+                                </Button>
+                              </div>
                             </div>
                           </div>
                           <Slider
