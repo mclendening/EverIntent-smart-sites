@@ -1651,17 +1651,17 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
                         <div className="space-y-2">
                           <div className="flex justify-between items-center">
                             <Label>Base Hue</Label>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1">
                               <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-6 w-6"
+                                className="h-7 w-7"
                                 onClick={() => setSelectedTheme({ 
                                   ...selectedTheme, 
                                   base_hue: Math.max(0, selectedTheme.base_hue - 1) 
                                 })}
                               >
-                                <ChevronDown className="h-3 w-3" />
+                                <ChevronDown className="h-4 w-4" />
                               </Button>
                               <Input
                                 type="number"
@@ -1672,20 +1672,19 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
                                   ...selectedTheme, 
                                   base_hue: Math.min(360, Math.max(0, parseInt(e.target.value) || 0))
                                 })}
-                                className="w-16 h-6 text-center text-sm"
+                                className="w-20 h-7 text-center text-sm px-1"
                               />
                               <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-6 w-6"
+                                className="h-7 w-7"
                                 onClick={() => setSelectedTheme({ 
                                   ...selectedTheme, 
                                   base_hue: Math.min(360, selectedTheme.base_hue + 1) 
                                 })}
                               >
-                                <ChevronUp className="h-3 w-3" />
+                                <ChevronUp className="h-4 w-4" />
                               </Button>
-                              <span className="text-sm text-muted-foreground w-8">°</span>
                             </div>
                           </div>
                           <Slider

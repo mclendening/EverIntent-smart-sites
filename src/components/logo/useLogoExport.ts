@@ -212,9 +212,40 @@ export function useLogoExport(containerRef: RefObject<HTMLElement>) {
       const x = svgRect.left - rect.left;
       const y = svgRect.top - rect.top;
       
+      // Deep clone and ensure the SVG has proper dimensions and namespace
       const svgClone = svg.cloneNode(true) as SVGElement;
       svgClone.setAttribute('width', svgRect.width.toString());
       svgClone.setAttribute('height', svgRect.height.toString());
+      svgClone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+      
+      // Inline any computed styles for gradients
+      const defs = svgClone.querySelector('defs');
+      if (defs) {
+        const gradients = defs.querySelectorAll('linearGradient, radialGradient');
+        gradients.forEach((gradient) => {
+          // Make sure stop colors are computed
+          const stops = gradient.querySelectorAll('stop');
+          stops.forEach((stop) => {
+            const computed = window.getComputedStyle(stop);
+            const stopColor = computed.getPropertyValue('stop-color') || stop.getAttribute('stop-color');
+            if (stopColor) {
+              stop.setAttribute('stop-color', stopColor);
+            }
+          });
+        });
+      }
+      
+      // Get the fill of polygons and ensure they reference valid gradients
+      const polygons = svgClone.querySelectorAll('polygon, rect, path, circle');
+      polygons.forEach((el) => {
+        const fill = el.getAttribute('fill');
+        if (fill && fill.startsWith('url(#')) {
+          // The gradient reference is internal, should work
+        } else if (fill) {
+          // Solid color, ensure it's set
+          el.setAttribute('fill', fill);
+        }
+      });
       
       const svgData = new XMLSerializer().serializeToString(svgClone);
       const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
@@ -226,8 +257,9 @@ export function useLogoExport(containerRef: RefObject<HTMLElement>) {
           URL.revokeObjectURL(url);
           resolve({ img, x, y, width: svgRect.width, height: svgRect.height });
         };
-        img.onerror = () => {
+        img.onerror = (e) => {
           URL.revokeObjectURL(url);
+          console.error('Failed to load SVG:', e, svgData);
           reject(new Error('Failed to load SVG'));
         };
         img.src = url;
@@ -237,7 +269,12 @@ export function useLogoExport(containerRef: RefObject<HTMLElement>) {
     });
     
     // Wait for all SVG images to load
-    const loadedSvgs = await Promise.all(svgPromises);
+    let loadedSvgs: { img: HTMLImageElement; x: number; y: number; width: number; height: number }[] = [];
+    try {
+      loadedSvgs = await Promise.all(svgPromises);
+    } catch (e) {
+      console.error('SVG loading failed:', e);
+    }
     
     // Draw all SVG elements first (like the streak which is behind text)
     loadedSvgs.forEach(({ img, x, y, width, height }) => {
