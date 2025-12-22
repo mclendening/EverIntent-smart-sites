@@ -113,7 +113,6 @@ export function useLogoExport(containerRef: RefObject<HTMLElement>) {
     const container = containerRef.current;
     const rect = container.getBoundingClientRect();
     
-    // Use html2canvas-like approach with canvas
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -176,8 +175,8 @@ export function useLogoExport(containerRef: RefObject<HTMLElement>) {
   }, [containerRef, toSvgString]);
 
   /**
-   * Export using native canvas drawing (more reliable for complex logos)
-   * Uses promises to ensure all SVG elements are properly rendered before export
+   * Export using foreignObject SVG approach (handles complex CSS including gradients)
+   * This method clones the entire DOM with all computed styles for accurate rendering
    */
   const exportAsPngNative = useCallback(async (
     filename = 'logo.png',
@@ -185,7 +184,7 @@ export function useLogoExport(containerRef: RefObject<HTMLElement>) {
   ) => {
     if (!containerRef.current) return;
     
-    const { scale = 2, backgroundColor = 'transparent' } = options;
+    const { scale = 2 } = options;
     const container = containerRef.current;
     const rect = container.getBoundingClientRect();
     
@@ -195,136 +194,103 @@ export function useLogoExport(containerRef: RefObject<HTMLElement>) {
     
     canvas.width = rect.width * scale;
     canvas.height = rect.height * scale;
-    ctx.scale(scale, scale);
     
-    // Only fill background if not transparent
-    if (backgroundColor !== 'transparent') {
-      ctx.fillStyle = backgroundColor;
-      ctx.fillRect(0, 0, rect.width, rect.height);
-    }
+    // Clone the container and apply all computed styles inline
+    const clone = container.cloneNode(true) as HTMLElement;
     
-    // Collect all SVG elements and load them as images first
-    const svgElements = container.querySelectorAll('svg');
-    const svgPromises: Promise<{ img: HTMLImageElement; x: number; y: number; width: number; height: number }>[] = [];
-    
-    svgElements.forEach((svg) => {
-      const svgRect = svg.getBoundingClientRect();
-      const x = svgRect.left - rect.left;
-      const y = svgRect.top - rect.top;
-      
-      // Deep clone and ensure the SVG has proper dimensions and namespace
-      const svgClone = svg.cloneNode(true) as SVGElement;
-      svgClone.setAttribute('width', svgRect.width.toString());
-      svgClone.setAttribute('height', svgRect.height.toString());
-      svgClone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-      
-      // Inline any computed styles for gradients
-      const defs = svgClone.querySelector('defs');
-      if (defs) {
-        const gradients = defs.querySelectorAll('linearGradient, radialGradient');
-        gradients.forEach((gradient) => {
-          // Make sure stop colors are computed
-          const stops = gradient.querySelectorAll('stop');
-          stops.forEach((stop) => {
-            const computed = window.getComputedStyle(stop);
-            const stopColor = computed.getPropertyValue('stop-color') || stop.getAttribute('stop-color');
-            if (stopColor) {
-              stop.setAttribute('stop-color', stopColor);
-            }
-          });
-        });
+    const applyAllStyles = (source: Element, target: Element) => {
+      if (source instanceof HTMLElement && target instanceof HTMLElement) {
+        const computed = window.getComputedStyle(source);
+        // Copy ALL computed styles
+        for (let i = 0; i < computed.length; i++) {
+          const prop = computed[i];
+          target.style.setProperty(prop, computed.getPropertyValue(prop));
+        }
       }
       
-      // Get the fill of polygons and ensure they reference valid gradients
-      const polygons = svgClone.querySelectorAll('polygon, rect, path, circle');
-      polygons.forEach((el) => {
-        const fill = el.getAttribute('fill');
-        if (fill && fill.startsWith('url(#')) {
-          // The gradient reference is internal, should work
-        } else if (fill) {
-          // Solid color, ensure it's set
-          el.setAttribute('fill', fill);
+      // Handle SVG elements - copy attributes and inline styles
+      if (source instanceof SVGElement && target instanceof SVGElement) {
+        for (let i = 0; i < source.attributes.length; i++) {
+          const attr = source.attributes[i];
+          target.setAttribute(attr.name, attr.value);
         }
-      });
-      
-      const svgData = new XMLSerializer().serializeToString(svgClone);
-      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-      const url = URL.createObjectURL(svgBlob);
-      
-      const promise = new Promise<{ img: HTMLImageElement; x: number; y: number; width: number; height: number }>((resolve, reject) => {
-        const img = new Image();
-        img.onload = () => {
-          URL.revokeObjectURL(url);
-          resolve({ img, x, y, width: svgRect.width, height: svgRect.height });
-        };
-        img.onerror = (e) => {
-          URL.revokeObjectURL(url);
-          console.error('Failed to load SVG:', e, svgData);
-          reject(new Error('Failed to load SVG'));
-        };
-        img.src = url;
-      });
-      
-      svgPromises.push(promise);
-    });
-    
-    // Wait for all SVG images to load
-    let loadedSvgs: { img: HTMLImageElement; x: number; y: number; width: number; height: number }[] = [];
-    try {
-      loadedSvgs = await Promise.all(svgPromises);
-    } catch (e) {
-      console.error('SVG loading failed:', e);
-    }
-    
-    // Draw all SVG elements first (like the streak which is behind text)
-    loadedSvgs.forEach(({ img, x, y, width, height }) => {
-      ctx.drawImage(img, x, y, width, height);
-    });
-    
-    // Find text elements and draw them on top
-    const textElements = container.querySelectorAll('span, p');
-    textElements.forEach((el) => {
-      if (!(el instanceof HTMLElement)) return;
-      
-      const elRect = el.getBoundingClientRect();
-      const style = window.getComputedStyle(el);
-      const x = elRect.left - rect.left;
-      const y = elRect.top - rect.top + parseFloat(style.fontSize) * 0.85;
-      
-      ctx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-      
-      // Handle gradient text
-      const backgroundImage = style.backgroundImage;
-      if (backgroundImage && backgroundImage.includes('gradient')) {
-        const matches = backgroundImage.match(/#[a-fA-F0-9]{6}|rgb[a]?\([^)]+\)/g);
-        if (matches && matches.length >= 2) {
-          const gradient = ctx.createLinearGradient(x, y - parseFloat(style.fontSize), x + elRect.width, y);
-          gradient.addColorStop(0, matches[0]);
-          gradient.addColorStop(1, matches[1]);
-          ctx.fillStyle = gradient;
-        } else {
-          ctx.fillStyle = style.color;
+        
+        // For SVG gradient stops, get computed stop-color
+        if (source.tagName === 'stop') {
+          const computed = window.getComputedStyle(source);
+          const stopColor = computed.getPropertyValue('stop-color');
+          if (stopColor) {
+            target.setAttribute('stop-color', stopColor);
+          }
         }
-      } else {
-        ctx.fillStyle = style.color;
       }
       
-      ctx.fillText(el.textContent || '', x, y);
-    });
+      Array.from(source.children).forEach((child, index) => {
+        if (target.children[index]) {
+          applyAllStyles(child, target.children[index]);
+        }
+      });
+    };
     
-    // Export the canvas
-    canvas.toBlob((blob) => {
-      if (!blob) return;
+    applyAllStyles(container, clone);
+    
+    // Force transparent background on clone
+    clone.style.background = 'transparent';
+    clone.style.backgroundColor = 'transparent';
+    
+    // Create SVG with foreignObject containing the scaled clone
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('xmlns', svgNS);
+    svg.setAttribute('width', (rect.width * scale).toString());
+    svg.setAttribute('height', (rect.height * scale).toString());
+    
+    // Add a group with scale transform
+    const g = document.createElementNS(svgNS, 'g');
+    g.setAttribute('transform', `scale(${scale})`);
+    
+    const foreignObject = document.createElementNS(svgNS, 'foreignObject');
+    foreignObject.setAttribute('width', rect.width.toString());
+    foreignObject.setAttribute('height', rect.height.toString());
+    
+    clone.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+    foreignObject.appendChild(clone);
+    g.appendChild(foreignObject);
+    svg.appendChild(g);
+    
+    const svgString = new XMLSerializer().serializeToString(svg);
+    const svgDataUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgString);
+    
+    return new Promise<void>((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0);
+        
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            reject(new Error('Failed to create PNG'));
+            return;
+          }
+          
+          const downloadUrl = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = downloadUrl;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(downloadUrl);
+          resolve();
+        }, 'image/png');
+      };
       
-      const downloadUrl = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = downloadUrl;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(downloadUrl);
-    }, 'image/png');
+      img.onerror = (e) => {
+        console.error('Failed to load SVG for PNG export:', e);
+        reject(new Error('Failed to render PNG'));
+      };
+      
+      img.src = svgDataUrl;
+    });
   }, [containerRef]);
 
   return {
