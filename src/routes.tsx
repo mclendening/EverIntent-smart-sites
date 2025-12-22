@@ -40,6 +40,12 @@ import AdminDashboard from './pages/admin/Dashboard';
 import AdminThemes from './pages/admin/Themes';
 import ThemeTestPage from './pages/admin/ThemeTestPage';
 
+// Legal pages
+import PrivacyPolicy from './pages/legal/PrivacyPolicy';
+import TermsOfService from './pages/legal/TermsOfService';
+import CookiePolicy from './pages/legal/CookiePolicy';
+import DataRightsRequest from './pages/legal/DataRightsRequest';
+
 // ============================================
 // LAYOUT COMPONENTS
 // ============================================
@@ -366,7 +372,11 @@ export const routes: RouteRecord[] = [
       // Checkout
       ...checkoutPaths.map(createPlaceholderChild),
       // Legal
-      ...legalPaths.map(createPlaceholderChild),
+      // Legal pages (actual components)
+      { path: 'legal/privacy', Component: PrivacyPolicy },
+      { path: 'legal/terms', Component: TermsOfService },
+      { path: 'legal/cookies', Component: CookiePolicy },
+      { path: 'legal/data-request', Component: DataRightsRequest },
       // Resources
       ...resourcePaths.map(createPlaceholderChild),
       // LocalPros
