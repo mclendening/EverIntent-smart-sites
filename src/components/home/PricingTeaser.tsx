@@ -1,7 +1,16 @@
+/**
+ * @fileoverview Homepage pricing preview with tier cards.
+ * @module components/home/PricingTeaser
+ */
+
 import { Check, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { CTAButton } from '@/components/CTAButton';
 
+/**
+ * Pricing tier data for homepage preview.
+ * Shows 3 of 5 tiers: Smart Site, Smart Lead, Smart Growth.
+ */
 const tiers = [
   {
     name: 'Smart Site',
@@ -32,6 +41,14 @@ const tiers = [
   },
 ];
 
+/**
+ * Three-column pricing preview with tier cards and "Compare all plans" link.
+ * Highlights "Most Popular" tier with accent styling.
+ * 
+ * @component
+ * @example
+ * <PricingTeaser />
+ */
 export function PricingTeaser() {
   return (
     <section className="relative py-16 md:py-24 overflow-hidden">

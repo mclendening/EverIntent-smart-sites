@@ -1,6 +1,15 @@
+/**
+ * @fileoverview Homepage section showcasing three core service outcomes.
+ * @module components/home/HowWeHelpSection
+ */
+
 import { Link } from "react-router-dom";
 import { Globe, TrendingUp, MessageSquare, ArrowRight } from "lucide-react";
 
+/**
+ * Service outcome cards with icons, descriptions, and links.
+ * Focuses on customer benefits rather than features.
+ */
 const outcomes = [
   {
     icon: Globe,
@@ -25,6 +34,14 @@ const outcomes = [
   },
 ];
 
+/**
+ * Three-column section highlighting core service outcomes for local businesses.
+ * Cards feature gradient icons, descriptions, and links to service pages.
+ * 
+ * @component
+ * @example
+ * <HowWeHelpSection />
+ */
 const HowWeHelpSection = () => {
   return (
     <section className="relative py-20 md:py-28 bg-background overflow-hidden">

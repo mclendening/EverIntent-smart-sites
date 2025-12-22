@@ -1,9 +1,17 @@
+/**
+ * @fileoverview Site footer component with navigation links and branding.
+ * @module components/layout/Footer
+ */
+
 import { Link } from 'react-router-dom';
 import { Linkedin, Twitter, Facebook, Sparkles, ArrowUpRight } from 'lucide-react';
 import { triggerCookiePreferences } from '@/components/CookieConsent';
 import { CTAButton } from '@/components/CTAButton';
 
-// Products links (SEO-focused product category pages)
+/**
+ * Product service links for SEO-focused category pages.
+ * Links to individual service landing pages for web design, SEO, lead capture, etc.
+ */
 const productsLinks = [
   { title: 'Web Design', path: '/services/web-design' },
   { title: 'Local SEO', path: '/services/seo' },
@@ -13,7 +21,10 @@ const productsLinks = [
   { title: 'AI Automation', path: '/services/ai-automation' },
 ];
 
-// Packages links (direct conversion paths)
+/**
+ * Package/tier links for direct conversion paths.
+ * Links to checkout pages for each service tier.
+ */
 const packagesLinks = [
   { title: 'Smart Site', path: '/checkout/smart-site' },
   { title: 'Smart Lead', path: '/checkout/smart-lead' },
@@ -23,7 +34,9 @@ const packagesLinks = [
   { title: 'Strategy Session', path: '/strategy-session' },
 ];
 
-// Resources links
+/**
+ * Resource and help links for customer support.
+ */
 const resourcesLinks = [
   { title: 'LocalPros Network', path: '/localpros' },
   { title: 'Help', path: '/help' },
@@ -31,7 +44,9 @@ const resourcesLinks = [
   { title: 'Support', path: '/support' },
 ];
 
-// Company links
+/**
+ * Company information links.
+ */
 const companyLinks = [
   { title: 'About', path: '/about' },
   { title: 'Contact', path: '/contact' },
@@ -39,7 +54,10 @@ const companyLinks = [
   { title: 'Careers', path: '/careers' },
 ];
 
-// Legal links (for bottom section)
+/**
+ * Legal and compliance links for bottom section.
+ * Cookies link triggers consent modal instead of navigation.
+ */
 const legalLinks = [
   { title: 'Privacy', path: '/legal/privacy' },
   { title: 'Cookies', path: '/legal/cookies' },
@@ -47,12 +65,30 @@ const legalLinks = [
   { title: 'Data Rights', path: '/legal/data-request' },
 ];
 
+/**
+ * Social media profile links with icons.
+ */
 const socialLinks = [
   { icon: Linkedin, href: 'https://linkedin.com/company/everintent', label: 'LinkedIn' },
   { icon: Twitter, href: 'https://twitter.com/everintent', label: 'X (Twitter)' },
   { icon: Facebook, href: 'https://facebook.com/everintent', label: 'Facebook' },
 ];
 
+/**
+ * Site footer with multi-column navigation, branding, contact info, and legal links.
+ * Renders EverIntent brand identity with gradient accents and mesh background.
+ * The Cookies link triggers the cookie consent modal via triggerCookiePreferences().
+ * 
+ * Layout:
+ * - 4-column grid: Products, Packages, Resources, Company
+ * - Branded section with logo, tagline, CTA, and social icons
+ * - Contact info row with email and phone
+ * - Bottom bar with copyright and legal links
+ * 
+ * @component
+ * @example
+ * <Footer />
+ */
 export function Footer() {
   const currentYear = new Date().getFullYear();
 

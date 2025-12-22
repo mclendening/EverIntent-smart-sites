@@ -1,7 +1,14 @@
+/**
+ * @fileoverview Homepage portfolio preview grid with sample work.
+ * @module components/home/PortfolioPreview
+ */
+
 import { ArrowRight, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-// Placeholder portfolio items - will be replaced with real data from Supabase
+/**
+ * Sample portfolio items. Will be replaced with Supabase data.
+ */
 const portfolioItems = [
   {
     id: '1',
@@ -26,6 +33,14 @@ const portfolioItems = [
   },
 ];
 
+/**
+ * Three-column portfolio preview grid showing recent client work.
+ * Links to full portfolio page with "View all work" CTA.
+ * 
+ * @component
+ * @example
+ * <PortfolioPreview />
+ */
 export function PortfolioPreview() {
   return (
     <section className="relative py-16 md:py-24 bg-card/30">
@@ -57,7 +72,6 @@ export function PortfolioPreview() {
               key={item.id}
               className="group relative bg-background rounded-2xl overflow-hidden border border-border/30 hover:border-primary/30 transition-all duration-500 hover-lift"
             >
-              {/* Image */}
               <div className="relative aspect-[3/2] overflow-hidden">
                 <img 
                   src={item.imageUrl} 
@@ -66,7 +80,6 @@ export function PortfolioPreview() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-60" />
                 
-                {/* Hover overlay */}
                 <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                   <div className="w-10 h-10 rounded-full bg-background/90 flex items-center justify-center">
                     <ExternalLink className="w-5 h-5 text-primary" />
@@ -74,7 +87,6 @@ export function PortfolioPreview() {
                 </div>
               </div>
               
-              {/* Content */}
               <div className="p-5">
                 <div className="text-xs text-primary font-medium mb-2">{item.industry}</div>
                 <h3 className="text-lg font-semibold text-foreground mb-1">{item.title}</h3>

@@ -1,6 +1,13 @@
+/**
+ * @fileoverview Animated marquee bar with trust stats.
+ * @module components/home/SocialProofBar
+ */
+
 import { Star, Zap, Shield, Clock, LucideIcon } from 'lucide-react';
 
-// SVG Gradient definition for icons
+/**
+ * SVG gradient for marquee icons.
+ */
 const GradientDefs = () => (
   <svg width="0" height="0" className="absolute">
     <defs>
@@ -13,6 +20,9 @@ const GradientDefs = () => (
   </svg>
 );
 
+/**
+ * Icon with gradient stroke effect.
+ */
 const GradientIcon = ({ icon: Icon, className = "" }: { icon: LucideIcon; className?: string }) => (
   <Icon 
     className={className}
@@ -20,6 +30,9 @@ const GradientIcon = ({ icon: Icon, className = "" }: { icon: LucideIcon; classN
   />
 );
 
+/**
+ * Trust stats displayed in marquee.
+ */
 const stats = [
   { icon: Zap, value: '65+', label: 'Industries' },
   { icon: Star, value: '4.9', label: 'Rating' },
@@ -27,20 +40,24 @@ const stats = [
   { icon: Shield, value: '100%', label: 'Satisfaction' },
 ];
 
+/**
+ * Infinite scrolling marquee bar with trust statistics.
+ * Displays key metrics to build credibility with visitors.
+ * 
+ * @component
+ * @example
+ * <SocialProofBar />
+ */
 export function SocialProofBar() {
-  // Duplicate stats for seamless loop
   const duplicatedStats = [...stats, ...stats, ...stats, ...stats];
 
   return (
     <div className="relative py-3 -mt-[100px] overflow-hidden bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10">
-      {/* Hidden SVG gradient definition */}
       <GradientDefs />
       
-      {/* Gradient overlays for fade effect */}
       <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10" />
       <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10" />
       
-      {/* Marquee track */}
       <div className="flex animate-marquee">
         {duplicatedStats.map((stat, index) => (
           <div

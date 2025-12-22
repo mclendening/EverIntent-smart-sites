@@ -1,32 +1,33 @@
+/**
+ * @fileoverview Homepage section showcasing supported industry verticals.
+ * @module components/home/IndustriesSection
+ */
+
 import { Home, Briefcase, Heart, Car, ArrowRight, LucideIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-// SVG Gradient definitions for icons
+/**
+ * SVG gradient definitions for industry icons.
+ * Creates ocean blue gradient effect.
+ */
 const GradientDefs = () => (
   <svg width="0" height="0" className="absolute">
     <defs>
-      {/* Option 1: Ocean Blue - Deep navy to bright cyan */}
       <linearGradient id="gradient-ocean" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stopColor="hsl(210, 100%, 40%)" />
         <stop offset="50%" stopColor="hsl(200, 100%, 50%)" />
         <stop offset="100%" stopColor="hsl(185, 100%, 45%)" />
       </linearGradient>
-      
-      {/* Option 2: Royal Blue - Indigo to azure */}
       <linearGradient id="gradient-royal" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stopColor="hsl(235, 85%, 55%)" />
         <stop offset="50%" stopColor="hsl(220, 90%, 55%)" />
         <stop offset="100%" stopColor="hsl(200, 100%, 50%)" />
       </linearGradient>
-      
-      {/* Option 3: Sky Blue - Light cerulean to teal */}
       <linearGradient id="gradient-sky" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stopColor="hsl(195, 90%, 50%)" />
         <stop offset="50%" stopColor="hsl(185, 85%, 48%)" />
         <stop offset="100%" stopColor="hsl(175, 80%, 45%)" />
       </linearGradient>
-      
-      {/* Option 4: Electric Blue - Vivid cobalt to bright blue */}
       <linearGradient id="gradient-electric" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stopColor="hsl(225, 95%, 55%)" />
         <stop offset="50%" stopColor="hsl(210, 100%, 55%)" />
@@ -36,7 +37,9 @@ const GradientDefs = () => (
   </svg>
 );
 
-// Gradient Icon wrapper component
+/**
+ * Icon wrapper that applies SVG gradient stroke.
+ */
 const GradientIcon = ({ icon: Icon, gradientId, className = "" }: { icon: LucideIcon; gradientId: string; className?: string }) => (
   <Icon 
     className={className}
@@ -44,6 +47,10 @@ const GradientIcon = ({ icon: Icon, gradientId, className = "" }: { icon: Lucide
   />
 );
 
+/**
+ * Industry hub data with icons and vertical counts.
+ * Links to industry-specific landing pages.
+ */
 const industries = [
   {
     icon: Home,
@@ -75,10 +82,17 @@ const industries = [
   },
 ];
 
+/**
+ * Four-column grid showcasing 65+ industry verticals across 4 hubs.
+ * Cards link to industry-specific landing pages with vertical counts.
+ * 
+ * @component
+ * @example
+ * <IndustriesSection />
+ */
 export function IndustriesSection() {
   return (
     <section className="relative py-16 md:py-24 bg-card/50">
-      {/* Hidden SVG gradient definitions */}
       <GradientDefs />
       
       <div className="container mx-auto px-4">
@@ -101,7 +115,6 @@ export function IndustriesSection() {
               to={industry.href}
               className="group relative bg-background rounded-xl p-5 md:p-6 border border-border/30 hover:border-primary/50 transition-all duration-300 hover-lift"
             >
-              {/* Title row with inline icon */}
               <div className="flex items-center gap-3 mb-2">
                 <GradientIcon 
                   icon={industry.icon} 
@@ -114,10 +127,8 @@ export function IndustriesSection() {
                 </h3>
               </div>
               
-              {/* Description */}
               <p className="text-sm text-muted-foreground pl-8">{industry.description}</p>
               
-              {/* Full-width separator */}
               <div className="my-3 -mx-5 md:-mx-6 h-px bg-gradient-to-r from-transparent via-border/50 to-transparent" />
               
               <span className="text-xs text-foreground font-normal pl-8 flex items-center gap-2">

@@ -1,5 +1,13 @@
+/**
+ * @fileoverview Homepage results/metrics section.
+ * @module components/home/TransformationSection
+ */
+
 import { TrendingUp, Phone, Star, Users } from 'lucide-react';
 
+/**
+ * Business transformation metrics showing typical client results.
+ */
 const results = [
   {
     icon: Phone,
@@ -27,6 +35,14 @@ const results = [
   },
 ];
 
+/**
+ * Four-column grid displaying key business transformation metrics.
+ * Shows typical client results: calls, revenue, ratings, availability.
+ * 
+ * @component
+ * @example
+ * <TransformationSection />
+ */
 export function TransformationSection() {
   return (
     <section className="relative py-16 md:py-24 bg-card/50">
