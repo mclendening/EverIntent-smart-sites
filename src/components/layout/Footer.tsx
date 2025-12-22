@@ -263,14 +263,19 @@ export function Footer() {
             © {currentYear} EverIntent LLC. All rights reserved.
           </p>
 
-          {/* Legal Links */}
-          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-xs">
+          {/* Legal Links - larger touch targets on mobile */}
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs">
             {legalLinks.map((link) => (
               link.path === '/legal/cookies' ? (
                 <button
                   key={link.path}
-                  onClick={triggerCookiePreferences}
-                  className="text-muted-foreground/60 hover:text-accent transition-colors duration-300 min-h-[44px] flex items-center touch-manipulation"
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    triggerCookiePreferences();
+                  }}
+                  className="text-muted-foreground/60 hover:text-accent transition-colors duration-300 py-3 px-1 touch-manipulation active:text-accent"
                 >
                   {link.title}
                 </button>
@@ -278,7 +283,7 @@ export function Footer() {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className="text-muted-foreground/60 hover:text-accent transition-colors duration-300 min-h-[44px] flex items-center touch-manipulation"
+                  className="text-muted-foreground/60 hover:text-accent transition-colors duration-300 py-3 px-1 touch-manipulation"
                 >
                   {link.title}
                 </Link>

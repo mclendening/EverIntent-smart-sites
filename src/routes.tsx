@@ -29,6 +29,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Layout } from '@/components/layout/Layout';
 import { AdminGuard } from '@/components/admin/AdminGuard';
 import { ClientOnly } from '@/components/ClientOnly';
+import { ScrollToTop } from '@/components/ScrollToTop';
 import { getThemeForRoute, applyThemeToRoot } from '@/config/themes';
 
 // Direct page imports for SSG compatibility
@@ -80,6 +81,7 @@ function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
+        <ScrollToTop />
         <Layout>
           <Suspense fallback={<div className="min-h-screen" />}>
             <Outlet />
@@ -111,6 +113,7 @@ function AdminLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ScrollToTop />
       <Suspense fallback={<div className="min-h-screen" />}>
         <Outlet />
       </Suspense>
