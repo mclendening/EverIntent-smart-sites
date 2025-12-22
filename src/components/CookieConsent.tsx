@@ -1,46 +1,49 @@
 /**
- * @fileoverview CookieConsent Component - GDPR/CCPA Cookie Consent Banner
- * @description Displays cookie consent banner per BRD v33.0 Section 21 (Legal & Compliance).
- *              Controls access to chat widgets, analytics, and third-party scripts.
+ * CookieConsent Component - GDPR/CCPA Cookie Consent Banner
  * 
- * @module components/CookieConsent
- * @see {@link https://docs.lovable.dev} Lovable Documentation
+ * Displays a cookie consent banner with granular category selection.
+ * Industry-standard defaults: Only strictly necessary cookies enabled.
+ * Optional categories (Analytics, Marketing, Functional) are OFF by default.
  * 
- * @brd-reference BRD v33.0 Section 21 - Legal & Compliance
- * @brd-reference BRD v33.0 Section 19 - TCPA Compliance
- * @brd-reference BRD v33.0 Section 14 - GHL Chat Widget Integration
+ * Components:
+ * - CookieConsent: Main banner with Accept All / Manage Preferences / Reject Optional
+ * - CookiePreferencesModal: Granular category selection (in separate file)
  */
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { X } from 'lucide-react';
+import { X, Settings } from 'lucide-react';
+import { 
+  CookiePreferencesModal, 
+  CookiePreferences, 
+  COOKIE_PREFERENCES_KEY, 
+  CONSENT_KEY,
+  DEFAULT_PREFERENCES,
+  getCookiePreferences 
+} from './CookiePreferencesModal';
 
 /**
- * LocalStorage key for persisting cookie consent choice
- * @constant {string}
+ * Save cookie preferences to localStorage and dispatch change event
  */
-const CONSENT_KEY = 'cookie-consent';
+function saveCookiePreferences(preferences: CookiePreferences) {
+  localStorage.setItem(COOKIE_PREFERENCES_KEY, JSON.stringify(preferences));
+  localStorage.setItem(CONSENT_KEY, 'custom'); // Legacy compatibility
+  window.dispatchEvent(new CustomEvent('cookie-consent-changed', { detail: preferences }));
+}
 
 /**
  * CookieConsent - GDPR/CCPA compliant cookie consent banner
  * 
- * Behavior per BRD v33.0:
+ * Features:
  * - Appears 1 second after page load if no consent exists
- * - Accept/Decline buttons persist choice to localStorage
- * - Dispatches 'cookie-consent-changed' event for other components
- * - MobileBottomBar, DesktopChatButton, GHLChatWidget listen for this event
- * 
- * @component
- * @example
- * // In Layout.tsx, wrapped in ClientOnly for SSG safety
- * <ClientOnly>
- *   <CookieConsent />
- * </ClientOnly>
- * 
- * @returns {JSX.Element | null} Cookie consent banner or null if consent already given
+ * - "Accept All" enables all cookie categories
+ * - "Manage Preferences" opens granular selection modal
+ * - "Reject Optional" enables only necessary cookies
+ * - Maximum z-index ensures visibility over all content
  */
 export function CookieConsent() {
   const [showBanner, setShowBanner] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     // Check if consent already given
@@ -53,100 +56,127 @@ export function CookieConsent() {
   }, []);
 
   /**
-   * Handle user accepting cookies
-   * Sets consent to 'accepted' and notifies other components
+   * Handle user accepting all cookies
    */
-  const handleAccept = () => {
-    localStorage.setItem(CONSENT_KEY, 'accepted');
+  const handleAcceptAll = () => {
+    const allEnabled: CookiePreferences = {
+      necessary: true,
+      analytics: true,
+      marketing: true,
+      functional: true,
+    };
+    saveCookiePreferences(allEnabled);
     setShowBanner(false);
-    // Dispatch event for other components (MobileBottomBar, chat widgets)
-    window.dispatchEvent(new CustomEvent('cookie-consent-changed'));
   };
 
   /**
-   * Handle user declining cookies
-   * Sets consent to 'declined' - chat features remain hidden
+   * Handle user rejecting optional cookies (industry standard default)
    */
-  const handleDecline = () => {
-    localStorage.setItem(CONSENT_KEY, 'declined');
+  const handleRejectOptional = () => {
+    saveCookiePreferences(DEFAULT_PREFERENCES);
     setShowBanner(false);
-    window.dispatchEvent(new CustomEvent('cookie-consent-changed'));
+  };
+
+  /**
+   * Handle saving preferences from modal
+   */
+  const handleSavePreferences = (preferences: CookiePreferences) => {
+    saveCookiePreferences(preferences);
+    setShowBanner(false);
   };
 
   if (!showBanner) return null;
 
   return (
-    <div 
-      className="fixed bottom-0 left-0 right-0 z-[2147483647] p-4 bg-card border-t border-border shadow-elevated animate-in slide-in-from-bottom duration-300"
-      role="dialog"
-      aria-label="Cookie consent"
-    >
-      <div className="container mx-auto max-w-4xl relative">
-        {/* Mobile close button - positioned relative to container */}
-        <button
-          onClick={handleDecline}
-          className="sm:hidden absolute -top-1 right-0 p-2 text-muted-foreground hover:text-foreground transition-colors touch-manipulation"
-          aria-label="Close cookie banner"
-          type="button"
-        >
-          <X className="h-5 w-5" aria-hidden="true" />
-        </button>
-        
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pr-8 sm:pr-0">
-          <div className="flex-1">
-            <p className="text-sm text-foreground">
-              We use cookies to enhance your experience and enable features like our chat support. 
-              By clicking "Accept", you consent to our use of cookies.{' '}
-              <a 
-                href="/legal/cookies" 
-                className="text-accent hover:text-accent-hover underline transition-colors"
+    <>
+      <div 
+        className="fixed bottom-0 left-0 right-0 z-[2147483647] p-4 bg-card border-t border-border shadow-elevated animate-in slide-in-from-bottom duration-300"
+        role="dialog"
+        aria-label="Cookie consent"
+      >
+        <div className="container mx-auto max-w-4xl relative">
+          {/* Mobile close button */}
+          <button
+            onClick={handleRejectOptional}
+            className="sm:hidden absolute -top-1 right-0 p-2 text-muted-foreground hover:text-foreground transition-colors touch-manipulation"
+            aria-label="Close and reject optional cookies"
+            type="button"
+          >
+            <X className="h-5 w-5" aria-hidden="true" />
+          </button>
+          
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pr-8 sm:pr-0">
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-foreground mb-1">
+                We value your privacy
+              </p>
+              <p className="text-sm text-muted-foreground">
+                We use cookies to enhance your experience. By default, only essential cookies are enabled.{' '}
+                <a 
+                  href="/legal/cookies" 
+                  className="text-accent hover:text-accent-hover underline transition-colors"
+                >
+                  Learn more
+                </a>
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-2 shrink-0 w-full sm:w-auto">
+              <Button
+                variant="outline"
+                size="default"
+                onClick={handleRejectOptional}
+                className="text-muted-foreground flex-1 sm:flex-none min-h-[44px] touch-manipulation"
+                type="button"
               >
-                Learn more
-              </a>
-            </p>
-          </div>
-          <div className="flex items-center gap-3 shrink-0 w-full sm:w-auto">
-            <Button
-              variant="outline"
-              size="default"
-              onClick={handleDecline}
-              className="text-muted-foreground flex-1 sm:flex-none min-h-[44px] touch-manipulation"
-              type="button"
-            >
-              Decline
-            </Button>
-            <Button
-              size="default"
-              onClick={handleAccept}
-              className="bg-accent text-accent-foreground hover:bg-accent-hover flex-1 sm:flex-none min-h-[44px] touch-manipulation"
-              type="button"
-            >
-              Accept
-            </Button>
+                Reject Optional
+              </Button>
+              <Button
+                variant="outline"
+                size="default"
+                onClick={() => setShowModal(true)}
+                className="flex-1 sm:flex-none min-h-[44px] touch-manipulation"
+                type="button"
+              >
+                <Settings className="h-4 w-4 mr-2" aria-hidden="true" />
+                Preferences
+              </Button>
+              <Button
+                size="default"
+                onClick={handleAcceptAll}
+                className="bg-accent text-accent-foreground hover:bg-accent-hover flex-1 sm:flex-none min-h-[44px] touch-manipulation"
+                type="button"
+              >
+                Accept All
+              </Button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      <CookiePreferencesModal
+        open={showModal}
+        onOpenChange={setShowModal}
+        onSave={handleSavePreferences}
+      />
+    </>
   );
 }
 
 /**
- * triggerCookiePreferences - Helper to re-show cookie preferences banner
+ * triggerCookiePreferences - Opens the cookie preferences modal
  * 
- * Called from Footer "Cookies" link to allow users to change their preference.
- * Removes existing consent and forces banner to re-render.
- * 
- * @function
- * @example
- * // In Footer.tsx
- * <button onClick={triggerCookiePreferences}>Cookies</button>
- * 
- * @returns {void}
+ * Called from Footer "Cookies" link or Cookie Policy page to allow
+ * users to change their preferences at any time.
  */
 export function triggerCookiePreferences() {
   // Remove existing consent to show banner again
   localStorage.removeItem(CONSENT_KEY);
+  localStorage.removeItem(COOKIE_PREFERENCES_KEY);
   window.dispatchEvent(new CustomEvent('cookie-consent-changed'));
   // Force re-render by dispatching storage event
   window.dispatchEvent(new StorageEvent('storage', { key: CONSENT_KEY }));
 }
+
+// Re-export for convenience
+export { getCookiePreferences, isCategoryEnabled } from './CookiePreferencesModal';
+export type { CookiePreferences } from './CookiePreferencesModal';
