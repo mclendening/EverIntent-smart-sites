@@ -171,7 +171,7 @@ export const activeTheme: ThemeConfig = {
     streakConfig: {
         "length": 384,
         "leftThick": 4,
-        "gradientTo": "#28288a",
+        "gradientTo": "#7878dd",
         "marginLeft": 0,
         "rightThick": 1,
         "solidColor": "#A855F7",
