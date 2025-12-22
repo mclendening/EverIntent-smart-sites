@@ -8,7 +8,7 @@
  * 
  * SSG Compatible: Imported statically, zero runtime DB calls.
  * 
- * @generated 2025-12-21
+ * @generated 2025-12-22
  */
 
 // Logo element types for embedded config
@@ -22,7 +22,7 @@ export interface LogoElementConfig {
   gradientAngle: number;
   marginLeft: number;
   marginRight: number;
-  verticalOffset: number;
+  verticalOffset?: number;
 }
 
 export interface StreakElementConfig {
@@ -143,54 +143,54 @@ export const activeTheme: ThemeConfig = {
   },
   logoVersionId: 'f427aa31-0016-408e-98d4-86a7573b1b15',
   logoConfig: {
-    taglineText: 'Web Design & Automations',
+    taglineText: 'Web Design AI & Automation',
     everConfig: {
-      size: 72,
-      weight: 700,
-      solidColor: '#FFFFFF',
-      useGradient: false,
-      gradientFrom: '#FFFFFF',
-      gradientTo: '#A855F7',
-      gradientAngle: 135,
-      marginLeft: 0,
-      marginRight: 3,
-      verticalOffset: -1,
+        "size": 72,
+        "weight": 700,
+        "gradientTo": "#A855F7",
+        "marginLeft": 0,
+        "solidColor": "#FFFFFF",
+        "marginRight": 3,
+        "useGradient": false,
+        "gradientFrom": "#FFFFFF",
+        "gradientAngle": 135,
+        "verticalOffset": -1
     },
     intentConfig: {
-      size: 72,
-      weight: 700,
-      solidColor: '#A855F7',
-      useGradient: false,
-      gradientFrom: '#A855F7',
-      gradientTo: '#FFFFFF',
-      gradientAngle: 135,
-      marginLeft: 0,
-      marginRight: 0,
-      verticalOffset: 1,
+        "size": 72,
+        "weight": 700,
+        "gradientTo": "#FFFFFF",
+        "marginLeft": 0,
+        "solidColor": "#A855F7",
+        "marginRight": 0,
+        "useGradient": false,
+        "gradientFrom": "#A855F7",
+        "gradientAngle": 135,
+        "verticalOffset": 1
     },
     streakConfig: {
-      length: 373,
-      leftThick: 4,
-      rightThick: 1,
-      solidColor: '#A855F7',
-      useGradient: true,
-      gradientFrom: '#A855F7',
-      gradientTo: '#FBF9F9',
-      gradientAngle: 90,
-      marginLeft: 0,
-      marginRight: 0,
+        "length": 373,
+        "leftThick": 4,
+        "gradientTo": "#FBF9F9",
+        "marginLeft": 0,
+        "rightThick": 1,
+        "solidColor": "#A855F7",
+        "marginRight": 0,
+        "useGradient": true,
+        "gradientFrom": "#A855F7",
+        "gradientAngle": 90
     },
     taglineConfig: {
-      size: 29,
-      weight: 400,
-      solidColor: '#FFFFFF',
-      useGradient: false,
-      gradientFrom: '#FFFFFF',
-      gradientTo: '#A855F7',
-      gradientAngle: 135,
-      marginLeft: 0,
-      marginRight: 0,
-      marginTop: 5,
+        "size": 26,
+        "weight": 400,
+        "marginTop": 5,
+        "gradientTo": "#A855F7",
+        "marginLeft": 0,
+        "solidColor": "#FFFFFF",
+        "marginRight": 0,
+        "useGradient": false,
+        "gradientFrom": "#FFFFFF",
+        "gradientAngle": 135
     },
   },
 };

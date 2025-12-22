@@ -6,22 +6,15 @@
    Award-Winning Agency Aesthetic
    Inspired by SPINX, Shape, VRRB - proven converters
    All colors MUST be HSL.
+   
+   AUTO-GENERATED from theme: Indigo Night
+   Generated: 2025-12-22
+   DO NOT edit manually - use admin theme editor and "Publish to Production".
 */
 
 @layer base {
-  /* 
-   * Production Theme: Golden Amber Dark
-   * 
-   * IMPORTANT: These values MUST match src/config/themes.ts activeTheme
-   * This ensures zero flash on page load (SSG bakes these in).
-   * 
-   * To change the production theme:
-   * 1. Edit in Admin → Themes
-   * 2. Click "Publish to Production"
-   * 3. The generated themes.ts will update, and you should sync index.css
-   */
   :root {
-    /* Dark Mode Base - Golden Amber Production Theme */
+    /* Dark Mode Base - Indigo Night */
     --background: 222 47% 7%;
     --foreground: 60 9% 98%;
 
@@ -44,7 +37,7 @@
     --muted: 222 47% 15%;
     --muted-foreground: 215 16% 65%;
 
-    /* Accent: Indigo - HIGH IMPACT (the brand color) */
+    /* Accent: Indigo Night - HIGH IMPACT (the brand color) */
     --accent: 240 70% 60%;
     --accent-hover: 240 70% 50%;
     --accent-glow: 240 70% 70%;
@@ -62,18 +55,18 @@
 
     --border: 215 25% 20%;
     --input: 215 25% 20%;
-    --ring: 240 70% 60%;
+    --ring: 247 92% 50%;
 
     --radius: 0.75rem;
 
-    /* Gradients - Dark Theme (Indigo) */
+    /* Gradients - Indigo Night */
     --gradient-hero: linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(240 30% 18%) 50%, hsl(222 47% 11%) 100%);
     --gradient-text: linear-gradient(135deg, hsl(240 70% 60%) 0%, hsl(250 70% 70%) 50%, hsl(240 70% 60%) 100%);
     --gradient-cta: linear-gradient(135deg, hsl(240 70% 60%) 0%, hsl(250 70% 50%) 100%);
     --gradient-glow: radial-gradient(ellipse at center, hsl(240 70% 60% / 0.2) 0%, transparent 70%);
     --gradient-mesh: radial-gradient(at 40% 20%, hsl(240 70% 60% / 0.12) 0px, transparent 50%), radial-gradient(at 80% 0%, hsl(215 25% 27% / 0.15) 0px, transparent 50%), radial-gradient(at 0% 50%, hsl(240 70% 60% / 0.08) 0px, transparent 50%);
 
-    /* Shadows - Dark Theme */
+    /* Shadows - Indigo Night */
     --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.3);
     --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.4), 0 2px 4px -2px hsl(0 0% 0% / 0.3);
     --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.4), 0 4px 6px -4px hsl(0 0% 0% / 0.3);
@@ -93,10 +86,6 @@
     --sidebar-ring: 240 70% 60%;
   }
 
-  /* 
-   * Dark mode class - kept for compatibility but :root is already dark.
-   * This can be used if you need to toggle between light/dark modes in the future.
-   */
   .dark {
     /* Inherits from :root - already dark theme */
   }
@@ -116,7 +105,6 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
-  /* Typography defaults */
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
     @apply font-bold tracking-tight;
@@ -136,7 +124,6 @@
 }
 
 @layer utilities {
-  /* Gradient Text - The Show Stopper */
   .text-gradient {
     background: var(--gradient-text);
     -webkit-background-clip: text;
@@ -145,14 +132,12 @@
   }
 
   .text-gradient-light {
-    background: linear-gradient(135deg, hsl(60 9% 98%) 0%, hsl(38 92% 50%) 100%);
+    background: linear-gradient(135deg, hsl(60 9% 98%) 0%, hsl(var(--accent)) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  /* Blue Gradient Icons - 4 variations to test */
-  /* Option 1: Ocean Blue - Deep to bright */
   .icon-gradient-ocean {
     background: linear-gradient(135deg, hsl(210 100% 45%) 0%, hsl(195 100% 50%) 100%);
     -webkit-background-clip: text;
@@ -160,7 +145,6 @@
     background-clip: text;
   }
 
-  /* Option 2: Royal Blue - Rich and vibrant */
   .icon-gradient-royal {
     background: linear-gradient(135deg, hsl(230 80% 55%) 0%, hsl(200 100% 60%) 100%);
     -webkit-background-clip: text;
@@ -168,7 +152,6 @@
     background-clip: text;
   }
 
-  /* Option 3: Sky Blue - Light and fresh */
   .icon-gradient-sky {
     background: linear-gradient(135deg, hsl(200 85% 50%) 0%, hsl(180 70% 55%) 100%);
     -webkit-background-clip: text;
@@ -176,7 +159,6 @@
     background-clip: text;
   }
 
-  /* Option 4: Electric Blue - Bold and modern */
   .icon-gradient-electric {
     background: linear-gradient(135deg, hsl(220 90% 55%) 0%, hsl(190 95% 45%) 100%);
     -webkit-background-clip: text;
@@ -184,7 +166,6 @@
     background-clip: text;
   }
 
-  /* Glow Effects */
   .glow {
     box-shadow: var(--shadow-glow);
   }
@@ -197,17 +178,14 @@
     text-shadow: 0 0 40px hsl(240 70% 60% / 0.5);
   }
 
-  /* Background Mesh Gradient */
   .bg-mesh {
     background-image: var(--gradient-mesh);
   }
 
-  /* Hero Background */
   .bg-hero {
     background: var(--gradient-hero);
   }
 
-  /* Noise Texture Overlay */
   .bg-noise {
     position: relative;
   }
@@ -222,7 +200,6 @@
     mix-blend-mode: overlay;
   }
 
-  /* Transitions */
   .transition-smooth {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -235,7 +212,6 @@
     transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  /* Hover effects */
   .hover-scale {
     @apply transition-transform duration-200 hover:scale-105;
   }
@@ -257,7 +233,6 @@
     box-shadow: var(--shadow-glow);
   }
 
-  /* Nav link with animated underline */
   .nav-link {
     @apply relative;
   }
@@ -276,7 +251,6 @@
     @apply scale-x-100;
   }
 
-  /* Story link underline animation */
   .story-link {
     @apply relative inline-block;
   }
@@ -291,7 +265,6 @@
     @apply origin-bottom-left scale-x-100;
   }
 
-  /* Glass Effect */
   .glass {
     @apply bg-background/80 backdrop-blur-lg border border-border/50;
   }
@@ -300,7 +273,6 @@
     @apply bg-primary/80 backdrop-blur-lg border border-border/20;
   }
 
-  /* Layered shadows for depth */
   .shadow-layered {
     box-shadow: 
       0 1px 2px hsl(0 0% 0% / 0.05),
@@ -315,7 +287,6 @@
       0 24px 48px hsl(0 0% 0% / 0.08);
   }
 
-  /* Animated Border */
   .border-glow {
     position: relative;
   }
@@ -335,7 +306,6 @@
     opacity: 1;
   }
 
-  /* Gradient border line */
   .border-gradient-top {
     position: relative;
   }
@@ -346,18 +316,15 @@
     background: linear-gradient(90deg, transparent 0%, hsl(var(--accent) / 0.5) 50%, transparent 100%);
   }
 
-  /* Fade edges */
   .fade-edges-x {
     mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
     -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
   }
 
-  /* Pulse animation for CTAs */
   .pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite;
   }
 
-  /* Radial vignette for hero background */
   .bg-radial-vignette {
     background: radial-gradient(
       ellipse 50% 50% at 50% 50%,
@@ -368,7 +335,6 @@
     );
   }
 
-  /* Footer link hover */
   .footer-link {
     @apply relative text-muted-foreground transition-all duration-300;
   }
@@ -388,7 +354,6 @@
 }
 
 @layer components {
-  /* Premium Button Glow */
   .btn-glow {
     @apply relative overflow-hidden;
     box-shadow: var(--shadow-button);
@@ -411,7 +376,6 @@
     box-shadow: var(--shadow-glow);
   }
 
-  /* Card Hover */
   .card-hover {
     @apply transition-all duration-300 border border-border/50;
   }
@@ -422,12 +386,10 @@
     transform: translateY(-2px);
   }
 
-  /* Section container */
   .section {
     @apply py-16 sm:py-20 md:py-24 lg:py-32;
   }
 
-  /* Hero Section */
   .hero {
     @apply relative min-h-[80vh] flex items-center justify-center overflow-hidden;
     background: var(--gradient-hero);
@@ -439,7 +401,6 @@
   }
 }
 
-/* GHL Chat Widget - z-index for cookie banner */
 #chat-widget,
 .chat-widget,
 [class*="chat-widget"],
@@ -447,13 +408,11 @@
   z-index: 40 !important;
 }
 
-/* Selection color */
 ::selection {
   background: hsl(240 70% 60% / 0.3);
   color: hsl(var(--foreground));
 }
 
-/* Scrollbar styling (webkit) */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
