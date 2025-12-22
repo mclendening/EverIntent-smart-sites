@@ -169,9 +169,9 @@ export const activeTheme: ThemeConfig = {
         "verticalOffset": 1
     },
     streakConfig: {
-        "length": 373,
+        "length": 384,
         "leftThick": 4,
-        "gradientTo": "#FBF9F9",
+        "gradientTo": "#28288a",
         "marginLeft": 0,
         "rightThick": 1,
         "solidColor": "#A855F7",
@@ -181,7 +181,7 @@ export const activeTheme: ThemeConfig = {
         "gradientAngle": 90
     },
     taglineConfig: {
-        "size": 26,
+        "size": 28,
         "weight": 400,
         "marginTop": 5,
         "gradientTo": "#A855F7",
