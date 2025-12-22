@@ -52,6 +52,12 @@ export function useLogoExport(containerRef: RefObject<HTMLElement>) {
             target.style.setProperty(prop, value);
           }
         });
+        
+        // Force transparent background on the root clone
+        if (source === container) {
+          target.style.setProperty('background', 'transparent');
+          target.style.setProperty('background-color', 'transparent');
+        }
       }
       
       // Process children
@@ -171,6 +177,7 @@ export function useLogoExport(containerRef: RefObject<HTMLElement>) {
 
   /**
    * Export using native canvas drawing (more reliable for complex logos)
+   * Uses promises to ensure all SVG elements are properly rendered before export
    */
   const exportAsPngNative = useCallback(async (
     filename = 'logo.png',
@@ -178,7 +185,7 @@ export function useLogoExport(containerRef: RefObject<HTMLElement>) {
   ) => {
     if (!containerRef.current) return;
     
-    const { scale = 2, backgroundColor = '#09090b' } = options;
+    const { scale = 2, backgroundColor = 'transparent' } = options;
     const container = containerRef.current;
     const rect = container.getBoundingClientRect();
     
@@ -190,11 +197,54 @@ export function useLogoExport(containerRef: RefObject<HTMLElement>) {
     canvas.height = rect.height * scale;
     ctx.scale(scale, scale);
     
-    // Fill background
-    ctx.fillStyle = backgroundColor;
-    ctx.fillRect(0, 0, rect.width, rect.height);
+    // Only fill background if not transparent
+    if (backgroundColor !== 'transparent') {
+      ctx.fillStyle = backgroundColor;
+      ctx.fillRect(0, 0, rect.width, rect.height);
+    }
     
-    // Find text elements and draw them
+    // Collect all SVG elements and load them as images first
+    const svgElements = container.querySelectorAll('svg');
+    const svgPromises: Promise<{ img: HTMLImageElement; x: number; y: number; width: number; height: number }>[] = [];
+    
+    svgElements.forEach((svg) => {
+      const svgRect = svg.getBoundingClientRect();
+      const x = svgRect.left - rect.left;
+      const y = svgRect.top - rect.top;
+      
+      const svgClone = svg.cloneNode(true) as SVGElement;
+      svgClone.setAttribute('width', svgRect.width.toString());
+      svgClone.setAttribute('height', svgRect.height.toString());
+      
+      const svgData = new XMLSerializer().serializeToString(svgClone);
+      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(svgBlob);
+      
+      const promise = new Promise<{ img: HTMLImageElement; x: number; y: number; width: number; height: number }>((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          resolve({ img, x, y, width: svgRect.width, height: svgRect.height });
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          reject(new Error('Failed to load SVG'));
+        };
+        img.src = url;
+      });
+      
+      svgPromises.push(promise);
+    });
+    
+    // Wait for all SVG images to load
+    const loadedSvgs = await Promise.all(svgPromises);
+    
+    // Draw all SVG elements first (like the streak which is behind text)
+    loadedSvgs.forEach(({ img, x, y, width, height }) => {
+      ctx.drawImage(img, x, y, width, height);
+    });
+    
+    // Find text elements and draw them on top
     const textElements = container.querySelectorAll('span, p');
     textElements.forEach((el) => {
       if (!(el instanceof HTMLElement)) return;
@@ -202,14 +252,13 @@ export function useLogoExport(containerRef: RefObject<HTMLElement>) {
       const elRect = el.getBoundingClientRect();
       const style = window.getComputedStyle(el);
       const x = elRect.left - rect.left;
-      const y = elRect.top - rect.top + parseFloat(style.fontSize) * 0.85; // Baseline adjustment
+      const y = elRect.top - rect.top + parseFloat(style.fontSize) * 0.85;
       
       ctx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
       
       // Handle gradient text
       const backgroundImage = style.backgroundImage;
       if (backgroundImage && backgroundImage.includes('gradient')) {
-        // Extract gradient colors (simplified)
         const matches = backgroundImage.match(/#[a-fA-F0-9]{6}|rgb[a]?\([^)]+\)/g);
         if (matches && matches.length >= 2) {
           const gradient = ctx.createLinearGradient(x, y - parseFloat(style.fontSize), x + elRect.width, y);
@@ -226,29 +275,7 @@ export function useLogoExport(containerRef: RefObject<HTMLElement>) {
       ctx.fillText(el.textContent || '', x, y);
     });
     
-    // Find and draw SVG elements (streak)
-    const svgElements = container.querySelectorAll('svg');
-    svgElements.forEach((svg) => {
-      const svgRect = svg.getBoundingClientRect();
-      const x = svgRect.left - rect.left;
-      const y = svgRect.top - rect.top;
-      
-      // Draw the SVG to canvas
-      const svgData = new XMLSerializer().serializeToString(svg);
-      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-      const url = URL.createObjectURL(svgBlob);
-      
-      const img = new Image();
-      img.onload = () => {
-        ctx.drawImage(img, x, y, svgRect.width, svgRect.height);
-        URL.revokeObjectURL(url);
-      };
-      img.src = url;
-    });
-    
-    // Wait a bit for SVG images to load, then export
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
+    // Export the canvas
     canvas.toBlob((blob) => {
       if (!blob) return;
       
