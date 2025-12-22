@@ -47,12 +47,32 @@ export function CookieConsent() {
 
   useEffect(() => {
     // Check if consent already given
-    const consent = localStorage.getItem(CONSENT_KEY);
-    if (!consent) {
-      // Delay showing banner slightly for better UX
-      const timer = setTimeout(() => setShowBanner(true), 1000);
-      return () => clearTimeout(timer);
-    }
+    const checkConsent = () => {
+      const consent = localStorage.getItem(CONSENT_KEY);
+      if (!consent) {
+        setShowBanner(true);
+      }
+    };
+
+    // Initial check with delay for better UX
+    const timer = setTimeout(checkConsent, 1000);
+
+    // Listen for consent changes (from triggerCookiePreferences)
+    const handleConsentChange = () => {
+      const consent = localStorage.getItem(CONSENT_KEY);
+      if (!consent) {
+        setShowBanner(true);
+      }
+    };
+
+    window.addEventListener('cookie-consent-changed', handleConsentChange);
+    window.addEventListener('storage', handleConsentChange);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('cookie-consent-changed', handleConsentChange);
+      window.removeEventListener('storage', handleConsentChange);
+    };
   }, []);
 
   /**

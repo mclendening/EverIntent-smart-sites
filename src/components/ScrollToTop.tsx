@@ -22,9 +22,15 @@ export function ScrollToTop() {
     if (hash) {
       // Small delay to ensure DOM is ready
       const timeoutId = setTimeout(() => {
-        const element = document.querySelector(hash);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        try {
+          // Validate hash is a valid CSS selector before querying
+          const element = document.getElementById(hash.slice(1));
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        } catch (e) {
+          // Invalid selector, just scroll to top
+          window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
         }
       }, 100);
       return () => clearTimeout(timeoutId);
