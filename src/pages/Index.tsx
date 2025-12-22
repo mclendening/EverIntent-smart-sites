@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Index Page - Homepage
+ * @description Main landing page composing all home section components.
+ *              Entry point for site visitors per BRD v33.0 Section 6.
+ * 
+ * @module pages/Index
+ * @see {@link https://docs.lovable.dev} Lovable Documentation
+ * 
+ * @brd-reference BRD v33.0 Section 6 - Homepage Structure
+ * @brd-reference BRD v33.0 Section 6.1 - Section Order
+ */
+
 import { HeroSection } from '@/components/home/HeroSection';
 import { SocialProofBar } from '@/components/home/SocialProofBar';
 import HowWeHelpSection from '@/components/home/HowWeHelpSection';
@@ -8,6 +20,23 @@ import { TestimonialsSection } from '@/components/home/TestimonialsSection';
 import { IndustriesSection } from '@/components/home/IndustriesSection';
 import { FinalCTASection } from '@/components/home/FinalCTASection';
 
+/**
+ * Index - Homepage component
+ * 
+ * Section order per BRD v33.0:
+ * 1. HeroSection - Main headline and primary CTA
+ * 2. SocialProofBar - Scrolling stats marquee
+ * 3. HowWeHelpSection - Three core outcomes
+ * 4. TransformationSection - Results metrics
+ * 5. PricingTeaser - Package overview
+ * 6. PortfolioPreview - Featured work
+ * 7. TestimonialsSection - Client quotes
+ * 8. IndustriesSection - Industry hubs
+ * 9. FinalCTASection - Closing conversion
+ * 
+ * @component
+ * @returns {JSX.Element} Homepage with all sections
+ */
 const Index = () => {
   return (
     <main>

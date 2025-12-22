@@ -1,13 +1,33 @@
+/**
+ * @fileoverview MobileBottomBar Component - Mobile Navigation Bar
+ * @description Fixed bottom navigation bar for mobile viewports with quick links and chat trigger.
+ *              Only appears after cookie consent is granted.
+ * 
+ * @module components/MobileBottomBar
+ * @see {@link https://docs.lovable.dev} Lovable Documentation
+ * 
+ * @brd-reference BRD v33.0 Section 8 - Mobile Navigation
+ * @brd-reference BRD v33.0 Section 14 - GHL Chat Widget Integration
+ * @brd-reference BRD v33.0 Section 21 - Cookie Consent Requirements
+ */
+
 import { NavLink } from 'react-router-dom';
 import { Home, Briefcase, Building2, DollarSign, MessageCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
+/**
+ * Global window extensions for GHL chat control
+ */
 declare global {
   interface Window {
     toggleGHLChat?: () => void;
   }
 }
 
+/**
+ * Navigation items for mobile bottom bar
+ * @constant {Array<{icon: LucideIcon, label: string, path: string}>}
+ */
 const navItems = [
   { icon: Home, label: 'Home', path: '/' },
   { icon: Briefcase, label: 'Services', path: '/beautiful-websites' },
@@ -15,9 +35,31 @@ const navItems = [
   { icon: DollarSign, label: 'Pricing', path: '/pricing' },
 ];
 
+/**
+ * MobileBottomBar - Fixed bottom navigation for mobile devices
+ * 
+ * Features per BRD v33.0:
+ * - Only renders after cookie consent is accepted
+ * - Fixed position bottom, full width
+ * - 4 navigation links + Chat button
+ * - Active state highlighting via NavLink
+ * - Triggers global toggleGHLChat() on chat tap
+ * 
+ * @component
+ * @example
+ * // In Layout.tsx, wrapped in ClientOnly
+ * <ClientOnly>
+ *   <MobileBottomBar />
+ * </ClientOnly>
+ * 
+ * @returns {JSX.Element | null} Mobile bottom bar or null if no consent
+ */
 export function MobileBottomBar() {
   const [hasConsent, setHasConsent] = useState(false);
 
+  /**
+   * Check and listen for cookie consent changes
+   */
   useEffect(() => {
     const checkConsent = () => {
       const consent = localStorage.getItem('cookie-consent');
@@ -34,6 +76,9 @@ export function MobileBottomBar() {
     };
   }, []);
 
+  /**
+   * Handle chat button click - trigger GHL widget
+   */
   const handleChatClick = () => {
     if (window.toggleGHLChat) {
       window.toggleGHLChat();
