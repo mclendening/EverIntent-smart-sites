@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Slider } from '@/components/ui/slider';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { Button } from '@/components/ui/button';
+import { Download, FileImage, FileCode } from 'lucide-react';
+import { useLogoExport } from '@/components/logo/useLogoExport';
 
 // Preset solid colors
 const presetColors = [
@@ -59,6 +62,8 @@ const defaultElement = (): ElementControls => ({
 });
 
 const LogoExplorer = () => {
+  const logoContainerRef = useRef<HTMLDivElement>(null);
+  const { exportAsSvg, exportAsPngNative } = useLogoExport(logoContainerRef);
   const [ever, setEver] = useState<ElementControls>({
     ...defaultElement(),
     solidColor: '#ffffff',
@@ -299,6 +304,36 @@ const LogoExplorer = () => {
         <div className="p-3">
           <h1 className="text-sm font-bold text-zinc-300 mb-2">Logo Explorer</h1>
           
+          {/* Export Buttons */}
+          <div className="flex gap-2 mb-4">
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex-1 text-xs"
+              onClick={() => exportAsSvg('everintent-logo.svg')}
+            >
+              <FileCode className="h-3 w-3 mr-1" />
+              SVG
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex-1 text-xs"
+              onClick={() => exportAsPngNative('everintent-logo.png', { scale: 2 })}
+            >
+              <FileImage className="h-3 w-3 mr-1" />
+              PNG
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex-1 text-xs"
+              onClick={() => exportAsPngNative('everintent-logo@2x.png', { scale: 4 })}
+            >
+              <Download className="h-3 w-3 mr-1" />
+              @2x
+            </Button>
+          </div>
           <Accordion type="multiple" defaultValue={['ever', 'intent', 'streak', 'tagline']} className="w-full">
             <TextElementControls label="Ever" ctrl={ever} setCtrl={setEver} />
             <TextElementControls label="Intent" ctrl={intent} setCtrl={setIntent} />
@@ -401,7 +436,7 @@ const LogoExplorer = () => {
 
       {/* Logo Preview */}
       <div className="flex-1 bg-zinc-950 flex items-center justify-start pl-16">
-        <div className="text-left">
+        <div ref={logoContainerRef} className="text-left p-4">
           {/* Main Logo Text */}
           <div className="leading-none">
             <span style={getTextStyle(ever)}>Ever</span>
