@@ -14,12 +14,12 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-muted/50",
         link: "text-accent underline-offset-4 hover:underline",
-        // CTA: Matches "Need help?" chat button exactly
-        glow: "bg-primary/95 backdrop-blur-sm text-primary-foreground border border-accent/30 shadow-lg hover:bg-primary hover:border-accent hover:shadow-xl hover:shadow-accent/20",
-        "glow-outline": "bg-transparent text-accent border border-accent/30 shadow-lg hover:bg-accent/10 hover:border-accent hover:shadow-accent/20",
+        // CTA: Matches "Need help?" chat button exactly - stronger hover glow
+        glow: "bg-primary/95 backdrop-blur-sm text-primary-foreground border border-accent/30 shadow-lg hover:bg-primary hover:border-accent hover:shadow-[0_0_25px_hsl(240_70%_60%/0.5)] hover:-translate-y-0.5",
+        "glow-outline": "bg-transparent text-accent border border-accent/30 shadow-lg hover:bg-accent/10 hover:border-accent hover:shadow-[0_0_25px_hsl(240_70%_60%/0.4)]",
         // Solid amber style (for contrast when needed)
-        premium: "bg-accent text-primary font-semibold shadow-lg hover:brightness-110",
-        "premium-dark": "bg-primary/95 backdrop-blur-sm text-primary-foreground border border-accent/30 shadow-lg hover:bg-primary hover:border-accent hover:shadow-xl hover:shadow-accent/20",
+        premium: "bg-accent text-primary font-semibold shadow-lg hover:brightness-110 hover:shadow-[0_0_25px_hsl(240_70%_60%/0.5)]",
+        "premium-dark": "bg-primary/95 backdrop-blur-sm text-primary-foreground border border-accent/30 shadow-lg hover:bg-primary hover:border-accent hover:shadow-[0_0_25px_hsl(240_70%_60%/0.5)] hover:-translate-y-0.5",
       },
       size: {
         default: "px-4 py-2.5",

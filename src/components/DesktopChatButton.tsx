@@ -46,7 +46,7 @@ export function DesktopChatButton() {
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="hidden md:flex fixed right-6 z-40 items-center gap-3 px-5 py-3 bg-primary/95 backdrop-blur-sm border border-accent/30 rounded-lg shadow-lg transition-all duration-300 ease-out hover:bg-primary hover:border-accent hover:shadow-xl hover:shadow-accent/20 group"
+      className="hidden md:flex fixed right-6 z-40 items-center gap-3 px-5 py-3 bg-primary/95 backdrop-blur-sm border border-accent/30 rounded-lg shadow-lg transition-all duration-300 ease-out hover:bg-primary hover:border-accent hover:shadow-[0_0_25px_hsl(240_70%_60%/0.5)] hover:-translate-y-0.5 group"
       style={{
         bottom: isVisible ? '24px' : '-80px',
       }}
