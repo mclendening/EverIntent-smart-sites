@@ -24,44 +24,45 @@ export default function ThemeTestPage() {
   // Fetch theme by ID or most recently updated
   useEffect(() => {
     const fetchTheme = async () => {
+      console.log('[ThemeTestPage] Fetching theme, themeId:', themeId);
+      
       let query = supabase.from('site_themes').select('*');
       
       if (themeId) {
-        // Fetch specific theme by ID
         query = query.eq('id', themeId);
       } else {
-        // Fallback to most recently updated theme
         query = query.order('updated_at', { ascending: false }).limit(1);
       }
       
-      const { data } = await query.maybeSingle();
+      const { data, error } = await query.maybeSingle();
+      
+      console.log('[ThemeTestPage] Fetch result:', { data, error });
       
       if (data) {
+        console.log('[ThemeTestPage] Setting theme:', data.name, 'accent:', (data.accent_config as any)?.accent);
         setActiveTheme(data);
       }
     };
 
     fetchTheme();
 
-    // Subscribe to changes for the specific theme or all themes
+    // Subscribe to realtime changes
     const channel = supabase
-      .channel('theme-changes')
+      .channel(`theme-test-${themeId || 'latest'}`)
       .on('postgres_changes', { 
-        event: '*', 
+        event: 'UPDATE', 
         schema: 'public', 
-        table: 'site_themes' 
+        table: 'site_themes',
+        filter: themeId ? `id=eq.${themeId}` : undefined
       }, (payload) => {
-        // If we're watching a specific theme, only update if it matches
-        if (themeId) {
-          if (payload.new && (payload.new as Theme).id === themeId) {
-            setActiveTheme(payload.new as Theme);
-          }
-        } else {
-          // Otherwise refetch
-          fetchTheme();
+        console.log('[ThemeTestPage] Realtime update received:', payload);
+        if (payload.new) {
+          setActiveTheme(payload.new as Theme);
         }
       })
-      .subscribe();
+      .subscribe((status) => {
+        console.log('[ThemeTestPage] Realtime subscription status:', status);
+      });
 
     return () => {
       supabase.removeChannel(channel);
@@ -70,7 +71,12 @@ export default function ThemeTestPage() {
 
   // Apply theme CSS variables when active theme changes
   useEffect(() => {
-    if (!activeTheme) return;
+    if (!activeTheme) {
+      console.log('[ThemeTestPage] No active theme to apply');
+      return;
+    }
+
+    console.log('[ThemeTestPage] Applying theme CSS vars:', activeTheme.name);
 
     const root = document.documentElement;
     const accentConfig = activeTheme.accent_config as Record<string, any> || {};
