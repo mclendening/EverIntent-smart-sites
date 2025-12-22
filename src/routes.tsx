@@ -294,11 +294,7 @@ export const routes: RouteRecord[] = [
         path: 'logo-explorer',
         Component: LogoExplorer,
       },
-      // Theme test page (inside marketing layout for full navbar)
-      {
-        path: 'admin/theme-test',
-        Component: ThemeTestPage,
-      },
+      // (theme-test moved to admin routes)
       // Core pages (placeholder for now, will be implemented)
       ...coreRoutePaths.slice(1).map(createPlaceholderChild),
       // Primary service
@@ -379,6 +375,14 @@ export const routes: RouteRecord[] = [
         element: (
           <AdminGuard>
             <PlaceholderPage />
+          </AdminGuard>
+        ),
+      },
+      {
+        path: 'theme-test',
+        element: (
+          <AdminGuard>
+            <ThemeTestPage />
           </AdminGuard>
         ),
       },
