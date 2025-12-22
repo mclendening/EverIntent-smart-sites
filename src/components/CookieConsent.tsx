@@ -49,7 +49,9 @@ export function CookieConsent() {
     // Check if consent already given
     const checkConsent = () => {
       const consent = localStorage.getItem(CONSENT_KEY);
+      console.log('[CookieConsent] checkConsent called, consent:', consent);
       if (!consent) {
+        console.log('[CookieConsent] No consent, showing banner');
         setShowBanner(true);
       }
     };
@@ -59,8 +61,10 @@ export function CookieConsent() {
 
     // Listen for consent changes (from triggerCookiePreferences)
     const handleConsentChange = () => {
+      console.log('[CookieConsent] cookie-consent-changed event received');
       const consent = localStorage.getItem(CONSENT_KEY);
       if (!consent) {
+        console.log('[CookieConsent] Showing banner after event');
         setShowBanner(true);
       }
     };
@@ -183,12 +187,13 @@ export function CookieConsent() {
  * users to change their preferences at any time.
  */
 export function triggerCookiePreferences() {
+  console.log('[CookieConsent] triggerCookiePreferences called');
   // Remove existing consent to show banner again
   localStorage.removeItem(CONSENT_KEY);
   localStorage.removeItem(COOKIE_PREFERENCES_KEY);
+  // Dispatch custom event that the CookieConsent component listens for
   window.dispatchEvent(new CustomEvent('cookie-consent-changed'));
-  // Force re-render by dispatching storage event
-  window.dispatchEvent(new StorageEvent('storage', { key: CONSENT_KEY }));
+  console.log('[CookieConsent] Events dispatched');
 }
 
 // Re-export for convenience
