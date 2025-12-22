@@ -317,18 +317,28 @@ Create 3 separate GHL chat widgets with different training/personas:
 5. Set launcher icon to **1x1 pixel** (for code-based control)
 6. **Copy the Widget ID** from the embed code
 
-### Task 2.3 [MANUAL] - Add Vercel Environment Variables (GHL Widgets)
+### Task 2.3 [MANUAL] - Configure Vercel Pro Environment Variables
 **Status:** ⬜ Not Started
 
-1. Go to Vercel Dashboard → Your Project → **Settings** → **Environment Variables**
-2. Add:
+> **IMPORTANT:** All environment variables are stored in **Vercel Pro dashboard only** - NOT in code-level `.env` files. This allows configuration changes without code modifications and keeps secrets out of the codebase for open-source compatibility.
 
-| Name | Value | Environment |
-|------|-------|-------------|
-| `VITE_GHL_LOCATION_ID` | From Task 0.2 | Production, Preview, Development |
-| `VITE_GHL_WIDGET_ID_SALES` | Sales bot widget ID from Task 2.2 | All |
-| `VITE_GHL_WIDGET_ID_SUPPORT` | Support bot widget ID from Task 2.2 | All |
-| `VITE_GHL_WIDGET_ID_DEMO` | Demo bot widget ID from Task 2.2 | All |
+1. Go to Vercel Dashboard → Your Project → **Settings** → **Environment Variables**
+2. Add ALL of the following (Production, Preview, Development):
+
+| Name | Value | Notes |
+|------|-------|-------|
+| `VITE_SUPABASE_PROJECT_ID` | `nweklcxzoemcnwaoakvq` | Supabase project identifier |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | `eyJhbGci...` (full key) | Supabase anon/public key |
+| `VITE_SUPABASE_URL` | `https://nweklcxzoemcnwaoakvq.supabase.co` | Supabase API URL |
+| `VITE_GHL_LOCATION_ID` | `glz9nLlYe04lb1B4TLFC` | GHL location ID |
+| `VITE_GHL_WIDGET_ID` | `694220dc4ca1823bfbe5f213` | Current single widget (to be split in Task 2.2) |
+| `VITE_GHL_WIDGET_ID_SALES` | *(from Task 2.2)* | Sales bot widget ID |
+| `VITE_GHL_WIDGET_ID_SUPPORT` | *(from Task 2.2)* | Support bot widget ID |
+| `VITE_GHL_WIDGET_ID_DEMO` | *(from Task 2.2)* | Demo bot widget ID |
+
+**Why VITE_ prefix?** Vite requires this prefix to expose env vars to client-side code. The values live in Vercel's dashboard, not in any `.env` file in the repo.
+
+**Local Development:** Developers must create their own local `.env` file (gitignored) or use Vercel CLI `vercel env pull` to sync.
 
 ### Task 2.4 [LOVABLE] - Create GHL Widget Components (Multi-Widget)
 **Status:** 🔄 Partial
