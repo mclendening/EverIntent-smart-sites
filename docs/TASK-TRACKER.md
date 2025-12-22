@@ -317,28 +317,45 @@ Create 3 separate GHL chat widgets with different training/personas:
 5. Set launcher icon to **1x1 pixel** (for code-based control)
 6. **Copy the Widget ID** from the embed code
 
-### Task 2.3 [MANUAL] - Configure Vercel Pro Environment Variables
+### Task 2.3 [MANUAL] - Configure Environment Variables for Open-Source Repo
 **Status:** ⬜ Not Started
 
-> **Architecture:** Environment variables exist in TWO places:
-> - **Lovable `.env` file:** Required for Lovable preview/development (already configured)
-> - **Vercel Pro dashboard:** Required for production deployment (must mirror `.env`)
->
-> Both must contain the same values. The `.env` file is committed to repo for Lovable; Vercel reads from its dashboard.
+> **Goal:** Remove all env values from committed code so repo can be public/open-source.
 
-1. Go to Vercel Dashboard → Your Project → **Settings** → **Environment Variables**
-2. Add ALL of the following (Production, Preview, Development):
+**Step 1: Secure the `.env` file**
+1. Add `.env` to `.gitignore` (prevent values from being committed)
+2. Create `.env.example` with placeholder values (committed, shows required vars)
 
-| Name | Value | Notes |
-|------|-------|-------|
-| `VITE_SUPABASE_PROJECT_ID` | `nweklcxzoemcnwaoakvq` | Supabase project identifier |
-| `VITE_SUPABASE_PUBLISHABLE_KEY` | `eyJhbGci...` (full key) | Supabase anon/public key |
-| `VITE_SUPABASE_URL` | `https://nweklcxzoemcnwaoakvq.supabase.co` | Supabase API URL |
-| `VITE_GHL_LOCATION_ID` | `glz9nLlYe04lb1B4TLFC` | GHL location ID |
-| `VITE_GHL_WIDGET_ID` | `694220dc4ca1823bfbe5f213` | Current single widget (to be split in Task 2.2) |
-| `VITE_GHL_WIDGET_ID_SALES` | *(from Task 2.2)* | Sales bot widget ID |
-| `VITE_GHL_WIDGET_ID_SUPPORT` | *(from Task 2.2)* | Support bot widget ID |
-| `VITE_GHL_WIDGET_ID_DEMO` | *(from Task 2.2)* | Demo bot widget ID |
+```bash
+# .env.example (committed to repo)
+VITE_SUPABASE_PROJECT_ID="your-project-id"
+VITE_SUPABASE_PUBLISHABLE_KEY="your-anon-key"
+VITE_SUPABASE_URL="https://your-project.supabase.co"
+VITE_GHL_LOCATION_ID="your-location-id"
+VITE_GHL_WIDGET_ID="your-widget-id"
+VITE_GHL_WIDGET_ID_SALES="your-sales-widget-id"
+VITE_GHL_WIDGET_ID_SUPPORT="your-support-widget-id"
+VITE_GHL_WIDGET_ID_DEMO="your-demo-widget-id"
+```
+
+**Step 2: Configure Vercel Pro**
+1. Go to Vercel Dashboard → Project → **Settings** → **Environment Variables**
+2. Add all variables with real values (Production, Preview, Development):
+
+| Name | Notes |
+|------|-------|
+| `VITE_SUPABASE_PROJECT_ID` | Supabase project identifier |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase anon/public key |
+| `VITE_SUPABASE_URL` | Supabase API URL |
+| `VITE_GHL_LOCATION_ID` | GHL location ID |
+| `VITE_GHL_WIDGET_ID` | Current widget (pre-multi-bot) |
+| `VITE_GHL_WIDGET_ID_SALES` | Sales bot widget ID |
+| `VITE_GHL_WIDGET_ID_SUPPORT` | Support bot widget ID |
+| `VITE_GHL_WIDGET_ID_DEMO` | Demo bot widget ID |
+
+**Step 3: Lovable Development**
+- Lovable preview uses the `.env` file (not committed after gitignore update)
+- Values stay in Lovable's environment but not in public repo
 
 **Why VITE_ prefix?** Vite requires this prefix to expose env vars to client-side code.
 
