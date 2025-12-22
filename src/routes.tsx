@@ -79,7 +79,7 @@ function AdminLayout() {
 // Direct imports for SSG - React.lazy() causes hydration mismatches (#418/#423)
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
-import LogoExplorer from './pages/LogoExplorer';
+
 import PlaceholderPage from './pages/Placeholder';
 
 // Admin pages - also direct imports for consistency
@@ -288,11 +288,6 @@ export const routes: RouteRecord[] = [
       {
         index: true,
         Component: Index,
-      },
-      // Logo explorer (temporary)
-      {
-        path: 'logo-explorer',
-        Component: LogoExplorer,
       },
       // (theme-test moved to admin routes)
       // Core pages (placeholder for now, will be implemented)
