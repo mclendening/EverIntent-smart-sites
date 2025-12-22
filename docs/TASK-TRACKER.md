@@ -320,7 +320,11 @@ Create 3 separate GHL chat widgets with different training/personas:
 ### Task 2.3 [MANUAL] - Configure Vercel Pro Environment Variables
 **Status:** ⬜ Not Started
 
-> **IMPORTANT:** All environment variables are stored in **Vercel Pro dashboard only** - NOT in code-level `.env` files. This allows configuration changes without code modifications and keeps secrets out of the codebase for open-source compatibility.
+> **Architecture:** Environment variables exist in TWO places:
+> - **Lovable `.env` file:** Required for Lovable preview/development (already configured)
+> - **Vercel Pro dashboard:** Required for production deployment (must mirror `.env`)
+>
+> Both must contain the same values. The `.env` file is committed to repo for Lovable; Vercel reads from its dashboard.
 
 1. Go to Vercel Dashboard → Your Project → **Settings** → **Environment Variables**
 2. Add ALL of the following (Production, Preview, Development):
@@ -336,9 +340,7 @@ Create 3 separate GHL chat widgets with different training/personas:
 | `VITE_GHL_WIDGET_ID_SUPPORT` | *(from Task 2.2)* | Support bot widget ID |
 | `VITE_GHL_WIDGET_ID_DEMO` | *(from Task 2.2)* | Demo bot widget ID |
 
-**Why VITE_ prefix?** Vite requires this prefix to expose env vars to client-side code. The values live in Vercel's dashboard, not in any `.env` file in the repo.
-
-**Local Development:** Developers must create their own local `.env` file (gitignored) or use Vercel CLI `vercel env pull` to sync.
+**Why VITE_ prefix?** Vite requires this prefix to expose env vars to client-side code.
 
 ### Task 2.4 [LOVABLE] - Create GHL Widget Components (Multi-Widget)
 **Status:** 🔄 Partial
