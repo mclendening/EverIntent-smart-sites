@@ -361,12 +361,10 @@ LogoRenderer correctly applies theme accent:
 - Scale prop works correctly (0.42 in header)
 
 ### Task 1.6.6 [LOVABLE] - Cleanup LogoExplorer
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete (Obsolete)
 
-`LogoExplorer` page has its own inline logo rendering instead of using `LogoRenderer`.
-
-**Fix:** Refactor to use `LogoRenderer` with passed config.
-
+> **Resolution:** LogoExplorer page does not exist in the codebase. All logo rendering is handled by `LogoRenderer` component in `src/components/logo/LogoRenderer.tsx`. The admin Themes page uses `LogoRenderer` with theme accent for previews. Task was based on outdated reference.
+> **Closed:** 2025-12-23
 ---
 
 ## Phase 2: Cookie Consent & GHL Widget
@@ -417,120 +415,48 @@ Create 3 separate GHL chat widgets with different training/personas:
 - ✅ Data Rights Request form with DSAR submission to database
 
 ### Task 2.4 [LOVABLE] - Fix GHL Chat Widget Styling
-**Status:** 🔄 In Progress
+**Status:** ✅ Complete
 
 > **Priority:** HIGH - Broken user experience
 > **Added:** 2025-12-23
-> **BRD Reference:** Appendix F.9-F.10, F.6 (Z-Index Strategy)
+> **Completed:** 2025-12-23
 
-#### Problem Statement
+#### Solution Implemented
 
-When user clicks the custom chat button (desktop or mobile), the GHL chat widget opens but has broken styling:
+**Root Cause:** GHL widgets use nested shadow DOM components with hard-to-override internal styles. The send button had a fully transparent background (`#524bae00`) and the textarea lacked visible focus states.
 
-1. **Message input field** appears inactive when clicked (no visible focus state)
-2. **Send button** turns clear/invisible when input is focused
-3. User CAN type and CAN send messages, but visually it looks broken
-4. The issue occurs on both desktop and mobile
+**Fix Applied:**
 
-#### Root Cause Analysis (Needs Investigation)
+1. **Theme-Aware Shadow DOM Injection** (`src/lib/ghlLoader.ts`):
+   - Added `getGHLThemeColors()` function that reads CSS custom properties from `:root`
+   - `injectGHLComposerFix()` now uses theme colors instead of hardcoded values
+   - Styles are re-injected when theme changes (existing styles removed first)
 
-The problem is likely CSS overrides in our stylesheet conflicting with GHL's internal widget styling. GHL uses Shadow DOM, so some styles may be leaking through or our global resets may be affecting elements.
+2. **New CSS Variables** (`src/index.css`):
+   - `--ghl-textarea-bg`, `--ghl-textarea-text`, `--ghl-textarea-border`
+   - `--ghl-textarea-focus-border`, `--ghl-textarea-focus-glow`
+   - `--ghl-send-button-bg`, `--ghl-send-button-border`, `--ghl-send-button-icon`
+   - `--ghl-selection-bg`
 
-#### Current Implementation State Report
+3. **Admin Theme Controls** (`src/pages/admin/Themes.tsx`):
+   - Added `GHLChatConfig` interface and state management
+   - Created `GhlColorControl` component with color picker, sliders, and increment buttons
+   - Added "GHL Chat Widget" accordion section with all 9 color controls
+   - "Sync with Accent" and "Reset to Theme Defaults" quick action buttons
+   - Live preview of chat widget appearance
 
-**File: `src/lib/ghlLoader.ts`**
-```typescript
-// Constants
-const LOADER_ID = 'ghl-widget-loader';
-const LOADER_SRC = 'https://beta.leadconnectorhq.com/loader.js';
-const RESOURCES_URL = 'https://beta.leadconnectorhq.com/chat-widget/loader.js';
-const GHL_WIDGET_ID = '694220dc4ca1823bfbe5f213'; // Hardcoded, TODO: move to env
+4. **Theme Application** (`src/config/themes.ts`):
+   - `applyThemeToRoot()` now applies GHL chat CSS variables
 
-// Key functions:
-// - ensureGHLWidget(timeout) - loads script, waits for API
-// - hideLauncher() - hides launcher bubble via shadow DOM CSS injection
-// - openViaAnyAPI() - opens chat via leadConnector or LC_API
-// - closeViaAnyAPI() - closes chat via leadConnector or LC_API
+5. **Database Column** (migration):
+   - Added `ghl_chat_config` JSONB column to `site_themes` table
 
-// hideLauncher implementation:
-export function hideLauncher() {
-  const widget = document.querySelector('chat-widget');
-  if (widget?.shadowRoot) {
-    const launcher = widget.shadowRoot.querySelector('button.lc_text-widget--bubble');
-    if (launcher instanceof HTMLElement) {
-      launcher.style.cssText = 'display: none !important; visibility: hidden !important; pointer-events: none !important; width: 0 !important; height: 0 !important;';
-    }
-  }
-}
-```
-
-**File: `src/index.css` (GHL-related CSS)**
-```css
-/* Lines 404-409 - Force GHL widget behind other elements */
-#chat-widget,
-.chat-widget,
-[class*="chat-widget"],
-.leadconnector-chat {
-  z-index: 40 !important;
-}
-```
-
-**File: `src/components/GHLChatWidget.tsx`**
-- Listens for cookie consent via localStorage and custom events
-- Calls `ensureGHLWidget()` after consent
-- Calls `hideLauncher()` multiple times (0ms, 500ms, 1500ms) after load
-- Exposes `window.toggleGHLChat()` and `window.closeGHLChat()` globally
-- Renders null (no DOM output)
-
-**File: `src/components/DesktopChatButton.tsx`**
-- Fixed position button in bottom-right (desktop only, hidden on mobile)
-- Only visible after cookie consent
-- Calls `window.toggleGHLChat()` on click
-- Styled with theme colors (bg-primary, text-accent, etc.)
-
-**File: `src/components/MobileBottomBar.tsx`**
-- Mobile navigation bar with chat trigger
-- Calls `window.toggleGHLChat()` on chat button click
-
-#### What BRD Documents (but may be incomplete)
-
-**BRD Appendix F.6 - Z-Index Strategy:**
-| Element | Z-Index | Notes |
-|---------|---------|-------|
-| Cookie Consent Banner | `z-[2147483647]` | Max int, always on top |
-| GHL Chat Widget | `z-40` | Pushed behind via CSS `!important` |
-| Desktop Chat Button | `z-40` | Matches widget level |
-
-**BRD Appendix F.10 - CSS Override:**
-```css
-#chat-widget, .chat-widget, [id*="chat"], [class*="chat-widget"], .leadconnector-chat {
-  z-index: 40 !important;
-}
-```
-
-**BRD Task 2.2 - Manual GHL Setup:**
-- Set launcher icon to **1x1 pixel** (for code-based control)
-- This is configured in GHL dashboard, not code
-
-#### What's NOT in BRD (Known Gaps)
-
-1. No documentation for styling the chat INPUT FIELD or SEND BUTTON
-2. No shadow DOM selectors for form elements inside widget
-3. No known issues documented about CSS conflicts with interactive elements
-4. No guidance on what global CSS resets might affect GHL widget internals
-
-#### Investigation Steps Needed
-
-1. **Inspect GHL widget shadow DOM structure** to find input/button selectors
-2. **Check if our CSS resets** (in index.css `@layer base`) affect shadow DOM
-3. **Search GHL documentation** for custom styling options
-4. **Test with CSS isolation** - temporarily remove our overrides to confirm root cause
-5. **Find correct selectors** for input focus state and send button visibility
-
-#### Files to Modify (Once Root Cause Found)
-
-- `src/index.css` - Add targeted overrides for GHL widget internals
-- `src/lib/ghlLoader.ts` - Potentially add shadow DOM style injection for form elements
+**Files Modified:**
+- `src/lib/ghlLoader.ts` - Theme-aware color injection
+- `src/index.css` - GHL CSS custom properties
+- `src/pages/admin/Themes.tsx` - Admin UI controls (fully JSDoc documented)
+- `src/config/themes.ts` - Theme application
+- Database migration for `ghl_chat_config` column
 
 ---
 

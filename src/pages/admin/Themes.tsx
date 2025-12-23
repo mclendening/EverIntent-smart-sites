@@ -67,15 +67,32 @@ interface GradientConfig {
   text?: string;
 }
 
+/**
+ * Configuration for GHL chat widget theming.
+ * Controls the appearance of the GoHighLevel embedded chat widget
+ * including textarea, send button, and focus states.
+ * 
+ * All values are HSL color strings in format "H S% L%".
+ * Applied via CSS custom properties injected into the widget's shadow DOM.
+ */
 interface GHLChatConfig {
+  /** Background color of the message textarea */
   textareaBg: string;
+  /** Text color within the message textarea */
   textareaText: string;
+  /** Border color of the message textarea (unfocused) */
   textareaBorder: string;
+  /** Border color when textarea is focused */
   textareaFocusBorder: string;
+  /** Glow/shadow color when textarea is focused */
   textareaFocusGlow: string;
+  /** Background color of the send button */
   sendButtonBg: string;
+  /** Border color of the send button */
   sendButtonBorder: string;
+  /** Icon/SVG stroke color on send button */
   sendButtonIcon: string;
+  /** Text selection highlight color in textarea */
   selectionBg: string;
 }
 
@@ -1495,7 +1512,19 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
     </AccordionItem>
   );
 
-  // GHL Color Control Component - matches HslEditor pattern
+  /**
+   * GHL Color Control Component for chat widget theming.
+   * Provides a full-featured HSL color editor with:
+   * - Native color picker (hex input converted to HSL)
+   * - Manual HSL string input
+   * - Individual H/S/L sliders with increment/decrement buttons
+   * 
+   * Matches the HslEditor pattern used for other theme colors.
+   * 
+   * @param label - Display label for the color control
+   * @param value - Current HSL value as "H S% L%" string
+   * @param onChange - Callback when color value changes
+   */
   const GhlColorControl = ({ 
     label, 
     value, 
