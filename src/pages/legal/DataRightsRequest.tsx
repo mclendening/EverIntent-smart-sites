@@ -3,7 +3,6 @@
  * @module pages/legal/DataRightsRequest
  * @description Allows users to exercise their CCPA privacy rights.
  * Submissions are stored in form_submissions and synced to GHL with DSAR tag.
- * @brdref BRD v34.0 Section 21.1.4 (Data Rights Request)
  */
 
 import { useState } from 'react';
@@ -27,7 +26,6 @@ import { Send, Shield, Clock, CheckCircle2 } from 'lucide-react';
 /**
  * Request types available for data rights submissions.
  * Maps to CCPA rights categories.
- * @brdref BRD v34.0 Section 21.1.4
  */
 const REQUEST_TYPES = [
   { value: 'know', label: 'Know what data we have about me' },

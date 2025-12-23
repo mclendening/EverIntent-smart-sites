@@ -3,7 +3,6 @@
  * @module supabase/functions/_shared/ghlClient
  * @description Centralized GoHighLevel API client for contact management,
  * tagging, notes, and file uploads. All form submissions sync through this client.
- * @brdref BRD v34.0 Section 11 (GHL Configuration)
  */
 
 const GHL_BASE_URL = 'https://services.leadconnectorhq.com';
@@ -15,7 +14,6 @@ const GHL_API_VERSION = '2021-07-28';
  * Tags follow naming convention: "{Category}: {Action/Status}"
  * 
  * @constant
- * @brdref BRD v34.0 Section 11.2 (Tag Strategy)
  */
 export const GHL_TAGS = {
   /** Checkout flow tags - one per tier */
