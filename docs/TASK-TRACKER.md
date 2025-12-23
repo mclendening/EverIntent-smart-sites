@@ -444,13 +444,13 @@ All GHL widget IDs stored in Supabase secrets for edge function access:
 
 | Secret Name | Purpose |
 |-------------|---------|
-| `GHL_WIDGET_ID` | Legacy/default widget ID |
-| `GHL_WIDGET_ID_SALES` | Sales bot widget |
-| `GHL_WIDGET_ID_SUPPORT` | Support bot widget |
-| `GHL_WIDGET_ID_DEMO` | Demo bot widget |
-| `GHL_WIDGET_ID_LOCALPROS` | LocalPros vertical widget |
+| `GHL_WIDGET_ID_SALES` | **Default bot** - Used for all routes unless overridden |
+| `GHL_WIDGET_ID_SUPPORT` | Support bot - `/support`, `/help` routes |
+| `GHL_WIDGET_ID_DEMO` | Demo bot - `/demo` routes |
+| `GHL_WIDGET_ID_LOCALPROS` | LocalPros bot - `/localpros` routes |
 
-> **Note:** Edge function approach selected. Widget IDs accessed via `Deno.env.get()` in edge functions, not exposed to client-side code.
+> **Note:** `GHL_WIDGET_ID` was deleted. `GHL_WIDGET_ID_SALES` is now the default.
+> Edge function `ghl-config` already implements route-to-widget mapping (see `supabase/functions/ghl-config/index.ts`).
 
 ### Task 2.6 [LOVABLE] - GHL Multi-Widget Support
 **Status:** ⬜ Not Started
