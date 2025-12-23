@@ -1800,6 +1800,103 @@ SmartSites uses **multiple GHL chat widgets** with different training/personas b
 - Launcher hiding via JS shadow DOM penetration (code-based approach)
 - Reference implementation: https://everintentlegalai.com
 
+### GHL Shadow DOM Styling Pattern
+
+GHL chat widgets use nested shadow DOM components that encapsulate their styles. To override styling (e.g., invisible send button, missing textarea caret), inject CSS directly into the shadow root.
+
+**Shadow DOM Structure:**
+```
+chat-widget (shadowRoot)
+  └─ chat-pane (shadowRoot)
+       └─ chat-input (shadowRoot)
+            ├─ textarea.native-textarea.sc-ion-textarea-ios
+            └─ button.live-chat-send-button
+```
+
+**Implementation Pattern (`src/lib/ghlLoader.ts`):**
+
+1. **Traverse nested shadow roots** to reach the target elements:
+```typescript
+function getComposerShadowRoot(): ShadowRoot | null {
+  const widget = document.querySelector('chat-widget');
+  const root1 = widget?.shadowRoot;
+  if (!root1) return null;
+  
+  const chatPane = root1.querySelector('chat-pane');
+  const root2 = chatPane?.shadowRoot;
+  if (!root2) return null;
+  
+  const chatInput = root2.querySelector('chat-input');
+  return chatInput?.shadowRoot ?? null;
+}
+```
+
+2. **Inject a `<style>` element** into the shadow root with `!important` overrides:
+```typescript
+function injectGHLComposerFix(): boolean {
+  const shadowRoot = getComposerShadowRoot();
+  if (!shadowRoot) return false;
+  
+  if (!shadowRoot.getElementById('custom-fix-styles')) {
+    const style = document.createElement('style');
+    style.id = 'custom-fix-styles';
+    style.textContent = `
+      textarea.native-textarea.sc-ion-textarea-ios {
+        caret-color: rgba(255,255,255,0.95) !important;
+        /* ... other overrides */
+      }
+      button.live-chat-send-button {
+        background-color: rgba(99,102,241,0.95) !important;
+        opacity: 1 !important;
+      }
+    `;
+    shadowRoot.appendChild(style);
+  }
+  return true;
+}
+```
+
+3. **Use timed retries** because GHL mounts shadow components lazily:
+```typescript
+function applyGHLComposerFixRetries(): void {
+  injectGHLComposerFix();
+  setTimeout(injectGHLComposerFix, 250);
+  setTimeout(injectGHLComposerFix, 750);
+  setTimeout(injectGHLComposerFix, 1500);
+  setTimeout(injectGHLComposerFix, 2500);
+}
+```
+
+4. **Add event guards** for UX issues (e.g., block right-click sending):
+```typescript
+shadowRoot.addEventListener('contextmenu', (e) => {
+  if ((e.target as HTMLElement)?.closest?.('button.live-chat-send-button')) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+}, true);
+```
+
+5. **SSG Safety**: Always guard with `isBrowser()` check before DOM access:
+```typescript
+function isBrowser(): boolean {
+  return typeof window !== 'undefined' && typeof document !== 'undefined';
+}
+```
+
+**Key Selectors (verified via DevTools):**
+| Element | Selector |
+|---------|----------|
+| Textarea | `textarea.native-textarea.sc-ion-textarea-ios` |
+| Send button | `button.live-chat-send-button` |
+| Launcher bubble | `button.lc_text-widget--bubble` |
+
+**Known Issues Fixed:**
+- Send button `background-color: #524bae00` (fully transparent)
+- Textarea missing `caret-color` (invisible cursor)
+- No focus indication on textarea
+- Right-click on send button triggers send
+
 ### Route-to-Widget Mapping Logic
 
 ```typescript
