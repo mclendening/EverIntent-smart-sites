@@ -785,6 +785,24 @@ EverIntent LLC
 | delivery_date | Date | When site went live |
 | renewal_date | Date | T1 annual renewal |
 
+### 11.2 GHL Tags Strategy
+
+All GHL tags are centralized in `supabase/functions/_shared/ghlClient.ts` → `GHL_TAGS` constant.
+Tags are **not** user-editable in admin; they are code-managed for consistency.
+
+| Tag | Constant | Applied When |
+|-----|----------|--------------|
+| `SS: Checkout Started - T1` | `GHL_TAGS.CHECKOUT_T1` | User starts T1 checkout |
+| `SS: Checkout Started - T2` | `GHL_TAGS.CHECKOUT_T2` | User starts T2 checkout |
+| `SS: Checkout Started - T3` | `GHL_TAGS.CHECKOUT_T3` | User starts T3 checkout |
+| `SS: Checkout Started - T4` | `GHL_TAGS.CHECKOUT_T4` | User starts T4 checkout |
+| `LP: Partner Apply` | `GHL_TAGS.LOCALPROS_APPLY` | LocalPros partner application |
+| `Careers: Application` | `GHL_TAGS.CAREERS_APPLICATION` | Job application submitted |
+| `SS: Contact Form` | `GHL_TAGS.CONTACT_FORM` | Contact form submission |
+| `DSAR: Data Rights Request` | `GHL_TAGS.DATA_RIGHTS_REQUEST` | CCPA data rights request (45-day SLA) |
+
+**Tag Naming Convention:** `{Category}: {Action/Status}`
+
 ---
 
 ## 12. Customer Portal Architecture
@@ -2330,6 +2348,9 @@ All EverIntent properties and LocalPros portfolio sites must include these four 
 
 #### 21.1.4 Data Rights Request Page
 
+**Route:** `/legal/data-request`
+**Component:** `src/pages/legal/DataRightsRequest.tsx`
+
 **Required Form Fields:**
 - Full Name (required)
 - Email Address (required)
@@ -2340,7 +2361,14 @@ All EverIntent properties and LocalPros portfolio sites must include these four 
 **Response Commitment:**
 > We will respond to all verified requests within 45 days as required by CCPA. Complex requests may take up to 90 days with notification.
 
-**Backend:** Form submissions stored in `data_rights_requests` table; routed to privacy@everintent.com
+**Backend Implementation:**
+1. Form submissions stored in `form_submissions` table with `form_type: 'data_rights_request'`
+2. Edge function `submit-form` handles submission and GHL sync
+3. Contact upserted in GHL with tag `DSAR: Data Rights Request`
+4. GHL note includes urgent header: "⚠️ DSAR REQUEST - 45-DAY RESPONSE REQUIRED"
+5. Email notification routed to privacy@everintent.com via GHL workflow
+
+**GHL Tag:** `DSAR: Data Rights Request` (defined in `ghlClient.ts` → `GHL_TAGS.DATA_RIGHTS_REQUEST`)
 
 #### 21.1.5 Checkout Agreement Email
 
