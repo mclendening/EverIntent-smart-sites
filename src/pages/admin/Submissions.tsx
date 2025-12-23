@@ -203,12 +203,32 @@ export default function AdminSubmissions() {
       <main className="container py-4 sm:py-8 px-4">
         {/* Page Instructions */}
         <Card className="mb-6 border-muted bg-muted/30">
-          <CardContent className="py-4">
+          <CardContent className="py-4 space-y-2">
             <p className="text-sm text-muted-foreground">
-              <strong className="text-foreground">DSAR Compliance Monitor</strong> — This page tracks Data Subject Access Requests (DSAR) and form submissions for compliance purposes. 
-              All leads and contacts are managed in GoHighLevel (GHL). Use the dropdown below to filter by submission type. 
-              DSAR requests are highlighted in orange and require action within regulatory timeframes.
+              <strong className="text-foreground">Form Submissions</strong> — This page displays all website form submissions stored locally. 
+              All leads and contacts sync to GoHighLevel (GHL) where business operations occur. Use this page to verify sync status, 
+              troubleshoot failed syncs, and handle compliance-related requests. Use the dropdown to filter by form type.
             </p>
+            
+            {/* Conditional context per form type */}
+            {filterType === 'data_rights_request' && (
+              <p className="text-sm text-orange-600 dark:text-orange-400 border-l-2 border-orange-500 pl-3 mt-2">
+                <strong>DSAR Compliance:</strong> Data Subject Access Requests require action within regulatory timeframes (typically 30-45 days). 
+                Review and process these promptly to maintain compliance.
+              </p>
+            )}
+            {filterType === 'localpros_apply' && (
+              <p className="text-sm text-blue-600 dark:text-blue-400 border-l-2 border-blue-500 pl-3 mt-2">
+                <strong>LocalPros Applications:</strong> Partner applications from contractors seeking to join the network. 
+                Review qualifications and sync to GHL for pipeline management.
+              </p>
+            )}
+            {filterType === 'contact' && (
+              <p className="text-sm text-green-600 dark:text-green-400 border-l-2 border-green-500 pl-3 mt-2">
+                <strong>Contact Forms:</strong> General inquiries from the website contact form. 
+                These sync to GHL as new contacts for follow-up.
+              </p>
+            )}
           </CardContent>
         </Card>
 
