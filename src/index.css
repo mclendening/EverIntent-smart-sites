@@ -8,7 +8,7 @@
    All colors MUST be HSL.
    
    AUTO-GENERATED from theme: Indigo Night
-   Generated: 2025-12-22
+   Generated: 2025-12-23
    DO NOT edit manually - use admin theme editor and "Publish to Production".
 */
 
@@ -57,17 +57,6 @@
     --input: 215 25% 20%;
     --ring: 247 92% 50%;
 
-    /* GHL Chat Widget Theming (injected into shadow DOM) */
-    --ghl-textarea-bg: 222 47% 7%;
-    --ghl-textarea-text: 60 9% 98%;
-    --ghl-textarea-border: 215 25% 20%;
-    --ghl-textarea-focus-border: 240 70% 60%;
-    --ghl-textarea-focus-glow: 240 70% 60%;
-    --ghl-send-button-bg: 240 70% 60%;
-    --ghl-send-button-border: 0 0% 100%;
-    --ghl-send-button-icon: 0 0% 100%;
-    --ghl-selection-bg: 240 70% 60%;
-
     --radius: 0.75rem;
 
     /* Gradients - Indigo Night */
@@ -95,6 +84,17 @@
     --sidebar-accent-foreground: 60 9% 98%;
     --sidebar-border: 215 25% 20%;
     --sidebar-ring: 240 70% 60%;
+
+    /* GHL Chat Widget Theming (injected into shadow DOM) */
+    --ghl-textarea-bg: 235 53% 86%;
+    --ghl-textarea-text: 0 0% 4%;
+    --ghl-textarea-border: 215 25% 20%;
+    --ghl-textarea-focus-border: 240 70% 60%;
+    --ghl-textarea-focus-glow: 240 70% 60%;
+    --ghl-send-button-bg: 240 70% 60%;
+    --ghl-send-button-border: 0 0% 100%;
+    --ghl-send-button-icon: 0 0% 100%;
+    --ghl-selection-bg: 240 70% 60%;
   }
 
   .dark {
