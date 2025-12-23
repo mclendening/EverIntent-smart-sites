@@ -358,4 +358,16 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
   root.style.setProperty('--gradient-hero', theme.gradientConfigs.hero);
   root.style.setProperty('--gradient-cta', theme.gradientConfigs.cta);
   root.style.setProperty('--gradient-text', theme.gradientConfigs.text);
+  
+  // Apply GHL chat widget theming (derived from accent if not specified)
+  const accent = theme.accentConfig.accent;
+  root.style.setProperty('--ghl-textarea-bg', theme.staticColors.background);
+  root.style.setProperty('--ghl-textarea-text', theme.staticColors.foreground);
+  root.style.setProperty('--ghl-textarea-border', theme.staticColors.border);
+  root.style.setProperty('--ghl-textarea-focus-border', accent);
+  root.style.setProperty('--ghl-textarea-focus-glow', accent);
+  root.style.setProperty('--ghl-send-button-bg', accent);
+  root.style.setProperty('--ghl-send-button-border', '0 0% 100%');
+  root.style.setProperty('--ghl-send-button-icon', '0 0% 100%');
+  root.style.setProperty('--ghl-selection-bg', accent);
 }

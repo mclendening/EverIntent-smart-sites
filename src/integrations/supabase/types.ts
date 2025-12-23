@@ -523,6 +523,7 @@ export type Database = {
           changelog_notes: string | null
           created_at: string
           dark_mode_overrides: Json | null
+          ghl_chat_config: Json
           gradient_configs: Json
           id: string
           is_active: boolean | null
@@ -539,6 +540,7 @@ export type Database = {
           changelog_notes?: string | null
           created_at?: string
           dark_mode_overrides?: Json | null
+          ghl_chat_config?: Json
           gradient_configs?: Json
           id?: string
           is_active?: boolean | null
@@ -555,6 +557,7 @@ export type Database = {
           changelog_notes?: string | null
           created_at?: string
           dark_mode_overrides?: Json | null
+          ghl_chat_config?: Json
           gradient_configs?: Json
           id?: string
           is_active?: boolean | null

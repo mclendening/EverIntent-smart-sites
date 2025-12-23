@@ -67,6 +67,18 @@ interface GradientConfig {
   text?: string;
 }
 
+interface GHLChatConfig {
+  textareaBg: string;
+  textareaText: string;
+  textareaBorder: string;
+  textareaFocusBorder: string;
+  textareaFocusGlow: string;
+  sendButtonBg: string;
+  sendButtonBorder: string;
+  sendButtonIcon: string;
+  selectionBg: string;
+}
+
 export default function AdminThemes() {
   const { user, signOut } = useAdminAuth();
   const { toast } = useToast();
@@ -120,6 +132,17 @@ export default function AdminThemes() {
     cta: 'linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(32 95% 44%) 100%)',
     text: 'linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(45 93% 58%) 50%, hsl(38 92% 50%) 100%)',
   });
+  const [ghlChatConfig, setGhlChatConfig] = useState<GHLChatConfig>({
+    textareaBg: '222 47% 7%',
+    textareaText: '60 9% 98%',
+    textareaBorder: '215 25% 20%',
+    textareaFocusBorder: '240 70% 60%',
+    textareaFocusGlow: '240 70% 60%',
+    sendButtonBg: '240 70% 60%',
+    sendButtonBorder: '0 0% 100%',
+    sendButtonIcon: '0 0% 100%',
+    selectionBg: '240 70% 60%',
+  });
 
   // Fetch themes and logo versions
   useEffect(() => {
@@ -167,6 +190,20 @@ export default function AdminThemes() {
       });
 
       setGradientConfigs(selectedTheme.gradient_configs as GradientConfig || {});
+      
+      // Parse GHL chat config
+      const ghlConfig = selectedTheme.ghl_chat_config as Record<string, string> || {};
+      setGhlChatConfig({
+        textareaBg: ghlConfig.textareaBg || '222 47% 7%',
+        textareaText: ghlConfig.textareaText || '60 9% 98%',
+        textareaBorder: ghlConfig.textareaBorder || '215 25% 20%',
+        textareaFocusBorder: ghlConfig.textareaFocusBorder || '240 70% 60%',
+        textareaFocusGlow: ghlConfig.textareaFocusGlow || '240 70% 60%',
+        sendButtonBg: ghlConfig.sendButtonBg || '240 70% 60%',
+        sendButtonBorder: ghlConfig.sendButtonBorder || '0 0% 100%',
+        sendButtonIcon: ghlConfig.sendButtonIcon || '0 0% 100%',
+        selectionBg: ghlConfig.selectionBg || '240 70% 60%',
+      });
     }
   }, [selectedTheme]);
 
@@ -253,6 +290,7 @@ export default function AdminThemes() {
           } as unknown as Json,
           static_colors: staticColors as unknown as Json,
           gradient_configs: gradientConfigs as unknown as Json,
+          ghl_chat_config: ghlChatConfig as unknown as Json,
           changelog_notes: selectedTheme.changelog_notes,
         })
         .eq('id', selectedTheme.id);
@@ -651,6 +689,17 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
     --sidebar-accent-foreground: 60 9% 98%;
     --sidebar-border: 215 25% 20%;
     --sidebar-ring: ${accentCfg.accent || '240 70% 60%'};
+
+    /* GHL Chat Widget Theming (injected into shadow DOM) */
+    --ghl-textarea-bg: ${(theme.ghl_chat_config as Record<string, string>)?.textareaBg || staticCols.background || '222 47% 7%'};
+    --ghl-textarea-text: ${(theme.ghl_chat_config as Record<string, string>)?.textareaText || staticCols.foreground || '60 9% 98%'};
+    --ghl-textarea-border: ${(theme.ghl_chat_config as Record<string, string>)?.textareaBorder || staticCols.border || '215 25% 20%'};
+    --ghl-textarea-focus-border: ${(theme.ghl_chat_config as Record<string, string>)?.textareaFocusBorder || accentCfg.accent || '240 70% 60%'};
+    --ghl-textarea-focus-glow: ${(theme.ghl_chat_config as Record<string, string>)?.textareaFocusGlow || accentCfg.accent || '240 70% 60%'};
+    --ghl-send-button-bg: ${(theme.ghl_chat_config as Record<string, string>)?.sendButtonBg || accentCfg.accent || '240 70% 60%'};
+    --ghl-send-button-border: ${(theme.ghl_chat_config as Record<string, string>)?.sendButtonBorder || '0 0% 100%'};
+    --ghl-send-button-icon: ${(theme.ghl_chat_config as Record<string, string>)?.sendButtonIcon || '0 0% 100%'};
+    --ghl-selection-bg: ${(theme.ghl_chat_config as Record<string, string>)?.selectionBg || accentCfg.accent || '240 70% 60%'};
   }
 
   .dark {
@@ -2025,6 +2074,151 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
                                       style={{ background: gradientConfigs.text }}
                                     />
                                   )}
+                                </div>
+                              </AccordionContent>
+                            </AccordionItem>
+
+                            {/* GHL Chat Widget Section */}
+                            <AccordionItem value="ghl-chat">
+                              <AccordionTrigger className="text-sm py-2">
+                                <div className="flex items-center gap-2">
+                                  <div className="h-4 w-4 rounded border bg-accent shrink-0" />
+                                  GHL Chat Widget
+                                </div>
+                              </AccordionTrigger>
+                              <AccordionContent className="space-y-4 pb-4">
+                                <p className="text-xs text-muted-foreground">
+                                  Customize the GHL chat widget appearance. Colors are derived from base theme by default.
+                                </p>
+                                
+                                <div className="space-y-3">
+                                  <Label className="text-xs font-medium">Textarea Colors</Label>
+                                  <div className="grid grid-cols-2 gap-3">
+                                    <div className="space-y-1">
+                                      <Label className="text-xs text-muted-foreground">Background</Label>
+                                      <Input
+                                        value={ghlChatConfig.textareaBg}
+                                        onChange={(e) => setGhlChatConfig({ ...ghlChatConfig, textareaBg: e.target.value })}
+                                        placeholder="222 47% 7%"
+                                        className="font-mono text-xs"
+                                      />
+                                    </div>
+                                    <div className="space-y-1">
+                                      <Label className="text-xs text-muted-foreground">Text</Label>
+                                      <Input
+                                        value={ghlChatConfig.textareaText}
+                                        onChange={(e) => setGhlChatConfig({ ...ghlChatConfig, textareaText: e.target.value })}
+                                        placeholder="60 9% 98%"
+                                        className="font-mono text-xs"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="grid grid-cols-2 gap-3">
+                                    <div className="space-y-1">
+                                      <Label className="text-xs text-muted-foreground">Border</Label>
+                                      <Input
+                                        value={ghlChatConfig.textareaBorder}
+                                        onChange={(e) => setGhlChatConfig({ ...ghlChatConfig, textareaBorder: e.target.value })}
+                                        placeholder="215 25% 20%"
+                                        className="font-mono text-xs"
+                                      />
+                                    </div>
+                                    <div className="space-y-1">
+                                      <Label className="text-xs text-muted-foreground">Focus Border</Label>
+                                      <Input
+                                        value={ghlChatConfig.textareaFocusBorder}
+                                        onChange={(e) => setGhlChatConfig({ ...ghlChatConfig, textareaFocusBorder: e.target.value })}
+                                        placeholder="240 70% 60%"
+                                        className="font-mono text-xs"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="space-y-3">
+                                  <Label className="text-xs font-medium">Send Button Colors</Label>
+                                  <div className="grid grid-cols-2 gap-3">
+                                    <div className="space-y-1">
+                                      <Label className="text-xs text-muted-foreground">Background</Label>
+                                      <Input
+                                        value={ghlChatConfig.sendButtonBg}
+                                        onChange={(e) => setGhlChatConfig({ ...ghlChatConfig, sendButtonBg: e.target.value })}
+                                        placeholder="240 70% 60%"
+                                        className="font-mono text-xs"
+                                      />
+                                    </div>
+                                    <div className="space-y-1">
+                                      <Label className="text-xs text-muted-foreground">Icon</Label>
+                                      <Input
+                                        value={ghlChatConfig.sendButtonIcon}
+                                        onChange={(e) => setGhlChatConfig({ ...ghlChatConfig, sendButtonIcon: e.target.value })}
+                                        placeholder="0 0% 100%"
+                                        className="font-mono text-xs"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {/* Preview */}
+                                <div className="space-y-2">
+                                  <Label className="text-xs font-medium">Preview</Label>
+                                  <div 
+                                    className="rounded-lg p-3 border flex items-center gap-2"
+                                    style={{ backgroundColor: `hsl(${ghlChatConfig.textareaBg})` }}
+                                  >
+                                    <div 
+                                      className="flex-1 h-10 rounded-lg border px-3 flex items-center"
+                                      style={{ 
+                                        backgroundColor: `hsl(${ghlChatConfig.textareaBg})`,
+                                        borderColor: `hsl(${ghlChatConfig.textareaBorder})`,
+                                        color: `hsl(${ghlChatConfig.textareaText})`
+                                      }}
+                                    >
+                                      <span className="text-xs opacity-60">Type a message...</span>
+                                    </div>
+                                    <div 
+                                      className="h-10 w-10 rounded-full flex items-center justify-center"
+                                      style={{ backgroundColor: `hsl(${ghlChatConfig.sendButtonBg})` }}
+                                    >
+                                      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke={`hsl(${ghlChatConfig.sendButtonIcon})`} strokeWidth="2">
+                                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                                      </svg>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {/* Quick Actions */}
+                                <div className="flex gap-2">
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => setGhlChatConfig({
+                                      ...ghlChatConfig,
+                                      textareaFocusBorder: `${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`,
+                                      textareaFocusGlow: `${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`,
+                                      sendButtonBg: `${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`,
+                                      selectionBg: `${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`,
+                                    })}
+                                  >
+                                    Sync with Accent
+                                  </Button>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => setGhlChatConfig({
+                                      textareaBg: staticColors.background,
+                                      textareaText: staticColors.foreground,
+                                      textareaBorder: staticColors.border,
+                                      textareaFocusBorder: `${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`,
+                                      textareaFocusGlow: `${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`,
+                                      sendButtonBg: `${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`,
+                                      sendButtonBorder: '0 0% 100%',
+                                      sendButtonIcon: '0 0% 100%',
+                                      selectionBg: `${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`,
+                                    })}
+                                  >
+                                    Reset to Theme Defaults
+                                  </Button>
                                 </div>
                               </AccordionContent>
                             </AccordionItem>
