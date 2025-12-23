@@ -453,20 +453,24 @@ All GHL widget IDs stored in Supabase secrets for edge function access:
 > Edge function `ghl-config` already implements route-to-widget mapping (see `supabase/functions/ghl-config/index.ts`).
 
 ### Task 2.6 [LOVABLE] - GHL Multi-Widget Support
-**Status:** ⬜ Not Started
+**Status:** 🔄 In Progress
+
+> **Started:** 2025-12-23
+> **Tested:** Edge function verified via curl - all routes return correct widget IDs
 
 Upgrade from single widget to route-aware multi-widget:
 
-**Completed (Single Widget):**
+**✅ Completed:**
 - `src/lib/ghlLoader.ts` - Widget loader with shadow DOM styling
 - `src/components/GHLChatWidget.tsx` - Basic widget component
 - `src/components/DesktopChatButton.tsx` - Custom "Need help?" button
 - `src/components/MobileBottomBar.tsx` - Mobile chat trigger
+- `supabase/functions/ghl-config/index.ts` - Route-to-widget mapping edge function
+- Supabase secrets configured: `GHL_WIDGET_ID_SALES` (default), `GHL_WIDGET_ID_SUPPORT`, `GHL_WIDGET_ID_DEMO`, `GHL_WIDGET_ID_LOCALPROS`
 
-**Still Needed:**
-- Route-to-widget mapping logic
-- Edge function for widget ID lookup
-- Update `ghlLoader.ts` to accept dynamic widget ID
+**⬜ Remaining:**
+- Wire frontend (`ghlLoader.ts`) to call edge function for dynamic widget ID
+- Test on live routes when pages are built (`/localpros`, `/support`, `/demo`)
 
 ---
 
