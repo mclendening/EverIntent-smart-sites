@@ -460,64 +460,42 @@ Create 3 separate GHL chat widgets with different training/personas:
 
 ---
 
-### Task 2.4.1 [MANUAL] - Configure Environment Variables for Open-Source Repo
+### Task 2.5 [MANUAL] - Configure Vercel Environment Variables
 **Status:** ⬜ Not Started
 
-> **Goal:** Remove all env values from committed code so repo can be public/open-source.
+> **Goal:** Move hardcoded GHL widget ID to Vercel environment variable.
 
-**Step 1: Secure the `.env` file**
-1. Add `.env` to `.gitignore` (prevent values from being committed)
-2. Create `.env.example` with placeholder values (committed, shows required vars)
+**Vercel Dashboard → Project → Settings → Environment Variables:**
 
-```bash
-# .env.example (committed to repo)
-VITE_SUPABASE_PROJECT_ID="your-project-id"
-VITE_SUPABASE_PUBLISHABLE_KEY="your-anon-key"
-VITE_SUPABASE_URL="https://your-project.supabase.co"
-VITE_GHL_LOCATION_ID="your-location-id"
-VITE_GHL_WIDGET_ID="your-widget-id"
-VITE_GHL_WIDGET_ID_SALES="your-sales-widget-id"
-VITE_GHL_WIDGET_ID_SUPPORT="your-support-widget-id"
-VITE_GHL_WIDGET_ID_DEMO="your-demo-widget-id"
-```
+| Name | Type | Notes |
+|------|------|-------|
+| `GHL_WIDGET_ID` | Server-side | GHL chat widget ID (currently hardcoded in ghlLoader.ts) |
+| `GHL_WIDGET_ID_SALES` | Server-side | Sales bot widget ID (future multi-widget) |
+| `GHL_WIDGET_ID_SUPPORT` | Server-side | Support bot widget ID (future multi-widget) |
+| `GHL_WIDGET_ID_DEMO` | Server-side | Demo bot widget ID (future multi-widget) |
 
-**Step 2: Configure Vercel Pro**
-1. Go to Vercel Dashboard → Project → **Settings** → **Environment Variables**
-2. Add all variables with real values (Production, Preview, Development):
+> **Note:** These are NOT prefixed with `VITE_` because they should not be exposed to client-side code. An edge function or build-time injection will provide the widget ID.
 
-| Name | Notes |
-|------|-------|
-| `VITE_SUPABASE_PROJECT_ID` | Supabase project identifier |
-| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase anon/public key |
-| `VITE_SUPABASE_URL` | Supabase API URL |
-| `VITE_GHL_LOCATION_ID` | GHL location ID |
-| `VITE_GHL_WIDGET_ID` | Current widget (pre-multi-bot) |
-| `VITE_GHL_WIDGET_ID_SALES` | Sales bot widget ID |
-| `VITE_GHL_WIDGET_ID_SUPPORT` | Support bot widget ID |
-| `VITE_GHL_WIDGET_ID_DEMO` | Demo bot widget ID |
+**Implementation Options:**
+1. **Edge function approach** - Create `/api/config` endpoint that returns widget ID based on route
+2. **Build-time injection** - Inject widget ID into HTML during Vercel build
 
-**Step 3: Lovable Development**
-- Lovable preview uses the `.env` file (not committed after gitignore update)
-- Values stay in Lovable's environment but not in public repo
+### Task 2.6 [LOVABLE] - GHL Multi-Widget Support
+**Status:** ⬜ Not Started
 
-**Why VITE_ prefix?** Vite requires this prefix to expose env vars to client-side code.
+Upgrade from single widget to route-aware multi-widget:
 
-
-### Task 2.5 [LOVABLE] - Create GHL Widget Components (Multi-Widget)
-**Status:** 🔄 Partial
-
-> **JSDoc:** All GHL components must document `@brdref BRD v34.0 Section 17.6 - Cookie Consent` and `@brdref BRD v34.0 Section 11 - GHL Configuration`.
-
-**Completed:**
-- `src/lib/ghlLoader.ts` - Widget loader with hideLauncher shadow DOM penetration
+**Completed (Single Widget):**
+- `src/lib/ghlLoader.ts` - Widget loader with shadow DOM styling
 - `src/components/GHLChatWidget.tsx` - Basic widget component
-- `src/components/DesktopChatButton.tsx` - Custom "Need help?" button with hover effects
+- `src/components/DesktopChatButton.tsx` - Custom "Need help?" button
 - `src/components/MobileBottomBar.tsx` - Mobile chat trigger
 
 **Still Needed:**
-- Multi-widget support (route-aware widget selection)
-- Environment variable integration for widget IDs
-- Add JSDoc to existing components (retroactive)
+- Route-to-widget mapping logic
+- Edge function for widget ID lookup
+- Update `ghlLoader.ts` to accept dynamic widget ID
+
 ---
 
 ## Phase 3: Core Marketing Pages
@@ -746,27 +724,16 @@ Build after Tasks 3.2-3.4 are complete. Each follows same structure with copy fr
 
 ---
 
-## Phase 7: Legal Pages & Utilities
+## ~~Phase 7: Legal Pages & Utilities~~ (Consolidated)
 
-### Task 7.1 [LOVABLE] - Privacy Policy Page
-**Status:** ⬜ Not Started
-> **Note:** Consolidated into Task 2.3. See Phase 2.
+> **Note:** All Phase 7 tasks were completed as part of Task 2.3 (Cookie Consent Banner & Legal Pages). 
+> See Phase 2 for completed deliverables: Privacy Policy, Terms of Service, Cookie Policy, Data Rights Request.
 
-### Task 7.2 [LOVABLE] - Terms of Service Page
-**Status:** ⬜ Not Started
-> **Note:** Consolidated into Task 2.3. See Phase 2.
+---
 
-### Task 7.3 [LOVABLE] - Cookie Settings Page
-**Status:** ⬜ Not Started
-> **Note:** Consolidated into Task 2.3. See Phase 2.
+## Phase 7: Analytics
 
-### Task 7.4 [LOVABLE] - Data Rights Request Page
-**Status:** ⬜ Not Started
-> **Note:** Consolidated into Task 2.3. See Phase 2.
-
-## Phase 8: Analytics
-
-### Task 8.1 [MANUAL] - Create Google Analytics Property
+### Task 7.1 [MANUAL] - Create Google Analytics Property
 **Status:** ⬜ Not Started
 
 1. Go to https://analytics.google.com
@@ -777,7 +744,7 @@ Build after Tasks 3.2-3.4 are complete. Each follows same structure with copy fr
 6. Enter your domain URL
 7. **Copy the Measurement ID** (starts with `G-`)
 
-### Task 8.2 [MANUAL] - Add GA4 to Vercel
+### Task 7.2 [MANUAL] - Add GA4 to Vercel
 **Status:** ⬜ Not Started
 
 1. Go to Vercel Dashboard → Your Project → **Settings** → **Environment Variables**
@@ -787,10 +754,12 @@ Build after Tasks 3.2-3.4 are complete. Each follows same structure with copy fr
 |------|-------|-------------|
 | `VITE_GA_MEASUREMENT_ID` | Your GA4 Measurement ID (G-XXXXXXXXXX) | Production |
 
-### Task 8.3 [LOVABLE] - Integrate GA4 Script
+> **Note:** GA4 Measurement ID uses `VITE_` prefix because it's a publishable key used in client-side analytics script.
+
+### Task 7.3 [LOVABLE] - Integrate GA4 Script
 **Status:** ⬜ Not Started
 
-> **JSDoc:** `@brdref BRD v34.0 Section 13 - GA4 & Analytics`
+Add GA4 tracking with cookie consent integration.
 
 ---
 
@@ -809,27 +778,34 @@ Build after Tasks 3.2-3.4 are complete. Each follows same structure with copy fr
 
 **BRD Version:** v34.0 (Brand Pivot to EverIntent Master Brand)
 
-**Completed:** 
+**Completed:**
 - Phase 0 (Prerequisites) - All GHL configuration complete
 - Phase 1 (Database Foundation) - All migrations and Edge Functions deployed
-- **Phase 1.5 (Theme Publishing System)** - All tasks complete:
-  - Task 1.5.1: GitHub secrets added to Supabase
-  - Task 1.5.2: sync-theme-to-github edge function created
-  - Task 1.5.3: Publish to GitHub button added to admin
-  - Task 1.5.4: Database save before GitHub sync (merged into 1.5.3)
-- Task 2.1 (Cookie Consent) - Component complete and integrated
+- **Phase 1.5 (Theme Publishing System)** - All tasks complete
+- **Phase 1.6 (Theme System Completion)** - Partial:
+  - ✅ Task 1.6.1: Header Logo Integration
+  - 🔄 Task 1.6.2: Missing CSS Variables (in progress)
+  - 🔄 Task 1.6.3: Admin Theme CRUD Gaps (in progress)
+  - ⬜ Task 1.6.4: Logo Export (not started)
+  - ✅ Task 1.6.5: Logo Theme Testing
+  - ✅ Task 1.6.6: Closed as obsolete (LogoExplorer never existed)
+- **Phase 2 (Cookie Consent & GHL Widget)** - Partial:
+  - ✅ Task 2.1: Cookie Consent Component
+  - ⬜ Task 2.2: Create GHL Chat Widgets (MANUAL)
+  - ✅ Task 2.3: Cookie Consent Banner & Legal Pages
+  - ✅ Task 2.4: GHL Chat Widget Styling (theme-aware)
+  - ⬜ Task 2.5: Vercel Environment Variables (MANUAL)
+  - ⬜ Task 2.6: GHL Multi-Widget Support
 - SSG Configuration - vite-react-ssg patterns documented in BRD Appendix H
 - Brand Pivot Documentation - BRD v34.0 + everintent-pivot-plan.md aligned
 
-**In Progress:** Phase 2 (Tasks 2.2-2.4 need multi-widget GHL setup)
-
-**Next Priority Tasks (Brand Pivot Implementation):**
-1. **Task 3.0** - Implement Brand Pivot Phase 1 [LOVABLE] - Header/Footer/SEO branding
-2. **Task 3.0.1** - Update Navigation Structure [LOVABLE] - Smart Websites dropdown, Solutions nav
-3. **Task 3.0.2** - Create NavHoverMenu Component [LOVABLE]
-4. Task 2.2 - Create GHL Chat Widgets (3 Bots) [MANUAL] - Can proceed in parallel
-5. Task 3.1 - Create Reusable Section Components [LOVABLE]
-6. Task 3.2 - Homepage [LOVABLE]
+**Next Priority Tasks:**
+1. **Task 2.5** [MANUAL] - Configure Vercel env vars for GHL widget ID
+2. **Task 3.0** [LOVABLE] - Implement Brand Pivot Phase 1 (Header/Footer/SEO)
+3. **Task 3.0.1** [LOVABLE] - Update Navigation Structure
+4. **Task 3.0.2** [LOVABLE] - Create NavHoverMenu Component
+5. **Task 2.2** [MANUAL] - Create GHL Chat Widgets (3 Bots) - parallel
+6. **Task 3.1** [LOVABLE] - Create Reusable Section Components
 
 **Key References:**
 - BRD v34.0: `docs/smartsites-brd-v33.0.md`
