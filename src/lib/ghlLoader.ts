@@ -53,13 +53,14 @@ const RESOURCES_URL = 'https://beta.leadconnectorhq.com/chat-widget/loader.js';
 
 /**
  * GHL Widget IDs by type.
- * Values come from Vercel environment variables (VITE_GHL_WIDGET_ID_*).
+ * These are public widget identifiers (not secrets).
+ * @see Supabase secrets for reference values if needed.
  */
 const GHL_WIDGET_IDS = {
-  sales: import.meta.env.VITE_GHL_WIDGET_ID_SALES || '',
-  support: import.meta.env.VITE_GHL_WIDGET_ID_SUPPORT || '',
-  demo: import.meta.env.VITE_GHL_WIDGET_ID_DEMO || '',
-  localpros: import.meta.env.VITE_GHL_WIDGET_ID_LOCALPROS || '',
+  sales: '694220dc4ca1823bfbe5f213',
+  support: '694220dc4ca1823bfbe5f213', // TODO: Update with actual support widget ID
+  demo: '694220dc4ca1823bfbe5f213',    // TODO: Update with actual demo widget ID
+  localpros: '694220dc4ca1823bfbe5f213', // TODO: Update with actual localpros widget ID
 } as const;
 
 export type GHLWidgetType = keyof typeof GHL_WIDGET_IDS;
