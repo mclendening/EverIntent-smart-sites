@@ -51,8 +51,48 @@ const LOADER_SRC = 'https://beta.leadconnectorhq.com/loader.js';
 /** GHL resources URL for widget initialization */
 const RESOURCES_URL = 'https://beta.leadconnectorhq.com/chat-widget/loader.js';
 
-/** GHL Widget ID - TODO: Move to VITE_GHL_WIDGET_ID env var */
-const GHL_WIDGET_ID = '694220dc4ca1823bfbe5f213';
+/**
+ * GHL Widget IDs by type.
+ * Values come from Vercel environment variables (VITE_GHL_WIDGET_ID_*).
+ */
+const GHL_WIDGET_IDS = {
+  sales: import.meta.env.VITE_GHL_WIDGET_ID_SALES || '',
+  support: import.meta.env.VITE_GHL_WIDGET_ID_SUPPORT || '',
+  demo: import.meta.env.VITE_GHL_WIDGET_ID_DEMO || '',
+  localpros: import.meta.env.VITE_GHL_WIDGET_ID_LOCALPROS || '',
+} as const;
+
+export type GHLWidgetType = keyof typeof GHL_WIDGET_IDS;
+
+/**
+ * Route-to-widget mapping.
+ * Routes are matched by prefix. First match wins.
+ * Default (no match) uses 'sales' widget.
+ */
+const ROUTE_WIDGET_MAP: Array<{ prefix: string; widget: GHLWidgetType }> = [
+  { prefix: '/localpros', widget: 'localpros' },
+  { prefix: '/support', widget: 'support' },
+  { prefix: '/help', widget: 'support' },
+  { prefix: '/demo', widget: 'demo' },
+];
+
+/**
+ * Gets the appropriate widget ID based on current route.
+ * @param pathname - Current route pathname (defaults to window.location.pathname)
+ * @returns Widget ID string
+ */
+export function getWidgetIdForRoute(pathname?: string): string {
+  const path = pathname ?? (typeof window !== 'undefined' ? window.location.pathname : '/');
+  
+  for (const { prefix, widget } of ROUTE_WIDGET_MAP) {
+    if (path.startsWith(prefix)) {
+      return GHL_WIDGET_IDS[widget];
+    }
+  }
+  
+  // Default to sales widget
+  return GHL_WIDGET_IDS.sales;
+}
 
 /** Style element ID for composer fix injection */
 const EI_GHL_FIX_STYLE_ID = 'ei-ghl-composer-fix';
@@ -105,7 +145,7 @@ function ensureLoaderScript(): void {
   s.id = LOADER_ID;
   s.src = LOADER_SRC;
   s.setAttribute('data-resources-url', RESOURCES_URL);
-  s.setAttribute('data-widget-id', GHL_WIDGET_ID);
+  s.setAttribute('data-widget-id', getWidgetIdForRoute());
   document.body.appendChild(s);
 }
 
