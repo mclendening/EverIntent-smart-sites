@@ -131,14 +131,14 @@ export function CookieConsent() {
                   We use cookies to enhance your experience, analyze site usage, and personalize content. By continuing to browse, you consent to our use of cookies.{' '}
                   <a 
                     href="/legal/privacy" 
-                    className="text-primary hover:text-primary/80 underline"
+                    className="text-accent hover:text-accent/80 underline font-medium"
                   >
                     Privacy Policy
                   </a>
                   {' | '}
                   <button
                     onClick={() => setShowModal(true)}
-                    className="text-primary hover:text-primary/80 underline"
+                    className="text-accent hover:text-accent/80 underline font-medium"
                     type="button"
                   >
                     Cookie Settings
