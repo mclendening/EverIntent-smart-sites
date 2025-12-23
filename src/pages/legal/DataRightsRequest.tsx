@@ -1,6 +1,9 @@
 /**
  * @fileoverview Data Rights Request (DSAR) page for CCPA compliance.
  * @module pages/legal/DataRightsRequest
+ * @description Allows users to exercise their CCPA privacy rights.
+ * Submissions are stored in form_submissions and synced to GHL with DSAR tag.
+ * @brdref BRD v34.0 Section 21.1.4 (Data Rights Request)
  */
 
 import { useState } from 'react';
@@ -23,6 +26,8 @@ import { Send, Shield, Clock, CheckCircle2 } from 'lucide-react';
 
 /**
  * Request types available for data rights submissions.
+ * Maps to CCPA rights categories.
+ * @brdref BRD v34.0 Section 21.1.4
  */
 const REQUEST_TYPES = [
   { value: 'know', label: 'Know what data we have about me' },
@@ -41,8 +46,10 @@ const REQUEST_TYPES = [
  * - Right to correct inaccurate information
  * - Right to opt-out of marketing
  * 
- * Form submissions are stored in the database and routed to privacy@everintent.com.
- * 45-day response commitment per CCPA requirements.
+ * Form submissions are:
+ * 1. Stored in form_submissions table (form_type: 'data_rights_request')
+ * 2. Synced to GHL with 'DSAR: Data Rights Request' tag
+ * 3. Include urgent note requiring 45-day response
  * 
  * @component
  * @example
@@ -62,8 +69,9 @@ export default function DataRightsRequest() {
   });
 
   /**
-   * Handles form submission.
-   * Validates required fields and submits to database.
+   * Handles form submission via edge function.
+   * Validates required fields and submits to submit-form edge function
+   * which handles both database storage and GHL sync.
    */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,17 +97,23 @@ export default function DataRightsRequest() {
     setIsSubmitting(true);
 
     try {
-      // Submit to form_submissions with form_type = 'data_rights_request'
-      const { error } = await supabase.from('form_submissions').insert({
-        name: formData.name,
-        email: formData.email,
-        message: `Request Type: ${formData.requestType}\n\nDetails: ${formData.details || 'No additional details provided.'}`,
-        form_type: 'data_rights_request',
-        tcpa_consent: false, // Not applicable for data rights
-        source_page: '/legal/data-request',
+      // Find the request type label for the message
+      const requestTypeLabel = REQUEST_TYPES.find(t => t.value === formData.requestType)?.label || formData.requestType;
+      
+      // Submit via edge function for GHL sync
+      const { data, error } = await supabase.functions.invoke('submit-form', {
+        body: {
+          form_type: 'data_rights_request',
+          name: formData.name,
+          email: formData.email,
+          message: `Request Type: ${requestTypeLabel}\n\nDetails: ${formData.details || 'No additional details provided.'}`,
+          tcpa_consent: false, // Not applicable for data rights
+          source_page: '/legal/data-request',
+        },
       });
 
       if (error) throw error;
+      if (!data?.success) throw new Error(data?.error || 'Submission failed');
 
       setIsSubmitted(true);
       toast({
