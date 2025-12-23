@@ -53,14 +53,14 @@ const RESOURCES_URL = 'https://beta.leadconnectorhq.com/chat-widget/loader.js';
 
 /**
  * GHL Widget IDs by type.
- * These are public widget identifiers (not secrets).
- * @see Supabase secrets for reference values if needed.
+ * Configurable via environment variables for operational flexibility.
+ * All use VITE_ prefix for Vite client-side exposure.
  */
 const GHL_WIDGET_IDS = {
-  sales: '694220dc4ca1823bfbe5f213',
-  support: '694220dc4ca1823bfbe5f213', // TODO: Update with actual support widget ID
-  demo: '694220dc4ca1823bfbe5f213',    // TODO: Update with actual demo widget ID
-  localpros: '694220dc4ca1823bfbe5f213', // TODO: Update with actual localpros widget ID
+  sales: import.meta.env.VITE_GHL_WIDGET_ID_SALES || import.meta.env.VITE_GHL_WIDGET_ID || '',
+  support: import.meta.env.VITE_GHL_WIDGET_ID_SUPPORT || import.meta.env.VITE_GHL_WIDGET_ID || '',
+  demo: import.meta.env.VITE_GHL_WIDGET_ID_DEMO || import.meta.env.VITE_GHL_WIDGET_ID || '',
+  localpros: import.meta.env.VITE_GHL_WIDGET_ID_LOCALPROS || import.meta.env.VITE_GHL_WIDGET_ID || '',
 } as const;
 
 export type GHLWidgetType = keyof typeof GHL_WIDGET_IDS;
