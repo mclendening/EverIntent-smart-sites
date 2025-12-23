@@ -358,23 +358,19 @@ Created `src/components/CookieConsent.tsx` with:
 - Integrated into Layout.tsx
 
 ### Task 2.2 [MANUAL] - Create GHL Chat Widgets (3 Bots)
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
-Create 3 separate GHL chat widgets with different training/personas:
+> **Completed:** 2025-12-23
 
-| Widget | Purpose | Training Focus |
-|--------|---------|----------------|
-| **Sales Bot** | Pricing/checkout pages | Conversion, pricing questions, upsells, urgency |
-| **Support Bot** | Contact/legal/help pages | FAQ, support inquiries, data requests |
-| **Demo Bot** | Homepage, services, industries | Feature showcase, capability demonstration |
+Created 4 GHL chat widgets with different training/personas. Widget IDs stored in Supabase secrets:
 
-**Steps for each widget:**
-1. In GHL, go to **Sites** → **Chat Widget**
-2. Click **Create New Widget**
-3. Name it appropriately (e.g., "SmartSites Sales Bot")
-4. Configure AI training/prompt for the specific persona
-5. Set launcher icon to **1x1 pixel** (for code-based control)
-6. **Copy the Widget ID** from the embed code
+| Widget | Secret Name | Purpose |
+|--------|-------------|---------|
+| **Default** | `GHL_WIDGET_ID` | Legacy/fallback widget |
+| **Sales Bot** | `GHL_WIDGET_ID_SALES` | Pricing/checkout pages |
+| **Support Bot** | `GHL_WIDGET_ID_SUPPORT` | Contact/legal/help pages |
+| **Demo Bot** | `GHL_WIDGET_ID_DEMO` | Homepage, services, industries |
+| **LocalPros Bot** | `GHL_WIDGET_ID_LOCALPROS` | LocalPros vertical pages |
 
 ### Task 2.3 [LOVABLE] - Cookie Consent Banner & Legal Pages
 **Status:** ✅ Complete
@@ -438,25 +434,23 @@ Create 3 separate GHL chat widgets with different training/personas:
 
 ---
 
-### Task 2.5 [MANUAL] - Configure Vercel Environment Variables
-**Status:** ⬜ Not Started
+### Task 2.5 [MANUAL] - Configure Supabase Secrets for GHL Widget IDs
+**Status:** ✅ Complete
 
-> **Goal:** Move hardcoded GHL widget ID to Vercel environment variable.
+> **Completed:** 2025-12-23
+> **Updated:** Changed from Vercel env vars to Supabase secrets (edge function approach)
 
-**Vercel Dashboard → Project → Settings → Environment Variables:**
+All GHL widget IDs stored in Supabase secrets for edge function access:
 
-| Name | Type | Notes |
-|------|------|-------|
-| `GHL_WIDGET_ID` | Server-side | GHL chat widget ID (currently hardcoded in ghlLoader.ts) |
-| `GHL_WIDGET_ID_SALES` | Server-side | Sales bot widget ID (future multi-widget) |
-| `GHL_WIDGET_ID_SUPPORT` | Server-side | Support bot widget ID (future multi-widget) |
-| `GHL_WIDGET_ID_DEMO` | Server-side | Demo bot widget ID (future multi-widget) |
+| Secret Name | Purpose |
+|-------------|---------|
+| `GHL_WIDGET_ID` | Legacy/default widget ID |
+| `GHL_WIDGET_ID_SALES` | Sales bot widget |
+| `GHL_WIDGET_ID_SUPPORT` | Support bot widget |
+| `GHL_WIDGET_ID_DEMO` | Demo bot widget |
+| `GHL_WIDGET_ID_LOCALPROS` | LocalPros vertical widget |
 
-> **Note:** These are NOT prefixed with `VITE_` because they should not be exposed to client-side code. An edge function or build-time injection will provide the widget ID.
-
-**Implementation Options:**
-1. **Edge function approach** - Create `/api/config` endpoint that returns widget ID based on route
-2. **Build-time injection** - Inject widget ID into HTML during Vercel build
+> **Note:** Edge function approach selected. Widget IDs accessed via `Deno.env.get()` in edge functions, not exposed to client-side code.
 
 ### Task 2.6 [LOVABLE] - GHL Multi-Widget Support
 **Status:** ⬜ Not Started
