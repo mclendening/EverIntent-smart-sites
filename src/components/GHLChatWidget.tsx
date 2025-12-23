@@ -11,7 +11,13 @@
  */
 
 import { useEffect, useState } from 'react';
-import { ensureGHLWidget, openViaAnyAPI, closeViaAnyAPI, hideLauncher } from '@/lib/ghlLoader';
+import {
+  ensureGHLWidget,
+  openViaAnyAPI,
+  closeViaAnyAPI,
+  hideLauncher,
+  applyGHLComposerFixRetries
+} from '@/lib/ghlLoader';
 
 /**
  * LocalStorage key for cookie consent status
@@ -39,6 +45,7 @@ declare global {
  * 2. Preload GHL widget script after consent
  * 3. Hide default GHL launcher bubble (we use custom buttons)
  * 4. Expose window.toggleGHLChat() and window.closeGHLChat() globally
+ * 5. Apply composer styling fixes (textarea caret + send button visibility)
  * 
  * This component renders null - it's purely for side effects.
  * 
@@ -59,7 +66,7 @@ export function GHLChatWidget() {
    */
   useEffect(() => {
     const checkConsent = () => setHasConsent(!!localStorage.getItem(CONSENT_KEY));
-    checkConsent(); // Check immediately on mount
+    checkConsent();
     window.addEventListener('cookie-consent-changed', checkConsent);
     window.addEventListener('storage', checkConsent);
     return () => {
@@ -70,28 +77,43 @@ export function GHLChatWidget() {
 
   /**
    * Preload widget when consent is granted
-   * Aggressively hide launcher after load (multiple attempts for timing)
+   * Apply launcher hiding and composer fixes after load
    */
   useEffect(() => {
     if (!hasConsent) return;
 
     let mounted = true;
+
     const preload = async () => {
       try {
         await ensureGHLWidget();
-        if (mounted) {
-          // Aggressively hide launcher after load
+        if (!mounted) return;
+
+        // Hide the default launcher bubble
+        hideLauncher();
+
+        // Apply composer fix (textarea caret + send button visibility + right-click guard)
+        applyGHLComposerFixRetries();
+
+        // Retry hiding launcher + fixes because widget mounts lazily
+        setTimeout(() => {
           hideLauncher();
-          setTimeout(hideLauncher, 500);
-          setTimeout(hideLauncher, 1500);
-        }
+          applyGHLComposerFixRetries();
+        }, 500);
+
+        setTimeout(() => {
+          hideLauncher();
+          applyGHLComposerFixRetries();
+        }, 1500);
       } catch (e) {
         console.warn('[GHL Chat] Preload failed', e);
       }
     };
-    preload();
 
-    return () => { mounted = false; };
+    preload();
+    return () => {
+      mounted = false;
+    };
   }, [hasConsent]);
 
   /**
@@ -101,6 +123,8 @@ export function GHLChatWidget() {
   useEffect(() => {
     window.toggleGHLChat = () => {
       openViaAnyAPI();
+      // After open, ensure the composer shadow DOM is mounted, then apply fixes
+      applyGHLComposerFixRetries();
     };
 
     window.closeGHLChat = () => {
