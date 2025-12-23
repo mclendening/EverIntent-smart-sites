@@ -51,47 +51,56 @@ const LOADER_SRC = 'https://beta.leadconnectorhq.com/loader.js';
 /** GHL resources URL for widget initialization */
 const RESOURCES_URL = 'https://beta.leadconnectorhq.com/chat-widget/loader.js';
 
-/**
- * GHL Widget IDs by type.
- * Values come from Vercel environment variables (VITE_GHL_WIDGET_ID_*).
- */
-const GHL_WIDGET_IDS = {
-  sales: import.meta.env.VITE_GHL_WIDGET_ID_SALES || '',
-  support: import.meta.env.VITE_GHL_WIDGET_ID_SUPPORT || '',
-  demo: import.meta.env.VITE_GHL_WIDGET_ID_DEMO || '',
-  localpros: import.meta.env.VITE_GHL_WIDGET_ID_LOCALPROS || '',
-} as const;
+/** Supabase edge function URL for GHL config */
+const GHL_CONFIG_URL = 'https://nweklcxzoemcnwaoakvq.supabase.co/functions/v1/ghl-config';
 
-export type GHLWidgetType = keyof typeof GHL_WIDGET_IDS;
+/** Cached widget ID (fetched from edge function) */
+let cachedWidgetId: string | null = null;
+
+/** Promise for in-flight widget ID fetch */
+let widgetIdFetchPromise: Promise<string> | null = null;
 
 /**
- * Route-to-widget mapping.
- * Routes are matched by prefix. First match wins.
- * Default (no match) uses 'sales' widget.
+ * Fetches widget ID from edge function based on current route.
+ * Caches the result for the session.
+ * 
+ * @param pathname - Current route pathname
+ * @returns Promise resolving to widget ID string
  */
-const ROUTE_WIDGET_MAP: Array<{ prefix: string; widget: GHLWidgetType }> = [
-  { prefix: '/localpros', widget: 'localpros' },
-  { prefix: '/support', widget: 'support' },
-  { prefix: '/help', widget: 'support' },
-  { prefix: '/demo', widget: 'demo' },
-];
-
-/**
- * Gets the appropriate widget ID based on current route.
- * @param pathname - Current route pathname (defaults to window.location.pathname)
- * @returns Widget ID string
- */
-export function getWidgetIdForRoute(pathname?: string): string {
-  const path = pathname ?? (typeof window !== 'undefined' ? window.location.pathname : '/');
+async function fetchWidgetIdForRoute(pathname: string): Promise<string> {
+  // Return cached value if available
+  if (cachedWidgetId) return cachedWidgetId;
   
-  for (const { prefix, widget } of ROUTE_WIDGET_MAP) {
-    if (path.startsWith(prefix)) {
-      return GHL_WIDGET_IDS[widget];
+  // Return existing promise if fetch in progress
+  if (widgetIdFetchPromise) return widgetIdFetchPromise;
+  
+  widgetIdFetchPromise = (async () => {
+    try {
+      const response = await fetch(`${GHL_CONFIG_URL}?route=${encodeURIComponent(pathname)}`);
+      if (!response.ok) {
+        console.error('[ghlLoader] Failed to fetch widget config:', response.status);
+        return '';
+      }
+      const data = await response.json();
+      cachedWidgetId = data.widgetId || '';
+      return cachedWidgetId;
+    } catch (error) {
+      console.error('[ghlLoader] Error fetching widget config:', error);
+      return '';
+    } finally {
+      widgetIdFetchPromise = null;
     }
-  }
+  })();
   
-  // Default to sales widget
-  return GHL_WIDGET_IDS.sales;
+  return widgetIdFetchPromise;
+}
+
+/**
+ * Gets the widget ID synchronously if cached, otherwise returns empty string.
+ * Use fetchWidgetIdForRoute for async fetch.
+ */
+function getCachedWidgetId(): string {
+  return cachedWidgetId || '';
 }
 
 /** Style element ID for composer fix injection */
@@ -135,17 +144,26 @@ function waitForAPI(timeout = 10000): Promise<'leadConnector' | 'LC_API'> {
 
 /**
  * Injects GHL loader script into DOM if not already present.
+ * Fetches widget ID from edge function first.
  * Idempotent - safe to call multiple times.
  */
-function ensureLoaderScript(): void {
+async function ensureLoaderScript(): Promise<void> {
   if (!isBrowser()) return;
   if (document.getElementById(LOADER_ID)) return;
+
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : '/';
+  const widgetId = await fetchWidgetIdForRoute(pathname);
+  
+  if (!widgetId) {
+    console.warn('[ghlLoader] No widget ID available, skipping script injection');
+    return;
+  }
 
   const s = document.createElement('script');
   s.id = LOADER_ID;
   s.src = LOADER_SRC;
   s.setAttribute('data-resources-url', RESOURCES_URL);
-  s.setAttribute('data-widget-id', getWidgetIdForRoute());
+  s.setAttribute('data-widget-id', widgetId);
   document.body.appendChild(s);
 }
 
@@ -164,7 +182,7 @@ function ensureLoaderScript(): void {
  */
 export async function ensureGHLWidget(timeout = 12000): Promise<void> {
   if (!isBrowser()) return;
-  ensureLoaderScript();
+  await ensureLoaderScript();
   await waitForAPI(timeout);
 }
 

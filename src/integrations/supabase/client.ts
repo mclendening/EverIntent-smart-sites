@@ -22,16 +22,18 @@ import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
 /**
- * Supabase project URL from environment
+ * Supabase project URL
+ * This is a public value, safe to include in client code.
  * @constant {string}
  */
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_URL = 'https://nweklcxzoemcnwaoakvq.supabase.co';
 
 /**
- * Supabase anon/public key from environment
+ * Supabase anon/public key
+ * This is a publishable key designed for client-side use.
  * @constant {string}
  */
-const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+const SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im53ZWtsY3h6b2VtY253YW9ha3ZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NjkxNzMsImV4cCI6MjA4MTI0NTE3M30.drDwzaSoht-PWySZWdsAozqSiJfVfQrjUj0spEbq7mc';
 
 /**
  * SSR-safe browser detection
