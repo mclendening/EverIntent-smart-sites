@@ -400,60 +400,141 @@ Create 3 separate GHL chat widgets with different training/personas:
 5. Set launcher icon to **1x1 pixel** (for code-based control)
 6. **Copy the Widget ID** from the embed code
 
-### Task 2.3 [LOVABLE] - Create Legal Pages
-**Status:** ⬜ Not Started
+### Task 2.3 [LOVABLE] - Cookie Consent Banner & Legal Pages
+**Status:** ✅ Complete
 
 > **Source:** BRD v34.0 Section 21.1
-> **JSDoc:** Each page component must document `@brdref BRD v34.0 Section 21 - Compliance & Legal` with specific subsection.
+> **Completed:** 2025-12-23
 
-Create 4 legal pages for EverIntent and LocalPros portfolio sites:
+**Completed Items:**
+- ✅ Cookie consent banner matching Legal AI site design
+- ✅ "We use cookies" heading with description text
+- ✅ Privacy Policy and Cookie Settings links with proper contrast (ADA compliant)
+- ✅ Reject All, Manage, Accept All buttons
+- ✅ Cookie Preferences Modal with category toggles
+- ✅ Footer "Cookies" link routes to `/legal/cookies` page
+- ✅ All 4 legal pages created and routed
+- ✅ Data Rights Request form with DSAR submission to database
 
-| Page | Route | Component |
-|------|-------|-----------|
-| Privacy Policy | `/legal/privacy` | `src/pages/legal/PrivacyPolicy.tsx` |
-| Terms of Service | `/legal/terms` | `src/pages/legal/TermsOfService.tsx` |
-| Cookie Policy | `/legal/cookies` | `src/pages/legal/CookiePolicy.tsx` |
-| Data Rights Request | `/legal/data-request` | `src/pages/legal/DataRightsRequest.tsx` |
+### Task 2.4 [LOVABLE] - Fix GHL Chat Widget Styling
+**Status:** 🔄 In Progress
 
-**Requirements per BRD 21.1:**
+> **Priority:** HIGH - Broken user experience
+> **Added:** 2025-12-23
+> **BRD Reference:** Appendix F.9-F.10, F.6 (Z-Index Strategy)
 
-**Privacy Policy:**
-- Data collection, usage, sharing sections
-- Call/SMS recording disclosure
-- "We never sell personal data" statement
-- Data retention periods (customer: 7 years, leads: 3 years, analytics: 26 months)
-- CCPA rights (know, delete, opt-out, non-discrimination)
-- LocalPros lead disclosure paragraph
+#### Problem Statement
 
-**Terms of Service:**
-- Payment terms (one-time + monthly subscriptions)
-- Refund policy: Full refund before "Work Commencement" email; no refunds after
-- Chargeback policy with fraud deterrence language
-- Portfolio/marketing rights (opt-in at checkout)
-- Hosting SLA (99.5% uptime, 24hr support response)
-- IP ownership (customer owns deliverable, EI retains templates/code)
-- Limitation of liability (12-month cap)
-- Dispute resolution (Orange County, CA)
-- Termination and modification clauses
+When user clicks the custom chat button (desktop or mobile), the GHL chat widget opens but has broken styling:
 
-**Cookie Policy:**
-- Cookie categories table (Necessary, Analytics, Marketing, Functional)
-- Third-party cookies list (Google, Facebook, GHL)
-- Browser settings + privacy settings links
+1. **Message input field** appears inactive when clicked (no visible focus state)
+2. **Send button** turns clear/invisible when input is focused
+3. User CAN type and CAN send messages, but visually it looks broken
+4. The issue occurs on both desktop and mobile
 
-**Data Rights Request:**
-- Form: Name, Email, Request Type dropdown, Details textarea
-- Request types: Know | Delete | Correct | Opt-out | Other
-- 45-day response commitment
-- Verification acknowledgment checkbox
+#### Root Cause Analysis (Needs Investigation)
 
-**Database Migration (if needed):**
-- Add `data_rights_requests` table for DSAR submissions
+The problem is likely CSS overrides in our stylesheet conflicting with GHL's internal widget styling. GHL uses Shadow DOM, so some styles may be leaking through or our global resets may be affecting elements.
 
-**Footer Integration:**
-- Add links to all 4 legal pages in Footer.tsx
+#### Current Implementation State Report
 
-### Task 2.4 [MANUAL] - Configure Environment Variables for Open-Source Repo
+**File: `src/lib/ghlLoader.ts`**
+```typescript
+// Constants
+const LOADER_ID = 'ghl-widget-loader';
+const LOADER_SRC = 'https://beta.leadconnectorhq.com/loader.js';
+const RESOURCES_URL = 'https://beta.leadconnectorhq.com/chat-widget/loader.js';
+const GHL_WIDGET_ID = '694220dc4ca1823bfbe5f213'; // Hardcoded, TODO: move to env
+
+// Key functions:
+// - ensureGHLWidget(timeout) - loads script, waits for API
+// - hideLauncher() - hides launcher bubble via shadow DOM CSS injection
+// - openViaAnyAPI() - opens chat via leadConnector or LC_API
+// - closeViaAnyAPI() - closes chat via leadConnector or LC_API
+
+// hideLauncher implementation:
+export function hideLauncher() {
+  const widget = document.querySelector('chat-widget');
+  if (widget?.shadowRoot) {
+    const launcher = widget.shadowRoot.querySelector('button.lc_text-widget--bubble');
+    if (launcher instanceof HTMLElement) {
+      launcher.style.cssText = 'display: none !important; visibility: hidden !important; pointer-events: none !important; width: 0 !important; height: 0 !important;';
+    }
+  }
+}
+```
+
+**File: `src/index.css` (GHL-related CSS)**
+```css
+/* Lines 404-409 - Force GHL widget behind other elements */
+#chat-widget,
+.chat-widget,
+[class*="chat-widget"],
+.leadconnector-chat {
+  z-index: 40 !important;
+}
+```
+
+**File: `src/components/GHLChatWidget.tsx`**
+- Listens for cookie consent via localStorage and custom events
+- Calls `ensureGHLWidget()` after consent
+- Calls `hideLauncher()` multiple times (0ms, 500ms, 1500ms) after load
+- Exposes `window.toggleGHLChat()` and `window.closeGHLChat()` globally
+- Renders null (no DOM output)
+
+**File: `src/components/DesktopChatButton.tsx`**
+- Fixed position button in bottom-right (desktop only, hidden on mobile)
+- Only visible after cookie consent
+- Calls `window.toggleGHLChat()` on click
+- Styled with theme colors (bg-primary, text-accent, etc.)
+
+**File: `src/components/MobileBottomBar.tsx`**
+- Mobile navigation bar with chat trigger
+- Calls `window.toggleGHLChat()` on chat button click
+
+#### What BRD Documents (but may be incomplete)
+
+**BRD Appendix F.6 - Z-Index Strategy:**
+| Element | Z-Index | Notes |
+|---------|---------|-------|
+| Cookie Consent Banner | `z-[2147483647]` | Max int, always on top |
+| GHL Chat Widget | `z-40` | Pushed behind via CSS `!important` |
+| Desktop Chat Button | `z-40` | Matches widget level |
+
+**BRD Appendix F.10 - CSS Override:**
+```css
+#chat-widget, .chat-widget, [id*="chat"], [class*="chat-widget"], .leadconnector-chat {
+  z-index: 40 !important;
+}
+```
+
+**BRD Task 2.2 - Manual GHL Setup:**
+- Set launcher icon to **1x1 pixel** (for code-based control)
+- This is configured in GHL dashboard, not code
+
+#### What's NOT in BRD (Known Gaps)
+
+1. No documentation for styling the chat INPUT FIELD or SEND BUTTON
+2. No shadow DOM selectors for form elements inside widget
+3. No known issues documented about CSS conflicts with interactive elements
+4. No guidance on what global CSS resets might affect GHL widget internals
+
+#### Investigation Steps Needed
+
+1. **Inspect GHL widget shadow DOM structure** to find input/button selectors
+2. **Check if our CSS resets** (in index.css `@layer base`) affect shadow DOM
+3. **Search GHL documentation** for custom styling options
+4. **Test with CSS isolation** - temporarily remove our overrides to confirm root cause
+5. **Find correct selectors** for input focus state and send button visibility
+
+#### Files to Modify (Once Root Cause Found)
+
+- `src/index.css` - Add targeted overrides for GHL widget internals
+- `src/lib/ghlLoader.ts` - Potentially add shadow DOM style injection for form elements
+
+---
+
+### Task 2.4.1 [MANUAL] - Configure Environment Variables for Open-Source Repo
 **Status:** ⬜ Not Started
 
 > **Goal:** Remove all env values from committed code so repo can be public/open-source.
@@ -494,6 +575,7 @@ VITE_GHL_WIDGET_ID_DEMO="your-demo-widget-id"
 - Values stay in Lovable's environment but not in public repo
 
 **Why VITE_ prefix?** Vite requires this prefix to expose env vars to client-side code.
+
 
 ### Task 2.5 [LOVABLE] - Create GHL Widget Components (Multi-Widget)
 **Status:** 🔄 Partial
