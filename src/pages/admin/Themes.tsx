@@ -1495,6 +1495,167 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
     </AccordionItem>
   );
 
+  // GHL Color Control Component - matches HslEditor pattern
+  const GhlColorControl = ({ 
+    label, 
+    value, 
+    onChange 
+  }: { 
+    label: string; 
+    value: string; 
+    onChange: (val: string) => void;
+  }) => {
+    const hsl = parseHsl(value);
+    
+    const updateHsl = (key: 'h' | 's' | 'l', newValue: number) => {
+      const updated = { ...hsl, [key]: newValue };
+      onChange(formatHsl(updated.h, updated.s, updated.l));
+    };
+
+    const increment = (key: 'h' | 's' | 'l', amount: number) => {
+      const max = key === 'h' ? 360 : 100;
+      const newVal = Math.max(0, Math.min(max, hsl[key] + amount));
+      updateHsl(key, newVal);
+    };
+
+    return (
+      <AccordionItem value={`ghl-${label.toLowerCase().replace(/\s/g, '-')}`}>
+        <AccordionTrigger className="text-xs py-1.5">
+          <div className="flex items-center gap-2">
+            <div 
+              className="h-3 w-3 rounded border shrink-0"
+              style={{ backgroundColor: `hsl(${value})` }}
+            />
+            {label}
+          </div>
+        </AccordionTrigger>
+        <AccordionContent className="space-y-2 pb-3">
+          {/* Color preview with hex picker */}
+          <div className="flex items-center gap-2">
+            <input
+              type="color"
+              value={hslToHex(hsl.h, hsl.s, hsl.l)}
+              onChange={(e) => {
+                // Convert hex to HSL
+                const hex = e.target.value;
+                const r = parseInt(hex.slice(1, 3), 16) / 255;
+                const g = parseInt(hex.slice(3, 5), 16) / 255;
+                const b = parseInt(hex.slice(5, 7), 16) / 255;
+                const max = Math.max(r, g, b), min = Math.min(r, g, b);
+                let h = 0, s = 0;
+                const l = (max + min) / 2;
+                if (max !== min) {
+                  const d = max - min;
+                  s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                  switch (max) {
+                    case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+                    case g: h = ((b - r) / d + 2) / 6; break;
+                    case b: h = ((r - g) / d + 4) / 6; break;
+                  }
+                }
+                onChange(formatHsl(h * 360, s * 100, l * 100));
+              }}
+              className="h-8 w-10 rounded border cursor-pointer shrink-0"
+            />
+            <Input
+              value={value}
+              onChange={(e) => onChange(e.target.value)}
+              placeholder="0 0% 100%"
+              className="font-mono text-xs flex-1"
+            />
+          </div>
+          
+          {/* Hue control */}
+          <div className="space-y-1">
+            <div className="flex justify-between items-center">
+              <Label className="text-xs text-muted-foreground">Hue</Label>
+              <div className="flex items-center gap-1">
+                <Button variant="outline" size="icon" className="h-5 w-5" onClick={() => increment('h', -5)}>
+                  <ChevronDown className="h-3 w-3" />
+                </Button>
+                <Input
+                  type="number"
+                  min={0}
+                  max={360}
+                  value={Math.round(hsl.h)}
+                  onChange={(e) => updateHsl('h', Number(e.target.value))}
+                  className="w-14 h-5 text-xs font-mono text-center"
+                />
+                <Button variant="outline" size="icon" className="h-5 w-5" onClick={() => increment('h', 5)}>
+                  <ChevronUp className="h-3 w-3" />
+                </Button>
+              </div>
+            </div>
+            <Slider 
+              value={[hsl.h]} 
+              max={360} 
+              onValueChange={(v) => updateHsl('h', v[0])} 
+              className="[&_.relative]:h-1.5"
+            />
+          </div>
+          
+          {/* Saturation control */}
+          <div className="space-y-1">
+            <div className="flex justify-between items-center">
+              <Label className="text-xs text-muted-foreground">Saturation</Label>
+              <div className="flex items-center gap-1">
+                <Button variant="outline" size="icon" className="h-5 w-5" onClick={() => increment('s', -5)}>
+                  <ChevronDown className="h-3 w-3" />
+                </Button>
+                <Input
+                  type="number"
+                  min={0}
+                  max={100}
+                  value={Math.round(hsl.s)}
+                  onChange={(e) => updateHsl('s', Number(e.target.value))}
+                  className="w-14 h-5 text-xs font-mono text-center"
+                />
+                <Button variant="outline" size="icon" className="h-5 w-5" onClick={() => increment('s', 5)}>
+                  <ChevronUp className="h-3 w-3" />
+                </Button>
+              </div>
+            </div>
+            <Slider 
+              value={[hsl.s]} 
+              max={100} 
+              onValueChange={(v) => updateHsl('s', v[0])} 
+              className="[&_.relative]:h-1.5"
+            />
+          </div>
+          
+          {/* Lightness control */}
+          <div className="space-y-1">
+            <div className="flex justify-between items-center">
+              <Label className="text-xs text-muted-foreground">Lightness</Label>
+              <div className="flex items-center gap-1">
+                <Button variant="outline" size="icon" className="h-5 w-5" onClick={() => increment('l', -5)}>
+                  <ChevronDown className="h-3 w-3" />
+                </Button>
+                <Input
+                  type="number"
+                  min={0}
+                  max={100}
+                  value={Math.round(hsl.l)}
+                  onChange={(e) => updateHsl('l', Number(e.target.value))}
+                  className="w-14 h-5 text-xs font-mono text-center"
+                />
+                <Button variant="outline" size="icon" className="h-5 w-5" onClick={() => increment('l', 5)}>
+                  <ChevronUp className="h-3 w-3" />
+                </Button>
+              </div>
+            </div>
+            <Slider 
+              value={[hsl.l]} 
+              max={100} 
+              onValueChange={(v) => updateHsl('l', v[0])} 
+              className="[&_.relative]:h-1.5"
+            />
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    );
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -2091,76 +2252,57 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
                                   Customize the GHL chat widget appearance. Colors are derived from base theme by default.
                                 </p>
                                 
-                                <div className="space-y-3">
-                                  <Label className="text-xs font-medium">Textarea Colors</Label>
-                                  <div className="grid grid-cols-2 gap-3">
-                                    <div className="space-y-1">
-                                      <Label className="text-xs text-muted-foreground">Background</Label>
-                                      <Input
-                                        value={ghlChatConfig.textareaBg}
-                                        onChange={(e) => setGhlChatConfig({ ...ghlChatConfig, textareaBg: e.target.value })}
-                                        placeholder="222 47% 7%"
-                                        className="font-mono text-xs"
-                                      />
-                                    </div>
-                                    <div className="space-y-1">
-                                      <Label className="text-xs text-muted-foreground">Text</Label>
-                                      <Input
-                                        value={ghlChatConfig.textareaText}
-                                        onChange={(e) => setGhlChatConfig({ ...ghlChatConfig, textareaText: e.target.value })}
-                                        placeholder="60 9% 98%"
-                                        className="font-mono text-xs"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="grid grid-cols-2 gap-3">
-                                    <div className="space-y-1">
-                                      <Label className="text-xs text-muted-foreground">Border</Label>
-                                      <Input
-                                        value={ghlChatConfig.textareaBorder}
-                                        onChange={(e) => setGhlChatConfig({ ...ghlChatConfig, textareaBorder: e.target.value })}
-                                        placeholder="215 25% 20%"
-                                        className="font-mono text-xs"
-                                      />
-                                    </div>
-                                    <div className="space-y-1">
-                                      <Label className="text-xs text-muted-foreground">Focus Border</Label>
-                                      <Input
-                                        value={ghlChatConfig.textareaFocusBorder}
-                                        onChange={(e) => setGhlChatConfig({ ...ghlChatConfig, textareaFocusBorder: e.target.value })}
-                                        placeholder="240 70% 60%"
-                                        className="font-mono text-xs"
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div className="space-y-3">
-                                  <Label className="text-xs font-medium">Send Button Colors</Label>
-                                  <div className="grid grid-cols-2 gap-3">
-                                    <div className="space-y-1">
-                                      <Label className="text-xs text-muted-foreground">Background</Label>
-                                      <Input
-                                        value={ghlChatConfig.sendButtonBg}
-                                        onChange={(e) => setGhlChatConfig({ ...ghlChatConfig, sendButtonBg: e.target.value })}
-                                        placeholder="240 70% 60%"
-                                        className="font-mono text-xs"
-                                      />
-                                    </div>
-                                    <div className="space-y-1">
-                                      <Label className="text-xs text-muted-foreground">Icon</Label>
-                                      <Input
-                                        value={ghlChatConfig.sendButtonIcon}
-                                        onChange={(e) => setGhlChatConfig({ ...ghlChatConfig, sendButtonIcon: e.target.value })}
-                                        placeholder="0 0% 100%"
-                                        className="font-mono text-xs"
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
+                                {/* Nested Accordion for GHL colors */}
+                                <Accordion type="multiple" className="w-full">
+                                  <GhlColorControl 
+                                    label="Textarea Background"
+                                    value={ghlChatConfig.textareaBg}
+                                    onChange={(v) => setGhlChatConfig({ ...ghlChatConfig, textareaBg: v })}
+                                  />
+                                  <GhlColorControl 
+                                    label="Textarea Text"
+                                    value={ghlChatConfig.textareaText}
+                                    onChange={(v) => setGhlChatConfig({ ...ghlChatConfig, textareaText: v })}
+                                  />
+                                  <GhlColorControl 
+                                    label="Textarea Border"
+                                    value={ghlChatConfig.textareaBorder}
+                                    onChange={(v) => setGhlChatConfig({ ...ghlChatConfig, textareaBorder: v })}
+                                  />
+                                  <GhlColorControl 
+                                    label="Focus Border"
+                                    value={ghlChatConfig.textareaFocusBorder}
+                                    onChange={(v) => setGhlChatConfig({ ...ghlChatConfig, textareaFocusBorder: v })}
+                                  />
+                                  <GhlColorControl 
+                                    label="Focus Glow"
+                                    value={ghlChatConfig.textareaFocusGlow}
+                                    onChange={(v) => setGhlChatConfig({ ...ghlChatConfig, textareaFocusGlow: v })}
+                                  />
+                                  <GhlColorControl 
+                                    label="Send Button Background"
+                                    value={ghlChatConfig.sendButtonBg}
+                                    onChange={(v) => setGhlChatConfig({ ...ghlChatConfig, sendButtonBg: v })}
+                                  />
+                                  <GhlColorControl 
+                                    label="Send Button Border"
+                                    value={ghlChatConfig.sendButtonBorder}
+                                    onChange={(v) => setGhlChatConfig({ ...ghlChatConfig, sendButtonBorder: v })}
+                                  />
+                                  <GhlColorControl 
+                                    label="Send Button Icon"
+                                    value={ghlChatConfig.sendButtonIcon}
+                                    onChange={(v) => setGhlChatConfig({ ...ghlChatConfig, sendButtonIcon: v })}
+                                  />
+                                  <GhlColorControl 
+                                    label="Selection Background"
+                                    value={ghlChatConfig.selectionBg}
+                                    onChange={(v) => setGhlChatConfig({ ...ghlChatConfig, selectionBg: v })}
+                                  />
+                                </Accordion>
 
                                 {/* Preview */}
-                                <div className="space-y-2">
+                                <div className="space-y-2 mt-4">
                                   <Label className="text-xs font-medium">Preview</Label>
                                   <div 
                                     className="rounded-lg p-3 border flex items-center gap-2"
