@@ -201,6 +201,17 @@ export default function AdminSubmissions() {
       </header>
 
       <main className="container py-4 sm:py-8 px-4">
+        {/* Page Instructions */}
+        <Card className="mb-6 border-muted bg-muted/30">
+          <CardContent className="py-4">
+            <p className="text-sm text-muted-foreground">
+              <strong className="text-foreground">DSAR Compliance Monitor</strong> — This page tracks Data Subject Access Requests (DSAR) and form submissions for compliance purposes. 
+              All leads and contacts are managed in GoHighLevel (GHL). Use the dropdown below to filter by submission type. 
+              DSAR requests are highlighted in orange and require action within regulatory timeframes.
+            </p>
+          </CardContent>
+        </Card>
+
         {/* Filters and Actions */}
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
           <Select value={filterType} onValueChange={setFilterType}>
