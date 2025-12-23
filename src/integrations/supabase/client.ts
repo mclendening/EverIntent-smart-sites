@@ -23,17 +23,21 @@ import type { Database } from './types';
 
 /**
  * Supabase project URL
- * This is a public value, safe to include in client code.
+ * Injected at build time via vite.config.ts define - no values in source code.
+ * Set SUPABASE_URL in Vercel platform env.
  * @constant {string}
  */
-const SUPABASE_URL = 'https://nweklcxzoemcnwaoakvq.supabase.co';
+declare const __SUPABASE_URL__: string;
+const SUPABASE_URL = __SUPABASE_URL__;
 
 /**
  * Supabase anon/public key
- * This is a publishable key designed for client-side use.
+ * Injected at build time via vite.config.ts define - no values in source code.
+ * Set SUPABASE_PUBLISHABLE_KEY in Vercel platform env.
  * @constant {string}
  */
-const SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im53ZWtsY3h6b2VtY253YW9ha3ZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NjkxNzMsImV4cCI6MjA4MTI0NTE3M30.drDwzaSoht-PWySZWdsAozqSiJfVfQrjUj0spEbq7mc';
+declare const __SUPABASE_ANON_KEY__: string;
+const SUPABASE_PUBLISHABLE_KEY = __SUPABASE_ANON_KEY__;
 
 /**
  * SSR-safe browser detection
