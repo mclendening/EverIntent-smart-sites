@@ -1897,6 +1897,40 @@ function isBrowser(): boolean {
 - No focus indication on textarea
 - Right-click on send button triggers send
 
+### GHL Chat Widget Theming Integration
+
+GHL chat widget colors are now **theme-aware** and configurable via the admin Themes panel.
+
+**CSS Custom Properties (set in `:root`):**
+| Variable | Purpose |
+|----------|---------|
+| `--ghl-textarea-bg` | Textarea background color |
+| `--ghl-textarea-text` | Textarea text and caret color |
+| `--ghl-textarea-border` | Textarea border (unfocused) |
+| `--ghl-textarea-focus-border` | Textarea border when focused |
+| `--ghl-textarea-focus-glow` | Focus ring/glow effect |
+| `--ghl-send-button-bg` | Send button background |
+| `--ghl-send-button-border` | Send button border |
+| `--ghl-send-button-icon` | Send button SVG icon stroke |
+| `--ghl-selection-bg` | Text selection highlight |
+
+**Admin Controls:**
+- Located in Themes page → "GHL Chat Widget" accordion section
+- Each color has: color picker, HSL string input, H/S/L sliders with increment buttons
+- "Sync with Accent" button derives interactive colors from theme accent
+- "Reset to Theme Defaults" derives all colors from base theme colors
+- Live preview shows textarea + send button appearance
+
+**Database Storage:**
+- `site_themes.ghl_chat_config` (JSONB) stores all 9 color values
+- Published to production via `themes.ts` and applied in `applyThemeToRoot()`
+
+**Implementation Files:**
+- `src/lib/ghlLoader.ts` - `getGHLThemeColors()` reads CSS vars, `injectGHLComposerFix()` applies them
+- `src/index.css` - CSS variable definitions with fallbacks
+- `src/pages/admin/Themes.tsx` - `GhlColorControl` component for admin UI
+- `src/config/themes.ts` - `applyThemeToRoot()` sets CSS vars on document root
+
 ### Route-to-Widget Mapping Logic
 
 ```typescript
