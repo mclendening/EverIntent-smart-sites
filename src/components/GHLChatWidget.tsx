@@ -1,13 +1,17 @@
 /**
- * @fileoverview GHLChatWidget Component - GoHighLevel Chat Widget Controller
- * @description Manages GHL chat widget lifecycle: preloading, launcher hiding, toggle/close APIs.
- *              Renders null (no DOM output) - purely manages widget state and global functions.
+ * @fileoverview GHL Chat Widget Controller Component
+ * @description Manages GoHighLevel chat widget lifecycle including preloading,
+ *              launcher hiding, and global toggle/close functions.
  * 
  * @module components/GHLChatWidget
- * @see {@link https://docs.lovable.dev} Lovable Documentation
  * 
- * @brd-reference BRD v33.0 Section 14 - GHL Chat Widget Integration
- * @brd-reference BRD v33.0 Section 21 - Cookie Consent Requirements
+ * @remarks
+ * This component renders null (no DOM output). It exists purely for side effects:
+ * - Listens for cookie consent changes
+ * - Preloads GHL widget script after consent
+ * - Hides default GHL launcher (custom buttons used instead)
+ * - Applies composer styling fixes (textarea caret, send button visibility)
+ * - Exposes window.toggleGHLChat() and window.closeGHLChat() globally
  */
 
 import { useEffect, useState } from 'react';
@@ -19,51 +23,38 @@ import {
   applyGHLComposerFixRetries
 } from '@/lib/ghlLoader';
 
-/**
- * LocalStorage key for cookie consent status
- * @constant {string}
- */
+/** LocalStorage key for cookie consent status */
 const CONSENT_KEY = 'cookie-consent';
 
-/**
- * Global window extensions for GHL chat control
- */
 declare global {
   interface Window {
-    /** Toggle GHL chat open/close */
+    /** Opens GHL chat widget */
     toggleGHLChat?: () => void;
-    /** Close GHL chat window */
+    /** Closes GHL chat widget */
     closeGHLChat?: () => void;
   }
 }
 
 /**
- * GHLChatWidget - GoHighLevel Chat Widget Controller
+ * GHL Chat Widget Controller.
  * 
- * Responsibilities per BRD v33.0:
- * 1. Listen for cookie consent changes
- * 2. Preload GHL widget script after consent
- * 3. Hide default GHL launcher bubble (we use custom buttons)
- * 4. Expose window.toggleGHLChat() and window.closeGHLChat() globally
- * 5. Apply composer styling fixes (textarea caret + send button visibility)
+ * Manages widget lifecycle based on cookie consent state.
+ * Used by DesktopChatButton and MobileBottomBar via window.toggleGHLChat().
  * 
- * This component renders null - it's purely for side effects.
+ * @returns `null` - No DOM output
  * 
- * @component
  * @example
- * // In Layout.tsx, wrapped in ClientOnly
+ * ```tsx
+ * // In Layout.tsx, wrapped in ClientOnly for SSG safety
  * <ClientOnly>
  *   <GHLChatWidget />
  * </ClientOnly>
- * 
- * @returns {null} No DOM output
+ * ```
  */
-export function GHLChatWidget() {
+export function GHLChatWidget(): null {
   const [hasConsent, setHasConsent] = useState(false);
 
-  /**
-   * Check consent on mount and listen for changes
-   */
+  // Check consent on mount and listen for changes
   useEffect(() => {
     const checkConsent = () => setHasConsent(!!localStorage.getItem(CONSENT_KEY));
     checkConsent();
@@ -75,10 +66,7 @@ export function GHLChatWidget() {
     };
   }, []);
 
-  /**
-   * Preload widget when consent is granted
-   * Apply launcher hiding and composer fixes after load
-   */
+  // Preload widget and apply fixes when consent is granted
   useEffect(() => {
     if (!hasConsent) return;
 
@@ -89,13 +77,13 @@ export function GHLChatWidget() {
         await ensureGHLWidget();
         if (!mounted) return;
 
-        // Hide the default launcher bubble
+        // Hide default launcher bubble (we use custom buttons)
         hideLauncher();
 
-        // Apply composer fix (textarea caret + send button visibility + right-click guard)
+        // Apply composer fixes (textarea caret + send button visibility)
         applyGHLComposerFixRetries();
 
-        // Retry hiding launcher + fixes because widget mounts lazily
+        // Retry for lazy-mounted components
         setTimeout(() => {
           hideLauncher();
           applyGHLComposerFixRetries();
@@ -116,14 +104,11 @@ export function GHLChatWidget() {
     };
   }, [hasConsent]);
 
-  /**
-   * Setup global toggle/close functions
-   * These are called by DesktopChatButton and MobileBottomBar
-   */
+  // Setup global toggle/close functions
   useEffect(() => {
     window.toggleGHLChat = () => {
       openViaAnyAPI();
-      // After open, ensure the composer shadow DOM is mounted, then apply fixes
+      // Apply fixes after open (shadow DOM mounts on first open)
       applyGHLComposerFixRetries();
     };
 

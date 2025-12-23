@@ -1,30 +1,27 @@
 /**
- * @fileoverview GHL Chat Widget Loader
- * @description GoHighLevel (GHL) chat widget initialization and control.
- *              Exact match to official GHL embed code pattern.
+ * @fileoverview GoHighLevel Chat Widget Loader & Controller
+ * @description Manages GHL chat widget lifecycle: script injection, API detection,
+ *              launcher hiding, open/close controls, and shadow DOM styling fixes.
  * 
  * @module lib/ghlLoader
- * @see {@link https://docs.lovable.dev} Lovable Documentation
  * 
- * @brd-reference BRD v33.0 Section 14 - GHL Chat Widget Integration
- * @brd-reference BRD v33.0 Section 14.1 - Widget Configuration
+ * @remarks
+ * GHL widgets use nested shadow DOM components that mount lazily. This module
+ * handles timing issues with retry-based injection and provides SSG-safe guards.
  * 
- * @example Official GHL embed code this replicates:
- * ```html
- * <script 
- *   src="https://beta.leadconnectorhq.com/loader.js"  
- *   data-resources-url="https://beta.leadconnectorhq.com/chat-widget/loader.js" 
- *   data-widget-id="694220dc4ca1823bfbe5f213">
- * </script>
+ * Shadow DOM structure:
+ * ```
+ * chat-widget (shadowRoot)
+ *   └─ chat-pane (shadowRoot)
+ *        └─ chat-input (shadowRoot)
+ *             ├─ textarea.native-textarea.sc-ion-textarea-ios
+ *             └─ button.live-chat-send-button
  * ```
  */
 
-/**
- * Global window extensions for GHL widget APIs
- */
 declare global {
   interface Window {
-    /** LeadConnector API (newer GHL widget) */
+    /** LeadConnector API (current GHL widget version) */
     leadConnector?: {
       open?: () => void;
       close?: () => void;
@@ -35,7 +32,7 @@ declare global {
         closeWidget: () => void;
       };
     };
-    /** LC_API (legacy GHL widget) */
+    /** LC_API (legacy GHL widget version) */
     LC_API?: {
       open_chat_window?: () => void;
       close_chat_window?: () => void;
@@ -45,60 +42,38 @@ declare global {
   }
 }
 
-/**
- * Script element ID for deduplication
- * @constant {string}
- */
+/** Script element ID for deduplication */
 const LOADER_ID = 'ghl-widget-loader';
 
-/**
- * GHL loader script URL
- * @constant {string}
- */
+/** GHL loader script URL */
 const LOADER_SRC = 'https://beta.leadconnectorhq.com/loader.js';
 
-/**
- * GHL resources URL for widget initialization
- * @constant {string}
- */
+/** GHL resources URL for widget initialization */
 const RESOURCES_URL = 'https://beta.leadconnectorhq.com/chat-widget/loader.js';
 
-/**
- * GHL Widget ID from environment
- * @constant {string}
- * @todo Move to environment variable (VITE_GHL_WIDGET_ID)
- */
+/** GHL Widget ID - TODO: Move to VITE_GHL_WIDGET_ID env var */
 const GHL_WIDGET_ID = '694220dc4ca1823bfbe5f213';
 
-/**
- * Style ID for composer fix injection
- * @constant {string}
- */
+/** Style element ID for composer fix injection */
 const EI_GHL_FIX_STYLE_ID = 'ei-ghl-composer-fix';
 
-/**
- * Flag to prevent duplicate event guard installation
- * @constant {string}
- */
+/** Flag key to prevent duplicate event guard installation */
 const EI_GHL_EVENT_FIX_FLAG = '__ei_ghl_event_fix_installed__';
 
 /**
- * Check if running in browser environment
- * @returns {boolean} True if in browser
+ * Checks if code is running in browser environment.
+ * @returns `true` if window and document are available
  */
 function isBrowser(): boolean {
   return typeof window !== 'undefined' && typeof document !== 'undefined';
 }
 
 /**
- * Wait for GHL widget API to become available
+ * Polls for GHL widget API availability.
  * 
- * Polls for either leadConnector or LC_API global object.
- * Rejects after timeout if neither appears.
- * 
- * @param {number} [timeout=10000] - Maximum wait time in ms
- * @returns {Promise<'leadConnector' | 'LC_API'>} Which API became available
- * @throws {Error} If timeout reached without API availability
+ * @param timeout - Maximum wait time in milliseconds
+ * @returns Promise resolving to the available API name
+ * @throws Error if timeout reached without API availability
  */
 function waitForAPI(timeout = 10000): Promise<'leadConnector' | 'LC_API'> {
   const start = Date.now();
@@ -119,18 +94,13 @@ function waitForAPI(timeout = 10000): Promise<'leadConnector' | 'LC_API'> {
 }
 
 /**
- * Ensure GHL loader script is in the DOM
- * 
- * Creates script element matching official GHL embed code.
- * Idempotent - won't add duplicate scripts.
- * 
- * @returns {void}
+ * Injects GHL loader script into DOM if not already present.
+ * Idempotent - safe to call multiple times.
  */
 function ensureLoaderScript(): void {
   if (!isBrowser()) return;
   if (document.getElementById(LOADER_ID)) return;
-  
-  // Create script EXACTLY like the official GHL embed code
+
   const s = document.createElement('script');
   s.id = LOADER_ID;
   s.src = LOADER_SRC;
@@ -140,39 +110,31 @@ function ensureLoaderScript(): void {
 }
 
 /**
- * Ensure GHL widget is loaded and API is available
+ * Ensures GHL widget is loaded and API is available.
+ * Call before using widget APIs. Safe to call multiple times.
  * 
- * Call this before attempting to use widget APIs.
- * Safe to call multiple times - idempotent.
- * 
- * @param {number} [timeout=12000] - Maximum wait time in ms
- * @returns {Promise<void>} Resolves when widget is ready
- * @throws {Error} If widget fails to load
+ * @param timeout - Maximum wait time in milliseconds
+ * @throws Error if widget fails to load within timeout
  * 
  * @example
+ * ```ts
  * await ensureGHLWidget();
  * openViaAnyAPI();
+ * ```
  */
-export async function ensureGHLWidget(timeout = 12000) {
+export async function ensureGHLWidget(timeout = 12000): Promise<void> {
   if (!isBrowser()) return;
   ensureLoaderScript();
   await waitForAPI(timeout);
 }
 
 /**
- * Hide the GHL launcher bubble via DOM manipulation
- * 
- * GHL's default launcher conflicts with our custom buttons.
- * This hides it via shadow DOM CSS injection.
- * 
- * Note: Does NOT use API (hideLauncher) because that can
- * also hide the entire widget. This only hides the bubble.
- * 
- * @returns {void}
+ * Hides the default GHL launcher bubble via shadow DOM manipulation.
+ * Uses direct style injection rather than API to preserve widget visibility.
  */
-export function hideLauncher() {
+export function hideLauncher(): void {
   if (!isBrowser()) return;
-  const widget = document.querySelector('chat-widget') as any;
+  const widget = document.querySelector('chat-widget') as HTMLElement & { shadowRoot: ShadowRoot | null };
   if (widget?.shadowRoot) {
     const launcher = widget.shadowRoot.querySelector('button.lc_text-widget--bubble');
     if (launcher instanceof HTMLElement) {
@@ -183,14 +145,10 @@ export function hideLauncher() {
 }
 
 /**
- * Open GHL chat widget using any available API
+ * Opens GHL chat widget using first available API method.
+ * Tries: leadConnector.open → chatWidget.openWidget → LC_API.open_chat_window
  * 
- * Tries multiple API methods in order of preference:
- * 1. leadConnector.open()
- * 2. leadConnector.chatWidget.openWidget()
- * 3. LC_API.open_chat_window()
- * 
- * @returns {boolean} True if successfully opened
+ * @returns `true` if successfully opened
  */
 export function openViaAnyAPI(): boolean {
   if (!isBrowser()) return false;
@@ -211,14 +169,10 @@ export function openViaAnyAPI(): boolean {
 }
 
 /**
- * Close GHL chat widget using any available API
+ * Closes GHL chat widget using first available API method.
+ * Tries: leadConnector.close → chatWidget.closeWidget → LC_API.close_chat_window
  * 
- * Tries multiple API methods in order of preference:
- * 1. leadConnector.close()
- * 2. leadConnector.chatWidget.closeWidget()
- * 3. LC_API.close_chat_window()
- * 
- * @returns {boolean} True if successfully closed
+ * @returns `true` if successfully closed
  */
 export function closeViaAnyAPI(): boolean {
   if (!isBrowser()) return false;
@@ -239,60 +193,57 @@ export function closeViaAnyAPI(): boolean {
 }
 
 /**
- * Remove GHL widget script from DOM
- * 
+ * Removes GHL widget script from DOM.
  * Used for cleanup when consent is revoked.
  * Note: Widget may persist in memory until page refresh.
- * 
- * @returns {void}
  */
-export function destroyGHLWidget() {
+export function destroyGHLWidget(): void {
   if (!isBrowser()) return;
   const el = document.getElementById(LOADER_ID);
   if (el) el.remove();
 }
 
 /**
- * Get nested open shadow roots to access composer elements
+ * Traverses nested shadow roots to access composer elements.
  * 
- * Navigation: chat-widget -> shadowRoot -> chat-pane -> shadowRoot -> chat-input -> shadowRoot
- * This is where textarea + send button live.
+ * Path: chat-widget → chat-pane → chat-input (where textarea + send button live)
  * 
- * @returns {ShadowRoot | null} The innermost shadow root containing composer elements
+ * @returns Innermost shadow root containing composer, or null if not mounted
  */
 function getComposerShadowRoot(): ShadowRoot | null {
   if (!isBrowser()) return null;
 
-  const widget = document.querySelector('chat-widget') as any;
-  const root1 = widget?.shadowRoot as ShadowRoot | undefined;
+  const widget = document.querySelector('chat-widget') as HTMLElement & { shadowRoot?: ShadowRoot };
+  const root1 = widget?.shadowRoot;
   if (!root1) return null;
 
-  const chatPane = root1.querySelector('chat-pane') as any;
-  const root2 = chatPane?.shadowRoot as ShadowRoot | undefined;
+  const chatPane = root1.querySelector('chat-pane') as HTMLElement & { shadowRoot?: ShadowRoot };
+  const root2 = chatPane?.shadowRoot;
   if (!root2) return null;
 
-  const chatInput = root2.querySelector('chat-input') as any;
-  const root3 = chatInput?.shadowRoot as ShadowRoot | undefined;
+  const chatInput = root2.querySelector('chat-input') as HTMLElement & { shadowRoot?: ShadowRoot };
+  const root3 = chatInput?.shadowRoot;
   if (!root3) return null;
 
   return root3;
 }
 
 /**
- * Install event guards and focus assist on composer
+ * Installs event guards and focus assist on composer shadow root.
  * 
- * - Prevent right-click/contextmenu from triggering send
- * - Prevent non-left mouse buttons from triggering send
- * - Ensure clicking wrapper focuses textarea so caret appears
+ * Guards:
+ * - Blocks right-click/contextmenu on send button
+ * - Blocks middle/right mouse button clicks on send
+ * - Auto-focuses textarea when clicking input area
  * 
- * @param {ShadowRoot} root3 - The composer shadow root
+ * @param root3 - The composer shadow root
  */
-function installComposerGuards(root3: ShadowRoot) {
-  const anyRoot = root3 as any;
+function installComposerGuards(root3: ShadowRoot): void {
+  const anyRoot = root3 as ShadowRoot & { [key: string]: boolean };
   if (anyRoot[EI_GHL_EVENT_FIX_FLAG]) return;
   anyRoot[EI_GHL_EVENT_FIX_FLAG] = true;
 
-  // Stop right-click from sending
+  // Block right-click send
   root3.addEventListener(
     'contextmenu',
     (e) => {
@@ -307,7 +258,7 @@ function installComposerGuards(root3: ShadowRoot) {
     true
   );
 
-  // Stop middle/right mouse down from triggering send
+  // Block middle/right mouse button send
   root3.addEventListener(
     'mousedown',
     (e: MouseEvent) => {
@@ -323,18 +274,19 @@ function installComposerGuards(root3: ShadowRoot) {
     true
   );
 
-  // Focus assist: click anywhere in composer input area focuses the textarea
+  // Focus assist: clicking input area focuses textarea
   root3.addEventListener(
     'click',
     (e) => {
       const target = e.target as HTMLElement | null;
       if (!target) return;
 
-      // If user clicked send, don't interfere
       if (target.closest?.('button.live-chat-send-button')) return;
 
-      // If user clicked anywhere inside chat-input component, focus textarea
-      const inComposer = !!target.closest?.('chat-input') || !!target.closest?.('.input-row') || !!target.closest?.('.input-container');
+      const inComposer =
+        !!target.closest?.('chat-input') ||
+        !!target.closest?.('.input-row') ||
+        !!target.closest?.('.input-container');
       if (!inComposer) return;
 
       const ta = root3.querySelector('textarea.native-textarea.sc-ion-textarea-ios') as HTMLTextAreaElement | null;
@@ -345,14 +297,15 @@ function installComposerGuards(root3: ShadowRoot) {
 }
 
 /**
- * Inject CSS into the composer shadow root
+ * Injects CSS fixes into composer shadow root.
  * 
- * Fixes:
- * - Textarea appears inactive (no caret/focus visibility)
- * - Send button transparent (background-color: #524bae00)
- * - Icon stroke too low-contrast on dark theme
+ * Fixes addressed:
+ * - Textarea invisible caret (caret-color)
+ * - Textarea no focus indication (border, box-shadow)
+ * - Send button fully transparent (#524bae00 → visible indigo)
+ * - SVG icon low contrast on dark theme
  * 
- * @returns {boolean} True if fix was applied
+ * @returns `true` if fix was applied, `false` if shadow root not available
  */
 export function injectGHLComposerFix(): boolean {
   const root3 = getComposerShadowRoot();
@@ -362,15 +315,14 @@ export function injectGHLComposerFix(): boolean {
     const style = document.createElement('style');
     style.id = EI_GHL_FIX_STYLE_ID;
     style.textContent = `
-      /* ===== EverIntent: GHL chat composer fixes ===== */
+      /* === GHL Chat Composer Fixes === */
 
-      /* TEXTAREA: make it look active + show caret + show focus */
+      /* Textarea: visible caret, focus state, proper colors */
       textarea.native-textarea.sc-ion-textarea-ios {
         background: rgba(17, 24, 39, 0.95) !important;
         color: rgba(255, 255, 255, 0.95) !important;
-        caret-color: rgba(255,255,255,0.95) !important;
-        -webkit-text-fill-color: rgba(255,255,255,0.95) !important;
-
+        caret-color: rgba(255, 255, 255, 0.95) !important;
+        -webkit-text-fill-color: rgba(255, 255, 255, 0.95) !important;
         border: 1px solid rgba(255, 255, 255, 0.18) !important;
         border-radius: 12px !important;
         padding: 10px 12px !important;
@@ -389,10 +341,10 @@ export function injectGHLComposerFix(): boolean {
         background: rgba(17, 24, 39, 0.98) !important;
       }
 
-      /* SEND BUTTON: make visible; was fully transparent (#524bae00) */
+      /* Send button: visible background (was fully transparent) */
       button.live-chat-send-button {
         background-color: rgba(99, 102, 241, 0.95) !important;
-        border: 1px solid rgba(255,255,255,0.18) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
         width: 50px !important;
         height: 50px !important;
         border-radius: 25px !important;
@@ -404,15 +356,15 @@ export function injectGHLComposerFix(): boolean {
         filter: brightness(1.05) !important;
       }
 
-      /* Ensure icon is visible (SVG uses stroke="#fff" but keep it forced) */
+      /* SVG icon visibility */
       button.live-chat-send-button svg,
       button.live-chat-send-button svg * {
-        stroke: rgba(255,255,255,0.95) !important;
+        stroke: rgba(255, 255, 255, 0.95) !important;
         fill: none !important;
         opacity: 1 !important;
       }
 
-      /* If widget dims controls on focus-within, override it */
+      /* Prevent focus-within dimming */
       :focus-within button.live-chat-send-button {
         opacity: 1 !important;
         visibility: visible !important;
@@ -426,15 +378,15 @@ export function injectGHLComposerFix(): boolean {
 }
 
 /**
- * Apply composer fix with retries for lazy-mounted shadow components
+ * Applies composer fix with timed retries for lazy-mounted shadow components.
  * 
- * The widget lazily mounts nested shadow components, so we retry
- * multiple times to ensure the fix is applied.
- * SSG-safe: only runs in browser environment.
+ * GHL widgets mount shadow DOM components asynchronously. This function
+ * attempts injection immediately and at 250ms, 750ms, 1500ms, and 2500ms
+ * to handle various load timing scenarios.
  * 
- * @returns {void}
+ * SSG-safe: Only executes in browser environment.
  */
-export function applyGHLComposerFixRetries() {
+export function applyGHLComposerFixRetries(): void {
   if (!isBrowser()) return;
   injectGHLComposerFix();
   setTimeout(injectGHLComposerFix, 250);
