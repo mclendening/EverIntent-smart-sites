@@ -12,7 +12,6 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Settings } from 'lucide-react';
 import { 
   CookiePreferencesModal, 
   CookiePreferences, 
@@ -116,51 +115,63 @@ export function CookieConsent() {
     <>
       {showBanner && !showModal && (
         <div 
-          className="fixed bottom-0 left-0 right-0 z-[2147483647] bg-card border-t border-border shadow-elevated animate-in slide-in-from-bottom duration-300"
+          className="fixed bottom-0 left-0 right-0 z-[2147483647] bg-background border-t border-border shadow-elevated animate-in slide-in-from-bottom duration-300"
           role="dialog"
           aria-label="Cookie consent"
         >
-          <div className="container mx-auto max-w-4xl px-4 py-4">
-            {/* Text row */}
-            <p className="text-sm text-muted-foreground mb-3">
-              We use cookies to improve your experience.{' '}
-              <a 
-                href="/legal/cookies" 
-                className="text-accent hover:text-accent-hover underline"
-              >
-                Learn more
-              </a>
-            </p>
-            
-            {/* Buttons row - evenly spaced */}
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleRejectOptional}
-                className="flex-1 h-9 text-sm"
-                type="button"
-              >
-                Reject
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowModal(true)}
-                className="flex-1 h-9 text-sm"
-                type="button"
-              >
-                <Settings className="h-4 w-4 mr-1.5" aria-hidden="true" />
-                Settings
-              </Button>
-              <Button
-                size="sm"
-                onClick={handleAcceptAll}
-                className="flex-1 bg-accent text-accent-foreground hover:bg-accent-hover h-9 text-sm"
-                type="button"
-              >
-                Accept All
-              </Button>
+          <div className="container mx-auto px-4 py-4">
+            {/* Horizontal layout: Text on left, buttons on right */}
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              {/* Text content */}
+              <div className="flex-1">
+                <h3 className="text-base font-semibold text-foreground mb-1">
+                  We use cookies
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  We use cookies to enhance your experience, analyze site usage, and personalize content. By continuing to browse, you consent to our use of cookies.{' '}
+                  <a 
+                    href="/legal/privacy" 
+                    className="text-primary hover:text-primary/80 underline"
+                  >
+                    Privacy Policy
+                  </a>
+                  {' | '}
+                  <button
+                    onClick={() => setShowModal(true)}
+                    className="text-primary hover:text-primary/80 underline"
+                    type="button"
+                  >
+                    Cookie Settings
+                  </button>
+                </p>
+              </div>
+              
+              {/* Buttons */}
+              <div className="flex items-center gap-3 shrink-0">
+                <Button
+                  variant="outline"
+                  onClick={handleRejectOptional}
+                  className="h-10 px-5 text-sm font-medium"
+                  type="button"
+                >
+                  Reject All
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => setShowModal(true)}
+                  className="h-10 px-5 text-sm font-medium"
+                  type="button"
+                >
+                  Manage
+                </Button>
+                <Button
+                  onClick={handleAcceptAll}
+                  className="h-10 px-5 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90"
+                  type="button"
+                >
+                  Accept All
+                </Button>
+              </div>
             </div>
           </div>
         </div>
