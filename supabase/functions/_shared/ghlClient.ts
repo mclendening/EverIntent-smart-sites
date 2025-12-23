@@ -65,7 +65,24 @@ export interface ContactPayload {
   tags?: string[];
 }
 
-// Upsert (create or update) a contact in GHL
+/**
+ * Upserts (creates or updates) a contact in GoHighLevel.
+ * 
+ * Searches for an existing contact by email. If found, updates the contact
+ * with the provided fields. If not found, creates a new contact.
+ * 
+ * @param payload - Contact data to create or update
+ * @returns Object containing the contact ID and whether it was newly created
+ * @throws Error if GHL API calls fail
+ * 
+ * @example
+ * const { id, isNew } = await upsertContact({
+ *   email: 'user@example.com',
+ *   firstName: 'John',
+ *   lastName: 'Doe',
+ *   phone: '+1234567890'
+ * });
+ */
 export async function upsertContact(payload: ContactPayload): Promise<{ id: string; isNew: boolean }> {
   const locationId = getLocationId();
   

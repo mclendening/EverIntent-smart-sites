@@ -39,6 +39,7 @@ import PlaceholderPage from './pages/Placeholder';
 import AdminLogin from './pages/admin/Login';
 import AdminDashboard from './pages/admin/Dashboard';
 import AdminThemes from './pages/admin/Themes';
+import AdminSubmissions from './pages/admin/Submissions';
 import ThemeTestPage from './pages/admin/ThemeTestPage';
 
 // Legal pages
@@ -428,7 +429,7 @@ export const routes: RouteRecord[] = [
         path: 'submissions',
         element: (
           <AdminGuard>
-            <PlaceholderPage />
+            <AdminSubmissions />
           </AdminGuard>
         ),
       },
