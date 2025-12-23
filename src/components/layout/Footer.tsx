@@ -5,7 +5,7 @@
 
 import { Link } from 'react-router-dom';
 import { Linkedin, Twitter, Facebook, Sparkles, ArrowUpRight } from 'lucide-react';
-import { triggerCookiePreferences } from '@/components/CookieConsent';
+
 import { CTAButton } from '@/components/CTAButton';
 
 /**
@@ -266,32 +266,13 @@ export function Footer() {
           {/* Legal Links - larger touch targets on mobile */}
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs">
             {legalLinks.map((link) => (
-              link.path === '/legal/cookies' ? (
-                <button
-                  key={link.path}
-                  type="button"
-                  onClick={() => {
-                    console.log('[Footer] Cookie button clicked');
-                    triggerCookiePreferences();
-                  }}
-                  onTouchEnd={(e) => {
-                    console.log('[Footer] Cookie button touched');
-                    e.preventDefault();
-                    triggerCookiePreferences();
-                  }}
-                  className="text-muted-foreground/60 hover:text-accent transition-colors duration-300 py-3 px-2 touch-manipulation active:text-accent select-none"
-                >
-                  {link.title}
-                </button>
-              ) : (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  className="text-muted-foreground/60 hover:text-accent transition-colors duration-300 py-3 px-1 touch-manipulation"
-                >
-                  {link.title}
-                </Link>
-              )
+              <Link
+                key={link.path}
+                to={link.path}
+                className="text-muted-foreground/60 hover:text-accent transition-colors duration-300 py-3 px-1 touch-manipulation"
+              >
+                {link.title}
+              </Link>
             ))}
           </div>
         </div>
