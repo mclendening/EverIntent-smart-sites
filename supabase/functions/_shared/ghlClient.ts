@@ -93,10 +93,18 @@ export async function upsertContact(payload: ContactPayload): Promise<{ id: stri
     console.log(`[GHL] Found existing contact: ${contactId}, updating...`);
     
     const updateUrl = `${GHL_BASE_URL}/contacts/${contactId}`;
-    const updatePayload = {
-      ...payload,
-      locationId,
-    };
+    
+    // Build update payload with only valid GHL fields
+    const updatePayload: Record<string, unknown> = {};
+    if (payload.firstName) updatePayload.firstName = payload.firstName;
+    if (payload.lastName) updatePayload.lastName = payload.lastName;
+    if (payload.name) updatePayload.name = payload.name;
+    if (payload.phone) updatePayload.phone = payload.phone;
+    if (payload.companyName) updatePayload.companyName = payload.companyName;
+    if (payload.customFields?.length) updatePayload.customFields = payload.customFields;
+    // Don't include email in update - it's the lookup key
+    
+    console.log(`[GHL] Update payload:`, JSON.stringify(updatePayload));
     
     const updateResponse = await fetch(updateUrl, {
       method: 'PUT',
@@ -107,7 +115,7 @@ export async function upsertContact(payload: ContactPayload): Promise<{ id: stri
     if (!updateResponse.ok) {
       const errorText = await updateResponse.text();
       console.error(`[GHL] Update failed: ${updateResponse.status} - ${errorText}`);
-      throw new Error(`GHL contact update failed: ${updateResponse.status}`);
+      throw new Error(`GHL contact update failed: ${updateResponse.status} - ${errorText}`);
     }
 
     console.log(`[GHL] Contact updated successfully: ${contactId}`);
