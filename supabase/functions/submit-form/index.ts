@@ -3,8 +3,6 @@
  * @module supabase/functions/submit-form
  * @description Handles all form submissions (contact, localpros_apply, data_rights_request).
  * Stores submissions in Supabase and syncs contacts to GHL with appropriate tags.
- * @brdref BRD v34.0 Section 11 (GHL Configuration)
- * @brdref BRD v34.0 Section 21.1.4 (Data Rights Request)
  */
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
