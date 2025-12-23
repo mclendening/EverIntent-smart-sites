@@ -297,12 +297,71 @@ function installComposerGuards(root3: ShadowRoot): void {
 }
 
 /**
+ * Reads GHL theme CSS variables from :root and returns HSL-to-rgba values.
+ * CSS custom properties inherit into shadow DOM, so we read from computed styles.
+ * 
+ * @returns Object with resolved color values for injection
+ */
+function getGHLThemeColors(): {
+  textareaBg: string;
+  textareaText: string;
+  textareaBorder: string;
+  textareaFocusBorder: string;
+  textareaFocusGlow: string;
+  sendButtonBg: string;
+  sendButtonBorder: string;
+  sendButtonIcon: string;
+  selectionBg: string;
+} {
+  const root = document.documentElement;
+  const cs = getComputedStyle(root);
+  
+  /**
+   * Converts HSL string "H S% L%" to "hsl(H, S%, L%)" or rgba fallback.
+   */
+  const hslToColor = (hsl: string, alpha = 0.95): string => {
+    const parts = hsl.trim().split(/\s+/);
+    if (parts.length >= 3) {
+      const h = parts[0];
+      const s = parts[1];
+      const l = parts[2];
+      return `hsla(${h}, ${s}, ${l}, ${alpha})`;
+    }
+    return `rgba(99, 102, 241, ${alpha})`; // fallback indigo
+  };
+  
+  // Read CSS variables with fallbacks
+  const textareaBg = cs.getPropertyValue('--ghl-textarea-bg').trim() || '222 47% 7%';
+  const textareaText = cs.getPropertyValue('--ghl-textarea-text').trim() || '60 9% 98%';
+  const textareaBorder = cs.getPropertyValue('--ghl-textarea-border').trim() || '215 25% 20%';
+  const textareaFocusBorder = cs.getPropertyValue('--ghl-textarea-focus-border').trim() || '240 70% 60%';
+  const textareaFocusGlow = cs.getPropertyValue('--ghl-textarea-focus-glow').trim() || '240 70% 60%';
+  const sendButtonBg = cs.getPropertyValue('--ghl-send-button-bg').trim() || '240 70% 60%';
+  const sendButtonBorder = cs.getPropertyValue('--ghl-send-button-border').trim() || '0 0% 100%';
+  const sendButtonIcon = cs.getPropertyValue('--ghl-send-button-icon').trim() || '0 0% 100%';
+  const selectionBg = cs.getPropertyValue('--ghl-selection-bg').trim() || '240 70% 60%';
+  
+  return {
+    textareaBg: hslToColor(textareaBg, 0.95),
+    textareaText: hslToColor(textareaText, 0.95),
+    textareaBorder: hslToColor(textareaBorder, 0.18),
+    textareaFocusBorder: hslToColor(textareaFocusBorder, 0.95),
+    textareaFocusGlow: hslToColor(textareaFocusGlow, 0.35),
+    sendButtonBg: hslToColor(sendButtonBg, 0.95),
+    sendButtonBorder: hslToColor(sendButtonBorder, 0.18),
+    sendButtonIcon: hslToColor(sendButtonIcon, 0.95),
+    selectionBg: hslToColor(selectionBg, 0.45),
+  };
+}
+
+/**
  * Injects CSS fixes into composer shadow root.
+ * Uses CSS custom properties from :root for theme-aware styling.
  * 
  * Fixes addressed:
  * - Textarea invisible caret (caret-color)
  * - Textarea no focus indication (border, box-shadow)
- * - Send button fully transparent (#524bae00 → visible indigo)
+ * - Send button fully transparent (#524bae00 → visible themed color)
  * - SVG icon low contrast on dark theme
  * 
  * @returns `true` if fix was applied, `false` if shadow root not available
@@ -311,67 +370,71 @@ export function injectGHLComposerFix(): boolean {
   const root3 = getComposerShadowRoot();
   if (!root3) return false;
 
-  if (!root3.getElementById(EI_GHL_FIX_STYLE_ID)) {
-    const style = document.createElement('style');
-    style.id = EI_GHL_FIX_STYLE_ID;
-    style.textContent = `
-      /* === GHL Chat Composer Fixes === */
+  // Always recreate styles to pick up theme changes
+  const existing = root3.getElementById(EI_GHL_FIX_STYLE_ID);
+  if (existing) existing.remove();
+  
+  const colors = getGHLThemeColors();
+  
+  const style = document.createElement('style');
+  style.id = EI_GHL_FIX_STYLE_ID;
+  style.textContent = `
+    /* === GHL Chat Composer Fixes (Theme-Aware) === */
 
-      /* Textarea: visible caret, focus state, proper colors */
-      textarea.native-textarea.sc-ion-textarea-ios {
-        background: rgba(17, 24, 39, 0.95) !important;
-        color: rgba(255, 255, 255, 0.95) !important;
-        caret-color: rgba(255, 255, 255, 0.95) !important;
-        -webkit-text-fill-color: rgba(255, 255, 255, 0.95) !important;
-        border: 1px solid rgba(255, 255, 255, 0.18) !important;
-        border-radius: 12px !important;
-        padding: 10px 12px !important;
-        outline: none !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
+    /* Textarea: visible caret, focus state, theme colors */
+    textarea.native-textarea.sc-ion-textarea-ios {
+      background: ${colors.textareaBg} !important;
+      color: ${colors.textareaText} !important;
+      caret-color: ${colors.textareaText} !important;
+      -webkit-text-fill-color: ${colors.textareaText} !important;
+      border: 1px solid ${colors.textareaBorder} !important;
+      border-radius: 12px !important;
+      padding: 10px 12px !important;
+      outline: none !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
 
-      textarea.native-textarea.sc-ion-textarea-ios::selection {
-        background: rgba(99, 102, 241, 0.45) !important;
-      }
+    textarea.native-textarea.sc-ion-textarea-ios::selection {
+      background: ${colors.selectionBg} !important;
+    }
 
-      textarea.native-textarea.sc-ion-textarea-ios:focus {
-        border-color: rgba(99, 102, 241, 0.95) !important;
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.35) !important;
-        background: rgba(17, 24, 39, 0.98) !important;
-      }
+    textarea.native-textarea.sc-ion-textarea-ios:focus {
+      border-color: ${colors.textareaFocusBorder} !important;
+      box-shadow: 0 0 0 3px ${colors.textareaFocusGlow} !important;
+      background: ${colors.textareaBg} !important;
+    }
 
-      /* Send button: visible background (was fully transparent) */
-      button.live-chat-send-button {
-        background-color: rgba(99, 102, 241, 0.95) !important;
-        border: 1px solid rgba(255, 255, 255, 0.18) !important;
-        width: 50px !important;
-        height: 50px !important;
-        border-radius: 25px !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
+    /* Send button: visible background (was fully transparent) */
+    button.live-chat-send-button {
+      background-color: ${colors.sendButtonBg} !important;
+      border: 1px solid ${colors.sendButtonBorder} !important;
+      width: 50px !important;
+      height: 50px !important;
+      border-radius: 25px !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
 
-      button.live-chat-send-button:hover {
-        filter: brightness(1.05) !important;
-      }
+    button.live-chat-send-button:hover {
+      filter: brightness(1.05) !important;
+    }
 
-      /* SVG icon visibility */
-      button.live-chat-send-button svg,
-      button.live-chat-send-button svg * {
-        stroke: rgba(255, 255, 255, 0.95) !important;
-        fill: none !important;
-        opacity: 1 !important;
-      }
+    /* SVG icon visibility */
+    button.live-chat-send-button svg,
+    button.live-chat-send-button svg * {
+      stroke: ${colors.sendButtonIcon} !important;
+      fill: none !important;
+      opacity: 1 !important;
+    }
 
-      /* Prevent focus-within dimming */
-      :focus-within button.live-chat-send-button {
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
-    `;
-    root3.appendChild(style);
-  }
+    /* Prevent focus-within dimming */
+    :focus-within button.live-chat-send-button {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+  `;
+  root3.appendChild(style);
 
   installComposerGuards(root3);
   return true;
