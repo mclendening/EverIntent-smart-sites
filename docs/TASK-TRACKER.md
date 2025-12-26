@@ -479,25 +479,29 @@ Upgrade from single widget to route-aware multi-widget:
 > **Source:** BRD v34.0 + `docs/smartsites-prd-prompt.md`
 
 ### Task 3.0 [LOVABLE] - Implement Brand Pivot (Phase 1)
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
+> **Completed:** 2025-12-26
 > **JSDoc:** All layout components must document `@brdref BRD v34.0 Section 2 - Executive Summary` (brand positioning).
 
 Update core branding per `docs/everintent-pivot-plan.md`:
-- **Header.tsx** — Logo: "EverIntent" with tagline "Web Design & Automation"
-- **Footer.tsx** — Same logo treatment, "Products" → "Solutions" column, add "For Law Firms" external link
-- **SEO.tsx** — SITE_NAME: "EverIntent", update DEFAULT_DESCRIPTION
-- **routes.ts** — Update descriptions to use EverIntent branding
+- ✅ **Header.tsx** — Updated nav structure: Smart Websites dropdown, AI & Automation link, Industries, Solutions dropdown
+- ✅ **Footer.tsx** — "Products" → "Solutions" column, "EverIntent" branding, "For Law Firms" external link
+- ✅ **SEO.tsx** — SITE_NAME: "EverIntent", updated DEFAULT_DESCRIPTION with "smart websites"
+- ⬜ **routes.ts** — Update descriptions to use EverIntent branding (deferred to page builds)
+
+**Note:** Logo handled by theme system (no changes needed to LogoRenderer).
 
 ### Task 3.0.1 [LOVABLE] - Update Navigation Structure
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete (merged into Task 3.0)
 
+> **Completed:** 2025-12-26
 > **JSDoc:** Nav components must document `@brdref BRD v34.0 Section 17 - Navigation Structure`.
 
 Per BRD v34 Section 17:
-- **Smart Websites dropdown** — Rename from "Services", reorder items (Smart Websites first, Let AI Handle It second)
-- **AI & Automation** — Add as second nav item → `/services/ai-automation`
-- **Solutions dropdown** — Add new nav item with: For Law Firms (external → everintentlegalai.com), future verticals
+- ✅ **Smart Websites dropdown** — Renamed from "Services", Smart Websites first
+- ✅ **AI & Automation** — Added as static nav link → `/let-ai-handle-it`
+- ✅ **Solutions dropdown** — Added with "For Law Firms" external link to everintentlegalai.com
 - Keep: Industries, Pricing, Our Work, About
 
 ### Task 3.0.2 [LOVABLE] - Create NavHoverMenu Component
