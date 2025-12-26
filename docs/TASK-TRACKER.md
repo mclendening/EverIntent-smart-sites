@@ -1,6 +1,6 @@
 # EverIntent - Task Tracker
 
-> **Brand:** EverIntent | **Tagline:** Web Design & Automation  
+> **Brand:** EverIntent | **Tagline:** Web Design AI & Automation  
 > **BRD Version:** v34.0 (Brand Pivot)
 
 ## Complete Implementation Checklist (In Order)
@@ -19,7 +19,7 @@ Tasks marked `[MANUAL]` require user action. Tasks marked `[LOVABLE]` are AI-imp
 
 **Key Brand Guidelines (from Pivot Plan):**
 - Master brand: **EverIntent** (not "SmartSites by EverIntent")
-- Tagline: **"Web Design & Automation"**
+- Tagline: **"Web Design AI & Automation"**
 - Use "smart website(s)" / "smart site" as **lowercase descriptive language**, not a brand name
 - Tier names: Smart Site, Smart Lead, Smart Business, Smart Growth, Smart Launch
 - All logos, headers, footers use **EverIntent** only
