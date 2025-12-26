@@ -87,13 +87,14 @@ This is the **single source of truth** for EverIntent.com (currently staging at 
 19. [Go-To-Market Strategy](#19-go-to-market-strategy)
 20. [LocalPros Network](#20-localpros-network)
 21. [Compliance & Legal](#21-compliance--legal)
-22. [Technical Architecture](#22-technical-architecture)
-23. [Operational SOPs](#23-operational-sops)
-24. [Upgrade & Downgrade Flows](#24-upgrade--downgrade-flows)
-25. [Support Model](#25-support-model)
-26. [Build Order & Timeline](#26-build-order--timeline)
-27. [Open Questions](#27-open-questions)
-28. [Document History](#28-document-history)
+22. [Partner Program](#22-partner-program)
+23. [Technical Architecture](#23-technical-architecture)
+24. [Operational SOPs](#24-operational-sops)
+25. [Upgrade & Downgrade Flows](#25-upgrade--downgrade-flows)
+26. [Support Model](#26-support-model)
+27. [Build Order & Timeline](#27-build-order--timeline)
+28. [Open Questions](#28-open-questions)
+29. [Document History](#29-document-history)
 
 ---
 
@@ -2551,7 +2552,197 @@ This policy is disclosed in our Privacy Policy and honored in all CCPA requests.
 
 ---
 
-## 22. Technical Architecture
+## 22. Partner Program
+
+The EverIntent Partner Program enables web designers, digital marketing agencies, and service professionals to earn commissions by referring clients to EverIntent services.
+
+### 22.1 Program Overview
+
+**Program Name:** EverIntent Partners  
+**URL:** `/partners`  
+**Target Audience:**
+- Freelance web designers who don't offer ongoing maintenance
+- Digital marketing agencies needing white-label website fulfillment
+- Business consultants who recommend digital solutions
+- IT service providers with SMB clients
+- Accountants, bookkeepers, and business advisors
+
+**Value Proposition:** "Refer clients to EverIntent. Earn commissions. Keep your clients happy."
+
+### 22.2 Commission Structure
+
+| Campaign | Products/Services | Commission | Attribution |
+|----------|-------------------|------------|-------------|
+| **EI: Smart Websites & AI** | T1-T4 tiers, AI add-ons, one-time purchases | 10% of first payment | 90-day cookie |
+| **EI: Strategy Session** | $297 Strategy Session booking | $50 flat per completed session | 30-day cookie |
+| **LP: Partner Signup** | LocalPros partner applications (B2B) | $25 per qualified application | 30-day cookie |
+| **LP: Website Sales** | LocalPros-referred site purchases | 5% of sale | 60-day cookie |
+
+**Payment Terms:**
+- Minimum payout threshold: $50
+- Payment frequency: Monthly (NET-30 after sale closes)
+- Payment methods: PayPal, direct deposit, or account credit
+
+### 22.3 Affiliate Link Format
+
+**Structure:** `https://everintent.com?aff={AFFILIATE_ID}`
+
+**Examples:**
+- Homepage: `https://everintent.com?aff=PARTNER123`
+- Pricing page: `https://everintent.com/pricing?aff=PARTNER123`
+- Service page: `https://everintent.com/smart-websites?aff=PARTNER123`
+
+**UTM Compatibility:** Affiliate links work alongside UTM parameters:
+`https://everintent.com/pricing?aff=PARTNER123&utm_source=newsletter&utm_medium=email`
+
+### 22.4 Technical Implementation
+
+#### 22.4.1 Visitor Tracking Script (Global)
+
+Add GHL Affiliate Manager script to all pages via `index.html`:
+
+```html
+<!-- GHL Affiliate Manager - Before </head> -->
+<script src="https://everintent.com/affiliate/am.js"></script>
+```
+
+**Script Behavior:**
+- Reads `aff` query parameter on page load
+- Stores affiliate ID in first-party cookie (duration per campaign settings)
+- Cookie persists across sessions until expiration or conversion
+
+#### 22.4.2 Lead Tracking on Checkout Success
+
+When a checkout completes, fire lead tracking on the success page:
+
+```typescript
+// src/pages/checkout/Success.tsx
+useEffect(() => {
+  if (typeof affiliateManager !== 'undefined' && customerEmail) {
+    affiliateManager.trackLead({
+      email: customerEmail,
+      uid: submissionId // from checkout_submissions table
+    });
+  }
+}, [customerEmail, submissionId]);
+```
+
+**Triggering Conditions:**
+- Only fire if affiliate cookie exists (handled by `am.js`)
+- Customer email passed via query param or session storage from checkout form
+- `submissionId` is the `checkout_submissions.id` for attribution linking
+
+#### 22.4.3 Sale Attribution (Automatic)
+
+GHL handles sale attribution automatically via Stripe webhook integration:
+1. Customer completes Stripe payment
+2. Stripe webhook fires to GHL
+3. GHL matches email to tracked lead
+4. Commission calculated and attributed to affiliate
+
+**No custom code required** for sale tracking—GHL's native Stripe integration handles this.
+
+### 22.5 Partner Signup Page Specification
+
+**Route:** `/partners`  
+**H1:** "Earn Money Referring Clients to EverIntent"  
+**Subhead:** "Join our partner program and earn commissions on every referral."
+
+#### Page Sections
+
+**1. Hero Section**
+- Headline: "Earn Money Referring Clients to EverIntent"
+- Subhead: "Get paid when your referrals become customers. No minimums. No complicated tracking."
+- CTA: "Apply Now" (scrolls to form)
+
+**2. How It Works (3 Steps)**
+| Step | Title | Description | Icon |
+|------|-------|-------------|------|
+| 1 | **Apply** | Fill out our quick application form | `ClipboardList` |
+| 2 | **Share** | Get your unique referral link | `Share2` |
+| 3 | **Earn** | Receive commissions on successful referrals | `DollarSign` |
+
+**3. Commission Overview**
+Display the commission table from Section 22.2 in a styled card format.
+
+**4. Who Should Apply**
+- Freelance web designers
+- Digital marketing agencies
+- Business consultants
+- IT service providers
+- Anyone with connections to local businesses
+
+**5. FAQ Accordion**
+
+| Question | Answer |
+|----------|--------|
+| How do I get paid? | We pay monthly via PayPal or direct deposit for balances over $50. |
+| How long do cookies last? | Attribution cookies last 30-90 days depending on the product. |
+| Can I refer myself? | No, self-referrals are not eligible for commission. |
+| Do I need to be a customer? | No, anyone can apply to become a partner. |
+| How do I track my referrals? | You'll get access to a dashboard showing clicks, leads, and commissions. |
+
+**6. Application Form**
+
+| Field | Type | Required | Validation |
+|-------|------|----------|------------|
+| Full Name | text | ✓ | 2-100 chars |
+| Email | email | ✓ | Valid email format |
+| Phone | tel | ✓ | Valid phone format |
+| Company/Website | url | ○ | Optional, valid URL if provided |
+| How will you refer clients? | textarea | ✓ | 10-500 chars |
+| TCPA Consent | checkbox | ✓ | Must be checked |
+
+**Form Submission:**
+- Edge function: `submit-form`
+- `form_type`: `partner_apply`
+- GHL Tag: `EI: Partner Application`
+- Success message: "Thanks for applying! We'll review your application and be in touch within 2 business days."
+
+**7. Trust Elements**
+- "No upfront costs"
+- "90-day cookie window"
+- "Real-time tracking dashboard"
+- "Monthly payouts"
+
+### 22.6 GHL Configuration (Manual)
+
+**Prerequisites:**
+1. GHL Affiliate Manager enabled on account
+2. Stripe integration configured in GHL
+
+**Campaign Setup:**
+
+| Campaign Name | Trigger Product/Tag | Commission | Cookie Duration |
+|---------------|---------------------|------------|-----------------|
+| EI: Smart Websites & AI | Any T1-T4 purchase | 10% first payment | 90 days |
+| EI: Strategy Session | Strategy Session product | $50 flat | 30 days |
+| LP: Partner Signup | Tag `LocalPros: Application` | $25 flat | 30 days |
+| LP: Website Sales | LocalPros site products | 5% of sale | 60 days |
+
+**Affiliate Approval Workflow:**
+1. Partner applies via `/partners` form
+2. Form submission creates contact in GHL with tag `EI: Partner Application`
+3. Admin reviews application in GHL
+4. On approval: Add tag `EI: Approved Partner`, affiliate link generated
+5. Partner receives approval email with affiliate link and dashboard access
+
+### 22.7 Partner Dashboard (Future)
+
+**Deferred to post-MVP.** Initial partners will receive:
+- Affiliate link via email
+- Monthly commission reports via email
+- Support via partner@everintent.com
+
+**Future Dashboard Features:**
+- Real-time click and conversion tracking
+- Commission history and payout status
+- Marketing materials download
+- Sub-affiliate management (Phase 2)
+
+---
+
+## 23. Technical Architecture
 
 ### Platform Diagram
 
@@ -2604,7 +2795,7 @@ This policy is disclosed in our Privacy Policy and honored in all CCPA requests.
 
 ---
 
-## 23. Operational SOPs
+## 24. Operational SOPs
 
 ### Website Build SOP (T1-T4)
 
@@ -2641,7 +2832,7 @@ This policy is disclosed in our Privacy Policy and honored in all CCPA requests.
 
 ---
 
-## 24. Upgrade & Downgrade Flows
+## 25. Upgrade & Downgrade Flows
 
 ### Upgrade Flow (T1 → T2/T3/T4)
 
@@ -2678,7 +2869,7 @@ This policy is disclosed in our Privacy Policy and honored in all CCPA requests.
 
 ---
 
-## 25. Support Model
+## 26. Support Model
 
 ### Support Channels by Tier
 
@@ -2700,7 +2891,7 @@ This policy is disclosed in our Privacy Policy and honored in all CCPA requests.
 
 ---
 
-## 26. Build Order & Timeline
+## 27. Build Order & Timeline
 
 ### Phase 1: Foundation (Week 1)
 
@@ -2753,7 +2944,7 @@ This policy is disclosed in our Privacy Policy and honored in all CCPA requests.
 
 ---
 
-## 27. Open Questions
+## 28. Open Questions
 
 ### Resolved in v30
 
@@ -2834,7 +3025,7 @@ This policy is disclosed in our Privacy Policy and honored in all CCPA requests.
 
 ---
 
-## 28. Document History
+## 29. Document History
 
 | Version | Date | Changes |
 |---------|------|---------|
