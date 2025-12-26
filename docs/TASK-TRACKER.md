@@ -633,6 +633,40 @@ Build after Tasks 3.2-3.4 are complete. Each follows same structure with copy fr
 | `/build-your-reputation` | "More 5-Star Reviews. Less Chasing Customers For Them." | 735-762 |
 | `/let-ai-handle-it` | "Your 24/7 Receptionist. For Less Than Minimum Wage." | 765-793 |
 
+### Task 3.6 [LOVABLE] - Partners Page (/partners)
+**Status:** ⬜ Not Started
+
+> **JSDoc:** `@brdref BRD v34.0 Section 22 - Partner Program`
+
+**Route:** `/partners`  
+**H1:** "Earn Money Referring Clients to EverIntent"  
+**Subhead:** "Join our partner program and earn commissions on every referral."
+
+**Page Sections (in order):**
+1. **Hero** - Headline, subhead, "Apply Now" CTA (scroll to form)
+2. **How It Works** - 3-step process (Apply → Share → Earn) with Lucide icons
+3. **Commission Overview** - Styled cards showing 4 commission tiers (10%, $50, $25, 5%)
+4. **Who Should Apply** - Bullet list of target audiences
+5. **FAQ Accordion** - 5 questions about payments, cookies, eligibility
+6. **Application Form** - Name, email, phone, company/website, referral method, TCPA consent
+7. **Trust Elements** - "No upfront costs", "90-day cookie", "Real-time tracking", "Monthly payouts"
+
+**Form Submission:**
+- Edge function: `submit-form`
+- `form_type`: `partner_apply`
+- GHL Tag: `EI: Partner Application`
+- Store in `form_submissions` table
+- Success toast: "Thanks for applying! We'll review your application and be in touch within 2 business days."
+
+**Dependencies:**
+- Task 3.1 (Reusable Section Components) - optional, can build standalone
+- `submit-form` edge function (already exists)
+
+**Technical Notes:**
+- Add `/partners` to `prerenderRoutes` in `src/routes.tsx`
+- Add to footer under "Company" column
+- SEO: Title "Become a Partner | EverIntent", description "Earn commissions referring clients to EverIntent..."
+
 ---
 
 ## Phase 4: Checkout Flow
