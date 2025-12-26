@@ -814,12 +814,12 @@ Add GA4 tracking with cookie consent integration.
 - Brand Pivot Documentation - BRD v34.0 + everintent-pivot-plan.md aligned
 
 **Next Priority Tasks:**
-1. **Task 2.5** [MANUAL] - Configure Vercel env vars for GHL widget ID
-2. **Task 3.0** [LOVABLE] - Implement Brand Pivot Phase 1 (Header/Footer/SEO)
-3. **Task 3.0.1** [LOVABLE] - Update Navigation Structure
-4. **Task 3.0.2** [LOVABLE] - Create NavHoverMenu Component
-5. **Task 2.2** [MANUAL] - Create GHL Chat Widgets (3 Bots) - parallel
-6. **Task 3.1** [LOVABLE] - Create Reusable Section Components
+1. **Task 3.0.2** [LOVABLE] - Create NavHoverMenu Component (polished hover dropdowns with icons)
+2. **Task 3.1** [LOVABLE] - Create Reusable Section Components (Hero, Problem, Solution, etc.)
+3. **Task 3.2** [LOVABLE] - Homepage (/) - Full marketing page build
+4. **Task 2.2** [MANUAL] - Create GHL Chat Widgets (3 Bots) - can run in parallel
+5. **Task 2.5** [MANUAL] - Configure Vercel env vars for GHL widget ID
+6. **Task 4.1** [LOVABLE] - Pricing Page with Interactive Tier Selection
 
 **Key References:**
 - BRD v34.0: `docs/smartsites-brd-v33.0.md`
