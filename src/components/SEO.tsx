@@ -1,14 +1,14 @@
 /**
  * @fileoverview SEO Component - Search Engine Optimization Meta Tags
  * @description Manages page-level SEO meta tags using vite-react-ssg's Head component.
- *              Provides consistent SEO structure across all pages per BRD v33.0 Section 18.
+ *              Provides consistent SEO structure across all pages per BRD v34.0 Section 18.
  * 
  * @module components/SEO
  * @see {@link https://docs.lovable.dev} Lovable Documentation
  * 
- * @brd-reference BRD v33.0 Section 18 - SEO Strategy
- * @brd-reference BRD v33.0 Section 18.1 - Meta Tag Standards
- * @brd-reference BRD v33.0 Section 18.2 - Open Graph Requirements
+ * @brd-reference BRD v34.0 Section 18 - SEO Strategy
+ * @brd-reference BRD v34.0 Section 18.1 - Meta Tag Standards
+ * @brd-reference BRD v34.0 Section 18.2 - Open Graph Requirements
  */
 
 import { Head } from 'vite-react-ssg';
@@ -33,16 +33,16 @@ interface SEOProps {
 }
 
 /**
- * Site-wide SEO constants per BRD v33.0
+ * Site-wide SEO constants per BRD v34.0
  * @constant {string}
  */
-const SITE_NAME = 'EverIntent SmartSites';
+const SITE_NAME = 'EverIntent';
 
 /**
- * Default meta description per BRD v33.0 messaging
+ * Default meta description per BRD v34.0 messaging
  * @constant {string}
  */
-const DEFAULT_DESCRIPTION = 'Professional websites for local businesses. Built in 5 days. Starting at $249. You own everything.';
+const DEFAULT_DESCRIPTION = 'Professional smart websites for local businesses. Built in 5 days. Starting at $249. You own everything.';
 
 /**
  * Default Open Graph image

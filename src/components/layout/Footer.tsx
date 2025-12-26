@@ -9,16 +9,16 @@ import { Linkedin, Twitter, Facebook, Sparkles, ArrowUpRight } from 'lucide-reac
 import { CTAButton } from '@/components/CTAButton';
 
 /**
- * Product service links for SEO-focused category pages.
- * Links to individual service landing pages for web design, SEO, lead capture, etc.
+ * Solutions links for the footer - services and external verticals.
+ * Per BRD v34.0: "Products" column renamed to "Solutions" with For Law Firms external link.
  */
-const productsLinks = [
-  { title: 'Web Design', path: '/services/web-design' },
-  { title: 'Local SEO', path: '/services/seo' },
-  { title: 'Lead Capture', path: '/services/lead-capture' },
-  { title: 'Online Booking', path: '/services/booking' },
-  { title: 'Reputation', path: '/services/reputation' },
-  { title: 'AI Automation', path: '/services/ai-automation' },
+const solutionsLinks = [
+  { title: 'Smart Websites', path: '/smart-websites' },
+  { title: 'AI & Automation', path: '/let-ai-handle-it' },
+  { title: 'Local SEO', path: '/get-found-online' },
+  { title: 'Lead Capture', path: '/never-miss-a-lead' },
+  { title: 'Reputation', path: '/build-your-reputation' },
+  { title: 'For Law Firms', path: 'https://everintentlegalai.com', external: true },
 ];
 
 /**
@@ -104,22 +104,34 @@ export function Footer() {
       <div className="container relative py-16 md:py-20">
         {/* Main footer grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-          {/* Products */}
+          {/* Solutions (renamed from Products per BRD v34.0) */}
           <div className="space-y-5">
             <h3 className="font-display font-bold text-foreground text-sm uppercase tracking-wider flex items-center gap-2">
               <span className="w-6 h-px bg-gradient-to-r from-accent to-transparent" />
-              Products
+              Solutions
             </h3>
             <ul className="space-y-3">
-              {productsLinks.map((link) => (
+              {solutionsLinks.map((link) => (
                 <li key={link.path}>
-                  <Link
-                    to={link.path}
-                    className="footer-link text-sm inline-flex items-center gap-1.5 group"
-                  >
-                    {link.title}
-                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300" />
-                  </Link>
+                  {link.external ? (
+                    <a
+                      href={link.path}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="footer-link text-sm inline-flex items-center gap-1.5 group"
+                    >
+                      {link.title}
+                      <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300" />
+                    </a>
+                  ) : (
+                    <Link
+                      to={link.path}
+                      className="footer-link text-sm inline-flex items-center gap-1.5 group"
+                    >
+                      {link.title}
+                      <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300" />
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -195,7 +207,7 @@ export function Footer() {
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/50 to-transparent" />
           
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-            {/* Brand */}
+            {/* Brand - Updated per BRD v34.0: EverIntent master brand */}
             <div className="flex flex-col items-center lg:items-start gap-5">
               <Link to="/" className="flex items-center gap-3 group">
                 <div className="relative">
@@ -204,15 +216,15 @@ export function Footer() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-2xl font-display font-bold text-foreground tracking-tight">
-                    Smart<span className="text-gradient">Sites</span>
+                    Ever<span className="text-gradient">Intent</span>
                   </span>
                   <span className="text-[10px] text-muted-foreground font-medium tracking-widest uppercase">
-                    by EverIntent
+                    Web Design AI & Automation
                   </span>
                 </div>
               </Link>
               <p className="text-sm text-muted-foreground text-center lg:text-left max-w-xs leading-relaxed">
-                Professional websites that actually get you customers. <span className="text-foreground font-medium">Starting at $249.</span>
+                Professional smart websites that actually get you customers. <span className="text-foreground font-medium">Starting at $249.</span>
               </p>
             </div>
 
