@@ -214,14 +214,9 @@ export function Footer() {
                   <Sparkles className="w-9 h-9 text-accent transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" />
                   <div className="absolute inset-0 bg-accent/30 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500" />
                 </div>
-                <div className="flex flex-col">
-                  <span className="text-2xl font-display font-bold text-foreground tracking-tight">
-                    Ever<span className="text-gradient">Intent</span>
-                  </span>
-                  <span className="text-[10px] text-muted-foreground font-medium tracking-widest uppercase">
-                    Web Design AI & Automation
-                  </span>
-                </div>
+                <span className="text-2xl font-display font-bold text-foreground tracking-tight">
+                  Ever<span className="text-gradient">Intent</span>
+                </span>
               </Link>
               <p className="text-sm text-muted-foreground text-center lg:text-left max-w-xs leading-relaxed">
                 Professional smart websites that actually get you customers. <span className="text-foreground font-medium">Starting at $249.</span>
