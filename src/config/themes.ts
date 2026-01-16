@@ -8,7 +8,7 @@
  * 
  * SSG Compatible: Imported statically, zero runtime DB calls.
  * 
- * @generated 2025-12-23
+ * @generated 2026-01-16
  */
 
 // Logo element types for embedded config
@@ -108,15 +108,15 @@ export interface RouteThemeMapping {
 export const activeTheme: ThemeConfig = {
   id: 'indigo-night',
   name: 'Indigo Night',
-  baseHue: 240,
+  baseHue: 165,
   accentConfig: {
-    accent: '240 70% 60%',
+    accent: '240 70% 11%',
     accentHover: '32 95% 44%',
-    accentGlow: '240 70% 60%',
+    accentGlow: '240 70% 11%',
     accentForeground: '222 47% 11%',
     h: 240,
     s: 70,
-    l: 60,
+    l: 11,
   },
   staticColors: {
     background: '222 47% 7%',
@@ -143,7 +143,7 @@ export const activeTheme: ThemeConfig = {
   },
   logoVersionId: 'f427aa31-0016-408e-98d4-86a7573b1b15',
   logoConfig: {
-    taglineText: 'Web Design & AI Automation',
+    taglineText: 'Web Design & Practical AI',
     everConfig: {
         "size": 72,
         "weight": 700,
