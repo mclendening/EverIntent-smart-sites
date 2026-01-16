@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -27,49 +27,112 @@ export default function ResetPassword() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pageState, setPageState] = useState<PageState>('loading');
+  const initialized = useRef(false);
 
   useEffect(() => {
+    // Prevent double initialization in React strict mode
+    if (initialized.current) return;
+    initialized.current = true;
+
     let isMounted = true;
+    let subscription: { unsubscribe: () => void } | null = null;
 
-    // Set up auth listener FIRST (before getSession)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log('[ResetPassword] Auth event:', event, 'Has session:', !!session);
-      
-      if (!isMounted) return;
-      
-      // PASSWORD_RECOVERY event means user clicked valid reset link
-      if (event === 'PASSWORD_RECOVERY' && session) {
-        console.log('[ResetPassword] PASSWORD_RECOVERY - showing form');
-        setPageState('has-session');
-      } else if (event === 'SIGNED_IN' && session) {
-        console.log('[ResetPassword] SIGNED_IN - showing form');
-        setPageState('has-session');
-      }
-    });
+    const initialize = async () => {
+      console.log('[ResetPassword] Initializing...');
+      console.log('[ResetPassword] URL hash:', window.location.hash);
+      console.log('[ResetPassword] Full URL:', window.location.href);
 
-    // Check for existing session
-    const checkSession = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        console.log('[ResetPassword] Initial session check:', !!session);
+      // Check if we have recovery tokens in the URL
+      const hash = window.location.hash;
+      const hasTokens = hash.includes('access_token') || 
+                        hash.includes('refresh_token') || 
+                        hash.includes('type=recovery');
+
+      console.log('[ResetPassword] Has tokens in URL:', hasTokens);
+
+      // Set up auth listener FIRST
+      const { data: authData } = supabase.auth.onAuthStateChange((event, session) => {
+        console.log('[ResetPassword] Auth event:', event, 'Session:', !!session);
         
-        if (session && isMounted) {
+        if (!isMounted) return;
+        
+        if ((event === 'PASSWORD_RECOVERY' || event === 'SIGNED_IN') && session) {
+          console.log('[ResetPassword] Got session from auth event, showing password form');
           setPageState('has-session');
-        } else if (isMounted) {
-          // No session - show form to request new reset link
+        }
+      });
+      subscription = authData.subscription;
+
+      // If we have tokens in URL, Supabase will process them when we call getSession
+      // The hash fragment is processed by the Supabase client automatically
+      try {
+        // This call triggers Supabase to process the URL hash and exchange tokens
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        console.log('[ResetPassword] getSession result:', { 
+          hasSession: !!session, 
+          error: sessionError?.message,
+          userId: session?.user?.id 
+        });
+
+        if (sessionError) {
+          console.error('[ResetPassword] Session error:', sessionError);
+        }
+
+        if (session && isMounted) {
+          console.log('[ResetPassword] Session found, showing password form');
+          setPageState('has-session');
+          return;
+        }
+
+        // If we had tokens but no session, wait a bit and try again
+        // Supabase might still be processing
+        if (hasTokens && !session) {
+          console.log('[ResetPassword] Tokens in URL but no session, waiting...');
+          
+          // Wait and retry
+          await new Promise(resolve => setTimeout(resolve, 1500));
+          
+          const { data: { session: retrySession } } = await supabase.auth.getSession();
+          console.log('[ResetPassword] Retry session:', !!retrySession);
+          
+          if (retrySession && isMounted) {
+            setPageState('has-session');
+            return;
+          }
+          
+          // One more try
+          await new Promise(resolve => setTimeout(resolve, 1500));
+          const { data: { session: finalSession } } = await supabase.auth.getSession();
+          console.log('[ResetPassword] Final session check:', !!finalSession);
+          
+          if (finalSession && isMounted) {
+            setPageState('has-session');
+            return;
+          }
+        }
+
+        // No session found
+        if (isMounted) {
+          console.log('[ResetPassword] No session, showing email form');
           setPageState('no-session');
         }
+
       } catch (err) {
-        console.error('[ResetPassword] Session check error:', err);
-        if (isMounted) setPageState('no-session');
+        console.error('[ResetPassword] Error:', err);
+        if (isMounted) {
+          setPageState('no-session');
+        }
       }
     };
 
-    checkSession();
+    initialize();
 
     return () => {
       isMounted = false;
-      subscription.unsubscribe();
+      if (subscription) {
+        subscription.unsubscribe();
+      }
     };
   }, []);
 
@@ -139,7 +202,7 @@ export default function ResetPassword() {
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <p className="text-muted-foreground">Checking session...</p>
+          <p className="text-muted-foreground">Verifying your session...</p>
         </div>
       </div>
     );
@@ -178,7 +241,7 @@ export default function ResetPassword() {
             </div>
             <CardTitle className="text-2xl">Check Your Email</CardTitle>
             <CardDescription>
-              We've sent a password reset link to your email. Click the link in the email to reset your password.
+              We've sent a password reset link to your email. Click the link to reset your password.
             </CardDescription>
           </CardHeader>
           <CardContent>
