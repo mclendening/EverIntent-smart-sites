@@ -37,6 +37,7 @@ import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import PlaceholderPage from './pages/Placeholder';
 import AdminLogin from './pages/admin/Login';
+import AdminResetPassword from './pages/admin/ResetPassword';
 import AdminDashboard from './pages/admin/Dashboard';
 import AdminThemes from './pages/admin/Themes';
 import AdminSubmissions from './pages/admin/Submissions';
@@ -408,6 +409,10 @@ export const routes: RouteRecord[] = [
       {
         path: 'login',
         Component: AdminLogin,
+      },
+      {
+        path: 'reset-password',
+        Component: AdminResetPassword,
       },
       {
         index: true,
