@@ -108,7 +108,7 @@ export interface RouteThemeMapping {
 export const activeTheme: ThemeConfig = {
   id: 'indigo-night',
   name: 'Indigo Night',
-  baseHue: 165,
+  baseHue: 32,
   accentConfig: {
     accent: '240 70% 60%',
     accentHover: '32 95% 44%',
@@ -143,7 +143,7 @@ export const activeTheme: ThemeConfig = {
   },
   logoVersionId: 'f427aa31-0016-408e-98d4-86a7573b1b15',
   logoConfig: {
-    taglineText: 'Website Design & Practical AI',
+    taglineText: 'Web Design & Practical AI',
     everConfig: {
         "size": 72,
         "weight": 700,
@@ -169,7 +169,7 @@ export const activeTheme: ThemeConfig = {
         "verticalOffset": 1
     },
     streakConfig: {
-        "length": 384,
+        "length": 366,
         "leftThick": 4,
         "gradientTo": "#7878dd",
         "marginLeft": 0,
@@ -181,11 +181,11 @@ export const activeTheme: ThemeConfig = {
         "gradientAngle": 90
     },
     taglineConfig: {
-        "size": 28,
+        "size": 29,
         "weight": 400,
         "marginTop": 5,
         "gradientTo": "#A855F7",
-        "marginLeft": 0,
+        "marginLeft": 5,
         "solidColor": "#FFFFFF",
         "marginRight": 0,
         "useGradient": false,
