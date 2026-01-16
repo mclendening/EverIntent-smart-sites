@@ -1,7 +1,14 @@
 {
   "rewrites": [
+    { "source": "/admin/reset-password", "destination": "/index.html" },
+    { "source": "/admin/login", "destination": "/index.html" },
+    { "source": "/admin/themes", "destination": "/index.html" },
+    { "source": "/admin/submissions", "destination": "/index.html" },
+    { "source": "/admin/portfolio", "destination": "/index.html" },
+    { "source": "/admin/testimonials", "destination": "/index.html" },
+    { "source": "/admin/theme-test", "destination": "/index.html" },
     { "source": "/admin", "destination": "/index.html" },
     { "source": "/admin/:path*", "destination": "/index.html" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/((?!api|_next|static|favicon.ico|robots.txt|sitemap.xml).*)", "destination": "/index.html" }
   ]
 }
