@@ -27,63 +27,75 @@ export default function ResetPassword() {
   const [success, setSuccess] = useState(false);
   const [hasValidSession, setHasValidSession] = useState(false);
 
-  // Check if we have a valid recovery session
   useEffect(() => {
-    let subscription: { unsubscribe: () => void } | null = null;
+    let isMounted = true;
 
-    const handleAuthChange = (event: string, session: any) => {
-      console.log('Auth state change:', event, !!session);
-      if (event === 'PASSWORD_RECOVERY' && session) {
-        console.log('PASSWORD_RECOVERY event detected');
-        setHasValidSession(true);
-        setIsCheckingSession(false);
-      } else if (event === 'SIGNED_IN' && session) {
-        console.log('SIGNED_IN event detected');
-        setHasValidSession(true);
-        setIsCheckingSession(false);
-      }
-    };
-
-    const initAuth = async () => {
-      // Set up listener FIRST before checking session
-      const { data } = supabase.auth.onAuthStateChange(handleAuthChange);
-      subscription = data.subscription;
-
-      // Check URL for recovery tokens (hash fragment)
-      const hash = window.location.hash;
-      console.log('URL hash:', hash);
-      
-      if (hash && (hash.includes('type=recovery') || hash.includes('access_token'))) {
-        console.log('Recovery token found in URL, waiting for Supabase to process...');
-        // Supabase will process the hash and emit an auth event
-        // Give it more time to process
-        setTimeout(() => {
-          // If still checking after timeout, check session directly
-          supabase.auth.getSession().then(({ data: { session } }) => {
-            console.log('Timeout session check:', !!session);
-            if (session) {
-              setHasValidSession(true);
-            }
-            setIsCheckingSession(false);
-          });
-        }, 3000);
-      } else {
-        // No hash, check if we have an existing session
-        const { data: { session } } = await supabase.auth.getSession();
-        console.log('Direct session check:', !!session);
-        if (session) {
-          setHasValidSession(true);
+    const initializeSession = async () => {
+      try {
+        // IMPORTANT: getSession() will automatically process any tokens in the URL hash
+        // This is the key - calling getSession triggers Supabase to exchange the token
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          console.error('Session error:', sessionError);
         }
-        setIsCheckingSession(false);
+
+        if (session && isMounted) {
+          console.log('Session found, user can reset password');
+          setHasValidSession(true);
+          setIsCheckingSession(false);
+          return;
+        }
+
+        // If no immediate session, set up listener for any pending auth events
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((event, newSession) => {
+          console.log('Auth event:', event);
+          
+          if (!isMounted) return;
+          
+          if (event === 'PASSWORD_RECOVERY' && newSession) {
+            console.log('PASSWORD_RECOVERY event received');
+            setHasValidSession(true);
+            setIsCheckingSession(false);
+          } else if (event === 'SIGNED_IN' && newSession) {
+            console.log('SIGNED_IN event received');
+            setHasValidSession(true);
+            setIsCheckingSession(false);
+          } else if (event === 'TOKEN_REFRESHED' && newSession) {
+            setHasValidSession(true);
+            setIsCheckingSession(false);
+          }
+        });
+
+        // Check one more time after a short delay in case the token is still being processed
+        setTimeout(async () => {
+          if (!isMounted) return;
+          
+          const { data: { session: delayedSession } } = await supabase.auth.getSession();
+          
+          if (delayedSession) {
+            console.log('Delayed session check found session');
+            setHasValidSession(true);
+          }
+          
+          setIsCheckingSession(false);
+        }, 1500);
+
+        return () => {
+          subscription.unsubscribe();
+        };
+      } catch (err) {
+        console.error('Error initializing session:', err);
+        if (isMounted) {
+          setIsCheckingSession(false);
+        }
       }
     };
 
-    initAuth();
+    initializeSession();
 
     return () => {
-      if (subscription) {
-        subscription.unsubscribe();
-      }
+      isMounted = false;
     };
   }, []);
 
@@ -91,7 +103,6 @@ export default function ResetPassword() {
     e.preventDefault();
     setError(null);
 
-    // Validate inputs
     const result = passwordSchema.safeParse({ password, confirmPassword });
     if (!result.success) {
       setError(result.error.errors[0].message);
@@ -112,7 +123,6 @@ export default function ResetPassword() {
 
       setSuccess(true);
       
-      // Redirect to admin after a short delay
       setTimeout(() => {
         navigate('/admin', { replace: true });
       }, 2000);
