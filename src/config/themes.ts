@@ -143,7 +143,7 @@ export const activeTheme: ThemeConfig = {
   },
   logoVersionId: 'f427aa31-0016-408e-98d4-86a7573b1b15',
   logoConfig: {
-    taglineText: 'Web Design & Practical AI',
+    taglineText: 'Website Design & Practical AI',
     everConfig: {
         "size": 72,
         "weight": 700,
