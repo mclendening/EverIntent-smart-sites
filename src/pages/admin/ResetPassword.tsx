@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,106 +17,28 @@ const passwordSchema = z.object({
   path: ['confirmPassword'],
 });
 
-type PageState = 'loading' | 'has-session' | 'no-session' | 'success' | 'request-sent';
+type PageState = 'password-form' | 'request-form' | 'success' | 'request-sent';
 
 export default function ResetPassword() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [pageState, setPageState] = useState<PageState>('loading');
-  const initialized = useRef(false);
+  // Default to showing password form - user came here from reset link
+  const [pageState, setPageState] = useState<PageState>('password-form');
 
+  // Set up auth listener on mount
   useEffect(() => {
-    if (initialized.current) return;
-    initialized.current = true;
-
-    let isMounted = true;
-
-    const initialize = async () => {
-      // Check for PKCE code in query params (newer Supabase flow)
-      const code = searchParams.get('code');
-      const hash = window.location.hash;
-      
-      // Check for tokens in hash (legacy flow)
-      const hashParams = new URLSearchParams(hash.replace('#', ''));
-      const accessToken = hashParams.get('access_token');
-      const refreshToken = hashParams.get('refresh_token');
-      const type = hashParams.get('type');
-
-      // Set up auth listener
-      const { data: authData } = supabase.auth.onAuthStateChange((event, session) => {
-        if (!isMounted) return;
-        if ((event === 'PASSWORD_RECOVERY' || event === 'SIGNED_IN') && session) {
-          setPageState('has-session');
-        }
-      });
-
-      try {
-        // If we have a PKCE code, exchange it for a session
-        if (code) {
-          const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
-          if (!exchangeError && data.session && isMounted) {
-            setPageState('has-session');
-            return;
-          }
-        }
-
-        // If we have tokens in hash, set the session manually
-        if (accessToken && refreshToken) {
-          const { data, error: setError } = await supabase.auth.setSession({
-            access_token: accessToken,
-            refresh_token: refreshToken,
-          });
-          if (!setError && data.session && isMounted) {
-            // Clear the hash from URL
-            window.history.replaceState(null, '', window.location.pathname);
-            setPageState('has-session');
-            return;
-          }
-        }
-
-        // Check for existing session
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session && isMounted) {
-          setPageState('has-session');
-          return;
-        }
-
-        // If type=recovery in hash but no session yet, wait and retry
-        if (type === 'recovery' || hash.includes('type=recovery')) {
-          await new Promise(resolve => setTimeout(resolve, 2000));
-          const { data: { session: retrySession } } = await supabase.auth.getSession();
-          if (retrySession && isMounted) {
-            setPageState('has-session');
-            return;
-          }
-        }
-
-        // No session found
-        if (isMounted) {
-          setPageState('no-session');
-        }
-
-      } catch (err) {
-        console.error('Session error:', err);
-        if (isMounted) setPageState('no-session');
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'PASSWORD_RECOVERY' && session) {
+        setPageState('password-form');
       }
+    });
 
-      return () => {
-        authData.subscription.unsubscribe();
-      };
-    };
-
-    initialize();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [searchParams]);
+    return () => subscription.unsubscribe();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -134,7 +56,16 @@ export default function ResetPassword() {
       const { error: updateError } = await supabase.auth.updateUser({ password });
 
       if (updateError) {
-        setError(updateError.message);
+        // If session expired or invalid, show request form
+        if (updateError.message.includes('session') || 
+            updateError.message.includes('token') ||
+            updateError.message.includes('expired') ||
+            updateError.message.includes('not authenticated')) {
+          setError('Your reset link has expired. Please request a new one.');
+          setPageState('request-form');
+        } else {
+          setError(updateError.message);
+        }
         return;
       }
 
@@ -176,17 +107,6 @@ export default function ResetPassword() {
     }
   };
 
-  if (pageState === 'loading') {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="flex flex-col items-center gap-4">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <p className="text-muted-foreground">Verifying your session...</p>
-        </div>
-      </div>
-    );
-  }
-
   if (pageState === 'success') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
@@ -224,7 +144,7 @@ export default function ResetPassword() {
     );
   }
 
-  if (pageState === 'no-session') {
+  if (pageState === 'request-form') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
         <Card className="w-full max-w-md">
@@ -232,8 +152,8 @@ export default function ResetPassword() {
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
               <ShieldCheck className="h-6 w-6 text-primary" />
             </div>
-            <CardTitle className="text-2xl">Reset Your Password</CardTitle>
-            <CardDescription>Enter your email to receive a reset link.</CardDescription>
+            <CardTitle className="text-2xl">Request Password Reset</CardTitle>
+            <CardDescription>Enter your email to receive a new reset link.</CardDescription>
           </CardHeader>
           <CardContent>
             {error && (
@@ -272,6 +192,7 @@ export default function ResetPassword() {
     );
   }
 
+  // Default: Show password form
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
       <Card className="w-full max-w-md">
@@ -325,6 +246,14 @@ export default function ResetPassword() {
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Updating...</> : 'Update Password'}
+            </Button>
+            <Button 
+              type="button" 
+              variant="ghost" 
+              className="w-full text-sm"
+              onClick={() => setPageState('request-form')}
+            >
+              Need a new reset link?
             </Button>
           </form>
         </CardContent>
