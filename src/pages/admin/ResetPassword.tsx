@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, Lock, ShieldCheck, CheckCircle } from 'lucide-react';
+import { Loader2, Lock, ShieldCheck, CheckCircle, Mail } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 const passwordSchema = z.object({
@@ -17,102 +17,51 @@ const passwordSchema = z.object({
   path: ['confirmPassword'],
 });
 
+type PageState = 'loading' | 'has-session' | 'no-session' | 'success' | 'request-sent';
+
 export default function ResetPassword() {
   const navigate = useNavigate();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isCheckingSession, setIsCheckingSession] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  const [hasValidSession, setHasValidSession] = useState(false);
-  const hasChecked = useRef(false);
+  const [pageState, setPageState] = useState<PageState>('loading');
 
   useEffect(() => {
-    // Prevent double execution in React Strict Mode
-    if (hasChecked.current) return;
-    hasChecked.current = true;
-
     let isMounted = true;
-    let subscription: { unsubscribe: () => void } | null = null;
 
+    // Set up auth listener FIRST (before getSession)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('[ResetPassword] Auth event:', event, 'Has session:', !!session);
+      
+      if (!isMounted) return;
+      
+      // PASSWORD_RECOVERY event means user clicked valid reset link
+      if (event === 'PASSWORD_RECOVERY' && session) {
+        console.log('[ResetPassword] PASSWORD_RECOVERY - showing form');
+        setPageState('has-session');
+      } else if (event === 'SIGNED_IN' && session) {
+        console.log('[ResetPassword] SIGNED_IN - showing form');
+        setPageState('has-session');
+      }
+    });
+
+    // Check for existing session
     const checkSession = async () => {
-      console.log('[ResetPassword] Starting session check...');
-      console.log('[ResetPassword] Current URL hash:', window.location.hash);
-      
-      // Check if URL has recovery tokens
-      const hash = window.location.hash;
-      const hasRecoveryToken = hash.includes('type=recovery') || 
-                               hash.includes('access_token') ||
-                               hash.includes('token_hash');
-      
-      console.log('[ResetPassword] Has recovery token in URL:', hasRecoveryToken);
-
-      // Set up auth state listener FIRST
-      const authSubscription = supabase.auth.onAuthStateChange((event, session) => {
-        console.log('[ResetPassword] Auth event:', event, 'Session:', !!session);
-        
-        if (!isMounted) return;
-        
-        if (event === 'PASSWORD_RECOVERY' || event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
-          if (session) {
-            console.log('[ResetPassword] Valid session from auth event');
-            setHasValidSession(true);
-            setIsCheckingSession(false);
-          }
-        }
-      });
-      subscription = authSubscription.data.subscription;
-
-      // Now call getSession - this triggers Supabase to process the URL hash
       try {
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        const { data: { session } } = await supabase.auth.getSession();
+        console.log('[ResetPassword] Initial session check:', !!session);
         
-        console.log('[ResetPassword] getSession result - Session:', !!session, 'Error:', sessionError?.message);
-        
-        if (sessionError) {
-          console.error('[ResetPassword] Session error:', sessionError);
-        }
-
         if (session && isMounted) {
-          console.log('[ResetPassword] Found valid session');
-          setHasValidSession(true);
-          setIsCheckingSession(false);
-          return;
+          setPageState('has-session');
+        } else if (isMounted) {
+          // No session - show form to request new reset link
+          setPageState('no-session');
         }
-
-        // If we have tokens in URL but no session yet, the token might be in a different format
-        // Supabase PKCE flow uses token_hash in URL params, not hash fragment
-        if (hasRecoveryToken && !session) {
-          console.log('[ResetPassword] Token in URL but no session - waiting for auth event...');
-          
-          // Give Supabase more time to process
-          await new Promise(resolve => setTimeout(resolve, 2000));
-          
-          // Check again
-          const { data: { session: retrySession } } = await supabase.auth.getSession();
-          console.log('[ResetPassword] Retry session check:', !!retrySession);
-          
-          if (retrySession && isMounted) {
-            setHasValidSession(true);
-            setIsCheckingSession(false);
-            return;
-          }
-        }
-
-        // Final timeout - give up after 5 seconds total
-        setTimeout(() => {
-          if (isMounted) {
-            console.log('[ResetPassword] Timeout reached, no valid session found');
-            setIsCheckingSession(false);
-          }
-        }, 3000);
-
       } catch (err) {
-        console.error('[ResetPassword] Error during session check:', err);
-        if (isMounted) {
-          setIsCheckingSession(false);
-        }
+        console.error('[ResetPassword] Session check error:', err);
+        if (isMounted) setPageState('no-session');
       }
     };
 
@@ -120,9 +69,7 @@ export default function ResetPassword() {
 
     return () => {
       isMounted = false;
-      if (subscription) {
-        subscription.unsubscribe();
-      }
+      subscription.unsubscribe();
     };
   }, []);
 
@@ -139,69 +86,67 @@ export default function ResetPassword() {
     setIsLoading(true);
 
     try {
-      const { error: updateError } = await supabase.auth.updateUser({
-        password,
-      });
+      const { error: updateError } = await supabase.auth.updateUser({ password });
 
       if (updateError) {
         setError(updateError.message);
         return;
       }
 
-      setSuccess(true);
-      
-      setTimeout(() => {
-        navigate('/admin', { replace: true });
-      }, 2000);
+      setPageState('success');
+      setTimeout(() => navigate('/admin', { replace: true }), 2000);
     } catch (err) {
-      console.error('Unexpected error:', err);
+      console.error('Update error:', err);
       setError('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  if (isCheckingSession) {
+  const handleRequestReset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    if (!email || !email.includes('@')) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const { error: resetError } = await supabase.functions.invoke('send-password-reset', {
+        body: { email: email.toLowerCase() }
+      });
+
+      if (resetError) {
+        setError(resetError.message || 'Failed to send reset link');
+        return;
+      }
+
+      setPageState('request-sent');
+    } catch (err) {
+      console.error('Reset request error:', err);
+      setError('An unexpected error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Loading state
+  if (pageState === 'loading') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <p className="text-muted-foreground">Verifying your session...</p>
+          <p className="text-muted-foreground">Checking session...</p>
         </div>
       </div>
     );
   }
 
-  if (!hasValidSession) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
-              <ShieldCheck className="h-6 w-6 text-destructive" />
-            </div>
-            <CardTitle className="text-2xl">Invalid or Expired Link</CardTitle>
-            <CardDescription>
-              This password reset link is invalid or has expired. Please request a new one.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Button 
-              className="w-full" 
-              onClick={() => navigate('/admin/login', { replace: true })}
-            >
-              Back to Login
-            </Button>
-            <p className="text-xs text-muted-foreground text-center">
-              Debug: Check browser console for session logs
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  if (success) {
+  // Success state
+  if (pageState === 'success') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
         <Card className="w-full max-w-md">
@@ -210,9 +155,7 @@ export default function ResetPassword() {
               <CheckCircle className="h-6 w-6 text-green-500" />
             </div>
             <CardTitle className="text-2xl">Password Updated!</CardTitle>
-            <CardDescription>
-              Your password has been successfully updated. Redirecting to admin...
-            </CardDescription>
+            <CardDescription>Redirecting to admin...</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex justify-center">
@@ -224,6 +167,99 @@ export default function ResetPassword() {
     );
   }
 
+  // Request sent state
+  if (pageState === 'request-sent') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader className="text-center">
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+              <Mail className="h-6 w-6 text-primary" />
+            </div>
+            <CardTitle className="text-2xl">Check Your Email</CardTitle>
+            <CardDescription>
+              We've sent a password reset link to your email. Click the link in the email to reset your password.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button 
+              className="w-full" 
+              variant="outline"
+              onClick={() => navigate('/admin/login', { replace: true })}
+            >
+              Back to Login
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // No session - show request form
+  if (pageState === 'no-session') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader className="text-center">
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+              <ShieldCheck className="h-6 w-6 text-primary" />
+            </div>
+            <CardTitle className="text-2xl">Reset Your Password</CardTitle>
+            <CardDescription>
+              Enter your email to receive a password reset link.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {error && (
+              <Alert variant="destructive" className="mb-4">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+
+            <form onSubmit={handleRequestReset} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email Address</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="pl-10"
+                    disabled={isLoading}
+                    autoComplete="email"
+                    autoFocus
+                  />
+                </div>
+              </div>
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  'Send Reset Link'
+                )}
+              </Button>
+              <Button 
+                type="button"
+                variant="ghost" 
+                className="w-full"
+                onClick={() => navigate('/admin/login', { replace: true })}
+              >
+                Back to Login
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Has session - show password form
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
       <Card className="w-full max-w-md">
@@ -231,10 +267,8 @@ export default function ResetPassword() {
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
             <ShieldCheck className="h-6 w-6 text-primary" />
           </div>
-          <CardTitle className="text-2xl">Reset Password</CardTitle>
-          <CardDescription>
-            Enter your new password below
-          </CardDescription>
+          <CardTitle className="text-2xl">Set New Password</CardTitle>
+          <CardDescription>Enter your new password below</CardDescription>
         </CardHeader>
         <CardContent>
           {error && (
@@ -260,9 +294,7 @@ export default function ResetPassword() {
                   autoFocus
                 />
               </div>
-              <p className="text-xs text-muted-foreground">
-                Must be at least 8 characters
-              </p>
+              <p className="text-xs text-muted-foreground">Must be at least 8 characters</p>
             </div>
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">Confirm Password</Label>
