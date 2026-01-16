@@ -214,7 +214,7 @@ export function Footer() {
                   <Sparkles className="w-9 h-9 text-accent transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" />
                   <div className="absolute inset-0 bg-accent/30 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500" />
                 </div>
-                <span className="text-2xl font-display font-bold text-foreground tracking-tight">
+                <span className="text-[2.5rem] font-display font-bold text-foreground tracking-tight leading-none">
                   Ever<span className="text-gradient">Intent</span>
                 </span>
               </Link>
