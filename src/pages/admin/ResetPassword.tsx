@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,6 +21,7 @@ type PageState = 'loading' | 'has-session' | 'no-session' | 'success' | 'request
 
 export default function ResetPassword() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -30,83 +31,66 @@ export default function ResetPassword() {
   const initialized = useRef(false);
 
   useEffect(() => {
-    // Prevent double initialization in React strict mode
     if (initialized.current) return;
     initialized.current = true;
 
     let isMounted = true;
-    let subscription: { unsubscribe: () => void } | null = null;
 
     const initialize = async () => {
-      console.log('[ResetPassword] Initializing...');
-      console.log('[ResetPassword] URL hash:', window.location.hash);
-      console.log('[ResetPassword] Full URL:', window.location.href);
-
-      // Check if we have recovery tokens in the URL
+      // Check for PKCE code in query params (newer Supabase flow)
+      const code = searchParams.get('code');
       const hash = window.location.hash;
-      const hasTokens = hash.includes('access_token') || 
-                        hash.includes('refresh_token') || 
-                        hash.includes('type=recovery');
+      
+      // Check for tokens in hash (legacy flow)
+      const hashParams = new URLSearchParams(hash.replace('#', ''));
+      const accessToken = hashParams.get('access_token');
+      const refreshToken = hashParams.get('refresh_token');
+      const type = hashParams.get('type');
 
-      console.log('[ResetPassword] Has tokens in URL:', hasTokens);
-
-      // Set up auth listener FIRST
+      // Set up auth listener
       const { data: authData } = supabase.auth.onAuthStateChange((event, session) => {
-        console.log('[ResetPassword] Auth event:', event, 'Session:', !!session);
-        
         if (!isMounted) return;
-        
         if ((event === 'PASSWORD_RECOVERY' || event === 'SIGNED_IN') && session) {
-          console.log('[ResetPassword] Got session from auth event, showing password form');
           setPageState('has-session');
         }
       });
-      subscription = authData.subscription;
 
-      // If we have tokens in URL, Supabase will process them when we call getSession
-      // The hash fragment is processed by the Supabase client automatically
       try {
-        // This call triggers Supabase to process the URL hash and exchange tokens
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-        
-        console.log('[ResetPassword] getSession result:', { 
-          hasSession: !!session, 
-          error: sessionError?.message,
-          userId: session?.user?.id 
-        });
-
-        if (sessionError) {
-          console.error('[ResetPassword] Session error:', sessionError);
+        // If we have a PKCE code, exchange it for a session
+        if (code) {
+          const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+          if (!exchangeError && data.session && isMounted) {
+            setPageState('has-session');
+            return;
+          }
         }
 
+        // If we have tokens in hash, set the session manually
+        if (accessToken && refreshToken) {
+          const { data, error: setError } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          });
+          if (!setError && data.session && isMounted) {
+            // Clear the hash from URL
+            window.history.replaceState(null, '', window.location.pathname);
+            setPageState('has-session');
+            return;
+          }
+        }
+
+        // Check for existing session
+        const { data: { session } } = await supabase.auth.getSession();
         if (session && isMounted) {
-          console.log('[ResetPassword] Session found, showing password form');
           setPageState('has-session');
           return;
         }
 
-        // If we had tokens but no session, wait a bit and try again
-        // Supabase might still be processing
-        if (hasTokens && !session) {
-          console.log('[ResetPassword] Tokens in URL but no session, waiting...');
-          
-          // Wait and retry
-          await new Promise(resolve => setTimeout(resolve, 1500));
-          
+        // If type=recovery in hash but no session yet, wait and retry
+        if (type === 'recovery' || hash.includes('type=recovery')) {
+          await new Promise(resolve => setTimeout(resolve, 2000));
           const { data: { session: retrySession } } = await supabase.auth.getSession();
-          console.log('[ResetPassword] Retry session:', !!retrySession);
-          
           if (retrySession && isMounted) {
-            setPageState('has-session');
-            return;
-          }
-          
-          // One more try
-          await new Promise(resolve => setTimeout(resolve, 1500));
-          const { data: { session: finalSession } } = await supabase.auth.getSession();
-          console.log('[ResetPassword] Final session check:', !!finalSession);
-          
-          if (finalSession && isMounted) {
             setPageState('has-session');
             return;
           }
@@ -114,27 +98,25 @@ export default function ResetPassword() {
 
         // No session found
         if (isMounted) {
-          console.log('[ResetPassword] No session, showing email form');
           setPageState('no-session');
         }
 
       } catch (err) {
-        console.error('[ResetPassword] Error:', err);
-        if (isMounted) {
-          setPageState('no-session');
-        }
+        console.error('Session error:', err);
+        if (isMounted) setPageState('no-session');
       }
+
+      return () => {
+        authData.subscription.unsubscribe();
+      };
     };
 
     initialize();
 
     return () => {
       isMounted = false;
-      if (subscription) {
-        subscription.unsubscribe();
-      }
     };
-  }, []);
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -159,7 +141,6 @@ export default function ResetPassword() {
       setPageState('success');
       setTimeout(() => navigate('/admin', { replace: true }), 2000);
     } catch (err) {
-      console.error('Update error:', err);
       setError('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
@@ -189,14 +170,12 @@ export default function ResetPassword() {
 
       setPageState('request-sent');
     } catch (err) {
-      console.error('Reset request error:', err);
       setError('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Loading state
   if (pageState === 'loading') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -208,7 +187,6 @@ export default function ResetPassword() {
     );
   }
 
-  // Success state
   if (pageState === 'success') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
@@ -220,17 +198,11 @@ export default function ResetPassword() {
             <CardTitle className="text-2xl">Password Updated!</CardTitle>
             <CardDescription>Redirecting to admin...</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="flex justify-center">
-              <Loader2 className="h-6 w-6 animate-spin text-primary" />
-            </div>
-          </CardContent>
         </Card>
       </div>
     );
   }
 
-  // Request sent state
   if (pageState === 'request-sent') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
@@ -240,16 +212,10 @@ export default function ResetPassword() {
               <Mail className="h-6 w-6 text-primary" />
             </div>
             <CardTitle className="text-2xl">Check Your Email</CardTitle>
-            <CardDescription>
-              We've sent a password reset link to your email. Click the link to reset your password.
-            </CardDescription>
+            <CardDescription>Click the link in the email to reset your password.</CardDescription>
           </CardHeader>
           <CardContent>
-            <Button 
-              className="w-full" 
-              variant="outline"
-              onClick={() => navigate('/admin/login', { replace: true })}
-            >
+            <Button className="w-full" variant="outline" onClick={() => navigate('/admin/login', { replace: true })}>
               Back to Login
             </Button>
           </CardContent>
@@ -258,7 +224,6 @@ export default function ResetPassword() {
     );
   }
 
-  // No session - show request form
   if (pageState === 'no-session') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
@@ -268,9 +233,7 @@ export default function ResetPassword() {
               <ShieldCheck className="h-6 w-6 text-primary" />
             </div>
             <CardTitle className="text-2xl">Reset Your Password</CardTitle>
-            <CardDescription>
-              Enter your email to receive a password reset link.
-            </CardDescription>
+            <CardDescription>Enter your email to receive a reset link.</CardDescription>
           </CardHeader>
           <CardContent>
             {error && (
@@ -278,7 +241,6 @@ export default function ResetPassword() {
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
-
             <form onSubmit={handleRequestReset} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
@@ -298,21 +260,9 @@ export default function ResetPassword() {
                 </div>
               </div>
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  'Send Reset Link'
-                )}
+                {isLoading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Sending...</> : 'Send Reset Link'}
               </Button>
-              <Button 
-                type="button"
-                variant="ghost" 
-                className="w-full"
-                onClick={() => navigate('/admin/login', { replace: true })}
-              >
+              <Button type="button" variant="ghost" className="w-full" onClick={() => navigate('/admin/login', { replace: true })}>
                 Back to Login
               </Button>
             </form>
@@ -322,7 +272,6 @@ export default function ResetPassword() {
     );
   }
 
-  // Has session - show password form
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
       <Card className="w-full max-w-md">
@@ -339,7 +288,6 @@ export default function ResetPassword() {
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
-
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="password">New Password</Label>
@@ -376,14 +324,7 @@ export default function ResetPassword() {
               </div>
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Updating...
-                </>
-              ) : (
-                'Update Password'
-              )}
+              {isLoading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Updating...</> : 'Update Password'}
             </Button>
           </form>
         </CardContent>
