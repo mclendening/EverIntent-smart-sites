@@ -1,75 +1,63 @@
 /**
  * @fileoverview Supabase Client Configuration
  * @description SSG-safe Supabase client initialization with browser detection.
- *              Supports both Lovable preview (VITE_ env vars) and production (build-time injection).
- * 
- * @module integrations/supabase/client
- * @see {@link https://docs.lovable.dev} Lovable Documentation
- * 
- * @brd-reference BRD v33.0 Section 13 - Supabase Integration
- * @brd-reference BRD v33.0 Section 17.2 - SSG Hydration Safety
- * 
- * @example
- * import { supabase } from "@/integrations/supabase/client";
- * 
- * const { data, error } = await supabase
- *   .from('table')
- *   .select('*');
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-/**
- * Build-time injected values (production via Vercel platform env)
- * These are replaced at build time via vite.config.ts define.
- */
-declare const __SUPABASE_URL__: string;
-declare const __SUPABASE_ANON_KEY__: string;
+const SUPABASE_URL = 'https://nweklcxzoemcnwaoakvq.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im53ZWtsY3h6b2VtY253YW9ha3ZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NjkxNzMsImV4cCI6MjA4MTI0NTE3M30.drDwzaSoht-PWySZWdsAozqSiJfVfQrjUj0spEbq7mc';
 
-/**
- * Supabase project URL
- * Priority: Build-time injection (production) -> VITE_ env var (Lovable preview) -> hardcoded fallback
- * @constant {string}
- */
-const SUPABASE_URL = 
-  (typeof __SUPABASE_URL__ !== 'undefined' && __SUPABASE_URL__) || 
-  import.meta.env.VITE_SUPABASE_URL || 
-  'https://nweklcxzoemcnwaoakvq.supabase.co';
-
-/**
- * Supabase anon/public key
- * Priority: Build-time injection (production) -> VITE_ env var (Lovable preview) -> hardcoded fallback
- * @constant {string}
- */
-const SUPABASE_PUBLISHABLE_KEY = 
-  (typeof __SUPABASE_ANON_KEY__ !== 'undefined' && __SUPABASE_ANON_KEY__) || 
-  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || 
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im53ZWtsY3h6b2VtY253YW9ha3ZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NjkxNzMsImV4cCI6MjA4MTI0NTE3M30.drDwzaSoht-PWySZWdsAozqSiJfVfQrjUj0spEbq7mc';
-
-/**
- * SSR-safe browser detection
- * localStorage doesn't exist during SSR, so we check for window
- * @constant {boolean}
- */
 const isBrowser = typeof window !== 'undefined';
 
-/**
- * Supabase client instance
- * 
- * Configured with SSG-safe auth settings:
- * - storage: localStorage only in browser (undefined during SSR)
- * - persistSession: only in browser
- * - autoRefreshToken: only in browser
- * - detectSessionInUrl: only in browser
- * 
- * @constant {SupabaseClient<Database>}
- */
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-  auth: {
-    storage: isBrowser ? localStorage : undefined,
-    persistSession: isBrowser,
-    autoRefreshToken: isBrowser,
-    detectSessionInUrl: isBrowser,
+// Create client with browser-aware settings
+// detectSessionInUrl MUST be true in browser to process recovery tokens
+export const supabase: SupabaseClient<Database> = createClient<Database>(
+  SUPABASE_URL, 
+  SUPABASE_ANON_KEY, 
+  {
+    auth: {
+      storage: isBrowser ? localStorage : undefined,
+      persistSession: isBrowser,
+      autoRefreshToken: isBrowser,
+      detectSessionInUrl: true, // Always true - SSR doesn't have URL hash anyway
+      flowType: 'pkce',
+    }
   }
-});
+);
+
+/**
+ * Manually process recovery tokens from URL hash.
+ * Call this on pages that handle password recovery.
+ */
+export async function processRecoveryTokens(): Promise<boolean> {
+  if (!isBrowser) return false;
+  
+  const hash = window.location.hash;
+  if (!hash) return false;
+  
+  const params = new URLSearchParams(hash.substring(1));
+  const accessToken = params.get('access_token');
+  const refreshToken = params.get('refresh_token');
+  const type = params.get('type');
+  
+  if (type === 'recovery' && accessToken && refreshToken) {
+    try {
+      const { data, error } = await supabase.auth.setSession({
+        access_token: accessToken,
+        refresh_token: refreshToken,
+      });
+      
+      if (!error && data.session) {
+        // Clear hash from URL
+        window.history.replaceState(null, '', window.location.pathname);
+        return true;
+      }
+    } catch (e) {
+      console.error('Failed to set session from recovery tokens:', e);
+    }
+  }
+  
+  return false;
+}
