@@ -9,9 +9,6 @@
  * @brd-reference BRD v33.0 Section 6 - Homepage Structure
  * @brd-reference BRD v33.0 Section 6.1 - Section Order
  */
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase/client';
 import { HeroSection } from '@/components/home/HeroSection';
 import { SocialProofBar } from '@/components/home/SocialProofBar';
 import HowWeHelpSection from '@/components/home/HowWeHelpSection';
@@ -40,18 +37,6 @@ import { FinalCTASection } from '@/components/home/FinalCTASection';
  * @returns {JSX.Element} Homepage with all sections
  */
 const Index = () => {
-  const navigate = useNavigate();
-
-  // Redirect password recovery sessions to reset password page
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
-      if (event === 'PASSWORD_RECOVERY') {
-        navigate('/admin/reset-password', { replace: true });
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [navigate]);
   return (
     <main>
       <HeroSection />

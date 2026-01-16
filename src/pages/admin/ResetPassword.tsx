@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -26,76 +26,103 @@ export default function ResetPassword() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [hasValidSession, setHasValidSession] = useState(false);
+  const hasChecked = useRef(false);
 
   useEffect(() => {
-    let isMounted = true;
+    // Prevent double execution in React Strict Mode
+    if (hasChecked.current) return;
+    hasChecked.current = true;
 
-    const initializeSession = async () => {
+    let isMounted = true;
+    let subscription: { unsubscribe: () => void } | null = null;
+
+    const checkSession = async () => {
+      console.log('[ResetPassword] Starting session check...');
+      console.log('[ResetPassword] Current URL hash:', window.location.hash);
+      
+      // Check if URL has recovery tokens
+      const hash = window.location.hash;
+      const hasRecoveryToken = hash.includes('type=recovery') || 
+                               hash.includes('access_token') ||
+                               hash.includes('token_hash');
+      
+      console.log('[ResetPassword] Has recovery token in URL:', hasRecoveryToken);
+
+      // Set up auth state listener FIRST
+      const authSubscription = supabase.auth.onAuthStateChange((event, session) => {
+        console.log('[ResetPassword] Auth event:', event, 'Session:', !!session);
+        
+        if (!isMounted) return;
+        
+        if (event === 'PASSWORD_RECOVERY' || event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+          if (session) {
+            console.log('[ResetPassword] Valid session from auth event');
+            setHasValidSession(true);
+            setIsCheckingSession(false);
+          }
+        }
+      });
+      subscription = authSubscription.data.subscription;
+
+      // Now call getSession - this triggers Supabase to process the URL hash
       try {
-        // IMPORTANT: getSession() will automatically process any tokens in the URL hash
-        // This is the key - calling getSession triggers Supabase to exchange the token
         const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         
+        console.log('[ResetPassword] getSession result - Session:', !!session, 'Error:', sessionError?.message);
+        
         if (sessionError) {
-          console.error('Session error:', sessionError);
+          console.error('[ResetPassword] Session error:', sessionError);
         }
 
         if (session && isMounted) {
-          console.log('Session found, user can reset password');
+          console.log('[ResetPassword] Found valid session');
           setHasValidSession(true);
           setIsCheckingSession(false);
           return;
         }
 
-        // If no immediate session, set up listener for any pending auth events
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((event, newSession) => {
-          console.log('Auth event:', event);
+        // If we have tokens in URL but no session yet, the token might be in a different format
+        // Supabase PKCE flow uses token_hash in URL params, not hash fragment
+        if (hasRecoveryToken && !session) {
+          console.log('[ResetPassword] Token in URL but no session - waiting for auth event...');
           
-          if (!isMounted) return;
+          // Give Supabase more time to process
+          await new Promise(resolve => setTimeout(resolve, 2000));
           
-          if (event === 'PASSWORD_RECOVERY' && newSession) {
-            console.log('PASSWORD_RECOVERY event received');
+          // Check again
+          const { data: { session: retrySession } } = await supabase.auth.getSession();
+          console.log('[ResetPassword] Retry session check:', !!retrySession);
+          
+          if (retrySession && isMounted) {
             setHasValidSession(true);
             setIsCheckingSession(false);
-          } else if (event === 'SIGNED_IN' && newSession) {
-            console.log('SIGNED_IN event received');
-            setHasValidSession(true);
-            setIsCheckingSession(false);
-          } else if (event === 'TOKEN_REFRESHED' && newSession) {
-            setHasValidSession(true);
+            return;
+          }
+        }
+
+        // Final timeout - give up after 5 seconds total
+        setTimeout(() => {
+          if (isMounted) {
+            console.log('[ResetPassword] Timeout reached, no valid session found');
             setIsCheckingSession(false);
           }
-        });
+        }, 3000);
 
-        // Check one more time after a short delay in case the token is still being processed
-        setTimeout(async () => {
-          if (!isMounted) return;
-          
-          const { data: { session: delayedSession } } = await supabase.auth.getSession();
-          
-          if (delayedSession) {
-            console.log('Delayed session check found session');
-            setHasValidSession(true);
-          }
-          
-          setIsCheckingSession(false);
-        }, 1500);
-
-        return () => {
-          subscription.unsubscribe();
-        };
       } catch (err) {
-        console.error('Error initializing session:', err);
+        console.error('[ResetPassword] Error during session check:', err);
         if (isMounted) {
           setIsCheckingSession(false);
         }
       }
     };
 
-    initializeSession();
+    checkSession();
 
     return () => {
       isMounted = false;
+      if (subscription) {
+        subscription.unsubscribe();
+      }
     };
   }, []);
 
@@ -158,13 +185,16 @@ export default function ResetPassword() {
               This password reset link is invalid or has expired. Please request a new one.
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-4">
             <Button 
               className="w-full" 
               onClick={() => navigate('/admin/login', { replace: true })}
             >
               Back to Login
             </Button>
+            <p className="text-xs text-muted-foreground text-center">
+              Debug: Check browser console for session logs
+            </p>
           </CardContent>
         </Card>
       </div>
