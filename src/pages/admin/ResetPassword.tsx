@@ -29,32 +29,62 @@ export default function ResetPassword() {
 
   // Check if we have a valid recovery session
   useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (session) {
+    let subscription: { unsubscribe: () => void } | null = null;
+
+    const handleAuthChange = (event: string, session: any) => {
+      console.log('Auth state change:', event, !!session);
+      if (event === 'PASSWORD_RECOVERY' && session) {
+        console.log('PASSWORD_RECOVERY event detected');
         setHasValidSession(true);
-      } else {
-        // No session - might be coming from email link, wait for auth state change
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-          if (event === 'PASSWORD_RECOVERY' || (event === 'SIGNED_IN' && session)) {
-            setHasValidSession(true);
-            setIsCheckingSession(false);
-          }
-        });
-
-        // Give it a moment for the hash to be processed
-        setTimeout(() => {
-          setIsCheckingSession(false);
-        }, 2000);
-
-        return () => subscription.unsubscribe();
+        setIsCheckingSession(false);
+      } else if (event === 'SIGNED_IN' && session) {
+        console.log('SIGNED_IN event detected');
+        setHasValidSession(true);
+        setIsCheckingSession(false);
       }
-      
-      setIsCheckingSession(false);
     };
 
-    checkSession();
+    const initAuth = async () => {
+      // Set up listener FIRST before checking session
+      const { data } = supabase.auth.onAuthStateChange(handleAuthChange);
+      subscription = data.subscription;
+
+      // Check URL for recovery tokens (hash fragment)
+      const hash = window.location.hash;
+      console.log('URL hash:', hash);
+      
+      if (hash && (hash.includes('type=recovery') || hash.includes('access_token'))) {
+        console.log('Recovery token found in URL, waiting for Supabase to process...');
+        // Supabase will process the hash and emit an auth event
+        // Give it more time to process
+        setTimeout(() => {
+          // If still checking after timeout, check session directly
+          supabase.auth.getSession().then(({ data: { session } }) => {
+            console.log('Timeout session check:', !!session);
+            if (session) {
+              setHasValidSession(true);
+            }
+            setIsCheckingSession(false);
+          });
+        }, 3000);
+      } else {
+        // No hash, check if we have an existing session
+        const { data: { session } } = await supabase.auth.getSession();
+        console.log('Direct session check:', !!session);
+        if (session) {
+          setHasValidSession(true);
+        }
+        setIsCheckingSession(false);
+      }
+    };
+
+    initAuth();
+
+    return () => {
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+    };
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
