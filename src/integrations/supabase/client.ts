@@ -29,23 +29,23 @@ declare const __SUPABASE_ANON_KEY__: string;
 
 /**
  * Supabase project URL
- * Priority: Build-time injection (production) -> VITE_ env var (Lovable preview)
+ * Priority: Build-time injection (production) -> VITE_ env var (Lovable preview) -> hardcoded fallback
  * @constant {string}
  */
 const SUPABASE_URL = 
   (typeof __SUPABASE_URL__ !== 'undefined' && __SUPABASE_URL__) || 
   import.meta.env.VITE_SUPABASE_URL || 
-  '';
+  'https://nweklcxzoemcnwaoakvq.supabase.co';
 
 /**
  * Supabase anon/public key
- * Priority: Build-time injection (production) -> VITE_ env var (Lovable preview)
+ * Priority: Build-time injection (production) -> VITE_ env var (Lovable preview) -> hardcoded fallback
  * @constant {string}
  */
 const SUPABASE_PUBLISHABLE_KEY = 
   (typeof __SUPABASE_ANON_KEY__ !== 'undefined' && __SUPABASE_ANON_KEY__) || 
   import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || 
-  '';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im53ZWtsY3h6b2VtY253YW9ha3ZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NjkxNzMsImV4cCI6MjA4MTI0NTE3M30.drDwzaSoht-PWySZWdsAozqSiJfVfQrjUj0spEbq7mc';
 
 /**
  * SSR-safe browser detection
