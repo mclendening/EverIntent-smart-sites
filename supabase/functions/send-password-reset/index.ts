@@ -56,10 +56,9 @@ serve(async (req) => {
 
     console.log(`Email authorized, sending password reset to: ${email}`);
 
-    // Determine redirect URL - use origin from request or default to production
-    const origin = req.headers.get('origin') || 'https://everintent.com';
-    const redirectUrl = `${origin}/admin/reset-password`;
-    console.log(`Redirect URL will be: ${redirectUrl}`);
+    // ALWAYS use production URL - this must match Supabase Redirect URLs exactly
+    const redirectUrl = 'https://everintent.com/admin/reset-password';
+    console.log(`Redirect URL: ${redirectUrl}`);
 
     // Send password reset email - this triggers PASSWORD_RECOVERY event
     const { error: resetError } = await supabaseAdmin.auth.resetPasswordForEmail(
