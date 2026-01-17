@@ -4,6 +4,180 @@
 
 This guide covers all gotchas and requirements for generating fully static HTML pages with perfect SEO using `vite-react-ssg`.
 
+**IMPORTANT**: This document serves as the authoritative reference for SSG patterns in this project. All future development prompts MUST reference this guide.
+
+---
+
+## Project Setup Workflow (New Projects)
+
+Setting up a new SSG project requires **three sequential prompts** to Lovable, with external service connections between prompts. This workflow establishes guardrails that prevent Lovable from accidentally breaking SSG patterns.
+
+### Workflow Overview
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│  PROMPT 1: Create blank Lovable project                                 │
+│  ↓                                                                      │
+│  USER ACTION: Connect GitHub, Vercel Pro, Supabase                      │
+│  ↓                                                                      │
+│  PROMPT 2: SSG infrastructure & guardrails                              │
+│  ↓                                                                      │
+│  PROMPT 3+: Site-specific features (always include compliance line)     │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### Prompt 1: Initial Blank Project
+
+**Purpose**: Create a clean foundation project.
+
+**Copy this prompt exactly:**
+
+```
+Create a blank React project with the following:
+- React 18 with TypeScript
+- Tailwind CSS with a semantic token-based design system in index.css
+- shadcn/ui components library configured
+- React Router v6 for routing
+- A basic App.tsx with a single "/" route showing a placeholder page
+- A clean index.css with CSS custom properties for theming (--background, --foreground, --primary, etc.)
+- All colors in HSL format
+
+Do NOT add any complex features yet. This is a foundation project.
+```
+
+### After Prompt 1: External Connections
+
+Complete these steps before running Prompt 2:
+
+1. **Connect to GitHub**
+   - Lovable: Settings → GitHub → Connect Repository
+   - Create new repo or connect existing
+
+2. **Connect to Vercel Pro**
+   - Import GitHub repository into Vercel
+   - Build command: `npm run build`
+   - Output directory: `dist`
+   - Framework preset: Vite
+
+3. **Connect to Supabase**
+   - Lovable: Settings → Supabase → Connect Project
+   - Or use Lovable Cloud to create new project
+   - Note your project URL and anon key
+
+### Prompt 2: SSG Infrastructure & Guardrails
+
+**Purpose**: Install SSG framework and create patterns that prevent future drift.
+
+**Copy this prompt exactly:**
+
+```
+Set up vite-react-ssg for static site generation with full SSG infrastructure:
+
+1. **Install vite-react-ssg** and configure vite.config.ts:
+   - Use `script: 'defer'` and `formatting: 'minify'`
+   - Exclude all `/admin/*` routes from SSG pre-rendering via includedRoutes filter
+   - Marketing/public pages should be pre-rendered
+
+2. **Create vercel.json** with SPA fallback rewrites:
+   - Explicit rewrites for each admin route to `/index.html`:
+     - /admin/reset-password
+     - /admin/login
+     - /admin (dashboard)
+   - Wildcard `/admin/:path*` rewrite
+   - General SPA fallback for dynamic routes
+
+3. **Create src/components/ClientOnly.tsx**:
+   - SSG-safe wrapper that renders null during SSR
+   - Uses useState + useEffect to detect browser environment
+   - Supports optional fallback prop for loading states
+
+4. **Configure src/routes.tsx** for ViteReactSSG:
+   - Export routes array compatible with ViteReactSSG
+   - Direct component imports for SSG routes (no lazy loading for pre-rendered pages)
+   - Admin routes wrapped in AdminLayout using ClientOnly
+   - Include NotFound catch-all route
+
+5. **Update src/main.tsx**:
+   - Use ViteReactSSG for the app entry
+   - Wrap with QueryClientProvider, TooltipProvider
+   - Import routes from routes.tsx
+
+6. **Create src/integrations/supabase/client.ts**:
+   - Browser detection: `const isBrowser = typeof window !== 'undefined'`
+   - `detectSessionInUrl: true` for auth callbacks
+   - localStorage only when isBrowser is true
+   - Export `processRecoveryTokens()` function for manual password reset token handling
+
+7. **Create src/components/admin/AdminGuard.tsx**:
+   - Check authentication with useAdminAuth hook
+   - Show loading spinner during auth check
+   - Redirect to /admin/login if not authenticated
+   - Pass location state for return redirect after login
+
+8. **Create src/pages/admin/ResetPassword.tsx**:
+   - Use pageState state machine: 'loading' | 'password-form' | 'request-form' | 'success' | 'error'
+   - Call processRecoveryTokens() in useEffect before checking session
+   - Handle both reset request and password update flows
+
+9. **Create docs/SSG-BEST-PRACTICES.md**:
+   - Document all SSG patterns implemented
+   - Include this setup workflow
+   - This file serves as project knowledge for all future prompts
+
+10. **Update public/robots.txt**:
+    - Add: Disallow: /admin/
+
+CRITICAL: This establishes the SSG architecture. All future prompts MUST follow docs/SSG-BEST-PRACTICES.md patterns. Any component using browser APIs (window, document, localStorage) MUST be wrapped in ClientOnly.
+```
+
+### Prompt 3+: Site-Specific Features
+
+**Purpose**: Build actual site features while maintaining SSG compliance.
+
+**EVERY site-specific prompt MUST include this compliance line at the end:**
+
+```
+Follow all patterns in docs/SSG-BEST-PRACTICES.md - wrap browser code in ClientOnly, no window/document at module level.
+```
+
+### Example Prompt 3
+
+```
+Create a marketing website homepage with:
+- Hero section with headline and CTA button
+- Features grid with 3 feature cards
+- Testimonials section
+- Footer with links
+
+Follow all patterns in docs/SSG-BEST-PRACTICES.md - wrap browser code in ClientOnly, no window/document at module level.
+```
+
+### Example Prompt 4 (Adding Features)
+
+```
+Add a contact page with:
+- Contact form (name, email, message)
+- Form submits to Supabase form_submissions table
+- Success/error toast notifications
+
+Follow all patterns in docs/SSG-BEST-PRACTICES.md - wrap browser code in ClientOnly, no window/document at module level.
+```
+
+### Quick Reference: The Compliance Line
+
+Add this exact line to the end of EVERY feature prompt:
+
+```
+Follow all patterns in docs/SSG-BEST-PRACTICES.md - wrap browser code in ClientOnly, no window/document at module level.
+```
+
+This single line instructs Lovable to:
+- Reference this document before making changes
+- Wrap browser-dependent components in ClientOnly
+- Avoid window/document/localStorage at module level
+- Keep admin routes excluded from SSG
+- Maintain the established architecture
+
 ---
 
 ## 1. Route Configuration Requirements
