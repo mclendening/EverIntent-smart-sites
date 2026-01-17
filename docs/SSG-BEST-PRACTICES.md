@@ -550,7 +550,276 @@ ssgOptions: {
 
 ---
 
-## 15. Performance Optimizations
+## 15. Admin Route Implementation (CSR-Only Pattern)
+
+Admin routes require special handling to work correctly with SSG while supporting authentication flows like password reset.
+
+### 15.1 Route Architecture
+
+Admin routes use a separate layout without the marketing Header/Footer:
+
+```tsx
+// routes.tsx - Admin routes structure
+export const routes: RouteRecord[] = [
+  // Marketing routes with Layout
+  {
+    path: '/',
+    Component: RootLayout,
+    children: [
+      { index: true, Component: Index },
+      // ... marketing pages
+    ],
+  },
+  // Admin routes (CSR only, not pre-rendered)
+  {
+    path: '/admin',
+    Component: AdminLayout,
+    children: [
+      { path: 'login', Component: AdminLogin },
+      { path: 'reset-password', Component: AdminResetPassword },
+      {
+        index: true,
+        element: (
+          <AdminGuard>
+            <AdminDashboard />
+          </AdminGuard>
+        ),
+      },
+      // ... other protected admin pages
+    ],
+  },
+];
+```
+
+### 15.2 AdminLayout Pattern
+
+Admin layout follows the same SSG-safe patterns as RootLayout but without marketing components:
+
+```tsx
+function AdminLayout() {
+  const [queryClient] = useState(() => new QueryClient());
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      {/* ScrollToTop uses window/document APIs, must be client-only */}
+      <ClientOnly>
+        <ScrollToTop />
+      </ClientOnly>
+      <Suspense fallback={<div className="min-h-screen" />}>
+        <Outlet />
+      </Suspense>
+
+      {/* Portal-based components wrapped in ClientOnly */}
+      <ClientOnly>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+        </TooltipProvider>
+      </ClientOnly>
+    </QueryClientProvider>
+  );
+}
+```
+
+### 15.3 AdminGuard Component
+
+Protected routes use AdminGuard for authentication enforcement:
+
+```tsx
+// components/admin/AdminGuard.tsx
+import { Navigate, useLocation } from 'react-router-dom';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
+
+export function AdminGuard({ children }: { children: ReactNode }) {
+  const { user, isAdmin, isLoading } = useAdminAuth();
+  const location = useLocation();
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  // Redirect to login if not authenticated
+  if (!user) {
+    return <Navigate to="/admin/login" state={{ from: location }} replace />;
+  }
+
+  // Redirect with error if not admin
+  if (!isAdmin) {
+    return <Navigate to="/admin/login" state={{ error: 'Access denied.' }} replace />;
+  }
+
+  return <>{children}</>;
+}
+```
+
+Key patterns:
+- Show loading state while checking auth
+- Preserve original location for redirect after login
+- Pass error messages via navigation state
+
+### 15.4 SSG-Safe Supabase Client Configuration
+
+The Supabase client must be configured for both SSG builds (Node.js) and browser runtime:
+
+```tsx
+// integrations/supabase/client.ts
+const isBrowser = typeof window !== 'undefined';
+
+export const supabase = createClient<Database>(
+  SUPABASE_URL, 
+  SUPABASE_ANON_KEY, 
+  {
+    auth: {
+      storage: isBrowser ? localStorage : undefined,
+      persistSession: isBrowser,
+      autoRefreshToken: isBrowser,
+      detectSessionInUrl: true, // Always true - SSR doesn't have URL hash
+      flowType: 'pkce',
+    }
+  }
+);
+```
+
+### 15.5 Password Reset Flow
+
+Password reset requires special handling for URL hash tokens. This is the recommended pattern:
+
+```tsx
+// pages/admin/ResetPassword.tsx
+
+/**
+ * Manually process recovery tokens from URL hash.
+ * Required because hash fragments aren't sent to server.
+ */
+export async function processRecoveryTokens(): Promise<boolean> {
+  if (typeof window === 'undefined') return false;
+  
+  const hash = window.location.hash;
+  if (!hash) return false;
+  
+  const params = new URLSearchParams(hash.substring(1));
+  const accessToken = params.get('access_token');
+  const refreshToken = params.get('refresh_token');
+  const type = params.get('type');
+  
+  if (type === 'recovery' && accessToken && refreshToken) {
+    const { data, error } = await supabase.auth.setSession({
+      access_token: accessToken,
+      refresh_token: refreshToken,
+    });
+    
+    if (!error && data.session) {
+      // Clear hash from URL for clean state
+      window.history.replaceState(null, '', window.location.pathname);
+      return true;
+    }
+  }
+  
+  return false;
+}
+```
+
+### 15.6 ResetPassword Page State Machine
+
+The reset password page should handle multiple states:
+
+```tsx
+type PageState = 'loading' | 'password-form' | 'request-form' | 'success' | 'request-sent';
+
+export default function ResetPassword() {
+  const [pageState, setPageState] = useState<PageState>('loading');
+
+  useEffect(() => {
+    const initialize = async () => {
+      // 1. Try to process recovery tokens from URL hash
+      const recoveryProcessed = await processRecoveryTokens();
+      if (recoveryProcessed) {
+        setPageState('password-form');
+        return;
+      }
+
+      // 2. Check for existing session
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        setPageState('password-form');
+        return;
+      }
+
+      // 3. No valid session - show request form
+      setPageState('request-form');
+    };
+
+    // Set up auth listener for PASSWORD_RECOVERY events
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if ((event === 'PASSWORD_RECOVERY' || event === 'SIGNED_IN') && session) {
+        setPageState('password-form');
+      }
+    });
+
+    initialize();
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // Render based on pageState...
+}
+```
+
+### 15.7 Login Page Pattern
+
+Login pages should handle navigation state for redirects and errors:
+
+```tsx
+export default function AdminLogin() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { user, isAdmin, isLoading: authLoading } = useAdminAuth();
+
+  // Get error from navigation state (e.g., from AdminGuard)
+  const stateError = location.state?.error as string | undefined;
+
+  // Redirect if already authenticated as admin
+  useEffect(() => {
+    if (!authLoading && user && isAdmin) {
+      const from = location.state?.from?.pathname || '/admin';
+      navigate(from, { replace: true });
+    }
+  }, [user, isAdmin, authLoading, navigate, location.state]);
+
+  // Render login form...
+}
+```
+
+### 15.8 robots.txt for Admin Routes
+
+Always block admin routes from search engines:
+
+```txt
+# public/robots.txt
+User-agent: *
+Allow: /
+
+# Block admin routes
+Disallow: /admin/
+Disallow: /admin
+
+Sitemap: https://yoursite.com/sitemap.xml
+```
+
+### 15.9 Admin Route Checklist
+
+- [ ] Admin routes excluded from SSG via `includedRoutes` filter
+- [ ] Separate AdminLayout without marketing Header/Footer
+- [ ] AdminGuard protects authenticated routes
+- [ ] Login page handles navigation state for redirects/errors
+- [ ] Password reset properly processes URL hash tokens
+- [ ] Supabase client configured for browser detection
+- [ ] Auth state listener set up before checking existing session
+- [ ] Loading states shown during auth verification
+- [ ] robots.txt blocks `/admin/` from crawlers
+
+---
+
+## 16. Performance Optimizations
 
 ### ✅ Defer Non-Critical JS
 
@@ -589,6 +858,9 @@ ssgOptions: {
 | Alt text | Descriptive | Empty/missing |
 | Sitemap | Auto-generated | Manual/missing |
 | Build config | `ssgOptions` | `manualChunks` |
+| Admin routes | CSR via `includedRoutes` | Pre-rendered |
+| Auth guard | Loading state first | Immediate redirect |
+| Password reset | Process URL hash tokens | Rely on auto-detection |
 
 ---
 
@@ -610,3 +882,7 @@ ssgOptions: {
 - [ ] sitemap.xml generation
 - [ ] robots.txt with sitemap reference
 - [ ] Build verification (HTML content check)
+- [ ] Admin routes excluded from SSG
+- [ ] AdminGuard with proper loading states
+- [ ] Password reset with URL hash token processing
+- [ ] SSG-safe Supabase client configuration
