@@ -1378,11 +1378,91 @@ function getWidgetIdForRoute(pathname: string): string {
 }
 ```
 
-**Required Supabase Secrets:**
-- `GHL_WIDGET_ID_SALES` (default/fallback)
-- `GHL_WIDGET_ID_SUPPORT` (optional)
-- `GHL_WIDGET_ID_LOCALPROS` (optional)
-- `GHL_WIDGET_ID_DEMO` (optional)
+### 17.11 GHL Environment Variables & Secrets (Complete Reference)
+
+All GHL-related secrets are stored in Supabase Edge Function Secrets (NOT in frontend code).
+
+#### Chat Widget Secrets
+
+| Secret Name | Required | Description |
+|-------------|----------|-------------|
+| `GHL_WIDGET_ID` | Yes | Legacy fallback widget ID |
+| `GHL_WIDGET_ID_SALES` | Yes | Default sales chat widget |
+| `GHL_WIDGET_ID_SUPPORT` | No | Support/help pages widget |
+| `GHL_WIDGET_ID_LOCALPROS` | No | LocalPros network widget |
+| `GHL_WIDGET_ID_DEMO` | No | Demo request pages widget |
+
+#### API & CRM Secrets
+
+| Secret Name | Required | Description |
+|-------------|----------|-------------|
+| `GHL_API_TOKEN` | Yes | GoHighLevel API v2 bearer token |
+| `GHL_LOCATION_ID` | Yes | GHL sub-account/location ID |
+| `GHL_RESUME_CUSTOM_FIELD_ID` | No | Custom field for resume uploads (job applications) |
+| `GHL_VIDEO_LINK_CUSTOM_FIELD_ID` | No | Custom field for video intro links |
+
+#### How to Configure
+
+1. **Get Widget IDs from GHL:**
+   - GHL Dashboard → Sites → Chat Widget → Settings → Widget ID
+   - Each widget has a unique ID (looks like: `abc123def456...`)
+
+2. **Get API Token:**
+   - GHL Dashboard → Settings → Business Profile → API Keys
+   - Create new API key with appropriate scopes (Contacts, Custom Fields, Tags)
+
+3. **Get Location ID:**
+   - GHL Dashboard → Settings → Business Info → Location ID
+   - Or from URL: `https://app.gohighlevel.com/location/YOUR_LOCATION_ID/...`
+
+4. **Add to Supabase:**
+   - Supabase Dashboard → Edge Functions → Secrets
+   - Add each secret with exact name and value
+
+#### Widget ID Selection Logic
+
+```
+Route visited → ghl-config edge function called
+                         ↓
+              Check route prefix matches
+                         ↓
+        ┌────────────────┼────────────────┐
+        ↓                ↓                ↓
+   /localpros/*     /support/*       /demo/*
+        ↓                ↓                ↓
+GHL_WIDGET_ID_    GHL_WIDGET_ID_   GHL_WIDGET_ID_
+   LOCALPROS          SUPPORT           DEMO
+        ↓                ↓                ↓
+        └────────────────┼────────────────┘
+                         ↓
+              No match? Use fallback:
+        GHL_WIDGET_ID_SALES → GHL_WIDGET_ID
+```
+
+#### Minimum Required for Basic Setup
+
+For a basic single-widget setup, you need:
+
+```bash
+# Supabase Edge Function Secrets (minimum)
+GHL_WIDGET_ID_SALES=your_widget_id_here
+GHL_API_TOKEN=your_api_token_here
+GHL_LOCATION_ID=your_location_id_here
+```
+
+#### Form Submission Secrets
+
+For form submissions that sync to GHL (like Data Rights Request):
+
+```bash
+# Required for any GHL form integration
+GHL_API_TOKEN=your_api_token_here
+GHL_LOCATION_ID=your_location_id_here
+
+# Optional: Custom fields for file uploads
+GHL_RESUME_CUSTOM_FIELD_ID=field_id_for_resumes
+GHL_VIDEO_LINK_CUSTOM_FIELD_ID=field_id_for_video_links
+```
 
 ### 17.11 GHL Integration Checklist
 
@@ -1553,6 +1633,531 @@ export const prerenderRoutes = [
 
 ---
 
+## 20. Legal Page Content Templates
+
+This section provides the actual content structure and text for all legal pages. Copy these templates when setting up a new site.
+
+### 20.1 Privacy Policy Content
+
+**File:** `src/pages/legal/PrivacyPolicy.tsx`
+
+**SEO Metadata:**
+```tsx
+<SEO
+  title="Privacy Policy | {CompanyName}"
+  description="{CompanyName} Privacy Policy - Learn how we collect, use, and protect your data. We never sell personal information."
+/>
+```
+
+**Required Sections:**
+
+#### Section 1: Data We Collect
+```
+Contact Information:
+- Name and business name
+- Email address
+- Phone number
+- Mailing address
+- Payment information (processed securely via Stripe)
+
+Usage Data:
+- IP address and location data
+- Browser type and version
+- Pages visited and time spent
+- Referring website
+- Device information
+
+Cookies & Tracking:
+- We use cookies, pixels, and similar technologies to analyze site usage 
+  and improve your experience. See our Cookie Policy for details.
+```
+
+#### Section 2: How We Use Your Data
+```
+- Deliver Services: Build your website, provide support, and fulfill your orders
+- Communicate: Send project updates, respond to inquiries, and provide customer service
+- Marketing: Send promotional emails (with your consent, you may opt out anytime)
+- Analytics: Understand how visitors use our site to improve our services
+- Fraud Prevention: Protect against unauthorized transactions and abuse
+- Legal Compliance: Meet legal and regulatory requirements
+```
+
+#### Section 3: Who We Share Data With
+```
+Service Providers: GoHighLevel (CRM), Stripe (payments), Vercel (hosting), Supabase (database)
+Legal Requirements: When required by law, subpoena, or to protect our rights
+Business Transfers: In the event of a merger, acquisition, or sale of assets
+
+[Highlighted Box]
+"We never sell your personal data. Your information is not sold to advertisers, 
+data brokers, or any third parties."
+```
+
+#### Section 4: Call & SMS Recording Disclosure
+```
+Calls and text messages to or from {CompanyName} may be recorded for quality 
+assurance and training purposes. By communicating with us via phone or SMS, 
+you consent to such recording. We use AI-powered systems for some communications, 
+which will identify themselves at the start of the call.
+```
+
+#### Section 5: Data Retention
+| Data Type | Retention Period |
+|-----------|------------------|
+| Customer Data | Duration of relationship + 7 years |
+| Lead Information | 3 years from last contact |
+| Analytics Data | 26 months |
+
+#### Section 6: Your Rights (California/CCPA)
+```
+- Right to Know: Request what personal information we have collected about you
+- Right to Delete: Request deletion of your personal information
+- Right to Opt-Out: Opt out of the sale of personal information (we do not sell your data)
+- Right to Non-Discrimination: We will not discriminate against you for exercising your rights
+
+To exercise these rights, submit a request via our Data Rights Request page 
+or email privacy@{domain}.com.
+```
+
+#### Section 7: LocalPros Network Disclosure (if applicable)
+```
+[Info Box]
+This site is part of the LocalPros Network, operated by {CompanyName}. 
+Leads generated through this site may be shared with the business featured 
+on this site and {CompanyName} for service fulfillment.
+```
+
+#### Section 8: Security
+```
+We implement industry-standard security measures including encryption, 
+secure data storage, and access controls. However, no method of transmission 
+over the Internet is 100% secure, and we cannot guarantee absolute security.
+```
+
+#### Section 9: Children's Privacy
+```
+Our services are not directed to individuals under 18 years of age. 
+We do not knowingly collect personal information from children. 
+If we learn we have collected such information, we will delete it promptly.
+```
+
+#### Section 10: Changes to This Policy
+```
+We may update this Privacy Policy from time to time. We will notify you of 
+any material changes by posting the new policy on this page and updating 
+the "Last updated" date. Continued use of our services after changes 
+constitutes acceptance of the updated policy.
+```
+
+#### Section 11: Contact Us
+```
+{CompanyName}
+{Street Address}
+{City, State ZIP}
+Email: privacy@{domain}.com
+```
+
+---
+
+### 20.2 Terms of Service Content
+
+**File:** `src/pages/legal/TermsOfService.tsx`
+
+**SEO Metadata:**
+```tsx
+<SEO
+  title="Terms of Service | {CompanyName}"
+  description="{CompanyName} Terms of Service - Service agreement, payment terms, refund policy, and legal terms for web design services."
+/>
+```
+
+**Required Sections:**
+
+#### Section 1: Agreement to Terms
+```
+By accessing or using {CompanyName}'s website and services, you agree to be 
+bound by these Terms of Service and our Privacy Policy. If you do not agree 
+to these terms, do not use our services.
+
+These terms constitute a legally binding agreement between you and 
+{CompanyName} ("{CompanyName}," "we," "us," or "our").
+```
+
+#### Section 2: Services Description
+```
+{CompanyName} provides web design, development, hosting, and automation 
+services for local service businesses. Our services are offered in tiers:
+
+- Smart Site (T1): One-time website build with essential features
+- Smart Lead (T2): Website with lead capture and CRM integration
+- Smart Business (T3): Full business management suite with automation
+- Smart Growth (T4): Advanced features with AI automation and priority support
+- Smart Launch: Rush delivery option for faster project completion
+
+Each tier includes specific features as described on our pricing page at 
+the time of purchase.
+```
+
+#### Section 3: Payment Terms
+```
+- One-Time Fees: Setup fees are charged at checkout and due immediately
+- Monthly Subscriptions: Recurring fees are billed on the same day each month
+- Payment Processing: All payments are processed securely via Stripe
+- Accepted Methods: Major credit cards (Visa, Mastercard, American Express, Discover)
+- Taxes: Sales tax is calculated and collected where required by law
+```
+
+#### Section 4: Refund & Cancellation Policy
+```
+[Highlighted Box - Before Work Begins]
+A full refund is available if you cancel before receiving the 
+"Work Commencement" email notification. Once you receive this email, 
+your project is in active development and no refund is available.
+
+[Standard Box - After Work Begins]
+No refunds are available once work has commenced. You may cancel your 
+subscription at any time; service continues through the end of your 
+billing period.
+
+[Standard Box - Monthly Subscriptions]
+Cancel anytime via the customer portal or by contacting support. 
+No partial-month refunds are provided.
+
+[Small Italic Note]
+Note: California Civil Code §1723 applies to retail goods, not services. 
+Web design services are not subject to statutory cooling-off periods.
+```
+
+#### Section 5: Work Commencement Notification
+```
+Within 1-2 business days of payment, you will receive an email titled 
+"Your Project Is Starting." This email includes:
+- Reminder of our refund policy
+- Expected project timeline
+- Intake form link (if not already completed)
+- Your dedicated project contact information
+
+[Bold] This email triggers the closure of the refund window.
+```
+
+#### Section 6: Chargeback Policy
+```
+If you believe there is an error with your charge, please contact us at 
+billing@{domain}.com within 60 days. We will investigate and resolve 
+legitimate disputes promptly.
+
+[Warning Box]
+Important Notice: Filing a chargeback after receiving services, or for a 
+transaction you authorized, may be considered fraud. We maintain detailed 
+records of all transactions, communications, and service delivery. We 
+reserve the right to pursue fraudulent chargebacks through appropriate 
+legal channels and report them to credit bureaus.
+```
+
+#### Section 7: Portfolio & Marketing Rights
+```
+During checkout, you may opt-in to allow us to feature your website in 
+our portfolio with the checkbox: "You may feature my completed website 
+in your portfolio."
+
+If opted-in, we may:
+- Display screenshots of your website
+- Describe the project scope and results
+- Link to the live website in marketing materials
+
+You may request removal from our portfolio at any time after launch by 
+contacting support.
+
+[Small Italic]
+LocalPros network sites: Hosted on our platform by default; portfolio 
+rights are included in the standard agreement.
+```
+
+#### Section 8: Hosting & Service Level Agreement
+| Metric | Value |
+|--------|-------|
+| Uptime Target | 99.5% (excluding scheduled maintenance) |
+| Maintenance Window | Sundays 2-6am PT (48-hour notice provided) |
+| Support Response | Within 24 business hours |
+| Backups | Daily, retained 30 days |
+
+#### Section 9: Intellectual Property
+```
+- Design Work: Customer owns the final deliverable upon full payment
+- Templates & Code: Templates, frameworks, and code libraries remain 
+  the property of {CompanyName}
+- Customer Content: Customer represents they have rights to all content 
+  provided for the website
+```
+
+#### Section 10: Limitation of Liability
+```
+- Maximum Liability: Our total liability is limited to the amount you paid 
+  us in the 12 months prior to any claim
+- Exclusions: We are not liable for indirect, consequential, or punitive 
+  damages; lost profits; or data loss
+- Customer Responsibility: Customer is responsible for content accuracy, 
+  domain renewals (if self-managed), and third-party integrations
+```
+
+#### Section 11: Dispute Resolution
+```
+- Informal Resolution: Contact support@{domain}.com first to resolve disputes
+- Mediation: Disputes will be mediated in {County}, {State}
+- Governing Law: These terms are governed by the laws of the State of {State}
+- Small Claims: Either party may pursue claims in appropriate small claims court
+```
+
+#### Section 12: Termination
+```
+We may terminate for:
+- Non-payment (after 7-day grace period)
+- Violation of these Terms of Service
+- Abusive behavior toward our team
+
+Customer may terminate:
+- Anytime via the customer portal or by emailing support
+
+Post-termination:
+- Data retained 30 days for export, then permanently deleted
+```
+
+#### Section 13: Modifications
+```
+We may update these Terms of Service with 30-day notice via email. 
+Continued use of our services after the notice period constitutes 
+acceptance of the updated terms.
+```
+
+#### Section 14: Contact Us
+```
+{CompanyName}
+{Street Address}
+{City, State ZIP}
+Email: legal@{domain}.com
+```
+
+---
+
+### 20.3 Cookie Policy Content
+
+**File:** `src/pages/legal/CookiePolicy.tsx`
+
+**SEO Metadata:**
+```tsx
+<SEO
+  title="Cookie Policy | {CompanyName}"
+  description="{CompanyName} Cookie Policy - Learn about the cookies we use and how to manage your preferences."
+/>
+```
+
+**Required Sections:**
+
+#### Manage Preferences CTA (Top of Page)
+```
+[Highlighted Box with Button]
+Manage Your Cookie Preferences
+You can change your cookie settings at any time.
+[Cookie Settings Button - triggers triggerCookiePreferences()]
+```
+
+#### Section 1: What Are Cookies?
+```
+Cookies are small text files that are placed on your device when you 
+visit a website. They help the website remember your preferences, 
+understand how you use the site, and improve your experience.
+
+We also use similar technologies such as:
+- Pixels/Web Beacons: Tiny images that track page views and conversions
+- Local Storage: Browser storage that persists data across sessions
+- Session Storage: Temporary storage cleared when you close your browser
+```
+
+#### Section 2: Cookie Categories Table
+| Category | Purpose | Examples | Can Disable? |
+|----------|---------|----------|--------------|
+| Strictly Necessary | Essential site functionality and security | Session cookies, CSRF tokens, authentication | No |
+| Analytics | Track usage patterns to improve our site | Google Analytics, page view tracking | Yes |
+| Marketing | Advertising, retargeting, conversion tracking | Facebook Pixel, Google Ads | Yes |
+| Functional | Remember preferences, enable features | Theme preference, chat widget, cookie consent | Yes |
+
+#### Section 3: Strictly Necessary Cookies
+```
+These cookies are essential for the website to function and cannot be disabled:
+- cookie-consent: Remembers your cookie preferences
+- Session cookies: Maintain your session while browsing
+- Security tokens: Protect against cross-site request forgery (CSRF)
+```
+
+#### Section 4: Analytics Cookies
+```
+We use analytics cookies to understand how visitors interact with our 
+website. This helps us improve our content and user experience.
+
+[Info Box - Google Analytics]
+We use Google Analytics to collect anonymous usage data including pages 
+visited, time on site, and traffic sources. This data is aggregated and 
+does not identify individual visitors.
+```
+
+#### Section 5: Marketing Cookies
+```
+Marketing cookies are used to track visitors across websites for 
+advertising purposes.
+
+[Info Box - Facebook/Meta Pixel]
+Tracks conversions from Facebook ads and enables retargeting to website visitors.
+
+[Info Box - Google Ads]
+Tracks conversions from Google advertising campaigns.
+```
+
+#### Section 6: Functional Cookies
+```
+Functional cookies enable enhanced features and personalization.
+
+[Info Box - GoHighLevel Chat Widget]
+Powers our live chat and AI assistant features. Stores conversation 
+history and preferences to provide better support.
+```
+
+#### Section 7: Third-Party Cookies Table
+| Provider | Purpose | Privacy Policy |
+|----------|---------|----------------|
+| Google | Analytics, Ads | policies.google.com/privacy |
+| Meta/Facebook | Advertising, Pixel | facebook.com/privacy/policy |
+| GoHighLevel | Chat, CRM | gohighlevel.com/privacy-policy |
+
+#### Section 8: Managing Cookies
+```
+You can control and manage cookies in several ways:
+
+On Our Website:
+Use our Cookie Settings to accept or decline optional cookies.
+
+Browser Settings:
+Most browsers allow you to refuse or accept cookies. Here are links to 
+manage cookies in popular browsers:
+- Google Chrome: support.google.com/chrome/answer/95647
+- Mozilla Firefox: support.mozilla.org/en-US/kb/cookies-information-websites-store-on-your-computer
+- Safari: support.apple.com/guide/safari/manage-cookies-sfri11471/mac
+- Microsoft Edge: support.microsoft.com/en-us/microsoft-edge/delete-cookies-in-microsoft-edge
+
+[Note Box]
+Disabling certain cookies may affect website functionality. Strictly 
+necessary cookies cannot be disabled and are required for basic site operation.
+```
+
+#### Section 9: Contact Us
+```
+{CompanyName}
+Email: privacy@{domain}.com
+```
+
+---
+
+### 20.4 Data Rights Request Content
+
+**File:** `src/pages/legal/DataRightsRequest.tsx`
+
+**SEO Metadata:**
+```tsx
+<SEO
+  title="Data Rights Request | {CompanyName}"
+  description="Submit a data rights request to {CompanyName}. Exercise your CCPA rights to know, delete, or correct your personal data."
+/>
+```
+
+**Page Header:**
+```
+[Shield Icon] Data Rights Request
+
+Exercise your privacy rights under the California Consumer Privacy Act 
+(CCPA) and other applicable laws.
+```
+
+**Form Fields:**
+| Field | Type | Required | Placeholder/Options |
+|-------|------|----------|---------------------|
+| Full Name | text input | Yes | "Your full legal name" |
+| Email Address | email input | Yes | "email@example.com" |
+| Request Type | select dropdown | Yes | See options below |
+| Additional Details | textarea | No | "Provide any additional information..." |
+| Verification | checkbox | Yes | See verification text below |
+
+**Request Type Options:**
+```tsx
+const REQUEST_TYPES = [
+  { value: 'know', label: 'Know what data we have about me' },
+  { value: 'delete', label: 'Delete my personal data' },
+  { value: 'correct', label: 'Correct inaccurate data' },
+  { value: 'opt-out', label: 'Opt-out of marketing communications' },
+  { value: 'other', label: 'Other request' },
+];
+```
+
+**Verification Checkbox Text:**
+```
+I understand that {CompanyName} will need to verify my identity before 
+processing this request. I certify that the information provided is 
+accurate and that I am authorized to make this request.
+```
+
+**Sidebar Content:**
+
+Response Time Box:
+```
+Response Time
+We will respond to all verified requests within 45 days as required by 
+CCPA. Complex requests may take up to 90 days with notification.
+```
+
+Your Rights Box:
+```
+Your Rights
+• Right to Know: Learn what personal data we collect and how we use it
+• Right to Delete: Request deletion of your personal information
+• Right to Correct: Fix inaccurate personal data
+• Right to Opt-Out: Stop receiving marketing communications
+• Non-Discrimination: We will not penalize you for exercising your rights
+```
+
+Alternative Contact Box:
+```
+Prefer Email?
+You can also submit requests directly to:
+privacy@{domain}.com
+```
+
+**Success State:**
+```
+[CheckCircle Icon] Request Received
+
+Thank you for submitting your data rights request. We will verify your 
+identity and respond within 45 days as required by CCPA.
+
+A confirmation email has been sent to {submitted_email}
+```
+
+---
+
+### 20.5 Legal Page Implementation Checklist
+
+For each new site, ensure:
+
+- [ ] All legal pages use semantic design tokens (no hardcoded colors)
+- [ ] Company name, address, and emails replaced with actual values
+- [ ] `lastUpdated` date set to current date
+- [ ] All links between legal pages working (`/legal/privacy`, `/legal/cookies`, etc.)
+- [ ] Cookie Settings button properly triggers `triggerCookiePreferences()`
+- [ ] Data Rights form submits to `submit-form` edge function
+- [ ] GHL tags configured for form submissions
+- [ ] All pages included in `prerenderRoutes` array
+- [ ] Footer links map to correct routes
+- [ ] SEO component with unique title/description per page
+
+---
+
 ## Implementation Checklist for New Sites
 
 - [ ] Use `vite-react-ssg` in main.tsx
@@ -1579,3 +2184,6 @@ export const prerenderRoutes = [
 - [ ] GHL z-index set to 40 (below cookie banner at 50)
 - [ ] GHL default launcher hidden
 - [ ] GHL form submissions via edge function (not direct embed)
+- [ ] GHL secrets configured in Supabase (minimum: GHL_WIDGET_ID_SALES, GHL_API_TOKEN, GHL_LOCATION_ID)
+- [ ] All four legal pages created with correct content
+- [ ] Legal page routes added to footer links
