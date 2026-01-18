@@ -1038,6 +1038,521 @@ ssgOptions: {
 
 ---
 
+## 17. GoHighLevel (GHL) Chat Widget Integration
+
+This section documents the complete GHL chat widget integration pattern used in this project.
+
+### 17.1 Architecture Overview
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│  Layout.tsx (Global)                                                        │
+│  └─ ClientOnly                                                              │
+│      ├─ MobileBottomBar (mobile nav + chat trigger)                         │
+│      ├─ DesktopChatButton (desktop chat trigger)                            │
+│      ├─ GHLChatWidget (lifecycle controller - renders null)                 │
+│      └─ CookieConsent (must accept before GHL loads)                        │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+Key components:
+- **GHLChatWidget**: Controller component (no DOM output) that manages widget lifecycle
+- **DesktopChatButton**: Fixed bottom-right button for desktop (hidden on mobile)
+- **MobileBottomBar**: Fixed bottom navigation bar for mobile with chat button
+- **ghlLoader.ts**: Utility module for script injection, API detection, and styling fixes
+
+### 17.2 Component Hierarchy
+
+```tsx
+// Layout.tsx - GHL components wrapped in ClientOnly for SSG safety
+export function Layout({ children }: LayoutProps) {
+  return (
+    <div className="flex min-h-screen flex-col">
+      <Header />
+      <main className="flex-1 pb-16 md:pb-0">{children}</main>
+      <Footer />
+      
+      {/* Browser-dependent components - prevents hydration mismatches */}
+      <ClientOnly>
+        <MobileBottomBar />
+        <DesktopChatButton />
+        <GHLChatWidget />
+        <CookieConsent />
+      </ClientOnly>
+    </div>
+  );
+}
+```
+
+### 17.3 Cookie Consent Gating
+
+GHL widget only loads after user accepts cookies:
+
+```tsx
+// GHLChatWidget.tsx
+const CONSENT_KEY = 'cookie-consent';
+
+export function GHLChatWidget(): null {
+  const [hasConsent, setHasConsent] = useState(false);
+
+  // Check consent on mount and listen for changes
+  useEffect(() => {
+    const checkConsent = () => setHasConsent(!!localStorage.getItem(CONSENT_KEY));
+    checkConsent();
+    window.addEventListener('cookie-consent-changed', checkConsent);
+    window.addEventListener('storage', checkConsent);
+    return () => {
+      window.removeEventListener('cookie-consent-changed', checkConsent);
+      window.removeEventListener('storage', checkConsent);
+    };
+  }, []);
+
+  // Only preload widget when consent granted
+  useEffect(() => {
+    if (!hasConsent) return;
+    // ... load widget
+  }, [hasConsent]);
+
+  return null;
+}
+```
+
+### 17.4 GHL Loader Utility (ghlLoader.ts)
+
+Core functions:
+
+```tsx
+// Script source and configuration
+const LOADER_SRC = 'https://beta.leadconnectorhq.com/chat-widget/loader.js';
+
+// Browser detection (critical for SSG)
+export function isBrowser(): boolean {
+  return typeof window !== 'undefined' && typeof document !== 'undefined';
+}
+
+// Load widget and wait for API
+export async function ensureGHLWidget(timeout = 12000): Promise<void> {
+  if (!isBrowser()) return;  // SSG safety
+  await ensureLoaderScript();
+  await waitForAPI(timeout);
+}
+
+// Hide default launcher (we use custom buttons)
+export function hideLauncher(): void {
+  if (!isBrowser()) return;
+  const widget = document.querySelector('chat-widget') as HTMLElement & { shadowRoot: ShadowRoot | null };
+  if (widget?.shadowRoot) {
+    const launcher = widget.shadowRoot.querySelector('button.lc_text-widget--bubble');
+    if (launcher instanceof HTMLElement) {
+      launcher.style.cssText =
+        'display:none !important; visibility:hidden !important; pointer-events:none !important; width:0 !important; height:0 !important;';
+    }
+  }
+}
+
+// Open chat via available API
+export function openViaAnyAPI(): boolean {
+  if (window.leadConnector?.open) {
+    window.leadConnector.open();
+    return true;
+  }
+  if (window.leadConnector?.chatWidget?.openWidget) {
+    window.leadConnector.chatWidget.openWidget();
+    return true;
+  }
+  if (window.LC_API?.open_chat_window) {
+    window.LC_API.open_chat_window();
+    return true;
+  }
+  return false;
+}
+
+// Close chat via available API
+export function closeViaAnyAPI(): boolean {
+  if (window.leadConnector?.close) {
+    window.leadConnector.close();
+    return true;
+  }
+  if (window.leadConnector?.chatWidget?.closeWidget) {
+    window.leadConnector.chatWidget.closeWidget();
+    return true;
+  }
+  if (window.LC_API?.close_chat_window) {
+    window.LC_API.close_chat_window();
+    return true;
+  }
+  return false;
+}
+```
+
+### 17.5 Global Toggle Functions
+
+GHLChatWidget exposes global functions for custom triggers:
+
+```tsx
+// GHLChatWidget.tsx - Setup global functions
+useEffect(() => {
+  window.toggleGHLChat = () => {
+    openViaAnyAPI();
+    applyGHLComposerFixRetries(); // Apply fixes after open
+  };
+
+  window.closeGHLChat = () => {
+    closeViaAnyAPI();
+  };
+
+  return () => {
+    delete window.toggleGHLChat;
+    delete window.closeGHLChat;
+  };
+}, []);
+
+// TypeScript declaration
+declare global {
+  interface Window {
+    toggleGHLChat?: () => void;
+    closeGHLChat?: () => void;
+  }
+}
+```
+
+### 17.6 Desktop Chat Button Styling
+
+The desktop button has specific styling and text:
+
+```tsx
+// DesktopChatButton.tsx
+<button
+  onClick={handleClick}
+  onMouseEnter={() => setIsHovered(true)}
+  onMouseLeave={() => setIsHovered(false)}
+  className="hidden md:flex fixed right-6 z-40 items-center gap-3 px-5 py-3 
+             bg-primary/95 backdrop-blur-sm border border-accent/30 rounded-lg 
+             shadow-lg transition-all duration-300 ease-out 
+             hover:bg-primary hover:border-accent hover:shadow-xl hover:shadow-accent/20 group"
+  style={{ bottom: isVisible ? '24px' : '-80px' }}
+  aria-label="Chat with our AI assistant"
+>
+  <Sparkles 
+    className="text-accent transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12"
+    size={18}
+    strokeWidth={2}
+  />
+  <span className="text-primary-foreground font-medium text-sm tracking-wide whitespace-nowrap">
+    {isHovered ? 'Chat with us' : 'Need help?'}
+  </span>
+  <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+</button>
+```
+
+**Desktop Button Behavior:**
+- **Position**: Fixed, bottom-right corner (`right-6`, `bottom: 24px`)
+- **Visibility**: Hidden until consent granted, animates up from below
+- **Text**: "Need help?" (default) → "Chat with us" (on hover)
+- **Icon**: Sparkles icon from lucide-react (rotates and scales on hover)
+- **Indicator**: Pulsing green dot indicating live chat
+- **Responsive**: `hidden md:flex` - only visible on desktop (≥768px)
+
+### 17.7 Mobile Chat Button (MobileBottomBar)
+
+```tsx
+// MobileBottomBar.tsx - Chat button in mobile nav
+<button
+  onClick={handleChatClick}
+  className="flex flex-col items-center justify-center flex-1 py-2 text-primary-foreground/70 
+             hover:text-primary-foreground transition-colors"
+  aria-label="Start chat"
+>
+  <MessageCircle size={22} />
+  <span className="text-xs mt-1 font-medium">Chat</span>
+</button>
+```
+
+**Mobile Button Behavior:**
+- **Position**: Part of fixed bottom navigation bar (`bottom: 0`)
+- **Text**: "Chat" with MessageCircle icon above
+- **Integration**: Calls `window.toggleGHLChat()` on click
+
+### 17.8 Z-Index Hierarchy (Critical)
+
+```css
+/* index.css - GHL widget z-index */
+#chat-widget,
+.chat-widget,
+[class*="chat-widget"],
+.leadconnector-chat {
+  z-index: 40 !important;
+}
+```
+
+**Z-Index Stack (bottom to top):**
+1. Content: default
+2. GHL Chat Widget: `z-index: 40`
+3. Desktop/Mobile Chat Buttons: `z-index: 40` (same level as widget)
+4. Cookie Consent Banner: `z-index: 50` (overlays everything)
+
+This ensures:
+- Chat widget doesn't cover cookie banner
+- Custom trigger buttons appear at same level as widget
+- Cookie consent is always accessible
+
+### 17.9 Shadow DOM Styling Fixes
+
+GHL uses nested shadow DOM. The composer fix injects CSS into the innermost shadow root:
+
+```tsx
+// ghlLoader.ts - Composer styling fixes
+export function injectGHLComposerFix(): boolean {
+  const root3 = getComposerShadowRoot(); // Navigate 3 levels of shadow DOM
+  if (!root3) return false;
+
+  const style = document.createElement('style');
+  style.id = 'ei-ghl-composer-fix';
+  style.textContent = `
+    /* Textarea: visible caret, focus state */
+    textarea.native-textarea.sc-ion-textarea-ios {
+      background: ${colors.textareaBg} !important;
+      color: ${colors.textareaText} !important;
+      caret-color: ${colors.textareaText} !important;
+      -webkit-text-fill-color: ${colors.textareaText} !important;
+      border: 1px solid ${colors.textareaBorder} !important;
+      border-radius: 12px !important;
+      padding: 10px 12px !important;
+    }
+
+    textarea.native-textarea.sc-ion-textarea-ios:focus {
+      border-color: ${colors.textareaFocusBorder} !important;
+      box-shadow: 0 0 0 3px ${colors.textareaFocusGlow} !important;
+    }
+
+    /* Send button: visible background (was transparent) */
+    button.live-chat-send-button {
+      background-color: ${colors.sendButtonBg} !important;
+      border: 1px solid ${colors.sendButtonBorder} !important;
+      width: 50px !important;
+      height: 50px !important;
+      border-radius: 25px !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+
+    button.live-chat-send-button svg {
+      stroke: ${colors.sendButtonIcon} !important;
+      fill: none !important;
+      opacity: 1 !important;
+    }
+  `;
+  root3.appendChild(style);
+  return true;
+}
+```
+
+**What these fixes solve:**
+- Invisible text caret in textarea
+- Transparent send button (not visible against background)
+- Missing focus indicators
+- Theme-aware colors from CSS custom properties
+
+### 17.10 Multi-Widget Routing (Edge Function)
+
+Widget ID is determined by route via Supabase edge function:
+
+```tsx
+// supabase/functions/ghl-config/index.ts
+const ROUTE_WIDGET_MAP: Array<{ prefix: string; envKey: string }> = [
+  { prefix: '/localpros', envKey: 'GHL_WIDGET_ID_LOCALPROS' },
+  { prefix: '/support', envKey: 'GHL_WIDGET_ID_SUPPORT' },
+  { prefix: '/help', envKey: 'GHL_WIDGET_ID_SUPPORT' },
+  { prefix: '/demo', envKey: 'GHL_WIDGET_ID_DEMO' },
+];
+
+function getWidgetIdForRoute(pathname: string): string {
+  for (const { prefix, envKey } of ROUTE_WIDGET_MAP) {
+    if (pathname.startsWith(prefix)) {
+      const widgetId = Deno.env.get(envKey);
+      if (widgetId) return widgetId;
+    }
+  }
+  // Default to sales widget
+  return Deno.env.get('GHL_WIDGET_ID_SALES') || '';
+}
+```
+
+**Required Supabase Secrets:**
+- `GHL_WIDGET_ID_SALES` (default/fallback)
+- `GHL_WIDGET_ID_SUPPORT` (optional)
+- `GHL_WIDGET_ID_LOCALPROS` (optional)
+- `GHL_WIDGET_ID_DEMO` (optional)
+
+### 17.11 GHL Integration Checklist
+
+- [ ] `GHLChatWidget` wrapped in `ClientOnly` in Layout
+- [ ] `DesktopChatButton` wrapped in `ClientOnly` in Layout
+- [ ] `MobileBottomBar` wrapped in `ClientOnly` in Layout
+- [ ] Cookie consent check before widget load
+- [ ] Global `window.toggleGHLChat()` function available
+- [ ] Z-index set to 40 in index.css (below cookie banner)
+- [ ] Default launcher hidden via shadow DOM manipulation
+- [ ] Composer styling fixes applied via `injectGHLComposerFix()`
+- [ ] Edge function `ghl-config` deployed for widget ID routing
+- [ ] Required secrets configured in Supabase
+
+### 17.12 Limitations & Fallbacks
+
+**What GHL integration does NOT do:**
+- Does not communicate with GHL API directly from frontend
+- Does not store chat transcripts locally
+- Does not work without cookie consent
+
+**Hard Dependencies:**
+- Cookie consent must be granted for widget to load
+- GHL `loader.js` must be accessible from CDN
+- Widget ID must be configured in Supabase secrets
+
+**Fallback Behavior:**
+- If GHL scripts fail: Chat buttons render but clicking does nothing
+- If consent denied: Chat buttons don't render at all
+- If edge function fails: Uses empty widget ID (widget won't load)
+- Core site functionality remains unaffected in all failure scenarios
+
+---
+
+## 18. GHL Form Integration (Data Rights Request)
+
+### 18.1 Form Architecture
+
+The Data Rights Request page uses a custom React form that syncs to GHL via Supabase edge function:
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│  User submits form on /legal/data-request                                   │
+│  ↓                                                                          │
+│  React form handler (handleSubmit)                                          │
+│  ↓                                                                          │
+│  supabase.functions.invoke('submit-form', { body: formData })               │
+│  ↓                                                                          │
+│  Edge function: saves to DB + calls ghlClient.upsertContact()               │
+│  ↓                                                                          │
+│  GHL contact created/updated with tags                                       │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 18.2 Form Implementation
+
+```tsx
+// pages/legal/DataRightsRequest.tsx
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  
+  // Validate required fields
+  if (!formData.name || !formData.email || !formData.requestType) {
+    toast({ title: 'Missing required fields', variant: 'destructive' });
+    return;
+  }
+
+  setIsSubmitting(true);
+
+  try {
+    const { data, error } = await supabase.functions.invoke('submit-form', {
+      body: {
+        form_type: 'data_rights_request',
+        name: formData.name,
+        email: formData.email,
+        message: `Request Type: ${requestTypeLabel}\n\nDetails: ${formData.details}`,
+        tcpa_consent: false,
+        source_page: '/legal/data-request',
+      },
+    });
+
+    if (error) throw error;
+    setIsSubmitted(true);
+  } catch (error) {
+    toast({ title: 'Submission failed', variant: 'destructive' });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+```
+
+**Key Points:**
+- **Form Type**: Custom React form (NOT GHL embed)
+- **Submission**: JavaScript interception via `handleSubmit`
+- **Data Flow**: Frontend → Edge Function → Supabase DB + GHL API
+- **No `data-ghl-form` attribute** - GHL integration is backend-only
+
+### 18.3 Field Mapping
+
+| React Field | Edge Function Field | GHL Field |
+|-------------|---------------------|-----------|
+| `formData.name` | `name` | `firstName` / `lastName` |
+| `formData.email` | `email` | `email` |
+| `formData.requestType` | `message` (concatenated) | Custom field |
+| `formData.details` | `message` (concatenated) | Custom field |
+
+### 18.4 GHL Workflow Assumptions
+
+The edge function applies tags to identify submissions:
+
+```tsx
+// supabase/functions/_shared/ghlClient.ts
+// Tag applied: 'DSAR: Data Rights Request'
+```
+
+**Expected GHL Configuration:**
+- Workflow triggers on tag `DSAR: Data Rights Request`
+- Automation notifies compliance team
+- SLA tracking for 45-day response requirement
+
+---
+
+## 19. Legal Page Routing
+
+### 19.1 Route Configuration
+
+```tsx
+// routes.tsx - Legal routes under Layout
+{
+  path: '/',
+  Component: RootLayout,
+  children: [
+    // ... other routes
+    { path: 'legal/privacy', Component: PrivacyPolicy },
+    { path: 'legal/terms', Component: TermsOfService },
+    { path: 'legal/cookies', Component: CookiePolicy },
+    { path: 'legal/data-request', Component: DataRightsRequest },
+  ],
+}
+```
+
+### 19.2 Footer Links
+
+```tsx
+// components/layout/Footer.tsx
+const legalLinks = [
+  { title: 'Privacy', path: '/legal/privacy' },
+  { title: 'Cookies', path: '/legal/cookies' },
+  { title: 'Terms', path: '/legal/terms' },
+  { title: 'Data Rights', path: '/legal/data-request' },
+];
+```
+
+### 19.3 SSG Pre-rendering
+
+Legal pages are included in SSG pre-render:
+
+```tsx
+// vite.config.ts or routes.tsx prerenderRoutes
+export const prerenderRoutes = [
+  // ... other routes
+  '/legal/privacy',
+  '/legal/terms', 
+  '/legal/cookies',
+  '/legal/data-request',
+];
+```
+
+---
+
 ## Implementation Checklist for New Sites
 
 - [ ] Use `vite-react-ssg` in main.tsx
@@ -1060,3 +1575,7 @@ ssgOptions: {
 - [ ] AdminGuard with proper loading states
 - [ ] Password reset with URL hash token processing
 - [ ] SSG-safe Supabase client configuration
+- [ ] GHL widget wrapped in ClientOnly
+- [ ] GHL z-index set to 40 (below cookie banner at 50)
+- [ ] GHL default launcher hidden
+- [ ] GHL form submissions via edge function (not direct embed)
