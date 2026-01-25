@@ -293,9 +293,6 @@ const legalPaths = ['/legal/privacy', '/legal/cookies', '/legal/terms', '/legal/
 // Help and support pages
 const resourcePaths = ['/help', '/faq', '/support'];
 
-// LocalPros partner network pages
-const localProsPaths = ['/localpros', '/localpros/apply', '/localpros/success-stories'];
-
 // Upgrade page for existing customers
 const upgradePath = '/upgrade';
 
@@ -331,7 +328,6 @@ export const prerenderRoutes: string[] = [
   ...checkoutPaths,
   ...legalPaths,
   ...resourcePaths,
-  ...localProsPaths,
   upgradePath,
 ];
 
@@ -420,8 +416,6 @@ export const routes: RouteRecord[] = [
       { path: 'legal/data-request', Component: DataRightsRequest },
       // Resources
       ...resourcePaths.map(createPlaceholderChild),
-      // LocalPros
-      ...localProsPaths.map(createPlaceholderChild),
       // Upgrade
       createPlaceholderChild(upgradePath),
       // Catch-all 404

@@ -193,14 +193,14 @@ export default function PrivacyPolicy() {
                 </p>
               </div>
 
-              {/* Section 7: LocalPros Network */}
+              {/* Section 7: Data Sharing Disclosure */}
               <div className="space-y-4">
                 <h2 className="text-2xl font-display font-bold text-foreground border-b border-border pb-2">
-                  7. LocalPros Network Disclosure
+                  7. Data Sharing Disclosure
                 </h2>
                 <div className="bg-muted rounded-lg p-4 border border-border">
                   <p className="text-muted-foreground">
-                    This site is part of the LocalPros Network, operated by EverIntent LLC. Leads generated through this site may be shared with the business featured on this site and EverIntent for service fulfillment.
+                    Information you submit through our website may be shared with EverIntent LLC service partners solely for the purpose of fulfilling your service requests. We do not sell your data to third parties.
                   </p>
                 </div>
               </div>

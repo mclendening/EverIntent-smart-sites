@@ -2,7 +2,7 @@
  * @fileoverview Admin Submissions Management Page
  * @module pages/admin/Submissions
  * @description CRUD interface for managing form submissions including
- * contact forms, LocalPros applications, and DSAR data rights requests.
+ * contact forms and DSAR data rights requests.
  */
 
 import { useState, useEffect } from 'react';
@@ -71,7 +71,6 @@ interface FormSubmission {
  */
 const FORM_TYPE_LABELS: Record<string, string> = {
   contact: 'Contact Form',
-  localpros_apply: 'LocalPros Application',
   data_rights_request: 'DSAR Request',
 };
 
@@ -217,12 +216,6 @@ export default function AdminSubmissions() {
                 Review and process these promptly to maintain compliance.
               </p>
             )}
-            {filterType === 'localpros_apply' && (
-              <p className="text-sm text-blue-600 dark:text-blue-400 border-l-2 border-blue-500 pl-3 mt-2">
-                <strong>LocalPros Applications:</strong> Partner applications from contractors seeking to join the network. 
-                Review qualifications and sync to GHL for pipeline management.
-              </p>
-            )}
             {filterType === 'contact' && (
               <p className="text-sm text-green-600 dark:text-green-400 border-l-2 border-green-500 pl-3 mt-2">
                 <strong>Contact Forms:</strong> General inquiries from the website contact form. 
@@ -241,7 +234,6 @@ export default function AdminSubmissions() {
             <SelectContent>
               <SelectItem value="all">All Submissions</SelectItem>
               <SelectItem value="contact">Contact Forms</SelectItem>
-              <SelectItem value="localpros_apply">LocalPros Applications</SelectItem>
               <SelectItem value="data_rights_request">DSAR Requests</SelectItem>
             </SelectContent>
           </Select>

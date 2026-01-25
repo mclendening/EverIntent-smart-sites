@@ -256,16 +256,6 @@ export const resourceRoutes: RouteConfig[] = [
 ];
 
 /**
- * LocalPros partner network pages.
- * Lead generation network for verified local service providers.
- */
-export const localProsRoutes: RouteConfig[] = [
-  { path: '/localpros', title: 'LocalPros Network', description: 'Get exclusive leads from our ranking sites' },
-  { path: '/localpros/apply', title: 'Apply to LocalPros', description: 'Apply to become a LocalPros partner' },
-  { path: '/localpros/success-stories', title: 'LocalPros Success Stories', description: 'See how partners grow with LocalPros' },
-];
-
-/**
  * Upgrade page for existing customers.
  */
 export const upgradeRoute: RouteConfig = {
@@ -312,7 +302,6 @@ export const prerenderRoutes: string[] = [
   ...checkoutRoutes.map(r => r.path),
   ...legalRoutes.map(r => r.path),
   ...resourceRoutes.map(r => r.path),
-  ...localProsRoutes.map(r => r.path),
   upgradeRoute.path,
 ];
 
@@ -333,7 +322,6 @@ export const allRoutes: RouteConfig[] = [
   ...checkoutRoutes,
   ...legalRoutes,
   ...resourceRoutes,
-  ...localProsRoutes,
   upgradeRoute,
   ...adminRoutes,
 ];

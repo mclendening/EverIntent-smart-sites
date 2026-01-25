@@ -54,7 +54,6 @@ const ROUTE_WIDGET_MAP: Array<{ prefix: string; envKey: string }> = [
   { prefix: '/support', envKey: 'GHL_WIDGET_ID_SUPPORT' },
   { prefix: '/help', envKey: 'GHL_WIDGET_ID_SUPPORT' },
   { prefix: '/demo', envKey: 'GHL_WIDGET_ID_DEMO' },
-  // { prefix: '/partner', envKey: 'GHL_WIDGET_ID_LOCALPROS' }, // Uncomment when LocalPros pages exist
 ];
 
 /**

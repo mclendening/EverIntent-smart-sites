@@ -185,9 +185,6 @@ export default function TermsOfService() {
                 <p className="text-muted-foreground">
                   You may request removal from our portfolio at any time after launch by contacting support.
                 </p>
-                <p className="text-muted-foreground text-sm italic">
-                  LocalPros network sites: Hosted on our platform by default; portfolio rights are included in the standard agreement.
-                </p>
               </div>
 
               {/* Section 8: Hosting SLA */}
@@ -196,7 +193,7 @@ export default function TermsOfService() {
                   8. Hosting & Service Level Agreement
                 </h2>
                 <p className="text-muted-foreground">
-                  For subscription customers (T2-T4) and LocalPros sites, we provide:
+                  For subscription customers (T2-T4), we provide:
                 </p>
                 
                 <div className="overflow-x-auto">
