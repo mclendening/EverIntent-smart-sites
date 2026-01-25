@@ -46,6 +46,11 @@ import HomeServices from './pages/industries/HomeServices';
 import ProfessionalServices from './pages/industries/ProfessionalServices';
 import HealthWellness from './pages/industries/HealthWellness';
 import Automotive from './pages/industries/Automotive';
+// Premium industry showcase pages
+import HomeServicesShowcase from './pages/industries/HomeServicesShowcase';
+import ProfessionalShowcase from './pages/industries/ProfessionalShowcase';
+import HealthWellnessShowcase from './pages/industries/HealthWellnessShowcase';
+import AutomotiveShowcase from './pages/industries/AutomotiveShowcase';
 import AdminLogin from './pages/admin/Login';
 import AdminResetPassword from './pages/admin/ResetPassword';
 import AdminDashboard from './pages/admin/Dashboard';
@@ -195,6 +200,14 @@ const industryHubPaths = [
   '/industries/automotive-services',
 ];
 
+// Premium industry showcase pages
+const industryShowcasePaths = [
+  '/industries/home-services/showcase',
+  '/industries/professional-services/showcase',
+  '/industries/health-wellness/showcase',
+  '/industries/automotive-services/showcase',
+];
+
 // Home Services industry verticals (31)
 const homeServicesPaths = [
   '/industries/home-services/hvac',
@@ -327,6 +340,7 @@ export const prerenderRoutes: string[] = [
   ...featurePaths,
   '/industries', // Industries landing page
   ...industryHubPaths,
+  ...industryShowcasePaths, // Premium showcase pages
   ...homeServicesPaths,
   ...professionalServicesPaths,
   ...healthWellnessPaths,
@@ -426,6 +440,23 @@ export const routes: RouteRecord[] = [
       {
         path: 'industries/automotive-services',
         Component: Automotive,
+      },
+      // Premium industry showcase pages
+      {
+        path: 'industries/home-services/showcase',
+        Component: HomeServicesShowcase,
+      },
+      {
+        path: 'industries/professional-services/showcase',
+        Component: ProfessionalShowcase,
+      },
+      {
+        path: 'industries/health-wellness/showcase',
+        Component: HealthWellnessShowcase,
+      },
+      {
+        path: 'industries/automotive-services/showcase',
+        Component: AutomotiveShowcase,
       },
       // Industry verticals (placeholder for now)
       ...homeServicesPaths.map(createPlaceholderChild),
