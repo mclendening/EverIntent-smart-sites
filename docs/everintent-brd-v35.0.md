@@ -5,13 +5,13 @@
 **Status:** BUILD-READY
 **Owner:** EverIntent LLC  
 **Tagline:** Web Design AI & Automation
-**GitHub Path:** /docs/BRD/EverIntent-BRD-v35.md
+**GitHub Path:** /docs/everintent-brd-v35.0.md
 
 ---
 
 ## Document Purpose
 
-This is the **single source of truth** for EverIntent.com (currently staging at EverIntentSmartSites.com). It governs:
+This is the **single source of truth** for EverIntent.com. It governs:
 
 1. What customers buy (T1-T4 tiers, pricing, features)
 2. What customers experience (UX flows from ad to purchase to delivery to billing)
@@ -281,9 +281,9 @@ Essential services with strong repeat potential.
 ### Core Revenue Principles
 
 1. **Revenue at Every Step** - Nothing is free unless it strategically leads to bigger revenue. The sales process itself should make money.
-2. **Asset Ownership** - We own domains, phone numbers, rankings, traffic. Partners and customers come and go. Assets stay. This is the moat.
+2. **Asset Ownership** - We own domains, phone numbers, rankings, traffic. Customers come and go. Assets stay. This is the moat.
 3. **One Tech Stack, Multiple Revenue Paths** - Same WordPress build. Same GHL automations. Different monetization based on the relationship.
-4. **Relationship → Trust → MRR** - Every LocalPros interaction builds toward SmartSites conversion. The goal is always recurring revenue.
+4. **Relationship → Trust → MRR** - Every interaction builds toward recurring revenue. The goal is always MRR.
 
 ### Revenue Streams (v35.1)
 
@@ -509,8 +509,6 @@ When `donut_id` is populated, GHL workflow triggers:
 3. Call scheduling CTA
 
 ### 5.11 MVP Canonical Scope (v35.1)
-
-### 5.10 MVP Canonical Scope (v35.0)
 
 #### MVP Inputs (Channels)
 
@@ -768,7 +766,7 @@ Step 1: Pre-Checkout Form
 │ ○ No, I need help getting one       │
 │                                     │
 │ □ I consent to receive SMS/calls    │
-│   from EverIntent SmartSites...     │
+│   from EverIntent...                │
 │                                     │
 │ [Continue to Payment]               │
 └─────────────────────────────────────┘
@@ -843,7 +841,7 @@ GHL Webhook Fires
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                    MARKETING SITE (Vite + React / Vercel Pro)           │
-│                    EverIntentSmartSites.com                             │
+│                    everintent.com                                       │
 │                                                                         │
 │   - Pre-rendered pages, pricing display                                 │
 │   - Pre-checkout form → Supabase                                        │
@@ -855,7 +853,7 @@ GHL Webhook Fires
 │                      GHL SaaS MODE CHECKOUT                             │
 │                      (Hosted by GoHighLevel)                            │
 │                                                                         │
-│   URL: https://checkout.smartsites.everintent.com/[tier-slug]           │
+│   URL: https://go.everintent.com/[tier-slug]                            │
 │                                                                         │
 │   - Stripe connected in GHL                                             │
 │   - Handles subscription billing                                        │
@@ -913,11 +911,12 @@ GHL Webhook Fires
 | Smart Business (T3) | $197 | Monthly |
 | Smart Growth (T4) | $497 | Monthly |
 | T1 Annual Renewal | $149 | Yearly (after Y1) |
-| AI Employee - After Hours | $149 | Monthly |
-| AI Employee - After Hours + Booking | $197 | Monthly |
-| AI Employee - Missed Call Recovery | $149 | Monthly |
-| AI Employee - Front Line Screening | $297 | Monthly |
-| AI Employee - Setup Fee | $1,497 | One-time |
+| AI Employee - M1/M2/M3 (After Hours, +Booking, Missed Call) | $497 | Monthly |
+| AI Employee - M4 (Front Line Screening) | $547 | Monthly |
+| AI Employee - M5 (Full AI Employee) | $597 | Monthly |
+| AI Employee - Setup Fee (M1-M3) | $997 | One-time |
+| AI Employee - Setup Fee (M4) | $1,497 | One-time |
+| AI Employee - Setup Fee (M5) | $2,500 | One-time |
 | Web Chat Only | $79 | Monthly |
 | Web Chat Only - Setup Fee | $497 | One-time |
 
@@ -942,30 +941,28 @@ GHL Webhook Fires
 **Agency Settings:**
 - SaaS Mode: Enabled
 - Stripe: Connected
-- White-label: app.everintentsmartsites.com
+- White-label: app.everintent.com
 
 ### GHL Account Structure
 
 ```
-GHL Master Account (LocalPros)
-├── All LocalPros phone numbers
-├── All LocalPros lead forms
-├── AI voice bot (answers all calls)
-├── Lead distribution automation
-│   └── Partner gets SMS + email when lead comes in
-├── Pipeline: LocalPros Leads
+GHL Master Account (EverIntent)
+├── AI Employee infrastructure
+│   ├── Voice AI Agent templates
+│   ├── Conversation AI (global)
+│   └── Control Workflows
+├── Pipeline: AI Employee Leads
 │   ├── New Lead
-│   ├── Sent to Partner
-│   ├── Accepted
-│   ├── Declined → Route to backup
-│   └── Converted (partner closed the job)
-└── Pipeline: LocalPros Partners
-    ├── Prospect
-    ├── Active (buying leads)
-    ├── Upsell Candidate
-    └── Converted to SmartSites
+│   ├── Demo Scheduled
+│   ├── Checkout Started
+│   └── Setup Complete
+└── Pipeline: Smart Websites
+    ├── Checkout Started
+    ├── Intake Complete
+    ├── Build In Progress
+    └── Live
 
-GHL Sub-Account (per SmartSites customer)
+GHL Sub-Account (per customer)
 ├── Their phone number
 ├── Their forms
 ├── Their automations (based on tier snapshot)
@@ -973,24 +970,14 @@ GHL Sub-Account (per SmartSites customer)
 └── Their pipeline
 ```
 
-### LocalPros → SmartSites Conversion Options
-
-When LocalPros partner converts to SmartSites:
-
-| Option | What Happens | Asset Outcome |
-|--------|--------------|---------------|
-| **Option A: New Site** | Build NEW WordPress site, NEW GHL sub-account | LocalPros site stays LocalPros (new partner or bank leads) |
-| **Option B: Site Transfer** | LocalPros site becomes their site, domain transfers/rebrands | Leads go to their sub-account, lose LocalPros asset, gain MRR |
-| **Option C: Rent-to-Own** | They "rent" LocalPros site ($297-$497/mo), option to buy after 12 months | Sub-account tied to site, monthly revenue now, potential sale later |
-
 ### Plans Configuration
 
 | Plan | Price | Snapshot | Trial |
 |------|-------|----------|-------|
-| ss-t1-smart-site | $249 one-time | ss-t1-snapshot | None |
-| ss-t2-smart-lead | $97/mo | ss-t2-snapshot | None |
-| ss-t3-smart-business | $197/mo | ss-t3-snapshot | None |
-| ss-t4-smart-growth | $497/mo | ss-t4-snapshot | None |
+| ei-t1-smart-site | $249 one-time | ei-t1-snapshot | None |
+| ei-t2-smart-lead | $97/mo | ei-t2-snapshot | None |
+| ei-t3-smart-business | $197/mo | ei-t3-snapshot | None |
+| ei-t4-smart-growth | $497/mo | ei-t4-snapshot | None |
 
 ### Welcome Email Template
 
@@ -1044,17 +1031,20 @@ Tags are **not** user-editable in admin; they are code-managed for consistency.
 
 | Tag | Constant | Applied When |
 |-----|----------|--------------|
-| `SS: Checkout Started - T1` | `GHL_TAGS.CHECKOUT_T1` | User starts T1 checkout |
-| `SS: Checkout Started - T2` | `GHL_TAGS.CHECKOUT_T2` | User starts T2 checkout |
-| `SS: Checkout Started - T3` | `GHL_TAGS.CHECKOUT_T3` | User starts T3 checkout |
-| `SS: Checkout Started - T4` | `GHL_TAGS.CHECKOUT_T4` | User starts T4 checkout |
-| `LP: Partner Apply` | `GHL_TAGS.LOCALPROS_APPLY` | LocalPros partner application |
+| `EI: Checkout - Smart Site` | `GHL_TAGS.CHECKOUT_T1` | User starts T1 checkout |
+| `EI: Checkout - Smart Lead` | `GHL_TAGS.CHECKOUT_T2` | User starts T2 checkout |
+| `EI: Checkout - Smart Business` | `GHL_TAGS.CHECKOUT_T3` | User starts T3 checkout |
+| `EI: Checkout - Smart Growth` | `GHL_TAGS.CHECKOUT_T4` | User starts T4 checkout |
+| `EI: Checkout - Web Chat Only` | `GHL_TAGS.CHECKOUT_WEB_CHAT` | User starts Web Chat Only checkout |
+| `EI: Checkout - Warmy Booster` | `GHL_TAGS.CHECKOUT_WARMY` | User starts Warmy Booster checkout |
 | `Careers: Application` | `GHL_TAGS.CAREERS_APPLICATION` | Job application submitted |
-| `SS: Contact Form` | `GHL_TAGS.CONTACT_FORM` | Contact form submission |
+| `EI: Contact Form` | `GHL_TAGS.CONTACT_FORM` | Contact form submission |
 | `DSAR: Data Rights Request` | `GHL_TAGS.DATA_RIGHTS_REQUEST` | CCPA data rights request (45-day SLA) |
-| `EI: AI - Missed Call Recovery` | `GHL_TAGS.AI_MISSED_CALL` | AI Employee mode purchased |
-| `EI: AI - After Hours` | `GHL_TAGS.AI_AFTER_HOURS` | AI Employee mode purchased |
-| `EI: AI - Front Line Screening` | `GHL_TAGS.AI_FRONT_LINE` | AI Employee mode purchased |
+| `EI: AI - Missed Call Recovery` | `GHL_TAGS.AI_MISSED_CALL` | AI Employee M3 purchased |
+| `EI: AI - After Hours` | `GHL_TAGS.AI_AFTER_HOURS` | AI Employee M1 purchased |
+| `EI: AI - After Hours + Booking` | `GHL_TAGS.AI_AFTER_HOURS_BOOKING` | AI Employee M2 purchased |
+| `EI: AI - Front Line Screening` | `GHL_TAGS.AI_FRONT_LINE` | AI Employee M4 purchased |
+| `EI: AI - Full Employee` | `GHL_TAGS.AI_FULL_EMPLOYEE` | AI Employee M5 purchased |
 | `EI: Setup Complete` | `GHL_TAGS.SETUP_COMPLETE` | AI Employee setup finished |
 
 **Tag Naming Convention:** `{Category}: {Action/Status}`
@@ -1069,7 +1059,7 @@ Tags are **not** user-editable in admin; they are code-managed for consistency.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ [Logo] SmartSites              {user name} ▼                │
+│ [Logo] EverIntent               {user name} ▼                │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │  DASHBOARD                                                  │
@@ -1114,7 +1104,7 @@ Full GHL dashboard with features enabled per tier snapshot.
 
 ### GA4 Setup Per Customer
 
-1. Create GA4 property: "{Business Name} - SmartSites"
+1. Create GA4 property: "{Business Name} - EverIntent"
 2. Add data stream (web)
 3. Install tag via Google Tag Manager
 4. Configure basic events (page_view, form_submit, click)
@@ -1246,11 +1236,6 @@ export const routes = {
     success: '/checkout/success',
   },
 
-  // LocalPros (pre-rendered)
-  localpros: {
-    index: '/localpros',
-    apply: '/localpros/apply',
-  },
 
   // Upgrade (pre-rendered)
   upgrade: '/upgrade',
@@ -1320,11 +1305,6 @@ export const prerenderRoutes = [
   '/checkout/smart-business',
   '/checkout/smart-growth',
   '/checkout/success',
-
-  // LocalPros
-  '/localpros',
-  '/localpros/apply',
-  '/localpros/success-stories',
 
   // Upgrade
   '/upgrade',
@@ -1519,11 +1499,11 @@ Each product page should:
 
 **Note:** Main Services dropdown continues to use benefit-oriented routes (`/get-found-online`, etc.). These product-category pages are additional SEO entry points.
 
-### Marketing Site (everintentsmartsites.com)
+### Marketing Site (everintent.com)
 
 ```
 /                               # Homepage
-├── /beautiful-websites/        # Hero service page
+├── /smart-websites/            # Smart Websites product page
 ├── /pricing/                   # Tier comparison + CTAs
 ├── /strategy-session/          # SmartStart Strategy Session booking (NEW)
 ├── /checkout/
@@ -1566,9 +1546,6 @@ Each product page should:
 ├── /contact/                   # Contact form + "Book a Call" destination
 ├── /careers/                   # Job listings (NEW)
 │   └── /:slug/                 # Individual job posting
-├── /localpros/                 # Partner program
-│   ├── /apply/
-│   └── /success-stories/
 ├── /legal/
 │   ├── /privacy/
 │   ├── /terms/
@@ -1586,7 +1563,7 @@ Each product page should:
 ### Customer Portal (GHL)
 
 ```
-app.everintentsmartsites.com/
+app.everintent.com/
 ├── /dashboard/
 ├── /contacts/                  # T2+
 ├── /conversations/             # T2+
@@ -1944,7 +1921,7 @@ Products are primary, packages bundle them. Each segment has a primary product t
 Need a Website That Actually Gets You Calls?
 Professional 5-page site. Built in 5 days. $249.
 No monthly fees. You own everything.
-→ everintentsmartsites.com
+→ everintent.com
 ```
 
 ### UTM Structure
@@ -2051,9 +2028,8 @@ The EverIntent Partner Program enables web designers, digital marketing agencies
 │                                                             │
 │  [Ad Click] → [Marketing Site] → [GHL Checkout] → [Portal]  │
 │                                                             │
-│  Craigslist     everintent-      checkout.smart    app.smart│
-│  Facebook       smartsites.com   sites.everintent  sites... │
-│                                  .com                       │
+│  Craigslist     everintent.com   go.everintent   app.ever   │
+│  Facebook                        .com             intent.com│
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
         │                    │                    │
@@ -2261,22 +2237,22 @@ See Task 3.5 Definition (Section 30) for detailed phases.
 
 ## 28. Open Questions
 
-### Resolved in v35.0
+### Resolved in v35.1
 
 | Question | Decision |
 |----------|----------|
 | AI Employee architecture | Single execution engine with mode-based rule profiles |
 | MVP navigation | Simplified to 5 links + CTA, no dropdowns |
 | Checkout flow | Marketing site → go.everintent.com (GHL) → app.everintent.com (portal) |
-| Setup fee | $1,497 flat for all AI Employee modes |
+| Setup fees | M1-M3: $997, M4: $1,497, M5: $2,500 |
 | Multi-mode discount | 15% monthly when 2+ modes purchased |
+| Tier naming | Smart Site, Smart Lead, Smart Business, Smart Growth (finalized v35.1) |
+| LocalPros | KILLED — removed from scope entirely |
 
 ### Still Open
 
-1. **Checkout subdomain:** `checkout.everintent.com` vs `checkout.everintentsmartsites.com` (staging)
+1. **Checkout subdomain:** `go.everintent.com` (preferred) vs staging subdomain
 2. **Wallet initial funding:** Start at $0 with auto-recharge prompt vs pre-fund at signup
-3. **Tier naming decision:** Keep Smart Site/Lead/Business/Growth or adopt Starter Site/Lead Booster/Booking & Reputation/AI Growth?
-4. **Smart Launch pricing:** Fixed price ($3,000) or range ($2,500-$4,500 based on scope)?
 
 ---
 
@@ -2305,6 +2281,7 @@ See Task 3.5 Definition (Section 30) for detailed phases.
 | v33.2 | Dec 20 | Design System Overhaul: Award-winning agency patterns |
 | **v34.0** | **Dec 21** | **Brand Pivot to EverIntent Master Brand** |
 | **v35.0** | **Dec 26** | **AI Employee MVP Integration**: Anchor statement, product definition, platform object model, MVP canonical scope, simplified MVP navigation, Task 3.5 definition, TVC methodology |
+| **v35.1** | **Jan 25** | **Smart Lead + Digital Donut**: Added Smart Lead flagship tier, Web Chat Only, Warmy Booster, Digital Donut outbound strategy, updated AI Employee pricing (M1-M3 $997/$497, M4 $1,497/$547, M5 $2,500/$597), **KILLED LocalPros**, renamed GHL tags from SS: to EI: prefix |
 
 ### Related Specification Documents
 
@@ -2406,33 +2383,21 @@ See Task 3.5 Definition (Section 30) for detailed phases.
 For Lovable/builder reference, generate PRDs in this order:
 
 1. homepage.md
-2. beautiful-websites.md
+2. smart-websites.md
 3. pricing.md
-4. services-hub.md
-5. services/get-found-online.md
-6. services/never-miss-a-lead.md
-7. services/book-more-jobs.md
-8. services/run-from-your-phone.md
-9. services/build-your-reputation.md
-10. services/let-ai-handle-it.md
-11. portfolio.md
-12. about.md
-13. contact.md
-14. book-call.md
-15. checkout/smart-site.md
-16. checkout/smart-lead.md
-17. checkout/smart-business.md
-18. checkout/smart-growth.md
-19. checkout/success.md
-20. localpros/index.md
-21. localpros/apply.md
-22. legal/privacy-policy.md
-23. legal/terms-of-service.md
-24. legal/data-request.md
-25. upgrade.md
-26. admin/login.md
-27. admin/checkouts.md
-28. admin/portfolio.md
+4. let-ai-handle-it.md
+5. about.md
+6. contact.md
+7. checkout/smart-site.md
+8. checkout/smart-lead.md
+9. checkout/smart-business.md
+10. checkout/smart-growth.md
+11. checkout/success.md
+12. legal/privacy-policy.md
+13. legal/terms-of-service.md
+14. legal/data-request.md
+15. admin/login.md
+16. admin/submissions.md
 
 ---
 
@@ -2481,7 +2446,7 @@ For Lovable/builder reference, generate PRDs in this order:
 
 ## Appendix D: GHL Snapshot Configuration Reference
 
-### ss-t1-snapshot
+### ei-t1-snapshot
 
 ```yaml
 dashboard: true
@@ -2511,13 +2476,13 @@ custom_menu_items:
     url: "{{custom.website_domain}}"
     target: "_blank"
   - label: "Upgrade Your Plan"
-    url: "https://everintentsmartsites.com/pricing"
+    url: "https://everintent.com/pricing"
     target: "_blank"
   - label: "Support"
     url: "mailto:support@everintent.com"
 ```
 
-### ss-t2-snapshot
+### ei-t2-snapshot
 
 ```yaml
 dashboard: true
@@ -2540,7 +2505,7 @@ consumables:
   email_monthly: 1000
 ```
 
-### ss-t3-snapshot
+### ei-t3-snapshot
 
 ```yaml
 dashboard: true
@@ -2558,7 +2523,7 @@ consumables:
   email_monthly: 2500
 ```
 
-### ss-t4-snapshot
+### ei-t4-snapshot
 
 ```yaml
 dashboard: true
