@@ -191,10 +191,9 @@ interface InterfaceName { ... }
 | `EI: Checkout Started - T3` | Tier 3 checkout initiated |
 | `EI: Checkout Started - T4` | Tier 4 checkout initiated |
 | `EI: Contact Form` | Contact form submission |
-| `LP: Partner Apply` | LocalPros partner application |
 | `Careers: Application` | Job application submitted |
 
-> Note: Tags updated from "SS:" to "EI:" prefix per brand pivot.
+> Note: Tags updated from "SS:" to "EI:" prefix per brand pivot. LocalPros tags removed (program killed).
 
 ### Task 0.5 [MANUAL] - Add Supabase Secrets (GHL)
 **Status:** ✅ Complete
@@ -1053,26 +1052,56 @@ Create n8n workflow for Digital Donut outbound:
 
 ---
 
-## Phase 5: Deferred (Post-MVP)
+## Phase 5: Code Cleanup (v35.1)
 
-> **Note:** These tasks are deferred until core MVP (Phases 1-4) is complete.
+> **Purpose:** Remove killed features and legacy code from the codebase.
 
-### Task 5.1 [LOVABLE] - LocalPros Landing Page (/localpros)
-**Status:** ⬜ Deferred
+### Task 5.1 [LOVABLE] - Remove LocalPros Routes
+**Status:** ⬜ Not Started
+**Priority:** P1
 
-Footer Resources link. Partner lead acquisition page.
+Remove from codebase:
+- `src/config/routes.ts` — Delete `localProsRoutes` array (lines 258-266)
+- `src/routes.tsx` — Delete `localProsPaths` array and its usage
 
-### Task 5.2 [LOVABLE] - LocalPros Apply Form (/localpros/apply)
-**Status:** ⬜ Deferred
+### Task 5.2 [LOVABLE] - Remove LocalPros from Edge Functions
+**Status:** ⬜ Not Started
+**Priority:** P1
 
-Partner application form with GHL sync.
+Update:
+- `supabase/functions/submit-form/index.ts` — Remove `localpros_apply` from `VALID_FORM_TYPES` and `getTagForFormType()`
+- `supabase/functions/_shared/ghlClient.ts` — Remove `LOCALPROS_APPLY` tag
 
-### Task 5.3 [LOVABLE] - Careers Page (/careers)
+### Task 5.3 [LOVABLE] - Remove LocalPros from Admin UI
+**Status:** ⬜ Not Started
+**Priority:** P1
+
+Update `src/pages/admin/Submissions.tsx`:
+- Remove `localpros_apply` from `FORM_TYPE_LABELS`
+- Remove LocalPros filter description
+
+### Task 5.4 [LOVABLE] - Remove LocalPros from Legal Pages
+**Status:** ⬜ Not Started
+**Priority:** P1
+
+Update:
+- `src/pages/legal/PrivacyPolicy.tsx` — Remove "LocalPros Network Disclosure" section
+- `src/pages/legal/TermsOfService.tsx` — Remove LocalPros site hosting mention
+
+### Task 5.5 [LOVABLE] - Remove Legacy SmartSites References
+**Status:** ⬜ Not Started
+**Priority:** P2
+
+Search and replace remaining "SmartSites" references in code:
+- Update GHL tags in `ghlClient.ts` from "SS:" to "EI:" prefix
+- Update any remaining route comments or JSDoc
+
+### Task 5.6 [LOVABLE] - Careers Page (/careers)
 **Status:** ⬜ Deferred
 
 Public job listings from `jobs` table.
 
-### Task 5.4 [LOVABLE] - Job Application Form
+### Task 5.7 [LOVABLE] - Job Application Form
 **Status:** ⬜ Deferred
 
 Application form using `job_applications` table.
@@ -1158,15 +1187,17 @@ Add GA4 tracking with cookie consent integration.
 - Phase 3G - Warmy Booster landing page (low priority)
 - Task 3.6 - AI Employee checkout flow
 - Phase 4 - Backend updates (start-checkout, TIER_TAG_MAP, Stripe)
+- **Phase 5 - Code cleanup (LocalPros removal, legacy SmartSites refs)**
 
 **Execution Order:**
-1. Phase 3A (Footer) — establishes navigation structure
-2. Phase 3D (Pricing) — adds Smart Lead, Web Chat Only, Warmy Booster
-3. Phase 3B (Smart Websites) — 4-tier table, FAQ, enhancements
-4. Phase 3C (Homepage) — ladder tagline, industry links
-5. Phase 3E/3F (Industries + Nav) — dropdown menus, industry pages
-6. Phase 3G (Warmy Booster page) — low priority, defer if needed
-7. Phase 4 (Backend) — checkout flow, Stripe, GHL tags
+1. **Phase 5 (Cleanup)** — Remove LocalPros code, fix legacy refs (do first to avoid confusion)
+2. Phase 3A (Footer) — establishes navigation structure
+3. Phase 3D (Pricing) — adds Smart Lead, Web Chat Only, Warmy Booster
+4. Phase 3B (Smart Websites) — 4-tier table, FAQ, enhancements
+5. Phase 3C (Homepage) — ladder tagline, industry links
+6. Phase 3E/3F (Industries + Nav) — dropdown menus, industry pages
+7. Phase 3G (Warmy Booster page) — low priority, defer if needed
+8. Phase 4 (Backend) — checkout flow, Stripe, GHL tags
 
 **Key References:**
 - BRD v35.1: `docs/everintent-brd-v35.0.md` (updated to v35.1)
