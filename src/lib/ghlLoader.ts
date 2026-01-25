@@ -6,10 +6,24 @@
  * @module lib/ghlLoader
  * 
  * @remarks
- * GHL widgets use nested shadow DOM components that mount lazily. This module
- * handles timing issues with retry-based injection and provides SSG-safe guards.
+ * ## Current State
+ * The site uses a **single sitewide widget** (GHL_WIDGET_ID_SALES). The widget ID is
+ * fetched from the `ghl-config` edge function, which currently returns the same
+ * widget for all routes.
  * 
- * Shadow DOM structure:
+ * ## Future Multi-Widget Architecture
+ * This module includes infrastructure for route-based widget switching:
+ * - `fetchWidgetIdForRoute()` calls the edge function with the current pathname
+ * - The edge function returns the appropriate widget ID based on route prefix matching
+ * - Widget IDs are stored in Supabase secrets, not exposed in client code
+ * 
+ * To activate multi-widget support:
+ * 1. Configure route mappings in `supabase/functions/ghl-config/index.ts`
+ * 2. Ensure widget IDs are set in Supabase secrets
+ * 3. The frontend automatically uses the returned widget ID
+ * 
+ * ## Shadow DOM Structure
+ * GHL widgets use nested shadow DOM components that mount lazily:
  * ```
  * chat-widget (shadowRoot)
  *   └─ chat-pane (shadowRoot)
@@ -17,6 +31,8 @@
  *             ├─ textarea.native-textarea.sc-ion-textarea-ios
  *             └─ button.live-chat-send-button
  * ```
+ * 
+ * This module handles timing issues with retry-based CSS injection for styling fixes.
  */
 
 declare global {
@@ -51,27 +67,62 @@ const LOADER_SRC = 'https://beta.leadconnectorhq.com/loader.js';
 /** GHL resources URL for widget initialization */
 const RESOURCES_URL = 'https://beta.leadconnectorhq.com/chat-widget/loader.js';
 
-/** Supabase edge function URL for GHL config */
+/**
+ * Supabase edge function URL for GHL widget configuration.
+ * 
+ * @remarks
+ * This edge function returns the appropriate widget ID based on route prefix.
+ * Currently returns GHL_WIDGET_ID_SALES for all routes (single sitewide widget).
+ * 
+ * Future multi-widget support is configured in the edge function, not here.
+ * See `supabase/functions/ghl-config/index.ts` for route mapping configuration.
+ */
 const GHL_CONFIG_URL = 'https://nweklcxzoemcnwaoakvq.supabase.co/functions/v1/ghl-config';
 
-/** Cached widget ID (fetched from edge function) */
+/**
+ * Cached widget ID (fetched from edge function).
+ * Cached for session duration to avoid repeated API calls.
+ */
 let cachedWidgetId: string | null = null;
 
-/** Promise for in-flight widget ID fetch */
+/**
+ * Promise for in-flight widget ID fetch.
+ * Prevents duplicate concurrent requests.
+ */
 let widgetIdFetchPromise: Promise<string> | null = null;
 
 /**
  * Fetches widget ID from edge function based on current route.
- * Caches the result for the session.
  * 
- * @param pathname - Current route pathname
+ * @param pathname - Current route pathname (e.g., '/pricing', '/support/contact')
  * @returns Promise resolving to widget ID string
+ * 
+ * @remarks
+ * ## Caching Behavior
+ * - Widget ID is cached for the session after first successful fetch
+ * - Subsequent calls return cached value immediately
+ * - Concurrent calls share the same in-flight promise (no duplicate requests)
+ * 
+ * ## Multi-Widget Routing
+ * The edge function matches the pathname against configured route prefixes:
+ * - `/support/*`, `/help/*` → Support Bot
+ * - `/demo/*` → Demo Bot
+ * - All other routes → Sales Bot (default)
+ * 
+ * Currently, all routes return the sales widget. Route-specific widgets
+ * are activated by configuring the edge function when those pages are built.
+ * 
+ * @example
+ * ```ts
+ * const widgetId = await fetchWidgetIdForRoute('/support/contact');
+ * // Returns GHL_WIDGET_ID_SUPPORT (when multi-widget is active)
+ * ```
  */
 async function fetchWidgetIdForRoute(pathname: string): Promise<string> {
   // Return cached value if available
   if (cachedWidgetId) return cachedWidgetId;
   
-  // Return existing promise if fetch in progress
+  // Return existing promise if fetch in progress (dedupe concurrent calls)
   if (widgetIdFetchPromise) return widgetIdFetchPromise;
   
   widgetIdFetchPromise = (async () => {
@@ -97,7 +148,12 @@ async function fetchWidgetIdForRoute(pathname: string): Promise<string> {
 
 /**
  * Gets the widget ID synchronously if cached, otherwise returns empty string.
- * Use fetchWidgetIdForRoute for async fetch.
+ * 
+ * @returns Cached widget ID or empty string if not yet fetched
+ * 
+ * @remarks
+ * Use `fetchWidgetIdForRoute()` for async fetch with caching.
+ * This function is useful for synchronous checks after initial load.
  */
 function getCachedWidgetId(): string {
   return cachedWidgetId || '';

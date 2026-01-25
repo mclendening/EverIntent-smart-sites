@@ -1799,28 +1799,36 @@ Icons are Lucide React components passed directly in the `icon` property:
 
 ### 17.7 Chat Widget & Support Bot
 
-#### Multi-Widget Architecture
+#### Current State: Single Sitewide Widget
 
-SmartSites uses **multiple GHL chat widgets** with different training/personas based on page type. This showcases the AI chatbot capabilities available to customers.
+The site currently uses a **single GHL chat widget** (`GHL_WIDGET_ID_SALES`) across all routes. This provides a consistent chat experience sitewide and simplifies operations.
 
-| Widget Type | Env Variable | Pages | Purpose |
-|-------------|--------------|-------|---------|
-| Sales Bot | `VITE_GHL_WIDGET_ID_SALES` | `/pricing`, `/checkout/*` | Conversion-focused, handles pricing questions, upsells |
-| Support Bot | `VITE_GHL_WIDGET_ID_SUPPORT` | `/contact`, `/legal/*`, `/help` | FAQ, support inquiries, data requests |
-| Demo Bot | `VITE_GHL_WIDGET_ID_DEMO` | Homepage, services, industries | Feature showcase, capability demonstration |
+#### Future State: Multi-Widget Architecture (Reserved)
+
+The codebase includes infrastructure for route-based widget switching. When multiple chat personas are needed, the following architecture can be activated:
+
+| Widget Type | Secret Name | Route Prefixes | Purpose |
+|-------------|-------------|----------------|---------|
+| Sales Bot | `GHL_WIDGET_ID_SALES` | **Default (all routes)** | Sitewide conversion, pricing questions |
+| Support Bot | `GHL_WIDGET_ID_SUPPORT` | `/support/*`, `/help/*` | FAQ, support inquiries, data requests |
+| Demo Bot | `GHL_WIDGET_ID_DEMO` | `/demo/*` | Feature showcase, capability demonstration |
+
+**Implementation Notes:**
+- Widget IDs stored in Supabase secrets (not client-side env vars)
+- Edge function `ghl-config` handles route-to-widget mapping
+- Frontend `ghlLoader.ts` fetches widget ID from edge function
+- Pattern supports adding new widget types without code changes
 
 #### Desktop Chat Button
 - Floating button, bottom-right corner
 - Fade-up animation on page load (delayed after consent)
-- Opens appropriate GHL chat widget based on current route
 - Gated by cookie consent: button hidden until user accepts cookies
-- Styled to match SmartSites design system (accent color, primary background)
+- Styled to match EverIntent design system (accent color, primary background)
 
 #### Mobile Chat Access
 - Chat integrated into mobile bottom navbar (not floating button)
 - Also gated by cookie consent
 - Navbar visibility tied to consent state
-- Same route-based widget selection as desktop
 
 ### 17.8 Legal Pages
 
