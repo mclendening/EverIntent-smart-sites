@@ -85,17 +85,16 @@ This is the **single source of truth** for EverIntent.com (currently staging at 
 17. [Navigation Structure](#17-navigation-structure)
 18. [Domain Integration Architecture](#18-domain-integration-architecture)
 19. [Go-To-Market Strategy](#19-go-to-market-strategy)
-20. [LocalPros Network](#20-localpros-network)
-21. [Compliance & Legal](#21-compliance--legal)
-22. [Partner Program](#22-partner-program)
-23. [Technical Architecture](#23-technical-architecture)
-24. [Operational SOPs](#24-operational-sops)
-25. [Upgrade & Downgrade Flows](#25-upgrade--downgrade-flows)
-26. [Support Model](#26-support-model)
-27. [Build Order & Timeline](#27-build-order--timeline)
-28. [Open Questions](#28-open-questions)
-29. [Document History](#29-document-history)
-30. [Task 3.5 — AI Employee MVP Definition](#30-task-35--ai-employee-mvp-definition)
+20. [Compliance & Legal](#20-compliance--legal)
+21. [Partner Program](#21-partner-program)
+22. [Technical Architecture](#22-technical-architecture)
+23. [Operational SOPs](#23-operational-sops)
+24. [Upgrade & Downgrade Flows](#24-upgrade--downgrade-flows)
+25. [Support Model](#25-support-model)
+26. [Build Order & Timeline](#26-build-order--timeline)
+27. [Open Questions](#27-open-questions)
+28. [Document History](#28-document-history)
+29. [Task 3.5 — AI Employee MVP Definition](#29-task-35--ai-employee-mvp-definition)
 
 ---
 
@@ -297,16 +296,8 @@ Essential services with strong repeat potential.
 | AI Employee modes | $497-$597/month per mode (+ $997-$2,500 setup) |
 | Web Chat Only | $79/month (+ $497 setup) |
 | Warmy Booster | $49/month add-on |
-| LocalPros leads | Lead sales $25-150 per lead by vertical (DEFERRED) |
-| LocalPros site rental | Site rental $297-$497/month (DEFERRED) |
-| LocalPros site sales | One-time site sales $2K-$10K (DEFERRED) |
 
-### Three Revenue Paths from LocalPros Assets — DEFERRED
-
-> **Status:** DEFERRED (Post-MVP)  
-> **Reason:** LocalPros partner program not in v35.1 scope.
-
-**Concept:** One ranking WordPress site, three monetization paths (sell leads, sell site, rent site).
+### Unit Economics (T1)
 
 ### Unit Economics (T1)
 
@@ -1977,103 +1968,11 @@ utm_content=ad-variant-a|ad-variant-b
 
 ---
 
-## 20. LocalPros Network
+## 20. Compliance & Legal
 
-### Overview
+### 20.1 Legal Pages (Standard Language)
 
-LocalPros is a portfolio of lead-generation websites in target markets. EverIntent builds and owns these sites, monetizing through lead sales, site rental, or as an ice-breaker to SmartSites conversion. **Same WordPress build as customer sites. Same GHL automations. Different monetization based on the relationship.**
-
-### Core Tech Stack Reality
-
-| Component | Technology | Notes |
-|-----------|------------|-------|
-| LocalPros Sites | WordPress on Plesk/OVH | Same build as SmartSites customer sites |
-| Lead Capture | GHL Master Account | All LocalPros leads funnel here |
-| Customer Sites | WordPress on Plesk/OVH | Same templates, same Elementor, same plugins |
-| Customer Portal | GHL Sub-Account | One per SmartSites customer (T1-T4) |
-| AI Voice/SMS | GHL Master Account | Voice bot, automations in master |
-
-### Three Revenue Paths From One Asset
-
-One ranking WordPress site. Three ways to make money:
-
-#### Path 1: Sell Leads
-```
-Site ranks → Calls/forms come in → GHL captures → We sell to partner
-
-Revenue: $25-150 per lead
-Effort: Near zero (site already built and ranking)
-GHL: Leads in master account, distributed via automation
-WordPress: No changes needed
-```
-**Easy money:** Site exists, traffic exists, leads exist. Just find a buyer.
-
-#### Path 2: Sell or Rent the Site
-```
-Option A: SELL ($2K-$10K one-time)
-- Transfer domain + hosting to buyer
-- They own everything
-- We're done (unless they want SmartSites services)
-
-Option B: RENT ($297-$497/month)
-- We keep ownership
-- They get the leads + can rebrand
-- Basically T2-T4 pricing for a site that ALREADY RANKS
-- GHL: They get sub-account tied to that site
-- WordPress: We maintain, they use
-```
-**Easy money:** Someone wants instant presence without waiting for SEO. We have it. Premium price.
-
-#### Path 3: Ice Breaker to SmartSites
-```
-Cold outreach → "Want leads from my ranking site?"
-    ↓
-Give away 3-5 leads (prove it works)
-    ↓
-"Want more? $X per lead" (Path 1)
-    ↓
-Relationship builds over 60-90 days
-    ↓
-"Ready for your own site that does this?"
-    ↓
-SmartSites T2-T4 sale ($197-$497/mo forever)
-```
-**Easy money:** The "free" leads cost us nothing (site already gets traffic). The conversion to SmartSites is worth $2,364-$5,964/year.
-
-### Lead Pricing (Tiered by Vertical Value)
-
-| Category | Lead Price | Rationale |
-|----------|------------|-----------|
-| Home Services | $25-50 | High volume, lower job value |
-| Automotive | $30-50 | Medium volume, medium value |
-| Health & Wellness | $50-100 | Lower volume, higher job value |
-| Professional Services | $75-150 | Low volume, high job value |
-
-**Flexibility:** ±20% based on market/demand. Phoenix HVAC may be $40, NYC HVAC may be $60.
-
-### Territory Policy
-
-**Exclusive by default.** One partner per site/market.
-
-Why: It's the selling point. "You get ALL the leads from this site."
-
-If partner underperforms (accepts <70% of leads), we warn, then open to second partner.
-
-### Conversion Trigger
-
-**20 leads delivered OR 90 days active, whichever comes first.**
-
-System flags in GHL pipeline. Human makes the call. Script:
-
-> "You've gotten [X] leads from us. Closed about [$Y] in business. Ready to have your OWN site doing this? I can have it live in 5 days."
-
----
-
-## 21. Compliance & Legal
-
-### 21.1 Legal Pages (Standard Language)
-
-All EverIntent properties and LocalPros portfolio sites must include these four legal pages:
+All EverIntent properties must include these four legal pages:
 
 | Page | Route | Purpose |
 |------|-------|---------|
@@ -2099,12 +1998,11 @@ I'm an automated system calling to [purpose].
 Is this a good time to chat for 2 minutes?"
 ```
 
-### 21.4 Data Sale Policy
+### 20.4 Data Sale Policy
 
 **EverIntent does not sell personal data.** This applies to:
 - Customer information collected during checkout or service delivery
 - Lead information from marketing forms
-- LocalPros visitor data
 - Any other personal information we collect
 
 This policy is disclosed in our Privacy Policy and honored in all CCPA requests.
@@ -2128,14 +2026,12 @@ The EverIntent Partner Program enables web designers, digital marketing agencies
 
 **Value Proposition:** "Refer clients to EverIntent. Earn commissions. Keep your clients happy."
 
-### 22.2 Commission Structure
+### 21.2 Commission Structure — DEFERRED
 
-| Campaign | Products/Services | Commission | Attribution |
-|----------|-------------------|------------|-------------|
-| **EI: Smart Websites & AI** | T1-T4 tiers, AI add-ons, one-time purchases | 10% of first payment | 90-day cookie |
-| **EI: Strategy Session** | $297 Strategy Session booking | $50 flat per completed session | 30-day cookie |
-| **LP: Partner Signup** | LocalPros partner applications (B2B) | $25 per qualified application | 30-day cookie |
-| **LP: Website Sales** | LocalPros-referred site purchases | 5% of sale | 60-day cookie |
+> **Status:** DEFERRED (Post-MVP)  
+> **Reason:** Partner program not in v35.1 scope.
+
+**Concept:** Referral commissions for agencies, consultants, and web designers.
 
 **Payment Terms:**
 - Minimum payout threshold: $50
@@ -2183,8 +2079,7 @@ The EverIntent Partner Program enables web designers, digital marketing agencies
 
 **Inbound/Service Numbers (All Markets):**
 - Local numbers in every market we serve
-- SmartSites T2-T4 customers get number matching their business area code
-- LocalPros portfolio sites get numbers matching their market
+- Smart Website T2-T4 customers get number matching their business area code
 - Numbers provisioned as we enter each market
 
 ### Email Infrastructure
