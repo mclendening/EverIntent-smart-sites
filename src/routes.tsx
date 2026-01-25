@@ -51,6 +51,8 @@ import HomeServicesShowcase from './pages/industries/HomeServicesShowcase';
 import ProfessionalShowcase from './pages/industries/ProfessionalShowcase';
 import HealthWellnessShowcase from './pages/industries/HealthWellnessShowcase';
 import AutomotiveShowcase from './pages/industries/AutomotiveShowcase';
+// Standalone service pages
+import WarmyEmailDeliverability from './pages/WarmyEmailDeliverability';
 import AdminLogin from './pages/admin/Login';
 import AdminResetPassword from './pages/admin/ResetPassword';
 import AdminDashboard from './pages/admin/Dashboard';
@@ -349,6 +351,7 @@ export const prerenderRoutes: string[] = [
   ...legalPaths,
   ...resourcePaths,
   upgradePath,
+  '/warmy-email-deliverability', // Warmy full service page
 ];
 
 /**
@@ -410,6 +413,11 @@ export const routes: RouteRecord[] = [
       {
         path: 'smart-websites',
         Component: SmartWebsites,
+      },
+      // Warmy Email Deliverability - full service page
+      {
+        path: 'warmy-email-deliverability',
+        Component: WarmyEmailDeliverability,
       },
       // Primary service
       createPlaceholderChild(primaryServicePath),

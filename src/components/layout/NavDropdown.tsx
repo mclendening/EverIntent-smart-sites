@@ -28,6 +28,8 @@ interface NavDropdownProps {
   label: string;
   /** Array of dropdown menu items */
   items: DropdownItem[];
+  /** Optional hub path - if provided, clicking label navigates here */
+  hubPath?: string;
   /** Additional CSS classes for the trigger */
   className?: string;
 }
@@ -48,7 +50,7 @@ interface NavDropdownProps {
  *   ]}
  * />
  */
-export function NavDropdown({ label, items, className }: NavDropdownProps) {
+export function NavDropdown({ label, items, hubPath, className }: NavDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const openTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -91,24 +93,43 @@ export function NavDropdown({ label, items, className }: NavDropdownProps) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Trigger button */}
-      <button
-        className={cn(
-          "nav-link px-4 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300 flex items-center gap-1",
-          isOpen && "text-foreground",
-          className
-        )}
-        aria-expanded={isOpen}
-        aria-haspopup="true"
-      >
-        {label}
-        <ChevronDown 
+      {/* Trigger - Link if hubPath provided, otherwise button */}
+      {hubPath ? (
+        <Link
+          to={hubPath}
           className={cn(
-            "w-3.5 h-3.5 transition-transform duration-200",
-            isOpen && "rotate-180"
-          )} 
-        />
-      </button>
+            "nav-link px-4 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300 flex items-center gap-1",
+            isOpen && "text-foreground",
+            className
+          )}
+        >
+          {label}
+          <ChevronDown 
+            className={cn(
+              "w-3.5 h-3.5 transition-transform duration-200",
+              isOpen && "rotate-180"
+            )} 
+          />
+        </Link>
+      ) : (
+        <button
+          className={cn(
+            "nav-link px-4 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300 flex items-center gap-1",
+            isOpen && "text-foreground",
+            className
+          )}
+          aria-expanded={isOpen}
+          aria-haspopup="true"
+        >
+          {label}
+          <ChevronDown 
+            className={cn(
+              "w-3.5 h-3.5 transition-transform duration-200",
+              isOpen && "rotate-180"
+            )} 
+          />
+        </button>
+      )}
 
       {/* Dropdown menu */}
       {isOpen && (
