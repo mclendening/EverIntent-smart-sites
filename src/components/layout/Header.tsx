@@ -1,14 +1,15 @@
 /**
- * @fileoverview Header Component - MVP Navigation
- * @description Simplified header with 5 flat navigation links per BRD v35.0.
- *              AI Employee pivot: AI-first positioning with Smart Websites secondary.
+ * @fileoverview Header Component - Navigation with Dropdowns
+ * @description Header with dropdown menus for Smart Websites tiers and AI Employee modes.
+ *              Implements conversion ladder navigation per BRD v35.2.
  * 
  * @module components/layout/Header
  * 
- * MVP Navigation Structure:
- * - AI Employee (/let-ai-handle-it)
- * - Smart Websites (/smart-websites)
+ * Navigation Structure (v35.2):
+ * - AI Employee (dropdown: M1-M5 modes)
+ * - Smart Websites (dropdown: Smart Site → Smart Lead → Smart Business → Smart Growth)
  * - Pricing (/pricing)
+ * - Industries (/industries)
  * - About (/about)
  * - Contact (/contact)
  * - Primary CTA: "Get Started" → /pricing
@@ -18,19 +19,39 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
+import { NavDropdown } from '@/components/layout/NavDropdown';
 import { Button } from '@/components/ui/button';
 import { CTAButton } from '@/components/CTAButton';
 import { LogoRenderer } from '@/components/logo/LogoRenderer';
 import { activeTheme } from '@/config/themes';
 
 /**
- * MVP navigation links - 5 flat links per BRD v35.0 Section 17.
- * AI Employee is first to emphasize AI-first positioning.
+ * Smart Websites tier dropdown items - ordered by conversion ladder
  */
-const navLinks = [
-  { title: 'AI Employee', path: '/let-ai-handle-it' },
-  { title: 'Smart Websites', path: '/smart-websites' },
+const smartWebsitesTiers = [
+  { title: 'Smart Site', path: '/smart-websites#smart-site', description: '$249 one-time' },
+  { title: 'Smart Lead', path: '/smart-websites#smart-lead', description: '$97/mo — Most Popular' },
+  { title: 'Smart Business', path: '/smart-websites#smart-business', description: '$197/mo' },
+  { title: 'Smart Growth', path: '/smart-websites#smart-growth', description: '$297/mo' },
+];
+
+/**
+ * AI Employee modes dropdown items (M1-M5)
+ */
+const aiEmployeeModes = [
+  { title: 'M1: After-Hours', path: '/let-ai-handle-it#m1', description: 'Coverage when you\'re closed' },
+  { title: 'M2: Booking Agent', path: '/let-ai-handle-it#m2', description: 'Appointment scheduling' },
+  { title: 'M3: Missed Call Recovery', path: '/let-ai-handle-it#m3', description: 'Recapture lost leads' },
+  { title: 'M4: Front Line Screening', path: '/let-ai-handle-it#m4', description: 'Qualify before you answer' },
+  { title: 'M5: Full Takeover', path: '/let-ai-handle-it#m5', description: 'Complete phone management' },
+];
+
+/**
+ * Flat navigation links (no dropdown needed)
+ */
+const flatNavLinks = [
   { title: 'Pricing', path: '/pricing' },
+  { title: 'Industries', path: '/industries' },
   { title: 'About', path: '/about' },
   { title: 'Contact', path: '/contact' },
 ];
@@ -104,9 +125,16 @@ export function Header() {
           />
         </Link>
 
-        {/* Desktop Navigation - 5 flat links */}
+        {/* Desktop Navigation - Dropdowns + Flat Links */}
         <nav className="hidden lg:flex items-center gap-1">
-          {navLinks.map((link) => (
+          {/* AI Employee dropdown (M1-M5 modes) */}
+          <NavDropdown label="AI Employee" items={aiEmployeeModes} />
+          
+          {/* Smart Websites dropdown (tiers) */}
+          <NavDropdown label="Smart Websites" items={smartWebsitesTiers} />
+          
+          {/* Flat navigation links */}
+          {flatNavLinks.map((link) => (
             <NavLink 
               key={link.path}
               to={link.path} 
@@ -136,17 +164,50 @@ export function Header() {
           <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 lg:hidden" onClick={closeMobileMenu} />
           <div className="fixed top-20 right-0 bottom-0 w-full max-w-sm bg-card border-l border-border z-50 lg:hidden overflow-y-auto animate-slide-in-right">
             <div className="flex flex-col p-6 space-y-2">
-              {/* Navigation Links */}
-              {navLinks.map((link) => (
+              {/* Mobile: AI Employee section */}
+              <div className="py-2">
+                <span className="text-xs uppercase tracking-wider text-muted-foreground">AI Employee</span>
+                {aiEmployeeModes.map((item) => (
+                  <Link 
+                    key={item.path}
+                    to={item.path} 
+                    className="block py-2 pl-2 text-foreground/80 hover:text-accent transition-colors" 
+                    onClick={closeMobileMenu}
+                  >
+                    {item.title}
+                  </Link>
+                ))}
+              </div>
+              
+              {/* Mobile: Smart Websites section */}
+              <div className="py-2 border-t border-border/50">
+                <span className="text-xs uppercase tracking-wider text-muted-foreground">Smart Websites</span>
+                {smartWebsitesTiers.map((item) => (
+                  <Link 
+                    key={item.path}
+                    to={item.path} 
+                    className="block py-2 pl-2 text-foreground/80 hover:text-accent transition-colors" 
+                    onClick={closeMobileMenu}
+                  >
+                    {item.title}
+                    <span className="text-xs text-muted-foreground ml-2">{item.description}</span>
+                  </Link>
+                ))}
+              </div>
+              
+              {/* Mobile: Flat links */}
+              <div className="py-2 border-t border-border/50">
+              {flatNavLinks.map((link) => (
                 <Link 
                   key={link.path}
                   to={link.path} 
-                  className="py-3 text-lg font-semibold text-foreground border-b border-border/50 hover:text-accent transition-colors" 
+                  className="py-3 text-lg font-semibold text-foreground border-b border-border/50 hover:text-accent transition-colors block" 
                   onClick={closeMobileMenu}
                 >
                   {link.title}
                 </Link>
               ))}
+              </div>
 
               {/* Mobile CTAs */}
               <div className="pt-6 space-y-4">
