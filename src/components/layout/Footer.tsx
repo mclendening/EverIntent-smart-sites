@@ -2,9 +2,9 @@
  * @fileoverview Site footer component with 4-column navigation.
  * @module components/layout/Footer
  * 
- * Updated for BRD v35.1:
- * - Column 1: Services (AI Employee, Smart Site, Smart Lead, Smart Business, Smart Growth, Web Chat Only, Warmy Booster)
- * - Column 2: AI Modes (M1-M5)
+ * Updated for BRD v35.3:
+ * - Column 1: Services (AI Employee, Smart Site, Smart Lead, Smart Business, Smart Growth, Web Chat Only, Warmy Email Deliverability)
+ * - Column 2: AI Modes (NO M1-M5 prefixes per v35.3)
  * - Column 3: Resources (FAQ, Industries)
  * - Column 4: Company (About, Contact, Careers, Legal)
  */
@@ -14,7 +14,7 @@ import { Linkedin, Twitter, Facebook, Sparkles, ArrowUpRight } from 'lucide-reac
 import { CTAButton } from '@/components/CTAButton';
 
 /**
- * Services column - Core product offerings per BRD v35.1.
+ * Services column - Core product offerings per BRD v35.3.
  */
 const servicesLinks = [
   { title: 'AI Employee', path: '/let-ai-handle-it' },
@@ -23,18 +23,18 @@ const servicesLinks = [
   { title: 'Smart Business', path: '/pricing#smart-business' },
   { title: 'Smart Growth', path: '/pricing#smart-growth' },
   { title: 'Web Chat Only', path: '/pricing#web-chat' },
-  { title: 'Warmy Booster', path: '/pricing#warmy' },
+  { title: 'Warmy Email Deliverability', path: '/warmy-email-deliverability' },
 ];
 
 /**
- * AI Modes column - M1-M5 AI Employee modes.
+ * AI Modes column - Human-readable names only (NO M1-M5 prefixes per BRD v35.3).
  */
 const aiModesLinks = [
-  { title: 'M1: After-Hours', path: '/pricing#m1' },
-  { title: 'M2: After-Hours + Booking', path: '/pricing#m2' },
-  { title: 'M3: Missed Call Recovery', path: '/pricing#m3' },
-  { title: 'M4: Front Line Screener', path: '/pricing#m4' },
-  { title: 'M5: Full AI Employee', path: '/pricing#m5' },
+  { title: 'After-Hours', path: '/let-ai-handle-it#after-hours' },
+  { title: 'Booking Agent', path: '/let-ai-handle-it#booking' },
+  { title: 'Missed Call Recovery', path: '/let-ai-handle-it#missed-call' },
+  { title: 'Front Line Screening', path: '/let-ai-handle-it#screening' },
+  { title: 'Full Takeover', path: '/let-ai-handle-it#full-takeover' },
 ];
 
 /**

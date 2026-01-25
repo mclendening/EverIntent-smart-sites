@@ -1,7 +1,7 @@
-# EverIntent — Complete Business Requirements Document v35.1
+# EverIntent — Complete Business Requirements Document v35.3
 
 **Last Updated:** January 25, 2025  
-**Version:** 35.1 (AI-First + Smart Lead + Digital Donut)
+**Version:** 35.3 (AI-First + Smart Lead + Warmy Full Spec + Nav Refinement)
 **Status:** BUILD-READY
 **Owner:** EverIntent LLC  
 **Tagline:** Web Design AI & Automation
@@ -401,14 +401,33 @@ Each mode is a **configuration of the same engine**, not separate infrastructure
 | Monthly | $79 |
 | Use Case | Website-only engagement, no phone |
 
-#### Warmy Booster (Add-on)
+#### Warmy Email Deliverability (Full Service)
 
 | Item | Value |
 |------|-------|
-| Setup Fee | — |
-| Monthly | $49 |
-| Use Case | Email deliverability, domain warm-up |
-| Note | Bundled with Smart Lead or à la carte |
+| **Route** | `/warmy-email-deliverability` |
+| **Setup Fee** | — |
+| **Monthly** | $49 |
+| **Bundling** | Free with Smart Lead, or $49/mo standalone |
+
+**Core Features:**
+- **AI-Powered Warm-Up**: Gradual sending volume increases with smart reply patterns
+- **Inbox Placement Testing**: 35 seed email providers, real-time inbox/spam/missing reporting
+- **Domain Health Monitoring**: SPF, DKIM, DMARC configuration validation with alerts
+- **Deliverability Analytics**: Sender score tracking, blacklist monitoring, detailed reports
+- **Auto-Recovery**: Automatic volume reduction when issues detected
+
+**Why Warmy Matters:**
+> "If your emails land in spam, your leads never see them. Warmy ensures 95%+ inbox placement for all your marketing and follow-up emails."
+
+**Page Structure (warmy-email-deliverability):**
+1. Hero: "Your Emails Deserve to Be Seen" + deliverability score visual
+2. Problem Section: Spam folder statistics, cold email challenges
+3. Solution Grid: 4-feature breakdown with icons
+4. Integration Section: Works with GHL, any SMTP
+5. Pricing Card: $49/mo standalone OR "Included with Smart Lead"
+6. FAQ: 4-5 questions (setup time, email limits, compatibility)
+7. CTA: "Boost Your Deliverability" → checkout
 
 #### Multi-Mode Discount
 
@@ -1606,26 +1625,51 @@ app.everintent.com/
 
 ## 17. Navigation Structure
 
-### 17.1 MVP Header Navigation (v35.0)
+### 17.1 Header Navigation (v35.3)
 
-For MVP, navigation is simplified to focus on AI Employee and Smart Websites:
+Navigation uses dropdowns for AI Employee modes and Smart Websites tiers, plus Industries:
 
 | Position | Label | Route | Type |
 |----------|-------|-------|------|
-| 1 | AI Employee | `/let-ai-handle-it` | Link |
-| 2 | Smart Websites | `/smart-websites` | Link |
+| 1 | AI Employee | Dropdown | Dropdown Menu |
+| 2 | Smart Websites | Dropdown | Dropdown Menu |
 | 3 | Pricing | `/pricing` | Link |
-| 4 | About | `/about` | Link |
-| 5 | Contact | `/contact` | Link |
+| 4 | Industries | Dropdown (clickable) | Dropdown Menu |
+| 5 | About | `/about` | Link |
+| 6 | Contact | `/contact` | Link |
 | CTA | Get Started | `/pricing` | Button |
 
-**Removed from MVP:**
-- All dropdown menus
-- Industries section
-- Solutions section
-- Our Work
-- Careers
-- Resources
+**AI Employee Dropdown (NO M1-M5 prefixes):**
+| Label | Route | Description |
+|-------|-------|-------------|
+| After-Hours | `/let-ai-handle-it#after-hours` | Coverage when you're closed |
+| Booking Agent | `/let-ai-handle-it#booking` | Appointment scheduling |
+| Missed Call Recovery | `/let-ai-handle-it#missed-call` | Recapture lost leads |
+| Front Line Screening | `/let-ai-handle-it#screening` | Qualify before you answer |
+| Full Takeover | `/let-ai-handle-it#full-takeover` | Complete phone management |
+
+**Smart Websites Dropdown:**
+| Label | Route | Description |
+|-------|-------|-------------|
+| Smart Site | `/smart-websites#smart-site` | $249 one-time |
+| Smart Lead | `/smart-websites#smart-lead` | $97/mo — Most Popular |
+| Smart Business | `/smart-websites#smart-business` | $197/mo |
+| Smart Growth | `/smart-websites#smart-growth` | $297/mo |
+
+**Industries Dropdown (hub link clickable):**
+| Label | Route | Description |
+|-------|-------|-------------|
+| → Industries Hub | `/industries` | (Clickable top-level) |
+| Home Services | `/industries/home-services` | HVAC, Plumbing, Electrical |
+| Professional Services | `/industries/professional-services` | Legal, Real Estate, Accounting |
+| Health & Wellness | `/industries/health-wellness` | MedSpa, Dental, Chiropractic |
+| Automotive | `/industries/automotive` | Auto Repair, Detailing, Body Shop |
+
+**IMPORTANT: Mode Prefix Removal**
+- All UI elements (menus, descriptions, mobile nav) must use human-readable names ONLY
+- ❌ "M1: After-Hours" → ✅ "After-Hours"
+- ❌ "M3: Missed Call Recovery" → ✅ "Missed Call Recovery"
+- This applies to Header, Footer, Mobile Nav, and all marketing copy
 
 ### 17.2 MVP Footer Navigation (v35.1)
 
@@ -1642,14 +1686,14 @@ For MVP, navigation is simplified to focus on AI Employee and Smart Websites:
 | Web Chat Only | `/pricing#web-chat` |
 | Warmy Booster | `/pricing#warmy-booster` |
 
-**Column 2: AI Modes**
+**Column 2: AI Modes (NO M-prefixes in labels)**
 | Label | Route |
 |-------|-------|
-| After-Hours | `/let-ai-handle-it#m1` |
-| Missed Call Recovery | `/let-ai-handle-it#m3` |
-| After-Hours + Booking | `/let-ai-handle-it#m2` |
-| Front Line Screener | `/let-ai-handle-it#m4` |
-| Full AI Employee | `/let-ai-handle-it#m5` |
+| After-Hours | `/let-ai-handle-it#after-hours` |
+| Booking Agent | `/let-ai-handle-it#booking` |
+| Missed Call Recovery | `/let-ai-handle-it#missed-call` |
+| Front Line Screening | `/let-ai-handle-it#screening` |
+| Full Takeover | `/let-ai-handle-it#full-takeover` |
 
 **Column 3: Resources**
 | Label | Route |

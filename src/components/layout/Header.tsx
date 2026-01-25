@@ -36,14 +36,24 @@ const smartWebsitesTiers = [
 ];
 
 /**
- * AI Employee modes dropdown items (M1-M5)
+ * AI Employee modes dropdown items (NO M1-M5 prefixes per BRD v35.3)
  */
 const aiEmployeeModes = [
-  { title: 'M1: After-Hours', path: '/let-ai-handle-it#m1', description: 'Coverage when you\'re closed' },
-  { title: 'M2: Booking Agent', path: '/let-ai-handle-it#m2', description: 'Appointment scheduling' },
-  { title: 'M3: Missed Call Recovery', path: '/let-ai-handle-it#m3', description: 'Recapture lost leads' },
-  { title: 'M4: Front Line Screening', path: '/let-ai-handle-it#m4', description: 'Qualify before you answer' },
-  { title: 'M5: Full Takeover', path: '/let-ai-handle-it#m5', description: 'Complete phone management' },
+  { title: 'After-Hours', path: '/let-ai-handle-it#after-hours', description: 'Coverage when you\'re closed' },
+  { title: 'Booking Agent', path: '/let-ai-handle-it#booking', description: 'Appointment scheduling' },
+  { title: 'Missed Call Recovery', path: '/let-ai-handle-it#missed-call', description: 'Recapture lost leads' },
+  { title: 'Front Line Screening', path: '/let-ai-handle-it#screening', description: 'Qualify before you answer' },
+  { title: 'Full Takeover', path: '/let-ai-handle-it#full-takeover', description: 'Complete phone management' },
+];
+
+/**
+ * Industries dropdown items with hub link
+ */
+const industriesItems = [
+  { title: 'Home Services', path: '/industries/home-services', description: 'HVAC, Plumbing, Electrical' },
+  { title: 'Professional Services', path: '/industries/professional-services', description: 'Legal, Real Estate, Accounting' },
+  { title: 'Health & Wellness', path: '/industries/health-wellness', description: 'MedSpa, Dental, Chiropractic' },
+  { title: 'Automotive', path: '/industries/automotive', description: 'Auto Repair, Detailing, Body Shop' },
 ];
 
 /**
@@ -51,7 +61,6 @@ const aiEmployeeModes = [
  */
 const flatNavLinks = [
   { title: 'Pricing', path: '/pricing' },
-  { title: 'Industries', path: '/industries' },
   { title: 'About', path: '/about' },
   { title: 'Contact', path: '/contact' },
 ];
@@ -127,11 +136,14 @@ export function Header() {
 
         {/* Desktop Navigation - Dropdowns + Flat Links */}
         <nav className="hidden lg:flex items-center gap-1">
-          {/* AI Employee dropdown (M1-M5 modes) */}
+          {/* AI Employee dropdown */}
           <NavDropdown label="AI Employee" items={aiEmployeeModes} />
           
           {/* Smart Websites dropdown (tiers) */}
           <NavDropdown label="Smart Websites" items={smartWebsitesTiers} />
+          
+          {/* Industries dropdown with clickable hub link */}
+          <NavDropdown label="Industries" items={industriesItems} hubPath="/industries" />
           
           {/* Flat navigation links */}
           {flatNavLinks.map((link) => (
@@ -183,6 +195,28 @@ export function Header() {
               <div className="py-2 border-t border-border/50">
                 <span className="text-xs uppercase tracking-wider text-muted-foreground">Smart Websites</span>
                 {smartWebsitesTiers.map((item) => (
+                  <Link 
+                    key={item.path}
+                    to={item.path} 
+                    className="block py-2 pl-2 text-foreground/80 hover:text-accent transition-colors" 
+                    onClick={closeMobileMenu}
+                  >
+                    {item.title}
+                    <span className="text-xs text-muted-foreground ml-2">{item.description}</span>
+                  </Link>
+                ))}
+              </div>
+              
+              {/* Mobile: Industries section */}
+              <div className="py-2 border-t border-border/50">
+                <Link 
+                  to="/industries" 
+                  className="text-xs uppercase tracking-wider text-muted-foreground hover:text-accent"
+                  onClick={closeMobileMenu}
+                >
+                  Industries
+                </Link>
+                {industriesItems.map((item) => (
                   <Link 
                     key={item.path}
                     to={item.path} 
