@@ -117,19 +117,21 @@ This is the **single source of truth** for EverIntent.com (currently staging at 
 
 ## 2. Executive Summary
 
-**EverIntent** delivers smart websites and AI automation to local service businesses at transparent, affordable prices. Four tiers from $249 one-time to $497/month recurring, with clear upgrade paths and guaranteed ROI.
+**EverIntent** delivers AI automation and smart websites to local service businesses at transparent, affordable prices. AI Employee modes from $497/month, Smart Website tiers from $249 one-time to $497/month recurring, with clear upgrade paths.
 
-**Brand Positioning:** "Smart websites that pay for themselves — and are ready for AI when you are."
+**Brand Positioning:** "Stop losing money to missed calls. Let AI handle it."
 
 **Target Market:** Local service businesses across 4 industry categories and 65+ verticals
 
 **Value Proposition:** "We build conversion-focused sites for local service businesses starting at $249. Every site ships upgrade-ready with automation and AI under the hood."
 
-**Product Lines Under EverIntent:**
+**Product Lines Under EverIntent (v35.1):**
 | Product | Description | Entry Point |
 |---------|-------------|-------------|
-| **Smart Websites** | T1–T4 website tiers ($249–$1,799) | Primary cash engine |
 | **AI Employee** | Managed AI receptionist services (voice, SMS, chat) | Primary revenue driver |
+| **Smart Websites** | 4-tier website ladder ($249–$497/mo) | Entry point to ecosystem |
+| **Web Chat Only** | Chat automation without voice ($497 setup + $79/mo) | Parallel entry point |
+| **Warmy Booster** | Email deliverability add-on ($49/mo) | Add-on to Smart Lead |
 | **Legal AI** | Specialized vertical at EverIntentLegalAI.com | Separate microsite |
 
 ### 2.1 Anchor Statement (v35.0)
@@ -284,29 +286,27 @@ Essential services with strong repeat potential.
 3. **One Tech Stack, Multiple Revenue Paths** - Same WordPress build. Same GHL automations. Different monetization based on the relationship.
 4. **Relationship → Trust → MRR** - Every LocalPros interaction builds toward SmartSites conversion. The goal is always recurring revenue.
 
-### Revenue Streams
+### Revenue Streams (v35.1)
 
 | Stream | Description |
 |--------|-------------|
 | One-time builds | T1 Smart Site ($249) |
-| Monthly subscriptions | T2-T4 ($97-$497/month) |
+| Monthly subscriptions | Smart Lead ($97/mo), Smart Business ($197/mo), Smart Growth ($497/mo) |
 | Annual renewals | T1 hosting/maintenance ($149/year) |
 | Usage overages | SMS, AI minutes, emails above included |
-| AI Employee modes | $149-$297/month per mode |
-| LocalPros leads | Lead sales $25-150 per lead by vertical |
-| LocalPros site rental | Site rental $297-$497/month |
-| LocalPros site sales | One-time site sales $2K-$10K |
+| AI Employee modes | $497-$597/month per mode (+ $997-$2,500 setup) |
+| Web Chat Only | $79/month (+ $497 setup) |
+| Warmy Booster | $49/month add-on |
+| LocalPros leads | Lead sales $25-150 per lead by vertical (DEFERRED) |
+| LocalPros site rental | Site rental $297-$497/month (DEFERRED) |
+| LocalPros site sales | One-time site sales $2K-$10K (DEFERRED) |
 
-### Three Revenue Paths from LocalPros Assets
+### Three Revenue Paths from LocalPros Assets — DEFERRED
 
-One ranking WordPress site. Three ways to make money:
+> **Status:** DEFERRED (Post-MVP)  
+> **Reason:** LocalPros partner program not in v35.1 scope.
 
-| Path | Model | Revenue | Effort | GHL Action |
-|------|-------|---------|--------|------------|
-| **Path 1: Sell Leads** | Site ranks → leads captured → sold to partner | $25-150 per lead | Near zero | Leads in master account, distributed via automation |
-| **Path 2A: Sell Site** | Transfer domain + hosting to buyer | $2K-$10K one-time | Low | Close or transfer sub-account |
-| **Path 2B: Rent Site** | We keep ownership, they get leads + rebrand | $297-$497/month | Low | Create sub-account tied to site |
-| **Path 3: Ice Breaker** | Free leads → trust → SmartSites conversion | $2,364-$5,964/year MRR | Medium | Prospect → sub-account on conversion |
+**Concept:** One ranking WordPress site, three monetization paths (sell leads, sell site, rent site).
 
 ### Unit Economics (T1)
 
@@ -634,7 +634,7 @@ Smart Site ($249) → Smart Lead ($97/mo) → Smart Business ($197/mo) → Smart
 - 400 SMS/month included
 - 30 AI minutes/month included
 
-### T3 - Smart Business ($197/month)
+### T3 - Smart Business ($749 setup + $197/month)
 
 **Who it's for:** Growing businesses that need to streamline operations.
 
@@ -646,7 +646,7 @@ Smart Site ($249) → Smart Lead ($97/mo) → Smart Business ($197/mo) → Smart
 - 600 SMS/month included
 - 50 AI minutes/month included
 
-### T4 - Smart Growth ($497/month)
+### T4 - Smart Growth ($1,497 setup + $497/month)
 
 **Who it's for:** Businesses ready for full automation and growth.
 
@@ -659,50 +659,27 @@ Smart Site ($249) → Smart Lead ($97/mo) → Smart Business ($197/mo) → Smart
 - 1000 SMS/month included
 - 100 AI minutes/month included
 
-### Smart Launch ($2,500-$4,500 one-time + $297/month)
+### Smart Launch — DEFERRED
 
-**Who it's for:** Businesses that need more than a template but aren't ready for full custom.
+> **Status:** DEFERRED (Post-MVP)  
+> **Reason:** Requires custom build process and 90-day marketing sprint SOPs not yet defined.
 
-**Includes:**
-- Custom 10-page website (not template)
-- Brand photography consultation
-- Google Business Profile optimization
-- 90-day marketing sprint (SEO + Google Ads setup)
-- All T3 (Booking & Reputation) features ongoing
+**Concept:** $2,500-$4,500 one-time + $297/month for businesses needing custom 10-page sites with marketing sprint.
 
-**Target segment:** Business owners who need more than T4 but find $5k+ custom "overkill"
+### SmartStart Strategy Session — DEFERRED
 
-**Revenue model:** Hybrid (one-time project + monthly retainer)
+> **Status:** DEFERRED (Post-MVP)  
+> **Reason:** Requires sales process and consultation framework not yet defined.
 
-### SmartStart Strategy Session ($500-$750)
+**Concept:** $500-$750 paid consultation with credit toward purchase.
 
-**Who it's for:** Prospects who need clarity before committing.
+### Tier Naming — RESOLVED (v35.1)
 
-**Includes:**
-- 60-minute strategy consultation
-- Website/marketing audit
-- Competitive analysis
-- Custom recommendation report
-- Full credit toward any package purchase
-
-**Why this exists:**
-- Generates revenue from sales process
-- Filters serious buyers from tire-kickers
-- Creates natural upsell opportunity
-- Provides value even if they don't buy
-
-### Tier Naming Consideration
-
-Current tier names are internal-facing. Outcome-oriented alternatives under consideration:
-
-| Current | Consideration | Rationale |
-|---------|---------------|-----------|
-| T1 Smart Site | Starter Site | Clear entry point |
-| T2 Smart Lead | Lead Booster | Outcome-focused |
-| T3 Smart Business | Booking & Reputation | Features named |
-| T4 Smart Growth | AI Growth | AI differentiation |
-
-**Decision status:** Pending approval
+Tier names finalized as:
+- **Smart Site** (T1)
+- **Smart Lead** (T2) — Flagship for ad buyers
+- **Smart Business** (T3)
+- **Smart Growth** (T4)
 
 ---
 
@@ -730,27 +707,12 @@ Current tier names are internal-facing. Outcome-oriented alternatives under cons
 | Unified Inbox | — | — | — | ✓ |
 | Strategy Calls | — | — | — | Quarterly |
 
-### 7.1 Smart Launch Feature Set
+### 7.1 Smart Launch Feature Set — DEFERRED
 
-| Feature | Smart Launch |
-|---------|:------------:|
-| Custom Website (10+ pages) | ✓ |
-| Mobile Responsive | ✓ |
-| SSL Certificate | ✓ |
-| 90-Day SEO Sprint | ✓ |
-| Google Ads Setup | ✓ |
-| Brand Photography Consult | ✓ |
-| Google Business Profile Optimization | ✓ |
-| Missed Call Text-Back | ✓ |
-| AI Chat Widget | ✓ (50 min/mo) |
-| CRM / Contacts | ✓ |
-| SMS/Email | ✓ (600/mo) |
-| Mobile App | ✓ |
-| Online Booking | ✓ |
-| Pipeline Management | ✓ |
-| Review Automation | ✓ |
-| **One-time Investment** | $2,500-$4,500 |
-| **Monthly Ongoing** | $297 |
+> **Status:** DEFERRED (Post-MVP)  
+> **Reason:** Smart Launch product not in v35.1 scope.
+
+**Concept:** $2,500-$4,500 one-time + $297/mo for custom 10-page sites with 90-day marketing sprint.
 
 ---
 
@@ -762,28 +724,30 @@ Current tier names are internal-facing. Outcome-oriented alternatives under cons
 | Squarespace | $16-49/mo | DIY | No | Limited |
 | GoDaddy | $10-25/mo | DIY | No | None |
 | Local agency | $2,000-10,000 | 4-8 weeks | Varies | Extra cost |
-| **SmartSites T1** | **$249** | **5 days** | **Yes** | **Upgrade path** |
+| **EverIntent Smart Site** | **$249** | **5 days** | **Yes** | **Upgrade path** |
 
-**Our advantage:** Professional build quality at DIY prices, with clear automation upgrade path.
+**Our advantage:** Professional build quality at DIY prices, with clear automation upgrade path to Smart Lead, Smart Business, Smart Growth, and AI Employee.
 
 ---
 
 ## 9. Customer Journey
 
-### Entry Points
+### Entry Points (v35.1)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ EverIntentSmartSites.com                                    │
+│ EverIntent.com                                              │
 │                                                             │
-│ Ready to start?     Not sure yet?        Need help?         │
-│  [Get Started]    [Strategy Session]    [Book 30min Call]   │
+│ Ready to start?        Need AI?           Need help?        │
+│  [Get Started]     [See AI Employee]    [Book 30min Call]   │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Path A: Ready to Buy** → Checkout flow
-**Path B: Want Clarity** → SmartStart Strategy Session ($500-$750) → Paid consultation with credit toward purchase
+**Path A: Ready to Buy** → /pricing → Checkout flow
+**Path B: Want AI** → /let-ai-handle-it → Mode selection → Checkout
 **Path C: Need Help** → GHL calendar booking → 30-min free consultation
+
+> **Note:** SmartStart Strategy Session (paid consultation) is DEFERRED.
 
 ### How Buyers Actually Find Us (Persona-Based)
 
@@ -797,7 +761,7 @@ Local service businesses don't search for "T2 package." They experience **trigge
 | Missed calls | "I can't answer my phone when I'm working" | "missed call text back" |
 | Schedule chaos | "I'm double-booked again" | "online booking for [industry]" |
 
-**Key insight:** They search for **products/solutions**, not tier comparisons. This is why product-category landing pages (Section 16.1) are important for SEO.
+**Key insight:** They search for **products/solutions**, not tier comparisons. This is why industry landing pages (4 category stubs) are planned for Phase 3E.
 
 ### Checkout Flow (All Tiers)
 
@@ -1248,102 +1212,31 @@ export const routes = {
     letAiHandleIt: '/let-ai-handle-it',
   },
 
-  // Features (pre-rendered)
-  features: {
-    leadCapture: '/features/lead-capture',
-    aiChat: '/features/ai-chat',
-    reviewManagement: '/features/review-management',
-    mobileApp: '/features/mobile-app',
-    scheduling: '/features/scheduling',
-    analytics: '/features/analytics',
-  },
+  // Features — DEFERRED (Post-MVP)
+  // These individual feature pages are not in v35.1 scope
+  // features: {
+  //   leadCapture: '/features/lead-capture',
+  //   aiChat: '/features/ai-chat',
+  //   reviewManagement: '/features/review-management',
+  //   mobileApp: '/features/mobile-app',
+  //   scheduling: '/features/scheduling',
+  //   analytics: '/features/analytics',
+  // },
 
-  // Industries - Hub pages + 65+ verticals (pre-rendered)
+  // Industries — v35.1 Scope: 4 category hub pages only
+  // Individual vertical pages (65+) are DEFERRED to post-MVP
   industries: {
-    // Hub pages
-    homeServices: '/industries/home-services',
-    professionalServices: '/industries/professional-services',
-    healthWellness: '/industries/health-wellness',
-    automotiveServices: '/industries/automotive-services',
+    // MVP Hub pages (Phase 3E)
+    index: '/industries',                           // Landing page
+    homeServices: '/industries/home-services',      // Category stub
+    professional: '/industries/professional',       // Category stub
+    healthWellness: '/industries/health-wellness',  // Category stub
+    automotive: '/industries/automotive',           // Category stub
     
-    // Home Services (31 verticals)
-    hvac: '/industries/home-services/hvac',
-    plumbing: '/industries/home-services/plumbing',
-    electrical: '/industries/home-services/electrical',
-    roofing: '/industries/home-services/roofing',
-    landscaping: '/industries/home-services/landscaping',
-    cleaning: '/industries/home-services/cleaning',
-    painting: '/industries/home-services/painting',
-    flooring: '/industries/home-services/flooring',
-    remodeling: '/industries/home-services/remodeling',
-    pestControl: '/industries/home-services/pest-control',
-    poolService: '/industries/home-services/pool-service',
-    garageDoors: '/industries/home-services/garage-doors',
-    fencing: '/industries/home-services/fencing',
-    treeService: '/industries/home-services/tree-service',
-    handyman: '/industries/home-services/handyman',
-    locksmith: '/industries/home-services/locksmith',
-    applianceRepair: '/industries/home-services/appliance-repair',
-    carpetCleaning: '/industries/home-services/carpet-cleaning',
-    pressureWashing: '/industries/home-services/pressure-washing',
-    windowCleaning: '/industries/home-services/window-cleaning',
-    gutterCleaning: '/industries/home-services/gutter-cleaning',
-    junkRemoval: '/industries/home-services/junk-removal',
-    moving: '/industries/home-services/moving',
-    glassRepair: '/industries/home-services/glass-repair',
-    concreteDriveways: '/industries/home-services/concrete-driveways',
-    deckBuilding: '/industries/home-services/deck-building',
-    homeInspection: '/industries/home-services/home-inspection',
-    waterproofing: '/industries/home-services/waterproofing',
-    insulationServices: '/industries/home-services/insulation',
-    solarInstallation: '/industries/home-services/solar-installation',
-    securitySystems: '/industries/home-services/security-systems',
-    
-    // Professional Services (15+ verticals)
-    legal: '/industries/professional-services/legal',
-    realEstate: '/industries/professional-services/real-estate',
-    accounting: '/industries/professional-services/accounting',
-    insurance: '/industries/professional-services/insurance',
-    financialAdvisor: '/industries/professional-services/financial-advisor',
-    mortgage: '/industries/professional-services/mortgage',
-    photography: '/industries/professional-services/photography',
-    videography: '/industries/professional-services/videography',
-    marketing: '/industries/professional-services/marketing',
-    consulting: '/industries/professional-services/consulting',
-    itServices: '/industries/professional-services/it-services',
-    webDesign: '/industries/professional-services/web-design',
-    eventPlanning: '/industries/professional-services/event-planning',
-    interiorDesign: '/industries/professional-services/interior-design',
-    propertyManagement: '/industries/professional-services/property-management',
-    
-    // Health & Wellness (15+ verticals)
-    medspa: '/industries/health-wellness/medspa',
-    dental: '/industries/health-wellness/dental',
-    chiropractic: '/industries/health-wellness/chiropractic',
-    physicalTherapy: '/industries/health-wellness/physical-therapy',
-    massage: '/industries/health-wellness/massage',
-    acupuncture: '/industries/health-wellness/acupuncture',
-    optometry: '/industries/health-wellness/optometry',
-    veterinary: '/industries/health-wellness/veterinary',
-    mentalHealth: '/industries/health-wellness/mental-health',
-    personalTraining: '/industries/health-wellness/personal-training',
-    yoga: '/industries/health-wellness/yoga',
-    martialArts: '/industries/health-wellness/martial-arts',
-    salon: '/industries/health-wellness/salon',
-    barbershop: '/industries/health-wellness/barbershop',
-    spa: '/industries/health-wellness/spa',
-    
-    // Automotive Services (10+ verticals)
-    autoRepair: '/industries/automotive-services/auto-repair',
-    autoDetailing: '/industries/automotive-services/auto-detailing',
-    tireShop: '/industries/automotive-services/tire-shop',
-    oilChange: '/industries/automotive-services/oil-change',
-    autoBody: '/industries/automotive-services/auto-body',
-    transmission: '/industries/automotive-services/transmission',
-    towing: '/industries/automotive-services/towing',
-    mobileCarWash: '/industries/automotive-services/mobile-car-wash',
-    windowTinting: '/industries/automotive-services/window-tinting',
-    audioInstallation: '/industries/automotive-services/audio-installation',
+    // Individual vertical pages — DEFERRED (Post-MVP)
+    // 65+ vertical pages (hvac, plumbing, legal, dental, etc.)
+    // to be added when SEO content strategy is finalized
+  },
   },
 
   // Legal (pre-rendered)
