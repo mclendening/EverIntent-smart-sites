@@ -68,8 +68,8 @@ function getWidgetIdForRoute(pathname: string): string {
     }
   }
   
-  // Default to sales widget
-  return Deno.env.get('GHL_WIDGET_ID_SALES') || Deno.env.get('GHL_WIDGET_ID') || '';
+  // Default to sales widget (sitewide default)
+  return Deno.env.get('GHL_WIDGET_ID_SALES') || '';
 }
 
 serve(async (req: Request) => {
