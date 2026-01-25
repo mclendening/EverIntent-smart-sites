@@ -133,7 +133,7 @@ This is the **single source of truth** for EverIntent.com. It governs:
 | **Warmy Booster** | Email deliverability add-on ($49/mo) | Add-on to Smart Lead |
 | **Legal AI** | Specialized vertical at EverIntentLegalAI.com | Separate microsite |
 
-### 2.1 Anchor Statement (v35.0)
+### 2.2 Anchor Statement (v35.0)
 
 > **The EverIntent AI Employee is a single execution engine — one Voice AI Agent per DID, one global Conversation AI, and per-DID Control Workflows — that produces three canonical proof artifacts (call, SMS, and chat transcripts) across five inbound channels, with behavior determined by rule-based modes rather than separate infrastructure builds.**
 
@@ -165,7 +165,7 @@ Three transcript types anchor all marketing, demos, and proof:
 
 ---
 
-## 2.1 Industry Verticals (65+ Total)
+## 2.3 Industry Verticals (65+ Total)
 
 EverIntent serves local businesses across four main categories:
 
@@ -508,7 +508,7 @@ When `donut_id` is populated, GHL workflow triggers:
 2. Follow-up showing their exact after-hours gap
 3. Call scheduling CTA
 
-### 5.11 MVP Canonical Scope (v35.1)
+### 5.12 MVP Canonical Scope (v35.1)
 
 #### MVP Inputs (Channels)
 
@@ -540,7 +540,7 @@ When `donut_id` is populated, GHL workflow triggers:
 
 **MVP is complete when all channels produce all applicable outcomes with captured transcripts.**
 
-### 5.11 Smart Websites (Standalone Product)
+### 5.13 Smart Websites (Standalone Product)
 
 Smart Websites are **loss-leader entry points** that introduce clients to EverIntent's ecosystem.
 
@@ -982,11 +982,11 @@ GHL Sub-Account (per customer)
 ### Welcome Email Template
 
 ```
-Subject: Welcome to SmartSites! Here's what happens next.
+Subject: Welcome to EverIntent! Here's what happens next.
 
 Hi {first_name},
 
-Your SmartSites order is confirmed! Here's what to expect:
+Your EverIntent order is confirmed! Here's what to expect:
 
 WHAT HAPPENS NEXT:
 1. Check your inbox for an intake form (coming in 5 minutes)
@@ -1002,7 +1002,7 @@ COMPLETE YOUR INTAKE FORM:
 
 Questions? Reply to this email.
 
-— The SmartSites Team
+— The EverIntent Team
 EverIntent LLC
 ```
 
@@ -1958,7 +1958,7 @@ All EverIntent properties must include these four legal pages:
 | Cookie Policy | `/legal/cookies` | Cookie usage, categories, opt-out |
 | Data Rights Request | `/legal/data-request` | CCPA/DSAR submission form |
 
-### 21.2 TCPA Consent Language
+### 20.2 TCPA Consent Language
 
 ```
 By providing your phone number and checking this box, you consent to 
@@ -1967,7 +1967,7 @@ partners regarding your inquiry. Message and data rates may apply.
 You may opt out at any time by replying STOP.
 ```
 
-### 21.3 California Bot Disclosure (AI Calling)
+### 20.3 California Bot Disclosure (AI Calling)
 
 ```
 "Hi [Name], this is [AI Name], an AI assistant from EverIntent. 
@@ -2003,7 +2003,7 @@ The EverIntent Partner Program enables web designers, digital marketing agencies
 
 **Value Proposition:** "Refer clients to EverIntent. Earn commissions. Keep your clients happy."
 
-### 21.2 Commission Structure — DEFERRED
+### 22.2 Commission Structure — DEFERRED
 
 > **Status:** DEFERRED (Post-MVP)  
 > **Reason:** Partner program not in v35.1 scope.
@@ -2211,7 +2211,7 @@ The EverIntent Partner Program enables web designers, digital marketing agencies
 
 ### Phase 2: AI Employee MVP (Week 2-3)
 
-See Task 3.5 Definition (Section 30) for detailed phases.
+See Task 3.5 Definition (Section 29) for detailed phases.
 
 ### Phase 3: Full Checkout (Week 4)
 
@@ -2588,7 +2588,7 @@ CLICKUP_LIST_ID=xxx
 
 **Why Our Design Looks This Way:**
 
-SmartSites' design is intentionally modeled after award-winning agency websites (SPINX Digital, Shape, Isadora Agency) that convert visitors into paying customers. The design decisions below are not arbitrary aesthetic choices—they're proven conversion patterns.
+EverIntent's design is intentionally modeled after award-winning agency websites (SPINX Digital, Shape, Isadora Agency) that convert visitors into paying customers. The design decisions below are not arbitrary aesthetic choices—they're proven conversion patterns.
 
 | Design Decision | Business Rationale | Research Source |
 |-----------------|---------------------|-----------------|
