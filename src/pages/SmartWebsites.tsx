@@ -1,105 +1,225 @@
 /**
- * @fileoverview Smart Websites product page showcasing the $249 entry-level website offering.
+ * @fileoverview Smart Websites product page showcasing the 4-tier website ladder.
  * @module pages/SmartWebsites
  */
 
-import { ArrowRight, Clock, Smartphone, Shield, Search, CheckCircle, Zap, Globe, Lock, BarChart3 } from 'lucide-react';
+import { ArrowRight, Clock, Smartphone, CheckCircle, Zap, Globe, Lock, Calendar, MessageSquare, Phone, Star, Users, TrendingUp, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 /**
- * Smart Websites page component - Entry-level $249 website product.
- * 
- * Positions Smart Websites as an affordable, fast-turnaround website solution
- * for local businesses. Emphasizes 5-day delivery, ownership, and AI-ready upgrade path.
- * 
- * @component
- * @example
- * <SmartWebsites />
+ * Smart Websites page component - 4-tier website ladder from $249 to $297/mo.
  */
 const SmartWebsites = () => {
   /**
-   * Pain points that resonate with local business owners frustrated
-   * with website options (DIY, agencies, no site at all).
+   * 4-tier comparison data aligned with BRD v35.1
    */
-  const problemPoints = [
+  const tiers = [
     {
-      icon: Clock,
-      title: "DIY Builders Take Forever",
-      description: "You've tried Wix, Squarespace, WordPress. Hours later, it still looks amateur."
+      name: "Smart Site",
+      tagline: "Get Online Fast",
+      price: "$249",
+      priceNote: "one-time",
+      setup: "$249",
+      monthly: "$0",
+      hostingNote: "$149/yr after Year 1",
+      features: [
+        { name: "Professional 5-page website", included: true },
+        { name: "Mobile responsive design", included: true },
+        { name: "SSL certificate", included: true },
+        { name: "Basic SEO setup", included: true },
+        { name: "Contact form", included: true },
+        { name: "Google Maps integration", included: true },
+        { name: "GA4 analytics (view only)", included: true },
+        { name: "Missed-call text-back", included: false },
+        { name: "AI chat widget", included: false },
+        { name: "CRM & mobile app", included: false },
+        { name: "Online booking", included: false },
+        { name: "Review automation", included: false },
+      ],
+      highlight: false,
+      cta: "Get Started",
     },
     {
-      icon: Zap,
-      title: "Agencies Quote $5,000+",
-      description: "And they take months. You need customers now, not a 6-month project."
+      name: "Smart Lead",
+      tagline: "Best for Ad Buyers",
+      price: "$97",
+      priceNote: "/month",
+      setup: "$249",
+      monthly: "$97",
+      hostingNote: "Hosting included",
+      features: [
+        { name: "Professional 5-page website", included: true },
+        { name: "Mobile responsive design", included: true },
+        { name: "SSL certificate", included: true },
+        { name: "Basic SEO setup", included: true },
+        { name: "Contact form", included: true },
+        { name: "Google Maps integration", included: true },
+        { name: "GA4 analytics (full access)", included: true },
+        { name: "Missed-call text-back", included: true },
+        { name: "AI chat widget", included: true },
+        { name: "CRM & mobile app", included: true },
+        { name: "Online booking", included: false },
+        { name: "Review automation", included: false },
+      ],
+      highlight: true,
+      cta: "Start Capturing Leads",
     },
     {
-      icon: Smartphone,
-      title: "Your Site Doesn't Work on Phones",
-      description: "70% of your customers search on mobile. If your site isn't mobile-first, you're invisible."
+      name: "Smart Business",
+      tagline: "Grow & Scale",
+      price: "$197",
+      priceNote: "/month",
+      setup: "$497",
+      monthly: "$197",
+      hostingNote: "Hosting included",
+      features: [
+        { name: "Professional 5-page website", included: true },
+        { name: "Mobile responsive design", included: true },
+        { name: "SSL certificate", included: true },
+        { name: "Basic SEO setup", included: true },
+        { name: "Contact form", included: true },
+        { name: "Google Maps integration", included: true },
+        { name: "GA4 analytics (full access)", included: true },
+        { name: "Missed-call text-back", included: true },
+        { name: "AI chat widget", included: true },
+        { name: "CRM & mobile app", included: true },
+        { name: "Online booking", included: true },
+        { name: "Review automation", included: true },
+      ],
+      highlight: false,
+      cta: "Grow Your Business",
     },
     {
-      icon: Globe,
-      title: "Competitors Are Getting Your Leads",
-      description: "Every day without a professional site is another day customers choose someone else."
-    }
+      name: "Smart Growth",
+      tagline: "Full AI Power",
+      price: "$297",
+      priceNote: "/month",
+      setup: "$997",
+      monthly: "$297",
+      hostingNote: "Hosting included",
+      features: [
+        { name: "Professional 5-page website", included: true },
+        { name: "Mobile responsive design", included: true },
+        { name: "SSL certificate", included: true },
+        { name: "Basic SEO setup", included: true },
+        { name: "Contact form", included: true },
+        { name: "Google Maps integration", included: true },
+        { name: "GA4 analytics (full access)", included: true },
+        { name: "Missed-call text-back", included: true },
+        { name: "AI chat widget", included: true },
+        { name: "CRM & mobile app", included: true },
+        { name: "Online booking", included: true },
+        { name: "Review automation", included: true },
+        { name: "AI Voice Agent", included: true },
+        { name: "Advanced automations", included: true },
+        { name: "Unified inbox", included: true },
+        { name: "Quarterly strategy calls", included: true },
+      ],
+      highlight: false,
+      cta: "Unlock Full AI",
+    },
   ];
 
   /**
-   * Core benefits of Smart Websites that differentiate from DIY and agencies.
+   * 5-day build timeline steps
    */
-  const solutionFeatures = [
-    {
-      icon: CheckCircle,
-      title: "5-Page Professional Site",
-      description: "Home, Services, About, Contact, plus one more. Everything you need to look legit."
-    },
-    {
-      icon: Smartphone,
-      title: "Mobile-First Design",
-      description: "Built for phones first because that's how customers find you."
-    },
-    {
-      icon: Clock,
-      title: "Built in 5 Days",
-      description: "Not 5 weeks. Not 5 months. Your site is live and working in 5 business days."
-    },
-    {
-      icon: Lock,
-      title: "You Own Everything",
-      description: "Your domain, your content, your site. No lock-in. No hostage situations."
-    },
-    {
-      icon: Search,
-      title: "SEO-Ready",
-      description: "Google can find you from day one. Proper structure, meta tags, and schema markup."
-    }
+  const timelineSteps = [
+    { day: "Day 1", title: "Kickoff", description: "We collect your info, branding, and content preferences." },
+    { day: "Day 2", title: "Design", description: "Your custom design mockup is created and shared for feedback." },
+    { day: "Day 3", title: "Build", description: "We build your site with all pages and features." },
+    { day: "Day 4", title: "Review", description: "You review the site and request any tweaks." },
+    { day: "Day 5", title: "Launch", description: "Your site goes live. You're in business!" },
   ];
 
   /**
-   * Everything included in the $249 Smart Websites package.
+   * Portfolio previews - placeholder for real client work
    */
-  const whatsIncluded = [
-    "Custom 5-page website",
-    "Mobile-responsive design",
-    "Contact form with email notifications",
-    "Google Maps integration",
-    "Basic SEO setup (meta tags, schema)",
-    "SSL certificate (HTTPS)",
-    "1 year hosting included",
-    "GA4 analytics dashboard",
-    "Social media links",
-    "Business hours display"
+  const portfolioItems = [
+    { title: "HVAC Contractor", industry: "Home Services", image: "/placeholder.svg" },
+    { title: "Family Dental", industry: "Health & Wellness", image: "/placeholder.svg" },
+    { title: "Auto Detailing", industry: "Automotive", image: "/placeholder.svg" },
+    { title: "Law Firm", industry: "Professional", image: "/placeholder.svg" },
   ];
+
+  /**
+   * FAQ items covering hosting, ownership, and common questions
+   */
+  const faqItems = [
+    {
+      question: "Do I own my website?",
+      answer: "Yes, 100%. Your domain, your content, your site. We don't do lock-in contracts or hostage situations. If you ever want to leave, we'll help you migrate everything."
+    },
+    {
+      question: "What happens after the first year with Smart Site?",
+      answer: "Smart Site includes 1 year of hosting free. After Year 1, hosting renews at $149/year. This covers hosting, SSL, security updates, and basic maintenance. You can cancel anytime."
+    },
+    {
+      question: "How long does it take to build my site?",
+      answer: "5 business days from kickoff to launch. We've streamlined our process so you're not waiting months. Once you provide your content and branding, we move fast."
+    },
+    {
+      question: "Can I upgrade later?",
+      answer: "Absolutely. Every Smart Website is built upgrade-ready. When you're ready for lead capture, automation, or AI, upgrading is seamless. You keep everything and just unlock more features."
+    },
+    {
+      question: "What if I'm running ads?",
+      answer: "Smart Lead ($97/mo) is specifically designed for businesses running paid traffic. It includes missed-call text-back, AI chat widget, and CRM so you don't lose leads you paid for."
+    },
+    {
+      question: "Do you offer refunds?",
+      answer: "Yes. We offer a 30-day money-back guarantee. If you're not happy with your site within 30 days of launch, we'll refund your setup fee. No questions asked."
+    },
+  ];
+
+  /**
+   * Feature rows for comparison table
+   */
+  const featureRows = [
+    "Professional website",
+    "Mobile responsive",
+    "SSL certificate",
+    "Basic SEO",
+    "Contact form",
+    "GA4 analytics",
+    "Missed-call text-back",
+    "AI chat widget",
+    "CRM & mobile app",
+    "Online booking",
+    "Review automation",
+    "AI Voice Agent",
+  ];
+
+  const getFeatureValue = (tierIndex: number, featureIndex: number): boolean => {
+    const tier = tiers[tierIndex];
+    // Map feature rows to tier features
+    const featureMap: { [key: number]: boolean } = {
+      0: true, // Professional website - all tiers
+      1: true, // Mobile responsive - all tiers
+      2: true, // SSL - all tiers
+      3: true, // Basic SEO - all tiers
+      4: true, // Contact form - all tiers
+      5: true, // GA4 - all tiers
+      6: tierIndex >= 1, // Missed-call text-back - T2+
+      7: tierIndex >= 1, // AI chat widget - T2+
+      8: tierIndex >= 1, // CRM & mobile app - T2+
+      9: tierIndex >= 2, // Online booking - T3+
+      10: tierIndex >= 2, // Review automation - T3+
+      11: tierIndex >= 3, // AI Voice Agent - T4 only
+    };
+    return featureMap[featureIndex] ?? false;
+  };
 
   return (
     <>
       <SEO 
-        title="Smart Websites | Professional Websites Starting at $249"
-        description="Get a professional 5-page website built in 5 days for just $249. Mobile-first design, SEO-ready, you own everything. No lock-in contracts."
+        title="Smart Websites | Professional Sites from $249 to $297/mo"
+        description="Get a professional website built in 5 days. Choose from Smart Site ($249), Smart Lead ($97/mo), Smart Business ($197/mo), or Smart Growth ($297/mo). You own everything."
         canonical="/smart-websites"
       />
 
@@ -109,7 +229,7 @@ const SmartWebsites = () => {
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <Badge variant="secondary" className="mb-6 text-sm px-4 py-1.5">
-              Starting at $249 • Built in 5 Days
+              Built in 5 Days • You Own Everything
             </Badge>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
@@ -117,13 +237,13 @@ const SmartWebsites = () => {
             </h1>
             
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Built in 5 days. Starting at $249. Ready for AI when you are.
+              From a simple $249 site to full AI automation at $297/mo. Pick your tier. We build it in 5 days.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" className="text-lg px-8 py-6">
                 <Link to="/pricing">
-                  Get Started
+                  See All Pricing
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
@@ -137,91 +257,152 @@ const SmartWebsites = () => {
         </div>
       </section>
 
-      {/* Problem Section */}
+      {/* 4-Tier Comparison Table */}
       <section className="py-16 lg:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Sound Familiar?
+              Choose Your Tier
             </h2>
             <p className="text-lg text-muted-foreground">
-              You know you need a website. But the options are overwhelming.
+              Every tier includes a professional website. Higher tiers unlock more automation.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {problemPoints.map((problem, index) => (
-              <Card key={index} className="border-destructive/20 bg-destructive/5">
-                <CardHeader className="pb-2">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-destructive/10">
-                      <problem.icon className="h-5 w-5 text-destructive" />
-                    </div>
-                    <CardTitle className="text-lg">{problem.title}</CardTitle>
+          {/* Mobile: Card View */}
+          <div className="lg:hidden space-y-6">
+            {tiers.map((tier, index) => (
+              <Card key={index} className={`${tier.highlight ? 'border-2 border-primary shadow-xl' : ''}`}>
+                <CardHeader className="text-center pb-4">
+                  {tier.highlight && (
+                    <Badge variant="default" className="mb-2 mx-auto">Most Popular</Badge>
+                  )}
+                  <CardTitle className="text-2xl">{tier.name}</CardTitle>
+                  <CardDescription>{tier.tagline}</CardDescription>
+                  <div className="mt-4">
+                    <span className="text-4xl font-bold text-foreground">{tier.price}</span>
+                    <span className="text-muted-foreground ml-1">{tier.priceNote}</span>
                   </div>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {tier.setup} setup • {tier.hostingNote}
+                  </p>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">{problem.description}</p>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    {tier.features.slice(0, 12).map((feature, fIndex) => (
+                      <div key={fIndex} className="flex items-center gap-2">
+                        {feature.included ? (
+                          <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                        ) : (
+                          <div className="h-4 w-4 flex-shrink-0" />
+                        )}
+                        <span className={feature.included ? 'text-foreground' : 'text-muted-foreground/50'}>
+                          {feature.name}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <Button asChild className="w-full" variant={tier.highlight ? "default" : "outline"}>
+                    <Link to="/pricing">{tier.cta}</Link>
+                  </Button>
                 </CardContent>
               </Card>
             ))}
           </div>
+
+          {/* Desktop: Table View */}
+          <div className="hidden lg:block overflow-x-auto">
+            <Table className="w-full">
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-48">Feature</TableHead>
+                  {tiers.map((tier, index) => (
+                    <TableHead key={index} className={`text-center ${tier.highlight ? 'bg-primary/5' : ''}`}>
+                      <div className="space-y-1">
+                        {tier.highlight && <Badge variant="default" className="mb-1">Popular</Badge>}
+                        <div className="font-bold text-lg text-foreground">{tier.name}</div>
+                        <div className="text-sm text-muted-foreground">{tier.tagline}</div>
+                        <div className="text-2xl font-bold text-foreground">{tier.price}<span className="text-sm font-normal">{tier.priceNote}</span></div>
+                        <div className="text-xs text-muted-foreground">{tier.setup} setup</div>
+                      </div>
+                    </TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {featureRows.map((feature, fIndex) => (
+                  <TableRow key={fIndex}>
+                    <TableCell className="font-medium">{feature}</TableCell>
+                    {tiers.map((tier, tIndex) => (
+                      <TableCell key={tIndex} className={`text-center ${tier.highlight ? 'bg-primary/5' : ''}`}>
+                        {getFeatureValue(tIndex, fIndex) ? (
+                          <CheckCircle className="h-5 w-5 text-primary mx-auto" />
+                        ) : (
+                          <span className="text-muted-foreground/30">—</span>
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+                <TableRow>
+                  <TableCell className="font-medium">Hosting after Y1</TableCell>
+                  <TableCell className="text-center text-sm text-muted-foreground">$149/yr</TableCell>
+                  <TableCell className="text-center bg-primary/5 text-sm text-muted-foreground">Included</TableCell>
+                  <TableCell className="text-center text-sm text-muted-foreground">Included</TableCell>
+                  <TableCell className="text-center text-sm text-muted-foreground">Included</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell></TableCell>
+                  {tiers.map((tier, index) => (
+                    <TableCell key={index} className={`text-center ${tier.highlight ? 'bg-primary/5' : ''}`}>
+                      <Button asChild variant={tier.highlight ? "default" : "outline"} size="sm">
+                        <Link to="/pricing">{tier.cta}</Link>
+                      </Button>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableBody>
+            </Table>
+          </div>
         </div>
       </section>
 
-      {/* Solution Section */}
+      {/* 5-Day Build Timeline */}
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-12">
-            <Badge variant="default" className="mb-4">
-              The Smart Websites Difference
+            <Badge variant="secondary" className="mb-4">
+              <Clock className="h-4 w-4 mr-1" /> 5-Day Delivery
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              A Professional Website Without the Headaches
+              From Kickoff to Launch in 5 Days
             </h2>
             <p className="text-lg text-muted-foreground">
-              We build it. You own it. Done in 5 days.
+              Not 5 weeks. Not 5 months. Your site is live and working in 5 business days.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {solutionFeatures.map((feature, index) => (
-              <Card key={index} className="border-primary/20 hover:border-primary/40 transition-colors">
-                <CardHeader className="pb-2">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-primary/10">
-                      <feature.icon className="h-5 w-5 text-primary" />
-                    </div>
-                    <CardTitle className="text-lg">{feature.title}</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">{feature.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* What's Included Section */}
-      <section className="py-16 lg:py-24 bg-muted/30">
-        <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                Everything Included
-              </h2>
-              <p className="text-lg text-muted-foreground">
-                No hidden fees. No surprise charges. Just a complete website.
-              </p>
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
-              {whatsIncluded.map((item, index) => (
-                <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-background">
-                  <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
-                  <span className="text-foreground">{item}</span>
+            <div className="grid md:grid-cols-5 gap-4">
+              {timelineSteps.map((step, index) => (
+                <div key={index} className="relative">
+                  <Card className="h-full text-center hover:border-primary/40 transition-colors">
+                    <CardHeader className="pb-2">
+                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-2">
+                        <span className="text-primary font-bold">{index + 1}</span>
+                      </div>
+                      <Badge variant="outline" className="mx-auto">{step.day}</Badge>
+                      <CardTitle className="text-lg mt-2">{step.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">{step.description}</p>
+                    </CardContent>
+                  </Card>
+                  {index < 4 && (
+                    <div className="hidden md:block absolute top-1/2 -right-2 transform -translate-y-1/2 z-10">
+                      <ArrowRight className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -229,42 +410,46 @@ const SmartWebsites = () => {
         </div>
       </section>
 
-      {/* Pricing Card Section */}
-      <section className="py-16 lg:py-24">
+      {/* Portfolio Preview */}
+      <section className="py-16 lg:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
-          <div className="max-w-lg mx-auto">
-            <Card className="border-2 border-primary shadow-xl">
-              <CardHeader className="text-center pb-4 pt-8">
-                <Badge variant="default" className="mb-4 mx-auto">
-                  Most Popular
-                </Badge>
-                <CardTitle className="text-2xl md:text-3xl">Smart Website</CardTitle>
-                <p className="text-muted-foreground mt-2">
-                  Everything you need to look professional online
-                </p>
-              </CardHeader>
-              <CardContent className="text-center pb-8">
-                <div className="mb-6">
-                  <span className="text-5xl md:text-6xl font-bold text-foreground">$249</span>
-                  <span className="text-muted-foreground ml-2">one-time</span>
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Real Sites. Real Results.
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              A preview of what we build for businesses like yours.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            {portfolioItems.map((item, index) => (
+              <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow group">
+                <div className="aspect-video bg-muted relative overflow-hidden">
+                  <img 
+                    src={item.image} 
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+                  <div className="absolute bottom-3 left-3">
+                    <Badge variant="secondary" className="text-xs">{item.industry}</Badge>
+                  </div>
                 </div>
-                
-                <p className="text-sm text-muted-foreground mb-6">
-                  Renews at $149/year for hosting. Cancel anytime.
-                </p>
+                <CardContent className="p-4">
+                  <h3 className="font-semibold text-foreground">{item.title}</h3>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
 
-                <Button asChild size="lg" className="w-full text-lg py-6 mb-4">
-                  <Link to="/pricing">
-                    Get Your Website
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-
-                <p className="text-sm text-muted-foreground">
-                  No contracts • 30-day money-back guarantee
-                </p>
-              </CardContent>
-            </Card>
+          <div className="text-center mt-8">
+            <Button asChild variant="outline">
+              <Link to="/contact">
+                Want to See More? Let's Talk
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -272,23 +457,88 @@ const SmartWebsites = () => {
       {/* AI Upgrade Teaser */}
       <section className="py-16 lg:py-24 bg-gradient-to-br from-primary/5 via-background to-accent/5">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <Badge variant="secondary" className="mb-4">
-              Ready When You Are
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Add AI When Your Business Grows
-            </h2>
-            <p className="text-lg text-muted-foreground mb-8">
-              Your Smart Website is built AI-ready. When you're ready to stop missing calls 
-              and automate bookings, adding an AI Employee is seamless.
-            </p>
-            <Button asChild variant="outline" size="lg">
-              <Link to="/let-ai-handle-it">
-                Learn About AI Employee
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
+          <div className="max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div>
+                <Badge variant="secondary" className="mb-4">
+                  <Zap className="h-4 w-4 mr-1" /> Add AI When Ready
+                </Badge>
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                  Every Site is AI-Ready
+                </h2>
+                <p className="text-lg text-muted-foreground mb-6">
+                  Your Smart Website is built with AI under the hood. When you're ready to stop missing calls 
+                  and automate bookings, upgrading to AI Employee is seamless.
+                </p>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center gap-3">
+                    <Phone className="h-5 w-5 text-primary" />
+                    <span className="text-foreground">AI answers calls 24/7</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <MessageSquare className="h-5 w-5 text-primary" />
+                    <span className="text-foreground">Missed-call text-back recovers leads</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Calendar className="h-5 w-5 text-primary" />
+                    <span className="text-foreground">Automated booking while you sleep</span>
+                  </div>
+                </div>
+                <Button asChild>
+                  <Link to="/let-ai-handle-it">
+                    Learn About AI Employee
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <Card className="text-center p-6">
+                  <div className="text-3xl font-bold text-primary mb-1">24/7</div>
+                  <div className="text-sm text-muted-foreground">AI Availability</div>
+                </Card>
+                <Card className="text-center p-6">
+                  <div className="text-3xl font-bold text-primary mb-1">30%</div>
+                  <div className="text-sm text-muted-foreground">More Leads Captured</div>
+                </Card>
+                <Card className="text-center p-6">
+                  <div className="text-3xl font-bold text-primary mb-1">5min</div>
+                  <div className="text-sm text-muted-foreground">Avg Response Time</div>
+                </Card>
+                <Card className="text-center p-6">
+                  <div className="text-3xl font-bold text-primary mb-1">$0</div>
+                  <div className="text-sm text-muted-foreground">Missed Call Cost</div>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-16 lg:py-24">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-12">
+              <Badge variant="secondary" className="mb-4">
+                <HelpCircle className="h-4 w-4 mr-1" /> FAQ
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                Common Questions
+              </h2>
+            </div>
+
+            <Accordion type="single" collapsible className="w-full">
+              {faqItems.map((item, index) => (
+                <AccordionItem key={index} value={`item-${index}`}>
+                  <AccordionTrigger className="text-left">
+                    {item.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground">
+                    {item.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
         </div>
       </section>
@@ -298,15 +548,15 @@ const SmartWebsites = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Ready to Stop Losing Customers?
+              Ready to Get Your Smart Website?
             </h2>
             <p className="text-xl opacity-90 mb-8">
-              Get a professional website in 5 days. Starting at $249.
+              5 days to launch. Starting at $249. Upgrade-ready from day one.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" variant="secondary" className="text-lg px-8 py-6">
                 <Link to="/pricing">
-                  Get Started Now
+                  See All Pricing
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
