@@ -357,20 +357,18 @@ Created `src/components/CookieConsent.tsx` with:
 - Footer "Cookie Preferences" integration via `triggerCookiePreferences()`
 - Integrated into Layout.tsx
 
-### Task 2.2 [MANUAL] - Create GHL Chat Widgets (3 Bots)
+### Task 2.2 [MANUAL] - Create GHL Chat Widget
 **Status:** ✅ Complete
 
 > **Completed:** 2025-12-23
 
-Created 4 GHL chat widgets with different training/personas. Widget IDs stored in Supabase secrets:
+Created GHL chat widget. Widget ID stored in Supabase secrets:
 
 | Widget | Secret Name | Purpose |
 |--------|-------------|---------|
-| **Default** | `GHL_WIDGET_ID` | Legacy/fallback widget |
-| **Sales Bot** | `GHL_WIDGET_ID_SALES` | Pricing/checkout pages |
-| **Support Bot** | `GHL_WIDGET_ID_SUPPORT` | Contact/legal/help pages |
-| **Demo Bot** | `GHL_WIDGET_ID_DEMO` | Homepage, services, industries |
-| **LocalPros Bot** | `GHL_WIDGET_ID_LOCALPROS` | LocalPros vertical pages |
+| **Sales Bot** | `GHL_WIDGET_ID_SALES` | **Sitewide default** - All pages |
+
+> **Note:** Additional widget secrets exist in Supabase for future expansion (`GHL_WIDGET_ID_SUPPORT`, `GHL_WIDGET_ID_DEMO`, `GHL_WIDGET_ID_LOCALPROS`) but are currently unused.
 
 ### Task 2.3 [LOVABLE] - Cookie Consent Banner & Legal Pages
 **Status:** ✅ Complete
@@ -438,39 +436,35 @@ Created 4 GHL chat widgets with different training/personas. Widget IDs stored i
 **Status:** ✅ Complete
 
 > **Completed:** 2025-12-23
-> **Updated:** Changed from Vercel env vars to Supabase secrets (edge function approach)
 
-All GHL widget IDs stored in Supabase secrets for edge function access:
+GHL widget ID stored in Supabase secrets:
 
 | Secret Name | Purpose |
 |-------------|---------|
-| `GHL_WIDGET_ID_SALES` | **Default bot** - Used for all routes unless overridden |
-| `GHL_WIDGET_ID_SUPPORT` | Support bot - `/support`, `/help` routes |
-| `GHL_WIDGET_ID_DEMO` | Demo bot - `/demo` routes |
-| `GHL_WIDGET_ID_LOCALPROS` | LocalPros bot - `/localpros` routes |
+| `GHL_WIDGET_ID_SALES` | **Sitewide default** - Used for all routes |
 
-> **Note:** `GHL_WIDGET_ID` was deleted. `GHL_WIDGET_ID_SALES` is now the default.
-> Edge function `ghl-config` already implements route-to-widget mapping (see `supabase/functions/ghl-config/index.ts`).
+> **Note:** Additional widget secrets (`GHL_WIDGET_ID_SUPPORT`, `GHL_WIDGET_ID_DEMO`, `GHL_WIDGET_ID_LOCALPROS`) exist in Supabase for future multi-widget expansion. Currently unused.
 
 ### Task 2.6 [LOVABLE] - GHL Multi-Widget Support
-**Status:** 🔄 In Progress
+**Status:** ✅ Closed (Descoped)
 
 > **Started:** 2025-12-23
-> **Tested:** Edge function verified via curl - all routes return correct widget IDs
+> **Closed:** 2025-01-25 — Descoped to single sitewide widget
 
-Upgrade from single widget to route-aware multi-widget:
+**Decision:** Single sitewide widget is sufficient for current needs. Multi-widget infrastructure retained in codebase for future activation.
 
-**✅ Completed:**
-- `src/lib/ghlLoader.ts` - Widget loader with shadow DOM styling
-- `src/components/GHLChatWidget.tsx` - Basic widget component
-- `src/components/DesktopChatButton.tsx` - Custom "Need help?" button
+**Completed Infrastructure (Reserved for Future):**
+- `src/lib/ghlLoader.ts` - Includes `fetchWidgetIdForRoute()` for edge function calls (currently unused)
+- `supabase/functions/ghl-config/index.ts` - Route-to-widget mapping edge function (deployed, not called)
+- Supabase secrets: `GHL_WIDGET_ID_SUPPORT`, `GHL_WIDGET_ID_DEMO`, `GHL_WIDGET_ID_LOCALPROS` (reserved)
+
+**Active Components:**
+- `src/components/GHLChatWidget.tsx` - Widget controller
+- `src/components/DesktopChatButton.tsx` - Desktop chat trigger
 - `src/components/MobileBottomBar.tsx` - Mobile chat trigger
-- `supabase/functions/ghl-config/index.ts` - Route-to-widget mapping edge function
-- Supabase secrets configured: `GHL_WIDGET_ID_SALES` (default), `GHL_WIDGET_ID_SUPPORT`, `GHL_WIDGET_ID_DEMO`, `GHL_WIDGET_ID_LOCALPROS`
+- `GHL_WIDGET_ID_SALES` secret - Sitewide default widget
 
-**⬜ Remaining:**
-- Wire frontend (`ghlLoader.ts`) to call edge function for dynamic widget ID
-- Test on live routes when pages are built (`/localpros`, `/support`, `/demo`)
+**To Activate Multi-Widget:** Uncomment edge function call in `ghlLoader.ts` and configure route prefixes in `ghl-config/index.ts`.
 
 ---
 
