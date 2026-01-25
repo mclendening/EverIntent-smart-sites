@@ -86,6 +86,11 @@ export function HeroSection() {
             </a>
           </div>
           
+          {/* Ladder tagline - explains the conversion journey */}
+          <p className="text-xs sm:text-sm text-muted-foreground/80 mb-8 animate-fade-in" style={{ animationDelay: '350ms' }}>
+            Start with a Smart Site. Upgrade to Smart Lead/Business/Growth. Let AI handle it when you're ready.
+          </p>
+          
           {/* Value props - AI-focused */}
           <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-sm text-muted-foreground animate-fade-in" style={{ animationDelay: '400ms' }}>
             <div className="flex items-center gap-2">
