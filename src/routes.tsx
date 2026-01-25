@@ -38,6 +38,9 @@ import NotFound from './pages/NotFound';
 import PlaceholderPage from './pages/Placeholder';
 import AIEmployee from './pages/AIEmployee';
 import SmartWebsites from './pages/SmartWebsites';
+import Pricing from './pages/Pricing';
+import About from './pages/About';
+import Contact from './pages/Contact';
 import AdminLogin from './pages/admin/Login';
 import AdminResetPassword from './pages/admin/ResetPassword';
 import AdminDashboard from './pages/admin/Dashboard';
@@ -364,6 +367,21 @@ export const routes: RouteRecord[] = [
       {
         index: true,
         Component: Index,
+      },
+      // Pricing page - dedicated component
+      {
+        path: 'pricing',
+        Component: Pricing,
+      },
+      // About page - dedicated component
+      {
+        path: 'about',
+        Component: About,
+      },
+      // Contact page - dedicated component
+      {
+        path: 'contact',
+        Component: Contact,
       },
       // Core pages (placeholder for now)
       ...coreRoutePaths.slice(1).map(createPlaceholderChild),

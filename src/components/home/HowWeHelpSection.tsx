@@ -1,36 +1,41 @@
 /**
- * @fileoverview Homepage section showcasing three core service outcomes.
+ * @fileoverview Homepage section showcasing three AI Employee value propositions.
  * @module components/home/HowWeHelpSection
+ * 
+ * Displays three cards highlighting how AI Employee solves missed call revenue loss:
+ * 1. Recover Missed Calls - SMS text-back in under 60 seconds
+ * 2. Answer After Hours - 24/7 coverage while business is closed
+ * 3. Screen Every Call - AI handles FAQs, transfers only qualified leads
  */
 
 import { Link } from "react-router-dom";
-import { Globe, TrendingUp, MessageSquare, ArrowRight } from "lucide-react";
+import { PhoneMissed, Moon, Filter, ArrowRight } from "lucide-react";
 
 /**
- * Service outcome cards with icons, descriptions, and links.
- * Focuses on customer benefits rather than features.
+ * AI Employee value proposition cards.
+ * Focuses on revenue recovery and lead capture benefits.
  */
 const outcomes = [
   {
-    icon: Globe,
-    title: "Get Found Online",
-    description: "Show up when customers search for your services with SEO-optimized websites that rank.",
-    link: "/services/web-design",
-    linkText: "Web Design & SEO",
+    icon: PhoneMissed,
+    title: "Recover Missed Calls",
+    description: "62% of calls go unanswered. Our AI texts back every missed call in under 60 seconds — before they call your competitor.",
+    link: "/let-ai-handle-it",
+    linkText: "See AI Employee",
   },
   {
-    icon: TrendingUp,
-    title: "Fill Your Pipeline",
-    description: "Convert visitors into leads with targeted campaigns that drive real business results.",
-    link: "/services/lead-generation",
-    linkText: "Lead Generation",
+    icon: Moon,
+    title: "Answer After Hours",
+    description: "You close at 5pm. Your AI doesn't. Capture leads, answer questions, and book appointments while you sleep.",
+    link: "/let-ai-handle-it",
+    linkText: "See AI Employee",
   },
   {
-    icon: MessageSquare,
-    title: "Never Miss a Lead",
-    description: "Respond instantly 24/7 with AI-powered chat and automated follow-ups that close deals.",
-    link: "/services/ai-automation",
-    linkText: "AI Automation",
+    icon: Filter,
+    title: "Screen Every Call",
+    description: "Stop wasting time on tire-kickers. AI handles FAQs and only transfers real opportunities to your team.",
+    link: "/let-ai-handle-it",
+    linkText: "See AI Employee",
   },
 ];
 
@@ -60,10 +65,10 @@ const HowWeHelpSection = () => {
             How We Help
           </p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Your Path to Growth
+            Three Ways AI Employee Keeps Your Phone Ringing
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Three proven ways we help local businesses dominate their market
+            Stop losing $200+ per missed call. Let AI capture every lead.
           </p>
         </div>
 

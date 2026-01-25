@@ -548,6 +548,42 @@ Created `src/pages/SmartWebsites.tsx` with:
 - ✅ Route added to `src/routes.tsx`
 - ✅ SSG pre-render configured
 
+### Task 3.1.1 [LOVABLE] - Rebuild HowWeHelpSection (AI-First)
+**Status:** ⬜ Not Started
+**Priority:** P0
+
+> **Added:** 2025-01-25
+
+Update content only. Keep current 3-card layout, styling, icons, animations.
+
+| Card | Headline | Body | Link |
+|------|----------|------|------|
+| 1 | Recover Missed Calls | 62% of calls go unanswered. Our AI texts back every missed call in under 60 seconds — before they call your competitor. | /let-ai-handle-it |
+| 2 | Answer After Hours | You close at 5pm. Your AI doesn't. Capture leads, answer questions, and book appointments while you sleep. | /let-ai-handle-it |
+| 3 | Screen Every Call | Stop wasting time on tire-kickers. AI handles FAQs and only transfers real opportunities to your team. | /let-ai-handle-it |
+
+Section subhead: "Three ways AI Employee keeps your phone ringing"
+
+### Task 3.1.2 [LOVABLE] - Rebuild PricingTeaser (AI-First)
+**Status:** ⬜ Not Started
+**Priority:** P0
+
+> **Added:** 2025-01-25
+
+Show AI Employee modes first, Smart Website last. Keep current card styling.
+
+| Position | Product | Price | Features | CTA |
+|----------|---------|-------|----------|-----|
+| 1 | After Hours | $149/mo | AI answers after hours, Captures lead details, Sends summaries | /pricing#ai-employee |
+| 2 | Missed Call Recovery | $149/mo | Texts back missed calls, AI qualifies via SMS, Books appointments | /pricing#ai-employee |
+| 3 (Most Popular) | After Hours + Booking | $197/mo | Everything in After Hours, Sends booking links, Self-service scheduling | /pricing#ai-employee |
+| 4 | Smart Site | $249 one-time | 5-page website, Mobile responsive, SEO-ready, Ready in 5 days | /pricing#smart-websites |
+
+Section headline: "AI Employee starts at $149/month"
+Section subhead: "One setup. Choose your mode. Add a website when ready."
+Below cards: "All AI Employee modes include $1,497 one-time setup"
+Link below: "Compare all AI plans →" → /pricing
+
 ### Task 3.5 [LOVABLE] - Pricing Page (/pricing)
 **Status:** ⬜ Not Started
 
@@ -713,40 +749,42 @@ Add GA4 tracking with cookie consent integration.
 
 ## Current Status
 
-**BRD Version:** v34.0 (Brand Pivot to EverIntent Master Brand)
+**BRD Version:** v35.0 (AI Employee MVP Integration)
 
 **Completed:**
 - Phase 0 (Prerequisites) - All GHL configuration complete
 - Phase 1 (Database Foundation) - All migrations and Edge Functions deployed
-- **Phase 1.5 (Theme Publishing System)** - All tasks complete
-- **Phase 1.6 (Theme System Completion)** - ✅ All tasks complete:
-  - ✅ Task 1.6.1: Header Logo Integration
-  - ✅ Task 1.6.2: CSS Variables (core complete, advanced deferred)
-  - ✅ Task 1.6.3: Admin Theme CRUD (core complete, advanced deferred)
-  - ✅ Task 1.6.4: Logo Export (deferred, not MVP)
-  - ✅ Task 1.6.5: Logo Theme Testing
-  - ✅ Task 1.6.6: Closed as obsolete (LogoExplorer never existed)
-- **Phase 2 (Cookie Consent & GHL Widget)** - Partial:
-  - ✅ Task 2.1: Cookie Consent Component
-  - ⬜ Task 2.2: Create GHL Chat Widgets (MANUAL) ← NEXT
-  - ✅ Task 2.3: Cookie Consent Banner & Legal Pages
-  - ✅ Task 2.4: GHL Chat Widget Styling (theme-aware)
-  - ⬜ Task 2.5: Vercel Environment Variables (MANUAL)
-  - ⬜ Task 2.6: GHL Multi-Widget Support
-- SSG Configuration - vite-react-ssg patterns documented in BRD Appendix H
-- Brand Pivot Documentation - BRD v34.0 + everintent-pivot-plan.md aligned
+- Phase 1.5 (Theme Publishing System) - All tasks complete
+- Phase 1.6 (Theme System Completion) - All tasks complete
+- Phase 2 (Cookie Consent & GHL Widget) - All tasks complete
+- Task 3.0 - Navigation simplified to MVP 5-link structure
+- Task 3.1 - Hero rebuilt (AI-first messaging)
+- Task 3.2 - AI Employee page `/let-ai-handle-it` complete
+- Task 3.3 - Footer updated (AI modes column)
+- Task 3.4 - Smart Websites page `/smart-websites` complete
+
+**In Progress:**
+- Homepage section alignment to v35.0 (Tasks 3.1.1, 3.1.2)
+
+**Not Started:**
+- Task 3.1.1 - Rebuild HowWeHelpSection (AI-first)
+- Task 3.1.2 - Rebuild PricingTeaser (AI modes + Smart Websites)
+- Task 3.5 - Pricing page `/pricing`
+- Task 3.6 - AI Employee checkout flow
+- Task 3.7 - About page `/about`
+- Task 3.8 - Contact page `/contact`
+- Phase 4 - Stripe integration
 
 **Next Priority Tasks:**
-1. **Task 3.0.2** [LOVABLE] - Create NavHoverMenu Component (polished hover dropdowns with icons)
-2. **Task 3.1** [LOVABLE] - Create Reusable Section Components (Hero, Problem, Solution, etc.)
-3. **Task 3.2** [LOVABLE] - Homepage (/) - Full marketing page build
-4. **Task 2.2** [MANUAL] - Create GHL Chat Widgets (3 Bots) - can run in parallel
-5. **Task 2.5** [MANUAL] - Configure Vercel env vars for GHL widget ID
-6. **Task 4.1** [LOVABLE] - Pricing Page with Interactive Tier Selection
+1. Task 3.1.1 - Rebuild HowWeHelpSection (AI-first)
+2. Task 3.1.2 - Rebuild PricingTeaser (AI modes + Smart Websites)
+3. Task 3.5 - Build /pricing page
+4. Task 3.7 - Build /about page
+5. Task 3.8 - Build /contact page
 
 **Key References:**
-- BRD v34.0: `docs/smartsites-brd-v33.0.md`
+- BRD v35.0: `docs/everintent-brd-v35.0.md`
+- AI Employee Spec: `docs/AI-Employee-Product-Spec.md`
 - Brand Pivot: `docs/everintent-pivot-plan.md`
-- PRD Copy: `docs/smartsites-prd-prompt.md`
 
 **SSG Status:** ✅ Full 107-route pre-rendering operational

@@ -27,7 +27,7 @@ const Placeholder = () => {
   return (
     <>
       <SEO 
-        title={`${pageTitle} | EverIntent SmartSites`}
+        title={`${pageTitle} | EverIntent`}
         description={`${pageTitle} - Professional websites for local businesses`}
       />
       <div className="min-h-[60vh] flex flex-col items-center justify-center px-4">
