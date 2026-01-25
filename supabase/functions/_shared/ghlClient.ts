@@ -17,16 +17,14 @@ const GHL_API_VERSION = '2021-07-28';
  */
 export const GHL_TAGS = {
   /** Checkout flow tags - one per tier */
-  CHECKOUT_T1: 'SS: Checkout Started - T1',
-  CHECKOUT_T2: 'SS: Checkout Started - T2',
-  CHECKOUT_T3: 'SS: Checkout Started - T3',
-  CHECKOUT_T4: 'SS: Checkout Started - T4',
-  /** LocalPros partner application */
-  LOCALPROS_APPLY: 'LP: Partner Apply',
+  CHECKOUT_T1: 'EI: Checkout Started - T1',
+  CHECKOUT_T2: 'EI: Checkout Started - T2',
+  CHECKOUT_T3: 'EI: Checkout Started - T3',
+  CHECKOUT_T4: 'EI: Checkout Started - T4',
   /** Careers job application */
   CAREERS_APPLICATION: 'Careers: Application',
   /** General contact form submission */
-  CONTACT_FORM: 'SS: Contact Form',
+  CONTACT_FORM: 'EI: Contact Form',
   /** CCPA/DSAR data rights request - requires 45-day response */
   DATA_RIGHTS_REQUEST: 'DSAR: Data Rights Request',
 } as const;

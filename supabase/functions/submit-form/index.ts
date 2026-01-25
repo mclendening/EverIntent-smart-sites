@@ -1,7 +1,7 @@
 /**
  * @fileoverview Form Submission Edge Function
  * @module supabase/functions/submit-form
- * @description Handles all form submissions (contact, localpros_apply, data_rights_request).
+ * @description Handles all form submissions (contact, data_rights_request).
  * Stores submissions in Supabase and syncs contacts to GHL with appropriate tags.
  */
 
@@ -18,7 +18,7 @@ const corsHeaders = {
  * Valid form types accepted by this endpoint.
  * Each form type maps to a specific GHL tag.
  */
-const VALID_FORM_TYPES = ['contact', 'localpros_apply', 'data_rights_request'] as const;
+const VALID_FORM_TYPES = ['contact', 'data_rights_request'] as const;
 type FormType = typeof VALID_FORM_TYPES[number];
 
 /**
@@ -30,8 +30,6 @@ function getTagForFormType(formType: FormType): string {
   switch (formType) {
     case 'contact':
       return GHL_TAGS.CONTACT_FORM;
-    case 'localpros_apply':
-      return GHL_TAGS.LOCALPROS_APPLY;
     case 'data_rights_request':
       return GHL_TAGS.DATA_RIGHTS_REQUEST;
     default:
