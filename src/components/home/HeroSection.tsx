@@ -1,21 +1,30 @@
 /**
- * @fileoverview Homepage hero section with headline, CTAs, and value props.
+ * @fileoverview AI-First Homepage Hero Section
  * @module components/home/HeroSection
+ * 
+ * AI Employee pivot messaging per BRD v35.0:
+ * - Primary value prop: "Stop Losing Money to Missed Calls"
+ * - AI Receptionist as the hero product
+ * - Trust indicators: 24/7 coverage, instant booking, call screening
  */
 
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Phone, Clock, Calendar } from 'lucide-react';
 import { CTAButton } from '@/components/CTAButton';
 import heroBackground from '@/assets/hero-background.jpg';
 
 /**
- * Full-viewport hero section for the homepage.
- * Features background image, gradient headline, dual CTAs, and trust indicators.
+ * AI-First Hero Section for the homepage.
+ * Emphasizes the AI Receptionist value proposition: recovering missed call revenue.
  * 
  * Layout:
  * - Background image with dark overlay for text readability
  * - Centered content with animated fade-in elements
- * - Primary CTA (Get Started) and secondary CTA (See Our Work)
- * - Value prop badges: "Ready in 5 days", "You own everything", "No hidden fees"
+ * - Primary CTA (See AI Employee) and secondary CTA (Smart Websites)
+ * - Value prop badges: "24/7 Coverage", "Instant Booking", "Call Screening"
+ * 
+ * Messaging shift from v34.0:
+ * - OLD: "A website that actually gets you customers"
+ * - NEW: "Stop Losing Money to Missed Calls"
  * 
  * @component
  * @example
@@ -42,47 +51,54 @@ export function HeroSection() {
       <div className="relative z-10 container mx-auto px-4 py-16 md:py-20">
         <div className="max-w-4xl mx-auto text-center">
           
-          {/* Headline */}
+          {/* Eyebrow badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-6 animate-fade-in">
+            <Phone className="w-4 h-4" />
+            <span>AI Employee™ — Your 24/7 Receptionist</span>
+          </div>
+          
+          {/* Headline - AI-First Messaging */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] mb-4 md:mb-6 animate-fade-in" style={{ animationDelay: '100ms' }}>
-            <span className="text-foreground">A website that</span>
+            <span className="text-foreground">Stop Losing Money to</span>
             <br />
-            <span className="text-gradient">actually gets you customers.</span>
+            <span className="text-gradient">Missed Calls.</span>
           </h1>
           
-          {/* Subheadline */}
+          {/* Subheadline - Problem agitation + Solution */}
           <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 md:mb-10 px-4 animate-fade-in" style={{ animationDelay: '200ms' }}>
-            Professional websites built for local businesses. Look amazing. Get found online. Turn visitors into paying customers.
+            Every missed call costs you <span className="text-foreground font-semibold">$200+</span> in potential revenue. 
+            Our AI Receptionist answers 24/7, books appointments, and screens calls — so you never lose another lead.
           </p>
           
-          {/* CTAs */}
+          {/* CTAs - AI Employee primary, Smart Websites secondary */}
           <div className="flex flex-row items-center justify-center gap-3 md:gap-4 mb-10 md:mb-12 animate-fade-in" style={{ animationDelay: '300ms' }}>
             <CTAButton 
-              to="/pricing" 
-              defaultText="Get Started — $249"
-              hoverText="See All Plans"
+              to="/let-ai-handle-it" 
+              defaultText="See AI Employee"
+              hoverText="Meet Your AI"
             />
             <a 
-              href="/our-work" 
+              href="/smart-websites" 
               className="group inline-flex items-center gap-2 px-4 sm:px-6 py-3 text-foreground hover:text-primary transition-colors duration-300"
             >
-              <span className="story-link whitespace-nowrap">See Our Work</span>
+              <span className="story-link whitespace-nowrap">Smart Websites</span>
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </a>
           </div>
           
-          {/* Value props */}
+          {/* Value props - AI-focused */}
           <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-sm text-muted-foreground animate-fade-in" style={{ animationDelay: '400ms' }}>
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-              <span>Ready in 5 days</span>
+              <Clock className="w-4 h-4 text-accent" />
+              <span>24/7 Coverage</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-              <span>You own everything</span>
+              <Calendar className="w-4 h-4 text-accent" />
+              <span>Instant Booking</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-              <span>No hidden fees</span>
+              <Phone className="w-4 h-4 text-accent" />
+              <span>Call Screening</span>
             </div>
           </div>
         </div>
