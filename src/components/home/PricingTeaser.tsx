@@ -1,51 +1,21 @@
 /**
- * @fileoverview Homepage pricing preview showing AI Employee modes and Smart Site.
+ * @fileoverview Homepage pricing preview per BRD v35.1.
  * @module components/home/PricingTeaser
  * 
- * Displays 4 pricing cards prioritizing AI Employee modes first:
- * 1. After Hours ($149/mo) - AI answers after business hours
- * 2. Missed Call Recovery ($149/mo) - SMS text-back for missed calls
- * 3. After Hours + Booking ($197/mo) - Most Popular - includes scheduling
- * 4. Smart Site ($249 one-time) - Entry-level website package
- * 
- * All AI Employee modes include $1,497 one-time setup fee.
+ * Displays 4 pricing cards:
+ * 1. Smart Site ($249 one-time)
+ * 2. Smart Lead ($97/mo)
+ * 3. Smart Business ($197/mo) - Most Popular
+ * 4. AI Employee ($497/mo starting)
  */
 
 import { Check, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 /**
- * Pricing tier data for homepage preview.
- * AI Employee modes first, Smart Site last.
+ * Pricing tier data for homepage preview per BRD v35.1.
  */
 const tiers = [
-  {
-    name: 'After Hours',
-    price: '$149',
-    period: '/month',
-    description: 'AI answers when you can\'t.',
-    features: ['AI answers after hours', 'Captures lead details', 'Sends owner summaries'],
-    popular: false,
-    href: '/pricing#ai-employee',
-  },
-  {
-    name: 'Missed Call Recovery',
-    price: '$149',
-    period: '/month',
-    description: 'Never lose a lead to voicemail.',
-    features: ['Texts back missed calls', 'AI qualifies via SMS', 'Books appointments'],
-    popular: false,
-    href: '/pricing#ai-employee',
-  },
-  {
-    name: 'After Hours + Booking',
-    price: '$197',
-    period: '/month',
-    description: 'Full after-hours coverage with scheduling.',
-    features: ['Everything in After Hours', 'Sends booking links', 'Self-service scheduling'],
-    popular: true,
-    href: '/pricing#ai-employee',
-  },
   {
     name: 'Smart Site',
     price: '$249',
@@ -53,7 +23,34 @@ const tiers = [
     description: 'Professional website. You own it.',
     features: ['5-page website', 'Mobile responsive', 'SEO-ready', 'Ready in 5 days'],
     popular: false,
-    href: '/pricing#smart-websites',
+    href: '/pricing#smart-site',
+  },
+  {
+    name: 'Smart Lead',
+    price: '$97',
+    period: '/month',
+    description: 'For ad buyers who need lead capture.',
+    features: ['Missed call text-back', 'AI chat widget', 'GBP sync', 'Lead management'],
+    popular: false,
+    href: '/pricing#smart-lead',
+  },
+  {
+    name: 'Smart Business',
+    price: '$197',
+    period: '/month',
+    description: 'Full automation for growing teams.',
+    features: ['Online booking', 'Review automation', 'CRM pipelines', 'SMS campaigns'],
+    popular: true,
+    href: '/pricing#smart-business',
+  },
+  {
+    name: 'AI Employee',
+    price: '$497',
+    period: '/month',
+    description: 'Voice AI that answers your phone.',
+    features: ['24/7 call handling', 'Books appointments', 'Qualifies leads', 'Custom training'],
+    popular: false,
+    href: '/pricing#ai-employee',
   },
 ];
 
@@ -72,20 +69,15 @@ export function PricingTeaser() {
       
       <div className="relative container mx-auto px-4">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-6">
+        <div className="text-center max-w-2xl mx-auto mb-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-            <span className="text-foreground">AI Employee starts at </span>
-            <span className="text-gradient">$149/month</span>
+            <span className="text-foreground">Smart Websites from </span>
+            <span className="text-gradient">$249</span>
           </h2>
           <p className="text-muted-foreground text-base md:text-lg">
-            One setup. Choose your mode. Add a website when ready.
+            Professional websites with AI-powered lead capture. Upgrade as you grow.
           </p>
         </div>
-        
-        {/* Setup fee note */}
-        <p className="text-center text-sm text-muted-foreground mb-10">
-          All AI Employee modes include $1,497 one-time setup
-        </p>
         
         {/* Pricing cards - 4 column grid on desktop */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-10">

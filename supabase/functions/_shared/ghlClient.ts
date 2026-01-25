@@ -16,11 +16,55 @@ const GHL_API_VERSION = '2021-07-28';
  * @constant
  */
 export const GHL_TAGS = {
-  /** Checkout flow tags - one per tier */
+  // ============================================
+  // AI Employee Mode Tags (M1-M5)
+  // ============================================
+  /** M1: After-Hours - Voice AI after business hours */
+  AI_MODE_M1: 'EI: AI Mode - M1 After-Hours',
+  /** M2: After-Hours + Booking - Includes scheduling links */
+  AI_MODE_M2: 'EI: AI Mode - M2 After-Hours + Booking',
+  /** M3: Missed Call Recovery - SMS text-back for missed calls */
+  AI_MODE_M3: 'EI: AI Mode - M3 Missed Call Recovery',
+  /** M4: Front Line Screener - Voice AI all hours with routing */
+  AI_MODE_M4: 'EI: AI Mode - M4 Front Line Screener',
+  /** M5: Full AI Employee - Complete automation package */
+  AI_MODE_M5: 'EI: AI Mode - M5 Full AI Employee',
+  
+  // ============================================
+  // Smart Website Tier Tags
+  // ============================================
+  /** Smart Site - $249 one-time website */
+  TIER_SMART_SITE: 'EI: Tier - Smart Site',
+  /** Smart Lead - $97/mo lead capture bundle */
+  TIER_SMART_LEAD: 'EI: Tier - Smart Lead',
+  /** Smart Business - $197/mo full automation */
+  TIER_SMART_BUSINESS: 'EI: Tier - Smart Business',
+  /** Smart Growth - $297/mo premium package */
+  TIER_SMART_GROWTH: 'EI: Tier - Smart Growth',
+  
+  // ============================================
+  // Standalone Product Tags
+  // ============================================
+  /** Web Chat Only - $79/mo AI chat widget */
+  PRODUCT_WEB_CHAT: 'EI: Product - Web Chat Only',
+  /** Warmy Booster - $49/mo email warm-up */
+  PRODUCT_WARMY: 'EI: Product - Warmy Booster',
+  
+  // ============================================
+  // Legacy Checkout Tags (for backward compatibility)
+  // ============================================
+  /** @deprecated Use AI_MODE_* or TIER_* tags instead */
   CHECKOUT_T1: 'EI: Checkout Started - T1',
+  /** @deprecated Use AI_MODE_* or TIER_* tags instead */
   CHECKOUT_T2: 'EI: Checkout Started - T2',
+  /** @deprecated Use AI_MODE_* or TIER_* tags instead */
   CHECKOUT_T3: 'EI: Checkout Started - T3',
+  /** @deprecated Use AI_MODE_* or TIER_* tags instead */
   CHECKOUT_T4: 'EI: Checkout Started - T4',
+  
+  // ============================================
+  // Form & Application Tags
+  // ============================================
   /** Careers job application */
   CAREERS_APPLICATION: 'Careers: Application',
   /** General contact form submission */
@@ -28,6 +72,34 @@ export const GHL_TAGS = {
   /** CCPA/DSAR data rights request - requires 45-day response */
   DATA_RIGHTS_REQUEST: 'DSAR: Data Rights Request',
 } as const;
+
+/**
+ * Mapping of tier/mode identifiers to their corresponding GHL tags.
+ * Used by checkout and form submission flows.
+ * 
+ * @constant
+ */
+export const TIER_TAG_MAP: Record<string, string> = {
+  // AI Employee Modes
+  m1: GHL_TAGS.AI_MODE_M1,
+  m2: GHL_TAGS.AI_MODE_M2,
+  m3: GHL_TAGS.AI_MODE_M3,
+  m4: GHL_TAGS.AI_MODE_M4,
+  m5: GHL_TAGS.AI_MODE_M5,
+  // Smart Website Tiers
+  'smart-site': GHL_TAGS.TIER_SMART_SITE,
+  'smart-lead': GHL_TAGS.TIER_SMART_LEAD,
+  'smart-business': GHL_TAGS.TIER_SMART_BUSINESS,
+  'smart-growth': GHL_TAGS.TIER_SMART_GROWTH,
+  // Standalone Products
+  'web-chat': GHL_TAGS.PRODUCT_WEB_CHAT,
+  'warmy': GHL_TAGS.PRODUCT_WARMY,
+  // Legacy tier mappings (backward compatibility)
+  t1: GHL_TAGS.CHECKOUT_T1,
+  t2: GHL_TAGS.CHECKOUT_T2,
+  t3: GHL_TAGS.CHECKOUT_T3,
+  t4: GHL_TAGS.CHECKOUT_T4,
+};
 
 // Helper to get GHL headers
 export function ghlHeaders(): Record<string, string> {
