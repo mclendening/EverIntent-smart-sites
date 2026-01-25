@@ -1,7 +1,7 @@
-# EverIntent — Complete Business Requirements Document v35.0
+# EverIntent — Complete Business Requirements Document v35.1
 
-**Last Updated:** December 26, 2025  
-**Version:** 35.0 (AI Employee MVP Integration)
+**Last Updated:** January 25, 2025  
+**Version:** 35.1 (AI-First + Smart Lead + Digital Donut)
 **Status:** BUILD-READY
 **Owner:** EverIntent LLC  
 **Tagline:** Web Design AI & Automation
@@ -391,26 +391,35 @@ The AI Employee is **NOT** multiple bots, templates, or systems. It is:
 
 Each mode is a **configuration of the same engine**, not separate infrastructure:
 
-| Mode ID | Mode Name | Active Rules | Monthly Price |
-|---------|-----------|--------------|---------------|
-| M1 | After Hours | Voice AI answers outside hours | $149 |
-| M2 | After Hours + Booking | M1 + booking link allowed | $197 |
-| M3 | Missed Call Recovery | SMS sent on missed/hangup | $149 |
-| M4 | Front Line Screening | Voice AI answers during hours, optional transfer | $297 |
-| M5 | Full AI Employee | M1 + M2 + M3 + M4 | Bundled pricing |
+| Mode ID | Mode Name | Active Rules | Setup Fee | Monthly |
+|---------|-----------|--------------|-----------|---------|
+| M1 | After Hours | Voice AI answers outside hours | $997 | $497 |
+| M2 | After Hours + Booking | M1 + booking link allowed | $997 | $497 |
+| M3 | Missed Call Recovery | SMS sent on missed/hangup | $997 | $497 |
+| M4 | Front Line Screening | Voice AI answers during hours, optional transfer | $1,497 | $547 |
+| M5 | Full AI Employee | M1 + M2 + M3 + M4 | $2,500 | $597 |
 
 **All modes share:**
-- $1,497 flat setup fee (MVP)
-- Same underlying Voice AI + Conversation AI infrastructure
+- Dedicated Voice AI + Conversation AI infrastructure
 - Same transcript generation capability
+- GHL sub-account provisioning
 
-#### Web Chat (Standalone)
+#### Web Chat Only (Standalone)
 
 | Item | Value |
 |------|-------|
 | Setup Fee | $497 |
 | Monthly | $79 |
 | Use Case | Website-only engagement, no phone |
+
+#### Warmy Booster (Add-on)
+
+| Item | Value |
+|------|-------|
+| Setup Fee | — |
+| Monthly | $49 |
+| Use Case | Email deliverability, domain warm-up |
+| Note | Bundled with Smart Lead or à la carte |
 
 #### Multi-Mode Discount
 
@@ -454,21 +463,61 @@ Each mode is a **configuration of the same engine**, not separate infrastructure
 | Custom Fields | ~5 (mode, setup status, DID, etc.) |
 | Tags | ~10 (see Tag Schema below) |
 
-#### GHL Tag Schema (AI Employee)
+#### GHL Tag Schema (v35.1)
 
 ```
+# AI Employee Modes
 EI: AI - Missed Call Recovery
 EI: AI - After Hours
 EI: AI - After Hours + Booking
 EI: AI - Front Line Screening
 EI: AI - Full Employee
-EI: Web Chat Only
+
+# Smart Website Tiers
 EI: Smart Website - Starter
-EI: Smart Website - Professional
-EI: Smart Website - Premium
+EI: Smart Website - Lead
+EI: Smart Website - Business
+EI: Smart Website - Growth
+
+# Standalone Products
+EI: Web Chat Only
+EI: Warmy Booster
+
+# Status Tags
 EI: Setup Complete
 EI: Setup Pending
 ```
+
+### 5.10 Digital Donut Strategy (v35.1)
+
+The "Digital Donut" is an outbound sales strategy using pre-built demo sites with trained bots.
+
+#### Workflow Overview
+
+```
+1. n8n scrapes leads (local businesses without AI)
+2. After-hours call test → proves missed call problem
+3. Build mock site + trained bot for prospect
+4. Generate unique donut_id
+5. Update GHL contact with donut_id
+6. Trigger automated demo email sequence
+7. Dynamic HighLevel funnel page embeds personalized bot
+```
+
+#### GHL Custom Fields Required
+
+| Field | Type | Purpose |
+|-------|------|---------|
+| `donut_id` | Text | Unique ID linking prospect to their demo |
+
+#### Email Sequence Trigger
+
+When `donut_id` is populated, GHL workflow triggers:
+1. "We built this for you" email with demo link
+2. Follow-up showing their exact after-hours gap
+3. Call scheduling CTA
+
+### 5.11 MVP Canonical Scope (v35.1)
 
 ### 5.10 MVP Canonical Scope (v35.0)
 
@@ -506,24 +555,46 @@ EI: Setup Pending
 
 Smart Websites are **loss-leader entry points** that introduce clients to EverIntent's ecosystem.
 
-#### MVP Pricing
+#### The Conversion Ladder (v35.1)
 
-| Tier | One-Time Price | Includes |
-|------|----------------|----------|
-| Starter | $249 | 5-page site, mobile-optimized, basic SEO |
+```
+Smart Site ($249) → Smart Lead ($97/mo) → Smart Business ($197/mo) → Smart Growth ($497/mo) → AI Employee ($149-$297/mo)
+```
 
-#### Deferred Tiers (Post-MVP)
+#### Smart Website Tiers (v35.1)
 
-| Tier | Price | Additional Features |
-|------|-------|---------------------|
-| Professional | $749 | 10 pages, CRO, advanced SEO |
-| Premium | $1,497 | 20 pages, custom features, priority support |
+| Tier | Setup | Monthly | Key Features | Target |
+|------|-------|---------|--------------|--------|
+| **Smart Site** | $249 | $149/yr renewal | 5-page site, mobile, SEO, contact form | New businesses needing web presence |
+| **Smart Lead** | $249 | $97/mo | + Missed-call text-back, GBP sync, Warmy nurture, reputation, call tracking | **Ad-spend clients** (flagship) |
+| **Smart Business** | $749 | $197/mo | + Booking, pipeline, review automation | Growing businesses scaling operations |
+| **Smart Growth** | $1,497 | $497/mo | + AI voice, advanced automation, unified inbox | Businesses ready for full automation |
+
+#### Smart Lead — Flagship for Ad Buyers (v35.1)
+
+**Smart Lead** ($249 setup + $97/mo) is the flagship service for clients running paid ads:
+
+| Feature | Description |
+|---------|-------------|
+| Missed-call text-back | Instant SMS within 60 seconds of missed call |
+| GBP Sync | LeadConnector number as primary GBP number; existing number moved to secondary |
+| Warmy Nurture | Warmy.io-powered email/SMS sequences with warm-up |
+| Reputation Management | Automated review requests post-job |
+| Call Tracking | Attribution for ad campaigns |
+
+#### Standalone Products (v35.1)
+
+| Product | Setup | Monthly | Use Case |
+|---------|-------|---------|----------|
+| **Web Chat Only** | $497 | $79/mo | Chat automation without voice AI |
+| **Warmy Booster** | — | $49/mo | Email deliverability add-on (bundled with Smart Lead or à la carte) |
 
 #### Relationship to AI Employee
 
 - Smart Websites are **standalone products**
 - AI Employee modes are **add-ons** to any website tier
-- Future: Bundled packages combining website + AI modes
+- Smart Lead bridges the gap between static sites and full AI automation
+- Web Chat Only is a parallel entry point for chat-only automation
 
 ---
 
@@ -545,17 +616,21 @@ Smart Websites are **loss-leader entry points** that introduce clients to EverIn
 
 **Renewal:** $149/year (hosting + maintenance)
 
-### T2 - Smart Lead ($97/month)
+### T2 - Smart Lead ($249 setup + $97/month) — FLAGSHIP
 
-**Who it's for:** Businesses ready to capture and convert more leads.
+**Who it's for:** Businesses running paid ads who need lead capture and follow-up automation.
 
 **Includes everything in T1, plus:**
-- Missed call text-back
+- Missed call text-back (instant SMS within 60 seconds)
 - AI chat widget
 - Lead capture forms
 - Contact management (CRM)
 - SMS/email communication
 - Mobile app access
+- **GBP Sync** (LeadConnector as primary number)
+- **Warmy-powered nurture sequences**
+- **Reputation management** (automated review requests)
+- **Call tracking & attribution**
 - 400 SMS/month included
 - 30 AI minutes/month included
 
