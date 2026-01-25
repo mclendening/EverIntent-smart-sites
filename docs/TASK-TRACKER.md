@@ -34,7 +34,7 @@ Navigation with dropdowns for product exploration. Primary CTA: "Get Started" �
 
 **The Conversion Ladder:**
 ```
-Smart Site ($249) → Smart Lead ($97/mo) → Smart Business ($197/mo) → Smart Growth ($497/mo) → AI Employee ($497-$597/mo)
+Smart Site ($249) → Smart Lead ($97/mo) → Smart Business ($197/mo) → Smart Growth ($297/mo) → AI Employee ($497-$597/mo)
 ```
 
 **AI Employee Modes:**
@@ -566,7 +566,7 @@ Created `src/pages/AIEmployee.tsx` with:
 - ✅ Problem section (missed call revenue loss statistics)
 - ✅ Solution section (6 AI capabilities: Voice, SMS, Booking, Screening, Transfer, Web Chat)
 - ✅ Modes section with all 5 AI Employee modes (M1-M5)
-- ✅ Pricing display ($149-$297/mo + setup fees)
+- ✅ Pricing display ($497-$597/mo + setup fees)
 - ✅ Final CTA section
 - ✅ Route added to `src/routes.tsx`
 
@@ -578,7 +578,7 @@ Created `src/pages/AIEmployee.tsx` with:
 Updated Footer.tsx:
 - ✅ Solutions column: AI Employee first, Smart Websites second
 - ✅ AI Modes column (replaces Packages): Links to all 5 modes
-- ✅ Updated tagline: "Starting at $149/mo"
+- ✅ Updated tagline: "Starting at $497/mo"
 - ✅ Simplified resources (removed LocalPros, Our Work)
 
 ### Task 3.4 [LOVABLE] - Smart Websites Page (/smart-websites)
@@ -805,7 +805,7 @@ Add Warmy Booster add-on card:
 
 Update all pricing cards to show both fees:
 - AI Employee: "$997 setup + $497/mo" format
-- Smart Website tiers: "$249 one-time" or "$749 setup + $197/mo" format
+- Smart Website tiers: "$249 one-time" or "$497 setup + $197/mo" format
 
 ### Task 3D.5 [LOVABLE] - Add Conversion Journey Note
 **Status:** ⬜ Not Started
@@ -886,7 +886,7 @@ Update Header.tsx navigation:
   - Smart Site ($249)
   - Smart Lead ($97/mo)
   - Smart Business ($197/mo)
-  - Smart Growth ($497/mo)
+  - Smart Growth ($297/mo)
   - Compare All →
 
 ### Task 3F.2 [LOVABLE] - Add AI Employee Dropdown
@@ -938,13 +938,17 @@ Create landing page at `/warmy-booster` or add section to Services:
 
 1. Go to https://dashboard.stripe.com
 2. Create products:
-   - AI Employee M1 ($149/mo)
-   - AI Employee M2 ($199/mo)
-   - AI Employee M3 ($199/mo)
-   - AI Employee M4 ($249/mo)
-   - AI Employee M5 ($297/mo)
-   - Smart Website ($249 one-time)
-   - Web Chat ($79/mo + $497 setup)
+   - AI Employee M1 ($997 setup + $497/mo)
+   - AI Employee M2 ($997 setup + $497/mo)
+   - AI Employee M3 ($997 setup + $497/mo)
+   - AI Employee M4 ($1,497 setup + $547/mo)
+   - AI Employee M5 ($2,500 setup + $597/mo)
+   - Smart Site ($249 one-time)
+   - Smart Lead ($249 setup + $97/mo)
+   - Smart Business ($497 setup + $197/mo)
+   - Smart Growth ($997 setup + $297/mo)
+   - Web Chat Only ($497 setup + $79/mo)
+   - Warmy Booster ($49/mo)
 3. Get your **Secret Key**: Developers → API Keys → Secret key
 4. Get your **Publishable Key**: Developers → API Keys → Publishable key
 
@@ -1024,7 +1028,6 @@ export const GHL_TAGS = {
   
   // Other
   CONTACT_FORM: 'EI: Contact Form',
-  PARTNER_APPLY: 'LP: Partner Apply',
   CAREERS_APPLICATION: 'Careers: Application',
 };
 ```
