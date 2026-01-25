@@ -37,6 +37,7 @@ import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import PlaceholderPage from './pages/Placeholder';
 import AIEmployee from './pages/AIEmployee';
+import SmartWebsites from './pages/SmartWebsites';
 import AdminLogin from './pages/admin/Login';
 import AdminResetPassword from './pages/admin/ResetPassword';
 import AdminDashboard from './pages/admin/Dashboard';
@@ -142,7 +143,7 @@ function AdminLayout() {
 // ============================================
 
 // Core marketing pages
-const coreRoutePaths = ['/', '/pricing', '/our-work', '/about', '/contact', '/book-call', '/strategy-session', '/careers'];
+const coreRoutePaths = ['/', '/pricing', '/our-work', '/about', '/contact', '/book-call', '/strategy-session', '/careers', '/smart-websites'];
 
 // Primary service landing page
 const primaryServicePath = '/beautiful-websites';
@@ -371,9 +372,14 @@ export const routes: RouteRecord[] = [
         path: 'let-ai-handle-it',
         Component: AIEmployee,
       },
+      // Smart Websites page - dedicated component
+      {
+        path: 'smart-websites',
+        Component: SmartWebsites,
+      },
       // Primary service
       createPlaceholderChild(primaryServicePath),
-      // Services (excluding let-ai-handle-it which has its own component)
+      // Services (excluding pages with dedicated components)
       ...servicePaths.filter(p => p !== '/let-ai-handle-it').map(createPlaceholderChild),
       // Product category pages (SEO)
       ...productCategoryPaths.map(createPlaceholderChild),
