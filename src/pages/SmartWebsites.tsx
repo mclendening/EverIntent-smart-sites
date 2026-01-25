@@ -454,6 +454,63 @@ const SmartWebsites = () => {
         </div>
       </section>
 
+      {/* Warmy Booster Section */}
+      <section id="warmy-booster" className="py-16 lg:py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div>
+                <Badge variant="secondary" className="mb-4">
+                  <TrendingUp className="h-4 w-4 mr-1" /> Warmy Booster Add-On
+                </Badge>
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                  Get Your Emails Into the Inbox
+                </h2>
+                <p className="text-lg text-muted-foreground mb-6">
+                  Running email campaigns? Warmy Booster warms up your domain so your messages 
+                  land in the inbox—not the spam folder. Bundled free with Smart Lead or available 
+                  as a $49/mo add-on.
+                </p>
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-center gap-3">
+                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+                    <span className="text-foreground">Automated domain warm-up</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+                    <span className="text-foreground">Deliverability monitoring</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+                    <span className="text-foreground">Spam score alerts</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+                    <span className="text-foreground">Free with Smart Lead tier</span>
+                  </li>
+                </ul>
+                <div className="flex flex-wrap gap-3">
+                  <Button asChild variant="outline">
+                    <Link to="/pricing#warmy">
+                      Learn More
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+              <div className="bg-gradient-to-br from-accent/10 to-primary/10 rounded-2xl p-8 text-center">
+                <div className="text-5xl font-bold text-foreground mb-2">$49</div>
+                <div className="text-muted-foreground mb-4">/month add-on</div>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-sm text-primary font-medium">
+                  <Star className="h-4 w-4" />
+                  FREE with Smart Lead
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* AI Upgrade Teaser */}
       <section className="py-16 lg:py-24 bg-gradient-to-br from-primary/5 via-background to-accent/5">
         <div className="container mx-auto px-4">

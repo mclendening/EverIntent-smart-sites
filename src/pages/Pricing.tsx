@@ -199,13 +199,81 @@ const Pricing = () => {
             <span className="text-foreground">Simple Pricing. </span>
             <span className="text-gradient">No Contracts.</span>
           </h1>
-          <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto">
-            AI Employee starts at $497/mo. Smart Websites from $249. Cancel anytime.
+          <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mb-6">
+            Start with a Smart Site. Upgrade to Smart Lead, Business, or Growth. Let AI handle it when you're ready.
+          </p>
+          <p className="text-sm text-muted-foreground/80 max-w-xl mx-auto">
+            Every tier is upgrade-ready. Move up the ladder as your business grows — no rebuilds, no migrations.
           </p>
         </div>
       </section>
 
-      {/* AI Employee Plans Section */}
+      {/* Smart Website Packages Section - FIRST per conversion ladder */}
+      <section id="smart-websites" className="py-16 md:py-24 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Smart Website Packages
+            </h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Professional websites built in 5 days. AI-ready from day one.
+            </p>
+          </div>
+
+          {/* Website Packages Grid */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {websitePackages.map((pkg) => (
+              <div
+                key={pkg.name}
+                className={`relative rounded-2xl p-6 border transition-all duration-300 hover-lift ${
+                  pkg.popular
+                    ? 'bg-primary/5 border-primary/50 shadow-lg shadow-primary/10'
+                    : 'bg-card/50 border-border/30 hover:border-primary/30'
+                }`}
+              >
+                {pkg.popular && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary text-primary-foreground text-xs font-medium rounded-full">
+                    Most Popular
+                  </div>
+                )}
+
+                <div className="mb-4">
+                  <h3 id={pkg.id} className="text-lg font-semibold text-foreground mb-1">{pkg.name}</h3>
+                  <p className="text-sm text-muted-foreground">{pkg.pages} pages</p>
+                </div>
+
+                <div className="mb-2">
+                  <span className="text-3xl font-bold text-foreground">{pkg.price}</span>
+                  <span className="text-muted-foreground text-sm">{pkg.period}</span>
+                </div>
+                <p className="text-xs text-muted-foreground mb-5">{pkg.setupNote}</p>
+
+                <ul className="space-y-2.5 mb-6">
+                  {pkg.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-2 text-sm">
+                      <Check className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+                      <span className="text-muted-foreground">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Link
+                  to="/contact"
+                  className={`block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 ${
+                    pkg.popular
+                      ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                      : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                  }`}
+                >
+                  Get Started
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* AI Employee Plans Section - SECOND per conversion ladder */}
       <section id="ai-employee" className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -280,91 +348,29 @@ const Pricing = () => {
         </div>
       </section>
 
-      {/* Smart Website Packages Section */}
-      <section id="smart-websites" className="py-16 md:py-24 bg-muted/30">
+      {/* Parallel Entry Points Section */}
+      <section id="entry-points" className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Smart Website Packages
+              Just Need One Thing?
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Professional websites built in 5 days. AI-ready from day one.
-            </p>
-          </div>
-
-          {/* Website Packages Grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {websitePackages.map((pkg) => (
-              <div
-                key={pkg.name}
-                className={`relative rounded-2xl p-6 border transition-all duration-300 hover-lift ${
-                  pkg.popular
-                    ? 'bg-primary/5 border-primary/50 shadow-lg shadow-primary/10'
-                    : 'bg-card/50 border-border/30 hover:border-primary/30'
-                }`}
-              >
-                {pkg.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary text-primary-foreground text-xs font-medium rounded-full">
-                    Most Popular
-                  </div>
-                )}
-
-                <div className="mb-4">
-                  <h3 id={pkg.id} className="text-lg font-semibold text-foreground mb-1">{pkg.name}</h3>
-                  <p className="text-sm text-muted-foreground">{pkg.pages} pages</p>
-                </div>
-
-                <div className="mb-2">
-                  <span className="text-3xl font-bold text-foreground">{pkg.price}</span>
-                  <span className="text-muted-foreground text-sm">{pkg.period}</span>
-                </div>
-                <p className="text-xs text-muted-foreground mb-5">{pkg.setupNote}</p>
-
-                <ul className="space-y-2.5 mb-6">
-                  {pkg.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2 text-sm">
-                      <Check className="w-4 h-4 text-accent shrink-0 mt-0.5" />
-                      <span className="text-muted-foreground">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <Link
-                  to="/contact"
-                  className={`block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 ${
-                    pkg.popular
-                      ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                      : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                  }`}
-                >
-                  Get Started
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Standalone Products Section */}
-      <section id="standalone" className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Standalone Add-Ons
-            </h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Enhance your setup with these optional products.
+              Not ready for a full package? Start with a single product.
             </p>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
-            {/* Web Chat Only */}
-            <div id="web-chat" className="rounded-2xl p-6 border border-border/30 bg-card/50 hover:border-primary/30 transition-all duration-300 hover-lift">
+            {/* Web Chat Only - Parallel Entry */}
+            <div id="web-chat" className="rounded-2xl p-6 border border-primary/30 bg-primary/5 hover:border-primary/50 transition-all duration-300 hover-lift">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
                   <MessageSquare className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">Web Chat Only</h3>
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground">Web Chat Only</h3>
+                  <p className="text-xs text-muted-foreground">Parallel entry to AI</p>
+                </div>
               </div>
               <div className="mb-2">
                 <span className="text-3xl font-bold text-foreground">$79</span>
@@ -372,11 +378,11 @@ const Pricing = () => {
               </div>
               <p className="text-xs text-muted-foreground mb-4">$497 setup</p>
               <p className="text-sm text-muted-foreground mb-5">
-                AI chat widget for your website. Capture leads 24/7 without voice AI.
+                AI chat widget for your website. Capture leads 24/7 without voice AI. Upgrade to full AI Employee anytime.
               </p>
               <Link
                 to="/contact"
-                className="block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-all duration-300"
+                className="block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300"
               >
                 Get Started
               </Link>
@@ -388,13 +394,16 @@ const Pricing = () => {
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
                   <Zap className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">Warmy Booster</h3>
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground">Warmy Booster</h3>
+                  <p className="text-xs text-muted-foreground">Email deliverability</p>
+                </div>
               </div>
               <div className="mb-2">
                 <span className="text-3xl font-bold text-foreground">$49</span>
                 <span className="text-muted-foreground text-sm">/month</span>
               </div>
-              <p className="text-xs text-muted-foreground mb-4">No setup fee</p>
+              <p className="text-xs text-muted-foreground mb-4">No setup fee • Free with Smart Lead</p>
               <p className="text-sm text-muted-foreground mb-5">
                 Email warm-up service to boost deliverability and keep your emails out of spam.
               </p>
