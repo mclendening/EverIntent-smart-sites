@@ -947,7 +947,7 @@ GHL Webhook Fires
 | Smart Site (T1) | $249 | One-time |
 | Smart Lead (T2) | $97 | Monthly |
 | Smart Business (T3) | $197 | Monthly |
-| Smart Growth (T4) | $497 | Monthly |
+| Smart Growth (T4) | $297 | Monthly |
 | T1 Annual Renewal | $149 | Yearly (after Y1) |
 | AI Employee - M1/M2/M3 (After Hours, +Booking, Missed Call) | $497 | Monthly |
 | AI Employee - M4 (Front Line Screening) | $547 | Monthly |
@@ -957,6 +957,7 @@ GHL Webhook Fires
 | AI Employee - Setup Fee (M5) | $2,500 | One-time |
 | Web Chat Only | $79 | Monthly |
 | Web Chat Only - Setup Fee | $497 | One-time |
+| Warmy Booster | $49 | Monthly |
 
 ### Usage Rebilling (T2-T4)
 
@@ -1015,7 +1016,9 @@ GHL Sub-Account (per customer)
 | ei-t1-smart-site | $249 one-time | ei-t1-snapshot | None |
 | ei-t2-smart-lead | $97/mo | ei-t2-snapshot | None |
 | ei-t3-smart-business | $197/mo | ei-t3-snapshot | None |
-| ei-t4-smart-growth | $497/mo | ei-t4-snapshot | None |
+| ei-t4-smart-growth | $297/mo | ei-t4-snapshot | None |
+| ei-web-chat-only | $79/mo | ei-webchat-snapshot | None |
+| ei-warmy-booster | $49/mo | — | None |
 
 ### Welcome Email Template
 
@@ -1624,24 +1627,42 @@ For MVP, navigation is simplified to focus on AI Employee and Smart Websites:
 - Careers
 - Resources
 
-### 17.2 MVP Footer Navigation (v35.0)
+### 17.2 MVP Footer Navigation (v35.1)
 
-**Column 1: Products**
+**4-Column Structure:**
+
+**Column 1: Services**
 | Label | Route |
 |-------|-------|
 | AI Employee | `/let-ai-handle-it` |
-| Smart Websites | `/smart-websites` |
-| Pricing | `/pricing` |
+| Smart Site | `/smart-websites` |
+| Smart Lead | `/smart-websites#smart-lead` |
+| Smart Business | `/smart-websites#smart-business` |
+| Smart Growth | `/smart-websites#smart-growth` |
+| Web Chat Only | `/pricing#web-chat` |
+| Warmy Booster | `/pricing#warmy-booster` |
 
-**Column 2: Company**
+**Column 2: AI Modes**
+| Label | Route |
+|-------|-------|
+| After-Hours | `/let-ai-handle-it#m1` |
+| Missed Call Recovery | `/let-ai-handle-it#m3` |
+| After-Hours + Booking | `/let-ai-handle-it#m2` |
+| Front Line Screener | `/let-ai-handle-it#m4` |
+| Full AI Employee | `/let-ai-handle-it#m5` |
+
+**Column 3: Resources**
+| Label | Route |
+|-------|-------|
+| FAQ | `/pricing#faq` |
+| Industries | `/industries` |
+
+**Column 4: Company**
 | Label | Route |
 |-------|-------|
 | About | `/about` |
 | Contact | `/contact` |
-
-**Column 3: Legal**
-| Label | Route |
-|-------|-------|
+| Careers | `/careers` |
 | Privacy Policy | `/privacy` |
 | Terms of Service | `/terms` |
 | Cookie Policy | `/cookies` |
@@ -1652,29 +1673,6 @@ For MVP, navigation is simplified to focus on AI Employee and Smart Websites:
 | Client Login | `https://app.everintent.com` |
 
 ### 17.3 MVP Route Implementation
-
-**Active MVP Routes (10):**
-```typescript
-export const mvpRoutes = [
-  '/',
-  '/let-ai-handle-it',
-  '/smart-websites', 
-  '/pricing',
-  '/about',
-  '/contact',
-  '/privacy',
-  '/terms',
-  '/cookies',
-  '/data-rights-request'
-];
-```
-
-**Deferred Routes:** All other routes remain in `routes.tsx` but:
-- Hidden from navigation
-- Render `PlaceholderPage` with "Coming Soon" message
-- OR redirect to `/`
-
-### 17.4 Mobile Navigation (MVP)
 
 - Hamburger menu with same 5 links + CTA
 - No nested menus
@@ -2378,10 +2376,12 @@ See Task 3.5 Definition (Section 28) for detailed phases.
 - Keep mobile hamburger with simplified menu
 - Rename "AI & Automation" to "AI Employee"
 
-**Footer.tsx:**
-- Reduce from 4 columns to 3
-- Remove Packages column
-- Remove Resources column
+**Footer.tsx (v35.1 Update):**
+- Restructure to 4 columns: Services, AI Modes, Resources, Company
+- Services column: AI Employee, Smart Site, Smart Lead, Smart Business, Smart Growth, Web Chat Only, Warmy Booster
+- AI Modes column: All 5 modes (M1-M5)
+- Resources column: FAQ, Industries
+- Company column: About, Contact, Careers, Privacy, Terms, Cookies
 - Add external "Client Login" link
 
 **routes.tsx:**
@@ -2559,13 +2559,15 @@ automation: true (advanced)
 reputation: true (full)
 reporting: true
 unified_inbox: true
-ai_voice: enabled
 settings: true
 
 consumables:
   sms_monthly: 1000
   ai_minutes_monthly: 100
   email_monthly: 5000
+
+# Note: AI Voice is NOT included in T4 ($297/mo)
+# AI Voice requires AI Employee add-on (M1-M5)
 ```
 
 ---
