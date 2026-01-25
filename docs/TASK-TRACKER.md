@@ -567,124 +567,38 @@ Create checkout pages:
 - TCPA consent
 - Stripe integration (deferred to Phase 4)
 
-### Task 3.3 [LOVABLE] - Smart Websites Service Page (/smart-websites)
+### Task 3.7 [LOVABLE] - About Page (/about)
 **Status:** ⬜ Not Started
 
-> **Source:** PRD lines 584-612 (update copy for "Smart Websites" branding)
-> **JSDoc:** `@brdref BRD v34.0 Section 5.1 - Smart Websites` and `@brdref PRD lines 584-612`
+Create About page with:
+- Company story/mission
+- Team section (optional)
+- Values/approach
 
-**H1:** "Smart Websites That Pay For Themselves"
-**Subhead:** "Built in 5 days. Starting at $249. Ready for AI when you are."
-
-**H1:** "A Professional Website That Actually Gets You Customers"
-**Subhead:** "Built in 5 days. Starting at $249. You own everything."
-
-**Problem Points (4):**
-- You know you need a website but the options are overwhelming
-- DIY builders take forever and still look amateur
-- Agencies quote $5,000+ and take months
-- You're losing customers to competitors with better sites
-
-**Solution Features (5):**
-- **5-Page Professional Site** — Home, Services, About, Contact, plus one more
-- **Mobile-First Design** — 70% of your customers search on their phone
-- **Built in 5 Days** — Not 5 weeks. We move fast.
-- **You Own Everything** — Your domain, your content, your site. No lock-in.
-- **SEO-Ready** — Google can find you from day one
-
-**What's Included (All Tiers):**
-- Custom 5-page website
-- Mobile-responsive design
-- Contact form with email notifications
-- Google Maps integration
-- Basic SEO setup (meta tags, schema)
-- SSL certificate
-- 1 year hosting (T1) / Ongoing hosting (T2-T4)
-- GA4 analytics dashboard
-
-### Task 3.4 [LOVABLE] - Pricing Page (/pricing)
+### Task 3.8 [LOVABLE] - Contact Page (/contact)
 **Status:** ⬜ Not Started
 
-> **Source:** PRD lines 33-44, 807-809
-> **JSDoc:** `@brdref BRD v34.0 Section 6 - Tier Definitions` and `@brdref Section 7 - Complete Feature Matrix`
-
-**H1:** "Simple, Transparent Pricing"
-
-**4-Column Tier Comparison Table:**
-
-| Feature | T1 Smart Site ($249) | T2 Smart Lead ($97/mo) | T3 Smart Business ($197/mo) | T4 Smart Growth ($497/mo) |
-|---------|---------------------|----------------------|---------------------------|-------------------------|
-| Who It's For | Just need a professional web presence | Ready to capture and convert more leads | Need to streamline operations | Ready for full automation and growth |
-| Website | ✓ | ✓ | ✓ | ✓ |
-| Lead Capture | - | ✓ | ✓ | ✓ |
-| Mobile App | - | ✓ | ✓ | ✓ |
-| Scheduling | - | - | ✓ | ✓ |
-| Reputation | - | - | Basic | Full |
-| AI Voice | - | - | - | ✓ |
-
-**Each Tier Card:** Name, price, tagline, feature list, CTA → /checkout/{tier-slug}
-
-**Footer Notes:** T1 renewal at $149/year, no hidden fees
-
-### Task 3.5 [LOVABLE] - Remaining 6 Service Pages
-**Status:** ⬜ Not Started
-
-> **JSDoc:** Each page must document `@brdref BRD v34.0 Section 5` (corresponding service subsection) and `@brdref PRD lines X-Y`.
-
-Build after Tasks 3.2-3.4 are complete. Each follows same structure with copy from PRD:
-
-| Route | H1 | PRD Lines |
-|-------|-----|-----------|
-| `/get-found-online` | "Show Up When Customers Search For What You Do" | 615-641 |
-| `/never-miss-a-lead` | "Every Customer Inquiry Answered. Even When You Can't." | 645-672 |
-| `/book-more-jobs` | "Stop Playing Phone Tag. Let Customers Book Online." | 675-701 |
-| `/run-from-your-phone` | "Run Your Entire Business From Your Pocket" | 705-731 |
-| `/build-your-reputation` | "More 5-Star Reviews. Less Chasing Customers For Them." | 735-762 |
-| `/let-ai-handle-it` | "Your 24/7 Receptionist. For Less Than Minimum Wage." | 765-793 |
-
-### Task 3.6 [LOVABLE] - Partners Page (/partners)
-**Status:** ⬜ Not Started
-
-> **JSDoc:** `@brdref BRD v34.0 Section 22 - Partner Program`
-
-**Route:** `/partners`  
-**H1:** "Earn Money Referring Clients to EverIntent"  
-**Subhead:** "Join our partner program and earn commissions on every referral."
-
-**Page Sections (in order):**
-1. **Hero** - Headline, subhead, "Apply Now" CTA (scroll to form)
-2. **How It Works** - 3-step process (Apply → Share → Earn) with Lucide icons
-3. **Commission Overview** - Styled cards showing 4 commission tiers (10%, $50, $25, 5%)
-4. **Who Should Apply** - Bullet list of target audiences
-5. **FAQ Accordion** - 5 questions about payments, cookies, eligibility
-6. **Application Form** - Name, email, phone, company/website, referral method, TCPA consent
-7. **Trust Elements** - "No upfront costs", "90-day cookie", "Real-time tracking", "Monthly payouts"
-
-**Form Submission:**
-- Edge function: `submit-form`
-- `form_type`: `partner_apply`
-- GHL Tag: `EI: Partner Application`
-- Store in `form_submissions` table
-- Success toast: "Thanks for applying! We'll review your application and be in touch within 2 business days."
-
-**Dependencies:**
-- Task 3.1 (Reusable Section Components) - optional, can build standalone
-- `submit-form` edge function (already exists)
-
-**Technical Notes:**
-- Add `/partners` to `prerenderRoutes` in `src/routes.tsx`
-- Add to footer under "Company" column
-- SEO: Title "Become a Partner | EverIntent", description "Earn commissions referring clients to EverIntent..."
+Create Contact page with:
+- Contact form (submit-form edge function)
+- Business hours
+- Location/service area info
 
 ---
 
-## Phase 4: Checkout Flow
+## Phase 4: Checkout & Payments
 
 ### Task 4.1 [MANUAL] - Create Stripe Account & Products
 **Status:** ⬜ Not Started
 
 1. Go to https://dashboard.stripe.com
-2. Create products for each tier (T1-T4)
+2. Create products:
+   - AI Employee M1 ($149/mo)
+   - AI Employee M2 ($199/mo)
+   - AI Employee M3 ($199/mo)
+   - AI Employee M4 ($249/mo)
+   - AI Employee M5 ($297/mo)
+   - Smart Website ($249 one-time)
+   - Web Chat ($79/mo + $497 setup)
 3. Get your **Secret Key**: Developers → API Keys → Secret key
 4. Get your **Publishable Key**: Developers → API Keys → Publishable key
 
@@ -703,50 +617,54 @@ Build after Tasks 3.2-3.4 are complete. Each follows same structure with copy fr
 |------|-------|-------------|
 | `VITE_STRIPE_PUBLISHABLE_KEY` | Your Stripe publishable key (pk_live_... or pk_test_...) | All |
 
-### Task 4.3 [LOVABLE] - Build Checkout Pages & Components
+### Task 4.3 [LOVABLE] - Build AI Employee Checkout
 **Status:** ⬜ Not Started
 
-> **JSDoc:** All checkout components must document `@brdref BRD v34.0 Section 10 - Checkout & Billing Architecture`.
+Create `/checkout/ai-employee` with:
+- Mode selection (M1-M5)
+- Customer info form
+- TCPA consent
+- Stripe payment integration
+
+### Task 4.4 [LOVABLE] - Build Smart Websites Checkout
+**Status:** ⬜ Not Started
+
+Create `/checkout/smart-site` with:
+- Customer info form
+- TCPA consent
+- Stripe one-time payment
 
 ---
 
-## Phase 5: LocalPros
+## Phase 5: Deferred (Post-MVP)
 
-### Task 5.1 [LOVABLE] - LocalPros Landing Page
-**Status:** ⬜ Not Started
+> **Note:** These tasks are deferred until core MVP (Phases 1-4) is complete.
 
-> **JSDoc:** `@brdref BRD v34.0 Section 20 - LocalPros Network`
+### Task 5.1 [LOVABLE] - LocalPros Landing Page (/localpros)
+**Status:** ⬜ Deferred
 
-### Task 5.2 [LOVABLE] - LocalPros Apply Form
-**Status:** ⬜ Not Started
+Footer Resources link. Partner lead acquisition page.
 
-> **JSDoc:** `@brdref BRD v34.0 Section 20 - LocalPros Network` (partner requirements)
+### Task 5.2 [LOVABLE] - LocalPros Apply Form (/localpros/apply)
+**Status:** ⬜ Deferred
 
----
+Partner application form with GHL sync.
 
-## Phase 6: Careers
+### Task 5.3 [LOVABLE] - Careers Page (/careers)
+**Status:** ⬜ Deferred
 
-### Task 6.1 [LOVABLE] - Public Job Listing Page
-**Status:** ⬜ Not Started
+Public job listings from `jobs` table.
 
-> **JSDoc:** `@brdref BRD v34.0 Section 23 - Operational SOPs` (hiring context)
+### Task 5.4 [LOVABLE] - Job Application Form
+**Status:** ⬜ Deferred
 
-### Task 6.2 [LOVABLE] - Job Application Form
-**Status:** ⬜ Not Started
-
-> **JSDoc:** References `job_applications` table, `@brdref BRD v34.0 Section 21` (CCPA compliance)
-
-### Task 6.3 [LOVABLE] - Admin Careers CRUD
-**Status:** ⬜ Not Started
-
-> **JSDoc:** Admin components reference `jobs` table schema
+Application form using `job_applications` table.
 
 ---
 
-## ~~Phase 7: Legal Pages & Utilities~~ (Consolidated)
+## ~~Phase 7: Legal Pages~~ (Complete)
 
-> **Note:** All Phase 7 tasks were completed as part of Task 2.3 (Cookie Consent Banner & Legal Pages). 
-> See Phase 2 for completed deliverables: Privacy Policy, Terms of Service, Cookie Policy, Data Rights Request.
+> **Completed in Task 2.3:** Privacy Policy, Terms of Service, Cookie Policy, Data Rights Request.
 
 ---
 
