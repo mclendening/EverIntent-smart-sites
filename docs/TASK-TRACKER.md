@@ -759,28 +759,25 @@ Add GA4 tracking with cookie consent integration.
 - Phase 2 (Cookie Consent & GHL Widget) - All tasks complete
 - Task 3.0 - Navigation simplified to MVP 5-link structure
 - Task 3.1 - Hero rebuilt (AI-first messaging)
+- Task 3.1.1 - HowWeHelpSection rebuilt (AI Employee value props)
+- Task 3.1.2 - PricingTeaser rebuilt (AI modes first, Smart Site last)
 - Task 3.2 - AI Employee page `/let-ai-handle-it` complete
 - Task 3.3 - Footer updated (AI modes column)
 - Task 3.4 - Smart Websites page `/smart-websites` complete
-
-**In Progress:**
-- Homepage section alignment to v35.0 (Tasks 3.1.1, 3.1.2)
+- Task 3.5 - Pricing page `/pricing` complete
+- Task 3.7 - About page `/about` complete
+- Task 3.8 - Contact page `/contact` complete with working form
+- Title tag updated to AI-first branding
 
 **Not Started:**
-- Task 3.1.1 - Rebuild HowWeHelpSection (AI-first)
-- Task 3.1.2 - Rebuild PricingTeaser (AI modes + Smart Websites)
-- Task 3.5 - Pricing page `/pricing`
-- Task 3.6 - AI Employee checkout flow
-- Task 3.7 - About page `/about`
-- Task 3.8 - Contact page `/contact`
+- Task 3.6 - AI Employee checkout flow (Stripe wiring)
 - Phase 4 - Stripe integration
+- Route cleanup (legacy SmartSites references in routes.ts)
 
 **Next Priority Tasks:**
-1. Task 3.1.1 - Rebuild HowWeHelpSection (AI-first)
-2. Task 3.1.2 - Rebuild PricingTeaser (AI modes + Smart Websites)
-3. Task 3.5 - Build /pricing page
-4. Task 3.7 - Build /about page
-5. Task 3.8 - Build /contact page
+1. Task 3.6 - Wire AI Employee checkout flow with Stripe
+2. Add M1-M5 tags to ghlClient.ts for GHL sync
+3. Clean up routes.ts (remove /beautiful-websites, legacy references)
 
 **Key References:**
 - BRD v35.0: `docs/everintent-brd-v35.0.md`
