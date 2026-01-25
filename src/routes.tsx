@@ -41,6 +41,11 @@ import SmartWebsites from './pages/SmartWebsites';
 import Pricing from './pages/Pricing';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Industries from './pages/Industries';
+import HomeServices from './pages/industries/HomeServices';
+import ProfessionalServices from './pages/industries/ProfessionalServices';
+import HealthWellness from './pages/industries/HealthWellness';
+import Automotive from './pages/industries/Automotive';
 import AdminLogin from './pages/admin/Login';
 import AdminResetPassword from './pages/admin/ResetPassword';
 import AdminDashboard from './pages/admin/Dashboard';
@@ -320,6 +325,7 @@ export const prerenderRoutes: string[] = [
   ...servicePaths,
   ...productCategoryPaths,
   ...featurePaths,
+  '/industries', // Industries landing page
   ...industryHubPaths,
   ...homeServicesPaths,
   ...professionalServicesPaths,
@@ -399,9 +405,29 @@ export const routes: RouteRecord[] = [
       ...productCategoryPaths.map(createPlaceholderChild),
       // Features
       ...featurePaths.map(createPlaceholderChild),
-      // Industry hubs
-      ...industryHubPaths.map(createPlaceholderChild),
-      // Industry verticals
+      // Industries landing page
+      {
+        path: 'industries',
+        Component: Industries,
+      },
+      // Industry hub pages (dedicated components)
+      {
+        path: 'industries/home-services',
+        Component: HomeServices,
+      },
+      {
+        path: 'industries/professional-services',
+        Component: ProfessionalServices,
+      },
+      {
+        path: 'industries/health-wellness',
+        Component: HealthWellness,
+      },
+      {
+        path: 'industries/automotive-services',
+        Component: Automotive,
+      },
+      // Industry verticals (placeholder for now)
       ...homeServicesPaths.map(createPlaceholderChild),
       ...professionalServicesPaths.map(createPlaceholderChild),
       ...healthWellnessPaths.map(createPlaceholderChild),
