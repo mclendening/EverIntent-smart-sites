@@ -554,8 +554,8 @@ Smart Site ($249) → Smart Lead ($97/mo) → Smart Business ($197/mo) → Smart
 |------|-------|---------|--------------|--------|
 | **Smart Site** | $249 | $149/yr renewal | 5-page site, mobile, SEO, contact form | New businesses needing web presence |
 | **Smart Lead** | $249 | $97/mo | + Missed-call text-back, GBP sync, Warmy nurture, reputation, call tracking | **Ad-spend clients** (flagship) |
-| **Smart Business** | $749 | $197/mo | + Booking, pipeline, review automation | Growing businesses scaling operations |
-| **Smart Growth** | $1,497 | $497/mo | + AI voice, advanced automation, unified inbox | Businesses ready for full automation |
+| **Smart Business** | $497 | $197/mo | + Booking, pipeline, review automation | Growing businesses scaling operations |
+| **Smart Growth** | $997 | $297/mo | + AI voice, advanced automation, unified inbox | Businesses ready for full automation |
 
 #### Smart Lead — Flagship for Ad Buyers (v35.1)
 
@@ -568,6 +568,46 @@ Smart Site ($249) → Smart Lead ($97/mo) → Smart Business ($197/mo) → Smart
 | Warmy Nurture | Warmy.io-powered email/SMS sequences with warm-up |
 | Reputation Management | Automated review requests post-job |
 | Call Tracking | Attribution for ad campaigns |
+
+### 5.14 GBP Integration Routing (v35.1)
+
+Google Business Profile integration ensures all inbound calls are tracked and attributed.
+
+#### Routing Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  GOOGLE BUSINESS PROFILE                                    │
+│                                                             │
+│  Primary Number: LeadConnector (AI-enabled)                 │
+│  Secondary Number: Client's existing business line          │
+│                                                             │
+│  All GBP calls → LeadConnector → AI handling + tracking     │
+│  Client keeps existing number for direct/legacy calls       │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### Benefits
+
+| Benefit | Description |
+|---------|-------------|
+| **Call Attribution** | Every GBP call tracked to source (ads, organic, maps) |
+| **AI Handling** | Missed calls trigger AI text-back within 60 seconds |
+| **Recording** | All calls recorded for quality and training |
+| **No Disruption** | Client's existing number remains active as secondary |
+
+#### Implementation Steps
+
+1. Provision LeadConnector DID in client's area code
+2. Configure AI modes (M1-M5) on the DID
+3. Update GBP listing: LeadConnector as **primary**, existing number as **secondary**
+4. Test call routing and AI response
+5. Enable call tracking dashboard in GHL
+
+#### Included In
+
+- **Smart Lead** and above tiers
+- **All AI Employee modes** (M1-M5)
 
 #### Standalone Products (v35.1)
 
@@ -621,7 +661,7 @@ Smart Site ($249) → Smart Lead ($97/mo) → Smart Business ($197/mo) → Smart
 - 400 SMS/month included
 - 30 AI minutes/month included
 
-### T3 - Smart Business ($749 setup + $197/month)
+### T3 - Smart Business ($497 setup + $197/month)
 
 **Who it's for:** Growing businesses that need to streamline operations.
 
@@ -633,7 +673,7 @@ Smart Site ($249) → Smart Lead ($97/mo) → Smart Business ($197/mo) → Smart
 - 600 SMS/month included
 - 50 AI minutes/month included
 
-### T4 - Smart Growth ($1,497 setup + $497/month)
+### T4 - Smart Growth ($997 setup + $297/month)
 
 **Who it's for:** Businesses ready for full automation and growth.
 

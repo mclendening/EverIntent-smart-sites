@@ -34,7 +34,7 @@ Navigation with dropdowns for product exploration. Primary CTA: "Get Started" �
 
 **The Conversion Ladder:**
 ```
-Smart Site ($249) → Smart Lead ($97/mo) → Smart Business ($197/mo) → Smart Growth ($497/mo) → AI Employee ($149-$297/mo)
+Smart Site ($249) → Smart Lead ($97/mo) → Smart Business ($197/mo) → Smart Growth ($497/mo) → AI Employee ($497-$597/mo)
 ```
 
 **AI Employee Modes:**
@@ -51,8 +51,8 @@ Smart Site ($249) → Smart Lead ($97/mo) → Smart Business ($197/mo) → Smart
 |------|-------|---------|--------------|
 | Smart Site | $249 | $149/yr | 5-page site, mobile, SEO |
 | Smart Lead | $249 | $97/mo | + Missed-call text-back, GBP sync, Warmy nurture, reputation |
-| Smart Business | $749 | $197/mo | + Booking, pipeline, review automation |
-| Smart Growth | $1,497 | $497/mo | + AI voice, advanced automation, unified inbox |
+| Smart Business | $497 | $197/mo | + Booking, pipeline, review automation |
+| Smart Growth | $997 | $297/mo | + AI voice, advanced automation, unified inbox |
 
 **Standalone Products:**
 | Product | Setup | Monthly | Use Case |
@@ -142,6 +142,36 @@ interface InterfaceName { ... }
 ---
 
 ## Phase 0: Prerequisites
+
+### Phase 0A: Documentation & Memory Updates (v35.1)
+
+> **Added:** 2025-01-25
+> **Purpose:** Ensure BRD and memory entries are current before implementation
+
+#### Task 0A.1 [LOVABLE] - Update BRD Product Matrix
+**Status:** ✅ Complete
+
+Added to BRD:
+- Smart Lead tier with full feature list ($249 setup + $97/mo)
+- Web Chat Only standalone product ($497 setup + $79/mo)
+- Warmy Booster add-on ($49/mo, bundled with Smart Lead or à la carte)
+- GBP Integration Routing specification
+- Digital Donut workflow documentation
+
+#### Task 0A.2 [LOVABLE] - Update Memory Entries
+**Status:** ✅ Complete
+
+Created/updated memories:
+- `product/smart-lead-tier-v35-1-spec`
+- `product/web-chat-only-spec-v35-1`
+- `product/warmy-booster-add-on-spec`
+- `product/pricing-page-unified-matrix-v35-1`
+- `strategy/v35-1-digital-donut-ai-first-master-strategy`
+- `navigation/footer-v35-1-structure`
+
+---
+
+### Phase 0B: GHL Configuration
 
 ### Task 0.1 [MANUAL] - Create GHL Private Integration Token
 **Status:** ✅ Complete
@@ -626,8 +656,8 @@ Remove "For Law Firms" link (EverIntent Legal AI is separate site).
 Add comparison table to SmartWebsites.tsx showing all 4 website tiers:
 - Smart Site ($249 one-time)
 - Smart Lead ($249 setup + $97/mo) — **Flagship for ad buyers**
-- Smart Business ($749 setup + $197/mo)
-- Smart Growth ($1,497 setup + $497/mo)
+- Smart Business ($497 setup + $197/mo)
+- Smart Growth ($997 setup + $297/mo)
 
 Columns: Tier Name, Setup, Monthly, Key Features, CTA
 
@@ -723,14 +753,14 @@ Show AI Employee modes first, Smart Website last. Keep current card styling.
 
 | Position | Product | Price | Features | CTA |
 |----------|---------|-------|----------|-----|
-| 1 | After Hours | $149/mo | AI answers after hours, Captures lead details, Sends summaries | /pricing#ai-employee |
-| 2 | Missed Call Recovery | $149/mo | Texts back missed calls, AI qualifies via SMS, Books appointments | /pricing#ai-employee |
-| 3 (Most Popular) | After Hours + Booking | $197/mo | Everything in After Hours, Sends booking links, Self-service scheduling | /pricing#ai-employee |
+| 1 | After Hours (M1) | $997 setup + $497/mo | AI answers after hours, Captures lead details, Sends summaries | /pricing#ai-employee |
+| 2 | Missed Call Recovery (M3) | $997 setup + $497/mo | Texts back missed calls, AI qualifies via SMS, Books appointments | /pricing#ai-employee |
+| 3 (Most Popular) | After Hours + Booking (M2) | $997 setup + $497/mo | Everything in After Hours, Sends booking links, Self-service scheduling | /pricing#ai-employee |
 | 4 | Smart Site | $249 one-time | 5-page website, Mobile responsive, SEO-ready, Ready in 5 days | /pricing#smart-websites |
 
-Section headline: "AI Employee starts at $149/month"
+Section headline: "AI Employee starts at $497/month"
 Section subhead: "One setup. Choose your mode. Add a website when ready."
-Below cards: "All AI Employee modes include $1,497 one-time setup"
+Below cards: "All AI Employee modes include $997-$2,500 one-time setup"
 Link below: "Compare all AI plans →" → /pricing
 
 ---
@@ -1033,8 +1063,8 @@ Create products in Stripe Dashboard:
 | AI Employee M5 | $2,500 | $597/mo |
 | Smart Site | $249 one-time | — |
 | Smart Lead | $249 | $97/mo |
-| Smart Business | $749 | $197/mo |
-| Smart Growth | $1,497 | $497/mo |
+| Smart Business | $497 | $197/mo |
+| Smart Growth | $997 | $297/mo |
 | Web Chat Only | $497 | $79/mo |
 | Warmy Booster | — | $49/mo |
 
