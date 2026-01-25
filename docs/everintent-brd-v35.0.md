@@ -139,7 +139,7 @@ This is the **single source of truth** for EverIntent.com. It governs:
 
 This statement governs all architectural decisions. There is **one engine, many behaviors** — not multiple systems.
 
-### 2.2 Product Methodology — Transcript-Validated Conversion (TVC)
+### 2.3 Product Methodology — Transcript-Validated Conversion (TVC)
 
 The AI Employee proves its value through **real interaction transcripts**, not feature lists or demos.
 
@@ -165,7 +165,7 @@ Three transcript types anchor all marketing, demos, and proof:
 
 ---
 
-## 2.3 Industry Verticals (65+ Total)
+## 2.4 Industry Verticals (65+ Total)
 
 EverIntent serves local businesses across four main categories:
 
@@ -296,8 +296,6 @@ Essential services with strong repeat potential.
 | AI Employee modes | $497-$597/month per mode (+ $997-$2,500 setup) |
 | Web Chat Only | $79/month (+ $497 setup) |
 | Warmy Booster | $49/month add-on |
-
-### Unit Economics (T1)
 
 ### Unit Economics (T1)
 
@@ -1218,7 +1216,6 @@ export const routes = {
     // 65+ vertical pages (hvac, plumbing, legal, dental, etc.)
     // to be added when SEO content strategy is finalized
   },
-  },
 
   // Legal (pre-rendered)
   legal: {
@@ -1273,20 +1270,8 @@ export const prerenderRoutes = [
   '/portfolio',
   '/about',
   '/contact',
-  '/book-call',
-  '/beautiful-websites',
-  '/get-found-online',
-  '/never-miss-a-lead',
-  '/book-more-jobs',
-  '/run-from-your-phone',
-  '/build-your-reputation',
+  '/smart-websites',
   '/let-ai-handle-it',
-  '/features/lead-capture',
-  '/features/ai-chat',
-  '/features/review-management',
-  '/features/mobile-app',
-  '/features/scheduling',
-  '/features/analytics',
   
   // Industry Hub Pages
   '/industries/home-services',
@@ -1504,14 +1489,13 @@ Each product page should:
 ```
 /                               # Homepage
 ├── /smart-websites/            # Smart Websites product page
+├── /let-ai-handle-it/          # AI Employee product page
 ├── /pricing/                   # Tier comparison + CTAs
-├── /strategy-session/          # SmartStart Strategy Session booking (NEW)
 ├── /checkout/
 │   ├── /smart-site/            # T1 pre-checkout
 │   ├── /smart-lead/            # T2 pre-checkout
 │   ├── /smart-business/        # T3 pre-checkout
 │   ├── /smart-growth/          # T4 pre-checkout
-│   ├── /smart-launch/          # Smart Launch pre-checkout (NEW)
 │   └── /success/               # Post-payment success
 ├── /services/                  # Services hub
 │   ├── /web-design/            # Product category page (NEW)
@@ -1986,11 +1970,11 @@ This policy is disclosed in our Privacy Policy and honored in all CCPA requests.
 
 ---
 
-## 22. Partner Program
+## 21. Partner Program
 
 The EverIntent Partner Program enables web designers, digital marketing agencies, and service professionals to earn commissions by referring clients to EverIntent services.
 
-### 22.1 Program Overview
+### 21.1 Program Overview
 
 **Program Name:** EverIntent Partners  
 **URL:** `/partners`  
@@ -2003,7 +1987,7 @@ The EverIntent Partner Program enables web designers, digital marketing agencies
 
 **Value Proposition:** "Refer clients to EverIntent. Earn commissions. Keep your clients happy."
 
-### 22.2 Commission Structure — DEFERRED
+### 21.2 Commission Structure — DEFERRED
 
 > **Status:** DEFERRED (Post-MVP)  
 > **Reason:** Partner program not in v35.1 scope.
@@ -2017,7 +2001,7 @@ The EverIntent Partner Program enables web designers, digital marketing agencies
 
 ---
 
-## 23. Technical Architecture
+## 22. Technical Architecture
 
 ### Platform Diagram
 
@@ -2040,7 +2024,7 @@ The EverIntent Partner Program enables web designers, digital marketing agencies
 ├───────────────┤   ├───────────────┤   ├───────────────┤
 │ Vite + React  │   │ GHL SaaS Mode │   │ WordPress     │
 │ Pre-rendered  │   │ Stripe        │   │ OVH/Plesk     │
-│ Vercel Pro    │   │ Namecheap API │   │ Elementor     │
+│ Vercel Pro    │   │               │   │ Elementor     │
 │ Supabase      │   │               │   │ Cloudflare    │
 └───────────────┘   └───────────────┘   └───────────────┘
 ```
@@ -2068,7 +2052,7 @@ The EverIntent Partner Program enables web designers, digital marketing agencies
 
 ---
 
-## 24. Operational SOPs
+## 23. Operational SOPs
 
 ### Website Build SOP (T1-T4)
 
@@ -2129,7 +2113,7 @@ The EverIntent Partner Program enables web designers, digital marketing agencies
 
 ---
 
-## 25. Upgrade & Downgrade Flows
+## 24. Upgrade & Downgrade Flows
 
 ### Upgrade Flow (T1 → T2/T3/T4)
 
@@ -2166,7 +2150,7 @@ The EverIntent Partner Program enables web designers, digital marketing agencies
 
 ---
 
-## 26. Support Model
+## 25. Support Model
 
 ### Support Channels by Tier
 
@@ -2188,7 +2172,7 @@ The EverIntent Partner Program enables web designers, digital marketing agencies
 
 ---
 
-## 27. Build Order & Timeline
+## 26. Build Order & Timeline
 
 ### Phase 1: Foundation (Week 1)
 
@@ -2211,7 +2195,7 @@ The EverIntent Partner Program enables web designers, digital marketing agencies
 
 ### Phase 2: AI Employee MVP (Week 2-3)
 
-See Task 3.5 Definition (Section 29) for detailed phases.
+See Task 3.5 Definition (Section 28) for detailed phases.
 
 ### Phase 3: Full Checkout (Week 4)
 
@@ -2235,7 +2219,7 @@ See Task 3.5 Definition (Section 29) for detailed phases.
 
 ---
 
-## 28. Open Questions
+## 27. Open Questions
 
 ### Resolved in v35.1
 
@@ -2256,7 +2240,7 @@ See Task 3.5 Definition (Section 29) for detailed phases.
 
 ---
 
-## 29. Document History
+## 28. Document History
 
 | Version | Date | Changes |
 |---------|------|---------|
@@ -2296,7 +2280,7 @@ See Task 3.5 Definition (Section 29) for detailed phases.
 
 ---
 
-## 30. Task 3.5 — AI Employee MVP Definition
+## 29. Task 3.5 — AI Employee MVP Definition
 
 ### Task 3.5 — AI Employee MVP Monetization & Checkout Readiness
 
