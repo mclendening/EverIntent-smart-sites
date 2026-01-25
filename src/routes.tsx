@@ -146,7 +146,7 @@ function AdminLayout() {
 // ============================================
 
 // Core marketing pages
-const coreRoutePaths = ['/', '/pricing', '/our-work', '/about', '/contact', '/book-call', '/strategy-session', '/careers', '/smart-websites'];
+const coreRoutePaths = ['/', '/pricing', '/our-work', '/about', '/contact', '/book-call', '/strategy-session', '/careers'];
 
 // Primary service landing page
 const primaryServicePath = '/beautiful-websites';
