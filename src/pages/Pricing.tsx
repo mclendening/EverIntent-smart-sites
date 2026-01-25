@@ -2,17 +2,25 @@
  * @fileoverview Pricing page with AI Employee plans and Smart Website packages.
  * @module pages/Pricing
  * 
- * Dual-product pricing page showing:
- * 1. AI Employee Plans (M1-M4): After Hours, Missed Call Recovery, After Hours + Booking, Front Desk AI
- * 2. Smart Website Packages: Smart Site, Smart Lead, Smart Business, Smart Growth
- * 3. Decision helper section for uncertain visitors
- * 4. FAQ accordion with JSON-LD schema markup
+ * BRD v35.1 Pricing Matrix:
  * 
- * All AI Employee modes include $1,497 one-time setup fee.
- * Web Chat standalone available at $79/mo + $497 setup.
+ * AI Employee Modes (M1-M5):
+ * - M1-M3: $997 setup + $497/mo
+ * - M4: $1,497 setup + $547/mo
+ * - M5: $2,500 setup + $597/mo
+ * 
+ * Smart Website Tiers:
+ * - Smart Site: $249 one-time + $149/yr hosting after Y1
+ * - Smart Lead: $249 setup + $97/mo
+ * - Smart Business: $497 setup + $197/mo
+ * - Smart Growth: $997 setup + $297/mo
+ * 
+ * Standalone Products:
+ * - Web Chat Only: $497 setup + $79/mo
+ * - Warmy Booster: $49/mo
  */
 
-import { Check, ArrowRight, Phone, MessageSquare, HelpCircle } from 'lucide-react';
+import { Check, ArrowRight, Phone, MessageSquare, HelpCircle, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
 import {
@@ -27,70 +35,90 @@ import {
 // ============================================
 
 /**
- * AI Employee pricing plans with setup fees.
+ * AI Employee pricing plans (M1-M5) per BRD v35.1.
  */
 const aiEmployeePlans = [
   {
-    name: 'After Hours',
-    price: '$149',
-    setup: '$1,497',
+    id: 'm1',
+    name: 'M1: After-Hours',
+    price: '$497',
+    setup: '$997',
     bestFor: 'Capture leads while closed',
     features: ['Voice AI after hours', 'Transcripts & recordings', 'Owner notifications', 'Lead summaries'],
   },
   {
-    name: 'Missed Call Recovery',
-    price: '$149',
-    setup: '$1,497',
+    id: 'm2',
+    name: 'M2: After-Hours + Booking',
+    price: '$497',
+    setup: '$997',
+    bestFor: 'Self-service scheduling',
+    features: ['Everything in M1', 'Booking link delivery', 'Self-service scheduling', 'Calendar sync'],
+    popular: true,
+  },
+  {
+    id: 'm3',
+    name: 'M3: Missed Call Recovery',
+    price: '$497',
+    setup: '$997',
     bestFor: 'Recover busy-hour leads',
     features: ['SMS text-back in 60 seconds', 'AI qualification via SMS', 'Booking links', 'Lead capture'],
   },
   {
-    name: 'After Hours + Booking',
-    price: '$197',
-    setup: '$1,497',
-    bestFor: 'Self-service scheduling',
-    features: ['Everything in After Hours', 'Booking link delivery', 'Self-service scheduling', 'Calendar sync'],
-    popular: true,
-  },
-  {
-    name: 'Front Desk AI',
-    price: '$297',
+    id: 'm4',
+    name: 'M4: Front Line Screener',
+    price: '$547',
     setup: '$1,497',
     bestFor: 'High call volume',
     features: ['Voice AI all hours', 'FAQ handling', 'Live transfer to team', 'Priority routing'],
   },
+  {
+    id: 'm5',
+    name: 'M5: Full AI Employee',
+    price: '$597',
+    setup: '$2,500',
+    bestFor: 'Complete automation',
+    features: ['All M1-M4 features', 'Outbound calls', 'Custom integrations', 'Dedicated support'],
+  },
 ];
 
 /**
- * Smart Website package tiers.
+ * Smart Website package tiers per BRD v35.1.
  */
 const websitePackages = [
   {
+    id: 'smart-site',
     name: 'Smart Site',
     price: '$249',
     period: 'one-time',
+    setupNote: '$149/yr hosting after Y1',
     pages: '5',
     features: ['Mobile optimized', 'Basic SEO', 'Contact form', 'You own it forever'],
   },
   {
+    id: 'smart-lead',
     name: 'Smart Lead',
     price: '$97',
     period: '/month',
+    setupNote: '$249 setup',
     pages: '5',
-    features: ['+ Missed call text-back', 'AI chat widget', 'Lead management', 'Email notifications'],
+    features: ['+ Missed call text-back', 'AI chat widget', 'Lead management', 'GBP sync'],
   },
   {
+    id: 'smart-business',
     name: 'Smart Business',
     price: '$197',
     period: '/month',
+    setupNote: '$497 setup',
     pages: '10',
     features: ['+ Online booking', 'Review automation', 'CRM pipelines', 'SMS campaigns'],
     popular: true,
   },
   {
+    id: 'smart-growth',
     name: 'Smart Growth',
-    price: '$497',
+    price: '$297',
     period: '/month',
+    setupNote: '$997 setup',
     pages: '10+',
     features: ['+ AI voice agent', 'Advanced automation', 'Strategy calls', 'Priority support'],
   },
@@ -106,7 +134,7 @@ const faqItems = [
   },
   {
     question: "Can I change modes later?",
-    answer: "Yes! You can upgrade, downgrade, or switch modes at any time. If you start with After Hours and want to add Missed Call Recovery, we'll adjust your plan and prorate the billing. No contracts, no penalties.",
+    answer: "Yes! You can upgrade, downgrade, or switch modes at any time. If you start with M1 and want to upgrade to M4, we'll adjust your plan and prorate the billing. No contracts, no penalties.",
   },
   {
     question: "Do I need a website to use AI Employee?",
@@ -115,6 +143,10 @@ const faqItems = [
   {
     question: "How long until I'm live?",
     answer: "Most AI Employee setups are live within 5-7 business days. Smart Sites are delivered in 5 business days. Complex integrations or custom workflows may take slightly longer — we'll give you a timeline during onboarding.",
+  },
+  {
+    question: "What's the $149/year hosting fee?",
+    answer: "Smart Site includes free hosting for the first year. After that, it's just $149/year to keep your site live, secure, and updated. You own the site forever — the hosting fee just covers server costs and maintenance.",
   },
 ];
 
@@ -168,7 +200,7 @@ const Pricing = () => {
             <span className="text-gradient">No Contracts.</span>
           </h1>
           <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto">
-            AI Employee starts at $149/mo. Smart Websites from $249. Cancel anytime.
+            AI Employee starts at $497/mo. Smart Websites from $249. Cancel anytime.
           </p>
         </div>
       </section>
@@ -185,8 +217,8 @@ const Pricing = () => {
             </p>
           </div>
 
-          {/* AI Plans Grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-8">
+          {/* AI Plans Grid - 5 modes */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-5 max-w-7xl mx-auto mb-8">
             {aiEmployeePlans.map((plan) => (
               <div
                 key={plan.name}
@@ -278,14 +310,15 @@ const Pricing = () => {
                 )}
 
                 <div className="mb-4">
-                  <h3 className="text-lg font-semibold text-foreground mb-1">{pkg.name}</h3>
+                  <h3 id={pkg.id} className="text-lg font-semibold text-foreground mb-1">{pkg.name}</h3>
                   <p className="text-sm text-muted-foreground">{pkg.pages} pages</p>
                 </div>
 
-                <div className="mb-5">
+                <div className="mb-2">
                   <span className="text-3xl font-bold text-foreground">{pkg.price}</span>
                   <span className="text-muted-foreground text-sm">{pkg.period}</span>
                 </div>
+                <p className="text-xs text-muted-foreground mb-5">{pkg.setupNote}</p>
 
                 <ul className="space-y-2.5 mb-6">
                   {pkg.features.map((feature) => (
@@ -308,6 +341,70 @@ const Pricing = () => {
                 </Link>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Standalone Products Section */}
+      <section id="standalone" className="py-16 md:py-24 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Standalone Add-Ons
+            </h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Enhance your setup with these optional products.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+            {/* Web Chat Only */}
+            <div id="web-chat" className="rounded-2xl p-6 border border-border/30 bg-card/50 hover:border-primary/30 transition-all duration-300 hover-lift">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <MessageSquare className="w-5 h-5 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground">Web Chat Only</h3>
+              </div>
+              <div className="mb-2">
+                <span className="text-3xl font-bold text-foreground">$79</span>
+                <span className="text-muted-foreground text-sm">/month</span>
+              </div>
+              <p className="text-xs text-muted-foreground mb-4">$497 setup</p>
+              <p className="text-sm text-muted-foreground mb-5">
+                AI chat widget for your website. Capture leads 24/7 without voice AI.
+              </p>
+              <Link
+                to="/contact"
+                className="block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-all duration-300"
+              >
+                Get Started
+              </Link>
+            </div>
+
+            {/* Warmy Booster */}
+            <div id="warmy" className="rounded-2xl p-6 border border-border/30 bg-card/50 hover:border-primary/30 transition-all duration-300 hover-lift">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground">Warmy Booster</h3>
+              </div>
+              <div className="mb-2">
+                <span className="text-3xl font-bold text-foreground">$49</span>
+                <span className="text-muted-foreground text-sm">/month</span>
+              </div>
+              <p className="text-xs text-muted-foreground mb-4">No setup fee</p>
+              <p className="text-sm text-muted-foreground mb-5">
+                Email warm-up service to boost deliverability and keep your emails out of spam.
+              </p>
+              <Link
+                to="/contact"
+                className="block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-all duration-300"
+              >
+                Get Started
+              </Link>
+            </div>
           </div>
         </div>
       </section>

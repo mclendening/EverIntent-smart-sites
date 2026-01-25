@@ -1,10 +1,12 @@
 /**
- * @fileoverview Site footer component with MVP navigation links.
+ * @fileoverview Site footer component with 4-column navigation.
  * @module components/layout/Footer
  * 
- * Updated for BRD v35.0 AI-First pivot:
- * - Solutions column: AI Employee first, Smart Websites second
- * - Simplified packages to match new tier structure
+ * Updated for BRD v35.1:
+ * - Column 1: Services (AI Employee, Smart Site, Smart Lead, Smart Business, Smart Growth, Web Chat Only, Warmy Booster)
+ * - Column 2: AI Modes (M1-M5)
+ * - Column 3: Resources (FAQ, Industries)
+ * - Column 4: Company (About, Contact, Careers, Legal)
  */
 
 import { Link } from 'react-router-dom';
@@ -12,41 +14,45 @@ import { Linkedin, Twitter, Facebook, Sparkles, ArrowUpRight } from 'lucide-reac
 import { CTAButton } from '@/components/CTAButton';
 
 /**
- * Solutions links - AI Employee first per BRD v35.0.
+ * Services column - Core product offerings per BRD v35.1.
  */
-const solutionsLinks = [
+const servicesLinks = [
   { title: 'AI Employee', path: '/let-ai-handle-it' },
-  { title: 'Smart Websites', path: '/smart-websites' },
-  { title: 'For Law Firms', path: 'https://everintentlegalai.com', external: true },
+  { title: 'Smart Site', path: '/smart-websites' },
+  { title: 'Smart Lead', path: '/pricing#smart-lead' },
+  { title: 'Smart Business', path: '/pricing#smart-business' },
+  { title: 'Smart Growth', path: '/pricing#smart-growth' },
+  { title: 'Web Chat Only', path: '/pricing#web-chat' },
+  { title: 'Warmy Booster', path: '/pricing#warmy' },
 ];
 
 /**
- * Package/tier links for AI Employee modes.
+ * AI Modes column - M1-M5 AI Employee modes.
  */
-const packagesLinks = [
-  { title: 'After-Hours Answering', path: '/checkout/ai-employee?mode=m1' },
-  { title: 'After-Hours + Booking', path: '/checkout/ai-employee?mode=m2' },
-  { title: 'Missed Call Recovery', path: '/checkout/ai-employee?mode=m3' },
-  { title: 'Front Line Screener', path: '/checkout/ai-employee?mode=m4' },
-  { title: 'Full AI Employee', path: '/checkout/ai-employee?mode=m5' },
+const aiModesLinks = [
+  { title: 'M1: After-Hours', path: '/pricing#m1' },
+  { title: 'M2: After-Hours + Booking', path: '/pricing#m2' },
+  { title: 'M3: Missed Call Recovery', path: '/pricing#m3' },
+  { title: 'M4: Front Line Screener', path: '/pricing#m4' },
+  { title: 'M5: Full AI Employee', path: '/pricing#m5' },
 ];
 
 /**
- * Resource and help links for customer support.
+ * Resources column - Help and industry content.
  */
 const resourcesLinks = [
-  { title: 'Help', path: '/help' },
   { title: 'FAQ', path: '/faq' },
-  { title: 'Support', path: '/support' },
+  { title: 'Industries', path: '/industries' },
 ];
 
 /**
- * Company information links.
+ * Company column - About, contact, careers, and legal.
  */
 const companyLinks = [
   { title: 'About', path: '/about' },
   { title: 'Contact', path: '/contact' },
   { title: 'Careers', path: '/careers' },
+  { title: 'Legal', path: '/legal/privacy' },
 ];
 
 /**
@@ -94,47 +100,35 @@ export function Footer() {
       <div className="container relative py-16 md:py-20">
         {/* Main footer grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-          {/* Solutions */}
+          {/* Services */}
           <div className="space-y-5">
             <h3 className="font-display font-bold text-foreground text-sm uppercase tracking-wider flex items-center gap-2">
               <span className="w-6 h-px bg-gradient-to-r from-accent to-transparent" />
-              Solutions
+              Services
             </h3>
             <ul className="space-y-3">
-              {solutionsLinks.map((link) => (
+              {servicesLinks.map((link) => (
                 <li key={link.path}>
-                  {link.external ? (
-                    <a
-                      href={link.path}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="footer-link text-sm inline-flex items-center gap-1.5 group"
-                    >
-                      {link.title}
-                      <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300" />
-                    </a>
-                  ) : (
-                    <Link
-                      to={link.path}
-                      className="footer-link text-sm inline-flex items-center gap-1.5 group"
-                    >
-                      {link.title}
-                      <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300" />
-                    </Link>
-                  )}
+                  <Link
+                    to={link.path}
+                    className="footer-link text-sm inline-flex items-center gap-1.5 group"
+                  >
+                    {link.title}
+                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300" />
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Packages */}
+          {/* AI Modes */}
           <div className="space-y-5">
             <h3 className="font-display font-bold text-foreground text-sm uppercase tracking-wider flex items-center gap-2">
               <span className="w-6 h-px bg-gradient-to-r from-accent to-transparent" />
               AI Modes
             </h3>
             <ul className="space-y-3">
-              {packagesLinks.map((link) => (
+              {aiModesLinks.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
