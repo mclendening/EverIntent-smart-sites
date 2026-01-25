@@ -36,6 +36,7 @@ import { getThemeForRoute, applyThemeToRoot } from '@/config/themes';
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import PlaceholderPage from './pages/Placeholder';
+import AIEmployee from './pages/AIEmployee';
 import AdminLogin from './pages/admin/Login';
 import AdminResetPassword from './pages/admin/ResetPassword';
 import AdminDashboard from './pages/admin/Dashboard';
@@ -365,10 +366,15 @@ export const routes: RouteRecord[] = [
       },
       // Core pages (placeholder for now)
       ...coreRoutePaths.slice(1).map(createPlaceholderChild),
+      // AI Employee page - dedicated component
+      {
+        path: 'let-ai-handle-it',
+        Component: AIEmployee,
+      },
       // Primary service
       createPlaceholderChild(primaryServicePath),
-      // Services
-      ...servicePaths.map(createPlaceholderChild),
+      // Services (excluding let-ai-handle-it which has its own component)
+      ...servicePaths.filter(p => p !== '/let-ai-handle-it').map(createPlaceholderChild),
       // Product category pages (SEO)
       ...productCategoryPaths.map(createPlaceholderChild),
       // Features

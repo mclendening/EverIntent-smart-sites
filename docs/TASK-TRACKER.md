@@ -1,7 +1,7 @@
 # EverIntent - Task Tracker
 
-> **Brand:** EverIntent | **Tagline:** Web Design AI & Automation  
-> **BRD Version:** v34.0 (Brand Pivot)
+> **Brand:** EverIntent | **Tagline:** Website Design & Practical AI  
+> **BRD Version:** v35.0 (AI Employee Pivot)
 
 ## Complete Implementation Checklist (In Order)
 
@@ -13,25 +13,31 @@ Tasks marked `[MANUAL]` require user action. Tasks marked `[LOVABLE]` are AI-imp
 
 | Document | Path | Purpose |
 |----------|------|---------|
-| **BRD v34.0** | `docs/smartsites-brd-v33.0.md` | Single source of truth for all requirements |
-| **Brand Pivot Plan** | `docs/everintent-pivot-plan.md` | Brand architecture, trademark context, implementation phases |
-| **PRD Prompt** | `docs/smartsites-prd-prompt.md` | Verbatim marketing copy for all pages |
+| **BRD v35.0** | `docs/everintent-brd-v35.0.md` | Single source of truth for all requirements |
+| **AI Employee Spec** | `docs/AI-Employee-Product-Spec.md` | AI Employee product definition and modes |
+| **Brand Pivot Plan** | `docs/everintent-pivot-plan.md` | Brand architecture, trademark context |
 
-**Key Brand Guidelines (from Pivot Plan):**
-- Master brand: **EverIntent** (not "SmartSites by EverIntent")
-- Tagline: **"Web Design AI & Automation"**
-- Use "smart website(s)" / "smart site" as **lowercase descriptive language**, not a brand name
-- Tier names: Smart Site, Smart Lead, Smart Business, Smart Growth, Smart Launch
+**Key Brand Guidelines (BRD v35.0):**
+- Master brand: **EverIntent**
+- Tagline: **"Website Design & Practical AI"**
+- Primary product: **AI Employee™** (5 modes M1-M5)
+- Secondary product: **Smart Websites** ($249 entry)
 - All logos, headers, footers use **EverIntent** only
-- ❌ Never use "SmartSites" as a brand name or logo lockup
-- ❌ Never bid on "SmartSites" as a Google Ads keyword
 
-**Navigation Structure (v34):**
+**MVP Navigation Structure (v35.0):**
 ```
-Smart Websites | AI & Automation | Industries | Solutions | Pricing | Our Work | About
+AI Employee | Smart Websites | Pricing | About | Contact
 ```
+5 flat links, no dropdowns. Primary CTA: "Get Started" → /pricing
 
-**PRD Copy Rules:** All marketing pages MUST use exact copy from PRD - no improvisation.
+**AI Employee Modes:**
+| Mode | Name | Price |
+|------|------|-------|
+| M1 | After-Hours Answering | $149/mo |
+| M2 | After-Hours + Booking | $199/mo |
+| M3 | Missed Call Recovery | $199/mo |
+| M4 | Front Line Screener | $249/mo |
+| M5 | Full AI Employee | $297/mo |
 
 ---
 
@@ -468,93 +474,93 @@ GHL widget ID stored in Supabase secrets:
 
 ---
 
-## Phase 3: Core Marketing Pages
+## Phase 3: AI Employee Pivot
 
-> **Source:** BRD v34.0 + `docs/smartsites-prd-prompt.md`
+> **Source:** BRD v35.0 + `docs/AI-Employee-Product-Spec.md`
+> **Pivot Date:** 2025-01-25
 
-### Task 3.0 [LOVABLE] - Implement Brand Pivot (Phase 1)
+### Task 3.0 [LOVABLE] - Simplify Navigation to MVP
 **Status:** ✅ Complete
 
-> **Completed:** 2025-12-26
-> **JSDoc:** All layout components must document `@brdref BRD v34.0 Section 2 - Executive Summary` (brand positioning).
+> **Completed:** 2025-01-25
 
-Update core branding per `docs/everintent-pivot-plan.md`:
-- ✅ **Header.tsx** — Updated nav structure: Smart Websites dropdown, AI & Automation link, Industries, Solutions dropdown
-- ✅ **Footer.tsx** — "Products" → "Solutions" column, "EverIntent" branding, "For Law Firms" external link
-- ✅ **SEO.tsx** — SITE_NAME: "EverIntent", updated DEFAULT_DESCRIPTION with "smart websites"
-- ⬜ **routes.ts** — Update descriptions to use EverIntent branding (deferred to page builds)
+Simplified Header.tsx to 5 flat navigation links per BRD v35.0 Section 17:
+- ✅ **AI Employee** → `/let-ai-handle-it` (first position)
+- ✅ **Smart Websites** → `/smart-websites`
+- ✅ **Pricing** → `/pricing`
+- ✅ **About** → `/about`
+- ✅ **Contact** → `/contact`
+- ✅ Removed all dropdowns (Industries, Solutions, Smart Websites dropdown)
+- ✅ Primary CTA: "Get Started" → /pricing
 
-**Note:** Logo handled by theme system (no changes needed to LogoRenderer).
+### Task 3.1 [LOVABLE] - Rebuild Homepage Hero (AI-First)
+**Status:** ✅ Complete
 
-### Task 3.0.1 [LOVABLE] - Update Navigation Structure
-**Status:** ✅ Complete (merged into Task 3.0)
+> **Completed:** 2025-01-25
 
-> **Completed:** 2025-12-26
-> **JSDoc:** Nav components must document `@brdref BRD v34.0 Section 17 - Navigation Structure`.
+Updated HeroSection.tsx with AI-first messaging:
+- ✅ **Headline:** "Stop Losing Money to Missed Calls."
+- ✅ **Subheadline:** Revenue loss message ($200+ per missed call)
+- ✅ **Eyebrow badge:** "AI Employee™ — Your 24/7 Receptionist"
+- ✅ **Primary CTA:** "See AI Employee" → `/let-ai-handle-it`
+- ✅ **Secondary CTA:** "Smart Websites" → `/smart-websites`
+- ✅ **Value props:** 24/7 Coverage, Instant Booking, Call Screening
 
-Per BRD v34 Section 17:
-- ✅ **Smart Websites dropdown** — Renamed from "Services", Smart Websites first
-- ✅ **AI & Automation** — Added as static nav link → `/let-ai-handle-it`
-- ✅ **Solutions dropdown** — Added with "For Law Firms" external link to everintentlegalai.com
-- Keep: Industries, Pricing, Our Work, About
+### Task 3.2 [LOVABLE] - Create AI Employee Page
+**Status:** ✅ Complete
 
-### Task 3.0.2 [LOVABLE] - Create NavHoverMenu Component
+> **Completed:** 2025-01-25
+
+Created `src/pages/AIEmployee.tsx` with:
+- ✅ Hero section with "Your 24/7 AI Receptionist" messaging
+- ✅ Problem section (missed call revenue loss statistics)
+- ✅ Solution section (6 AI capabilities: Voice, SMS, Booking, Screening, Transfer, Web Chat)
+- ✅ Modes section with all 5 AI Employee modes (M1-M5)
+- ✅ Pricing display ($149-$297/mo + setup fees)
+- ✅ Final CTA section
+- ✅ Route added to `src/routes.tsx`
+
+### Task 3.3 [LOVABLE] - Update Footer (AI-First)
+**Status:** ✅ Complete
+
+> **Completed:** 2025-01-25
+
+Updated Footer.tsx:
+- ✅ Solutions column: AI Employee first, Smart Websites second
+- ✅ AI Modes column (replaces Packages): Links to all 5 modes
+- ✅ Updated tagline: "Starting at $149/mo"
+- ✅ Simplified resources (removed LocalPros, Our Work)
+
+### Task 3.4 [LOVABLE] - Smart Websites Page (/smart-websites)
 **Status:** ⬜ Not Started
 
-> **JSDoc:** `@brdref BRD v34.0 Section 17.4 - NavHoverMenu Component Specification`
+Create dedicated Smart Websites page:
+- H1: "Smart Websites That Pay For Themselves"
+- Subhead: "Built in 5 days. Starting at $249. Ready for AI when you are."
+- Problem section (DIY frustrations, agency costs)
+- Solution section (5-page site, mobile-first, 5-day delivery)
+- What's included section
+- Pricing card ($249 one-time)
+- CTA to /checkout/smart-site
 
-Create `src/components/NavHoverMenu.tsx` for desktop navigation dropdowns:
-
-**Requirements:**
-- `NavHoverItem` interface: `to`, `title`, `description?`, `icon?`, `nestedItems?`, `external?`
-- Lucide icons rendered with `text-primary` color, `h-5 w-5` size
-- Item layout: icon aligned to top, title (font-medium), description (text-xs text-muted-foreground)
-- Container: `w-80`, `bg-background` (solid), `z-50`, `shadow-lg`, `border border-border`
-- Hover state: `hover:bg-accent`
-- Support external links (opens in new tab)
-- Update `Header.tsx` to use NavHoverMenu for Smart Websites, Industries, and Solutions dropdowns
-
-**Smart Websites Dropdown Items (v34):**
-| Title | Description | Icon |
-|-------|-------------|------|
-| **Smart Websites** | Professional smart websites starting at $249 | `Globe` |
-| **Let AI Handle It** | AI automation and voice agents | `Bot` |
-| Get Found Online | SEO and local search visibility | `Search` |
-| Capture More Leads | Lead capture and follow-up | `MessageSquare` |
-| Reputation Management | Review automation | `Star` |
-
-**Reference:** BRD Section 17.4 NavHoverMenu Component Specification
-
-### Task 3.1 [LOVABLE] - Create Reusable Section Components
+### Task 3.5 [LOVABLE] - Pricing Page (/pricing)
 **Status:** ⬜ Not Started
 
-> **JSDoc:** Each section component must document `@brdref` to corresponding PRD lines and BRD Section 15.
+Create unified pricing page with:
+- AI Employee modes section (M1-M5 cards)
+- Smart Websites section ($249 one-time)
+- Web Chat standalone option ($497 setup + $79/mo)
+- Comparison table
+- FAQ accordion
 
-Create `src/components/sections/` with reusable marketing page sections:
-
-| Component | Purpose | PRD Reference |
-|-----------|---------|---------------|
-| `HeroSection.tsx` | Hero with H1, subhead, dual CTAs | Lines 912-924 |
-| `ProblemSection.tsx` | "Sound Familiar?" pain point cards | Lines 562-565 |
-| `SolutionSection.tsx` | Feature cards with icons | Lines 567-570 |
-| `WhatsIncludedSection.tsx` | Bulleted deliverables with tier badges | Lines 572-574 |
-| `TestimonialSection.tsx` | Social proof carousel | Lines 576-578 |
-| `CTASection.tsx` | Final conversion section | Lines 579-582 |
-
-### Task 3.2 [LOVABLE] - Homepage (/)
+### Task 3.6 [LOVABLE] - AI Employee Checkout Flow
 **Status:** ⬜ Not Started
 
-> **JSDoc:** Page component must document `@brdref BRD v34.0 Section 15 - Marketing Site Specification`.
-
-**Sections (in order):**
-1. **Hero** - "A Professional Website That Actually Gets You Customers" + "Built in 5 days. Starting at $249. You own everything." + [Get Started → /pricing] + [Book a Call → /contact]
-2. **Problem** - "Sound Familiar?" with 4 pain point cards
-3. **Solution** - 7 service cards linking to individual service pages
-4. **Tier Preview** - 4 tier cards (T1-T4) with key features, CTA to /pricing
-5. **Social Proof** - Testimonials placeholder + stats
-6. **Final CTA** - Benefit restatement with dual CTAs
-
-**SEO:** Title "Professional Websites for Local Businesses | EverIntent"
+Create checkout pages:
+- `/checkout/ai-employee` with mode selection
+- Form: Name, email, phone, company, selected mode
+- TCPA consent
+- Stripe integration (deferred to Phase 4)
 
 ### Task 3.3 [LOVABLE] - Smart Websites Service Page (/smart-websites)
 **Status:** ⬜ Not Started

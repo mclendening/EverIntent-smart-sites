@@ -1,44 +1,40 @@
 /**
- * @fileoverview Site footer component with navigation links and branding.
+ * @fileoverview Site footer component with MVP navigation links.
  * @module components/layout/Footer
+ * 
+ * Updated for BRD v35.0 AI-First pivot:
+ * - Solutions column: AI Employee first, Smart Websites second
+ * - Simplified packages to match new tier structure
  */
 
 import { Link } from 'react-router-dom';
 import { Linkedin, Twitter, Facebook, Sparkles, ArrowUpRight } from 'lucide-react';
-
 import { CTAButton } from '@/components/CTAButton';
 
 /**
- * Solutions links for the footer - services and external verticals.
- * Per BRD v34.0: "Products" column renamed to "Solutions" with For Law Firms external link.
+ * Solutions links - AI Employee first per BRD v35.0.
  */
 const solutionsLinks = [
+  { title: 'AI Employee', path: '/let-ai-handle-it' },
   { title: 'Smart Websites', path: '/smart-websites' },
-  { title: 'AI & Automation', path: '/let-ai-handle-it' },
-  { title: 'Local SEO', path: '/get-found-online' },
-  { title: 'Lead Capture', path: '/never-miss-a-lead' },
-  { title: 'Reputation', path: '/build-your-reputation' },
   { title: 'For Law Firms', path: 'https://everintentlegalai.com', external: true },
 ];
 
 /**
- * Package/tier links for direct conversion paths.
- * Links to checkout pages for each service tier.
+ * Package/tier links for AI Employee modes.
  */
 const packagesLinks = [
-  { title: 'Smart Site', path: '/checkout/smart-site' },
-  { title: 'Smart Lead', path: '/checkout/smart-lead' },
-  { title: 'Smart Business', path: '/checkout/smart-business' },
-  { title: 'Smart Growth', path: '/checkout/smart-growth' },
-  { title: 'Smart Launch', path: '/checkout/smart-launch' },
-  { title: 'Strategy Session', path: '/strategy-session' },
+  { title: 'After-Hours Answering', path: '/checkout/ai-employee?mode=m1' },
+  { title: 'After-Hours + Booking', path: '/checkout/ai-employee?mode=m2' },
+  { title: 'Missed Call Recovery', path: '/checkout/ai-employee?mode=m3' },
+  { title: 'Front Line Screener', path: '/checkout/ai-employee?mode=m4' },
+  { title: 'Full AI Employee', path: '/checkout/ai-employee?mode=m5' },
 ];
 
 /**
  * Resource and help links for customer support.
  */
 const resourcesLinks = [
-  { title: 'LocalPros Network', path: '/localpros' },
   { title: 'Help', path: '/help' },
   { title: 'FAQ', path: '/faq' },
   { title: 'Support', path: '/support' },
@@ -50,13 +46,11 @@ const resourcesLinks = [
 const companyLinks = [
   { title: 'About', path: '/about' },
   { title: 'Contact', path: '/contact' },
-  { title: 'Our Work', path: '/our-work' },
   { title: 'Careers', path: '/careers' },
 ];
 
 /**
  * Legal and compliance links for bottom section.
- * Cookies link triggers consent modal instead of navigation.
  */
 const legalLinks = [
   { title: 'Privacy', path: '/legal/privacy' },
@@ -75,19 +69,15 @@ const socialLinks = [
 ];
 
 /**
- * Site footer with multi-column navigation, branding, contact info, and legal links.
- * Renders EverIntent brand identity with gradient accents and mesh background.
- * The Cookies link triggers the cookie consent modal via triggerCookiePreferences().
+ * Site footer with multi-column navigation and AI-first branding.
  * 
  * Layout:
- * - 4-column grid: Products, Packages, Resources, Company
+ * - 4-column grid: Solutions, Packages, Resources, Company
  * - Branded section with logo, tagline, CTA, and social icons
  * - Contact info row with email and phone
  * - Bottom bar with copyright and legal links
  * 
  * @component
- * @example
- * <Footer />
  */
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -104,7 +94,7 @@ export function Footer() {
       <div className="container relative py-16 md:py-20">
         {/* Main footer grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-          {/* Solutions (renamed from Products per BRD v34.0) */}
+          {/* Solutions */}
           <div className="space-y-5">
             <h3 className="font-display font-bold text-foreground text-sm uppercase tracking-wider flex items-center gap-2">
               <span className="w-6 h-px bg-gradient-to-r from-accent to-transparent" />
@@ -141,7 +131,7 @@ export function Footer() {
           <div className="space-y-5">
             <h3 className="font-display font-bold text-foreground text-sm uppercase tracking-wider flex items-center gap-2">
               <span className="w-6 h-px bg-gradient-to-r from-accent to-transparent" />
-              Packages
+              AI Modes
             </h3>
             <ul className="space-y-3">
               {packagesLinks.map((link) => (
@@ -203,11 +193,10 @@ export function Footer() {
 
         {/* Branded Footer Section */}
         <div className="mt-16 pt-10 border-t border-border/30 relative">
-          {/* Subtle gradient on border */}
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/50 to-transparent" />
           
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-            {/* Brand - Updated per BRD v34.0: EverIntent master brand */}
+            {/* Brand */}
             <div className="flex flex-col items-center lg:items-start gap-5">
               <Link to="/" className="flex items-center gap-3 group">
                 <div className="relative">
@@ -219,7 +208,7 @@ export function Footer() {
                 </span>
               </Link>
               <p className="text-sm text-muted-foreground text-center lg:text-left max-w-xs leading-relaxed">
-                Professional smart websites that actually get you customers. <span className="text-foreground font-medium">Starting at $249.</span>
+                AI-powered business solutions. Never miss a call. Never lose a lead. <span className="text-foreground font-medium">Starting at $149/mo.</span>
               </p>
             </div>
 
@@ -263,14 +252,12 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar - extra padding on mobile for MobileBottomBar (h-16 = 64px) */}
+        {/* Bottom bar */}
         <div className="mt-10 pt-6 pb-20 md:pb-0 border-t border-border/20 flex flex-col sm:flex-row items-center justify-between gap-4">
-          {/* Copyright */}
           <p className="text-xs text-muted-foreground/60">
             © {currentYear} EverIntent LLC. All rights reserved.
           </p>
 
-          {/* Legal Links - larger touch targets on mobile */}
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs">
             {legalLinks.map((link) => (
               <Link
