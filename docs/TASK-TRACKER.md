@@ -1,7 +1,7 @@
 # EverIntent - Task Tracker
 
 > **Brand:** EverIntent | **Tagline:** Website Design & Practical AI  
-> **BRD Version:** v35.0 (AI Employee Pivot)
+> **BRD Version:** v35.1 (AI-First + Smart Lead + Digital Donut)
 
 ## Complete Implementation Checklist (In Order)
 
@@ -17,27 +17,48 @@ Tasks marked `[MANUAL]` require user action. Tasks marked `[LOVABLE]` are AI-imp
 | **AI Employee Spec** | `docs/AI-Employee-Product-Spec.md` | AI Employee product definition and modes |
 | **Brand Pivot Plan** | `docs/everintent-pivot-plan.md` | Brand architecture, trademark context |
 
-**Key Brand Guidelines (BRD v35.0):**
+**Key Brand Guidelines (BRD v35.1):**
 - Master brand: **EverIntent**
 - Tagline: **"Website Design & Practical AI"**
 - Primary product: **AI Employee™** (5 modes M1-M5)
-- Secondary product: **Smart Websites** ($249 entry)
+- Secondary product: **Smart Websites** (conversion ladder: Smart Site → Smart Lead → Smart Business → Smart Growth)
+- Parallel entry: **Web Chat Only** ($497 setup + $79/mo)
+- Add-on: **Warmy Booster** (email deliverability, $49/mo)
 - All logos, headers, footers use **EverIntent** only
 
-**MVP Navigation Structure (v35.0):**
+**MVP Navigation Structure (v35.1):**
 ```
-AI Employee | Smart Websites | Pricing | About | Contact
+AI Employee ▾ | Smart Websites ▾ | Industries | Pricing | About | Contact
 ```
-5 flat links, no dropdowns. Primary CTA: "Get Started" → /pricing
+Navigation with dropdowns for product exploration. Primary CTA: "Get Started" → /pricing
+
+**The Conversion Ladder:**
+```
+Smart Site ($249) → Smart Lead ($97/mo) → Smart Business ($197/mo) → Smart Growth ($497/mo) → AI Employee ($149-$297/mo)
+```
 
 **AI Employee Modes:**
-| Mode | Name | Price |
-|------|------|-------|
-| M1 | After-Hours Answering | $149/mo |
-| M2 | After-Hours + Booking | $199/mo |
-| M3 | Missed Call Recovery | $199/mo |
-| M4 | Front Line Screener | $249/mo |
-| M5 | Full AI Employee | $297/mo |
+| Mode | Name | Setup | Monthly |
+|------|------|-------|---------|
+| M1 | After-Hours Answering | $997 | $497 |
+| M2 | After-Hours + Booking | $997 | $497 |
+| M3 | Missed Call Recovery | $997 | $497 |
+| M4 | Front Line Screener | $1,497 | $547 |
+| M5 | Full AI Employee | $2,500 | $597 |
+
+**Smart Website Tiers:**
+| Tier | Setup | Monthly | Key Features |
+|------|-------|---------|--------------|
+| Smart Site | $249 | $149/yr | 5-page site, mobile, SEO |
+| Smart Lead | $249 | $97/mo | + Missed-call text-back, GBP sync, Warmy nurture, reputation |
+| Smart Business | $749 | $197/mo | + Booking, pipeline, review automation |
+| Smart Growth | $1,497 | $497/mo | + AI voice, advanced automation, unified inbox |
+
+**Standalone Products:**
+| Product | Setup | Monthly | Use Case |
+|---------|-------|---------|----------|
+| Web Chat Only | $497 | $79/mo | Chat automation without voice AI |
+| Warmy Booster | — | $49/mo | Email deliverability add-on |
 
 ---
 
@@ -474,9 +495,9 @@ GHL widget ID stored in Supabase secrets:
 
 ---
 
-## Phase 3: AI Employee Pivot
+## Phase 3: v35.1 Updates (AI-First + Smart Lead + Digital Donut)
 
-> **Source:** BRD v35.0 + `docs/AI-Employee-Product-Spec.md`
+> **Source:** BRD v35.1 + ChatGPT Review
 > **Pivot Date:** 2025-01-25
 
 ### Task 3.0 [LOVABLE] - Simplify Navigation to MVP
@@ -548,6 +569,135 @@ Created `src/pages/SmartWebsites.tsx` with:
 - ✅ Route added to `src/routes.tsx`
 - ✅ SSG pre-render configured
 
+### Task 3.5 [LOVABLE] - Pricing Page (/pricing)
+**Status:** ✅ Complete
+
+> **Completed:** 2025-01-25
+
+### Task 3.6 [LOVABLE] - AI Employee Checkout Flow
+**Status:** ⬜ Not Started
+
+Create checkout pages:
+- `/checkout/ai-employee` with mode selection
+- Form: Name, email, phone, company, selected mode
+- TCPA consent
+- Redirect to go.everintent.com (GHL checkout)
+
+### Task 3.7 [LOVABLE] - About Page (/about)
+**Status:** ✅ Complete
+
+### Task 3.8 [LOVABLE] - Contact Page (/contact)
+**Status:** ✅ Complete
+
+---
+
+## Phase 3A: Footer Restructure (v35.1)
+
+> **Source:** ChatGPT v35.1 Review
+> **Added:** 2025-01-25
+
+### Task 3A.1 [LOVABLE] - Restructure Footer to 4 Columns
+**Status:** ⬜ Not Started
+**Priority:** P1
+
+Update Footer.tsx to 4-column structure:
+
+| Column 1: Services | Column 2: AI Modes | Column 3: Resources | Column 4: Company |
+|--------------------|-------------------|---------------------|-------------------|
+| Smart Site | After-Hours | Blog (placeholder) | About |
+| Smart Lead | Missed Call Recovery | Industries | Contact |
+| Smart Business | After-Hours + Booking | FAQ | Careers |
+| Smart Growth | Front Line Screener | | Privacy |
+| Web Chat Only | Full AI Employee | | Terms |
+| Warmy Booster | | | Cookies |
+
+Remove "For Law Firms" link (EverIntent Legal AI is separate site).
+
+---
+
+## Phase 3B: Smart Websites Page Enhancement (v35.1)
+
+> **Source:** ChatGPT v35.1 Review
+> **Added:** 2025-01-25
+
+### Task 3B.1 [LOVABLE] - Add 4-Tier Comparison Table
+**Status:** ⬜ Not Started
+**Priority:** P1
+
+Add comparison table to SmartWebsites.tsx showing all 4 website tiers:
+- Smart Site ($249 one-time)
+- Smart Lead ($249 setup + $97/mo) — **Flagship for ad buyers**
+- Smart Business ($749 setup + $197/mo)
+- Smart Growth ($1,497 setup + $497/mo)
+
+Columns: Tier Name, Setup, Monthly, Key Features, CTA
+
+### Task 3B.2 [LOVABLE] - Add 5-Day Build Timeline Infographic
+**Status:** ⬜ Not Started
+**Priority:** P2
+
+Visual timeline showing:
+- Day 1: Kickoff & content gathering
+- Day 2-3: Design & build
+- Day 4: Review & revisions
+- Day 5: Launch
+
+### Task 3B.3 [LOVABLE] - Add Portfolio Thumbnails
+**Status:** ⬜ Not Started
+**Priority:** P2
+
+"See Our Work" section with 3-6 portfolio thumbnails linking to /our-work.
+
+### Task 3B.4 [LOVABLE] - Add FAQ Section
+**Status:** ⬜ Not Started
+**Priority:** P1
+
+FAQ accordion with questions:
+- "Do I own my website?"
+- "Can I upgrade later?"
+- "What happens after year one?" ($149/year hosting)
+- "What's included in each tier?"
+
+### Task 3B.5 [LOVABLE] - Add "Add AI" Section
+**Status:** ⬜ Not Started
+**Priority:** P2
+
+Section explaining how to add AI capabilities to any website tier:
+- "Already have a Smart Site? Add AI when you're ready."
+- Links to specific AI modes (M1-M5)
+
+### Task 3B.6 [LOVABLE] - Add Warmy Booster Callout
+**Status:** ⬜ Not Started
+**Priority:** P2
+
+Brief section explaining Warmy Booster add-on:
+- "Ensure your emails land in the inbox, not spam"
+- Link to Warmy Booster landing page (when created)
+
+---
+
+## Phase 3C: Homepage Updates (v35.1)
+
+> **Source:** ChatGPT v35.1 Review
+> **Added:** 2025-01-25
+
+### Task 3C.1 [LOVABLE] - Add Conversion Ladder Tagline
+**Status:** ⬜ Not Started
+**Priority:** P1
+
+Add sub-tagline to hero section:
+> "Start with a Smart Site. Upgrade to Smart Lead/Business/Growth. Let AI handle it when you're ready."
+
+### Task 3C.2 [LOVABLE] - Link Industry Cards
+**Status:** ⬜ Not Started
+**Priority:** P2
+
+Update IndustriesSection cards to link to industry category pages:
+- Home Services → /industries/home-services
+- Professional Services → /industries/professional
+- Health & Wellness → /industries/health-wellness
+- Automotive → /industries/automotive
+
 ### Task 3.1.1 [LOVABLE] - Rebuild HowWeHelpSection (AI-First)
 **Status:** ⬜ Not Started
 **Priority:** P0
@@ -584,40 +734,171 @@ Section subhead: "One setup. Choose your mode. Add a website when ready."
 Below cards: "All AI Employee modes include $1,497 one-time setup"
 Link below: "Compare all AI plans →" → /pricing
 
-### Task 3.5 [LOVABLE] - Pricing Page (/pricing)
+---
+
+## Phase 3D: Pricing Page Updates (v35.1)
+
+> **Source:** ChatGPT v35.1 Review
+> **Added:** 2025-01-25
+
+### Task 3D.1 [LOVABLE] - Add Smart Lead Pricing Card
 **Status:** ⬜ Not Started
+**Priority:** P0
 
-Create unified pricing page with:
-- AI Employee modes section (M1-M5 cards)
-- Smart Websites section ($249 one-time)
-- Web Chat standalone option ($497 setup + $79/mo)
-- Comparison table
-- FAQ accordion
+Add Smart Lead to pricing page:
+- **Smart Lead** ($249 setup + $97/mo)
+- Features: Missed-call text-back, GBP sync, Warmy nurture sequences, Reputation management, Call tracking
+- Position: After Smart Site, before Smart Business
+- Badge: "Best for Ad Buyers"
 
-### Task 3.6 [LOVABLE] - AI Employee Checkout Flow
+### Task 3D.2 [LOVABLE] - Add Web Chat Only Card
 **Status:** ⬜ Not Started
+**Priority:** P1
 
-Create checkout pages:
-- `/checkout/ai-employee` with mode selection
-- Form: Name, email, phone, company, selected mode
-- TCPA consent
-- Stripe integration (deferred to Phase 4)
+Add Web Chat Only product card:
+- **Web Chat Only** ($497 setup + $79/mo)
+- Features: AI chat widget, lead capture, no voice AI
+- Position: Separate section or after AI modes
+- Use case: "For businesses that want chat automation without voice"
 
-### Task 3.7 [LOVABLE] - About Page (/about)
+### Task 3D.3 [LOVABLE] - Add Warmy Booster Card
 **Status:** ⬜ Not Started
+**Priority:** P2
 
-Create About page with:
-- Company story/mission
-- Team section (optional)
-- Values/approach
+Add Warmy Booster add-on card:
+- **Warmy Booster** ($49/mo)
+- Features: Domain warm-up, deliverability monitoring, inbox placement
+- Note: "Bundled with Smart Lead or available à la carte"
 
-### Task 3.8 [LOVABLE] - Contact Page (/contact)
+### Task 3D.4 [LOVABLE] - Show Both Setup and Monthly Fees
 **Status:** ⬜ Not Started
+**Priority:** P0
 
-Create Contact page with:
-- Contact form (submit-form edge function)
-- Business hours
-- Location/service area info
+Update all pricing cards to show both fees:
+- AI Employee: "$997 setup + $497/mo" format
+- Smart Website tiers: "$249 one-time" or "$749 setup + $197/mo" format
+
+### Task 3D.5 [LOVABLE] - Add Conversion Journey Note
+**Status:** ⬜ Not Started
+**Priority:** P2
+
+Add text below pricing grid:
+> "Most clients start with a Smart Site or Smart Lead, then add AI capabilities as they grow."
+
+---
+
+## Phase 3E: Industries Pages (v35.1)
+
+> **Source:** ChatGPT v35.1 Review
+> **Added:** 2025-01-25
+
+### Task 3E.1 [LOVABLE] - Create /industries Landing Page
+**Status:** ⬜ Not Started
+**Priority:** P1
+
+Create landing page at `/industries` with:
+- Hero: "Smart Solutions for Every Industry"
+- 4 category cards linking to category stubs
+- Each card shows number of verticals and recommended tier
+
+### Task 3E.2 [LOVABLE] - Create Home Services Category (/industries/home-services)
+**Status:** ⬜ Not Started
+**Priority:** P2
+
+Category stub with:
+- Token words: installs, service calls, repairs, estimates
+- Verticals list (HVAC, Plumbing, Electrical, etc.)
+- Recommended tier: Smart Lead
+- CTA: "Get Smart Lead for Home Services"
+
+### Task 3E.3 [LOVABLE] - Create Professional Services Category (/industries/professional)
+**Status:** ⬜ Not Started
+**Priority:** P2
+
+Category stub with:
+- Token words: consultations, appointments, clients
+- Verticals list (Legal, Accounting, Real Estate, etc.)
+- Recommended tier: Smart Business
+- CTA: "Get Smart Business for Professional Services"
+
+### Task 3E.4 [LOVABLE] - Create Health & Wellness Category (/industries/health-wellness)
+**Status:** ⬜ Not Started
+**Priority:** P2
+
+Category stub with:
+- Token words: patients, appointments, treatments
+- Verticals list (MedSpa, Dental, Chiropractic, etc.)
+- Recommended tier: Smart Business
+- CTA: "Get Smart Business for Health & Wellness"
+
+### Task 3E.5 [LOVABLE] - Create Automotive Category (/industries/automotive)
+**Status:** ⬜ Not Started
+**Priority:** P2
+
+Category stub with:
+- Token words: repairs, services, appointments
+- Verticals list (Auto Repair, Detailing, Tire Shop, etc.)
+- Recommended tier: Smart Lead
+- CTA: "Get Smart Lead for Automotive"
+
+---
+
+## Phase 3F: Navigation Updates (v35.1)
+
+> **Source:** ChatGPT v35.1 Review
+> **Added:** 2025-01-25
+
+### Task 3F.1 [LOVABLE] - Add Smart Websites Dropdown
+**Status:** ⬜ Not Started
+**Priority:** P1
+
+Update Header.tsx navigation:
+- **Smart Websites** (dropdown)
+  - Smart Site ($249)
+  - Smart Lead ($97/mo)
+  - Smart Business ($197/mo)
+  - Smart Growth ($497/mo)
+  - Compare All →
+
+### Task 3F.2 [LOVABLE] - Add AI Employee Dropdown
+**Status:** ⬜ Not Started
+**Priority:** P1
+
+Update Header.tsx navigation:
+- **AI Employee** (dropdown)
+  - After-Hours Answering
+  - Missed Call Recovery
+  - After-Hours + Booking
+  - Front Line Screener
+  - Full AI Employee
+  - Web Chat Only
+  - Compare All →
+
+### Task 3F.3 [LOVABLE] - Add Industries Nav Link
+**Status:** ⬜ Not Started
+**Priority:** P1
+
+Add "Industries" link to Header.tsx after AI Employee dropdown:
+- Industries → /industries
+
+---
+
+## Phase 3G: Warmy Booster Landing Page (v35.1)
+
+> **Source:** ChatGPT v35.1 Review
+> **Added:** 2025-01-25
+> **Priority:** LOW (can defer until assets available)
+
+### Task 3G.1 [LOVABLE] - Create Warmy Booster Landing Page
+**Status:** ⬜ Not Started
+**Priority:** P3 (Low)
+
+Create landing page at `/warmy-booster` or add section to Services:
+- What is email warm-up?
+- Why deliverability matters
+- What clients get: domain warm-up, monitoring, inbox placement
+- Pricing: $49/mo (bundled with Smart Lead or à la carte)
+- CTA: Add to any package
 
 ---
 
@@ -669,6 +950,106 @@ Create `/checkout/smart-site` with:
 - Customer info form
 - TCPA consent
 - Stripe one-time payment
+
+---
+
+## Phase 4: Backend & Checkout Updates (v35.1)
+
+> **Source:** ChatGPT v35.1 Review
+> **Added:** 2025-01-25
+> **Status:** DEFERRED (until frontend complete)
+
+### Task 4.0 [LOVABLE] - Update start-checkout Edge Function
+**Status:** ⬜ Not Started
+**Priority:** P1 (when Phase 4 begins)
+
+Update `supabase/functions/start-checkout/index.ts`:
+- Return `redirect_url` to go.everintent.com for GHL checkout
+- Accept mode selection (M1-M5) or tier selection (Smart Site/Lead/Business/Growth)
+- Pass UTM params to GHL redirect
+
+### Task 4.1 [LOVABLE] - Update TIER_TAG_MAP in ghlClient.ts
+**Status:** ⬜ Not Started
+**Priority:** P1 (when Phase 4 begins)
+
+Update `supabase/functions/_shared/ghlClient.ts` with new tags:
+
+```typescript
+export const GHL_TAGS = {
+  // AI Employee Modes
+  CHECKOUT_M1: 'EI: AI - After Hours',
+  CHECKOUT_M2: 'EI: AI - After Hours + Booking',
+  CHECKOUT_M3: 'EI: AI - Missed Call Recovery',
+  CHECKOUT_M4: 'EI: AI - Front Line Screening',
+  CHECKOUT_M5: 'EI: AI - Full Employee',
+  
+  // Smart Website Tiers
+  CHECKOUT_SMART_SITE: 'EI: Smart Website - Starter',
+  CHECKOUT_SMART_LEAD: 'EI: Smart Website - Lead',
+  CHECKOUT_SMART_BUSINESS: 'EI: Smart Website - Business',
+  CHECKOUT_SMART_GROWTH: 'EI: Smart Website - Growth',
+  
+  // Standalone Products
+  CHECKOUT_WEB_CHAT: 'EI: Web Chat Only',
+  CHECKOUT_WARMY: 'EI: Warmy Booster',
+  
+  // Other
+  CONTACT_FORM: 'EI: Contact Form',
+  PARTNER_APPLY: 'LP: Partner Apply',
+  CAREERS_APPLICATION: 'Careers: Application',
+};
+```
+
+### Task 4.2 [MANUAL] - Create GHL Tags for v35.1
+**Status:** ⬜ Not Started
+**Priority:** P1 (when Phase 4 begins)
+
+Add new tags in GHL Settings → Tags:
+- `EI: Smart Website - Lead`
+- `EI: Smart Website - Business`
+- `EI: Smart Website - Growth`
+- `EI: Web Chat Only`
+- `EI: Warmy Booster`
+
+### Task 4.3 [MANUAL] - Create donut_id Custom Field in GHL
+**Status:** ⬜ Not Started
+**Priority:** P2 (Digital Donut workflow)
+
+Create custom field for Digital Donut automation:
+- Field Name: `donut_id`
+- Field Type: Text
+- Purpose: Unique ID for personalized demo page embedding
+
+### Task 4.4 [MANUAL] - Create Stripe Products for v35.1
+**Status:** ⬜ Not Started
+**Priority:** P1 (when Phase 4 begins)
+
+Create products in Stripe Dashboard:
+| Product | Setup Price | Monthly Price |
+|---------|-------------|---------------|
+| AI Employee M1 | $997 | $497/mo |
+| AI Employee M2 | $997 | $497/mo |
+| AI Employee M3 | $997 | $497/mo |
+| AI Employee M4 | $1,497 | $547/mo |
+| AI Employee M5 | $2,500 | $597/mo |
+| Smart Site | $249 one-time | — |
+| Smart Lead | $249 | $97/mo |
+| Smart Business | $749 | $197/mo |
+| Smart Growth | $1,497 | $497/mo |
+| Web Chat Only | $497 | $79/mo |
+| Warmy Booster | — | $49/mo |
+
+### Task 4.5 [MANUAL] - Build n8n Digital Donut Workflow
+**Status:** ⬜ Not Started
+**Priority:** P3 (post-MVP)
+
+Create n8n workflow for Digital Donut outbound:
+1. Lead scraping trigger
+2. After-hours call test
+3. Create mock site + trained bot
+4. Generate unique donut_id
+5. Update GHL contact with donut_id
+6. Trigger automated demo email sequence
 
 ---
 
@@ -749,7 +1130,7 @@ Add GA4 tracking with cookie consent integration.
 
 ## Current Status
 
-**BRD Version:** v35.0 (AI Employee MVP Integration)
+**BRD Version:** v35.1 (AI-First + Smart Lead + Digital Donut)
 
 **Completed:**
 - Phase 0 (Prerequisites) - All GHL configuration complete
@@ -759,8 +1140,6 @@ Add GA4 tracking with cookie consent integration.
 - Phase 2 (Cookie Consent & GHL Widget) - All tasks complete
 - Task 3.0 - Navigation simplified to MVP 5-link structure
 - Task 3.1 - Hero rebuilt (AI-first messaging)
-- Task 3.1.1 - HowWeHelpSection rebuilt (AI Employee value props)
-- Task 3.1.2 - PricingTeaser rebuilt (AI modes first, Smart Site last)
 - Task 3.2 - AI Employee page `/let-ai-handle-it` complete
 - Task 3.3 - Footer updated (AI modes column)
 - Task 3.4 - Smart Websites page `/smart-websites` complete
@@ -769,18 +1148,28 @@ Add GA4 tracking with cookie consent integration.
 - Task 3.8 - Contact page `/contact` complete with working form
 - Title tag updated to AI-first branding
 
-**Not Started:**
-- Task 3.6 - AI Employee checkout flow (Stripe wiring)
-- Phase 4 - Stripe integration
-- Route cleanup (legacy SmartSites references in routes.ts)
+**Not Started (v35.1 Updates):**
+- Phase 3A - Footer restructure (4 columns)
+- Phase 3B - Smart Websites page enhancements (4-tier table, FAQ, timeline)
+- Phase 3C - Homepage updates (ladder tagline, industry links)
+- Phase 3D - Pricing page updates (Smart Lead, Web Chat Only, Warmy Booster cards)
+- Phase 3E - Industries pages (/industries + 4 category stubs)
+- Phase 3F - Navigation updates (dropdowns)
+- Phase 3G - Warmy Booster landing page (low priority)
+- Task 3.6 - AI Employee checkout flow
+- Phase 4 - Backend updates (start-checkout, TIER_TAG_MAP, Stripe)
 
-**Next Priority Tasks:**
-1. Task 3.6 - Wire AI Employee checkout flow with Stripe
-2. Add M1-M5 tags to ghlClient.ts for GHL sync
-3. Clean up routes.ts (remove /beautiful-websites, legacy references)
+**Execution Order:**
+1. Phase 3A (Footer) — establishes navigation structure
+2. Phase 3D (Pricing) — adds Smart Lead, Web Chat Only, Warmy Booster
+3. Phase 3B (Smart Websites) — 4-tier table, FAQ, enhancements
+4. Phase 3C (Homepage) — ladder tagline, industry links
+5. Phase 3E/3F (Industries + Nav) — dropdown menus, industry pages
+6. Phase 3G (Warmy Booster page) — low priority, defer if needed
+7. Phase 4 (Backend) — checkout flow, Stripe, GHL tags
 
 **Key References:**
-- BRD v35.0: `docs/everintent-brd-v35.0.md`
+- BRD v35.1: `docs/everintent-brd-v35.0.md` (updated to v35.1)
 - AI Employee Spec: `docs/AI-Employee-Product-Spec.md`
 - Brand Pivot: `docs/everintent-pivot-plan.md`
 
