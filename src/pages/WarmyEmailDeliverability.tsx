@@ -43,359 +43,12 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
-// ============================================
-// CSS/SVG VISUALIZATION COMPONENTS
-// ============================================
-
-/**
- * Animated deliverability score gauge - Hero visualization
- */
-function DeliverabilityGauge({ score = 98 }: { score?: number }) {
-  const circumference = 2 * Math.PI * 45;
-  const offset = circumference - (score / 100) * circumference;
-  
-  return (
-    <div className="relative w-full max-w-md mx-auto aspect-square">
-      {/* Background glow */}
-      <div className="absolute inset-0 bg-gradient-radial from-accent/20 via-transparent to-transparent blur-2xl" />
-      
-      {/* Main gauge */}
-      <svg viewBox="0 0 200 200" className="w-full h-full drop-shadow-2xl">
-        {/* Outer decorative ring */}
-        <circle
-          cx="100" cy="100" r="95"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1"
-          className="text-accent/10"
-        />
-        
-        {/* Background track */}
-        <circle
-          cx="100" cy="100" r="70"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="12"
-          className="text-muted/20"
-        />
-        
-        {/* Score arc - animated */}
-        <circle
-          cx="100" cy="100" r="70"
-          fill="none"
-          stroke="url(#scoreGradient)"
-          strokeWidth="12"
-          strokeLinecap="round"
-          strokeDasharray={circumference}
-          strokeDashoffset={offset}
-          transform="rotate(-90 100 100)"
-          className="transition-all duration-2000 ease-out"
-          style={{ 
-            animation: 'gaugeAnimate 2s ease-out forwards',
-            strokeDashoffset: circumference 
-          }}
-        />
-        
-        {/* Gradient definition */}
-        <defs>
-          <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="hsl(var(--accent))" />
-            <stop offset="100%" stopColor="hsl(142 76% 36%)" />
-          </linearGradient>
-        </defs>
-        
-        {/* Center content */}
-        <text x="100" y="90" textAnchor="middle" className="fill-foreground text-5xl font-bold">
-          {score}%
-        </text>
-        <text x="100" y="115" textAnchor="middle" className="fill-muted-foreground text-sm">
-          Deliverability Score
-        </text>
-        
-        {/* Status indicator */}
-        <circle cx="100" cy="145" r="6" className="fill-accent animate-pulse" />
-        <text x="115" y="149" className="fill-accent text-xs font-medium">LIVE</text>
-      </svg>
-      
-      {/* Floating stats */}
-      <div className="absolute top-8 right-4 px-3 py-2 rounded-lg bg-card/90 backdrop-blur border border-accent/20 shadow-lg">
-        <div className="flex items-center gap-2 text-sm">
-          <TrendingUp className="w-4 h-4 text-accent" />
-          <span className="font-medium">+12% this week</span>
-        </div>
-      </div>
-      
-      <div className="absolute bottom-8 left-4 px-3 py-2 rounded-lg bg-card/90 backdrop-blur border border-accent/20 shadow-lg">
-        <div className="flex items-center gap-2 text-sm">
-          <Mail className="w-4 h-4 text-accent" />
-          <span className="font-medium">2,450 emails sent</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/**
- * Animated warm-up progress chart
- */
-function WarmUpChart() {
-  const bars = [15, 25, 35, 50, 65, 75, 85, 92, 95, 98];
-  
-  return (
-    <div className="relative p-6 rounded-2xl bg-card border border-border/50 shadow-xl">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h4 className="font-semibold text-foreground">Warm-Up Progress</h4>
-          <p className="text-sm text-muted-foreground">Daily sending volume</p>
-        </div>
-        <div className="px-3 py-1 rounded-full bg-accent/10 text-accent text-sm font-medium">
-          Week 3
-        </div>
-      </div>
-      
-      {/* Chart */}
-      <div className="flex items-end justify-between gap-2 h-40 mb-4">
-        {bars.map((height, index) => (
-          <div key={index} className="flex-1 flex flex-col items-center gap-1">
-            <div 
-              className="w-full rounded-t-md bg-gradient-to-t from-accent to-accent/60 transition-all duration-500"
-              style={{ 
-                height: `${height}%`,
-                animationDelay: `${index * 100}ms`,
-                animation: 'barGrow 1s ease-out forwards'
-              }}
-            />
-          </div>
-        ))}
-      </div>
-      
-      {/* X-axis labels */}
-      <div className="flex justify-between text-xs text-muted-foreground">
-        <span>Day 1</span>
-        <span>Day 5</span>
-        <span>Day 10</span>
-      </div>
-      
-      {/* Stats row */}
-      <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-border/50">
-        <div className="text-center">
-          <p className="text-2xl font-bold text-accent">98%</p>
-          <p className="text-xs text-muted-foreground">Current Score</p>
-        </div>
-        <div className="text-center">
-          <p className="text-2xl font-bold text-foreground">450</p>
-          <p className="text-xs text-muted-foreground">Daily Volume</p>
-        </div>
-        <div className="text-center">
-          <p className="text-2xl font-bold text-foreground">21</p>
-          <p className="text-xs text-muted-foreground">Days Active</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/**
- * Inbox placement test results visualization
- */
-function InboxTestResults() {
-  const providers = [
-    { name: 'Gmail', status: 'inbox', percentage: 98 },
-    { name: 'Outlook', status: 'inbox', percentage: 96 },
-    { name: 'Yahoo', status: 'inbox', percentage: 94 },
-    { name: 'iCloud', status: 'inbox', percentage: 97 },
-    { name: 'AOL', status: 'inbox', percentage: 95 },
-    { name: 'Corporate', status: 'spam', percentage: 88 },
-  ];
-  
-  return (
-    <div className="relative p-6 rounded-2xl bg-card border border-border/50 shadow-xl">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h4 className="font-semibold text-foreground">Inbox Placement Test</h4>
-          <p className="text-sm text-muted-foreground">35 seed providers</p>
-        </div>
-        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 text-accent text-sm font-medium">
-          <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-          Testing
-        </div>
-      </div>
-      
-      {/* Provider list */}
-      <div className="space-y-3">
-        {providers.map((provider, index) => (
-          <div 
-            key={provider.name}
-            className="flex items-center justify-between p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
-            style={{ animationDelay: `${index * 100}ms` }}
-          >
-            <div className="flex items-center gap-3">
-              {provider.status === 'inbox' ? (
-                <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
-                  <Check className="w-4 h-4 text-accent" />
-                </div>
-              ) : (
-                <div className="w-8 h-8 rounded-full bg-destructive/20 flex items-center justify-center">
-                  <AlertCircle className="w-4 h-4 text-destructive" />
-                </div>
-              )}
-              <span className="font-medium">{provider.name}</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-24 h-2 rounded-full bg-muted overflow-hidden">
-                <div 
-                  className={`h-full rounded-full ${provider.status === 'inbox' ? 'bg-accent' : 'bg-destructive'}`}
-                  style={{ width: `${provider.percentage}%` }}
-                />
-              </div>
-              <span className={`text-sm font-medium ${provider.status === 'inbox' ? 'text-accent' : 'text-destructive'}`}>
-                {provider.percentage}%
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
-      
-      {/* Summary */}
-      <div className="flex items-center justify-between mt-6 pt-6 border-t border-border/50">
-        <div className="flex items-center gap-2">
-          <CheckCircle className="w-5 h-5 text-accent" />
-          <span className="font-medium">32/35 in Primary Inbox</span>
-        </div>
-        <Button variant="ghost" size="sm" className="text-accent">
-          View Full Report
-        </Button>
-      </div>
-    </div>
-  );
-}
-
-/**
- * Domain health monitoring dashboard
- */
-function DomainHealthDashboard() {
-  const checks = [
-    { name: 'SPF Record', status: 'pass', description: 'Properly configured' },
-    { name: 'DKIM Signature', status: 'pass', description: '2048-bit key active' },
-    { name: 'DMARC Policy', status: 'pass', description: 'Reject policy enabled' },
-    { name: 'Blacklist Status', status: 'pass', description: 'Not listed (100+ checked)' },
-  ];
-  
-  return (
-    <div className="relative p-6 rounded-2xl bg-card border border-border/50 shadow-xl">
-      {/* Header with overall score */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h4 className="font-semibold text-foreground">Domain Health</h4>
-          <p className="text-sm text-muted-foreground">Last checked 2 min ago</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
-            <Shield className="w-6 h-6 text-accent" />
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-accent">100%</p>
-            <p className="text-xs text-muted-foreground">Health Score</p>
-          </div>
-        </div>
-      </div>
-      
-      {/* Security checks */}
-      <div className="space-y-3">
-        {checks.map((check, index) => (
-          <div 
-            key={check.name}
-            className="flex items-center justify-between p-3 rounded-lg bg-muted/30"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
-                <Check className="w-4 h-4 text-accent" />
-              </div>
-              <div>
-                <p className="font-medium text-sm">{check.name}</p>
-                <p className="text-xs text-muted-foreground">{check.description}</p>
-              </div>
-            </div>
-            <span className="px-2 py-1 rounded text-xs font-medium bg-accent/10 text-accent uppercase">
-              {check.status}
-            </span>
-          </div>
-        ))}
-      </div>
-      
-      {/* Alert banner */}
-      <div className="mt-6 p-3 rounded-lg bg-accent/5 border border-accent/20 flex items-center gap-3">
-        <Activity className="w-5 h-5 text-accent" />
-        <p className="text-sm">
-          <span className="font-medium">Real-time monitoring active.</span>
-          {' '}You'll be notified instantly if any issues are detected.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-/**
- * Deliverability analytics dashboard
- */
-function AnalyticsDashboard() {
-  const metrics = [
-    { label: 'Emails Sent', value: '12,450', change: '+23%', positive: true },
-    { label: 'Inbox Rate', value: '96.8%', change: '+4.2%', positive: true },
-    { label: 'Open Rate', value: '38.5%', change: '+12%', positive: true },
-    { label: 'Spam Rate', value: '0.8%', change: '-2.1%', positive: true },
-  ];
-  
-  return (
-    <div className="relative p-6 rounded-2xl bg-card border border-border/50 shadow-xl">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h4 className="font-semibold text-foreground">Deliverability Analytics</h4>
-          <p className="text-sm text-muted-foreground">Last 30 days</p>
-        </div>
-        <Button variant="outline" size="sm">
-          Export Report
-        </Button>
-      </div>
-      
-      {/* Metrics grid */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        {metrics.map((metric) => (
-          <div key={metric.label} className="p-4 rounded-lg bg-muted/30">
-            <p className="text-sm text-muted-foreground mb-1">{metric.label}</p>
-            <div className="flex items-baseline gap-2">
-              <p className="text-2xl font-bold text-foreground">{metric.value}</p>
-              <span className={`text-sm font-medium ${metric.positive ? 'text-accent' : 'text-destructive'}`}>
-                {metric.change}
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
-      
-      {/* Mini chart */}
-      <div className="h-24 flex items-end gap-1">
-        {[40, 55, 45, 60, 75, 65, 80, 85, 70, 90, 85, 95].map((height, i) => (
-          <div 
-            key={i}
-            className="flex-1 rounded-t bg-gradient-to-t from-accent/80 to-accent/40"
-            style={{ height: `${height}%` }}
-          />
-        ))}
-      </div>
-      <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-        <span>Week 1</span>
-        <span>Week 2</span>
-        <span>Week 3</span>
-        <span>Week 4</span>
-      </div>
-    </div>
-  );
-}
+import { 
+  DeliverabilityScoreDashboard,
+  WarmUpProgressDashboard,
+  InboxPlacementDashboard,
+  DomainHealthDashboard
+} from '@/components/warmy/RealisticDashboards';
 
 // ============================================
 // DATA DEFINITIONS
@@ -410,14 +63,14 @@ const coreFeatures = [
     title: 'AI-Powered Warm-Up',
     description: 'Gradual sending volume increases with smart reply patterns that mimic real human behavior. Our AI adapts to your domain reputation in real-time.',
     stats: '2-4 weeks to optimal deliverability',
-    Visual: WarmUpChart,
+    Visual: WarmUpProgressDashboard,
   },
   {
     icon: Inbox,
     title: 'Inbox Placement Testing',
     description: '35 seed email providers including Gmail, Outlook, Yahoo, and corporate domains. Real-time inbox, spam, and missing placement reporting.',
     stats: '35+ email provider coverage',
-    Visual: InboxTestResults,
+    Visual: InboxPlacementDashboard,
   },
   {
     icon: Shield,
@@ -431,7 +84,7 @@ const coreFeatures = [
     title: 'Deliverability Analytics',
     description: 'Sender score tracking, reputation trends, and detailed performance reports. Know exactly where your emails land.',
     stats: 'Real-time score updates',
-    Visual: AnalyticsDashboard,
+    Visual: DeliverabilityScoreDashboard,
   },
 ];
 
@@ -607,9 +260,9 @@ export default function WarmyEmailDeliverability() {
               </div>
             </div>
 
-            {/* Hero visualization - animated gauge */}
+            {/* Hero visualization - realistic dashboard */}
             <div className="order-1 lg:order-2 animate-fade-in">
-              <DeliverabilityGauge score={98} />
+              <DeliverabilityScoreDashboard />
             </div>
           </div>
         </div>
