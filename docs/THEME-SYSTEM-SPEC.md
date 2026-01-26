@@ -1406,6 +1406,440 @@ ORDER BY version DESC;
 
 ---
 
+## 14. UI Styling Utilities
+
+This section documents the CSS utility classes that create the distinctive visual effects throughout the site. These are defined in `src/index.css`.
+
+### 14.1 Navigation Link Animation (`.nav-link`)
+
+The animated underline effect on header navigation links:
+
+```css
+.nav-link {
+  @apply relative;
+}
+
+.nav-link::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-full h-[2px] origin-left scale-x-0 transition-transform duration-300;
+  background: linear-gradient(90deg, hsl(var(--accent)) 0%, hsl(var(--accent) / 0.5) 100%);
+}
+
+.nav-link:hover::after {
+  @apply scale-x-100;
+}
+
+.nav-link.active::after {
+  @apply scale-x-100;
+}
+```
+
+**Behavior:**
+- Creates a 2px underline using `::after` pseudo-element
+- Uses gradient from full accent color to 50% opacity accent
+- Scales from left (`origin-left`) on hover
+- Stays visible when link is active (current page)
+- 300ms transition duration
+
+### 14.2 Story Link Animation (`.story-link`)
+
+Secondary underline style for text links (Hero CTA, Portfolio):
+
+```css
+.story-link {
+  @apply relative inline-block;
+}
+
+.story-link::after {
+  content: '';
+  @apply absolute w-full h-0.5 bottom-0 left-0 origin-bottom-right transition-transform duration-300 scale-x-0;
+  background: hsl(var(--accent));
+}
+
+.story-link:hover::after {
+  @apply origin-bottom-left scale-x-100;
+}
+```
+
+**Behavior:**
+- Uses solid accent color (not gradient)
+- Animates from right to left (origin-bottom-right → origin-bottom-left)
+- Creates a "reveal" effect that sweeps in
+- Used in Hero section CTA links
+
+### 14.3 Footer Heading Decoration
+
+The horizontal line next to footer column headings:
+
+```html
+<h3 className="font-display font-bold text-foreground text-sm uppercase tracking-wider flex items-center gap-2">
+  <span className="w-6 h-px bg-gradient-to-r from-accent to-transparent" />
+  Services
+</h3>
+```
+
+**Styling:**
+- 6px wide (`w-6`), 1px height (`h-px`)
+- Gradient from accent color to transparent
+- Positioned inline with flexbox (`flex items-center gap-2`)
+- Text is uppercase with wider letter-spacing
+
+### 14.4 Footer Link Hover (`.footer-link`)
+
+Footer links with slide-in accent bar:
+
+```css
+.footer-link {
+  @apply relative text-muted-foreground transition-all duration-300;
+}
+
+.footer-link:hover {
+  @apply text-foreground pl-1;
+}
+
+.footer-link::before {
+  content: '';
+  @apply absolute left-0 top-1/2 -translate-y-1/2 w-0 h-0.5 bg-accent transition-all duration-300;
+}
+
+.footer-link:hover::before {
+  @apply w-2;
+}
+```
+
+**Behavior:**
+- Text changes from muted to full foreground on hover
+- Small accent bar (8px) slides in from left
+- Text shifts right (`pl-1`) to accommodate bar
+- Links also include an ArrowUpRight icon that fades in
+
+### 14.5 Header Scroll Line
+
+Subtle gradient line at bottom of header when scrolled:
+
+```tsx
+{showScrolledStyles && (
+  <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+)}
+```
+
+**Styling:**
+- 1px height
+- Three-point gradient: transparent → 30% accent → transparent
+- Only visible when header has scrolled state
+
+### 14.6 Hover Effects
+
+**Scale on hover:**
+```css
+.hover-scale {
+  @apply transition-transform duration-200 hover:scale-105;
+}
+```
+
+**Lift with shadow:**
+```css
+.hover-lift {
+  @apply transition-all duration-300;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+```
+
+**Glow on hover:**
+```css
+.hover-glow {
+  @apply transition-shadow duration-300;
+}
+
+.hover-glow:hover {
+  box-shadow: var(--shadow-glow);
+}
+```
+
+### 14.7 Glass Effects
+
+**Standard glass (light blur):**
+```css
+.glass {
+  @apply bg-background/80 backdrop-blur-lg border border-border/50;
+}
+```
+
+**Dark glass:**
+```css
+.glass-dark {
+  @apply bg-primary/80 backdrop-blur-lg border border-border/20;
+}
+```
+
+### 14.8 Gradient Border Glow (`.border-glow`)
+
+Border that glows on hover:
+
+```css
+.border-glow {
+  position: relative;
+}
+
+.border-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: var(--gradient-cta);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.border-glow:hover::before {
+  opacity: 1;
+}
+```
+
+### 14.9 Button Glow (`.btn-glow`)
+
+Animated shine effect on CTA buttons:
+
+```css
+.btn-glow {
+  @apply relative overflow-hidden;
+  box-shadow: var(--shadow-button);
+}
+
+.btn-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.2), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.btn-glow:hover::before {
+  transform: translateX(100%);
+}
+
+.btn-glow:hover {
+  box-shadow: var(--shadow-glow);
+}
+```
+
+**Behavior:**
+- Creates "shine" effect that sweeps across button
+- Increases glow shadow on hover
+- Uses white with 20% opacity for shine
+
+### 14.10 Card Hover (`.card-hover`)
+
+Standard card interaction:
+
+```css
+.card-hover {
+  @apply transition-all duration-300 border border-border/50;
+}
+
+.card-hover:hover {
+  @apply border-accent/50;
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+}
+```
+
+### 14.11 Text Gradients
+
+**Primary gradient text:**
+```css
+.text-gradient {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+```
+
+**Light gradient text:**
+```css
+.text-gradient-light {
+  background: linear-gradient(135deg, hsl(60 9% 98%) 0%, hsl(var(--accent)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+```
+
+### 14.12 Icon Gradients
+
+Four preset icon gradient utilities for visual variety:
+
+```css
+.icon-gradient-ocean {
+  background: linear-gradient(135deg, hsl(210 100% 45%) 0%, hsl(195 100% 50%) 100%);
+  /* Blue to cyan */
+}
+
+.icon-gradient-royal {
+  background: linear-gradient(135deg, hsl(230 80% 55%) 0%, hsl(200 100% 60%) 100%);
+  /* Indigo to blue */
+}
+
+.icon-gradient-sky {
+  background: linear-gradient(135deg, hsl(200 85% 50%) 0%, hsl(180 70% 55%) 100%);
+  /* Sky blue to teal */
+}
+
+.icon-gradient-electric {
+  background: linear-gradient(135deg, hsl(220 90% 55%) 0%, hsl(190 95% 45%) 100%);
+  /* Electric blue to aqua */
+}
+```
+
+### 14.13 Transition Utilities
+
+**Smooth (standard easing):**
+```css
+.transition-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+```
+
+**Bounce (elastic):**
+```css
+.transition-bounce {
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+```
+
+**Spring (overshoot):**
+```css
+.transition-spring {
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+```
+
+### 14.14 Background Utilities
+
+**Mesh gradient background:**
+```css
+.bg-mesh {
+  background-image: var(--gradient-mesh);
+}
+```
+
+**Hero gradient:**
+```css
+.bg-hero {
+  background: var(--gradient-hero);
+}
+```
+
+**Noise texture overlay:**
+```css
+.bg-noise {
+  position: relative;
+}
+
+.bg-noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,...");  /* SVG noise filter */
+  opacity: 0.03;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+```
+
+**Radial vignette:**
+```css
+.bg-radial-vignette {
+  background: radial-gradient(
+    ellipse 50% 50% at 50% 50%,
+    hsl(var(--background) / 0.95) 0%,
+    hsl(var(--background) / 0.8) 30%,
+    hsl(var(--background) / 0.3) 60%,
+    transparent 100%
+  );
+}
+```
+
+### 14.15 Section and Hero Components
+
+**Standard section spacing:**
+```css
+.section {
+  @apply py-16 sm:py-20 md:py-24 lg:py-32;
+}
+```
+
+**Hero component:**
+```css
+.hero {
+  @apply relative min-h-[80vh] flex items-center justify-center overflow-hidden;
+  background: var(--gradient-hero);
+}
+
+.hero::before {
+  content: '';
+  @apply absolute inset-0 bg-mesh pointer-events-none;
+}
+```
+
+### 14.16 Layered Shadows
+
+```css
+.shadow-layered {
+  box-shadow: 
+    0 1px 2px hsl(0 0% 0% / 0.05),
+    0 4px 8px hsl(0 0% 0% / 0.05),
+    0 16px 32px hsl(0 0% 0% / 0.05);
+}
+
+.shadow-layered-lg {
+  box-shadow: 
+    0 2px 4px hsl(0 0% 0% / 0.03),
+    0 8px 16px hsl(0 0% 0% / 0.05),
+    0 24px 48px hsl(0 0% 0% / 0.08);
+}
+```
+
+### 14.17 Selection and Scrollbar Styling
+
+**Text selection:**
+```css
+::selection {
+  background: hsl(240 70% 60% / 0.3);
+  color: hsl(var(--foreground));
+}
+```
+
+**Custom scrollbar:**
+```css
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.7);
+}
+```
+
+---
+
 ## Appendix A: File Structure
 
 ```
