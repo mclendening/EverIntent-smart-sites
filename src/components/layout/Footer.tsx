@@ -102,9 +102,9 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {/* Services */}
           <div className="space-y-5">
-            <h3 className="font-display font-bold text-foreground text-sm uppercase tracking-wider flex items-center gap-2">
-              <span className="w-6 h-px bg-gradient-to-r from-accent to-transparent" />
+            <h3 className="font-display font-bold text-foreground text-sm uppercase tracking-wider">
               Services
+              <span className="block w-8 h-px mt-2 bg-gradient-to-r from-accent to-transparent" />
             </h3>
             <ul className="space-y-3">
               {servicesLinks.map((link) => (
@@ -123,9 +123,9 @@ export function Footer() {
 
           {/* AI Modes */}
           <div className="space-y-5">
-            <h3 className="font-display font-bold text-foreground text-sm uppercase tracking-wider flex items-center gap-2">
-              <span className="w-6 h-px bg-gradient-to-r from-accent to-transparent" />
+            <h3 className="font-display font-bold text-foreground text-sm uppercase tracking-wider">
               AI Modes
+              <span className="block w-8 h-px mt-2 bg-gradient-to-r from-accent to-transparent" />
             </h3>
             <ul className="space-y-3">
               {aiModesLinks.map((link) => (
@@ -144,9 +144,9 @@ export function Footer() {
 
           {/* Resources */}
           <div className="space-y-5">
-            <h3 className="font-display font-bold text-foreground text-sm uppercase tracking-wider flex items-center gap-2">
-              <span className="w-6 h-px bg-gradient-to-r from-accent to-transparent" />
+            <h3 className="font-display font-bold text-foreground text-sm uppercase tracking-wider">
               Resources
+              <span className="block w-8 h-px mt-2 bg-gradient-to-r from-accent to-transparent" />
             </h3>
             <ul className="space-y-3">
               {resourcesLinks.map((link) => (
@@ -165,9 +165,9 @@ export function Footer() {
 
           {/* Company */}
           <div className="space-y-5">
-            <h3 className="font-display font-bold text-foreground text-sm uppercase tracking-wider flex items-center gap-2">
-              <span className="w-6 h-px bg-gradient-to-r from-accent to-transparent" />
+            <h3 className="font-display font-bold text-foreground text-sm uppercase tracking-wider">
               Company
+              <span className="block w-8 h-px mt-2 bg-gradient-to-r from-accent to-transparent" />
             </h3>
             <ul className="space-y-3">
               {companyLinks.map((link) => (
