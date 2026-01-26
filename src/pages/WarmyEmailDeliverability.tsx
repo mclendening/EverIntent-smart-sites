@@ -207,40 +207,36 @@ export default function WarmyEmailDeliverability() {
         .animate-bar { transform-origin: bottom; }
       `}} />
 
-      {/* Hero Section - Compact */}
-      <section className="relative pt-20 pb-10 md:pt-24 md:pb-12 overflow-hidden">
+      {/* Hero Section - Ultra compact */}
+      <section className="relative pt-16 pb-6 md:pt-20 md:pb-8 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-accent/10 via-accent/5 to-background" />
         
         <div className="container relative z-10">
-          <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 items-center">
-            {/* Text content */}
+          <div className="grid lg:grid-cols-2 gap-4 lg:gap-6 items-center">
             <div className="text-center lg:text-left order-2 lg:order-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 mb-4 text-xs">
-                <Mail className="w-3.5 h-3.5 text-accent" />
-                <span className="font-medium text-accent">Powered by Warmy.io</span>
+              <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-accent/10 border border-accent/20 mb-3 text-[11px]">
+                <Mail className="w-3 h-3 text-accent" />
+                <span className="font-medium text-accent">Warmy.io</span>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-                Your Emails Deserve to Be{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent/70">Seen</span>
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2">
+                Your Emails Deserve to Be <span className="text-accent">Seen</span>
               </h1>
               
-              <p className="text-base text-muted-foreground mb-6 max-w-lg mx-auto lg:mx-0">
-                Get <strong>95%+ inbox placement</strong> with AI-powered warm-up and monitoring.
+              <p className="text-sm text-muted-foreground mb-4 max-w-md mx-auto lg:mx-0">
+                <strong>95%+ inbox placement</strong> with AI warm-up and monitoring.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+              <div className="flex flex-col sm:flex-row gap-2 justify-center lg:justify-start">
                 <CTAButton to="/pricing#warmy" defaultText="Get Warmy — $49/mo" hoverText="Boost Deliverability!" />
                 <Link to="/pricing#smart-lead">
-                  <Button variant="outline" size="default" className="gap-2 w-full sm:w-auto text-sm">
-                    <CheckCircle className="w-4 h-4" />
-                    Free with Smart Lead
+                  <Button variant="outline" size="sm" className="gap-1.5 w-full sm:w-auto text-xs">
+                    <CheckCircle className="w-3 h-3" />Free with Smart Lead
                   </Button>
                 </Link>
               </div>
             </div>
 
-            {/* Dashboard */}
             <div className="order-1 lg:order-2">
               <DeliverabilityScoreDashboard />
             </div>
@@ -248,90 +244,68 @@ export default function WarmyEmailDeliverability() {
         </div>
       </section>
 
-      {/* Social Proof - Inline compact */}
-      <section className="py-3 border-y border-border/30 bg-muted/20">
+      {/* Social Proof - Single line */}
+      <section className="py-2 border-y border-border/30 bg-muted/20">
         <div className="container">
-          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-xs">
-            <div className="flex items-center gap-1.5">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-3 h-3 fill-accent text-accent" />
-              ))}
-              <span className="text-muted-foreground ml-1">4.9/5</span>
+          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6 text-[11px]">
+            <div className="flex items-center gap-1">
+              {[...Array(5)].map((_, i) => <Star key={i} className="w-2.5 h-2.5 fill-accent text-accent" />)}
+              <span className="text-muted-foreground ml-0.5">4.9</span>
             </div>
             <span className="text-muted-foreground"><strong>10K+</strong> domains</span>
             <span className="text-muted-foreground"><strong>500M+</strong> emails</span>
-            <span className="text-muted-foreground"><strong>95%+</strong> inbox rate</span>
+            <span className="text-muted-foreground"><strong>95%+</strong> inbox</span>
           </div>
         </div>
       </section>
 
-      {/* Problem Section - Compact funnel */}
-      <section className="py-10 md:py-12 bg-[#0a0a0a]">
+      {/* Problem Section - Ultra compact */}
+      <section className="py-6 md:py-8 bg-[#0a0a0a]">
         <div className="container">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-xl md:text-2xl font-bold text-white text-center mb-6">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-lg md:text-xl font-bold text-white text-center mb-4">
               Where Are Your Emails <span className="text-red-500">Really</span> Going?
             </h2>
 
-            {/* Compact funnel - horizontal on mobile too */}
-            <div className="grid grid-cols-4 gap-2 md:gap-3 mb-6">
-              <div className="bg-orange-500/20 border border-orange-500/30 rounded-lg p-3 text-center">
-                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-orange-500 mx-auto mb-2 flex items-center justify-center">
-                  <Mail className="w-4 h-4 md:w-5 md:h-5 text-white" />
+            {/* Compact funnel */}
+            <div className="grid grid-cols-4 gap-1.5 md:gap-2 mb-4">
+              {[
+                { icon: Mail, label: 'Sent', value: '1,000', color: 'orange' },
+                { icon: Shield, label: 'Blocked', value: '-210', color: 'red' },
+                { icon: AlertCircle, label: 'Spam', value: '-320', color: 'yellow' },
+                { icon: Inbox, label: 'Inbox', value: '470', color: 'green' },
+              ].map((item) => (
+                <div key={item.label} className={`bg-${item.color}-500/10 border border-${item.color}-500/20 rounded-md p-2 text-center`}>
+                  <div className={`w-6 h-6 rounded-full bg-${item.color}-500/30 mx-auto mb-1 flex items-center justify-center`}>
+                    <item.icon className={`w-3 h-3 text-${item.color}-500`} />
+                  </div>
+                  <p className={`text-sm font-bold text-${item.color === 'orange' ? 'white' : item.color + '-500'}`}>{item.value}</p>
+                  <p className="text-[9px] text-zinc-500">{item.label}</p>
                 </div>
-                <p className="text-lg md:text-xl font-bold text-white">1,000</p>
-                <p className="text-[10px] md:text-xs text-zinc-500">Sent</p>
-              </div>
-              <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 text-center">
-                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-red-500/30 mx-auto mb-2 flex items-center justify-center">
-                  <Shield className="w-4 h-4 md:w-5 md:h-5 text-red-500" />
-                </div>
-                <p className="text-lg md:text-xl font-bold text-red-500">-210</p>
-                <p className="text-[10px] md:text-xs text-zinc-500">Blocked</p>
-              </div>
-              <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3 text-center">
-                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-yellow-500/30 mx-auto mb-2 flex items-center justify-center">
-                  <AlertCircle className="w-4 h-4 md:w-5 md:h-5 text-yellow-500" />
-                </div>
-                <p className="text-lg md:text-xl font-bold text-yellow-500">-320</p>
-                <p className="text-[10px] md:text-xs text-zinc-500">Spam</p>
-              </div>
-              <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3 text-center">
-                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-green-500/30 mx-auto mb-2 flex items-center justify-center">
-                  <Inbox className="w-4 h-4 md:w-5 md:h-5 text-green-500" />
-                </div>
-                <p className="text-lg md:text-xl font-bold text-green-500">470</p>
-                <p className="text-[10px] md:text-xs text-zinc-500">Inbox</p>
-              </div>
+              ))}
             </div>
 
-            {/* Comparison - Side by side compact */}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="bg-red-500/5 border border-red-500/20 rounded-lg p-4">
-                <div className="flex items-center gap-2 mb-3">
-                  <X className="w-4 h-4 text-red-500" />
-                  <span className="text-sm font-medium text-white">Without Warm-Up</span>
+            {/* Comparison - Ultra compact */}
+            <div className="grid grid-cols-2 gap-2">
+              <div className="bg-red-500/5 border border-red-500/20 rounded-md p-2.5">
+                <div className="flex items-center gap-1.5 mb-1.5">
+                  <X className="w-3 h-3 text-red-500" />
+                  <span className="text-xs font-medium text-white">Without</span>
                 </div>
-                <div className="space-y-1.5 text-xs text-zinc-400">
-                  {['Spam filters block you', 'Reputation tanks', 'Follow-ups unseen'].map((item, i) => (
-                    <div key={i} className="flex items-center gap-1.5">
-                      <X className="w-3 h-3 text-red-500 shrink-0" />
-                      <span>{item}</span>
-                    </div>
+                <div className="space-y-0.5 text-[10px] text-zinc-400">
+                  {['Spam blocks you', 'Rep tanks', 'Lost leads'].map((t, i) => (
+                    <div key={i} className="flex items-center gap-1"><X className="w-2.5 h-2.5 text-red-500" />{t}</div>
                   ))}
                 </div>
               </div>
-              <div className="bg-green-500/5 border border-green-500/20 rounded-lg p-4">
-                <div className="flex items-center gap-2 mb-3">
-                  <Check className="w-4 h-4 text-green-500" />
-                  <span className="text-sm font-medium text-white">With Warmy</span>
+              <div className="bg-green-500/5 border border-green-500/20 rounded-md p-2.5">
+                <div className="flex items-center gap-1.5 mb-1.5">
+                  <Check className="w-3 h-3 text-green-500" />
+                  <span className="text-xs font-medium text-white">With Warmy</span>
                 </div>
-                <div className="space-y-1.5 text-xs text-zinc-300">
-                  {['95%+ inbox rate', 'Auto reputation build', 'Every email lands'].map((item, i) => (
-                    <div key={i} className="flex items-center gap-1.5">
-                      <Check className="w-3 h-3 text-green-500 shrink-0" />
-                      <span>{item}</span>
-                    </div>
+                <div className="space-y-0.5 text-[10px] text-zinc-300">
+                  {['95%+ inbox', 'Auto warmup', 'Every lead'].map((t, i) => (
+                    <div key={i} className="flex items-center gap-1"><Check className="w-2.5 h-2.5 text-green-500" />{t}</div>
                   ))}
                 </div>
               </div>
@@ -340,38 +314,32 @@ export default function WarmyEmailDeliverability() {
         </div>
       </section>
 
-      {/* Core Features - Compact */}
-      <section className="py-10 md:py-14">
+      {/* Core Features - Ultra compact */}
+      <section className="py-8 md:py-10">
         <div className="container">
-          <div className="text-center mb-8">
-            <h2 className="text-xl md:text-2xl font-bold mb-2">
-              AI-Powered Deliverability <span className="text-accent">Protection</span>
+          <div className="text-center mb-6">
+            <h2 className="text-lg md:text-xl font-bold mb-1">
+              AI-Powered <span className="text-accent">Protection</span>
             </h2>
-            <p className="text-sm text-muted-foreground max-w-lg mx-auto">
-              Warm your domain, test placement, and monitor health — automatically.
-            </p>
+            <p className="text-xs text-muted-foreground">Warm, test, monitor — automatically.</p>
           </div>
 
-          <div className="space-y-10 md:space-y-12">
+          <div className="space-y-6">
             {coreFeatures.map((feature, index) => (
-              <div 
-                key={index}
-                className={`grid lg:grid-cols-2 gap-6 items-center ${index % 2 === 1 ? '' : ''}`}
-              >
+              <div key={index} className={`grid lg:grid-cols-2 gap-4 items-center`}>
                 <div className={`${index % 2 === 1 ? 'lg:order-2' : ''}`}>
                   <feature.Visual />
                 </div>
                 <div className={`${index % 2 === 1 ? 'lg:order-1' : ''}`}>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="p-2 rounded-lg bg-accent/10">
-                      <feature.icon className="w-5 h-5 text-accent" />
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="p-1.5 rounded-md bg-accent/10">
+                      <feature.icon className="w-4 h-4 text-accent" />
                     </div>
-                    <h3 className="text-lg md:text-xl font-bold">{feature.title}</h3>
+                    <h3 className="text-base font-bold">{feature.title}</h3>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-3">{feature.description}</p>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-muted text-xs font-medium">
-                    <Activity className="w-3 h-3 text-accent" />
-                    {feature.stats}
+                  <p className="text-xs text-muted-foreground mb-2">{feature.description}</p>
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-muted text-[10px]">
+                    <Activity className="w-2.5 h-2.5 text-accent" />{feature.stats}
                   </span>
                 </div>
               </div>
@@ -380,47 +348,31 @@ export default function WarmyEmailDeliverability() {
         </div>
       </section>
 
-      {/* Integration + Benefits - Super compact */}
-      <section className="py-8 bg-muted/30">
+      {/* Integration + Benefits - Ultra compact */}
+      <section className="py-4 bg-muted/30">
         <div className="container">
-          <div className="max-w-3xl mx-auto">
-            <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
-              {integrations.map((integration, index) => (
-                <div key={index} className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-card border border-border/50 text-xs">
-                  <integration.icon className="w-4 h-4 text-accent" />
-                  <span>{integration.name}</span>
-                </div>
-              ))}
-            </div>
-            <div className="flex flex-wrap justify-center gap-x-6 gap-y-1 text-xs text-muted-foreground">
-              {benefits.slice(0, 4).map((benefit, index) => (
-                <span key={index} className="flex items-center gap-1">
-                  <Check className="w-3 h-3 text-accent" />
-                  {benefit.text}
-                </span>
-              ))}
-            </div>
+          <div className="max-w-2xl mx-auto flex flex-wrap items-center justify-center gap-2">
+            {integrations.map((i, idx) => (
+              <div key={idx} className="flex items-center gap-1 px-2 py-1 rounded bg-card border border-border/50 text-[10px]">
+                <i.icon className="w-3 h-3 text-accent" />{i.name}
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials - Compact inline */}
-      <section className="py-10">
+      {/* Testimonials - Ultra compact */}
+      <section className="py-6">
         <div className="container">
-          <h2 className="text-lg font-bold text-center mb-6">What Clients Say</h2>
-          <div className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-3 max-w-2xl mx-auto">
             {testimonials.map((t, i) => (
-              <div key={i} className="bg-muted/30 rounded-lg p-4">
-                <div className="flex gap-0.5 mb-2">
-                  {[...Array(t.rating)].map((_, j) => (
-                    <Star key={j} className="w-3 h-3 fill-accent text-accent" />
-                  ))}
+              <div key={i} className="bg-muted/30 rounded-md p-3">
+                <div className="flex gap-0.5 mb-1">
+                  {[...Array(t.rating)].map((_, j) => <Star key={j} className="w-2.5 h-2.5 fill-accent text-accent" />)}
                 </div>
-                <p className="text-sm italic mb-3">"{t.quote}"</p>
-                <div className="flex items-center gap-2 text-xs">
-                  <div className="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold text-[10px]">
-                    {t.author[0]}
-                  </div>
+                <p className="text-xs italic mb-2">"{t.quote}"</p>
+                <div className="flex items-center gap-1.5 text-[10px]">
+                  <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold text-[9px]">{t.author[0]}</div>
                   <span className="font-medium">{t.author}</span>
                   <span className="text-muted-foreground">• {t.role}</span>
                 </div>
@@ -430,68 +382,53 @@ export default function WarmyEmailDeliverability() {
         </div>
       </section>
 
-      {/* Pricing - Compact cards */}
-      <section className="py-10 bg-muted/20">
+      {/* Pricing - Ultra compact */}
+      <section className="py-6 bg-muted/20">
         <div className="container">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-xl md:text-2xl font-bold text-center mb-6">Simple Pricing</h2>
+          <div className="max-w-xl mx-auto">
+            <h2 className="text-lg font-bold text-center mb-4">Pricing</h2>
             
-            <div className="grid md:grid-cols-2 gap-4">
-              {/* Standalone */}
-              <div className="bg-card border border-border rounded-lg p-5">
-                <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Standalone</p>
-                <div className="flex items-baseline gap-1 mb-3">
-                  <span className="text-3xl font-bold">$49</span>
-                  <span className="text-muted-foreground text-sm">/mo</span>
-                </div>
-                <ul className="space-y-2 mb-4 text-sm">
-                  {['AI Warm-Up', 'Inbox Testing', 'Domain Monitoring', 'Analytics'].map((item, i) => (
-                    <li key={i} className="flex items-center gap-2">
-                      <CheckCircle className="w-3.5 h-3.5 text-accent" />
-                      {item}
-                    </li>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-card border border-border rounded-md p-3">
+                <p className="text-[10px] uppercase text-muted-foreground mb-0.5">Standalone</p>
+                <p className="text-2xl font-bold mb-2">$49<span className="text-xs text-muted-foreground">/mo</span></p>
+                <ul className="space-y-1 text-[11px] mb-3">
+                  {['AI Warm-Up', 'Inbox Testing', 'Domain Monitor'].map((item, i) => (
+                    <li key={i} className="flex items-center gap-1"><CheckCircle className="w-3 h-3 text-accent" />{item}</li>
                   ))}
                 </ul>
-                <CTAButton to="/pricing#warmy" defaultText="Get Started" hoverText="Go!" className="w-full" />
+                <CTAButton to="/pricing#warmy" defaultText="Get Started" hoverText="Go!" className="w-full text-xs" />
               </div>
 
-              {/* Bundle */}
-              <div className="bg-card border-2 border-accent rounded-lg p-5 relative">
-                <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground px-3 py-0.5 rounded-full text-xs font-medium">
-                  Best Value
-                </span>
-                <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">With Smart Lead</p>
-                <div className="flex items-baseline gap-1 mb-3">
-                  <span className="text-3xl font-bold text-accent">FREE</span>
-                </div>
-                <ul className="space-y-2 mb-4 text-sm">
-                  {['Everything above', '+ Website', '+ CRM', '+ AI Chat', '+ Text-Back'].map((item, i) => (
-                    <li key={i} className="flex items-center gap-2">
-                      <CheckCircle className="w-3.5 h-3.5 text-accent" />
-                      {item}
-                    </li>
+              <div className="bg-card border-2 border-accent rounded-md p-3 relative">
+                <span className="absolute -top-2 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground px-2 py-0.5 rounded-full text-[9px] font-medium">Best Value</span>
+                <p className="text-[10px] uppercase text-muted-foreground mb-0.5">Smart Lead</p>
+                <p className="text-2xl font-bold text-accent mb-2">FREE</p>
+                <ul className="space-y-1 text-[11px] mb-3">
+                  {['All above', '+ Website', '+ CRM + AI'].map((item, i) => (
+                    <li key={i} className="flex items-center gap-1"><CheckCircle className="w-3 h-3 text-accent" />{item}</li>
                   ))}
                 </ul>
-                <CTAButton to="/pricing#smart-lead" defaultText="Get Smart Lead" hoverText="Save $49!" className="w-full" />
+                <CTAButton to="/pricing#smart-lead" defaultText="Get Smart Lead" hoverText="Save $49!" className="w-full text-xs" />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* FAQ - Already compact */}
-      <section className="py-8">
+      {/* FAQ - Ultra compact */}
+      <section className="py-6">
         <div className="container">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-lg font-bold text-center mb-4">FAQ</h2>
-            <div className="grid gap-1">
-              {faqItems.map((item, index) => (
-                <details key={index} className="group bg-muted/30 rounded-lg">
-                  <summary className="flex items-center justify-between p-3 cursor-pointer hover:bg-muted/50 transition-colors list-none text-sm">
+          <div className="max-w-xl mx-auto">
+            <h2 className="text-base font-bold text-center mb-3">FAQ</h2>
+            <div className="grid gap-0.5">
+              {faqItems.slice(0, 4).map((item, index) => (
+                <details key={index} className="group bg-muted/30 rounded">
+                  <summary className="flex items-center justify-between p-2 cursor-pointer list-none text-xs">
                     <span className="font-medium">{item.question}</span>
-                    <ChevronDown className="w-4 h-4 text-muted-foreground group-open:rotate-180 transition-transform shrink-0 ml-3" />
+                    <ChevronDown className="w-3 h-3 text-muted-foreground group-open:rotate-180 transition-transform ml-2" />
                   </summary>
-                  <div className="px-3 pb-3 text-xs text-muted-foreground">{item.answer}</div>
+                  <div className="px-2 pb-2 text-[11px] text-muted-foreground">{item.answer}</div>
                 </details>
               ))}
             </div>
@@ -499,20 +436,16 @@ export default function WarmyEmailDeliverability() {
         </div>
       </section>
 
-      {/* Final CTA - Compact */}
-      <section className="py-10 bg-gradient-to-t from-accent/10 to-background">
+      {/* Final CTA - Ultra compact */}
+      <section className="py-6 bg-gradient-to-t from-accent/10 to-background">
         <div className="container">
-          <div className="max-w-xl mx-auto text-center">
-            <h2 className="text-xl md:text-2xl font-bold mb-3">Stop Losing Leads to Spam</h2>
-            <p className="text-sm text-muted-foreground mb-5">
-              Join 10,000+ businesses with 95%+ inbox placement.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <div className="max-w-md mx-auto text-center">
+            <h2 className="text-lg font-bold mb-2">Stop Losing Leads to Spam</h2>
+            <p className="text-xs text-muted-foreground mb-3">Join 10,000+ businesses with 95%+ inbox placement.</p>
+            <div className="flex flex-col sm:flex-row gap-2 justify-center">
               <CTAButton to="/pricing" defaultText="Start Free Trial" hoverText="14 Days Free!" />
               <Link to="/contact">
-                <Button variant="outline" size="default" className="gap-2 w-full sm:w-auto text-sm">
-                  Talk to an Expert
-                </Button>
+                <Button variant="outline" size="sm" className="w-full sm:w-auto text-xs">Talk to Expert</Button>
               </Link>
             </div>
           </div>
