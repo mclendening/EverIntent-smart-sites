@@ -1840,6 +1840,449 @@ Four preset icon gradient utilities for visual variety:
 
 ---
 
+## 15. Admin System Architecture
+
+This section provides complete documentation of the admin backend for portability to other Lovable projects.
+
+### 15.1 Authentication Pattern
+
+**Role-Based Access Control (RBAC):**
+
+```sql
+-- User roles enum
+CREATE TYPE public.app_role AS ENUM ('admin', 'moderator', 'user');
+
+-- User roles table (never store roles on profile/users table!)
+CREATE TABLE public.user_roles (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL,
+  role app_role NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  UNIQUE(user_id, role)
+);
+
+-- RLS policy
+ALTER TABLE public.user_roles ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Admins can manage roles" ON public.user_roles
+  FOR ALL USING (has_role(auth.uid(), 'admin'));
+
+-- Role check function (SECURITY DEFINER prevents RLS recursion)
+CREATE OR REPLACE FUNCTION public.has_role(_user_id UUID, _role app_role)
+RETURNS BOOLEAN
+LANGUAGE SQL
+STABLE
+SECURITY DEFINER
+SET search_path TO 'public'
+AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM public.user_roles
+    WHERE user_id = _user_id AND role = _role
+  )
+$$;
+
+-- Admin email whitelist for OTP flow
+CREATE TABLE public.allowed_admin_emails (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email TEXT NOT NULL UNIQUE,
+  created_by UUID,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+ALTER TABLE public.allowed_admin_emails ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Admins can manage allowed emails" ON public.allowed_admin_emails
+  FOR ALL USING (has_role(auth.uid(), 'admin'));
+```
+
+### 15.2 useAdminAuth Hook
+
+**File:** `src/hooks/useAdminAuth.ts`
+
+```typescript
+import { useState, useEffect, useCallback } from 'react';
+import { User, Session } from '@supabase/supabase-js';
+import { supabase } from '@/integrations/supabase/client';
+
+interface AdminAuthState {
+  user: User | null;
+  session: Session | null;
+  isAdmin: boolean;
+  isLoading: boolean;
+}
+
+export function useAdminAuth() {
+  const [state, setState] = useState<AdminAuthState>({
+    user: null,
+    session: null,
+    isAdmin: false,
+    isLoading: true,
+  });
+
+  const checkAdminRole = useCallback(async (userId: string): Promise<boolean> => {
+    try {
+      const { data, error } = await supabase.rpc('has_role', {
+        _user_id: userId,
+        _role: 'admin',
+      });
+      if (error) return false;
+      return data === true;
+    } catch {
+      return false;
+    }
+  }, []);
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setState(prev => ({ ...prev, session, user: session?.user ?? null }));
+        if (session?.user) {
+          setTimeout(() => {
+            checkAdminRole(session.user.id).then(isAdmin => {
+              setState(prev => ({ ...prev, isAdmin, isLoading: false }));
+            });
+          }, 0);
+        } else {
+          setState(prev => ({ ...prev, isAdmin: false, isLoading: false }));
+        }
+      }
+    );
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setState(prev => ({ ...prev, session, user: session?.user ?? null }));
+      if (session?.user) {
+        checkAdminRole(session.user.id).then(isAdmin => {
+          setState(prev => ({ ...prev, isAdmin, isLoading: false }));
+        });
+      } else {
+        setState(prev => ({ ...prev, isLoading: false }));
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [checkAdminRole]);
+
+  const signOut = useCallback(async () => {
+    await supabase.auth.signOut();
+    setState({ user: null, session: null, isAdmin: false, isLoading: false });
+  }, []);
+
+  const verifyOtp = useCallback(async (email: string, token: string) => {
+    return await supabase.auth.verifyOtp({ email, token, type: 'email' });
+  }, []);
+
+  return { ...state, signOut, verifyOtp };
+}
+```
+
+### 15.3 AdminGuard Component
+
+**File:** `src/components/admin/AdminGuard.tsx`
+
+```typescript
+import { ReactNode } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
+
+interface AdminGuardProps {
+  children: ReactNode;
+}
+
+export function AdminGuard({ children }: AdminGuardProps) {
+  const { user, isAdmin, isLoading } = useAdminAuth();
+  const location = useLocation();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/admin/login" state={{ from: location }} replace />;
+  }
+
+  if (!isAdmin) {
+    return <Navigate to="/admin/login" state={{ error: 'Access denied.' }} replace />;
+  }
+
+  return <>{children}</>;
+}
+```
+
+### 15.4 Admin Route Structure
+
+**File:** `src/routes.tsx` (relevant admin section)
+
+```typescript
+// Admin Layout - CSR only, no SSG pre-rendering
+function AdminLayout() {
+  const [queryClient] = useState(() => new QueryClient());
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ClientOnly><ScrollToTop /></ClientOnly>
+      <Suspense fallback={<div className="min-h-screen" />}>
+        <Outlet />
+      </Suspense>
+      <ClientOnly>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+        </TooltipProvider>
+      </ClientOnly>
+    </QueryClientProvider>
+  );
+}
+
+// Admin routes in route tree
+{
+  path: '/admin',
+  Component: AdminLayout,
+  children: [
+    { path: 'login', Component: AdminLogin },
+    { path: 'reset-password', Component: AdminResetPassword },
+    { index: true, element: <AdminGuard><AdminDashboard /></AdminGuard> },
+    { path: 'themes', element: <AdminGuard><AdminThemes /></AdminGuard> },
+    { path: 'submissions', element: <AdminGuard><AdminSubmissions /></AdminGuard> },
+    { path: 'portfolio', element: <AdminGuard><PlaceholderPage /></AdminGuard> },
+    { path: 'testimonials', element: <AdminGuard><PlaceholderPage /></AdminGuard> },
+    { path: 'theme-test', element: <AdminGuard><ThemeTestPage /></AdminGuard> },
+  ],
+}
+```
+
+### 15.5 Admin Dashboard Menu
+
+**File:** `src/pages/admin/Dashboard.tsx`
+
+```typescript
+// Dashboard navigation cards
+const menuItems = [
+  { path: '/admin/themes', icon: Palette, title: 'Themes', description: 'Manage site themes and colors' },
+  { path: '/admin/submissions', icon: FileText, title: 'Submissions', description: 'View and manage checkout submissions' },
+  { path: '/admin/portfolio', icon: Image, title: 'Portfolio', description: 'Manage portfolio items' },
+  { path: '/admin/testimonials', icon: MessageSquare, title: 'Testimonials', description: 'Manage customer testimonials' },
+];
+```
+
+### 15.6 Admin Pages Summary
+
+| Route | Component | Purpose |
+|-------|-----------|---------|
+| `/admin/login` | AdminLogin | Password/OTP login form |
+| `/admin/reset-password` | AdminResetPassword | Password recovery flow |
+| `/admin` | AdminDashboard | Main navigation hub |
+| `/admin/themes` | AdminThemes | Theme/logo editor + publish workflow |
+| `/admin/submissions` | AdminSubmissions | Form submissions CRUD + GHL sync status |
+| `/admin/portfolio` | PlaceholderPage | Portfolio items management (TBD) |
+| `/admin/testimonials` | PlaceholderPage | Testimonials management (TBD) |
+| `/admin/theme-test` | ThemeTestPage | Live theme preview with realtime updates |
+
+### 15.7 SSG Exclusion Pattern
+
+Admin routes are **excluded** from SSG pre-rendering:
+
+```typescript
+// In routes.tsx - prerenderRoutes array does NOT include admin paths
+export const prerenderRoutes: string[] = [
+  ...coreRoutePaths,
+  ...servicePaths,
+  ...industryPaths,
+  // NO /admin/* paths here
+];
+
+// vercel.json rewrites for SPA fallback
+{
+  "rewrites": [
+    { "source": "/admin/:path*", "destination": "/index.html" }
+  ]
+}
+
+// robots.txt disallows admin
+User-agent: *
+Disallow: /admin/
+```
+
+---
+
+## 16. Complete Database Schema
+
+All tables used by the admin system:
+
+### 16.1 Content Tables
+
+```sql
+-- Portfolio items
+CREATE TABLE public.portfolio (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  slug TEXT NOT NULL UNIQUE,
+  title TEXT NOT NULL,
+  client_name TEXT,
+  industry TEXT,
+  description TEXT,
+  featured_image_url TEXT,
+  gallery_urls TEXT[],
+  services_provided TEXT[],
+  results_summary TEXT,
+  testimonial_quote TEXT,
+  website_url TEXT,
+  is_published BOOLEAN DEFAULT false,
+  is_featured BOOLEAN DEFAULT false,
+  display_order INTEGER DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Testimonials
+CREATE TABLE public.testimonials (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  client_name TEXT NOT NULL,
+  client_title TEXT,
+  client_company TEXT,
+  client_photo_url TEXT,
+  quote TEXT NOT NULL,
+  rating INTEGER,
+  industry TEXT,
+  service_type TEXT,
+  is_published BOOLEAN DEFAULT false,
+  is_featured BOOLEAN DEFAULT false,
+  display_order INTEGER DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Jobs/Careers
+CREATE TABLE public.jobs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  slug TEXT NOT NULL UNIQUE,
+  title TEXT NOT NULL,
+  department TEXT,
+  location TEXT,
+  employment_type TEXT,
+  description TEXT,
+  requirements TEXT,
+  benefits TEXT,
+  salary_range TEXT,
+  is_published BOOLEAN DEFAULT false,
+  display_order INTEGER DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
+
+### 16.2 Submission Tables
+
+```sql
+-- General form submissions
+CREATE TABLE public.form_submissions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  form_type TEXT NOT NULL,  -- 'contact', 'data_rights_request'
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone TEXT,
+  company TEXT,
+  message TEXT,
+  tcpa_consent BOOLEAN DEFAULT false,
+  consent_timestamp TIMESTAMPTZ,
+  source_page TEXT,
+  ip_address TEXT,
+  user_agent TEXT,
+  utm_source TEXT,
+  utm_medium TEXT,
+  utm_campaign TEXT,
+  ghl_contact_id TEXT,
+  ghl_sync_status TEXT DEFAULT 'pending',
+  ghl_error TEXT,
+  ghl_synced_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Checkout submissions
+CREATE TABLE public.checkout_submissions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone TEXT,
+  company TEXT,
+  message TEXT,
+  service_interest TEXT,
+  status TEXT DEFAULT 'new',
+  tcpa_consent BOOLEAN DEFAULT false,
+  consent_timestamp TIMESTAMPTZ,
+  source_page TEXT,
+  ip_address TEXT,
+  user_agent TEXT,
+  utm_source TEXT,
+  utm_medium TEXT,
+  utm_campaign TEXT,
+  ghl_contact_id TEXT,
+  ghl_sync_status TEXT DEFAULT 'pending',
+  ghl_error TEXT,
+  ghl_synced_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Job applications
+CREATE TABLE public.job_applications (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  job_id UUID REFERENCES jobs(id),
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone TEXT,
+  resume_url TEXT,
+  cover_letter TEXT,
+  linkedin_url TEXT,
+  portfolio_url TEXT,
+  video_intro_url TEXT,
+  status TEXT DEFAULT 'new',
+  tcpa_consent BOOLEAN DEFAULT false,
+  consent_timestamp TIMESTAMPTZ,
+  source_page TEXT,
+  ip_address TEXT,
+  user_agent TEXT,
+  utm_source TEXT,
+  utm_medium TEXT,
+  utm_campaign TEXT,
+  ghl_contact_id TEXT,
+  ghl_sync_status TEXT DEFAULT 'pending',
+  ghl_error TEXT,
+  ghl_synced_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
+
+### 16.3 RLS Policy Pattern
+
+All tables follow this pattern:
+
+```sql
+-- Enable RLS
+ALTER TABLE public.{table_name} ENABLE ROW LEVEL SECURITY;
+
+-- Admin full access
+CREATE POLICY "Admins can view all" ON public.{table_name}
+  FOR SELECT USING (has_role(auth.uid(), 'admin'));
+CREATE POLICY "Admins can insert" ON public.{table_name}
+  FOR INSERT WITH CHECK (has_role(auth.uid(), 'admin'));
+CREATE POLICY "Admins can update" ON public.{table_name}
+  FOR UPDATE USING (has_role(auth.uid(), 'admin'));
+CREATE POLICY "Admins can delete" ON public.{table_name}
+  FOR DELETE USING (has_role(auth.uid(), 'admin'));
+
+-- Public read for published content
+CREATE POLICY "Anyone can view published" ON public.{table_name}
+  FOR SELECT USING (is_published = true);
+
+-- Public insert for submissions
+CREATE POLICY "Anyone can submit" ON public.{table_name}
+  FOR INSERT WITH CHECK (true);
+```
+
+---
+
 ## Appendix A: File Structure
 
 ```
