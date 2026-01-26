@@ -271,8 +271,10 @@ const SmartWebsites = () => {
 
           {/* Mobile: Card View */}
           <div className="lg:hidden space-y-6">
-            {tiers.map((tier, index) => (
-              <Card key={index} className={`${tier.highlight ? 'border-2 border-primary shadow-xl' : ''}`}>
+            {tiers.map((tier, index) => {
+              const tierId = tier.name.toLowerCase().replace(' ', '-');
+              return (
+              <Card key={index} id={tierId} className={`${tier.highlight ? 'border-2 border-primary shadow-xl' : ''}`}>
                 <CardHeader className="text-center pb-4">
                   {tier.highlight && (
                     <Badge variant="default" className="mb-2 mx-auto">Most Popular</Badge>
@@ -307,7 +309,8 @@ const SmartWebsites = () => {
                   </Button>
                 </CardContent>
               </Card>
-            ))}
+            );
+            })}
           </div>
 
           {/* Desktop: Table View */}
@@ -455,7 +458,7 @@ const SmartWebsites = () => {
       </section>
 
       {/* Warmy Booster Section */}
-      <section id="warmy-booster" className="py-16 lg:py-20 bg-background">
+      <section id="warmy" className="py-16 lg:py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8 items-center">

@@ -29,10 +29,10 @@ import { activeTheme } from '@/config/themes';
  * Smart Websites tier dropdown items - ordered by conversion ladder
  */
 const smartWebsitesTiers = [
-  { title: 'Smart Site', path: '/smart-websites#smart-site', description: '$249 one-time' },
-  { title: 'Smart Lead', path: '/smart-websites#smart-lead', description: '$97/mo — Most Popular' },
-  { title: 'Smart Business', path: '/smart-websites#smart-business', description: '$197/mo' },
-  { title: 'Smart Growth', path: '/smart-websites#smart-growth', description: '$297/mo' },
+  { title: 'Smart Site', path: '/pricing#smart-site', description: '$249 one-time' },
+  { title: 'Smart Lead', path: '/pricing#smart-lead', description: '$97/mo — Most Popular' },
+  { title: 'Smart Business', path: '/pricing#smart-business', description: '$197/mo' },
+  { title: 'Smart Growth', path: '/pricing#smart-growth', description: '$297/mo' },
 ];
 
 /**

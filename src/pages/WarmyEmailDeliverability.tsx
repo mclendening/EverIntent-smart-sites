@@ -255,8 +255,8 @@ export default function WarmyEmailDeliverability() {
 
               {/* CTA buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in">
-                <CTAButton to="/pricing" defaultText="Get Warmy — $49/mo" hoverText="Boost Deliverability!" />
-                <Link to="/smart-websites#smart-lead">
+                <CTAButton to="/pricing#warmy" defaultText="Get Warmy — $49/mo" hoverText="Boost Deliverability!" />
+                <Link to="/pricing#smart-lead">
                   <Button variant="outline" size="lg" className="gap-2 w-full sm:w-auto group">
                     <CheckCircle className="w-4 h-4 group-hover:text-accent transition-colors" />
                     Free with Smart Lead
@@ -528,7 +528,7 @@ export default function WarmyEmailDeliverability() {
                   </ul>
 
                   <CTAButton 
-                    to="/pricing#warmy-booster" 
+                    to="/pricing#warmy" 
                     defaultText="Get Started" 
                     hoverText="Boost Now!" 
                     className="w-full"
@@ -568,7 +568,7 @@ export default function WarmyEmailDeliverability() {
                   </ul>
 
                   <CTAButton 
-                    to="/smart-websites#smart-lead" 
+                    to="/pricing#smart-lead" 
                     defaultText="Get Smart Lead" 
                     hoverText="Save $49/mo!" 
                     className="w-full"

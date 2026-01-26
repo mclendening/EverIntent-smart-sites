@@ -18,7 +18,7 @@ import { CTAButton } from '@/components/CTAButton';
  */
 const servicesLinks = [
   { title: 'AI Employee', path: '/let-ai-handle-it' },
-  { title: 'Smart Site', path: '/smart-websites' },
+  { title: 'Smart Site', path: '/pricing#smart-site' },
   { title: 'Smart Lead', path: '/pricing#smart-lead' },
   { title: 'Smart Business', path: '/pricing#smart-business' },
   { title: 'Smart Growth', path: '/pricing#smart-growth' },
