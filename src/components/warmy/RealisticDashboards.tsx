@@ -196,9 +196,9 @@ export function DeliverabilityScoreDashboard() {
           </div>
         </div>
 
-        {/* Trend chart */}
+        {/* Trend chart - Line chart with actual data */}
         <div className="mt-4 p-4 rounded-xl bg-white/5 border border-white/10">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-3">
             <span className="text-sm font-medium text-white">Deliverability Trend</span>
             <div className="flex items-center gap-4 text-xs">
               <span className="flex items-center gap-1.5 text-zinc-400">
@@ -206,50 +206,72 @@ export function DeliverabilityScoreDashboard() {
                 Inbox
               </span>
               <span className="flex items-center gap-1.5 text-zinc-400">
-                <div className="w-2 h-2 rounded-full bg-zinc-600" />
+                <div className="w-2 h-2 rounded-full bg-zinc-500" />
                 Spam
               </span>
             </div>
           </div>
           
-          {/* Chart area */}
-          <div className="relative h-32">
-            {/* Y-axis labels */}
-            <div className="absolute left-0 top-0 bottom-6 w-8 flex flex-col justify-between text-[10px] text-zinc-500">
-              <span>100%</span>
-              <span>75%</span>
-              <span>50%</span>
-              <span>25%</span>
-            </div>
-            
-            {/* Chart grid */}
-            <div className="absolute left-10 right-0 top-0 bottom-6">
-              <div className="h-full flex flex-col justify-between">
-                {[0, 1, 2, 3].map((i) => (
-                  <div key={i} className="border-t border-dashed border-white/5" />
-                ))}
-              </div>
+          {/* SVG Line Chart */}
+          <div className="relative h-24">
+            <svg viewBox="0 0 400 80" className="w-full h-full" preserveAspectRatio="none">
+              {/* Grid lines */}
+              <line x1="0" y1="0" x2="400" y2="0" stroke="rgba(255,255,255,0.05)" strokeDasharray="4" />
+              <line x1="0" y1="26" x2="400" y2="26" stroke="rgba(255,255,255,0.05)" strokeDasharray="4" />
+              <line x1="0" y1="53" x2="400" y2="53" stroke="rgba(255,255,255,0.05)" strokeDasharray="4" />
+              <line x1="0" y1="80" x2="400" y2="80" stroke="rgba(255,255,255,0.05)" />
               
-              {/* Bars */}
-              <div className="absolute inset-0 flex items-end gap-1 px-2">
-                {[92, 94, 93, 96, 95, 97, 96, 98, 97, 98, 96, 98].map((val, i) => (
-                  <div key={i} className="flex-1 flex flex-col items-center gap-0.5">
-                    <div 
-                      className="w-full rounded-t bg-orange-500/80 transition-all duration-500"
-                      style={{ height: `${val}%` }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
+              {/* Spam area (small, at bottom) */}
+              <path 
+                d="M0,76 L33,77 L66,75 L100,76 L133,74 L166,75 L200,73 L233,74 L266,72 L300,73 L333,71 L366,72 L400,70 L400,80 L0,80 Z"
+                fill="rgba(113,113,122,0.3)"
+              />
+              
+              {/* Inbox area (gradient fill) */}
+              <defs>
+                <linearGradient id="inboxGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(249,115,22,0.4)" />
+                  <stop offset="100%" stopColor="rgba(249,115,22,0)" />
+                </linearGradient>
+              </defs>
+              <path 
+                d="M0,24 L33,20 L66,22 L100,16 L133,18 L166,12 L200,14 L233,8 L266,10 L300,6 L333,8 L366,4 L400,6 L400,80 L0,80 Z"
+                fill="url(#inboxGradient)"
+              />
+              
+              {/* Inbox line */}
+              <path 
+                d="M0,24 L33,20 L66,22 L100,16 L133,18 L166,12 L200,14 L233,8 L266,10 L300,6 L333,8 L366,4 L400,6"
+                fill="none"
+                stroke="#f97316"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              
+              {/* Data points */}
+              <circle cx="0" cy="24" r="3" fill="#f97316" />
+              <circle cx="100" cy="16" r="3" fill="#f97316" />
+              <circle cx="200" cy="14" r="3" fill="#f97316" />
+              <circle cx="300" cy="6" r="3" fill="#f97316" />
+              <circle cx="400" cy="6" r="3" fill="#f97316" />
+            </svg>
             
-            {/* X-axis labels */}
-            <div className="absolute left-10 right-0 bottom-0 flex justify-between text-[10px] text-zinc-500 px-1">
-              <span>Jan</span>
-              <span>Feb</span>
-              <span>Mar</span>
-              <span>Apr</span>
+            {/* Y-axis labels */}
+            <div className="absolute left-0 top-0 bottom-0 -ml-8 flex flex-col justify-between text-[9px] text-zinc-600 py-1">
+              <span>100%</span>
+              <span>95%</span>
+              <span>90%</span>
             </div>
+          </div>
+          
+          {/* X-axis labels */}
+          <div className="flex justify-between text-[10px] text-zinc-500 mt-1 px-1">
+            <span>Week 1</span>
+            <span>Week 2</span>
+            <span>Week 3</span>
+            <span>Week 4</span>
+            <span>Now</span>
           </div>
         </div>
       </div>

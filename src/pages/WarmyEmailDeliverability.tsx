@@ -79,13 +79,6 @@ const coreFeatures = [
     stats: '100+ blacklist databases monitored',
     Visual: DomainHealthDashboard,
   },
-  {
-    icon: BarChart3,
-    title: 'Deliverability Analytics',
-    description: 'Sender score tracking, reputation trends, and detailed performance reports. Know exactly where your emails land.',
-    stats: 'Real-time score updates',
-    Visual: DeliverabilityScoreDashboard,
-  },
 ];
 
 /**
@@ -481,51 +474,35 @@ export default function WarmyEmailDeliverability() {
         </div>
       </section>
 
-      {/* Integration Section */}
-      <section className="py-16 md:py-24 bg-muted/30">
+      {/* Integration Section - Simplified */}
+      <section className="py-12 md:py-16 bg-muted/30">
         <div className="container">
-          <div className="max-w-5xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-              <div>
-                <h2 className="text-2xl md:text-3xl font-bold mb-6">
-                  Works With Your{' '}
-                  <span className="text-accent">Existing Tools</span>
-                </h2>
-                <p className="text-lg text-muted-foreground mb-8">
-                  Warmy integrates seamlessly with GoHighLevel and any SMTP-compatible 
-                  email system. No migration required — just better deliverability.
-                </p>
-
-                <div className="space-y-4">
-                  {benefits.map((benefit, index) => (
-                    <div 
-                      key={index} 
-                      className="flex items-center gap-3 group"
-                    >
-                      <div className="p-1.5 rounded-lg bg-accent/10 group-hover:bg-accent/20 transition-colors">
-                        <benefit.icon className="w-4 h-4 text-accent" />
-                      </div>
-                      <span>{benefit.text}</span>
-                    </div>
-                  ))}
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">
+              Works With Your Existing Tools
+            </h2>
+            <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Seamless integration with GoHighLevel, Gmail, Outlook, and any SMTP provider.
+            </p>
+            
+            {/* Integration logos inline */}
+            <div className="flex flex-wrap items-center justify-center gap-6 mb-10">
+              {integrations.map((integration, index) => (
+                <div key={index} className="flex items-center gap-2 px-4 py-2 rounded-lg bg-card border border-border/50">
+                  <integration.icon className="w-5 h-5 text-accent" />
+                  <span className="font-medium text-sm">{integration.name}</span>
                 </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                {integrations.map((integration, index) => (
-                  <Card 
-                    key={index} 
-                    className="bg-card hover:border-accent/50 transition-all hover:shadow-lg hover:-translate-y-1"
-                  >
-                    <CardContent className="pt-6 flex flex-col items-center text-center">
-                      <div className="p-3 rounded-full bg-accent/10 mb-3">
-                        <integration.icon className="w-6 h-6 text-accent" />
-                      </div>
-                      <p className="font-medium">{integration.name}</p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+              ))}
+            </div>
+            
+            {/* Benefits as compact grid */}
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 text-left">
+              {benefits.map((benefit, index) => (
+                <div key={index} className="flex items-center gap-2 text-sm">
+                  <Check className="w-4 h-4 text-accent shrink-0" />
+                  <span className="text-muted-foreground">{benefit.text}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
