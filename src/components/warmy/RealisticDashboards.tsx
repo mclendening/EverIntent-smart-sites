@@ -263,13 +263,23 @@ export function DeliverabilityScoreDashboard() {
 
 export function WarmUpProgressDashboard() {
   const days = [
-    { day: 1, sent: 20, target: 20 },
-    { day: 5, sent: 50, target: 50 },
-    { day: 10, sent: 100, target: 100 },
-    { day: 15, sent: 200, target: 200 },
-    { day: 20, sent: 350, target: 350 },
-    { day: 25, sent: 450, target: 450 },
-    { day: 30, sent: 500, target: 500 },
+    { day: 1, sent: 20, replies: 18, opens: 19, target: 20 },
+    { day: 3, sent: 35, replies: 32, opens: 34, target: 35 },
+    { day: 5, sent: 50, replies: 47, opens: 49, target: 50 },
+    { day: 7, sent: 75, replies: 71, opens: 74, target: 75 },
+    { day: 10, sent: 100, replies: 95, opens: 98, target: 100 },
+    { day: 14, sent: 150, replies: 143, opens: 148, target: 150 },
+    { day: 18, sent: 250, replies: 238, opens: 246, target: 250 },
+    { day: 21, sent: 350, replies: 333, opens: 344, target: 350 },
+    { day: 25, sent: 450, replies: 428, opens: 443, target: 450 },
+    { day: 30, sent: 500, replies: 475, opens: 492, target: 500 },
+  ];
+
+  const recentActivity = [
+    { time: '2 min ago', action: 'Sent warm-up email', provider: 'Gmail', status: 'delivered' },
+    { time: '3 min ago', action: 'Reply received', provider: 'Outlook', status: 'positive' },
+    { time: '5 min ago', action: 'Sent warm-up email', provider: 'Yahoo', status: 'delivered' },
+    { time: '8 min ago', action: 'Reply received', provider: 'Gmail', status: 'positive' },
   ];
 
   return (
@@ -312,36 +322,68 @@ export function WarmUpProgressDashboard() {
           </div>
         </div>
 
-        {/* Progress stats */}
-        <div className="grid grid-cols-4 gap-3 mb-5">
-          <div className="p-3 rounded-lg bg-white/5 text-center">
+        {/* Enhanced Progress stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+          <div className="p-3 rounded-lg bg-white/5 border border-white/10">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] text-zinc-500 uppercase tracking-wide">Day</span>
+              <TrendingUp className="w-3 h-3 text-orange-500" />
+            </div>
             <p className="text-2xl font-bold text-orange-500">21</p>
-            <p className="text-[10px] text-zinc-500 uppercase tracking-wide">Day</p>
+            <p className="text-[10px] text-zinc-600">of 30 days</p>
           </div>
-          <div className="p-3 rounded-lg bg-white/5 text-center">
-            <p className="text-2xl font-bold text-white">450</p>
-            <p className="text-[10px] text-zinc-500 uppercase tracking-wide">Daily Volume</p>
+          <div className="p-3 rounded-lg bg-white/5 border border-white/10">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] text-zinc-500 uppercase tracking-wide">Today's Volume</span>
+              <Mail className="w-3 h-3 text-blue-400" />
+            </div>
+            <p className="text-2xl font-bold text-white">350</p>
+            <p className="text-[10px] text-green-500">+50 from yesterday</p>
           </div>
-          <div className="p-3 rounded-lg bg-white/5 text-center">
-            <p className="text-2xl font-bold text-white">98%</p>
-            <p className="text-[10px] text-zinc-500 uppercase tracking-wide">Reply Rate</p>
+          <div className="p-3 rounded-lg bg-white/5 border border-white/10">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] text-zinc-500 uppercase tracking-wide">Reply Rate</span>
+              <Activity className="w-3 h-3 text-green-500" />
+            </div>
+            <p className="text-2xl font-bold text-white">95.2%</p>
+            <p className="text-[10px] text-green-500">Excellent</p>
           </div>
-          <div className="p-3 rounded-lg bg-white/5 text-center">
-            <p className="text-2xl font-bold text-green-500">0</p>
-            <p className="text-[10px] text-zinc-500 uppercase tracking-wide">Bounces</p>
+          <div className="p-3 rounded-lg bg-white/5 border border-white/10">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] text-zinc-500 uppercase tracking-wide">Total Sent</span>
+              <CheckCircle className="w-3 h-3 text-green-500" />
+            </div>
+            <p className="text-2xl font-bold text-white">4,280</p>
+            <p className="text-[10px] text-zinc-500">0 bounced</p>
           </div>
         </div>
 
-        {/* Chart */}
-        <div className="p-4 rounded-lg bg-white/5 border border-white/10">
+        {/* Enhanced Chart with multiple metrics */}
+        <div className="p-4 rounded-lg bg-white/5 border border-white/10 mb-4">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-sm font-medium text-white">Daily Sending Volume</span>
-            <span className="text-xs text-zinc-500">Target: 500/day</span>
+            <div>
+              <span className="text-sm font-medium text-white">Volume Ramp-Up Schedule</span>
+              <p className="text-[10px] text-zinc-500">AI-optimized sending progression</p>
+            </div>
+            <div className="flex items-center gap-4 text-[10px]">
+              <span className="flex items-center gap-1.5 text-zinc-400">
+                <div className="w-2 h-2 rounded-full bg-orange-500" />
+                Sent
+              </span>
+              <span className="flex items-center gap-1.5 text-zinc-400">
+                <div className="w-2 h-2 rounded-full bg-green-500" />
+                Replied
+              </span>
+              <span className="flex items-center gap-1.5 text-zinc-400">
+                <div className="w-2 h-2 rounded-full bg-blue-400" />
+                Opened
+              </span>
+            </div>
           </div>
           
-          <div className="relative h-40">
+          <div className="relative h-44">
             {/* Y-axis */}
-            <div className="absolute left-0 top-0 bottom-5 w-10 flex flex-col justify-between text-[10px] text-zinc-500 text-right pr-2">
+            <div className="absolute left-0 top-0 bottom-5 w-8 flex flex-col justify-between text-[10px] text-zinc-500 text-right pr-2">
               <span>500</span>
               <span>375</span>
               <span>250</span>
@@ -349,44 +391,103 @@ export function WarmUpProgressDashboard() {
               <span>0</span>
             </div>
             
-            {/* Grid + bars */}
-            <div className="absolute left-12 right-0 top-0 bottom-5">
-              {/* Horizontal grid lines */}
+            {/* Chart area */}
+            <div className="absolute left-10 right-0 top-0 bottom-5">
+              {/* Grid lines */}
               <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
                 {[0, 1, 2, 3, 4].map((i) => (
                   <div key={i} className="border-t border-white/5" />
                 ))}
               </div>
               
-              {/* Bars */}
-              <div className="relative h-full flex items-end justify-between gap-2 px-4">
+              {/* Stacked area/bars */}
+              <div className="relative h-full flex items-end gap-1.5">
                 {days.map((d, i) => (
-                  <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                    <div 
-                      className="w-full max-w-8 rounded-t bg-gradient-to-t from-orange-500 to-orange-500/60"
-                      style={{ height: `${(d.sent / 500) * 100}%` }}
-                    />
-                    <span className="text-[9px] text-zinc-500">D{d.day}</span>
+                  <div key={i} className="flex-1 flex flex-col items-center gap-0.5 group">
+                    {/* Tooltip on hover */}
+                    <div className="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-black border border-white/20 rounded px-2 py-1 text-[9px] text-white whitespace-nowrap pointer-events-none z-10 transition-opacity">
+                      Day {d.day}: {d.sent} sent, {d.replies} replies
+                    </div>
+                    
+                    {/* Stacked bars */}
+                    <div className="w-full max-w-6 flex flex-col-reverse" style={{ height: `${(d.sent / 500) * 100}%` }}>
+                      {/* Sent base */}
+                      <div className="w-full flex-1 bg-orange-500/40 rounded-t" />
+                      {/* Opened overlay */}
+                      <div 
+                        className="absolute bottom-0 w-full bg-blue-400/60 rounded-t"
+                        style={{ height: `${(d.opens / 500) * 100}%` }}
+                      />
+                      {/* Replied overlay */}
+                      <div 
+                        className="absolute bottom-0 w-full bg-green-500 rounded-t"
+                        style={{ height: `${(d.replies / 500) * 100}%` }}
+                      />
+                    </div>
+                    <span className="text-[8px] text-zinc-500">D{d.day}</span>
                   </div>
                 ))}
               </div>
+              
+              {/* Target line */}
+              <div className="absolute top-0 left-0 right-0 border-t-2 border-dashed border-orange-500/50" />
+              <span className="absolute -top-4 right-0 text-[9px] text-orange-500">Target: 500/day</span>
             </div>
           </div>
         </div>
 
-        {/* Timeline */}
-        <div className="mt-4 p-4 rounded-lg bg-white/5 border border-white/10">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-sm font-medium text-white">Warm-Up Timeline</span>
-            <span className="text-xs text-orange-500 font-medium">70% Complete</span>
+        {/* Two column: Timeline + Activity */}
+        <div className="grid md:grid-cols-2 gap-4">
+          {/* Timeline */}
+          <div className="p-4 rounded-lg bg-white/5 border border-white/10">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-medium text-white">Warm-Up Timeline</span>
+              <span className="text-xs text-orange-500 font-medium">70% Complete</span>
+            </div>
+            <div className="relative h-3 rounded-full bg-white/10 overflow-hidden mb-2">
+              <div className="absolute inset-y-0 left-0 w-[70%] rounded-full bg-gradient-to-r from-orange-500 via-yellow-500 to-green-500" />
+              {/* Milestone markers */}
+              <div className="absolute top-1/2 left-[33%] -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white border border-orange-500" />
+              <div className="absolute top-1/2 left-[66%] -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white/30 border border-white/50" />
+            </div>
+            <div className="flex justify-between text-[10px] text-zinc-500">
+              <span>Nov 15</span>
+              <span className="text-orange-500 font-medium">Day 21</span>
+              <span>Dec 15</span>
+            </div>
+            
+            {/* Phase indicator */}
+            <div className="mt-3 pt-3 border-t border-white/10">
+              <div className="flex items-center gap-2 text-xs">
+                <div className="px-2 py-0.5 rounded bg-orange-500/20 text-orange-500 font-medium">Phase 3</div>
+                <span className="text-zinc-400">Acceleration: 300-450 emails/day</span>
+              </div>
+            </div>
           </div>
-          <div className="relative h-2 rounded-full bg-white/10 overflow-hidden">
-            <div className="absolute inset-y-0 left-0 w-[70%] rounded-full bg-gradient-to-r from-orange-500 to-green-500" />
-          </div>
-          <div className="flex justify-between mt-2 text-[10px] text-zinc-500">
-            <span>Started Nov 15</span>
-            <span>21 of 30 days</span>
-            <span>Est. completion Dec 15</span>
+
+          {/* Live Activity Feed */}
+          <div className="p-4 rounded-lg bg-white/5 border border-white/10">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-medium text-white">Live Activity</span>
+              <div className="flex items-center gap-1.5">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-[10px] text-green-500">Live</span>
+              </div>
+            </div>
+            <div className="space-y-2">
+              {recentActivity.map((item, i) => (
+                <div key={i} className="flex items-center justify-between text-xs py-1.5 border-b border-white/5 last:border-0">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-1.5 h-1.5 rounded-full ${item.status === 'positive' ? 'bg-green-500' : 'bg-blue-400'}`} />
+                    <span className="text-zinc-300">{item.action}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-zinc-500">{item.provider}</span>
+                    <span className="text-zinc-600">{item.time}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

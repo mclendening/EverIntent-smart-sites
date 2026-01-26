@@ -290,40 +290,146 @@ export default function WarmyEmailDeliverability() {
         </div>
       </section>
 
-      {/* Problem Section - Urgency */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-background to-destructive/5">
-        <div className="container">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex flex-col md:flex-row items-center gap-4 mb-8 text-center md:text-left">
-              <div className="p-3 rounded-full bg-destructive/10">
-                <AlertTriangle className="w-8 h-8 text-destructive" />
-              </div>
-              <div>
-                <h2 className="text-2xl md:text-3xl font-bold">The Hidden Problem Killing Your Leads</h2>
-                <p className="text-muted-foreground mt-1">Why your marketing emails aren't converting</p>
-              </div>
-            </div>
-            
-            <div className="grid sm:grid-cols-3 gap-4 md:gap-6 mb-8">
-              {problemStats.map((stat, index) => (
-                <Card 
-                  key={index} 
-                  className="bg-card/80 backdrop-blur border-destructive/20 hover:border-destructive/40 transition-colors group"
-                >
-                  <CardContent className="pt-6 text-center">
-                    <p className={`text-3xl md:text-4xl font-bold mb-2 ${stat.color} group-hover:scale-110 transition-transform`}>
-                      {stat.value}
-                    </p>
-                    <p className="text-sm text-muted-foreground">{stat.label}</p>
-                  </CardContent>
-                </Card>
-              ))}
+      {/* Problem Section - Dramatic Email Journey Visualization */}
+      <section className="py-16 md:py-24 bg-[#0a0a0a] relative overflow-hidden">
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+        
+        <div className="container relative z-10">
+          <div className="max-w-5xl mx-auto">
+            {/* Section header */}
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                Where Are Your Emails <span className="text-red-500">Really</span> Going?
+              </h2>
+              <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
+                Right now, a shocking percentage of your outreach never reaches human eyes.
+              </p>
             </div>
 
-            <p className="text-lg text-muted-foreground text-center md:text-left">
-              Every email that lands in spam is a lost opportunity. Your follow-ups, nurture sequences, 
-              and marketing campaigns are worthless if they <strong>never reach your prospects</strong>.
-            </p>
+            {/* Animated Email Journey Funnel */}
+            <div className="relative bg-white/5 rounded-2xl border border-white/10 p-6 md:p-10 mb-10">
+              {/* Journey visualization */}
+              <div className="flex flex-col md:flex-row items-stretch gap-4 md:gap-0">
+                {/* Step 1: You Send */}
+                <div className="flex-1 relative">
+                  <div className="bg-orange-500/20 border border-orange-500/30 rounded-xl p-6 text-center h-full">
+                    <div className="w-16 h-16 rounded-full bg-orange-500 mx-auto mb-4 flex items-center justify-center">
+                      <Mail className="w-8 h-8 text-white" />
+                    </div>
+                    <p className="text-2xl font-bold text-white mb-1">1,000</p>
+                    <p className="text-sm text-zinc-400">Emails Sent</p>
+                    <p className="text-xs text-orange-500 mt-2 font-medium">Your Campaign</p>
+                  </div>
+                  <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
+                    <ArrowRight className="w-8 h-8 text-zinc-600" />
+                  </div>
+                </div>
+
+                {/* Step 2: Spam Filter */}
+                <div className="flex-1 relative">
+                  <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-6 text-center h-full">
+                    <div className="w-16 h-16 rounded-full bg-red-500/20 mx-auto mb-4 flex items-center justify-center relative">
+                      <Shield className="w-8 h-8 text-red-500" />
+                      <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-red-500 flex items-center justify-center">
+                        <X className="w-4 h-4 text-white" />
+                      </div>
+                    </div>
+                    <p className="text-2xl font-bold text-red-500 mb-1">-210</p>
+                    <p className="text-sm text-zinc-400">Blocked by Spam Filters</p>
+                    <p className="text-xs text-red-400 mt-2">21% Never Arrive</p>
+                  </div>
+                  <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
+                    <ArrowRight className="w-8 h-8 text-zinc-600" />
+                  </div>
+                </div>
+
+                {/* Step 3: Spam Folder */}
+                <div className="flex-1 relative">
+                  <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-6 text-center h-full">
+                    <div className="w-16 h-16 rounded-full bg-yellow-500/20 mx-auto mb-4 flex items-center justify-center">
+                      <AlertCircle className="w-8 h-8 text-yellow-500" />
+                    </div>
+                    <p className="text-2xl font-bold text-yellow-500 mb-1">-320</p>
+                    <p className="text-sm text-zinc-400">Land in Spam/Junk</p>
+                    <p className="text-xs text-yellow-400 mt-2">32% Unseen</p>
+                  </div>
+                  <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
+                    <ArrowRight className="w-8 h-8 text-zinc-600" />
+                  </div>
+                </div>
+
+                {/* Step 4: Actually Seen */}
+                <div className="flex-1">
+                  <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-6 text-center h-full">
+                    <div className="w-16 h-16 rounded-full bg-green-500/20 mx-auto mb-4 flex items-center justify-center">
+                      <Inbox className="w-8 h-8 text-green-500" />
+                    </div>
+                    <p className="text-2xl font-bold text-green-500 mb-1">470</p>
+                    <p className="text-sm text-zinc-400">Actually Reach Inbox</p>
+                    <p className="text-xs text-green-400 mt-2">47% Survive</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom stat highlight */}
+              <div className="mt-8 pt-6 border-t border-white/10 text-center">
+                <p className="text-lg text-zinc-400">
+                  Without proper domain warm-up, <span className="text-red-500 font-bold text-2xl">over half</span> of your emails never get a chance to convert.
+                </p>
+              </div>
+            </div>
+
+            {/* Comparison: Without vs With Warmy */}
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Without Warmy */}
+              <div className="bg-red-500/5 border border-red-500/20 rounded-xl p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-lg bg-red-500/20">
+                    <X className="w-5 h-5 text-red-500" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-white">Without Proper Warm-Up</h3>
+                </div>
+                <div className="space-y-3">
+                  {[
+                    'Cold emails trigger spam filters instantly',
+                    'Domain reputation tanks after first campaign',
+                    'Follow-up sequences never seen',
+                    'Ad spend wasted on leads you can\'t reach',
+                    'Competitors close deals you started'
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-start gap-2 text-sm text-zinc-400">
+                      <X className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* With Warmy */}
+              <div className="bg-green-500/5 border border-green-500/20 rounded-xl p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-lg bg-green-500/20">
+                    <Check className="w-5 h-5 text-green-500" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-white">With Warmy Protection</h3>
+                </div>
+                <div className="space-y-3">
+                  {[
+                    '95%+ inbox placement from day one',
+                    'Domain reputation builds automatically',
+                    'Every follow-up lands where it should',
+                    'Marketing ROI actually realized',
+                    'You close deals, not spam folders'
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-start gap-2 text-sm text-zinc-300">
+                      <Check className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
