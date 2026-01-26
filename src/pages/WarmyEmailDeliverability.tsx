@@ -40,7 +40,8 @@ import {
   Star,
   Check,
   X,
-  AlertCircle
+  AlertCircle,
+  ChevronDown
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { 
@@ -629,31 +630,28 @@ export default function WarmyEmailDeliverability() {
         </div>
       </section>
 
-      {/* FAQ Section - AEO optimized */}
-      <section className="py-16 md:py-24">
+      {/* FAQ Section - Compact accordion style */}
+      <section className="py-12 md:py-16">
         <div className="container">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">
+            <h2 className="text-xl md:text-2xl font-bold text-center mb-8">
               Frequently Asked Questions
             </h2>
-            <p className="text-center text-muted-foreground mb-12">
-              Everything you need to know about email deliverability
-            </p>
 
-            <div className="space-y-4">
+            <div className="grid gap-1">
               {faqItems.map((item, index) => (
-                <Card 
+                <details 
                   key={index} 
-                  className="overflow-hidden hover:border-accent/50 transition-colors"
+                  className="group bg-muted/30 rounded-lg overflow-hidden"
                 >
-                  <CardContent className="pt-6">
-                    <h3 className="text-lg font-semibold mb-2 flex items-start gap-2">
-                      <span className="text-accent shrink-0">Q:</span>
-                      {item.question}
-                    </h3>
-                    <p className="text-muted-foreground pl-6">{item.answer}</p>
-                  </CardContent>
-                </Card>
+                  <summary className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/50 transition-colors list-none">
+                    <span className="font-medium text-sm">{item.question}</span>
+                    <ChevronDown className="w-4 h-4 text-muted-foreground group-open:rotate-180 transition-transform shrink-0 ml-4" />
+                  </summary>
+                  <div className="px-4 pb-4 text-sm text-muted-foreground">
+                    {item.answer}
+                  </div>
+                </details>
               ))}
             </div>
           </div>
