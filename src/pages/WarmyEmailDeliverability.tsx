@@ -14,6 +14,8 @@
  * 
  * SEO: Optimized for "email deliverability", "email warm-up", "inbox placement"
  * AEO: FAQ schema for voice search and AI answer engines
+ * 
+ * Visualizations: Pure CSS/SVG components for crisp, professional appearance
  */
 
 import { Layout } from '@/components/layout/Layout';
@@ -31,53 +33,405 @@ import {
   TrendingUp,
   Globe,
   Lock,
-  RefreshCw,
   Inbox,
   Activity,
   Server,
   ArrowRight,
-  Play,
-  Star
+  Star,
+  Check,
+  X,
+  AlertCircle
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-// Dashboard images
-import warmyDashboardHero from '@/assets/warmy-dashboard-hero.jpg';
-import warmyWarmupChart from '@/assets/warmy-warmup-chart.jpg';
-import warmyInboxTest from '@/assets/warmy-inbox-test.jpg';
-import warmyDomainHealth from '@/assets/warmy-domain-health.jpg';
+// ============================================
+// CSS/SVG VISUALIZATION COMPONENTS
+// ============================================
 
 /**
- * Core features for Warmy service with detailed descriptions
+ * Animated deliverability score gauge - Hero visualization
+ */
+function DeliverabilityGauge({ score = 98 }: { score?: number }) {
+  const circumference = 2 * Math.PI * 45;
+  const offset = circumference - (score / 100) * circumference;
+  
+  return (
+    <div className="relative w-full max-w-md mx-auto aspect-square">
+      {/* Background glow */}
+      <div className="absolute inset-0 bg-gradient-radial from-accent/20 via-transparent to-transparent blur-2xl" />
+      
+      {/* Main gauge */}
+      <svg viewBox="0 0 200 200" className="w-full h-full drop-shadow-2xl">
+        {/* Outer decorative ring */}
+        <circle
+          cx="100" cy="100" r="95"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1"
+          className="text-accent/10"
+        />
+        
+        {/* Background track */}
+        <circle
+          cx="100" cy="100" r="70"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="12"
+          className="text-muted/20"
+        />
+        
+        {/* Score arc - animated */}
+        <circle
+          cx="100" cy="100" r="70"
+          fill="none"
+          stroke="url(#scoreGradient)"
+          strokeWidth="12"
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          transform="rotate(-90 100 100)"
+          className="transition-all duration-2000 ease-out"
+          style={{ 
+            animation: 'gaugeAnimate 2s ease-out forwards',
+            strokeDashoffset: circumference 
+          }}
+        />
+        
+        {/* Gradient definition */}
+        <defs>
+          <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="hsl(var(--accent))" />
+            <stop offset="100%" stopColor="hsl(142 76% 36%)" />
+          </linearGradient>
+        </defs>
+        
+        {/* Center content */}
+        <text x="100" y="90" textAnchor="middle" className="fill-foreground text-5xl font-bold">
+          {score}%
+        </text>
+        <text x="100" y="115" textAnchor="middle" className="fill-muted-foreground text-sm">
+          Deliverability Score
+        </text>
+        
+        {/* Status indicator */}
+        <circle cx="100" cy="145" r="6" className="fill-accent animate-pulse" />
+        <text x="115" y="149" className="fill-accent text-xs font-medium">LIVE</text>
+      </svg>
+      
+      {/* Floating stats */}
+      <div className="absolute top-8 right-4 px-3 py-2 rounded-lg bg-card/90 backdrop-blur border border-accent/20 shadow-lg">
+        <div className="flex items-center gap-2 text-sm">
+          <TrendingUp className="w-4 h-4 text-accent" />
+          <span className="font-medium">+12% this week</span>
+        </div>
+      </div>
+      
+      <div className="absolute bottom-8 left-4 px-3 py-2 rounded-lg bg-card/90 backdrop-blur border border-accent/20 shadow-lg">
+        <div className="flex items-center gap-2 text-sm">
+          <Mail className="w-4 h-4 text-accent" />
+          <span className="font-medium">2,450 emails sent</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Animated warm-up progress chart
+ */
+function WarmUpChart() {
+  const bars = [15, 25, 35, 50, 65, 75, 85, 92, 95, 98];
+  
+  return (
+    <div className="relative p-6 rounded-2xl bg-card border border-border/50 shadow-xl">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h4 className="font-semibold text-foreground">Warm-Up Progress</h4>
+          <p className="text-sm text-muted-foreground">Daily sending volume</p>
+        </div>
+        <div className="px-3 py-1 rounded-full bg-accent/10 text-accent text-sm font-medium">
+          Week 3
+        </div>
+      </div>
+      
+      {/* Chart */}
+      <div className="flex items-end justify-between gap-2 h-40 mb-4">
+        {bars.map((height, index) => (
+          <div key={index} className="flex-1 flex flex-col items-center gap-1">
+            <div 
+              className="w-full rounded-t-md bg-gradient-to-t from-accent to-accent/60 transition-all duration-500"
+              style={{ 
+                height: `${height}%`,
+                animationDelay: `${index * 100}ms`,
+                animation: 'barGrow 1s ease-out forwards'
+              }}
+            />
+          </div>
+        ))}
+      </div>
+      
+      {/* X-axis labels */}
+      <div className="flex justify-between text-xs text-muted-foreground">
+        <span>Day 1</span>
+        <span>Day 5</span>
+        <span>Day 10</span>
+      </div>
+      
+      {/* Stats row */}
+      <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-border/50">
+        <div className="text-center">
+          <p className="text-2xl font-bold text-accent">98%</p>
+          <p className="text-xs text-muted-foreground">Current Score</p>
+        </div>
+        <div className="text-center">
+          <p className="text-2xl font-bold text-foreground">450</p>
+          <p className="text-xs text-muted-foreground">Daily Volume</p>
+        </div>
+        <div className="text-center">
+          <p className="text-2xl font-bold text-foreground">21</p>
+          <p className="text-xs text-muted-foreground">Days Active</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Inbox placement test results visualization
+ */
+function InboxTestResults() {
+  const providers = [
+    { name: 'Gmail', status: 'inbox', percentage: 98 },
+    { name: 'Outlook', status: 'inbox', percentage: 96 },
+    { name: 'Yahoo', status: 'inbox', percentage: 94 },
+    { name: 'iCloud', status: 'inbox', percentage: 97 },
+    { name: 'AOL', status: 'inbox', percentage: 95 },
+    { name: 'Corporate', status: 'spam', percentage: 88 },
+  ];
+  
+  return (
+    <div className="relative p-6 rounded-2xl bg-card border border-border/50 shadow-xl">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h4 className="font-semibold text-foreground">Inbox Placement Test</h4>
+          <p className="text-sm text-muted-foreground">35 seed providers</p>
+        </div>
+        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 text-accent text-sm font-medium">
+          <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+          Testing
+        </div>
+      </div>
+      
+      {/* Provider list */}
+      <div className="space-y-3">
+        {providers.map((provider, index) => (
+          <div 
+            key={provider.name}
+            className="flex items-center justify-between p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            <div className="flex items-center gap-3">
+              {provider.status === 'inbox' ? (
+                <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
+                  <Check className="w-4 h-4 text-accent" />
+                </div>
+              ) : (
+                <div className="w-8 h-8 rounded-full bg-destructive/20 flex items-center justify-center">
+                  <AlertCircle className="w-4 h-4 text-destructive" />
+                </div>
+              )}
+              <span className="font-medium">{provider.name}</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-24 h-2 rounded-full bg-muted overflow-hidden">
+                <div 
+                  className={`h-full rounded-full ${provider.status === 'inbox' ? 'bg-accent' : 'bg-destructive'}`}
+                  style={{ width: `${provider.percentage}%` }}
+                />
+              </div>
+              <span className={`text-sm font-medium ${provider.status === 'inbox' ? 'text-accent' : 'text-destructive'}`}>
+                {provider.percentage}%
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      {/* Summary */}
+      <div className="flex items-center justify-between mt-6 pt-6 border-t border-border/50">
+        <div className="flex items-center gap-2">
+          <CheckCircle className="w-5 h-5 text-accent" />
+          <span className="font-medium">32/35 in Primary Inbox</span>
+        </div>
+        <Button variant="ghost" size="sm" className="text-accent">
+          View Full Report
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Domain health monitoring dashboard
+ */
+function DomainHealthDashboard() {
+  const checks = [
+    { name: 'SPF Record', status: 'pass', description: 'Properly configured' },
+    { name: 'DKIM Signature', status: 'pass', description: '2048-bit key active' },
+    { name: 'DMARC Policy', status: 'pass', description: 'Reject policy enabled' },
+    { name: 'Blacklist Status', status: 'pass', description: 'Not listed (100+ checked)' },
+  ];
+  
+  return (
+    <div className="relative p-6 rounded-2xl bg-card border border-border/50 shadow-xl">
+      {/* Header with overall score */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h4 className="font-semibold text-foreground">Domain Health</h4>
+          <p className="text-sm text-muted-foreground">Last checked 2 min ago</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
+            <Shield className="w-6 h-6 text-accent" />
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-accent">100%</p>
+            <p className="text-xs text-muted-foreground">Health Score</p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Security checks */}
+      <div className="space-y-3">
+        {checks.map((check, index) => (
+          <div 
+            key={check.name}
+            className="flex items-center justify-between p-3 rounded-lg bg-muted/30"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
+                <Check className="w-4 h-4 text-accent" />
+              </div>
+              <div>
+                <p className="font-medium text-sm">{check.name}</p>
+                <p className="text-xs text-muted-foreground">{check.description}</p>
+              </div>
+            </div>
+            <span className="px-2 py-1 rounded text-xs font-medium bg-accent/10 text-accent uppercase">
+              {check.status}
+            </span>
+          </div>
+        ))}
+      </div>
+      
+      {/* Alert banner */}
+      <div className="mt-6 p-3 rounded-lg bg-accent/5 border border-accent/20 flex items-center gap-3">
+        <Activity className="w-5 h-5 text-accent" />
+        <p className="text-sm">
+          <span className="font-medium">Real-time monitoring active.</span>
+          {' '}You'll be notified instantly if any issues are detected.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Deliverability analytics dashboard
+ */
+function AnalyticsDashboard() {
+  const metrics = [
+    { label: 'Emails Sent', value: '12,450', change: '+23%', positive: true },
+    { label: 'Inbox Rate', value: '96.8%', change: '+4.2%', positive: true },
+    { label: 'Open Rate', value: '38.5%', change: '+12%', positive: true },
+    { label: 'Spam Rate', value: '0.8%', change: '-2.1%', positive: true },
+  ];
+  
+  return (
+    <div className="relative p-6 rounded-2xl bg-card border border-border/50 shadow-xl">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h4 className="font-semibold text-foreground">Deliverability Analytics</h4>
+          <p className="text-sm text-muted-foreground">Last 30 days</p>
+        </div>
+        <Button variant="outline" size="sm">
+          Export Report
+        </Button>
+      </div>
+      
+      {/* Metrics grid */}
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        {metrics.map((metric) => (
+          <div key={metric.label} className="p-4 rounded-lg bg-muted/30">
+            <p className="text-sm text-muted-foreground mb-1">{metric.label}</p>
+            <div className="flex items-baseline gap-2">
+              <p className="text-2xl font-bold text-foreground">{metric.value}</p>
+              <span className={`text-sm font-medium ${metric.positive ? 'text-accent' : 'text-destructive'}`}>
+                {metric.change}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      {/* Mini chart */}
+      <div className="h-24 flex items-end gap-1">
+        {[40, 55, 45, 60, 75, 65, 80, 85, 70, 90, 85, 95].map((height, i) => (
+          <div 
+            key={i}
+            className="flex-1 rounded-t bg-gradient-to-t from-accent/80 to-accent/40"
+            style={{ height: `${height}%` }}
+          />
+        ))}
+      </div>
+      <div className="flex justify-between mt-2 text-xs text-muted-foreground">
+        <span>Week 1</span>
+        <span>Week 2</span>
+        <span>Week 3</span>
+        <span>Week 4</span>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// DATA DEFINITIONS
+// ============================================
+
+/**
+ * Core features data
  */
 const coreFeatures = [
   {
     icon: Zap,
     title: 'AI-Powered Warm-Up',
     description: 'Gradual sending volume increases with smart reply patterns that mimic real human behavior. Our AI adapts to your domain reputation in real-time.',
-    image: warmyWarmupChart,
     stats: '2-4 weeks to optimal deliverability',
+    Visual: WarmUpChart,
   },
   {
     icon: Inbox,
     title: 'Inbox Placement Testing',
     description: '35 seed email providers including Gmail, Outlook, Yahoo, and corporate domains. Real-time inbox, spam, and missing placement reporting.',
-    image: warmyInboxTest,
     stats: '35+ email provider coverage',
+    Visual: InboxTestResults,
   },
   {
     icon: Shield,
     title: 'Domain Health Monitoring',
     description: 'SPF, DKIM, DMARC configuration validation with instant alerts when issues arise. Blacklist monitoring across 100+ databases.',
-    image: warmyDomainHealth,
     stats: '100+ blacklist databases monitored',
+    Visual: DomainHealthDashboard,
   },
   {
     icon: BarChart3,
     title: 'Deliverability Analytics',
     description: 'Sender score tracking, reputation trends, and detailed performance reports. Know exactly where your emails land.',
-    image: warmyDashboardHero,
     stats: 'Real-time score updates',
+    Visual: AnalyticsDashboard,
   },
 ];
 
@@ -160,10 +514,15 @@ const testimonials = [
   },
 ];
 
+// ============================================
+// MAIN COMPONENT
+// ============================================
+
 /**
  * WarmyEmailDeliverability - Premium service page for email deliverability
  * 
  * Mobile-first, animation-enhanced, SEO/AEO optimized
+ * Uses CSS/SVG visualizations for crisp, professional appearance
  */
 export default function WarmyEmailDeliverability() {
   return (
@@ -188,7 +547,20 @@ export default function WarmyEmailDeliverability() {
         }))
       })}} />
 
-      {/* Hero Section - Mobile-first with dashboard image */}
+      {/* Custom CSS for animations */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes gaugeAnimate {
+          from { stroke-dashoffset: 283; }
+          to { stroke-dashoffset: 14; }
+        }
+        @keyframes barGrow {
+          from { transform: scaleY(0); }
+          to { transform: scaleY(1); }
+        }
+        .animate-bar { transform-origin: bottom; }
+      `}} />
+
+      {/* Hero Section - Mobile-first with animated gauge */}
       <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
         {/* Animated gradient background */}
         <div className="absolute inset-0 bg-gradient-to-b from-accent/10 via-accent/5 to-background" />
@@ -197,8 +569,8 @@ export default function WarmyEmailDeliverability() {
         {/* Floating particles animation */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-accent/40 rounded-full animate-pulse" />
-          <div className="absolute top-1/3 right-1/3 w-3 h-3 bg-accent/30 rounded-full animate-pulse delay-300" />
-          <div className="absolute bottom-1/3 left-1/3 w-2 h-2 bg-accent/50 rounded-full animate-pulse delay-500" />
+          <div className="absolute top-1/3 right-1/3 w-3 h-3 bg-accent/30 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
+          <div className="absolute bottom-1/3 left-1/3 w-2 h-2 bg-accent/50 rounded-full animate-pulse" style={{ animationDelay: '500ms' }} />
         </div>
 
         <div className="container relative z-10">
@@ -223,36 +595,6 @@ export default function WarmyEmailDeliverability() {
                 placement</strong> with AI-powered warm-up and monitoring.
               </p>
 
-              {/* Animated score indicator - mobile visible */}
-              <div className="flex justify-center lg:justify-start mb-8 animate-fade-in">
-                <div className="flex items-center gap-4 px-6 py-3 rounded-2xl bg-card/80 backdrop-blur border border-accent/20 shadow-lg">
-                  <div className="relative w-16 h-16">
-                    <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                      <circle
-                        cx="50" cy="50" r="40"
-                        stroke="currentColor" strokeWidth="8" fill="none"
-                        className="text-muted/20"
-                      />
-                      <circle
-                        cx="50" cy="50" r="40"
-                        stroke="currentColor" strokeWidth="8" fill="none"
-                        strokeDasharray="251" strokeDashoffset="12"
-                        strokeLinecap="round"
-                        className="text-accent transition-all duration-1000"
-                        style={{ animation: 'score-fill 2s ease-out forwards' }}
-                      />
-                    </svg>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-lg font-bold text-accent">95%</span>
-                    </div>
-                  </div>
-                  <div className="text-left">
-                    <p className="font-semibold">Inbox Placement</p>
-                    <p className="text-sm text-muted-foreground">Average across clients</p>
-                  </div>
-                </div>
-              </div>
-
               {/* CTA buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in">
                 <CTAButton to="/pricing#warmy" defaultText="Get Warmy — $49/mo" hoverText="Boost Deliverability!" />
@@ -265,28 +607,9 @@ export default function WarmyEmailDeliverability() {
               </div>
             </div>
 
-            {/* Hero dashboard image - order 1 on mobile for impact */}
+            {/* Hero visualization - animated gauge */}
             <div className="order-1 lg:order-2 animate-fade-in">
-              <div className="relative">
-                {/* Glow effect */}
-                <div className="absolute -inset-4 bg-gradient-to-r from-accent/20 to-accent/10 rounded-3xl blur-2xl opacity-60" />
-                
-                {/* Dashboard image with device frame */}
-                <div className="relative rounded-2xl overflow-hidden border border-accent/20 shadow-2xl bg-card">
-                  <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-black/20 to-transparent z-10" />
-                  <img 
-                    src={warmyDashboardHero} 
-                    alt="Warmy Email Deliverability Dashboard showing 98% deliverability score"
-                    className="w-full h-auto"
-                    loading="eager"
-                  />
-                  
-                  {/* Floating badge */}
-                  <div className="absolute bottom-4 right-4 px-3 py-1.5 bg-accent/90 backdrop-blur rounded-full text-accent-foreground text-sm font-medium shadow-lg animate-pulse">
-                    Live Dashboard
-                  </div>
-                </div>
-              </div>
+              <DeliverabilityGauge score={98} />
             </div>
           </div>
         </div>
@@ -352,7 +675,7 @@ export default function WarmyEmailDeliverability() {
         </div>
       </section>
 
-      {/* Core Features - Visual showcase with images */}
+      {/* Core Features - Visual showcase with CSS components */}
       <section className="py-16 md:py-24">
         <div className="container">
           <div className="text-center mb-12 md:mb-16">
@@ -376,19 +699,9 @@ export default function WarmyEmailDeliverability() {
                   index % 2 === 1 ? 'lg:flex-row-reverse' : ''
                 }`}
               >
-                {/* Image */}
+                {/* Visualization */}
                 <div className={`${index % 2 === 1 ? 'lg:order-2' : ''}`}>
-                  <div className="relative group">
-                    <div className="absolute -inset-2 bg-gradient-to-r from-accent/10 to-transparent rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative rounded-xl overflow-hidden border border-border/50 shadow-xl bg-card">
-                      <img 
-                        src={feature.image} 
-                        alt={`${feature.title} dashboard view`}
-                        className="w-full h-auto transform group-hover:scale-105 transition-transform duration-500"
-                        loading="lazy"
-                      />
-                    </div>
-                  </div>
+                  <feature.Visual />
                 </div>
 
                 {/* Content */}
