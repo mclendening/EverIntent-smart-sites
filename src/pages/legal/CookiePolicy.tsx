@@ -315,6 +315,8 @@ export default function CookiePolicy() {
                 </p>
                 <div className="bg-card rounded-lg p-4 border border-border space-y-2">
                   <p className="text-foreground font-semibold">EverIntent LLC</p>
+                  <p className="text-muted-foreground">2892 N Bellflower Blvd, PMB 1018</p>
+                  <p className="text-muted-foreground">Long Beach, CA 90815</p>
                   <p className="text-muted-foreground">
                     Email: <a href="mailto:privacy@everintent.com" className="text-accent hover:underline">privacy@everintent.com</a>
                   </p>
