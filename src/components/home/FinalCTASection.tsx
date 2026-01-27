@@ -1,72 +1,68 @@
 /**
- * @fileoverview Homepage final call-to-action section.
+ * @fileoverview Final CTA section - Luxury minimal design
  * @module components/home/FinalCTASection
  */
 
-import { ArrowRight, Phone, Calendar } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { CTAButton } from '@/components/CTAButton';
 
 /**
- * Full-width CTA section at bottom of homepage.
- * Features gradient background, headline, dual CTAs, and trust signals.
- * 
- * @component
- * @example
- * <FinalCTASection />
+ * Full-width CTA with luxury dark styling
  */
 export function FinalCTASection() {
   return (
-    <section className="relative py-20 md:py-32 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-hero" />
-      <div className="absolute inset-0 bg-mesh opacity-40" />
-      <div className="absolute inset-0 bg-noise" />
+    <section className="relative py-24 md:py-40 bg-background overflow-hidden">
+      {/* Subtle gold glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-accent/5 rounded-full blur-3xl" />
       
-      {/* Accent orbs */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
-      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
-      
-      <div className="relative container mx-auto px-4">
+      <div className="relative container mx-auto px-6">
         <div className="max-w-3xl mx-auto text-center">
           {/* Headline */}
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
-            <span className="text-foreground">Ready to grow</span>
+          <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl text-foreground mb-6">
+            Ready to grow
             <br />
-            <span className="text-gradient">your business?</span>
+            <span className="italic text-accent">your business?</span>
           </h2>
           
           {/* Subhead */}
-          <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-xl mx-auto">
-            Get a professional website that works as hard as you do. Starting at just $249.
+          <p className="text-muted-foreground text-lg md:text-xl mb-12 max-w-xl mx-auto">
+            Professional websites from $249. AI receptionist from $149/mo. No contracts.
           </p>
           
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-            <CTAButton 
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-12">
+            <Link 
               to="/pricing" 
-              defaultText="Get Started Today"
-              hoverText="View Plans"
-              className="w-full sm:w-auto"
-            />
+              className="group inline-flex items-center gap-3 px-8 py-4 bg-accent text-accent-foreground font-medium transition-all duration-300 hover:bg-accent-hover hover:shadow-glow"
+            >
+              <span>Get Started Today</span>
+              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+            
             <Link 
               to="/contact" 
-              className="group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-border/50 text-foreground hover:border-primary/50 hover:text-primary transition-all duration-300 w-full sm:w-auto"
+              className="group inline-flex items-center gap-3 px-8 py-4 border border-border/50 text-foreground font-medium transition-all duration-300 hover:border-accent/50"
             >
-              <Calendar className="w-4 h-4" />
               <span>Book a Free Call</span>
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>
           
-          {/* Trust signal */}
-          <p className="text-sm text-muted-foreground">
-            <span className="text-accent">✓</span> No contracts required
-            <span className="mx-2">•</span>
-            <span className="text-accent">✓</span> 5-day delivery
-            <span className="mx-2">•</span>
-            <span className="text-accent">✓</span> You own everything
-          </p>
+          {/* Trust signals */}
+          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
+            <span className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+              No contracts
+            </span>
+            <span className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+              5-day delivery
+            </span>
+            <span className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+              You own everything
+            </span>
+          </div>
         </div>
       </div>
     </section>
