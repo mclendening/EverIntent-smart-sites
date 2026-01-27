@@ -29,11 +29,11 @@ export function HeroSection() {
         <div className="max-w-4xl mx-auto text-center">
           
           {/* Headline - Single powerful statement */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-semibold leading-[1.1] mb-6 md:mb-8 animate-fade-in">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6 md:mb-8 animate-fade-in tracking-tight">
             <span className="text-foreground">Never miss</span>
             <br />
             <span className="text-foreground">another </span>
-            <span className="text-gradient italic">lead.</span>
+            <span className="text-gradient">lead.</span>
           </h1>
           
           {/* Subheadline - Clear value prop */}

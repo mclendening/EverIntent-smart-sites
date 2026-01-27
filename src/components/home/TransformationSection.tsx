@@ -47,7 +47,7 @@ export function TransformationSection() {
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-14 md:mb-16">
-          <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
             Real results
           </h2>
           <p className="text-muted-foreground text-lg">
@@ -63,7 +63,7 @@ export function TransformationSection() {
               className="text-center"
             >
               <result.icon className="w-6 h-6 text-accent mx-auto mb-4" strokeWidth={1.5} />
-              <div className="text-4xl md:text-5xl font-serif font-semibold text-foreground mb-2">
+              <div className="text-4xl md:text-5xl font-bold text-foreground mb-2">
                 {result.metric}
               </div>
               <div className="text-sm text-muted-foreground uppercase tracking-wide">

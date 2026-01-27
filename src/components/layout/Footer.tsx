@@ -144,7 +144,7 @@ export function Footer() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Brand */}
             <div className="flex items-center gap-4">
-              <Link to="/" className="text-xl font-serif font-semibold text-foreground">
+              <Link to="/" className="text-xl font-bold text-foreground">
                 Ever<span className="text-gradient">Intent</span>
               </Link>
               <span className="text-sm text-muted-foreground">

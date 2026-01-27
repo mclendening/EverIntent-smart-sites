@@ -120,10 +120,10 @@
     line-height: 1.6;
   }
 
-  /* Luxury Serif Headlines */
+  /* Clean Sans-Serif Headlines */
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    @apply font-semibold tracking-tight;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    @apply font-bold tracking-tight;
   }
 
   h1 {
@@ -162,9 +162,9 @@
     background-clip: text;
   }
 
-  /* Serif heading utility */
+  /* Font utility - all sans-serif now */
   .font-serif {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
   .glow {
