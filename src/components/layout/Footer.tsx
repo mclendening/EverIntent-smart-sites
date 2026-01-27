@@ -166,24 +166,20 @@ export function Footer() {
 
         {/* Brand section */}
         <div className="border-t border-border/20 pt-10 pb-8">
-          {/* Mobile: centered, Desktop: horizontal split */}
-          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+          {/* Mobile: all centered | Desktop: brand left, CTA+social right */}
+          <div className="flex flex-col items-center md:flex-row md:items-start md:justify-between gap-6">
             {/* Left side - Brand */}
             <div className="flex flex-col items-center md:items-start text-center md:text-left">
-              {/* Logo */}
               <Link to="/" className="text-2xl font-bold text-foreground mb-3">
                 <span className="text-accent">✦</span> Ever<span className="text-gradient">Intent</span>
               </Link>
-              
-              {/* Tagline */}
               <p className="text-sm text-muted-foreground max-w-xs">
                 AI-powered business solutions. Never miss a call. Never lose a lead. <span className="text-accent font-medium">Starting at $149/mo.</span>
               </p>
             </div>
             
-            {/* Right side - CTA + Social */}
+            {/* Right side - CTA + Social (desktop only on right) */}
             <div className="flex flex-col items-center md:items-end gap-4">
-              {/* CTA + Social row */}
               <div className="flex items-center gap-4">
                 <Button asChild>
                   <Link to="/contact">
@@ -191,8 +187,6 @@ export function Footer() {
                     Book a Call
                   </Link>
                 </Button>
-                
-                {/* Social Icons */}
                 <div className="flex items-center gap-2">
                   {socialLinks.map((social) => (
                     <a
@@ -211,7 +205,7 @@ export function Footer() {
             </div>
           </div>
           
-          {/* Contact Info - Centered on both */}
+          {/* Contact Info - Always centered */}
           <div className="flex flex-col items-center gap-2 text-sm mt-6">
             <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
               <a href="mailto:info@everintent.com" className="text-accent hover:underline flex items-center gap-1">
@@ -224,23 +218,18 @@ export function Footer() {
                 (562) 685-9500
               </a>
             </div>
-            
-            {/* Address */}
             <p className="text-xs text-muted-foreground">
               2892 N Bellflower Blvd, PMB 1018, Long Beach, CA 90815
             </p>
           </div>
         </div>
 
-        {/* Bottom section */}
-        <div className="border-t border-border/20 pt-6 pb-24 md:pb-0">
-          <div className="flex flex-col items-center gap-4">
-            {/* Copyright */}
+        {/* Bottom section - Mobile: centered | Desktop: copyright left, legal right */}
+        <div className="border-t border-border/20 pt-6 pb-24 md:pb-6">
+          <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
             <p className="text-xs text-muted-foreground">
               © {currentYear} EverIntent LLC. All rights reserved.
             </p>
-            
-            {/* Legal links */}
             <div className="flex flex-wrap justify-center gap-4">
               {legalLinks.map((link) => (
                 <Link
