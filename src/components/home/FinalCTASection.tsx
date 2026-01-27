@@ -1,71 +1,54 @@
 /**
- * @fileoverview Homepage final call-to-action section.
+ * @fileoverview Final CTA - Clean and powerful
  * @module components/home/FinalCTASection
  */
 
-import { ArrowRight, Phone, Calendar } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { CTAButton } from '@/components/CTAButton';
+import { Button } from '@/components/ui/button';
 
 /**
- * Full-width CTA section at bottom of homepage.
- * Features gradient background, headline, dual CTAs, and trust signals.
- * 
- * @component
- * @example
- * <FinalCTASection />
+ * Minimal CTA section with strong headline and dual buttons.
  */
 export function FinalCTASection() {
   return (
-    <section className="relative py-20 md:py-32 overflow-hidden">
+    <section className="relative py-32 md:py-40 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-hero" />
-      <div className="absolute inset-0 bg-mesh opacity-40" />
-      <div className="absolute inset-0 bg-noise" />
+      <div className="absolute inset-0 bg-background" />
       
-      {/* Accent orbs */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
-      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
+      {/* Subtle accent glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-accent/5 rounded-full blur-[100px]" />
       
-      <div className="relative container mx-auto px-4">
-        <div className="max-w-3xl mx-auto text-center">
+      <div className="relative container mx-auto px-6">
+        <div className="max-w-2xl mx-auto text-center">
           {/* Headline */}
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
-            <span className="text-foreground">Ready to grow</span>
-            <br />
-            <span className="text-gradient">your business?</span>
+          <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl text-foreground mb-6">
+            Ready to grow <span className="italic text-gradient">your business?</span>
           </h2>
           
           {/* Subhead */}
-          <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-xl mx-auto">
-            Get a professional website that works as hard as you do. Starting at just $249.
+          <p className="text-muted-foreground text-lg md:text-xl mb-12">
+            Get started with a professional website or AI employee. Starting at $249.
           </p>
           
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-            <CTAButton 
-              to="/pricing" 
-              defaultText="Get Started Today"
-              hoverText="View Plans"
-              className="w-full sm:w-auto"
-            />
-            <Link 
-              to="/contact" 
-              className="group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-border/50 text-foreground hover:border-primary/50 hover:text-primary transition-all duration-300 w-full sm:w-auto"
-            >
-              <Calendar className="w-4 h-4" />
-              <span>Book a Free Call</span>
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+            <Button asChild className="bg-accent hover:bg-accent-hover text-accent-foreground px-8 py-6 text-base font-medium transition-all duration-400 hover:shadow-glow">
+              <Link to="/pricing">
+                Get Started
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
+            </Button>
+            <Button asChild variant="outline" className="border-border/50 hover:border-accent/50 text-foreground hover:text-accent px-8 py-6 text-base transition-all duration-400">
+              <Link to="/contact">
+                Book a Free Call
+              </Link>
+            </Button>
           </div>
           
-          {/* Trust signal */}
-          <p className="text-sm text-muted-foreground">
-            <span className="text-accent">✓</span> No contracts required
-            <span className="mx-2">•</span>
-            <span className="text-accent">✓</span> 5-day delivery
-            <span className="mx-2">•</span>
-            <span className="text-accent">✓</span> You own everything
+          {/* Trust */}
+          <p className="text-sm text-muted-foreground/60">
+            No contracts required · 5-day delivery · You own everything
           </p>
         </div>
       </div>
