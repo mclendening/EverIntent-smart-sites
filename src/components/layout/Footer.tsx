@@ -43,6 +43,7 @@ const legalLinks = [
   { title: 'Privacy', path: '/legal/privacy' },
   { title: 'Terms', path: '/legal/terms' },
   { title: 'Cookies', path: '/legal/cookies' },
+  { title: 'Do Not Sell My Info', path: '/legal/data-request' },
 ];
 
 /**
@@ -149,35 +150,35 @@ export function Footer() {
         </div>
 
         {/* Bottom section */}
-        <div className="pt-8 border-t border-border/20 pb-20 md:pb-0">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            {/* Brand */}
-            <div className="flex items-center gap-4">
-              <Link to="/" className="text-xl font-bold text-foreground">
-                Ever<span className="text-gradient">Intent</span>
-              </Link>
-              <span className="text-sm text-muted-foreground">
-                © {currentYear}
-              </span>
+        <div className="pt-8 border-t border-border/20 pb-24 md:pb-0">
+          <div className="flex flex-col gap-6">
+            {/* Legal links row */}
+            <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+              {legalLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className="text-xs text-muted-foreground hover:text-accent transition-colors"
+                >
+                  {link.title}
+                </Link>
+              ))}
             </div>
 
-            {/* Legal + Social */}
-            <div className="flex items-center gap-6">
-              {/* Legal links */}
-              <div className="flex items-center gap-4">
-                {legalLinks.map((link) => (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    className="text-xs text-muted-foreground hover:text-accent transition-colors"
-                  >
-                    {link.title}
-                  </Link>
-                ))}
+            {/* Brand + Social row */}
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              {/* Brand */}
+              <div className="flex items-center gap-3">
+                <Link to="/" className="text-xl font-bold text-foreground">
+                  Ever<span className="text-gradient">Intent</span>
+                </Link>
+                <span className="text-sm text-muted-foreground">
+                  © {currentYear}
+                </span>
               </div>
 
               {/* Social icons */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 {socialLinks.map((social) => (
                   <a
                     key={social.label}
