@@ -1,13 +1,13 @@
 /**
- * @fileoverview Site Footer - Simplified Navigation
+ * @fileoverview Site Footer - Mobile-First Design
  * @module components/layout/Footer
  * 
- * Clean 4-column layout with logical groupings.
- * Services, Resources, Company structure.
+ * Clean multi-section layout matching the original design.
  */
 
 import { Link } from 'react-router-dom';
-import { Linkedin, Twitter, Facebook } from 'lucide-react';
+import { Linkedin, Twitter, Facebook, Phone, Mail } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 /**
  * Services column links
@@ -18,13 +18,26 @@ const servicesLinks = [
   { title: 'Smart Lead', path: '/pricing#smart-lead' },
   { title: 'Smart Business', path: '/pricing#smart-business' },
   { title: 'Smart Growth', path: '/pricing#smart-growth' },
+  { title: 'Web Chat Only', path: '/pricing#web-chat' },
+  { title: 'Warmy Email Deliverability', path: '/warmy' },
+];
+
+/**
+ * AI Modes column links
+ */
+const aiModesLinks = [
+  { title: 'After Hours', path: '/let-ai-handle-it#after-hours' },
+  { title: 'Booking Agent', path: '/let-ai-handle-it#booking' },
+  { title: 'Missed Call Recovery', path: '/let-ai-handle-it#missed-call' },
+  { title: 'Front Line Screening', path: '/let-ai-handle-it#screening' },
+  { title: 'Full Takeover', path: '/let-ai-handle-it#full-takeover' },
 ];
 
 /**
  * Resources column links
  */
 const resourcesLinks = [
-  { title: 'Pricing', path: '/pricing' },
+  { title: 'FAQ', path: '/pricing#faq' },
   { title: 'Industries', path: '/industries' },
 ];
 
@@ -34,6 +47,8 @@ const resourcesLinks = [
 const companyLinks = [
   { title: 'About', path: '/about' },
   { title: 'Contact', path: '/contact' },
+  { title: 'Careers', path: '/careers' },
+  { title: 'Legal', path: '/legal/privacy' },
 ];
 
 /**
@@ -41,9 +56,9 @@ const companyLinks = [
  */
 const legalLinks = [
   { title: 'Privacy', path: '/legal/privacy' },
-  { title: 'Terms', path: '/legal/terms' },
   { title: 'Cookies', path: '/legal/cookies' },
-  { title: 'Do Not Sell My Info', path: '/legal/data-request' },
+  { title: 'Terms', path: '/legal/terms' },
+  { title: 'Data Rights', path: '/legal/data-request' },
 ];
 
 /**
@@ -56,7 +71,7 @@ const socialLinks = [
 ];
 
 /**
- * Site footer with simplified navigation.
+ * Site footer with original mobile-first design.
  * 
  * @component
  */
@@ -65,17 +80,37 @@ export function Footer() {
 
   return (
     <footer className="relative bg-card border-t border-border/20">
-      <div className="container py-16 md:py-20">
-        {/* Main footer grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-16">
+      <div className="container py-12 md:py-16">
+        {/* Main footer grid - 2 columns on mobile, 4 on desktop */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
           {/* Services */}
           <div>
-            <h3 className="text-sm font-medium text-foreground uppercase tracking-wider mb-1">
+            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">
               Services
             </h3>
-            <div className="w-12 h-[2px] bg-gradient-to-r from-accent to-accent/20 mb-5" />
-            <ul className="space-y-3">
+            <div className="w-8 h-[2px] bg-gradient-to-r from-accent to-accent/20 mb-4" />
+            <ul className="space-y-2">
               {servicesLinks.map((link) => (
+                <li key={link.path}>
+                  <Link
+                    to={link.path}
+                    className="text-sm text-muted-foreground hover:text-accent transition-colors duration-300"
+                  >
+                    {link.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* AI Modes */}
+          <div>
+            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">
+              AI Modes
+            </h3>
+            <div className="w-8 h-[2px] bg-gradient-to-r from-accent to-accent/20 mb-4" />
+            <ul className="space-y-2">
+              {aiModesLinks.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
@@ -90,11 +125,11 @@ export function Footer() {
 
           {/* Resources */}
           <div>
-            <h3 className="text-sm font-medium text-foreground uppercase tracking-wider mb-1">
+            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">
               Resources
             </h3>
-            <div className="w-12 h-[2px] bg-gradient-to-r from-accent to-accent/20 mb-5" />
-            <ul className="space-y-3">
+            <div className="w-8 h-[2px] bg-gradient-to-r from-accent to-accent/20 mb-4" />
+            <ul className="space-y-2">
               {resourcesLinks.map((link) => (
                 <li key={link.path}>
                   <Link
@@ -110,11 +145,11 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="text-sm font-medium text-foreground uppercase tracking-wider mb-1">
+            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">
               Company
             </h3>
-            <div className="w-12 h-[2px] bg-gradient-to-r from-accent to-accent/20 mb-5" />
-            <ul className="space-y-3">
+            <div className="w-8 h-[2px] bg-gradient-to-r from-accent to-accent/20 mb-4" />
+            <ul className="space-y-2">
               {companyLinks.map((link) => (
                 <li key={link.path}>
                   <Link
@@ -127,71 +162,84 @@ export function Footer() {
               ))}
             </ul>
           </div>
+        </div>
 
-          {/* Contact Info */}
-          <div>
-            <h3 className="text-sm font-medium text-foreground uppercase tracking-wider mb-1">
-              Contact
-            </h3>
-            <div className="w-12 h-[2px] bg-gradient-to-r from-accent to-accent/20 mb-5" />
-            <div className="space-y-2 text-sm text-muted-foreground">
-              <p className="text-foreground font-medium">EverIntent LLC</p>
-              <p>2892 N Bellflower Blvd</p>
-              <p>PMB 1018</p>
-              <p>Long Beach, CA 90815</p>
-              <a href="mailto:info@everintent.com" className="block hover:text-accent transition-colors mt-3">
+        {/* Brand section */}
+        <div className="border-t border-border/20 pt-10 pb-8">
+          <div className="flex flex-col items-center text-center">
+            {/* Logo */}
+            <Link to="/" className="text-2xl font-bold text-foreground mb-3">
+              <span className="text-accent">✦</span> Ever<span className="text-gradient">Intent</span>
+            </Link>
+            
+            {/* Tagline */}
+            <p className="text-sm text-muted-foreground max-w-xs mb-4">
+              AI-powered business solutions. Never miss a call. Never lose a lead. <span className="text-accent font-medium">Starting at $149/mo.</span>
+            </p>
+            
+            {/* CTA Button */}
+            <Button asChild className="mb-6">
+              <Link to="/contact">
+                <Phone className="w-4 h-4 mr-2" />
+                Book a Call
+              </Link>
+            </Button>
+            
+            {/* Social Icons */}
+            <div className="flex items-center gap-4 mb-6">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 text-muted-foreground hover:text-accent transition-colors"
+                  aria-label={social.label}
+                >
+                  <social.icon className="w-5 h-5" />
+                </a>
+              ))}
+            </div>
+            
+            {/* Contact Info */}
+            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-sm mb-4">
+              <a href="mailto:info@everintent.com" className="text-accent hover:underline flex items-center gap-1">
+                <Mail className="w-3 h-3" />
                 info@everintent.com
               </a>
-              <a href="tel:+15626859500" className="block hover:text-accent transition-colors">
+              <span className="hidden sm:inline text-muted-foreground">•</span>
+              <a href="tel:+15626859500" className="text-accent hover:underline flex items-center gap-1">
+                <Phone className="w-3 h-3" />
                 (562) 685-9500
               </a>
             </div>
+            
+            {/* Address */}
+            <p className="text-xs text-muted-foreground mb-6">
+              2892 N Bellflower Blvd, PMB 1018, Long Beach, CA 90815
+            </p>
           </div>
         </div>
 
         {/* Bottom section */}
-        <div className="pt-8 border-t border-border/20 pb-20 md:pb-0">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            {/* Brand */}
-            <div className="flex items-center gap-4">
-              <Link to="/" className="text-xl font-bold text-foreground">
-                Ever<span className="text-gradient">Intent</span>
-              </Link>
-              <span className="text-sm text-muted-foreground">
-                © {currentYear}
-              </span>
-            </div>
-
-            {/* Legal + Social */}
-            <div className="flex items-center gap-6">
-              {/* Legal links */}
-              <div className="flex items-center gap-4">
-                {legalLinks.map((link) => (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    className="text-xs text-muted-foreground hover:text-accent transition-colors"
-                  >
-                    {link.title}
-                  </Link>
-                ))}
-              </div>
-
-              {/* Social icons */}
-              <div className="flex items-center gap-2">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 text-muted-foreground hover:text-accent transition-colors"
-                    aria-label={social.label}
-                  >
-                    <social.icon className="w-4 h-4" />
-                  </a>
-                ))}
-              </div>
+        <div className="border-t border-border/20 pt-6 pb-24 md:pb-0">
+          <div className="flex flex-col items-center gap-4">
+            {/* Copyright */}
+            <p className="text-xs text-muted-foreground">
+              © {currentYear} EverIntent LLC. All rights reserved.
+            </p>
+            
+            {/* Legal links */}
+            <div className="flex flex-wrap justify-center gap-4">
+              {legalLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className="text-xs text-muted-foreground hover:text-accent transition-colors"
+                >
+                  {link.title}
+                </Link>
+              ))}
             </div>
           </div>
         </div>
