@@ -42,6 +42,7 @@ const companyLinks = [
 const legalLinks = [
   { title: 'Privacy', path: '/legal/privacy' },
   { title: 'Terms', path: '/legal/terms' },
+  { title: 'Cookies', path: '/legal/cookies' },
 ];
 
 /**
@@ -132,8 +133,12 @@ export function Footer() {
               Contact
             </h3>
             <div className="w-12 h-[2px] bg-gradient-to-r from-accent to-accent/20 mb-5" />
-            <div className="space-y-3 text-sm text-muted-foreground">
-              <a href="mailto:info@everintent.com" className="block hover:text-accent transition-colors">
+            <div className="space-y-2 text-sm text-muted-foreground">
+              <p className="text-foreground font-medium">EverIntent LLC</p>
+              <p>2892 N Bellflower Blvd</p>
+              <p>PMB 1018</p>
+              <p>Long Beach, CA 90815</p>
+              <a href="mailto:info@everintent.com" className="block hover:text-accent transition-colors mt-3">
                 info@everintent.com
               </a>
               <a href="tel:+15626859500" className="block hover:text-accent transition-colors">
