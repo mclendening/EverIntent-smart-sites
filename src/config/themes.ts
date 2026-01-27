@@ -103,43 +103,43 @@ export interface RouteThemeMapping {
 }
 
 // ============================================
-// ACTIVE PRODUCTION THEME (Indigo Night)
+// ACTIVE PRODUCTION THEME (Luxury Gold)
 // ============================================
 export const activeTheme: ThemeConfig = {
-  id: 'indigo-night',
-  name: 'Indigo Night',
-  baseHue: 32,
+  id: 'luxury-gold',
+  name: 'Luxury Gold',
+  baseHue: 38,
   accentConfig: {
-    accent: '240 70% 60%',
-    accentHover: '32 95% 44%',
-    accentGlow: '240 70% 60%',
-    accentForeground: '222 47% 11%',
-    h: 240,
-    s: 70,
-    l: 60,
+    accent: '38 92% 50%',
+    accentHover: '38 95% 45%',
+    accentGlow: '38 95% 60%',
+    accentForeground: '0 0% 5%',
+    h: 38,
+    s: 92,
+    l: 50,
   },
   staticColors: {
-    background: '222 47% 7%',
-    foreground: '60 9% 98%',
-    card: '222 47% 10%',
-    cardForeground: '60 9% 98%',
-    popover: '222 47% 10%',
-    popoverForeground: '60 9% 98%',
-    primary: '215 25% 27%',
-    primaryLight: '215 20% 40%',
-    primaryForeground: '0 0% 100%',
-    secondary: '222 47% 12%',
-    secondaryForeground: '60 9% 98%',
-    muted: '222 47% 15%',
-    mutedForeground: '215 16% 65%',
-    border: '215 25% 20%',
-    input: '215 25% 20%',
-    ring: '247 92% 50%',
+    background: '0 0% 5%',
+    foreground: '40 10% 91%',
+    card: '0 0% 8%',
+    cardForeground: '40 10% 91%',
+    popover: '0 0% 8%',
+    popoverForeground: '40 10% 91%',
+    primary: '0 0% 12%',
+    primaryLight: '0 0% 18%',
+    primaryForeground: '40 10% 91%',
+    secondary: '0 0% 10%',
+    secondaryForeground: '40 10% 91%',
+    muted: '0 0% 14%',
+    mutedForeground: '220 10% 55%',
+    border: '0 0% 16%',
+    input: '0 0% 16%',
+    ring: '38 92% 50%',
   },
   gradientConfigs: {
-    hero: 'linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(240 30% 18%) 50%, hsl(222 47% 11%) 100%)',
-    cta: 'linear-gradient(135deg, hsl(240 70% 60%) 0%, hsl(250 70% 50%) 100%)',
-    text: 'linear-gradient(135deg, hsl(240 70% 60%) 0%, hsl(250 70% 70%) 50%, hsl(240 70% 60%) 100%)',
+    hero: 'linear-gradient(180deg, hsl(0 0% 5%) 0%, hsl(0 0% 7%) 50%, hsl(0 0% 5%) 100%)',
+    cta: 'linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(38 95% 45%) 100%)',
+    text: 'linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(42 95% 60%) 50%, hsl(38 92% 50%) 100%)',
   },
   logoVersionId: 'f427aa31-0016-408e-98d4-86a7573b1b15',
   logoConfig: {
@@ -206,7 +206,7 @@ export const routeThemeMappings: RouteThemeMapping[] = [
 // ALL PUBLISHED THEMES
 // ============================================
 export const publishedThemes: Record<string, ThemeConfig> = {
-  'indigo-night': activeTheme,
+  'luxury-gold': activeTheme,
 };
 
 // ============================================
