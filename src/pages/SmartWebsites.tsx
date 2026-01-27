@@ -309,15 +309,15 @@ const SmartWebsites = () => {
             {tiers.map((tier, index) => {
               const tierId = tier.name.toLowerCase().replace(' ', '-');
               return (
-              <Card key={index} id={tierId} className={`${tier.highlight ? 'border-2 border-primary shadow-xl' : ''}`}>
+              <Card key={index} id={tierId} className={`border ${tier.highlight ? 'border-accent/60 shadow-[0_0_30px_hsl(42_60%_50%/0.15)]' : 'border-border/50 hover:border-accent/30'} transition-all duration-300`}>
                 <CardHeader className="text-center pb-4">
                   {tier.highlight && (
-                    <Badge variant="default" className="mb-2 mx-auto">Most Popular</Badge>
+                    <Badge className="mb-2 mx-auto bg-accent text-accent-foreground">Most Popular</Badge>
                   )}
                   <CardTitle className="text-2xl">{tier.name}</CardTitle>
                   <CardDescription>{tier.tagline}</CardDescription>
                   <div className="mt-4">
-                    <span className="text-4xl font-bold text-foreground">{tier.price}</span>
+                    <span className="text-4xl font-bold text-accent">{tier.price}</span>
                     <span className="text-muted-foreground ml-1">{tier.priceNote}</span>
                   </div>
                   <p className="text-sm text-muted-foreground mt-1">
@@ -329,7 +329,7 @@ const SmartWebsites = () => {
                     {tier.features.slice(0, 12).map((feature, fIndex) => (
                       <div key={fIndex} className="flex items-center gap-2">
                         {feature.included ? (
-                          <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                          <CheckCircle className="h-4 w-4 text-accent flex-shrink-0" />
                         ) : (
                           <div className="h-4 w-4 flex-shrink-0" />
                         )}
@@ -339,7 +339,7 @@ const SmartWebsites = () => {
                       </div>
                     ))}
                   </div>
-                  <Button asChild className="w-full" variant={tier.highlight ? "default" : "outline"}>
+                  <Button asChild className="w-full" variant={tier.highlight ? "gold" : "outline"}>
                     <Link to="/pricing">{tier.cta}</Link>
                   </Button>
                 </CardContent>
@@ -355,12 +355,12 @@ const SmartWebsites = () => {
                 <TableRow>
                   <TableHead className="w-48">Feature</TableHead>
                   {tiers.map((tier, index) => (
-                    <TableHead key={index} className={`text-center ${tier.highlight ? 'bg-primary/5' : ''}`}>
+                    <TableHead key={index} className={`text-center ${tier.highlight ? 'bg-accent/5' : ''}`}>
                       <div className="space-y-1">
-                        {tier.highlight && <Badge variant="default" className="mb-1">Popular</Badge>}
+                        {tier.highlight && <Badge className="mb-1 bg-accent text-accent-foreground">Popular</Badge>}
                         <div className="font-bold text-lg text-foreground">{tier.name}</div>
                         <div className="text-sm text-muted-foreground">{tier.tagline}</div>
-                        <div className="text-2xl font-bold text-foreground">{tier.price}<span className="text-sm font-normal">{tier.priceNote}</span></div>
+                        <div className="text-2xl font-bold text-accent">{tier.price}<span className="text-sm font-normal text-muted-foreground">{tier.priceNote}</span></div>
                         <div className="text-xs text-muted-foreground">{tier.setup} setup</div>
                       </div>
                     </TableHead>
@@ -372,9 +372,9 @@ const SmartWebsites = () => {
                   <TableRow key={fIndex}>
                     <TableCell className="font-medium">{feature}</TableCell>
                     {tiers.map((tier, tIndex) => (
-                      <TableCell key={tIndex} className={`text-center ${tier.highlight ? 'bg-primary/5' : ''}`}>
+                      <TableCell key={tIndex} className={`text-center ${tier.highlight ? 'bg-accent/5' : ''}`}>
                         {getFeatureValue(tIndex, fIndex) ? (
-                          <CheckCircle className="h-5 w-5 text-primary mx-auto" />
+                          <CheckCircle className="h-5 w-5 text-accent mx-auto" />
                         ) : (
                           <span className="text-muted-foreground/30">—</span>
                         )}
@@ -385,15 +385,15 @@ const SmartWebsites = () => {
                 <TableRow>
                   <TableCell className="font-medium">Hosting after Y1</TableCell>
                   <TableCell className="text-center text-sm text-muted-foreground">$149/yr</TableCell>
-                  <TableCell className="text-center bg-primary/5 text-sm text-muted-foreground">Included</TableCell>
+                  <TableCell className="text-center bg-accent/5 text-sm text-muted-foreground">Included</TableCell>
                   <TableCell className="text-center text-sm text-muted-foreground">Included</TableCell>
                   <TableCell className="text-center text-sm text-muted-foreground">Included</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell></TableCell>
                   {tiers.map((tier, index) => (
-                    <TableCell key={index} className={`text-center ${tier.highlight ? 'bg-primary/5' : ''}`}>
-                      <Button asChild variant={tier.highlight ? "default" : "outline"} size="sm">
+                    <TableCell key={index} className={`text-center ${tier.highlight ? 'bg-accent/5' : ''}`}>
+                      <Button asChild variant={tier.highlight ? "gold" : "outline"} size="sm">
                         <Link to="/pricing">{tier.cta}</Link>
                       </Button>
                     </TableCell>
