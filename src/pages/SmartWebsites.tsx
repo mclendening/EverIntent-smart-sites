@@ -3,7 +3,7 @@
  * @module pages/SmartWebsites
  */
 
-import { ArrowRight, Clock, Smartphone, CheckCircle, Zap, Globe, Lock, Calendar, MessageSquare, Phone, Star, Users, TrendingUp, HelpCircle } from 'lucide-react';
+import { ArrowRight, Clock, Smartphone, CheckCircle, Zap, Globe, Lock, Calendar, MessageSquare, Phone, Star, Users, TrendingUp, HelpCircle, Check, Minus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -348,87 +348,117 @@ const SmartWebsites = () => {
             })}
           </div>
 
-          {/* Desktop: Tier Cards Grid */}
-          <div className="hidden lg:grid lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {tiers.map((tier, index) => (
-              <div 
-                key={index}
-                className={`relative rounded-2xl p-6 border transition-all duration-300 ${
-                  tier.highlight 
-                    ? 'bg-card border-accent/40 shadow-[0_0_40px_hsl(43_80%_50%/0.12)]' 
-                    : 'bg-card/60 border-border/40 hover:border-accent/20'
-                }`}
-              >
-                {/* Popular indicator - elegant gold bar + label */}
-                {tier.highlight && (
-                  <div className="absolute -top-px left-6 right-6 flex flex-col items-center">
-                    <div className="w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent rounded-b" />
-                    <span className="mt-2 px-3 py-1 text-[11px] font-semibold tracking-wider uppercase text-accent bg-accent/10 rounded-full border border-accent/20">
-                      Most Popular
-                    </span>
-                  </div>
-                )}
+          {/* Desktop: Comparison Table */}
+          <div className="hidden lg:block overflow-x-auto">
+            <div className="min-w-[800px]">
+              {/* Table Header - Tier names & pricing */}
+              <div className="grid grid-cols-5 gap-0 mb-0">
+                {/* Feature column header */}
+                <div className="p-4" />
                 
-                {/* Tier name & tagline */}
-                <div className={`text-center ${tier.highlight ? 'pt-8' : 'pt-2'}`}>
-                  <h3 className="text-xl font-bold text-foreground mb-1">{tier.name}</h3>
-                  <p className="text-sm text-muted-foreground">{tier.tagline}</p>
-                </div>
-                
-                {/* Price - clean hierarchy */}
-                <div className="text-center my-6 py-4 border-y border-border/30">
-                  <div className="flex items-baseline justify-center gap-1">
-                    <span className="text-4xl font-bold text-foreground">{tier.price}</span>
-                    <span className="text-muted-foreground text-sm">{tier.priceNote}</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    {tier.setup} setup • {tier.hostingNote}
-                  </p>
-                </div>
-                
-                {/* Features list */}
-                <ul className="space-y-3 mb-6">
-                  {featureRows.map((feature, fIndex) => {
-                    const included = getFeatureValue(index, fIndex);
-                    return (
-                      <li key={fIndex} className="flex items-center gap-2.5 text-sm">
-                        {included ? (
-                          <span className="flex items-center justify-center w-5 h-5 rounded-full bg-accent/15 text-accent shrink-0">
-                            <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none">
-                              <path d="M2.5 6L5 8.5L9.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                          </span>
-                        ) : (
-                          <span className="flex items-center justify-center w-5 h-5 rounded-full bg-muted/30 shrink-0">
-                            <span className="w-2 h-px bg-muted-foreground/30" />
-                          </span>
-                        )}
-                        <span className={included ? 'text-foreground' : 'text-muted-foreground/40'}>
-                          {feature}
+                {/* Tier headers */}
+                {tiers.map((tier, index) => (
+                  <div 
+                    key={index} 
+                    className={`relative text-center p-5 rounded-t-xl border-x border-t ${
+                      tier.highlight 
+                        ? 'border-accent/30 bg-card' 
+                        : 'border-border/20 bg-card/40'
+                    }`}
+                  >
+                    {/* Popular indicator - gold top bar */}
+                    {tier.highlight && (
+                      <div className="absolute -top-1 left-4 right-4">
+                        <div className="h-1.5 bg-accent rounded-full" />
+                        <div className="mt-3 text-[10px] font-bold tracking-[0.15em] uppercase text-accent">
+                          Most Popular
+                        </div>
+                      </div>
+                    )}
+                    
+                    <div className={tier.highlight ? 'pt-6' : ''}>
+                      <h3 className="text-lg font-bold text-foreground">{tier.name}</h3>
+                      <p className="text-xs text-muted-foreground mb-3">{tier.tagline}</p>
+                      <div className="flex items-baseline justify-center gap-0.5">
+                        <span className={`text-3xl font-bold ${tier.highlight ? 'text-accent' : 'text-foreground'}`}>
+                          {tier.price}
                         </span>
-                      </li>
-                    );
-                  })}
-                </ul>
-                
-                {/* CTA button */}
-                <Button 
-                  asChild 
-                  className={`w-full ${tier.highlight ? 'btn-gold' : ''}`}
-                  variant={tier.highlight ? "default" : "outline"}
-                >
-                  <Link to="/pricing">{tier.cta}</Link>
-                </Button>
+                        <span className="text-sm text-muted-foreground">{tier.priceNote}</span>
+                      </div>
+                      <p className="text-[11px] text-muted-foreground mt-1">{tier.setup} setup</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          
-          {/* Hosting note row */}
-          <div className="hidden lg:flex justify-center mt-8">
-            <p className="text-sm text-muted-foreground">
-              <span className="text-foreground font-medium">Smart Site:</span> $149/yr hosting after Year 1 &nbsp;•&nbsp; 
-              <span className="text-foreground font-medium">All other tiers:</span> Hosting included
-            </p>
+              
+              {/* Feature rows */}
+              {featureRows.map((feature, fIndex) => (
+                <div 
+                  key={fIndex} 
+                  className={`grid grid-cols-5 gap-0 ${fIndex % 2 === 0 ? 'bg-muted/5' : ''}`}
+                >
+                  <div className="p-3 pl-4 text-sm text-foreground font-medium flex items-center">
+                    {feature}
+                  </div>
+                  {tiers.map((tier, tIndex) => (
+                    <div 
+                      key={tIndex} 
+                      className={`p-3 flex items-center justify-center border-x ${
+                        tier.highlight ? 'border-accent/30 bg-accent/[0.02]' : 'border-border/20'
+                      }`}
+                    >
+                      {getFeatureValue(tIndex, fIndex) ? (
+                        <Check className="w-4 h-4 text-accent" strokeWidth={2.5} />
+                      ) : (
+                        <Minus className="w-3 h-3 text-muted-foreground/25" />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ))}
+              
+              {/* Hosting row */}
+              <div className="grid grid-cols-5 gap-0 bg-muted/5">
+                <div className="p-3 pl-4 text-sm text-foreground font-medium flex items-center">
+                  Hosting
+                </div>
+                <div className="p-3 flex items-center justify-center border-x border-border/20 text-xs text-muted-foreground">
+                  $149/yr after Y1
+                </div>
+                {[1, 2, 3].map((i) => (
+                  <div 
+                    key={i} 
+                    className={`p-3 flex items-center justify-center border-x ${
+                      i === 1 ? 'border-accent/30 bg-accent/[0.02]' : 'border-border/20'
+                    } text-xs text-muted-foreground`}
+                  >
+                    Included
+                  </div>
+                ))}
+              </div>
+              
+              {/* CTA row */}
+              <div className="grid grid-cols-5 gap-0">
+                <div className="p-4" />
+                {tiers.map((tier, index) => (
+                  <div 
+                    key={index} 
+                    className={`p-4 flex items-center justify-center border-x border-b rounded-b-xl ${
+                      tier.highlight ? 'border-accent/30 bg-card' : 'border-border/20 bg-card/40'
+                    }`}
+                  >
+                    <Button 
+                      asChild 
+                      size="sm"
+                      className={tier.highlight ? 'btn-gold text-xs' : 'text-xs'}
+                      variant={tier.highlight ? "default" : "outline"}
+                    >
+                      <Link to="/pricing">{tier.cta}</Link>
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
