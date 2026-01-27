@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 /**
@@ -348,59 +348,87 @@ const SmartWebsites = () => {
             })}
           </div>
 
-          {/* Desktop: Table View */}
-          <div className="hidden lg:block overflow-x-auto">
-            <Table className="w-full">
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-48">Feature</TableHead>
-                  {tiers.map((tier, index) => (
-                    <TableHead key={index} className={`text-center ${tier.highlight ? 'bg-accent/5' : ''}`}>
-                      <div className="space-y-1">
-                        {tier.highlight && <Badge className="mb-1 bg-accent text-accent-foreground">Popular</Badge>}
-                        <div className="font-bold text-lg text-foreground">{tier.name}</div>
-                        <div className="text-sm text-muted-foreground">{tier.tagline}</div>
-                        <div className="text-2xl font-bold text-accent">{tier.price}<span className="text-sm font-normal text-muted-foreground">{tier.priceNote}</span></div>
-                        <div className="text-xs text-muted-foreground">{tier.setup} setup</div>
-                      </div>
-                    </TableHead>
-                  ))}
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {featureRows.map((feature, fIndex) => (
-                  <TableRow key={fIndex}>
-                    <TableCell className="font-medium">{feature}</TableCell>
-                    {tiers.map((tier, tIndex) => (
-                      <TableCell key={tIndex} className={`text-center ${tier.highlight ? 'bg-accent/5' : ''}`}>
-                        {getFeatureValue(tIndex, fIndex) ? (
-                          <CheckCircle className="h-5 w-5 text-accent mx-auto" />
+          {/* Desktop: Tier Cards Grid */}
+          <div className="hidden lg:grid lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {tiers.map((tier, index) => (
+              <div 
+                key={index}
+                className={`relative rounded-2xl p-6 border transition-all duration-300 ${
+                  tier.highlight 
+                    ? 'bg-card border-accent/40 shadow-[0_0_40px_hsl(43_80%_50%/0.12)]' 
+                    : 'bg-card/60 border-border/40 hover:border-accent/20'
+                }`}
+              >
+                {/* Popular indicator - elegant gold bar + label */}
+                {tier.highlight && (
+                  <div className="absolute -top-px left-6 right-6 flex flex-col items-center">
+                    <div className="w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent rounded-b" />
+                    <span className="mt-2 px-3 py-1 text-[11px] font-semibold tracking-wider uppercase text-accent bg-accent/10 rounded-full border border-accent/20">
+                      Most Popular
+                    </span>
+                  </div>
+                )}
+                
+                {/* Tier name & tagline */}
+                <div className={`text-center ${tier.highlight ? 'pt-8' : 'pt-2'}`}>
+                  <h3 className="text-xl font-bold text-foreground mb-1">{tier.name}</h3>
+                  <p className="text-sm text-muted-foreground">{tier.tagline}</p>
+                </div>
+                
+                {/* Price - clean hierarchy */}
+                <div className="text-center my-6 py-4 border-y border-border/30">
+                  <div className="flex items-baseline justify-center gap-1">
+                    <span className="text-4xl font-bold text-foreground">{tier.price}</span>
+                    <span className="text-muted-foreground text-sm">{tier.priceNote}</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    {tier.setup} setup • {tier.hostingNote}
+                  </p>
+                </div>
+                
+                {/* Features list */}
+                <ul className="space-y-3 mb-6">
+                  {featureRows.map((feature, fIndex) => {
+                    const included = getFeatureValue(index, fIndex);
+                    return (
+                      <li key={fIndex} className="flex items-center gap-2.5 text-sm">
+                        {included ? (
+                          <span className="flex items-center justify-center w-5 h-5 rounded-full bg-accent/15 text-accent shrink-0">
+                            <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none">
+                              <path d="M2.5 6L5 8.5L9.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </span>
                         ) : (
-                          <span className="text-muted-foreground/30">—</span>
+                          <span className="flex items-center justify-center w-5 h-5 rounded-full bg-muted/30 shrink-0">
+                            <span className="w-2 h-px bg-muted-foreground/30" />
+                          </span>
                         )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-                <TableRow>
-                  <TableCell className="font-medium">Hosting after Y1</TableCell>
-                  <TableCell className="text-center text-sm text-muted-foreground">$149/yr</TableCell>
-                  <TableCell className="text-center bg-accent/5 text-sm text-muted-foreground">Included</TableCell>
-                  <TableCell className="text-center text-sm text-muted-foreground">Included</TableCell>
-                  <TableCell className="text-center text-sm text-muted-foreground">Included</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell></TableCell>
-                  {tiers.map((tier, index) => (
-                    <TableCell key={index} className={`text-center ${tier.highlight ? 'bg-accent/5' : ''}`}>
-                      <Button asChild variant={tier.highlight ? "gold" : "outline"} size="sm">
-                        <Link to="/pricing">{tier.cta}</Link>
-                      </Button>
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableBody>
-            </Table>
+                        <span className={included ? 'text-foreground' : 'text-muted-foreground/40'}>
+                          {feature}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+                
+                {/* CTA button */}
+                <Button 
+                  asChild 
+                  className={`w-full ${tier.highlight ? 'btn-gold' : ''}`}
+                  variant={tier.highlight ? "default" : "outline"}
+                >
+                  <Link to="/pricing">{tier.cta}</Link>
+                </Button>
+              </div>
+            ))}
+          </div>
+          
+          {/* Hosting note row */}
+          <div className="hidden lg:flex justify-center mt-8">
+            <p className="text-sm text-muted-foreground">
+              <span className="text-foreground font-medium">Smart Site:</span> $149/yr hosting after Year 1 &nbsp;•&nbsp; 
+              <span className="text-foreground font-medium">All other tiers:</span> Hosting included
+            </p>
           </div>
         </div>
       </section>
