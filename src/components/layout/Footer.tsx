@@ -166,48 +166,59 @@ export function Footer() {
 
         {/* Brand section */}
         <div className="border-t border-border/20 pt-10 pb-8">
-          <div className="flex flex-col items-center text-center">
-            {/* Logo */}
-            <Link to="/" className="text-2xl font-bold text-foreground mb-3">
-              <span className="text-accent">✦</span> Ever<span className="text-gradient">Intent</span>
-            </Link>
-            
-            {/* Tagline */}
-            <p className="text-sm text-muted-foreground max-w-xs mb-4">
-              AI-powered business solutions. Never miss a call. Never lose a lead. <span className="text-accent font-medium">Starting at $149/mo.</span>
-            </p>
-            
-            {/* CTA Button */}
-            <Button asChild className="mb-6">
-              <Link to="/contact">
-                <Phone className="w-4 h-4 mr-2" />
-                Book a Call
+          {/* Mobile: centered, Desktop: horizontal split */}
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+            {/* Left side - Brand */}
+            <div className="flex flex-col items-center md:items-start text-center md:text-left">
+              {/* Logo */}
+              <Link to="/" className="text-2xl font-bold text-foreground mb-3">
+                <span className="text-accent">✦</span> Ever<span className="text-gradient">Intent</span>
               </Link>
-            </Button>
-            
-            {/* Social Icons */}
-            <div className="flex items-center gap-4 mb-6">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 text-muted-foreground hover:text-accent transition-colors"
-                  aria-label={social.label}
-                >
-                  <social.icon className="w-5 h-5" />
-                </a>
-              ))}
+              
+              {/* Tagline */}
+              <p className="text-sm text-muted-foreground max-w-xs">
+                AI-powered business solutions. Never miss a call. Never lose a lead. <span className="text-accent font-medium">Starting at $149/mo.</span>
+              </p>
             </div>
             
-            {/* Contact Info */}
-            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-sm mb-4">
+            {/* Right side - CTA + Social */}
+            <div className="flex flex-col items-center md:items-end gap-4">
+              {/* CTA + Social row */}
+              <div className="flex items-center gap-4">
+                <Button asChild>
+                  <Link to="/contact">
+                    <Phone className="w-4 h-4 mr-2" />
+                    Book a Call
+                  </Link>
+                </Button>
+                
+                {/* Social Icons */}
+                <div className="flex items-center gap-2">
+                  {socialLinks.map((social) => (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 text-muted-foreground hover:text-accent transition-colors"
+                      aria-label={social.label}
+                    >
+                      <social.icon className="w-5 h-5" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Contact Info - Centered on both */}
+          <div className="flex flex-col items-center gap-2 text-sm mt-6">
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
               <a href="mailto:info@everintent.com" className="text-accent hover:underline flex items-center gap-1">
                 <Mail className="w-3 h-3" />
                 info@everintent.com
               </a>
-              <span className="hidden sm:inline text-muted-foreground">•</span>
+              <span className="text-muted-foreground">•</span>
               <a href="tel:+15626859500" className="text-accent hover:underline flex items-center gap-1">
                 <Phone className="w-3 h-3" />
                 (562) 685-9500
@@ -215,7 +226,7 @@ export function Footer() {
             </div>
             
             {/* Address */}
-            <p className="text-xs text-muted-foreground mb-6">
+            <p className="text-xs text-muted-foreground">
               2892 N Bellflower Blvd, PMB 1018, Long Beach, CA 90815
             </p>
           </div>
