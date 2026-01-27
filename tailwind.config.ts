@@ -14,11 +14,11 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Source Serif 4', 'Georgia', 'serif'],
-        serif: ['Source Serif 4', 'Georgia', 'serif'],
-        heading: ['Source Serif 4', 'Georgia', 'serif'],
-        display: ['Source Serif 4', 'Georgia', 'serif'],
-        body: ['Source Serif 4', 'Georgia', 'serif'],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        serif: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        heading: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        display: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        body: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
       fontSize: {
         // Display sizes - for hero headlines (serif)
