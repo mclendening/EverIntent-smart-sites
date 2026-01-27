@@ -330,16 +330,21 @@ export default function DataRightsRequest() {
 
                 {/* Alternative Contact */}
                 <div className="bg-muted/50 rounded-xl border border-border p-5">
-                  <h3 className="font-semibold text-foreground mb-2">Prefer Email?</h3>
+                  <h3 className="font-semibold text-foreground mb-2">Contact Us</h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    You can also submit requests directly to:
+                    You can also submit requests by mail or email:
                   </p>
-                  <a 
-                    href="mailto:privacy@everintent.com" 
-                    className="text-accent hover:underline font-medium text-sm"
-                  >
-                    privacy@everintent.com
-                  </a>
+                  <div className="text-sm space-y-1">
+                    <p className="text-foreground font-medium">EverIntent LLC</p>
+                    <p className="text-muted-foreground">2892 N Bellflower Blvd, PMB 1018</p>
+                    <p className="text-muted-foreground">Long Beach, CA 90815</p>
+                    <a 
+                      href="mailto:privacy@everintent.com" 
+                      className="text-accent hover:underline font-medium block mt-2"
+                    >
+                      privacy@everintent.com
+                    </a>
+                  </div>
                 </div>
               </div>
 
