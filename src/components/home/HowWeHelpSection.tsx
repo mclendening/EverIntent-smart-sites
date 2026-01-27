@@ -45,7 +45,7 @@ const HowWeHelpSection = () => {
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="max-w-2xl mx-auto text-center mb-16 md:mb-20">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-semibold text-foreground mb-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 tracking-tight">
             How we help
           </h2>
           <p className="text-lg text-muted-foreground">
@@ -65,7 +65,7 @@ const HowWeHelpSection = () => {
               <outcome.icon className="w-8 h-8 text-accent mb-6" strokeWidth={1.5} />
               
               {/* Title */}
-              <h3 className="text-xl md:text-2xl font-serif font-semibold text-foreground mb-3">
+              <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3 tracking-tight">
                 {outcome.title}
               </h3>
 

@@ -23,7 +23,7 @@ export function FinalCTASection() {
       <div className="relative container mx-auto px-6">
         <div className="max-w-3xl mx-auto text-center">
           {/* Headline */}
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-semibold mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
             Ready to grow your business?
           </h2>
           

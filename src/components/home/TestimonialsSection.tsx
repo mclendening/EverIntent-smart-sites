@@ -50,7 +50,7 @@ export function TestimonialsSection() {
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-14 md:mb-20">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-semibold mb-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 tracking-tight">
             Trusted by business owners
           </h2>
           <p className="text-muted-foreground text-lg">
@@ -66,7 +66,7 @@ export function TestimonialsSection() {
               className="relative"
             >
               {/* Quote mark */}
-              <div className="text-6xl font-serif text-accent/20 leading-none mb-4">"</div>
+              <div className="text-6xl font-bold text-accent/20 leading-none mb-4">"</div>
               
               {/* Stars */}
               <div className="flex gap-1 mb-4">
@@ -76,7 +76,7 @@ export function TestimonialsSection() {
               </div>
               
               {/* Quote */}
-              <blockquote className="text-foreground text-lg md:text-xl font-serif leading-relaxed mb-8">
+              <blockquote className="text-foreground text-lg md:text-xl leading-relaxed mb-8">
                 {testimonial.quote}
               </blockquote>
               
