@@ -68,9 +68,10 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-16">
           {/* Services */}
           <div>
-            <h3 className="text-sm font-medium text-foreground uppercase tracking-wider mb-6">
+            <h3 className="text-sm font-medium text-foreground uppercase tracking-wider mb-1">
               Services
             </h3>
+            <div className="w-12 h-[2px] bg-gradient-to-r from-accent to-accent/20 mb-5" />
             <ul className="space-y-3">
               {servicesLinks.map((link) => (
                 <li key={link.path}>
@@ -87,9 +88,10 @@ export function Footer() {
 
           {/* Resources */}
           <div>
-            <h3 className="text-sm font-medium text-foreground uppercase tracking-wider mb-6">
+            <h3 className="text-sm font-medium text-foreground uppercase tracking-wider mb-1">
               Resources
             </h3>
+            <div className="w-12 h-[2px] bg-gradient-to-r from-accent to-accent/20 mb-5" />
             <ul className="space-y-3">
               {resourcesLinks.map((link) => (
                 <li key={link.path}>
@@ -106,9 +108,10 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="text-sm font-medium text-foreground uppercase tracking-wider mb-6">
+            <h3 className="text-sm font-medium text-foreground uppercase tracking-wider mb-1">
               Company
             </h3>
+            <div className="w-12 h-[2px] bg-gradient-to-r from-accent to-accent/20 mb-5" />
             <ul className="space-y-3">
               {companyLinks.map((link) => (
                 <li key={link.path}>
@@ -125,9 +128,10 @@ export function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-sm font-medium text-foreground uppercase tracking-wider mb-6">
+            <h3 className="text-sm font-medium text-foreground uppercase tracking-wider mb-1">
               Contact
             </h3>
+            <div className="w-12 h-[2px] bg-gradient-to-r from-accent to-accent/20 mb-5" />
             <div className="space-y-3 text-sm text-muted-foreground">
               <a href="mailto:info@everintent.com" className="block hover:text-accent transition-colors">
                 info@everintent.com
