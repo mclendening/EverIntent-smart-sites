@@ -1,11 +1,14 @@
 /**
- * @fileoverview Portfolio Preview - Elegant grid
+ * @fileoverview Homepage portfolio preview grid with sample work.
  * @module components/home/PortfolioPreview
  */
 
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+/**
+ * Sample portfolio items. Will be replaced with Supabase data.
+ */
 const portfolioItems = [
   {
     id: '1',
@@ -31,49 +34,62 @@ const portfolioItems = [
 ];
 
 /**
- * Three-column portfolio grid with elegant styling.
+ * Three-column portfolio preview grid showing recent client work.
+ * Links to full portfolio page with "View all work" CTA.
+ * 
+ * @component
+ * @example
+ * <PortfolioPreview />
  */
 export function PortfolioPreview() {
   return (
-    <section className="section bg-background">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+    <section className="relative py-16 md:py-24 bg-card/30">
+      <div className="container mx-auto px-4">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 md:mb-14">
           <div>
-            <p className="text-accent text-sm tracking-[0.2em] uppercase font-medium mb-4">
-              Portfolio
-            </p>
-            <h2 className="font-serif text-4xl md:text-5xl text-foreground">
-              Websites we've <span className="italic text-gradient">built</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
+              <span className="text-foreground">Websites we've </span>
+              <span className="text-gradient">built</span>
             </h2>
+            <p className="text-muted-foreground text-base md:text-lg">
+              Real businesses. Real results. See what we can do for you.
+            </p>
           </div>
           <Link 
             to="/our-work" 
-            className="inline-flex items-center gap-2 text-accent text-sm font-medium group shrink-0"
+            className="inline-flex items-center gap-2 text-primary font-medium group shrink-0"
           >
-            View all work
+            <span className="story-link">View all work</span>
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
+        {/* Portfolio grid */}
+        <div className="grid md:grid-cols-3 gap-6">
           {portfolioItems.map((item) => (
             <div 
               key={item.id}
-              className="group relative overflow-hidden border border-border/20 hover:border-accent/30 transition-all duration-500"
+              className="group relative bg-background rounded-2xl overflow-hidden border border-border/30 hover:border-primary/30 transition-all duration-500 hover-lift"
             >
-              <div className="aspect-[3/2] overflow-hidden">
+              <div className="relative aspect-[3/2] overflow-hidden">
                 <img 
                   src={item.imageUrl} 
                   alt={item.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-60" />
+                
+                <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full bg-background/90 flex items-center justify-center">
+                    <ExternalLink className="w-5 h-5 text-primary" />
+                  </div>
+                </div>
               </div>
               
-              <div className="p-6">
-                <div className="text-accent text-xs font-medium tracking-wide uppercase mb-2">
-                  {item.industry}
-                </div>
-                <h3 className="font-serif text-xl text-foreground mb-2">{item.title}</h3>
+              <div className="p-5">
+                <div className="text-xs text-primary font-medium mb-2">{item.industry}</div>
+                <h3 className="text-lg font-semibold text-foreground mb-1">{item.title}</h3>
                 <p className="text-sm text-muted-foreground">{item.description}</p>
               </div>
             </div>

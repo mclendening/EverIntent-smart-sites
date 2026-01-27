@@ -15,24 +15,22 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
-        heading: ['Cormorant Garamond', 'Georgia', 'serif'],
-        display: ['Cormorant Garamond', 'Georgia', 'serif'],
+        heading: ['Space Grotesk', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        display: ['Space Grotesk', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         body: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
       fontSize: {
-        // Display sizes - luxury editorial
-        "display-2xl": ["5rem", { lineHeight: "1.05", letterSpacing: "-0.02em", fontWeight: "500" }],
-        "display-xl": ["4rem", { lineHeight: "1.05", letterSpacing: "-0.02em", fontWeight: "500" }],
-        "display-lg": ["3.25rem", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "500" }],
-        "display-md": ["2.5rem", { lineHeight: "1.15", letterSpacing: "-0.01em", fontWeight: "500" }],
-        "display-sm": ["2rem", { lineHeight: "1.2", letterSpacing: "-0.01em", fontWeight: "500" }],
+        // Display sizes - for hero headlines
+        "display-2xl": ["4.5rem", { lineHeight: "1", letterSpacing: "-0.02em", fontWeight: "700" }],
+        "display-xl": ["3.75rem", { lineHeight: "1", letterSpacing: "-0.02em", fontWeight: "700" }],
+        "display-lg": ["3rem", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+        "display-md": ["2.25rem", { lineHeight: "1.2", letterSpacing: "-0.01em", fontWeight: "700" }],
+        "display-sm": ["1.875rem", { lineHeight: "1.2", letterSpacing: "-0.01em", fontWeight: "600" }],
         // Body sizes
-        "body-xl": ["1.25rem", { lineHeight: "1.7", fontWeight: "400" }],
-        "body-lg": ["1.125rem", { lineHeight: "1.7", fontWeight: "400" }],
-        "body-md": ["1rem", { lineHeight: "1.7", fontWeight: "400" }],
-        "body-sm": ["0.875rem", { lineHeight: "1.6", fontWeight: "400" }],
-        "body-xs": ["0.75rem", { lineHeight: "1.5", fontWeight: "400" }],
+        "body-xl": ["1.25rem", { lineHeight: "1.6", fontWeight: "400" }],
+        "body-lg": ["1.125rem", { lineHeight: "1.6", fontWeight: "400" }],
+        "body-md": ["1rem", { lineHeight: "1.6", fontWeight: "400" }],
+        "body-sm": ["0.875rem", { lineHeight: "1.5", fontWeight: "400" }],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -86,20 +84,15 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // Explicit gold for direct use
-        gold: {
-          DEFAULT: "hsl(38 92% 50%)",
-          light: "hsl(43 90% 60%)",
-          dark: "hsl(35 90% 40%)",
-        },
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
         xl: "calc(var(--radius) + 4px)",
-        "2xl": "0.5rem",
-        "3xl": "0.75rem",
+        "2xl": "calc(var(--radius) + 8px)",
+        "3xl": "1.5rem",
+        "4xl": "2rem",
       },
       boxShadow: {
         "sm": "var(--shadow-sm)",
@@ -116,10 +109,6 @@ export default {
         "gradient-cta": "var(--gradient-cta)",
         "gradient-glow": "var(--gradient-glow)",
         "gradient-mesh": "var(--gradient-mesh)",
-      },
-      transitionDuration: {
-        "400": "400ms",
-        "600": "600ms",
       },
       keyframes: {
         "accordion-down": {
@@ -138,9 +127,41 @@ export default {
           "0%": { opacity: "0", transform: "translateY(20px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
+        "fade-out": {
+          "0%": { opacity: "1", transform: "translateY(0)" },
+          "100%": { opacity: "0", transform: "translateY(10px)" },
+        },
+        "scale-in": {
+          "0%": { transform: "scale(0.95)", opacity: "0" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        },
+        "scale-out": {
+          from: { transform: "scale(1)", opacity: "1" },
+          to: { transform: "scale(0.95)", opacity: "0" },
+        },
         "slide-in-right": {
           "0%": { transform: "translateX(100%)" },
           "100%": { transform: "translateX(0)" },
+        },
+        "slide-out-right": {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(100%)" },
+        },
+        "pulse-glow": {
+          "0%, 100%": { boxShadow: "0 0 20px hsl(38 92% 50% / 0.3)" },
+          "50%": { boxShadow: "0 0 40px hsl(38 92% 50% / 0.5)" },
+        },
+        "shimmer": {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        "glow-pulse": {
+          "0%, 100%": { opacity: "0.5" },
+          "50%": { opacity: "1" },
         },
         "marquee": {
           "0%": { transform: "translateX(0%)" },
@@ -148,12 +169,22 @@ export default {
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.3s ease-out",
-        "accordion-up": "accordion-up 0.3s ease-out",
-        "fade-in": "fade-in 0.6s ease-out",
-        "fade-in-up": "fade-in-up 0.8s ease-out",
-        "slide-in-right": "slide-in-right 0.4s ease-out",
-        "marquee": "marquee 40s linear infinite",
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in": "fade-in 0.5s ease-out",
+        "fade-in-up": "fade-in-up 0.6s ease-out",
+        "fade-out": "fade-out 0.3s ease-out",
+        "scale-in": "scale-in 0.2s ease-out",
+        "scale-out": "scale-out 0.2s ease-out",
+        "slide-in-right": "slide-in-right 0.3s ease-out",
+        "slide-out-right": "slide-out-right 0.3s ease-out",
+        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
+        "shimmer": "shimmer 2s ease-in-out infinite",
+        "float": "float 3s ease-in-out infinite",
+        "glow-pulse": "glow-pulse 2s ease-in-out infinite",
+        "enter": "fade-in 0.3s ease-out, scale-in 0.2s ease-out",
+        "exit": "fade-out 0.3s ease-out, scale-out 0.2s ease-out",
+        "marquee": "marquee 30s linear infinite",
       },
     },
   },
