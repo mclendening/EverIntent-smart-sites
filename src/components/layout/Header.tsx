@@ -139,8 +139,8 @@ export function Header() {
           {/* AI Employee dropdown */}
           <NavDropdown label="AI Employee" items={aiEmployeeModes} />
           
-          {/* Smart Websites dropdown (tiers) */}
-          <NavDropdown label="Smart Websites" items={smartWebsitesTiers} />
+          {/* Smart Websites dropdown (tiers) with hub link */}
+          <NavDropdown label="Smart Websites" items={smartWebsitesTiers} hubPath="/smart-websites" />
           
           {/* Industries dropdown with clickable hub link */}
           <NavDropdown label="Industries" items={industriesItems} hubPath="/industries" />
