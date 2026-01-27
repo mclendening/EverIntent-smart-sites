@@ -147,6 +147,13 @@
   }
 }
 
+/* Animation fill mode - prevent flash by starting in animation's initial state */
+.animate-fade-in,
+.animate-fade-in-up {
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
 @layer utilities {
   .text-gradient {
     background: var(--gradient-text);
