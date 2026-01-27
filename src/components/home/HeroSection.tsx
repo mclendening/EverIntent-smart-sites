@@ -59,14 +59,23 @@ export function HeroSection() {
             </Link>
           </div>
           
-          {/* Trust strip - Simple elegant line */}
+          {/* Trust strip - Simple elegant line with gold accents */}
           <div className="animate-fade-in" style={{ animationDelay: '450ms' }}>
-            <div className="inline-flex items-center gap-6 md:gap-8 text-sm text-muted-foreground border-t border-border/30 pt-8">
-              <span>4.9★ Rating</span>
-              <span className="w-px h-4 bg-border/50" />
-              <span>5-Day Delivery</span>
-              <span className="w-px h-4 bg-border/50" />
-              <span>No Contracts</span>
+            <div className="inline-flex items-center gap-6 md:gap-8 text-sm border-t border-accent/30 pt-8">
+              <span className="flex items-center gap-1.5">
+                <span className="text-accent">★</span>
+                <span className="text-muted-foreground">4.9 Rating</span>
+              </span>
+              <span className="w-px h-4 bg-accent/30" />
+              <span className="flex items-center gap-1.5">
+                <span className="text-accent">⚡</span>
+                <span className="text-muted-foreground">5-Day Delivery</span>
+              </span>
+              <span className="w-px h-4 bg-accent/30" />
+              <span className="flex items-center gap-1.5">
+                <span className="text-accent">✓</span>
+                <span className="text-muted-foreground">No Contracts</span>
+              </span>
             </div>
           </div>
         </div>
