@@ -387,25 +387,10 @@
     border-color: hsl(var(--accent));
   }
 
-  /* Button glow shine effect - no flash on load */
+  /* Button glow - simple shadow only, no shine animation */
   .btn-glow {
-    @apply relative overflow-hidden;
     box-shadow: var(--shadow-button);
-  }
-
-  .btn-glow::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.15), transparent);
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-
-  .btn-glow:hover::before {
-    transform: translateX(100%);
-    opacity: 1;
-    transition: transform 0.5s ease, opacity 0s;
+    transition: box-shadow 0.25s ease;
   }
 
   .btn-glow:hover {
