@@ -15,22 +15,23 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        heading: ['Space Grotesk', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        display: ['Space Grotesk', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+        heading: ['Cormorant Garamond', 'Georgia', 'serif'],
+        display: ['Cormorant Garamond', 'Georgia', 'serif'],
         body: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
       fontSize: {
-        // Display sizes - for hero headlines
-        "display-2xl": ["4.5rem", { lineHeight: "1", letterSpacing: "-0.02em", fontWeight: "700" }],
-        "display-xl": ["3.75rem", { lineHeight: "1", letterSpacing: "-0.02em", fontWeight: "700" }],
-        "display-lg": ["3rem", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
-        "display-md": ["2.25rem", { lineHeight: "1.2", letterSpacing: "-0.01em", fontWeight: "700" }],
-        "display-sm": ["1.875rem", { lineHeight: "1.2", letterSpacing: "-0.01em", fontWeight: "600" }],
-        // Body sizes
-        "body-xl": ["1.25rem", { lineHeight: "1.6", fontWeight: "400" }],
-        "body-lg": ["1.125rem", { lineHeight: "1.6", fontWeight: "400" }],
-        "body-md": ["1rem", { lineHeight: "1.6", fontWeight: "400" }],
-        "body-sm": ["0.875rem", { lineHeight: "1.5", fontWeight: "400" }],
+        // Display sizes - for hero headlines (serif)
+        "display-2xl": ["4.5rem", { lineHeight: "1.1", letterSpacing: "-0.01em", fontWeight: "600" }],
+        "display-xl": ["3.75rem", { lineHeight: "1.1", letterSpacing: "-0.01em", fontWeight: "600" }],
+        "display-lg": ["3rem", { lineHeight: "1.15", letterSpacing: "-0.01em", fontWeight: "600" }],
+        "display-md": ["2.25rem", { lineHeight: "1.2", letterSpacing: "0", fontWeight: "600" }],
+        "display-sm": ["1.875rem", { lineHeight: "1.2", letterSpacing: "0", fontWeight: "500" }],
+        // Body sizes (sans-serif)
+        "body-xl": ["1.25rem", { lineHeight: "1.7", fontWeight: "400" }],
+        "body-lg": ["1.125rem", { lineHeight: "1.7", fontWeight: "400" }],
+        "body-md": ["1rem", { lineHeight: "1.7", fontWeight: "400" }],
+        "body-sm": ["0.875rem", { lineHeight: "1.6", fontWeight: "400" }],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -66,6 +67,7 @@ export default {
           foreground: "hsl(var(--highlight-foreground))",
         },
         "intent-blue": "hsl(var(--intent-blue))",
+        "secondary-accent": "hsl(var(--secondary-accent))",
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
@@ -91,8 +93,8 @@ export default {
         sm: "calc(var(--radius) - 4px)",
         xl: "calc(var(--radius) + 4px)",
         "2xl": "calc(var(--radius) + 8px)",
-        "3xl": "1.5rem",
-        "4xl": "2rem",
+        "3xl": "0.75rem",
+        "4xl": "1rem",
       },
       boxShadow: {
         "sm": "var(--shadow-sm)",
@@ -148,8 +150,8 @@ export default {
           "100%": { transform: "translateX(100%)" },
         },
         "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 20px hsl(38 92% 50% / 0.3)" },
-          "50%": { boxShadow: "0 0 40px hsl(38 92% 50% / 0.5)" },
+          "0%, 100%": { boxShadow: "0 0 20px hsl(42 76% 55% / 0.2)" },
+          "50%": { boxShadow: "0 0 40px hsl(42 76% 55% / 0.4)" },
         },
         "shimmer": {
           "0%": { transform: "translateX(-100%)" },
@@ -171,8 +173,8 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-in": "fade-in 0.5s ease-out",
-        "fade-in-up": "fade-in-up 0.6s ease-out",
+        "fade-in": "fade-in 0.6s ease-out",
+        "fade-in-up": "fade-in-up 0.7s ease-out",
         "fade-out": "fade-out 0.3s ease-out",
         "scale-in": "scale-in 0.2s ease-out",
         "scale-out": "scale-out 0.2s ease-out",

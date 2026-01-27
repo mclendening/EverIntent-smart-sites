@@ -1,12 +1,15 @@
 /**
- * @fileoverview Homepage testimonials grid with client quotes.
+ * @fileoverview Testimonials Section
  * @module components/home/TestimonialsSection
+ * 
+ * Clean testimonial cards with client quotes.
+ * Simple layout with pull quotes style.
  */
 
-import { Star, Quote } from 'lucide-react';
+import { Star } from 'lucide-react';
 
 /**
- * Sample testimonials. Will be replaced with Supabase data.
+ * Client testimonials data.
  */
 const testimonials = [
   {
@@ -27,7 +30,7 @@ const testimonials = [
   },
   {
     id: '3',
-    quote: "They delivered exactly what they promised, on time, and the results speak for themselves. 10/10.",
+    quote: "They delivered exactly what they promised, on time, and the results speak for themselves.",
     name: 'James Wilson',
     title: 'Partner',
     company: 'Wilson & Associates Law',
@@ -36,60 +39,52 @@ const testimonials = [
 ];
 
 /**
- * Three-column testimonials grid with client quotes and ratings.
- * Displays avatar initials, star ratings, and company info.
+ * Testimonials section with three quote cards.
+ * Minimal styling with emphasis on the quote itself.
  * 
  * @component
- * @example
- * <TestimonialsSection />
  */
 export function TestimonialsSection() {
   return (
-    <section className="relative py-16 md:py-24 overflow-hidden">
-      <div className="absolute inset-0 bg-mesh opacity-20" />
-      
-      <div className="relative container mx-auto px-4">
+    <section className="relative py-24 md:py-32 bg-card/30">
+      <div className="container mx-auto px-6">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-            <span className="text-foreground">Trusted by </span>
-            <span className="text-gradient">business owners like you</span>
+        <div className="text-center max-w-2xl mx-auto mb-14 md:mb-20">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-semibold mb-4">
+            Trusted by business owners
           </h2>
-          <p className="text-muted-foreground text-base md:text-lg">
-            Don't take our word for it. Here's what our clients have to say.
+          <p className="text-muted-foreground text-lg">
+            Don't take our word for it.
           </p>
         </div>
         
         {/* Testimonials grid */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8 md:gap-10 max-w-5xl mx-auto">
           {testimonials.map((testimonial) => (
             <div 
               key={testimonial.id}
-              className="relative glass rounded-2xl p-6 md:p-8 border border-border/30"
+              className="relative"
             >
-              <Quote className="w-8 h-8 text-primary/30 mb-4" />
+              {/* Quote mark */}
+              <div className="text-6xl font-serif text-accent/20 leading-none mb-4">"</div>
               
+              {/* Stars */}
               <div className="flex gap-1 mb-4">
                 {[...Array(testimonial.rating)].map((_, i) => (
                   <Star key={i} className="w-4 h-4 fill-accent text-accent" />
                 ))}
               </div>
               
-              <blockquote className="text-foreground text-base md:text-lg mb-6 leading-relaxed">
-                "{testimonial.quote}"
+              {/* Quote */}
+              <blockquote className="text-foreground text-lg md:text-xl font-serif leading-relaxed mb-8">
+                {testimonial.quote}
               </blockquote>
               
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                  <span className="text-primary font-semibold text-sm">
-                    {testimonial.name.split(' ').map(n => n[0]).join('')}
-                  </span>
-                </div>
-                <div>
-                  <div className="font-medium text-foreground text-sm">{testimonial.name}</div>
-                  <div className="text-xs text-muted-foreground">
-                    {testimonial.title}, {testimonial.company}
-                  </div>
+              {/* Attribution */}
+              <div className="border-t border-border/30 pt-4">
+                <div className="font-medium text-foreground">{testimonial.name}</div>
+                <div className="text-sm text-muted-foreground">
+                  {testimonial.title}, {testimonial.company}
                 </div>
               </div>
             </div>
