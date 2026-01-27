@@ -359,37 +359,36 @@
 }
 
 @layer components {
-  /* Primary gold CTA button - subtle 3D gradient with white text */
+  /* Primary gold CTA button - pure gold gradient with black text */
   .btn-gold {
     @apply relative overflow-hidden px-6 py-3 rounded font-semibold text-sm tracking-wide;
     background: linear-gradient(
       180deg, 
-      hsl(42 70% 52%) 0%, 
-      hsl(42 65% 46%) 50%, 
-      hsl(42 60% 40%) 100%
+      hsl(45 90% 58%) 0%, 
+      hsl(42 85% 50%) 50%, 
+      hsl(38 80% 42%) 100%
     );
-    color: hsl(0 0% 100%);
-    text-shadow: 0 1px 2px hsl(0 0% 0% / 0.2);
+    color: hsl(0 0% 8%);
     box-shadow: 
-      inset 0 1px 0 hsl(42 80% 65% / 0.35),
-      inset 0 -1px 0 hsl(42 50% 30% / 0.4),
-      0 2px 4px hsl(0 0% 0% / 0.25),
-      0 4px 12px hsl(42 60% 45% / 0.2);
+      inset 0 1px 0 hsl(48 95% 70% / 0.5),
+      inset 0 -1px 0 hsl(35 75% 35% / 0.4),
+      0 2px 4px hsl(0 0% 0% / 0.2),
+      0 4px 12px hsl(45 80% 45% / 0.2);
     transition: all 0.3s ease;
   }
 
   .btn-gold:hover {
     background: linear-gradient(
       180deg, 
-      hsl(42 65% 48%) 0%, 
-      hsl(42 60% 42%) 50%, 
-      hsl(42 55% 36%) 100%
+      hsl(45 85% 54%) 0%, 
+      hsl(42 80% 46%) 50%, 
+      hsl(38 75% 38%) 100%
     );
     box-shadow: 
-      inset 0 1px 0 hsl(42 75% 60% / 0.3),
-      inset 0 -1px 0 hsl(42 50% 25% / 0.4),
-      0 4px 16px hsl(0 0% 0% / 0.3),
-      0 8px 24px hsl(42 60% 45% / 0.25);
+      inset 0 1px 0 hsl(48 90% 65% / 0.4),
+      inset 0 -1px 0 hsl(35 70% 30% / 0.4),
+      0 4px 16px hsl(0 0% 0% / 0.25),
+      0 8px 24px hsl(45 80% 45% / 0.25);
   }
 
   /* Secondary outlined button */
