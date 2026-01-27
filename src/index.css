@@ -359,17 +359,36 @@
 }
 
 @layer components {
-  /* Primary gold CTA button */
+  /* Primary gold CTA button - subtle 3D gradient */
   .btn-gold {
     @apply relative overflow-hidden px-6 py-3 rounded font-medium text-sm tracking-wide;
-    background: hsl(var(--accent));
+    background: linear-gradient(
+      180deg, 
+      hsl(42 65% 58%) 0%, 
+      hsl(42 60% 52%) 50%, 
+      hsl(42 55% 46%) 100%
+    );
     color: hsl(0 0% 5%);
+    box-shadow: 
+      inset 0 1px 0 hsl(42 70% 70% / 0.4),
+      inset 0 -1px 0 hsl(42 50% 35% / 0.3),
+      0 2px 4px hsl(0 0% 0% / 0.2),
+      0 4px 8px hsl(42 60% 50% / 0.15);
     transition: all 0.3s ease;
   }
 
   .btn-gold:hover {
-    filter: brightness(0.9);
-    box-shadow: var(--shadow-glow);
+    background: linear-gradient(
+      180deg, 
+      hsl(42 60% 54%) 0%, 
+      hsl(42 55% 48%) 50%, 
+      hsl(42 50% 42%) 100%
+    );
+    box-shadow: 
+      inset 0 1px 0 hsl(42 70% 65% / 0.3),
+      inset 0 -1px 0 hsl(42 50% 30% / 0.3),
+      0 4px 12px hsl(0 0% 0% / 0.25),
+      0 8px 20px hsl(42 60% 50% / 0.2);
   }
 
   /* Secondary outlined button */
