@@ -288,12 +288,18 @@ const SmartWebsites = () => {
           </div>
         </div>
         
-        {/* Bottom gradient fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-card/50 to-transparent" />
       </section>
 
+      {/* Section Divider - Tapered gradient fade */}
+      <div className="relative py-8 bg-background">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-full max-w-4xl h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-card/30" />
+      </div>
+
       {/* 4-Tier Comparison Table */}
-      <section className="py-16 lg:py-24 bg-muted/30">
+      <section className="py-16 lg:py-24 bg-card/30">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
