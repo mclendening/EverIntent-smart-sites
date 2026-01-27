@@ -223,38 +223,73 @@ const SmartWebsites = () => {
         canonical="/smart-websites"
       />
 
-      {/* Hero Section */}
-      <section className="relative py-20 lg:py-28 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/30" />
-        <div className="container mx-auto px-4 relative z-10">
+      {/* Hero Section - Luxury gold aesthetic matching homepage */}
+      <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-background">
+        {/* Subtle gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-card/50" />
+        
+        {/* Very subtle gold accent glow */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/5 rounded-full blur-3xl" />
+        
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-6 py-20 md:py-32">
           <div className="max-w-4xl mx-auto text-center">
-            <Badge variant="secondary" className="mb-6 text-sm px-4 py-1.5">
-              Built in 5 Days • You Own Everything
-            </Badge>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
-              Smart Websites That Pay For Themselves
+            {/* Headline - Single powerful statement */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6 md:mb-8 animate-fade-in tracking-tight">
+              <span className="text-foreground">Websites that</span>
+              <br />
+              <span className="text-foreground">pay for </span>
+              <span className="text-gradient">themselves.</span>
             </h1>
             
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              From a simple $249 site to full AI automation at $297/mo. Pick your tier. We build it in 5 days.
+            {/* Subheadline - Clear value prop */}
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 md:mb-12 leading-relaxed animate-fade-in" style={{ animationDelay: '150ms' }}>
+              From a simple $249 site to full AI automation at $297/mo. 
+              Pick your tier. We build it in 5 days.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="text-lg px-8 py-6">
-                <Link to="/pricing">
-                  See All Pricing
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6">
-                <Link to="/contact">
-                  Questions? Let's Talk
-                </Link>
-              </Button>
+            {/* CTAs - Primary gold, secondary text link */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-16 animate-fade-in" style={{ animationDelay: '300ms' }}>
+              <Link 
+                to="/pricing" 
+                className="btn-gold btn-glow w-full sm:w-auto"
+              >
+                See All Pricing
+              </Link>
+              <Link 
+                to="/contact" 
+                className="group inline-flex items-center gap-2 px-4 py-3 text-foreground hover:text-accent transition-colors duration-300"
+              >
+                <span className="story-link">Questions? Let's Talk</span>
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </div>
+            
+            {/* Trust strip - Simple elegant line with gold accents */}
+            <div className="animate-fade-in" style={{ animationDelay: '450ms' }}>
+              <div className="inline-flex items-center gap-6 md:gap-8 text-sm border-t border-accent/30 pt-8">
+                <span className="flex items-center gap-1.5">
+                  <span className="text-accent">⚡</span>
+                  <span className="text-muted-foreground">5-Day Delivery</span>
+                </span>
+                <span className="w-px h-4 bg-accent/30" />
+                <span className="flex items-center gap-1.5">
+                  <span className="text-accent">✓</span>
+                  <span className="text-muted-foreground">You Own Everything</span>
+                </span>
+                <span className="w-px h-4 bg-accent/30" />
+                <span className="flex items-center gap-1.5">
+                  <span className="text-accent">↑</span>
+                  <span className="text-muted-foreground">Upgrade Anytime</span>
+                </span>
+              </div>
             </div>
           </div>
         </div>
+        
+        {/* Bottom gradient fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-card/50 to-transparent" />
       </section>
 
       {/* 4-Tier Comparison Table */}
