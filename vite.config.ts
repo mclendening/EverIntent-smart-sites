@@ -30,7 +30,8 @@ export default defineConfig(({ mode }) => ({
   // vite-react-ssg options - see BRD Appendix H for full documentation
   ssgOptions: {
     script: 'defer',
-    formatting: 'minify',
+    formatting: 'none',
+    dirStyle: 'nested',
     // Pre-render all marketing routes, exclude only admin (handled via SPA fallback)
     includedRoutes: (paths: string[]) => {
       return paths.filter(path => !path.startsWith('/admin'));
