@@ -32,7 +32,7 @@ const aiEmployeeModes = [
   { title: 'Booking Agent', path: '/let-ai-handle-it/booking', description: 'Appointment scheduling' },
   { title: 'Missed Call Recovery', path: '/let-ai-handle-it/missed-call', description: 'Recapture lost leads' },
   { title: 'Front Line Screening', path: '/let-ai-handle-it/screening', description: 'Qualify before you answer' },
-  { title: 'Full Takeover', path: '/let-ai-handle-it/full-takeover', description: 'Complete phone management' },
+  { title: 'Full AI Employee', path: '/let-ai-handle-it/full-takeover', description: 'Complete phone management' },
 ];
 
 /**

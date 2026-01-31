@@ -61,7 +61,7 @@ export default function FullTakeover() {
               <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground mb-6">
                 <Link to="/let-ai-handle-it" className="hover:text-accent transition-colors">AI Employee</Link>
                 <span>/</span>
-                <span className="text-accent">Full Takeover</span>
+                <span className="text-accent">Full AI Employee</span>
               </div>
               
               {/* Badge */}
