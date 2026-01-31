@@ -145,9 +145,15 @@ export function Header() {
           <div className="fixed inset-0 bg-background/90 backdrop-blur-sm z-40 lg:hidden" onClick={closeMobileMenu} />
           <div className="fixed top-20 right-0 bottom-0 w-full max-w-sm bg-card border-l border-border/30 z-50 lg:hidden overflow-y-auto animate-slide-in-right">
             <div className="flex flex-col p-6 space-y-2">
-              {/* AI Employee section */}
+            {/* AI Employee section */}
               <div className="py-3">
-                <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium">AI Employee</span>
+                <Link 
+                  to="/let-ai-handle-it"
+                  className="text-xs uppercase tracking-wider text-muted-foreground font-medium hover:text-accent"
+                  onClick={closeMobileMenu}
+                >
+                  AI Employee
+                </Link>
                 {aiEmployeeModes.map((item) => (
                   <Link 
                     key={item.path}
