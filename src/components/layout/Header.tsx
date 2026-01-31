@@ -28,11 +28,11 @@ const smartWebsitesTiers = [
  * AI Employee modes dropdown
  */
 const aiEmployeeModes = [
-  { title: 'After-Hours', path: '/let-ai-handle-it#after-hours', description: 'Coverage when you\'re closed' },
-  { title: 'Booking Agent', path: '/let-ai-handle-it#booking', description: 'Appointment scheduling' },
-  { title: 'Missed Call Recovery', path: '/let-ai-handle-it#missed-call', description: 'Recapture lost leads' },
-  { title: 'Front Line Screening', path: '/let-ai-handle-it#screening', description: 'Qualify before you answer' },
-  { title: 'Full Takeover', path: '/let-ai-handle-it#full-takeover', description: 'Complete phone management' },
+  { title: 'After-Hours', path: '/let-ai-handle-it/after-hours', description: 'Coverage when you\'re closed' },
+  { title: 'Booking Agent', path: '/let-ai-handle-it/booking', description: 'Appointment scheduling' },
+  { title: 'Missed Call Recovery', path: '/let-ai-handle-it/missed-call', description: 'Recapture lost leads' },
+  { title: 'Front Line Screening', path: '/let-ai-handle-it/screening', description: 'Qualify before you answer' },
+  { title: 'Full Takeover', path: '/let-ai-handle-it/full-takeover', description: 'Complete phone management' },
 ];
 
 /**
