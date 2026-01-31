@@ -53,6 +53,12 @@ import HealthWellnessShowcase from './pages/industries/HealthWellnessShowcase';
 import AutomotiveShowcase from './pages/industries/AutomotiveShowcase';
 // Standalone service pages
 import WarmyEmailDeliverability from './pages/WarmyEmailDeliverability';
+// AI Employee mode pages
+import AfterHours from './pages/ai-employee/AfterHours';
+import BookingAgent from './pages/ai-employee/BookingAgent';
+import MissedCallRecovery from './pages/ai-employee/MissedCallRecovery';
+import FrontLineScreening from './pages/ai-employee/FrontLineScreening';
+import FullTakeover from './pages/ai-employee/FullTakeover';
 import AdminLogin from './pages/admin/Login';
 import AdminResetPassword from './pages/admin/ResetPassword';
 import AdminDashboard from './pages/admin/Dashboard';
@@ -164,6 +170,15 @@ const coreRoutePaths = ['/', '/pricing', '/our-work', '/about', '/contact', '/bo
 const primaryServicePath = '/beautiful-websites';
 
 // Benefit-oriented service pages
+// AI Employee mode paths
+const aiEmployeeModePaths = [
+  '/let-ai-handle-it/after-hours',
+  '/let-ai-handle-it/booking',
+  '/let-ai-handle-it/missed-call',
+  '/let-ai-handle-it/screening',
+  '/let-ai-handle-it/full-takeover',
+];
+
 const servicePaths = [
   '/services',
   '/get-found-online',
@@ -338,6 +353,7 @@ export const prerenderRoutes: string[] = [
   ...coreRoutePaths,
   primaryServicePath,
   ...servicePaths,
+  ...aiEmployeeModePaths, // AI Employee mode pages
   ...productCategoryPaths,
   ...featurePaths,
   '/industries', // Industries landing page
@@ -404,10 +420,31 @@ export const routes: RouteRecord[] = [
       },
       // Core pages (placeholder for now)
       ...coreRoutePaths.slice(1).map(createPlaceholderChild),
-      // AI Employee page - dedicated component
+      // AI Employee hub page
       {
         path: 'let-ai-handle-it',
         Component: AIEmployee,
+      },
+      // AI Employee mode pages
+      {
+        path: 'let-ai-handle-it/after-hours',
+        Component: AfterHours,
+      },
+      {
+        path: 'let-ai-handle-it/booking',
+        Component: BookingAgent,
+      },
+      {
+        path: 'let-ai-handle-it/missed-call',
+        Component: MissedCallRecovery,
+      },
+      {
+        path: 'let-ai-handle-it/screening',
+        Component: FrontLineScreening,
+      },
+      {
+        path: 'let-ai-handle-it/full-takeover',
+        Component: FullTakeover,
       },
       // Smart Websites page - dedicated component
       {
