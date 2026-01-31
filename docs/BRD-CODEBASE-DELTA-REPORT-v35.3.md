@@ -1511,6 +1511,482 @@ Appendix H: vite-react-ssg Configuration
 
 ---
 
+---
+
+## 18. Progression Analysis: BRD to Current State
+
+This section analyzes the **evolution** from BRD specifications to the current codebase, inferring:
+1. **Purposeful Changes** — Intentional deviations that represent improvements or business decisions
+2. **Resolved Issues** — Bugs or gaps that were fixed during development
+3. **Cleanup Needed** — Stale code, placeholders, or artifacts requiring removal
+4. **The Offering Baseline** — What we actually sell today (the source of truth)
+
+---
+
+### 18.1 The Offering Baseline (Current State = Truth)
+
+The following represents what EverIntent **currently offers for sale** based on the live codebase. This is the authoritative product catalog.
+
+#### Smart Website Packages (Current Pricing)
+
+| Tier | One-Time/Setup | Monthly | Status |
+|------|----------------|---------|--------|
+| **Smart Site** | $249 | $149/yr hosting after Y1 | ✅ Active |
+| **Smart Lead** | $249 setup | $97/mo | ✅ Active |
+| **Smart Business** | $497 setup | $197/mo | ✅ Active (Most Popular) |
+| **Smart Growth** | $997 setup | $297/mo | ✅ Active |
+
+**Source:** Pricing.tsx (lines 87-125), SmartWebsites.tsx (lines 22-127)
+
+#### AI Employee Plans (Current in Pricing.tsx)
+
+| Mode | Setup | Monthly | UI Name |
+|------|-------|---------|---------|
+| M1 | $997 | $497/mo | After-Hours |
+| M2 | $997 | $497/mo | After-Hours + Booking |
+| M3 | $997 | $497/mo | Missed Call Recovery |
+| M4 | $1,497 | $547/mo | Front Line Screener |
+| M5 | $2,500 | $597/mo | Full AI Employee |
+
+**Source:** Pricing.tsx (lines 40-82)
+
+#### Parallel Entry Products
+
+| Product | Setup | Monthly | Status |
+|---------|-------|---------|--------|
+| Web Chat Only | $497 | $79/mo | ✅ Active |
+| Warmy Booster | — | $49/mo | ✅ Active |
+
+**Source:** Pricing.tsx (lines 365-416)
+
+#### Active Navigation Structure
+
+**Header Dropdowns:**
+1. AI Employee → 5 modes pointing to `/let-ai-handle-it#anchors`
+2. Smart Websites → 4 tiers pointing to `/pricing#anchors`
+3. Industries → 4 categories
+
+**Flat Links:** Pricing, About, Contact
+
+**Primary CTA:** "Get Started" → `/pricing`
+
+---
+
+### 18.2 Purposeful Changes (Keep These)
+
+The following deviations from BRD appear to be **intentional improvements** or evolved business decisions. These should be preserved in the new baseline.
+
+#### 18.2.1 Smart Website Links to /pricing (Not /smart-websites)
+
+**Current State:** Header and Footer Smart tier links point to `/pricing#smart-site`, `/pricing#smart-lead`, etc.
+
+**BRD Says:** Links should go to `/smart-websites#smart-site`
+
+**Inference:** This is a **purposeful UX decision**. By linking directly to `/pricing`, users see:
+- All tiers in context
+- AI Employee options
+- Parallel entry points
+- FAQ section
+
+The `/smart-websites` page exists as a dedicated sales page for organic search, while navigation prioritizes the conversion-focused pricing page.
+
+**Recommendation:** KEEP THIS PATTERN — document as intentional UX.
+
+#### 18.2.2 Pricing Page Order: Smart Websites First
+
+**Current State:** Pricing.tsx shows Smart Website Packages before AI Employee Plans
+
+**BRD v35.3 Section 17.2:** Confirms this is correct ("conversion ladder")
+
+**Inference:** This was consciously aligned with the "climb the ladder" sales strategy where customers enter via $249 Smart Site and upgrade to AI Employee.
+
+**Recommendation:** CONFIRMED CORRECT — matches BRD intent.
+
+#### 18.2.3 Industries Header Links Without `-services` Suffix for Automotive
+
+**Current State:** Header links to `/industries/automotive`
+
+**Routes.tsx:** Route is `/industries/automotive-services`
+
+**Inference:** This appears to be a **bug**, not intentional. All other industry categories use consistent naming.
+
+**Recommendation:** FIX — update Header.tsx to `/industries/automotive-services`
+
+#### 18.2.4 Footer Warmy Label: "Email Deliverability" vs "Booster"
+
+**Current State:** Footer says "Warmy Email Deliverability" linking to `/warmy`
+
+**BRD Says:** "Warmy Booster" linking to `/pricing#warmy-booster`
+
+**Inference:** This is a **purposeful enhancement**. The full Warmy Email Deliverability page exists at `/warmy-email-deliverability` and provides:
+- Detailed feature explanation
+- Integration descriptions
+- Domain health monitoring details
+
+The "Booster" name is brief for pricing context, while "Email Deliverability" is descriptive for the footer.
+
+**Recommendation:** KEEP "Email Deliverability" label, but FIX route to `/warmy-email-deliverability`
+
+#### 18.2.5 Legal Routes with `/legal/` Prefix
+
+**Current State:** All legal pages use `/legal/privacy`, `/legal/terms`, `/legal/cookies`, `/legal/data-request`
+
+**BRD Shows:** Short routes like `/privacy`, `/terms`
+
+**Inference:** The `/legal/` prefix is **better organization** and clearer URL semantics. This is an improvement.
+
+**Recommendation:** KEEP `/legal/` prefix — document as architectural improvement.
+
+#### 18.2.6 Homepage Simplified to 5 Sections
+
+**Current State:** Index.tsx has 5 focused sections:
+1. HeroSection
+2. HowWeHelpSection
+3. TransformationSection
+4. TestimonialsSection
+5. FinalCTASection
+
+**Inference:** This follows the **minimal luxury aesthetic** from memory entries. The BRD's more complex section list was simplified for better user focus.
+
+**Recommendation:** KEEP simplified structure — aligns with luxury design guidelines.
+
+#### 18.2.7 AI Employee Dropdown Without hubPath
+
+**Current State:** AI Employee dropdown doesn't have a clickable hub label like Smart Websites and Industries do.
+
+**Inference:** This may be **intentional** — the AI Employee page (`/let-ai-handle-it`) is the primary conversion path and users might expect to navigate via dropdown items to specific anchors.
+
+**Recommendation:** CONSIDER adding hubPath="/let-ai-handle-it" for consistency — low priority.
+
+---
+
+### 18.3 Resolved Issues (Already Fixed)
+
+The following were likely identified and fixed during development. No action needed.
+
+#### 18.3.1 Cookie Consent Gating for Chat
+
+**Issue:** GHL chat widget should not load before cookie consent
+
+**Resolution:** MobileBottomBar.tsx and DesktopChatButton.tsx both check `localStorage.getItem('cookie-consent')` before rendering.
+
+**Status:** ✅ RESOLVED
+
+#### 18.3.2 SSG Hydration Safety
+
+**Issue:** Portal components and browser APIs can cause hydration mismatches
+
+**Resolution:** ClientOnly wrapper used for:
+- Toaster/Sonner
+- ScrollToTop
+- GHLChatWidget
+- CookieConsent
+
+**Status:** ✅ RESOLVED
+
+#### 18.3.3 Route-Based Theme Application
+
+**Issue:** Need to apply different themes to different pages
+
+**Resolution:** ThemeProvider component in routes.tsx watches `location.pathname` and calls `applyThemeToRoot()`
+
+**Status:** ✅ RESOLVED
+
+#### 18.3.4 Admin Routes Excluded from SSG
+
+**Issue:** Admin pages require authentication and should not be pre-rendered
+
+**Resolution:** AdminLayout in routes.tsx handles admin routes separately, with AdminGuard for authentication.
+
+**Status:** ✅ RESOLVED
+
+#### 18.3.5 Mobile Bottom Navigation Padding
+
+**Issue:** Content could be hidden behind fixed bottom nav
+
+**Resolution:** Footer.tsx includes `pb-24 md:pb-6` to ensure content isn't obscured on mobile.
+
+**Status:** ✅ RESOLVED
+
+---
+
+### 18.4 Cleanup Needed (Technical Debt)
+
+The following are **stale artifacts, placeholders, or bugs** that should be cleaned up.
+
+#### 18.4.1 CRITICAL: AIEmployee.tsx Pricing Mismatch
+
+**Issue:** AIEmployee.tsx (lines 38-84) shows incorrect legacy pricing:
+- M1: $149/mo (should be $497/mo)
+- M2: $199/mo (should be $497/mo)
+- M5: $297/mo (should be $597/mo)
+
+**Impact:** The `/let-ai-handle-it` page shows different prices than `/pricing`
+
+**Root Cause:** AIEmployee.tsx was not updated when Pricing.tsx was aligned with BRD v35.3
+
+**Action:** Update aiModes array in AIEmployee.tsx to match Pricing.tsx
+
+#### 18.4.2 CRITICAL: Contact.tsx Placeholder Data
+
+**Issue:** Contact page contains test data:
+- Phone: `(800) 555-1234` (placeholder)
+- Email: `hello@everintent.com` (inconsistent with Footer's `info@everintent.com`)
+- Timezone: EST (company is in California, should be PST)
+- Address: "Remote-first company" (should show business address for TCPA)
+
+**Action:** Replace with official business data from Footer.tsx
+
+#### 18.4.3 CRITICAL: MobileBottomBar.tsx Stale Route
+
+**Issue:** Services button links to `/beautiful-websites`
+
+**Context:** This was the pre-v34 brand pivot route. It should now link to `/smart-websites` or `/pricing`.
+
+**Action:** Update path from `/beautiful-websites` to `/pricing` or `/smart-websites`
+
+#### 18.4.4 HIGH: JSDoc @brd-reference Tags
+
+**Issue:** Memory specification prohibits external document references in JSDoc
+
+**Files Affected:**
+- MobileBottomBar.tsx (lines 9-11)
+- DesktopChatButton.tsx (lines 9-10)
+
+**Action:** Remove `@brd-reference` tags, embed business context directly
+
+#### 18.4.5 HIGH: routes.ts SmartSites Branding
+
+**Issue:** Legacy "SmartSites" references in route descriptions
+
+**Files Affected:**
+- Line 42: `'About EverIntent SmartSites'`
+- Line 253: `'Get help with SmartSites'`
+
+**Action:** Replace with "EverIntent" master brand
+
+#### 18.4.6 HIGH: Pricing.tsx M-Prefix in UI
+
+**Issue:** BRD specifies human-readable mode names without M-prefixes
+
+**Current:** `name: 'M1: After-Hours'`
+**Should Be:** `name: 'After-Hours'`
+
+**Action:** Remove "M1:", "M2:", etc. prefixes from aiEmployeePlans names
+
+#### 18.4.7 MEDIUM: Footer Starting Price Callout
+
+**Issue:** Footer says "Starting at $149/mo" which doesn't match any product
+
+**Context:** $97/mo (Smart Lead) or $249 (Smart Site) are the actual entry points
+
+**Action:** Update to "Starting at $249" or "Smart Websites from $249"
+
+#### 18.4.8 MEDIUM: Pricing.tsx Meta Description
+
+**Issue:** Line 185 says `"AI Employee starts at $149/mo"` but it starts at $497/mo
+
+**Action:** Update to $497/mo
+
+#### 18.4.9 MEDIUM: index.html OG Images
+
+**Issue:** Using generic Lovable platform images
+
+**Action:** Replace with branded EverIntent OG images
+
+#### 18.4.10 MEDIUM: index.html Space Grotesk Font
+
+**Issue:** Memory says "Inter ONLY" but Space Grotesk is loaded
+
+**Context:** BRD Appendix F actually specifies Space Grotesk for display. However, tailwind.config.ts maps all font families to Inter.
+
+**Action:** Either remove Space Grotesk from index.html OR update memory to allow it. Current font usage is Inter-only in practice.
+
+#### 18.4.11 LOW: WarmyEmailDeliverability Layout Import
+
+**Issue:** Page imports and wraps content in Layout, but RootLayout already provides Layout
+
+**Risk:** Potential double-wrapping of header/footer
+
+**Action:** Audit for double Layout and remove if present
+
+#### 18.4.12 LOW: start-checkout Local TIER_TAG_MAP
+
+**Issue:** start-checkout has its own TIER_TAG_MAP using legacy T1-T4 keys instead of importing from ghlClient.ts
+
+**Action:** Import TIER_TAG_MAP from ghlClient.ts and use `smart-site`, `smart-lead`, etc. keys
+
+---
+
+### 18.5 Feature Gaps (Future Work)
+
+These are BRD requirements not yet implemented. They are **not bugs** — they are deferred or future scope.
+
+#### 18.5.1 Client Login External Link
+
+**BRD Requirement:** Footer should have "Client Login" linking to `https://app.everintent.com`
+
+**Status:** Not implemented
+
+**Priority:** Medium — needed for customer portal access
+
+#### 18.5.2 Call Recording Disclosure
+
+**BRD Requirement:** Footer must include call recording disclosure per Appendix C
+
+**Status:** Not implemented
+
+**Priority:** Medium — compliance requirement
+
+#### 18.5.3 Industries Hub Clickable Label
+
+**BRD Suggests:** Industries dropdown top-level should be clickable
+
+**Status:** Partially implemented — has hubPath="/industries" ✅
+
+#### 18.5.4 AI Employee hubPath
+
+**BRD Suggests:** AI Employee dropdown should have clickable top-level
+
+**Status:** Not implemented — dropdown works but label isn't a link
+
+**Priority:** Low — functional as-is
+
+---
+
+### 18.6 Navigation Structure Baseline
+
+This is the **authoritative navigation structure** based on the current codebase:
+
+#### Header (Desktop)
+
+```
+[Logo] ────────────────────────────────────────────────────── [Get Started →]
+       AI Employee ▾  Smart Websites ▾  Industries ▾  Pricing  About  Contact
+         ├─ After-Hours       ├─ Smart Site ($249)     ├─ Home Services
+         ├─ Booking Agent     ├─ Smart Lead ($97)      ├─ Professional
+         ├─ Missed Call       ├─ Smart Business ($197) ├─ Health & Wellness
+         ├─ Front Line        └─ Smart Growth ($297)   └─ Automotive
+         └─ Full Takeover
+```
+
+#### Footer Columns
+
+```
+SERVICES          AI MODES            RESOURCES       COMPANY
+├─ AI Employee    ├─ After Hours      ├─ FAQ          ├─ About
+├─ Smart Site     ├─ Booking Agent    └─ Industries   ├─ Contact
+├─ Smart Lead     ├─ Missed Call                      ├─ Careers
+├─ Smart Business ├─ Front Line                       └─ Legal
+├─ Smart Growth   └─ Full Takeover
+├─ Web Chat Only
+└─ Warmy Email Deliverability
+```
+
+#### Mobile Bottom Bar
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  🏠 Home  |  💼 Services  |  🏢 Industries  |  💲 Pricing  |  💬 Chat  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Note:** Services currently links to `/beautiful-websites` (STALE) — should be `/pricing` or `/smart-websites`
+
+---
+
+### 18.7 Page Structure Baseline
+
+#### Core Marketing Pages (Implemented)
+
+| Page | Route | Status |
+|------|-------|--------|
+| Homepage | `/` | ✅ Complete |
+| AI Employee | `/let-ai-handle-it` | ✅ Complete (pricing needs update) |
+| Smart Websites | `/smart-websites` | ✅ Complete |
+| Pricing | `/pricing` | ✅ Complete (M-prefix cleanup needed) |
+| About | `/about` | ✅ Complete |
+| Contact | `/contact` | ⚠️ Has placeholder data |
+| Industries Hub | `/industries` | ✅ Complete |
+
+#### Industry Category Pages (Implemented)
+
+| Category | Hub Route | Showcase Route |
+|----------|-----------|----------------|
+| Home Services | `/industries/home-services` | `/industries/home-services/showcase` |
+| Professional | `/industries/professional-services` | `/industries/professional-services/showcase` |
+| Health & Wellness | `/industries/health-wellness` | `/industries/health-wellness/showcase` |
+| Automotive | `/industries/automotive-services` | `/industries/automotive-services/showcase` |
+
+#### Standalone Product Pages
+
+| Product | Route | Status |
+|---------|-------|--------|
+| Warmy Email Deliverability | `/warmy-email-deliverability` | ✅ Complete |
+
+#### Legal/Compliance Pages
+
+| Page | Route | Status |
+|------|-------|--------|
+| Privacy Policy | `/legal/privacy` | ✅ Complete |
+| Terms of Service | `/legal/terms` | ✅ Complete |
+| Cookie Policy | `/legal/cookies` | ✅ Complete |
+| Data Rights Request | `/legal/data-request` | ✅ Complete |
+
+#### Admin Pages (CSR Only)
+
+| Page | Route | Status |
+|------|-------|--------|
+| Admin Login | `/admin/login` | ✅ Complete |
+| Admin Dashboard | `/admin` | ✅ Complete |
+| Submissions | `/admin/submissions` | ✅ Complete |
+| Themes | `/admin/themes` | ✅ Complete |
+
+---
+
+### 18.8 Cleanup Priority Matrix
+
+| Priority | Item | File | Effort | Impact |
+|----------|------|------|--------|--------|
+| 🔴 Critical | AIEmployee.tsx pricing | AIEmployee.tsx | Low | High (misleading prices) |
+| 🔴 Critical | Contact placeholder data | Contact.tsx | Low | High (unprofessional) |
+| 🔴 Critical | MobileBottomBar stale route | MobileBottomBar.tsx | Low | Medium (broken nav) |
+| 🟠 High | Pricing.tsx M-prefixes | Pricing.tsx | Low | Medium (BRD compliance) |
+| 🟠 High | JSDoc @brd-reference | 2 files | Low | Low (documentation) |
+| 🟠 High | routes.ts SmartSites | routes.ts | Low | Low (branding) |
+| 🟡 Medium | Footer starting price | Footer.tsx | Low | Medium (pricing clarity) |
+| 🟡 Medium | Pricing meta description | Pricing.tsx | Low | Low (SEO) |
+| 🟡 Medium | OG images | index.html | Medium | Medium (social shares) |
+| 🟡 Medium | Footer Warmy route | Footer.tsx | Low | Low (broken link) |
+| 🟢 Low | Space Grotesk font | index.html | Low | None (not used) |
+| 🟢 Low | start-checkout tags | Edge function | Medium | Low (GHL sync) |
+| 🟢 Low | Warmy Layout import | WarmyEmailDeliverability.tsx | Low | Low (potential bug) |
+
+---
+
+### 18.9 Summary: Current State as New Baseline
+
+**The codebase represents the authoritative product offering:**
+
+1. **Smart Website Ladder:** $249 → $97/mo → $197/mo → $297/mo ✅
+2. **AI Employee Plans:** $497-$597/mo with $997-$2,500 setup (Pricing.tsx) ✅
+3. **Parallel Entry:** Web Chat ($79/mo), Warmy ($49/mo) ✅
+4. **4 Industry Categories:** Home, Professional, Health, Automotive ✅
+5. **5-Section Homepage:** Hero, HowWeHelp, Transformation, Testimonials, CTA ✅
+6. **Luxury Design System:** Inter font, gold accents, dark theme ✅
+
+**Critical fixes needed before baseline is clean:**
+1. AIEmployee.tsx pricing sync
+2. Contact.tsx placeholder replacement
+3. MobileBottomBar.tsx route fix
+4. Pricing.tsx M-prefix removal
+
+**Everything else is polish, compliance, or future work.**
+
+---
+
 **END OF REPORT**
 
-*This document is auto-generated for baseline comparison purposes. It documents differences without prescribing solutions.*
+*This document serves as the comprehensive baseline comparison and progression analysis. The current codebase structure, navigation, and pricing (with noted exceptions) represents the offering baseline for EverIntent.*
+
+*Generated: 2026-01-31 | BRD v35.3 | Complete Progression Analysis*
