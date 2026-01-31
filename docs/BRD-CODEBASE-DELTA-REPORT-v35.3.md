@@ -2042,13 +2042,42 @@ This section documents intentional cleanup performed to align codebase with the 
 
 ---
 
+### 19.6 AI Employee Individual Mode Pages (Complete)
+
+**Background:** AI Employee modes were linking to anchor sections (#after-hours, #booking, etc.) on a single hub page. User requested individual product pages per mode.
+
+**Actions Taken:**
+- Created 5 dedicated mode pages in `src/pages/ai-employee/`:
+  - `AfterHours.tsx` → `/let-ai-handle-it/after-hours`
+  - `BookingAgent.tsx` → `/let-ai-handle-it/booking`
+  - `MissedCallRecovery.tsx` → `/let-ai-handle-it/missed-call`
+  - `FrontLineScreening.tsx` → `/let-ai-handle-it/screening`
+  - `FullTakeover.tsx` → `/let-ai-handle-it/full-takeover`
+- Updated `routes.tsx`:
+  - Added imports for all 5 mode pages
+  - Added `aiEmployeeModePaths` array for SSG pre-rendering
+  - Added route definitions for each mode page
+- Updated `Header.tsx`:
+  - Changed `aiEmployeeModes` paths from hash anchors to dedicated routes
+  - Mobile menu now links to individual pages via shared array
+
+**SEO/AEO Considerations:**
+- Each mode page has dedicated `<SEO>` component with unique title/description
+- Breadcrumb navigation: AI Employee → Mode Name
+- Structured content: Hero, How It Works, Features, Use Cases, CTA
+- Pricing displayed prominently per BRD v35.3 ($497-$597/mo, $997-$2,500 setup)
+
+**SSG Pre-rendering:** All 5 mode paths added to `prerenderRoutes` array for static generation.
+
+---
+
 ## 20. Remaining Cleanup Items
 
 After the 2026-01-31 cleanup, the following items still need attention:
 
 | Priority | Item | Status |
 |----------|------|--------|
-| 🔴 Critical | AIEmployee.tsx pricing ($149-$297 → $497-$597) | ⏳ Pending |
+| 🔴 Critical | AIEmployee.tsx hub page pricing ($149-$297 → $497-$597) | ⏳ Pending |
 | 🔴 Critical | Contact.tsx placeholder phone/email | ⏳ Pending |
 | 🟠 High | Pricing.tsx M-prefix removal | ⏳ Pending |
 | 🟡 Medium | Footer starting price ($149 → $249) | ⏳ Pending |
@@ -2059,9 +2088,37 @@ After the 2026-01-31 cleanup, the following items still need attention:
 
 ---
 
+## 21. Current Navigation Structure (Updated)
+
+### 21.1 AI Employee Navigation
+
+**Desktop Dropdown (Header.tsx):**
+```
+AI Employee (hub: /let-ai-handle-it)
+├── After-Hours → /let-ai-handle-it/after-hours
+├── Booking Agent → /let-ai-handle-it/booking
+├── Missed Call Recovery → /let-ai-handle-it/missed-call
+├── Front Line Screening → /let-ai-handle-it/screening
+└── Full Takeover → /let-ai-handle-it/full-takeover
+```
+
+**Mobile Menu:** Uses same `aiEmployeeModes` array, all routes verified.
+
+### 21.2 SSG Route Coverage
+
+All AI Employee mode pages included in `prerenderRoutes`:
+- `/let-ai-handle-it` (hub)
+- `/let-ai-handle-it/after-hours`
+- `/let-ai-handle-it/booking`
+- `/let-ai-handle-it/missed-call`
+- `/let-ai-handle-it/screening`
+- `/let-ai-handle-it/full-takeover`
+
+---
+
 **END OF REPORT**
 
 *This document serves as the comprehensive baseline comparison and progression analysis. The current codebase structure, navigation, and pricing (with noted exceptions) represents the offering baseline for EverIntent.*
 
 *Generated: 2026-01-31 | BRD v35.3 | Complete Progression Analysis*
-*Updated: 2026-01-31 | Mobile menu AI Employee hub link fixed*
+*Updated: 2026-01-31 | AI Employee individual mode pages created, navigation updated*
