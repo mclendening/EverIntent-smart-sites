@@ -59,6 +59,11 @@ import BookingAgent from './pages/ai-employee/BookingAgent';
 import MissedCallRecovery from './pages/ai-employee/MissedCallRecovery';
 import FrontLineScreening from './pages/ai-employee/FrontLineScreening';
 import FullTakeover from './pages/ai-employee/FullTakeover';
+// Smart Websites tier pages
+import SmartSite from './pages/smart-websites/SmartSite';
+import SmartLead from './pages/smart-websites/SmartLead';
+import SmartBusiness from './pages/smart-websites/SmartBusiness';
+import SmartGrowth from './pages/smart-websites/SmartGrowth';
 import AdminLogin from './pages/admin/Login';
 import AdminResetPassword from './pages/admin/ResetPassword';
 import AdminDashboard from './pages/admin/Dashboard';
@@ -177,6 +182,14 @@ const aiEmployeeModePaths = [
   '/let-ai-handle-it/missed-call',
   '/let-ai-handle-it/screening',
   '/let-ai-handle-it/full-takeover',
+];
+
+// Smart Websites tier paths
+const smartWebsitesTierPaths = [
+  '/smart-websites/smart-site',
+  '/smart-websites/smart-lead',
+  '/smart-websites/smart-business',
+  '/smart-websites/smart-growth',
 ];
 
 const servicePaths = [
@@ -354,6 +367,7 @@ export const prerenderRoutes: string[] = [
   primaryServicePath,
   ...servicePaths,
   ...aiEmployeeModePaths, // AI Employee mode pages
+  ...smartWebsitesTierPaths, // Smart Websites tier pages
   ...productCategoryPaths,
   ...featurePaths,
   '/industries', // Industries landing page
@@ -446,10 +460,27 @@ export const routes: RouteRecord[] = [
         path: 'let-ai-handle-it/full-takeover',
         Component: FullTakeover,
       },
-      // Smart Websites page - dedicated component
+      // Smart Websites hub page
       {
         path: 'smart-websites',
         Component: SmartWebsites,
+      },
+      // Smart Websites tier pages
+      {
+        path: 'smart-websites/smart-site',
+        Component: SmartSite,
+      },
+      {
+        path: 'smart-websites/smart-lead',
+        Component: SmartLead,
+      },
+      {
+        path: 'smart-websites/smart-business',
+        Component: SmartBusiness,
+      },
+      {
+        path: 'smart-websites/smart-growth',
+        Component: SmartGrowth,
       },
       // Warmy Email Deliverability - full service page
       {
