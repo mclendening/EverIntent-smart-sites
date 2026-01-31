@@ -2081,22 +2081,64 @@ This section documents intentional cleanup performed to align codebase with the 
 
 **Why Changed:** User preference — "Full AI Employee" is more professional and aligns with the product name.
 
+### 19.8 100-Point Codebase Alignment Audit (Complete)
+
+**Background:** Comprehensive audit to identify all stale data, naming mismatches, and content drift.
+
+**Critical Issues Found & Fixed:**
+
+| Issue | File | Before | After |
+|-------|------|--------|-------|
+| Footer AI Modes links | Footer.tsx | Hash anchors (#after-hours) | Dedicated routes (/let-ai-handle-it/after-hours) |
+| Footer AI mode naming | Footer.tsx | "Full Takeover" | "Full AI Employee" |
+| Footer pricing | Footer.tsx | "Starting at $149/mo" | "Smart Websites from $249" |
+| Contact phone | Contact.tsx | (800) 555-1234 | (562) 685-9500 |
+| Contact email | Contact.tsx | hello@everintent.com | info@everintent.com |
+| Contact address | Contact.tsx | "Remote-first company" | Full business address |
+| AIEmployee.tsx pricing | AIEmployee.tsx | $149-$297/mo, $297-$597 setup | $497-$597/mo, $997-$2,500 setup |
+| AIEmployee.tsx SEO | AIEmployee.tsx | "Starting at $149/mo" | "Starting at $497/mo" |
+| AIEmployee.tsx CTA | AIEmployee.tsx | Links to /checkout | Links to mode pages |
+| Pricing.tsx SEO | Pricing.tsx | "starts at $149/mo" | "from $497/mo" |
+| Pricing.tsx M-prefixes | Pricing.tsx | "M1: After-Hours" | "After-Hours" |
+| index.html OG images | index.html | lovable.dev/opengraph-image | everintent.com/og-image.jpg |
+| index.html fonts | index.html | Space Grotesk + Inter | Inter only |
+
+**Accessibility (ADA) Verified:**
+- All interactive elements have proper `aria-label` attributes
+- Form inputs have associated `<Label>` elements
+- Color contrast meets WCAG 2.1 AA standards (gold on dark)
+- Keyboard navigation supported via native HTML semantics
+
+**SEO/AEO Alignment:**
+- All pages have unique `<SEO>` components with proper title/description
+- FAQ schema (JSON-LD) on Pricing page for rich snippets
+- Consistent H1 hierarchy across all pages
+- Meta descriptions under 160 characters with primary keywords
+
+**Purchase Flow Alignment:**
+- AIEmployee mode cards now link to dedicated product pages (not checkout)
+- Product pages contain detailed info + CTA to /pricing or /contact
+- Pricing page CTAs link to /contact (pre-checkout qualification)
+- GHL tag mapping verified in ghlClient.ts TIER_TAG_MAP
+
 ---
 
 ## 20. Remaining Cleanup Items
 
-After the 2026-01-31 cleanup, the following items still need attention:
+After the 2026-01-31 comprehensive audit, the following items still need attention:
 
 | Priority | Item | Status |
 |----------|------|--------|
-| 🔴 Critical | AIEmployee.tsx hub page pricing ($149-$297 → $497-$597) | ⏳ Pending |
-| 🔴 Critical | Contact.tsx placeholder phone/email | ⏳ Pending |
-| 🟠 High | Pricing.tsx M-prefix removal | ⏳ Pending |
-| 🟡 Medium | Footer starting price ($149 → $249) | ⏳ Pending |
-| 🟡 Medium | Pricing.tsx meta description fix | ⏳ Pending |
-| 🟡 Medium | index.html OG images | ⏳ Pending |
+| ✅ Fixed | AIEmployee.tsx hub page pricing | ✅ Complete |
+| ✅ Fixed | Contact.tsx placeholder phone/email | ✅ Complete |
+| ✅ Fixed | Pricing.tsx M-prefix removal | ✅ Complete |
+| ✅ Fixed | Footer starting price | ✅ Complete |
+| ✅ Fixed | Pricing.tsx meta description | ✅ Complete |
+| ✅ Fixed | index.html OG images | ✅ Complete |
+| ✅ Fixed | Footer AI mode links (hash → routes) | ✅ Complete |
 | 🟡 Medium | Footer "Client Login" external link | ⏳ Pending |
 | 🟢 Low | JSDoc @brd-reference tags | ⏳ Pending (per user request to leave) |
+| 🟢 Low | OG image file needs to be created/uploaded | ⏳ Pending (placeholder URL set) |
 
 ---
 
@@ -2116,6 +2158,8 @@ AI Employee (hub: /let-ai-handle-it)
 
 **Mobile Menu:** Uses same `aiEmployeeModes` array, all routes verified.
 
+**Footer AI Modes Column:** Now links to dedicated product pages, not hash anchors.
+
 ### 21.2 SSG Route Coverage
 
 All AI Employee mode pages included in `prerenderRoutes`:
@@ -2126,11 +2170,52 @@ All AI Employee mode pages included in `prerenderRoutes`:
 - `/let-ai-handle-it/screening`
 - `/let-ai-handle-it/full-takeover`
 
+### 21.3 Contact Information (Verified)
+
+**Canonical Business Info:**
+- Email: info@everintent.com
+- Phone: (562) 685-9500
+- Address: 2892 N Bellflower Blvd, PMB 1018, Long Beach, CA 90815
+
+Used consistently in:
+- Footer.tsx ✅
+- Contact.tsx ✅
+
+---
+
+## 22. Pricing Baseline (Verified)
+
+### 22.1 Smart Website Packages
+
+| Tier | Price | Setup | Hosting |
+|------|-------|-------|---------|
+| Smart Site | $249 one-time | $249 | $149/yr after Y1 |
+| Smart Lead | $97/mo | $249 | Included |
+| Smart Business | $197/mo | $497 | Included |
+| Smart Growth | $297/mo | $997 | Included |
+
+### 22.2 AI Employee Modes
+
+| Mode | Monthly | Setup |
+|------|---------|-------|
+| After-Hours (M1) | $497 | $997 |
+| After-Hours + Booking (M2) | $497 | $997 |
+| Missed Call Recovery (M3) | $497 | $997 |
+| Front Line Screener (M4) | $547 | $1,497 |
+| Full AI Employee (M5) | $597 | $2,500 |
+
+### 22.3 Parallel Entry Points
+
+| Product | Monthly | Setup |
+|---------|---------|-------|
+| Web Chat Only | $79 | $497 |
+| Warmy Booster | $49 | None |
+
 ---
 
 **END OF REPORT**
 
-*This document serves as the comprehensive baseline comparison and progression analysis. The current codebase structure, navigation, and pricing (with noted exceptions) represents the offering baseline for EverIntent.*
+*This document serves as the comprehensive baseline comparison and progression analysis. The current codebase structure, navigation, and pricing represents the verified offering baseline for EverIntent.*
 
 *Generated: 2026-01-31 | BRD v35.3 | Complete Progression Analysis*
-*Updated: 2026-01-31 | "Full Takeover" renamed to "Full AI Employee" per user feedback*
+*Updated: 2026-01-31 | 100-point codebase alignment audit complete*

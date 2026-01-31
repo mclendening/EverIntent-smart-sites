@@ -285,10 +285,10 @@ const Contact = () => {
                     <div>
                       <p className="font-medium text-foreground">Email</p>
                       <a
-                        href="mailto:hello@everintent.com"
+                        href="mailto:info@everintent.com"
                         className="text-muted-foreground hover:text-primary transition-colors"
                       >
-                        hello@everintent.com
+                        info@everintent.com
                       </a>
                     </div>
                   </div>
@@ -300,10 +300,10 @@ const Contact = () => {
                     <div>
                       <p className="font-medium text-foreground">Phone</p>
                       <a
-                        href="tel:+18005551234"
+                        href="tel:+15626859500"
                         className="text-muted-foreground hover:text-primary transition-colors"
                       >
-                        (800) 555-1234
+                        (562) 685-9500
                       </a>
                     </div>
                   </div>
@@ -329,9 +329,9 @@ const Contact = () => {
                     <div>
                       <p className="font-medium text-foreground">Location</p>
                       <p className="text-muted-foreground">
-                        Remote-first company
+                        2892 N Bellflower Blvd
                         <br />
-                        Serving businesses nationwide
+                        PMB 1018, Long Beach, CA 90815
                       </p>
                     </div>
                   </div>

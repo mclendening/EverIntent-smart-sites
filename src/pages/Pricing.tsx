@@ -40,7 +40,7 @@ import {
 const aiEmployeePlans = [
   {
     id: 'm1',
-    name: 'M1: After-Hours',
+    name: 'After-Hours',
     price: '$497',
     setup: '$997',
     bestFor: 'Capture leads while closed',
@@ -48,7 +48,7 @@ const aiEmployeePlans = [
   },
   {
     id: 'm2',
-    name: 'M2: After-Hours + Booking',
+    name: 'After-Hours + Booking',
     price: '$497',
     setup: '$997',
     bestFor: 'Self-service scheduling',
@@ -57,7 +57,7 @@ const aiEmployeePlans = [
   },
   {
     id: 'm3',
-    name: 'M3: Missed Call Recovery',
+    name: 'Missed Call Recovery',
     price: '$497',
     setup: '$997',
     bestFor: 'Recover busy-hour leads',
@@ -65,7 +65,7 @@ const aiEmployeePlans = [
   },
   {
     id: 'm4',
-    name: 'M4: Front Line Screener',
+    name: 'Front Line Screener',
     price: '$547',
     setup: '$1,497',
     bestFor: 'High call volume',
@@ -73,7 +73,7 @@ const aiEmployeePlans = [
   },
   {
     id: 'm5',
-    name: 'M5: Full AI Employee',
+    name: 'Full AI Employee',
     price: '$597',
     setup: '$2,500',
     bestFor: 'Complete automation',
@@ -182,7 +182,7 @@ const Pricing = () => {
     <>
       <SEO
         title="Pricing | AI Employee & Smart Websites | EverIntent"
-        description="AI Employee starts at $149/mo. Smart Websites from $249. Simple pricing with no contracts. See all plans and choose the right fit for your business."
+        description="AI Employee from $497/mo. Smart Websites from $249. Simple pricing with no contracts. See all plans and choose the right fit for your business."
       />
       
       {/* FAQ Schema */}

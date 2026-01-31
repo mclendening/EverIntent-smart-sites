@@ -39,47 +39,52 @@ const aiModes = [
     id: 'M1',
     name: 'After-Hours Answering',
     description: 'AI answers calls outside business hours, takes messages, and sends SMS summaries.',
-    price: '$149/mo',
-    setupFee: '$297',
+    price: '$497/mo',
+    setupFee: '$997',
     features: ['Voice answering', 'Message taking', 'SMS summaries', 'Call transcripts'],
     icon: Clock,
+    path: '/let-ai-handle-it/after-hours',
   },
   {
     id: 'M2',
     name: 'After-Hours + Booking',
     description: 'Everything in M1, plus AI books appointments directly into your calendar.',
-    price: '$199/mo',
-    setupFee: '$297',
+    price: '$497/mo',
+    setupFee: '$997',
     features: ['All M1 features', 'Calendar integration', 'Appointment booking', 'Confirmation SMS'],
     icon: Calendar,
     popular: true,
+    path: '/let-ai-handle-it/booking',
   },
   {
     id: 'M3',
     name: 'Missed Call Recovery',
     description: 'AI follows up on missed calls with SMS, re-engages leads, and books appointments.',
-    price: '$199/mo',
-    setupFee: '$297',
+    price: '$497/mo',
+    setupFee: '$997',
     features: ['Missed call detection', 'Automated SMS follow-up', 'Lead re-engagement', 'Booking links'],
     icon: PhoneOff,
+    path: '/let-ai-handle-it/missed-call',
   },
   {
     id: 'M4',
     name: 'Front Line Screener',
     description: 'AI screens all incoming calls, qualifies leads, and transfers hot prospects to you.',
-    price: '$249/mo',
-    setupFee: '$497',
+    price: '$547/mo',
+    setupFee: '$1,497',
     features: ['Live call screening', 'Lead qualification', 'Priority routing', 'Human transfer'],
     icon: ShieldCheck,
+    path: '/let-ai-handle-it/screening',
   },
   {
     id: 'M5',
     name: 'Full AI Employee',
     description: 'Complete AI receptionist: voice, SMS, web chat, booking, screening, and transfers.',
-    price: '$297/mo',
-    setupFee: '$597',
+    price: '$597/mo',
+    setupFee: '$2,500',
     features: ['All M1-M4 features', 'Web chat integration', 'Multi-channel support', 'Priority support'],
     icon: Bot,
+    path: '/let-ai-handle-it/full-takeover',
   },
 ];
 
@@ -116,7 +121,7 @@ export default function AIEmployee() {
     <>
       <SEO 
         title="AI Employee™ — Your 24/7 AI Receptionist | EverIntent"
-        description="Stop losing money to missed calls. AI Employee answers 24/7, books appointments, screens calls, and recovers missed leads. Starting at $149/mo."
+        description="Stop losing money to missed calls. AI Employee answers 24/7, books appointments, screens calls, and recovers missed leads. Starting at $497/mo."
       />
       
       <main className="min-h-screen">
@@ -150,7 +155,7 @@ export default function AIEmployee() {
                 <CTAButton 
                   to="/pricing" 
                   defaultText="See Pricing"
-                  hoverText="Starting at $149/mo"
+                  hoverText="Starting at $497/mo"
                 />
                 <a 
                   href="#modes" 
@@ -273,9 +278,9 @@ export default function AIEmployee() {
                   </ul>
                   
                   <CTAButton 
-                    to={`/checkout/ai-employee?mode=${mode.id.toLowerCase()}`}
-                    defaultText="Get Started"
-                    hoverText="Choose This Mode"
+                    to={mode.path}
+                    defaultText="Learn More"
+                    hoverText="See Details"
                     className="w-full"
                   />
                 </div>
