@@ -1985,8 +1985,82 @@ SERVICES          AI MODES            RESOURCES       COMPANY
 
 ---
 
+## 19. Purposeful Cleanup Log (2026-01-31)
+
+This section documents intentional cleanup performed to align codebase with the offering baseline.
+
+### 19.1 LocalPros Removal (Complete)
+
+**Background:** LocalPros was a legacy partner/referral program that was deprecated in favor of direct EverIntent offerings.
+
+**Actions Taken:**
+- Removed `LocalPros lead disclosure` reference from PrivacyPolicy.tsx JSDoc (line 18)
+- Legacy `localpros_apply` form type remains in DB constraint (migration not touched)
+- Documentation references in /docs remain as historical record
+
+**Why Killed Off:** LocalPros added complexity without ROI. Direct customer acquisition via AI Employee and Smart Websites is the strategic focus. Partner programs may return post-MVP with different structure.
+
+### 19.2 65+ Verticals → 4 Industry Hubs (Complete)
+
+**Background:** BRD originally specified 65+ individual vertical landing pages. This was identified as over-engineering for MVP.
+
+**Actions Taken:**
+- Updated routes.ts: Removed all 71 individual vertical routes (homeServicesRoutes, professionalServicesRoutes, healthWellnessRoutes, automotiveServicesRoutes)
+- Retained 4 industry hub routes in `industryHubRoutes`
+- Updated Industries.tsx: Changed copy from "65+ verticals" to "4 industry categories"
+- Updated IndustriesSection.tsx: Same copy update
+- Updated routes.ts JSDoc: Changed "65+ local business verticals" to "4 category pages"
+
+**Why Changed:** Individual vertical pages require unique content and SEO strategy not yet developed. Hub pages provide sufficient categorization. Vertical pages can be added post-MVP when content strategy is finalized.
+
+### 19.3 Navigation Link Fixes (Complete)
+
+**Actions Taken:**
+- Footer.tsx: Changed `/warmy` → `/warmy-email-deliverability`
+- Header.tsx: Changed `/industries/automotive` → `/industries/automotive-services`
+- Header.tsx: Added `hubPath="/let-ai-handle-it"` to AI Employee dropdown
+- MobileBottomBar.tsx: Changed `/beautiful-websites` → `/smart-websites`
+
+### 19.4 SmartSites Branding Cleanup (Complete)
+
+**Actions Taken:**
+- routes.ts line 42: Changed "About EverIntent SmartSites" → "About EverIntent"
+- routes.ts line 253: Changed "Get help with SmartSites" → "Get help with EverIntent"
+
+**Why Changed:** EverIntent is the master brand. "SmartSites" was a working title that should only appear in product context (Smart Site, Smart Lead, etc.), not in brand descriptions.
+
+### 19.5 start-checkout Edge Function Fix (Complete)
+
+**Actions Taken:**
+- Removed local `TIER_TAG_MAP` definition using legacy T1-T4 keys
+- Now imports `TIER_TAG_MAP` from `ghlClient.ts`
+- Uses `service_interest.toLowerCase()` for key lookup
+- Supports new keys: `smart-site`, `smart-lead`, `smart-business`, `smart-growth`, `m1`-`m5`, `web-chat`, `warmy`
+
+**Why Changed:** Centralized tag mapping prevents drift between checkout and GHL sync. Legacy T1-T4 tags are deprecated but retained for backward compatibility.
+
+---
+
+## 20. Remaining Cleanup Items
+
+After the 2026-01-31 cleanup, the following items still need attention:
+
+| Priority | Item | Status |
+|----------|------|--------|
+| 🔴 Critical | AIEmployee.tsx pricing ($149-$297 → $497-$597) | ⏳ Pending |
+| 🔴 Critical | Contact.tsx placeholder phone/email | ⏳ Pending |
+| 🟠 High | Pricing.tsx M-prefix removal | ⏳ Pending |
+| 🟡 Medium | Footer starting price ($149 → $249) | ⏳ Pending |
+| 🟡 Medium | Pricing.tsx meta description fix | ⏳ Pending |
+| 🟡 Medium | index.html OG images | ⏳ Pending |
+| 🟡 Medium | Footer "Client Login" external link | ⏳ Pending |
+| 🟢 Low | JSDoc @brd-reference tags | ⏳ Pending (per user request to leave) |
+
+---
+
 **END OF REPORT**
 
 *This document serves as the comprehensive baseline comparison and progression analysis. The current codebase structure, navigation, and pricing (with noted exceptions) represents the offering baseline for EverIntent.*
 
 *Generated: 2026-01-31 | BRD v35.3 | Complete Progression Analysis*
+*Updated: 2026-01-31 | Purposeful Cleanup Log Added*

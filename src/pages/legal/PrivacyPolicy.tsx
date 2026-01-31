@@ -15,7 +15,6 @@ import { SEO } from '@/components/SEO';
  * - Call/SMS recording disclosure
  * - Data retention periods (7 years customer, 3 years leads, 26 months analytics)
  * - California/CCPA rights (know, delete, opt-out, non-discrimination)
- * - LocalPros lead disclosure
  * 
  * @component
  * @example

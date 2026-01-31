@@ -1,8 +1,8 @@
 /**
- * @fileoverview Industries Landing Page - Hub for all industry verticals.
+ * @fileoverview Industries Landing Page - Hub for 4 industry categories.
  * @module pages/Industries
  * 
- * Entry point showcasing 65+ verticals across 4 industry categories.
+ * Entry point showcasing 4 industry categories with tailored solutions.
  * Each category card uses industry-specific "token words" to improve
  * conversion and SEO relevance for high-value local service niches.
  */
@@ -150,7 +150,7 @@ export default function Industries() {
     <>
       <SEO 
         title="Industries We Serve"
-        description="Smart websites and AI automation for 65+ local service verticals. Home services, professional services, health & wellness, and automotive."
+        description="Smart websites and AI automation for local service businesses. Home services, professional services, health & wellness, and automotive."
         canonical="/industries"
       />
       
@@ -165,8 +165,8 @@ export default function Industries() {
               <span className="text-gradient">your industry</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8">
-              We understand local businesses. That's why we serve <strong className="text-foreground">65+ verticals</strong> across 
-              4 industry categories with tailored solutions that speak your language.
+              We understand local businesses. That's why we serve <strong className="text-foreground">4 industry categories</strong> with 
+              tailored solutions that speak your language.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button asChild size="lg">
