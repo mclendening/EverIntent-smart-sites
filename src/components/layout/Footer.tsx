@@ -26,11 +26,11 @@ const servicesLinks = [
  * AI Modes column links
  */
 const aiModesLinks = [
-  { title: 'After Hours', path: '/let-ai-handle-it#after-hours' },
-  { title: 'Booking Agent', path: '/let-ai-handle-it#booking' },
-  { title: 'Missed Call Recovery', path: '/let-ai-handle-it#missed-call' },
-  { title: 'Front Line Screening', path: '/let-ai-handle-it#screening' },
-  { title: 'Full Takeover', path: '/let-ai-handle-it#full-takeover' },
+  { title: 'After-Hours', path: '/let-ai-handle-it/after-hours' },
+  { title: 'Booking Agent', path: '/let-ai-handle-it/booking' },
+  { title: 'Missed Call Recovery', path: '/let-ai-handle-it/missed-call' },
+  { title: 'Front Line Screening', path: '/let-ai-handle-it/screening' },
+  { title: 'Full AI Employee', path: '/let-ai-handle-it/full-takeover' },
 ];
 
 /**
@@ -174,7 +174,7 @@ export function Footer() {
                 <span className="text-accent">✦</span> Ever<span className="text-gradient">Intent</span>
               </Link>
               <p className="text-sm text-muted-foreground max-w-xs">
-                AI-powered business solutions. Never miss a call. Never lose a lead. <span className="text-accent font-medium">Starting at $149/mo.</span>
+                AI-powered business solutions. Never miss a call. Never lose a lead. <span className="text-accent font-medium">Smart Websites from $249.</span>
               </p>
             </div>
             
