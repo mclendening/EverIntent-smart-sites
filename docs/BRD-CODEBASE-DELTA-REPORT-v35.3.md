@@ -1950,7 +1950,7 @@ SERVICES          AI MODES            RESOURCES       COMPANY
 |----------|------|------|--------|--------|
 | 🔴 Critical | AIEmployee.tsx pricing | AIEmployee.tsx | Low | High (misleading prices) |
 | 🔴 Critical | Contact placeholder data | Contact.tsx | Low | High (unprofessional) |
-| 🔴 Critical | MobileBottomBar stale route | MobileBottomBar.tsx | Low | Medium (broken nav) |
+| ✅ Fixed | MobileBottomBar stale route | MobileBottomBar.tsx | Low | Medium (broken nav) |
 | 🟠 High | Pricing.tsx M-prefixes | Pricing.tsx | Low | Medium (BRD compliance) |
 | 🟠 High | JSDoc @brd-reference | 2 files | Low | Low (documentation) |
 | 🟠 High | routes.ts SmartSites | routes.ts | Low | Low (branding) |
@@ -2020,6 +2020,7 @@ This section documents intentional cleanup performed to align codebase with the 
 - Header.tsx: Changed `/industries/automotive` → `/industries/automotive-services`
 - Header.tsx: Added `hubPath="/let-ai-handle-it"` to AI Employee dropdown
 - MobileBottomBar.tsx: Changed `/beautiful-websites` → `/smart-websites`
+- Header.tsx (mobile menu): Changed AI Employee section header from `<span>` to clickable `<Link to="/let-ai-handle-it">` for consistency with Smart Websites and Industries sections
 
 ### 19.4 SmartSites Branding Cleanup (Complete)
 
@@ -2063,4 +2064,4 @@ After the 2026-01-31 cleanup, the following items still need attention:
 *This document serves as the comprehensive baseline comparison and progression analysis. The current codebase structure, navigation, and pricing (with noted exceptions) represents the offering baseline for EverIntent.*
 
 *Generated: 2026-01-31 | BRD v35.3 | Complete Progression Analysis*
-*Updated: 2026-01-31 | Purposeful Cleanup Log Added*
+*Updated: 2026-01-31 | Mobile menu AI Employee hub link fixed*
