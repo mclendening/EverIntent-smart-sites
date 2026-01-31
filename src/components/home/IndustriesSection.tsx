@@ -83,8 +83,8 @@ const industries = [
 ];
 
 /**
- * Four-column grid showcasing 65+ industry verticals across 4 hubs.
- * Cards link to industry-specific landing pages with vertical counts.
+ * Four-column grid showcasing 4 industry categories.
+ * Cards link to industry-specific landing pages.
  * 
  * @component
  * @example
@@ -103,7 +103,7 @@ export function IndustriesSection() {
             <span className="text-gradient">your industry</span>
           </h2>
           <p className="text-muted-foreground text-base md:text-lg">
-            We understand local businesses. That's why we serve 65+ verticals across 4 industries.
+            We understand local businesses across 4 core industries with tailored solutions.
           </p>
         </div>
         

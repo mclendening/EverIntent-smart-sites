@@ -30,7 +30,7 @@ declare global {
  */
 const navItems = [
   { icon: Home, label: 'Home', path: '/' },
-  { icon: Briefcase, label: 'Services', path: '/beautiful-websites' },
+  { icon: Briefcase, label: 'Services', path: '/smart-websites' },
   { icon: Building2, label: 'Industries', path: '/industries/home-services' },
   { icon: DollarSign, label: 'Pricing', path: '/pricing' },
 ];

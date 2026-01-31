@@ -42,7 +42,7 @@ const industriesItems = [
   { title: 'Home Services', path: '/industries/home-services', description: 'HVAC, Plumbing, Electrical' },
   { title: 'Professional Services', path: '/industries/professional-services', description: 'Legal, Real Estate' },
   { title: 'Health & Wellness', path: '/industries/health-wellness', description: 'MedSpa, Dental' },
-  { title: 'Automotive', path: '/industries/automotive', description: 'Auto Repair, Detailing' },
+  { title: 'Automotive', path: '/industries/automotive-services', description: 'Auto Repair, Detailing' },
 ];
 
 /**
@@ -109,7 +109,7 @@ export function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-1">
-          <NavDropdown label="AI Employee" items={aiEmployeeModes} />
+          <NavDropdown label="AI Employee" items={aiEmployeeModes} hubPath="/let-ai-handle-it" />
           <NavDropdown label="Smart Websites" items={smartWebsitesTiers} hubPath="/smart-websites" />
           <NavDropdown label="Industries" items={industriesItems} hubPath="/industries" />
           

@@ -19,7 +19,7 @@ const servicesLinks = [
   { title: 'Smart Business', path: '/pricing#smart-business' },
   { title: 'Smart Growth', path: '/pricing#smart-growth' },
   { title: 'Web Chat Only', path: '/pricing#web-chat' },
-  { title: 'Warmy Email Deliverability', path: '/warmy' },
+  { title: 'Warmy Email Deliverability', path: '/warmy-email-deliverability' },
 ];
 
 /**

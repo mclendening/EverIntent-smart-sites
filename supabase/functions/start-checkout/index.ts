@@ -1,18 +1,10 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import { upsertContact, addTags, addNote, GHL_TAGS } from '../_shared/ghlClient.ts';
+import { upsertContact, addTags, addNote, TIER_TAG_MAP } from '../_shared/ghlClient.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
-
-// Map tier to tag
-const TIER_TAG_MAP: Record<string, string> = {
-  'T1': GHL_TAGS.CHECKOUT_T1,
-  'T2': GHL_TAGS.CHECKOUT_T2,
-  'T3': GHL_TAGS.CHECKOUT_T3,
-  'T4': GHL_TAGS.CHECKOUT_T4,
 };
 
 serve(async (req) => {
@@ -111,8 +103,9 @@ serve(async (req) => {
 
       ghlContactId = contactId;
 
-      // Add tier tag if service_interest matches
-      const tierTag = service_interest ? TIER_TAG_MAP[service_interest] : null;
+      // Add tier tag if service_interest matches (supports smart-site, m1-m5, etc.)
+      const tierKey = service_interest?.toLowerCase();
+      const tierTag = tierKey ? TIER_TAG_MAP[tierKey] : null;
       if (tierTag) {
         await addTags(contactId, [tierTag]);
       }
