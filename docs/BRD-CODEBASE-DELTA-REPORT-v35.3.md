@@ -2213,9 +2213,69 @@ Used consistently in:
 
 ---
 
+## 23. Smart Websites Architecture Alignment (2026-01-31)
+
+### 23.1 Hub + Individual Tier Pages Pattern
+
+Implemented the same architecture pattern as AI Employee:
+- **Hub Page:** `/smart-websites` (SmartWebsites.tsx) - Overview and comparison table
+- **Tier Pages:** Individual product pages with breadcrumbs, SEO, AEO content
+
+| Tier | Route | Component |
+|------|-------|-----------|
+| Smart Site | `/smart-websites/smart-site` | SmartSite.tsx |
+| Smart Lead | `/smart-websites/smart-lead` | SmartLead.tsx |
+| Smart Business | `/smart-websites/smart-business` | SmartBusiness.tsx |
+| Smart Growth | `/smart-websites/smart-growth` | SmartGrowth.tsx |
+
+### 23.2 SSG Pre-rendering
+
+Added to `prerenderRoutes` in routes.tsx:
+```typescript
+const smartWebsitesTierPaths = [
+  '/smart-websites/smart-site',
+  '/smart-websites/smart-lead',
+  '/smart-websites/smart-business',
+  '/smart-websites/smart-growth',
+];
+```
+
+### 23.3 Footer Updates
+
+Services column now links to individual tier pages instead of pricing hash anchors:
+- Smart Site → `/smart-websites/smart-site`
+- Smart Lead → `/smart-websites/smart-lead`
+- Smart Business → `/smart-websites/smart-business`
+- Smart Growth → `/smart-websites/smart-growth`
+
+### 23.4 Individual Page Features
+
+Each tier page includes:
+- ✅ Breadcrumb navigation (Home → Smart Websites → [Tier])
+- ✅ SEO meta tags with unique title/description
+- ✅ Hero section with pricing and tier badge
+- ✅ Feature grid highlighting tier-specific capabilities
+- ✅ "Plus everything in [lower tier]" sections
+- ✅ "Perfect For" audience targeting
+- ✅ FAQ section with tier-specific questions
+- ✅ CTA with link to next tier upsell
+
+### 23.5 Architecture Parity with AI Employee
+
+| Aspect | AI Employee | Smart Websites |
+|--------|-------------|----------------|
+| Hub page | `/let-ai-handle-it` | `/smart-websites` |
+| Individual pages | 5 mode pages | 4 tier pages |
+| Breadcrumbs | ✅ | ✅ |
+| SSG routes | ✅ | ✅ |
+| Footer links | Dedicated pages | Dedicated pages |
+| SEO per page | ✅ | ✅ |
+
+---
+
 **END OF REPORT**
 
 *This document serves as the comprehensive baseline comparison and progression analysis. The current codebase structure, navigation, and pricing represents the verified offering baseline for EverIntent.*
 
 *Generated: 2026-01-31 | BRD v35.3 | Complete Progression Analysis*
-*Updated: 2026-01-31 | 100-point codebase alignment audit complete*
+*Updated: 2026-01-31 | Smart Websites hub + tier pages architecture aligned with AI Employee pattern*

@@ -14,10 +14,10 @@ import { Button } from '@/components/ui/button';
  */
 const servicesLinks = [
   { title: 'AI Employee', path: '/let-ai-handle-it' },
-  { title: 'Smart Site', path: '/pricing#smart-site' },
-  { title: 'Smart Lead', path: '/pricing#smart-lead' },
-  { title: 'Smart Business', path: '/pricing#smart-business' },
-  { title: 'Smart Growth', path: '/pricing#smart-growth' },
+  { title: 'Smart Site', path: '/smart-websites/smart-site' },
+  { title: 'Smart Lead', path: '/smart-websites/smart-lead' },
+  { title: 'Smart Business', path: '/smart-websites/smart-business' },
+  { title: 'Smart Growth', path: '/smart-websites/smart-growth' },
   { title: 'Web Chat Only', path: '/pricing#web-chat' },
   { title: 'Warmy Email Deliverability', path: '/warmy-email-deliverability' },
 ];
