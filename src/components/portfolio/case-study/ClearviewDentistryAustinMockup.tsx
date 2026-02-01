@@ -960,10 +960,17 @@ const NewPatientsPage = ({ navigateTo }: { navigateTo: (page: MockupPage) => voi
 // Contact Page Component
 const ContactPage = () => (
   <div>
-    {/* Hero */}
-    <div className="bg-gradient-to-r from-[#1E293B] to-[#334155] text-white px-6 py-12">
-      <h1 className="text-2xl font-bold mb-2">Let's Get You Smiling</h1>
-      <p className="text-white/80 text-sm">Book online or give us a call</p>
+    {/* Hero with background image */}
+    <div className="relative h-48 overflow-hidden">
+      <div 
+        className="absolute inset-0 bg-cover bg-center scale-105"
+        style={{ backgroundImage: `url(${IMAGES.waitingRoom})` }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#1E293B]/90 via-[#1E293B]/70 to-[#1E293B]/50" />
+      <div className="relative z-10 h-full flex flex-col justify-end px-6 pb-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">Let's Get You Smiling</h1>
+        <p className="text-white/80 text-sm">Book online or give us a call — we can't wait to meet you!</p>
+      </div>
     </div>
     
     <div className="px-6 py-8 bg-white">
