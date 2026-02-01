@@ -5,3 +5,4 @@
 
 export { CaseStudyLayout } from './CaseStudyLayout';
 export { RiverstoneInteractiveMockup } from './RiverstoneInteractiveMockup';
+export { DesertCoolAirMockup } from './DesertCoolAirMockup';
