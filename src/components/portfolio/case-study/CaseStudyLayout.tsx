@@ -269,12 +269,9 @@ export const CaseStudyLayout = ({
       />
 
       <main className="min-h-screen bg-background">
-        {/* Hero Section - Clean layout matching screenshot pattern */}
+        {/* Hero Section - Dark background matching brand */}
         <section 
-          className="relative py-12 sm:py-16 overflow-hidden"
-          style={{ 
-            background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColor}dd 100%)`
-          }}
+          className="relative py-12 sm:py-16 overflow-hidden bg-[#0D0D0D]"
         >
           <div className="container mx-auto px-4 sm:px-6 max-w-5xl">
             {/* Back Link */}
@@ -420,10 +417,9 @@ export const CaseStudyLayout = ({
           </section>
         )}
 
-        {/* CTA Section */}
+        {/* CTA Section - Dark theme */}
         <section 
-          className="py-12 sm:py-16"
-          style={{ backgroundColor: primaryColor }}
+          className="py-12 sm:py-16 bg-[#0D0D0D]"
         >
           <div className="container mx-auto px-4 sm:px-6 text-center">
             <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">
