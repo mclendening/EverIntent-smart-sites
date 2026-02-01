@@ -333,14 +333,14 @@ export const CaseStudyLayout = ({
               ))}
             </div>
             
-            {/* Service Tags */}
-            <div className="flex flex-wrap gap-2">
+            {/* Services - Elegant typographic list */}
+            <div className="flex flex-wrap items-center gap-x-1 text-white/50 text-xs sm:text-sm tracking-wide uppercase">
               {services.map((service, i) => (
-                <span
-                  key={i}
-                  className="px-3 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white text-xs sm:text-sm"
-                >
-                  {service}
+                <span key={i} className="flex items-center">
+                  <span className="text-white/80 font-light">{service}</span>
+                  {i < services.length - 1 && (
+                    <span className="mx-3 text-white/30">—</span>
+                  )}
                 </span>
               ))}
             </div>
