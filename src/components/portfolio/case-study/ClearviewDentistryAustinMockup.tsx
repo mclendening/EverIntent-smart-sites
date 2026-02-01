@@ -250,190 +250,288 @@ const HomePage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) =>
   </div>
 );
 
-// Services Page
+// Services Page Component
 const ServicesPage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) => (
   <div>
     {/* Hero */}
-    <div className="bg-gradient-to-r from-[#0D9488] to-[#0F766E] text-white px-6 py-12">
-      <h1 className="text-2xl font-bold mb-2">Our Services</h1>
-      <p className="text-white/80 text-sm">Comprehensive dental care for your entire family</p>
+    <div className="bg-gradient-to-r from-[#1E293B] to-[#334155] text-white px-6 py-12">
+      <h1 className="text-2xl font-bold mb-2">Our Dental Services</h1>
+      <p className="text-white/80 text-sm">Comprehensive care for every member of your family</p>
     </div>
     
     <div className="px-6 py-8 bg-white">
       <div className="space-y-6">
         {[
-          { name: 'General Dentistry', img: IMAGES.serviceGeneral, desc: 'Routine checkups, cleanings, and preventive care to keep your smile healthy.' },
-          { name: 'Cosmetic Dentistry', img: IMAGES.serviceCosmetic, desc: 'Veneers, bonding, and smile makeovers to enhance your natural beauty.' },
-          { name: 'Invisalign Clear Aligners', img: IMAGES.serviceInvisalign, desc: 'Straighten your teeth discreetly with clear, removable aligners.' },
-          { name: 'Pediatric Dentistry', img: IMAGES.servicePediatric, desc: 'Gentle, fun dental care designed specifically for children.' },
-          { name: 'Emergency Dental Care', img: IMAGES.serviceEmergency, desc: 'Same-day appointments available for dental emergencies.' },
-          { name: 'Teeth Whitening', img: IMAGES.serviceWhitening, desc: 'Professional whitening for a brighter, more confident smile.' },
+          { name: 'General Dentistry', img: IMAGES.serviceGeneral, desc: 'Regular checkups, professional cleanings, fillings, and preventive care to keep your smile healthy for life.', cta: 'Schedule Checkup' },
+          { name: 'Cosmetic Dentistry', img: IMAGES.serviceCosmetic, desc: 'Transform your smile with veneers, bonding, and complete smile makeovers tailored to your goals.', cta: 'Free Consultation' },
+          { name: 'Invisalign Clear Aligners', img: IMAGES.serviceInvisalign, desc: 'Straighten your teeth discreetly with custom clear aligners. No metal brackets required.', cta: 'Am I a Candidate?' },
+          { name: 'Pediatric Dentistry', img: IMAGES.servicePediatric, desc: 'Gentle, fun dental care designed to help kids develop healthy habits and positive associations.', cta: 'Book Kids Visit' },
+          { name: 'Emergency Dental Care', img: IMAGES.serviceEmergency, desc: "Dental emergencies can't wait. We keep same-day appointments open for urgent situations.", cta: 'Emergency? Call Now' },
+          { name: 'Teeth Whitening', img: IMAGES.serviceWhitening, desc: 'Professional-grade whitening that\'s safer and more effective than over-the-counter options.', cta: 'Brighten My Smile' },
         ].map((service, i) => (
-          <div key={i} className="flex gap-4 items-start bg-gray-50 rounded-xl p-4">
-            <img src={service.img} alt={service.name} className="w-20 h-20 rounded-lg object-cover shrink-0" />
+          <div key={i} className="flex gap-4 items-start bg-gray-50 rounded-xl p-4 hover:shadow-md transition-shadow">
+            <img src={service.img} alt={service.name} className="w-24 h-24 rounded-lg object-cover shrink-0" />
             <div>
               <h3 className="font-bold text-gray-800 mb-1">{service.name}</h3>
-              <p className="text-gray-600 text-sm">{service.desc}</p>
-              <button className="text-[#0D9488] text-xs font-semibold mt-2 hover:underline">Learn More →</button>
+              <p className="text-gray-600 text-sm mb-2">{service.desc}</p>
+              <button 
+                onClick={() => navigateTo('contact')}
+                className="text-[#0D9488] font-semibold text-sm hover:underline"
+              >
+                {service.cta} →
+              </button>
             </div>
           </div>
         ))}
+      </div>
+      
+      {/* CTA */}
+      <div className="mt-8 bg-[#0D9488]/10 rounded-xl p-6 text-center">
+        <h3 className="font-bold text-gray-800 mb-2">Not sure what you need?</h3>
+        <p className="text-gray-600 text-sm mb-4">Book a consultation and we'll create a personalized treatment plan.</p>
+        <button 
+          onClick={() => navigateTo('contact')}
+          className="bg-[#0D9488] text-white px-6 py-2 rounded-lg font-semibold text-sm hover:bg-[#0F766E] transition-colors"
+        >
+          Let's Talk About Your Smile
+        </button>
       </div>
     </div>
   </div>
 );
 
-// About Page
+// About Page Component
 const AboutPage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) => (
   <div>
     {/* Hero */}
-    <div className="bg-gradient-to-r from-[#0D9488] to-[#0F766E] text-white px-6 py-12">
-      <h1 className="text-2xl font-bold mb-2">Meet Our Team</h1>
-      <p className="text-white/80 text-sm">Caring professionals dedicated to your comfort</p>
+    <div 
+      className="relative h-48 bg-cover bg-center"
+      style={{ backgroundImage: `url(${IMAGES.officeInterior})` }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-r from-[#1E293B]/90 to-[#1E293B]/70" />
+      <div className="relative z-10 h-full flex flex-col justify-center px-6">
+        <h1 className="text-2xl font-bold text-white mb-2">Meet Dr. Sarah Chen</h1>
+        <p className="text-white/80 text-sm">Creating beautiful smiles in Austin since 2012</p>
+      </div>
     </div>
     
     <div className="px-6 py-8 bg-white">
-      {/* Dr. Chen */}
+      {/* Dr. Chen Bio */}
       <div className="flex flex-col md:flex-row gap-6 mb-8">
-        <img src={IMAGES.drChen} alt="Dr. Sarah Chen" className="w-full md:w-48 h-48 rounded-xl object-cover" />
+        <img src={IMAGES.drChen} alt="Dr. Sarah Chen" className="w-full md:w-48 h-48 rounded-xl object-cover shadow-lg" />
         <div>
-          <h2 className="text-xl font-bold text-gray-800 mb-2">Dr. Sarah Chen, DDS</h2>
-          <p className="text-[#0D9488] text-sm font-medium mb-3">Founder & Lead Dentist</p>
+          <p className="text-gray-600 text-sm leading-relaxed mb-4">
+            Dr. Sarah Chen knew she wanted to be a dentist at age 12, when her own orthodontist transformed her smile and her confidence. After graduating from UT Health San Antonio School of Dentistry, she completed advanced training in sedation dentistry — because she believes everyone deserves comfortable care, especially those who've had negative experiences in the past.
+          </p>
           <p className="text-gray-600 text-sm leading-relaxed">
-            Dr. Chen earned her DDS from the University of Texas School of Dentistry and has been practicing in Austin since 2012. 
-            She specializes in anxiety-free dentistry and is passionate about making every patient feel comfortable and cared for.
+            When she's not in the office, Dr. Chen enjoys hiking the Austin greenbelts, trying new restaurants on South Congress, and spending time with her two rescue dogs, Mochi and Boba.
           </p>
         </div>
       </div>
       
+      {/* Credentials */}
+      <div className="bg-gray-50 rounded-xl p-4 mb-6">
+        <h3 className="font-bold text-gray-800 mb-3">Credentials</h3>
+        <ul className="space-y-1 text-sm text-gray-600">
+          <li>• UT Health San Antonio School of Dentistry</li>
+          <li>• Advanced Sedation Dentistry Certification</li>
+          <li>• Invisalign Preferred Provider</li>
+          <li>• Member, American Dental Association</li>
+          <li>• Member, Texas Dental Association</li>
+        </ul>
+      </div>
+      
+      {/* Care Philosophy */}
+      <div className="mb-6">
+        <h3 className="font-bold text-gray-800 mb-3">Our Care Philosophy</h3>
+        <p className="text-gray-600 text-sm leading-relaxed">
+          We believe dental care should never be scary. Every patient deserves to feel heard, respected, and comfortable. That's why we take extra time with anxious patients, explain every procedure in plain language, and never pressure you into treatments you don't need.
+        </p>
+      </div>
+      
       {/* Team */}
-      <h3 className="text-lg font-bold text-gray-800 mb-4">Our Amazing Team</h3>
-      <div className="grid grid-cols-2 gap-4">
-        {[
-          { name: 'Lisa Martinez', role: 'Dental Hygienist', img: IMAGES.hygienist },
-          { name: 'Emily Roberts', role: 'Office Manager', img: IMAGES.receptionist },
-        ].map((member, i) => (
-          <div key={i} className="bg-gray-50 rounded-xl p-4 text-center">
-            <img src={member.img} alt={member.name} className="w-16 h-16 rounded-full object-cover mx-auto mb-3" />
-            <p className="font-semibold text-gray-800 text-sm">{member.name}</p>
-            <p className="text-gray-500 text-xs">{member.role}</p>
+      <div className="mb-6">
+        <h3 className="font-bold text-gray-800 mb-4">Meet Our Team</h3>
+        <div className="grid grid-cols-2 gap-4">
+          {[
+            { name: 'Maria', role: 'Dental Hygienist', img: IMAGES.hygienist },
+            { name: 'Ashley', role: 'Patient Coordinator', img: IMAGES.receptionist },
+          ].map((member, i) => (
+            <div key={i} className="bg-gray-50 rounded-xl p-4 text-center">
+              <img src={member.img} alt={member.name} className="w-16 h-16 rounded-full object-cover mx-auto mb-2" />
+              <p className="font-semibold text-gray-800 text-sm">{member.name}</p>
+              <p className="text-gray-500 text-xs">{member.role}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      {/* Office Photos */}
+      <div className="mb-6">
+        <h3 className="font-bold text-gray-800 mb-4">Our Office</h3>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <img src={IMAGES.officeInterior} alt="Treatment room" className="w-full h-24 rounded-lg object-cover" />
+            <p className="text-xs text-gray-500 mt-1 text-center">Modern treatment rooms</p>
           </div>
-        ))}
+          <div>
+            <img src={IMAGES.waitingRoom} alt="Waiting area" className="w-full h-24 rounded-lg object-cover" />
+            <p className="text-xs text-gray-500 mt-1 text-center">Comfortable waiting area</p>
+          </div>
+        </div>
+      </div>
+      
+      {/* CTA */}
+      <div className="text-center">
+        <button 
+          onClick={() => navigateTo('contact')}
+          className="bg-[#0D9488] text-white px-6 py-3 rounded-lg font-semibold text-sm hover:bg-[#0F766E] transition-colors"
+        >
+          Book Your First Visit
+        </button>
       </div>
     </div>
   </div>
 );
 
-// New Patients Page
+// New Patients Page Component
 const NewPatientsPage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) => (
   <div>
     {/* Hero */}
-    <div className="bg-gradient-to-r from-[#0EA5E9] to-[#0D9488] text-white px-6 py-12">
-      <h1 className="text-2xl font-bold mb-2">New Patient Special</h1>
-      <p className="text-white/90 text-sm">Welcome to the Clearview family!</p>
+    <div className="bg-gradient-to-r from-[#1E293B] to-[#334155] text-white px-6 py-12">
+      <h1 className="text-2xl font-bold mb-2">Welcome to Clearview Dentistry Austin</h1>
+      <p className="text-white/80 text-sm">Everything you need to know for your first visit</p>
     </div>
     
     <div className="px-6 py-8 bg-white">
-      {/* Special Offer */}
-      <div className="bg-gradient-to-r from-[#0D9488]/10 to-[#0EA5E9]/10 rounded-2xl p-6 mb-8 border-2 border-[#0D9488]/20">
-        <div className="text-center mb-4">
-          <p className="text-4xl font-bold text-[#0D9488]">$99</p>
-          <p className="text-gray-600 text-sm">New Patient Special</p>
-        </div>
-        <ul className="space-y-2 mb-6">
-          {['Comprehensive Exam', 'Full Set of X-Rays', 'Professional Cleaning', 'Treatment Plan'].map((item, i) => (
-            <li key={i} className="flex items-center gap-2 text-sm text-gray-700">
-              <CheckCircle2 className="w-4 h-4 text-[#0D9488]" />
-              {item}
-            </li>
-          ))}
-        </ul>
+      {/* Special Offer Banner */}
+      <div className="bg-gradient-to-r from-[#0EA5E9] to-[#0D9488] rounded-2xl p-6 text-white text-center mb-8">
+        <p className="text-4xl font-bold mb-1">$99 New Patient Special</p>
+        <p className="text-white/90 text-sm mb-4">Includes comprehensive exam, full set of X-rays, and professional cleaning</p>
         <button 
           onClick={() => navigateTo('contact')}
-          className="w-full bg-[#0D9488] text-white py-3 rounded-lg font-semibold hover:bg-[#0F766E] transition-colors"
+          className="bg-white text-[#0D9488] px-6 py-2 rounded-lg font-semibold text-sm hover:bg-white/90 transition-colors"
         >
-          Schedule Your Visit
+          Claim This Offer
         </button>
-        <p className="text-xs text-gray-500 text-center mt-3">*New patients only. Cannot be combined with other offers.</p>
       </div>
       
-      {/* What to Expect */}
-      <h3 className="text-lg font-bold text-gray-800 mb-4">What to Expect</h3>
-      <div className="space-y-4">
-        {[
-          { step: '1', title: 'Warm Welcome', desc: 'Our friendly team will greet you and help with paperwork.' },
-          { step: '2', title: 'Comprehensive Exam', desc: 'Dr. Chen will thoroughly examine your teeth and gums.' },
-          { step: '3', title: 'Personalized Plan', desc: 'We\'ll create a treatment plan tailored to your needs.' },
-        ].map((item, i) => (
-          <div key={i} className="flex gap-4 items-start">
-            <div className="w-8 h-8 rounded-full bg-[#0D9488] text-white flex items-center justify-center font-bold text-sm shrink-0">
-              {item.step}
+      {/* Your First Visit */}
+      <div className="mb-8">
+        <h3 className="font-bold text-gray-800 mb-4">Your First Visit</h3>
+        <div className="space-y-3">
+          {[
+            'Complete forms online (saves 15 minutes)',
+            'Meet Dr. Chen for a comprehensive exam',
+            'Review your personalized treatment plan',
+            'Schedule follow-up care if needed'
+          ].map((step, i) => (
+            <div key={i} className="flex items-center gap-3">
+              <div className="w-7 h-7 rounded-full bg-[#0D9488] text-white flex items-center justify-center font-bold text-xs shrink-0">
+                {i + 1}
+              </div>
+              <p className="text-gray-700 text-sm">{step}</p>
             </div>
-            <div>
-              <h4 className="font-semibold text-gray-800 text-sm">{item.title}</h4>
-              <p className="text-gray-600 text-xs">{item.desc}</p>
+          ))}
+        </div>
+      </div>
+      
+      {/* Patient Forms */}
+      <div className="bg-gray-50 rounded-xl p-4 mb-8">
+        <h3 className="font-bold text-gray-800 mb-2">Patient Forms</h3>
+        <p className="text-gray-600 text-sm mb-3">Save time by completing forms before your visit:</p>
+        <div className="space-y-2">
+          <a href="#" className="block text-[#0D9488] text-sm hover:underline">📄 New Patient Form (PDF)</a>
+          <a href="#" className="block text-[#0D9488] text-sm hover:underline">📄 Medical History (PDF)</a>
+        </div>
+      </div>
+      
+      {/* FAQs */}
+      <div>
+        <h3 className="font-bold text-gray-800 mb-4">Frequently Asked Questions</h3>
+        <div className="space-y-4">
+          {[
+            { q: 'Do you offer sedation for anxious patients?', a: 'Yes! We offer nitrous oxide and oral sedation options.' },
+            { q: 'How long is the first appointment?', a: 'Plan for about 60-90 minutes for a thorough exam.' },
+            { q: 'Do you see children?', a: 'Yes, we welcome patients ages 3 and up.' },
+          ].map((faq, i) => (
+            <div key={i} className="border-b border-gray-100 pb-3">
+              <p className="font-semibold text-gray-800 text-sm mb-1">{faq.q}</p>
+              <p className="text-gray-600 text-sm">{faq.a}</p>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   </div>
 );
 
-// Contact Page
+// Contact Page Component
 const ContactPage = () => (
   <div>
     {/* Hero */}
-    <div className="bg-gradient-to-r from-[#0D9488] to-[#0F766E] text-white px-6 py-12">
-      <h1 className="text-2xl font-bold mb-2">Contact Us</h1>
-      <p className="text-white/80 text-sm">We'd love to hear from you</p>
+    <div className="bg-gradient-to-r from-[#1E293B] to-[#334155] text-white px-6 py-12">
+      <h1 className="text-2xl font-bold mb-2">Let's Get You Smiling</h1>
+      <p className="text-white/80 text-sm">Book online or give us a call</p>
     </div>
     
     <div className="px-6 py-8 bg-white">
-      {/* Contact Info */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <div className="space-y-4">
-          <div className="flex items-start gap-3">
-            <MapPin className="w-5 h-5 text-[#0D9488] shrink-0 mt-0.5" />
-            <div>
-              <p className="font-semibold text-gray-800 text-sm">Location</p>
-              <p className="text-gray-600 text-sm">1234 Oak Street<br />Austin, TX 78701</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-3">
-            <Phone className="w-5 h-5 text-[#0D9488] shrink-0 mt-0.5" />
-            <div>
-              <p className="font-semibold text-gray-800 text-sm">Phone</p>
-              <p className="text-gray-600 text-sm">(512) 555-0123</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-3">
-            <Clock className="w-5 h-5 text-[#0D9488] shrink-0 mt-0.5" />
-            <div>
-              <p className="font-semibold text-gray-800 text-sm">Hours</p>
-              <p className="text-gray-600 text-sm">Mon-Thu: 8am-5pm<br />Fri: 8am-3pm<br />Sat: 9am-2pm</p>
-            </div>
+      {/* Appointment Request Form */}
+      <div className="bg-gray-50 rounded-xl p-5 mb-6">
+        <h3 className="font-bold text-gray-800 mb-4">Request an Appointment</h3>
+        <div className="space-y-3">
+          <input 
+            type="text" 
+            placeholder="Your Name" 
+            className="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0D9488]/30" 
+          />
+          <input 
+            type="email" 
+            placeholder="Email Address" 
+            className="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0D9488]/30" 
+          />
+          <input 
+            type="tel" 
+            placeholder="Phone Number" 
+            className="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0D9488]/30" 
+          />
+          <select className="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#0D9488]/30">
+            <option>Preferred Time</option>
+            <option>Morning (8am-12pm)</option>
+            <option>Afternoon (12pm-5pm)</option>
+            <option>No Preference</option>
+          </select>
+          <button className="w-full bg-[#0D9488] text-white py-3 rounded-lg font-semibold text-sm hover:bg-[#0F766E] transition-colors">
+            Request Appointment
+          </button>
+        </div>
+      </div>
+      
+      {/* Contact Info & Hours */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div>
+          <h3 className="font-bold text-gray-800 mb-3">Contact Info</h3>
+          <div className="space-y-2 text-sm text-gray-600">
+            <p className="flex items-center gap-2"><MapPin className="w-4 h-4 text-[#0D9488]" /> 1234 Oak Street, Austin, TX 78701</p>
+            <p className="flex items-center gap-2"><Phone className="w-4 h-4 text-[#0D9488]" /> (512) 555-0123</p>
+            <p className="flex items-center gap-2"><Mail className="w-4 h-4 text-[#0D9488]" /> hello@clearviewdentistryaustin.com</p>
           </div>
         </div>
-        
-        {/* Contact Form */}
-        <div className="bg-gray-50 rounded-xl p-4">
-          <h3 className="font-bold text-gray-800 mb-4">Request an Appointment</h3>
-          <div className="space-y-3">
-            <input type="text" placeholder="Your Name" className="w-full px-4 py-2 rounded-lg border border-gray-200 text-sm" />
-            <input type="email" placeholder="Email Address" className="w-full px-4 py-2 rounded-lg border border-gray-200 text-sm" />
-            <input type="tel" placeholder="Phone Number" className="w-full px-4 py-2 rounded-lg border border-gray-200 text-sm" />
-            <select className="w-full px-4 py-2 rounded-lg border border-gray-200 text-sm text-gray-500">
-              <option>Select Service</option>
-              <option>General Checkup</option>
-              <option>Cosmetic Consultation</option>
-              <option>New Patient Visit</option>
-            </select>
-            <button className="w-full bg-[#0D9488] text-white py-3 rounded-lg font-semibold hover:bg-[#0F766E] transition-colors">
-              Request Appointment
-            </button>
+        <div>
+          <h3 className="font-bold text-gray-800 mb-3">Office Hours</h3>
+          <div className="space-y-1 text-sm text-gray-600">
+            <p>Mon-Thu: 8:00 AM - 5:00 PM</p>
+            <p>Friday: 8:00 AM - 3:00 PM</p>
+            <p>Saturday: 9:00 AM - 2:00 PM</p>
+            <p>Sunday: Closed</p>
           </div>
         </div>
+      </div>
+      
+      {/* Map Placeholder */}
+      <div className="bg-gray-100 rounded-xl h-40 flex items-center justify-center text-gray-400 text-sm">
+        <MapPin className="w-5 h-5 mr-2" />
+        Map Placeholder - View on Google Maps
       </div>
     </div>
   </div>
