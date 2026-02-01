@@ -23,7 +23,7 @@ export const MiniMockup = ({ project }: MiniMockupProps) => {
   const companyInitials = project.company.split(' ').map(w => w[0]).join('').slice(0, 2);
 
   return (
-    <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-card border border-border/50 group-hover:border-accent/30 transition-all duration-300 shadow-lg">
+    <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-card border border-border/50 group-hover:border-accent/30 transition-all duration-300 shadow-lg isolate">
       {/* Browser Chrome */}
       <div className="h-5 sm:h-6 bg-muted/90 flex items-center px-2 gap-1.5 border-b border-border/50 relative z-10">
         {/* Traffic lights */}
@@ -129,9 +129,9 @@ export const MiniMockup = ({ project }: MiniMockupProps) => {
           </span>
         </div>
 
-        {/* Chat Widget Indicator */}
+        {/* Simulated Chat Widget - positioned lower to avoid top-right area */}
         <div 
-          className="absolute bottom-8 right-2 w-6 h-6 sm:w-7 sm:h-7 rounded-full shadow-lg flex items-center justify-center"
+          className="absolute bottom-10 right-2 w-6 h-6 sm:w-7 sm:h-7 rounded-full shadow-lg flex items-center justify-center z-20"
           style={{ backgroundColor: project.accentColor }}
         >
           <MessageCircle className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
