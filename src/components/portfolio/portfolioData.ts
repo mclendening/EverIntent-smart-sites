@@ -57,8 +57,8 @@ export const portfolioProjects: PortfolioProject[] = [
   },
   {
     id: '2',
-    slug: 'clearview-dentistry',
-    company: 'Clearview Family Dentistry',
+    slug: 'clearview-dentistry-austin',
+    company: 'Clearview Dentistry Austin',
     industry: 'Healthcare',
     filterCategory: 'healthcare',
     location: 'Austin, TX',
