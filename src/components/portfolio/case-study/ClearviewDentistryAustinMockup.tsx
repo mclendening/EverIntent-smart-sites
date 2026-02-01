@@ -91,10 +91,89 @@ export const ClearviewDentistryAustinMockup = () => {
   }, []);
   
   return (
-    <div className="relative w-full h-[500px] md:h-[600px] lg:h-[700px] bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700">
-      {/* Browser chrome, header, content, and chat will be added in next prompts */}
-      <div className="text-center p-8 text-gray-500">
-        Component structure created. Run next prompt to add content.
+    <div className="relative w-full h-[500px] md:h-[600px] lg:h-[700px] bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col">
+      {/* Browser Chrome - macOS Style */}
+      <div className="bg-gray-100 dark:bg-gray-800 px-4 py-2 flex items-center gap-3 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+        <div className="flex gap-1.5">
+          <div className="w-3 h-3 rounded-full bg-red-400" />
+          <div className="w-3 h-3 rounded-full bg-yellow-400" />
+          <div className="w-3 h-3 rounded-full bg-green-400" />
+        </div>
+        <div className="flex-1 bg-white dark:bg-gray-900 rounded-md px-3 py-1 text-xs text-gray-500 dark:text-gray-400">
+          <span className="text-gray-400">🔒</span> clearviewdentistryaustin.com{currentPage === 'home' ? '' : `/${currentPage}`}
+        </div>
+      </div>
+
+      {/* Header */}
+      <header className="bg-[#0D9488] text-white px-4 py-3 flex-shrink-0">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Heart className="w-6 h-6" />
+            <div>
+              <span className="font-bold text-sm">Clearview Dentistry Austin</span>
+              <span className="hidden sm:block text-xs text-white/80">Gentle Care for All Ages</span>
+            </div>
+          </div>
+          
+          <nav className="hidden md:flex items-center gap-6">
+            {navItems.map(item => (
+              <button
+                key={item.id}
+                onClick={() => navigateTo(item.id as MockupPage)}
+                className={`text-xs font-medium transition-all ${
+                  currentPage === item.id 
+                    ? 'text-white font-semibold' 
+                    : 'text-white/70 hover:text-white'
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
+          
+          <button 
+            onClick={() => navigateTo('contact')}
+            className="hidden md:block bg-white text-[#0D9488] px-4 py-2 rounded-lg text-xs font-semibold hover:bg-white/90 transition-colors"
+          >
+            Book Appointment
+          </button>
+          
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2"
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+        
+        {mobileMenuOpen && (
+          <nav className="md:hidden mt-3 pb-2 border-t border-white/20 pt-3 space-y-2">
+            {navItems.map(item => (
+              <button
+                key={item.id}
+                onClick={() => navigateTo(item.id as MockupPage)}
+                className={`block w-full text-left px-2 py-2 rounded text-sm ${
+                  currentPage === item.id 
+                    ? 'bg-white/20 font-semibold' 
+                    : 'hover:bg-white/10'
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
+        )}
+      </header>
+
+      {/* Scrollable Content Area */}
+      <div 
+        ref={contentContainerRef}
+        className="flex-1 overflow-y-auto bg-[#FAFAF9]"
+      >
+        {/* Page content will be added in next prompt */}
+        <div className="p-8 text-center text-gray-500">
+          Header added. Run next prompt to add page content.
+        </div>
       </div>
     </div>
   );
