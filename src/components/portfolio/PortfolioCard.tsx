@@ -46,9 +46,21 @@ export const PortfolioCard = ({ project, index }: PortfolioCardProps) => {
       )}
       style={{ animationDelay: `${index * 0.05}s` }}
     >
-      {/* Mini Mockup Preview */}
+      {/* Preview - Use screenshot if available, otherwise MiniMockup */}
       <div className="p-3 sm:p-4 pb-0">
-        <MiniMockup project={project} />
+        {project.previewImage ? (
+          <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-card border border-border/50 group-hover:border-accent/30 transition-all duration-300 shadow-lg">
+            <img 
+              src={project.previewImage} 
+              alt={`${project.company} website preview`}
+              className="w-full h-full object-cover object-top"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-accent/0 group-hover:bg-accent/10 transition-colors duration-500 pointer-events-none" />
+          </div>
+        ) : (
+          <MiniMockup project={project} />
+        )}
       </div>
 
       {/* Card Content */}
