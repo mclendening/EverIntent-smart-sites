@@ -53,7 +53,7 @@ export const PortfolioCard = ({ project, index }: PortfolioCardProps) => {
             <img 
               src={project.previewImage} 
               alt={`${project.company} website preview`}
-              className="w-full h-full object-cover object-top"
+              className="w-full h-full object-contain"
               loading="lazy"
             />
             <div className="absolute inset-0 bg-accent/0 group-hover:bg-accent/10 transition-colors duration-500 pointer-events-none" />
