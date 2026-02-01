@@ -12,8 +12,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { 
   Menu, X, Phone, Mail, MapPin, Clock, Star, 
-  MessageCircle, Send, ChevronRight, Check, Heart,
-  Shield, Calendar, Users, Sparkles, CheckCircle2
+  MessageCircle, Send, ChevronRight, ChevronLeft, Check, Heart,
+  Shield, Calendar, Users, Sparkles, CheckCircle2, Smile, Zap
 } from 'lucide-react';
 
 // Brand colors - calming teal/cyan for dental
@@ -45,10 +45,29 @@ const IMAGES = {
   officeInterior: 'https://images.unsplash.com/photo-1629909615184-74f495363b67?w=800&q=80',
   waitingRoom: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80',
   family: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&q=80',
+  // Service Detail Heroes
+  serviceGeneralHero: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200&q=80',
+  serviceCosmeticHero: 'https://images.unsplash.com/photo-1581585090574-3e0b11459c7c?w=1200&q=80',
+  serviceInvisalignHero: 'https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=1200&q=80',
+  servicePediatricHero: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=1200&q=80',
+  serviceEmergencyHero: 'https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=1200&q=80',
+  serviceWhiteningHero: 'https://images.unsplash.com/photo-1581585090574-3e0b11459c7c?w=1200&q=80',
+  dentistConsultation: 'https://images.unsplash.com/photo-1588776814546-daab30f310ce?w=800&q=80',
+  happyPatient: 'https://images.unsplash.com/photo-1601288496920-b6154fe3626a?w=800&q=80',
 };
 
 // Types
-type MockupPage = 'home' | 'services' | 'about' | 'new-patients' | 'contact';
+type MockupPage = 'home' | 'services' | 'service-general' | 'service-cosmetic' | 'service-invisalign' | 'service-pediatric' | 'service-emergency' | 'service-whitening' | 'about' | 'new-patients' | 'contact';
+
+// Service data for hub and detail pages
+const SERVICES = [
+  { id: 'service-general' as MockupPage, name: 'General Dentistry', img: IMAGES.serviceGeneral, desc: 'Checkups, cleanings, and preventive care' },
+  { id: 'service-cosmetic' as MockupPage, name: 'Cosmetic Dentistry', img: IMAGES.serviceCosmetic, desc: 'Veneers, bonding, and smile makeovers' },
+  { id: 'service-invisalign' as MockupPage, name: 'Invisalign', img: IMAGES.serviceInvisalign, desc: 'Clear aligners for a straighter smile' },
+  { id: 'service-pediatric' as MockupPage, name: 'Pediatric Dentistry', img: IMAGES.servicePediatric, desc: 'Gentle care for your little ones' },
+  { id: 'service-emergency' as MockupPage, name: 'Emergency Care', img: IMAGES.serviceEmergency, desc: 'Same-day appointments available' },
+  { id: 'service-whitening' as MockupPage, name: 'Teeth Whitening', img: IMAGES.serviceWhitening, desc: 'Professional brightening treatments' },
+];
 
 type ChatStep = 
   | 'initial' 
@@ -269,7 +288,7 @@ const HomePage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) =>
   </div>
 );
 
-// Services Page Component
+// Services Hub Page Component
 const ServicesPage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) => (
   <div>
     {/* Hero */}
@@ -279,26 +298,20 @@ const ServicesPage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }
     </div>
     
     <div className="px-6 py-8 bg-white">
-      <div className="space-y-6">
-        {[
-          { name: 'General Dentistry', img: IMAGES.serviceGeneral, desc: 'Regular checkups, professional cleanings, fillings, and preventive care to keep your smile healthy for life.', cta: 'Schedule Checkup' },
-          { name: 'Cosmetic Dentistry', img: IMAGES.serviceCosmetic, desc: 'Transform your smile with veneers, bonding, and complete smile makeovers tailored to your goals.', cta: 'Free Consultation' },
-          { name: 'Invisalign Clear Aligners', img: IMAGES.serviceInvisalign, desc: 'Straighten your teeth discreetly with custom clear aligners. No metal brackets required.', cta: 'Am I a Candidate?' },
-          { name: 'Pediatric Dentistry', img: IMAGES.servicePediatric, desc: 'Gentle, fun dental care designed to help kids develop healthy habits and positive associations.', cta: 'Book Kids Visit' },
-          { name: 'Emergency Dental Care', img: IMAGES.serviceEmergency, desc: "Dental emergencies can't wait. We keep same-day appointments open for urgent situations.", cta: 'Emergency? Call Now' },
-          { name: 'Teeth Whitening', img: IMAGES.serviceWhitening, desc: 'Professional-grade whitening that\'s safer and more effective than over-the-counter options.', cta: 'Brighten My Smile' },
-        ].map((service, i) => (
-          <div key={i} className="flex gap-4 items-start bg-gray-50 rounded-xl p-4 hover:shadow-md transition-shadow">
-            <img src={service.img} alt={service.name} className="w-24 h-24 rounded-lg object-cover shrink-0" />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {SERVICES.map((service) => (
+          <div 
+            key={service.id}
+            onClick={() => navigateTo(service.id)}
+            className="flex gap-4 items-start bg-gray-50 rounded-xl p-4 hover:shadow-lg transition-all cursor-pointer group border border-transparent hover:border-[#0D9488]/20"
+          >
+            <img src={service.img} alt={service.name} className="w-20 h-20 rounded-lg object-cover shrink-0 group-hover:scale-105 transition-transform" />
             <div>
-              <h3 className="font-bold text-gray-800 mb-1">{service.name}</h3>
+              <h3 className="font-bold text-gray-800 mb-1 group-hover:text-[#0D9488] transition-colors">{service.name}</h3>
               <p className="text-gray-600 text-sm mb-2">{service.desc}</p>
-              <button 
-                onClick={() => navigateTo('contact')}
-                className="text-[#0D9488] font-semibold text-sm hover:underline"
-              >
-                {service.cta} →
-              </button>
+              <span className="text-[#0D9488] font-semibold text-sm inline-flex items-center gap-1">
+                Learn More <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </span>
             </div>
           </div>
         ))}
@@ -314,6 +327,465 @@ const ServicesPage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }
         >
           Let's Talk About Your Smile
         </button>
+      </div>
+    </div>
+  </div>
+);
+
+// ============================================
+// SERVICE DETAIL PAGES
+// ============================================
+
+// General Dentistry Detail Page
+const ServiceGeneralPage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) => (
+  <div>
+    {/* Hero */}
+    <div className="relative h-56 overflow-hidden">
+      <div className="absolute inset-0 bg-cover bg-center scale-105" style={{ backgroundImage: `url(${IMAGES.serviceGeneralHero})` }} />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0D9488]/90 via-[#0D9488]/70 to-transparent" />
+      <div className="relative z-10 h-full flex flex-col justify-end px-6 pb-6">
+        <button onClick={() => navigateTo('services')} className="text-white/70 text-xs mb-3 flex items-center gap-1 hover:text-white transition-colors w-fit">
+          <ChevronLeft className="w-3 h-3" /> Back to Services
+        </button>
+        <span className="text-[#0EA5E9] text-xs font-medium uppercase tracking-wider mb-1">Our Services</span>
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">General Dentistry</h1>
+        <p className="text-white/90 text-sm max-w-md">Preventive care for a lifetime of healthy smiles</p>
+      </div>
+    </div>
+    
+    {/* Intro */}
+    <div className="px-6 py-8 bg-white">
+      <p className="text-gray-700 text-base leading-relaxed mb-4">
+        Regular dental checkups are the foundation of great oral health. At Clearview Dentistry Austin, we believe prevention is the best medicine — catching small problems before they become big ones.
+      </p>
+      <p className="text-gray-600 text-sm leading-relaxed">
+        We recommend visits every six months for most patients, though some may benefit from more frequent care.
+      </p>
+    </div>
+    
+    {/* What's Included */}
+    <div className="px-6 py-8 bg-[#FAFAF9]">
+      <h2 className="text-lg font-bold text-gray-800 mb-6">What's Included in Your Visit</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {[
+          { icon: '🔍', title: 'Comprehensive Exam', desc: 'Thorough evaluation of teeth, gums, and oral health' },
+          { icon: '✨', title: 'Professional Cleaning', desc: 'Remove plaque and tartar buildup' },
+          { icon: '📷', title: 'Digital X-Rays', desc: 'Low-radiation imaging to see below the surface' },
+          { icon: '🛡️', title: 'Oral Cancer Screening', desc: 'Quick, painless check for early warning signs' },
+          { icon: '📋', title: 'Personalized Plan', desc: 'Custom recommendations based on your needs' },
+        ].map((item, i) => (
+          <div key={i} className="flex items-start gap-4 bg-white rounded-xl p-4 shadow-sm">
+            <span className="text-2xl">{item.icon}</span>
+            <div>
+              <h3 className="font-semibold text-gray-800 text-sm">{item.title}</h3>
+              <p className="text-gray-500 text-xs">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    {/* Process Timeline */}
+    <div className="px-6 py-8 bg-white">
+      <h2 className="text-lg font-bold text-gray-800 mb-6">What to Expect</h2>
+      <div className="space-y-6">
+        {[
+          { step: '1', title: 'Warm Welcome', desc: 'Our team greets you by name. No clipboard chaos.', time: '5 min' },
+          { step: '2', title: 'Gentle Cleaning', desc: 'Our hygienists use the latest techniques for comfort.', time: '25 min' },
+          { step: '3', title: "Dr. Chen's Exam", desc: 'A comprehensive look with clear explanations.', time: '15 min' },
+          { step: '4', title: 'Your Game Plan', desc: 'Honest recommendations, no pressure.', time: '10 min' },
+        ].map((item, i) => (
+          <div key={i} className="flex gap-4">
+            <div className="flex flex-col items-center">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#0D9488] to-[#0EA5E9] text-white flex items-center justify-center font-bold text-sm shadow-lg">{item.step}</div>
+              {i < 3 && <div className="w-0.5 h-full bg-gradient-to-b from-[#0D9488]/50 to-transparent mt-2" />}
+            </div>
+            <div className="flex-1 pb-6">
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="font-semibold text-gray-800">{item.title}</h3>
+                <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{item.time}</span>
+              </div>
+              <p className="text-gray-600 text-sm">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    {/* Anxiety Callout */}
+    <div className="mx-6 my-6 bg-gradient-to-r from-[#0EA5E9]/10 to-[#0D9488]/10 rounded-2xl p-6 border border-[#0D9488]/20">
+      <div className="flex items-start gap-4">
+        <div className="w-12 h-12 rounded-full bg-white shadow-md flex items-center justify-center flex-shrink-0">
+          <Heart className="w-6 h-6 text-[#0D9488]" />
+        </div>
+        <div>
+          <h3 className="font-bold text-gray-800 mb-1">Nervous About Your Visit?</h3>
+          <p className="text-gray-600 text-sm mb-3">You're not alone. Dr. Chen specializes in anxious patients with sedation options available.</p>
+          <button onClick={() => navigateTo('new-patients')} className="text-[#0D9488] font-semibold text-sm hover:underline">Learn About Our Gentle Approach →</button>
+        </div>
+      </div>
+    </div>
+    
+    {/* CTA */}
+    <div className="mx-6 mb-6 bg-gradient-to-br from-[#0D9488] to-[#0D9488]/90 rounded-2xl p-8 text-center text-white shadow-xl overflow-hidden relative">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+      <div className="relative z-10">
+        <span className="text-[#0EA5E9] text-xs font-medium uppercase tracking-wider">New Patient Special</span>
+        <h3 className="text-xl font-bold mt-2 mb-2">$99 Exam, X-Rays & Cleaning</h3>
+        <p className="text-white/80 text-sm mb-6 max-w-sm mx-auto">Everything you need for a healthy start.</p>
+        <button onClick={() => navigateTo('contact')} className="bg-white text-[#0D9488] px-8 py-3 rounded-xl font-bold text-sm shadow-lg hover:shadow-xl transition-all">Schedule Your Checkup</button>
+      </div>
+    </div>
+    
+    {/* Related Services */}
+    <div className="px-6 py-8 bg-[#FAFAF9]">
+      <h2 className="text-lg font-bold text-gray-800 mb-4">You May Also Be Interested In</h2>
+      <div className="flex gap-3 overflow-x-auto pb-2">
+        {[SERVICES[1], SERVICES[5]].map(s => (
+          <div key={s.id} onClick={() => navigateTo(s.id)} className="flex-shrink-0 w-40 bg-white rounded-xl overflow-hidden shadow-sm cursor-pointer hover:shadow-md transition-shadow">
+            <img src={s.img} alt={s.name} className="w-full h-20 object-cover" />
+            <p className="p-3 font-semibold text-gray-800 text-xs">{s.name}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+// Cosmetic Dentistry Detail Page
+const ServiceCosmeticPage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) => (
+  <div>
+    <div className="relative h-56 overflow-hidden">
+      <div className="absolute inset-0 bg-cover bg-center scale-105" style={{ backgroundImage: `url(${IMAGES.serviceCosmeticHero})` }} />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0D9488]/90 via-[#0D9488]/70 to-transparent" />
+      <div className="relative z-10 h-full flex flex-col justify-end px-6 pb-6">
+        <button onClick={() => navigateTo('services')} className="text-white/70 text-xs mb-3 flex items-center gap-1 hover:text-white transition-colors w-fit"><ChevronLeft className="w-3 h-3" /> Back to Services</button>
+        <span className="text-[#0EA5E9] text-xs font-medium uppercase tracking-wider mb-1">Our Services</span>
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">Cosmetic Dentistry</h1>
+        <p className="text-white/90 text-sm max-w-md">Transform your smile with confidence</p>
+      </div>
+    </div>
+    
+    <div className="px-6 py-8 bg-white">
+      <p className="text-gray-700 text-base leading-relaxed mb-4">Your smile is often the first thing people notice. Whether you want to fix a small imperfection or completely transform your look, our cosmetic treatments can help.</p>
+      <div className="bg-[#0EA5E9]/10 rounded-xl p-4 border border-[#0EA5E9]/20">
+        <div className="flex items-center gap-3">
+          <Smile className="w-8 h-8 text-[#0EA5E9]" />
+          <div>
+            <h3 className="font-bold text-gray-800 text-sm">Digital Smile Design</h3>
+            <p className="text-gray-600 text-xs">See your new smile before we start any treatment!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div className="px-6 py-8 bg-[#FAFAF9]">
+      <h2 className="text-lg font-bold text-gray-800 mb-6">Our Cosmetic Services</h2>
+      <div className="space-y-4">
+        {[
+          { title: 'Porcelain Veneers', desc: 'Ultra-thin shells for a flawless smile', icon: '💎' },
+          { title: 'Dental Bonding', desc: 'Quick fixes for chips, cracks, and gaps', icon: '✨' },
+          { title: 'Smile Makeovers', desc: 'Complete transformations', icon: '🌟' },
+          { title: 'Gum Contouring', desc: 'Reshape your gumline', icon: '💫' },
+        ].map((item, i) => (
+          <div key={i} className="flex items-start gap-4 bg-white rounded-xl p-4 shadow-sm">
+            <span className="text-2xl">{item.icon}</span>
+            <div>
+              <h3 className="font-semibold text-gray-800 text-sm">{item.title}</h3>
+              <p className="text-gray-500 text-xs">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <div className="mx-6 my-6 bg-gradient-to-br from-[#0D9488] to-[#0D9488]/90 rounded-2xl p-8 text-center text-white shadow-xl overflow-hidden relative">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+      <div className="relative z-10">
+        <span className="text-[#0EA5E9] text-xs font-medium uppercase tracking-wider">Free Consultation</span>
+        <h3 className="text-xl font-bold mt-2 mb-2">Book Your Smile Consultation</h3>
+        <p className="text-white/80 text-sm mb-6 max-w-sm mx-auto">Discuss your goals and see your digital smile preview.</p>
+        <button onClick={() => navigateTo('contact')} className="bg-white text-[#0D9488] px-8 py-3 rounded-xl font-bold text-sm shadow-lg">Get Started</button>
+      </div>
+    </div>
+    
+    <div className="px-6 py-8 bg-[#FAFAF9]">
+      <h2 className="text-lg font-bold text-gray-800 mb-4">Related Services</h2>
+      <div className="flex gap-3 overflow-x-auto pb-2">
+        {[SERVICES[2], SERVICES[5]].map(s => (
+          <div key={s.id} onClick={() => navigateTo(s.id)} className="flex-shrink-0 w-40 bg-white rounded-xl overflow-hidden shadow-sm cursor-pointer hover:shadow-md transition-shadow">
+            <img src={s.img} alt={s.name} className="w-full h-20 object-cover" />
+            <p className="p-3 font-semibold text-gray-800 text-xs">{s.name}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+// Invisalign Detail Page
+const ServiceInvisalignPage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) => (
+  <div>
+    <div className="relative h-56 overflow-hidden">
+      <div className="absolute inset-0 bg-cover bg-center scale-105" style={{ backgroundImage: `url(${IMAGES.serviceInvisalignHero})` }} />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0D9488]/90 via-[#0D9488]/70 to-transparent" />
+      <div className="relative z-10 h-full flex flex-col justify-end px-6 pb-6">
+        <button onClick={() => navigateTo('services')} className="text-white/70 text-xs mb-3 flex items-center gap-1 hover:text-white transition-colors w-fit"><ChevronLeft className="w-3 h-3" /> Back to Services</button>
+        <span className="text-[#0EA5E9] text-xs font-medium uppercase tracking-wider mb-1">Invisalign Provider</span>
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">Invisalign Clear Aligners</h1>
+        <p className="text-white/90 text-sm max-w-md">Straighten your teeth discreetly</p>
+      </div>
+    </div>
+    
+    <div className="px-6 py-8 bg-white">
+      <div className="bg-gradient-to-r from-[#0EA5E9]/10 to-[#0D9488]/10 rounded-xl p-4 mb-6 border border-[#0D9488]/20">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm"><CheckCircle2 className="w-5 h-5 text-[#0D9488]" /></div>
+          <div>
+            <h3 className="font-bold text-gray-800 text-sm">Invisalign Preferred Provider</h3>
+            <p className="text-gray-600 text-xs">Dr. Chen has treated 200+ patients with Invisalign</p>
+          </div>
+        </div>
+      </div>
+      <p className="text-gray-700 text-base leading-relaxed">Invisalign uses custom-made, virtually invisible aligners to gradually shift your teeth into place. No metal brackets, no wires.</p>
+    </div>
+    
+    <div className="px-6 py-8 bg-[#FAFAF9]">
+      <h2 className="text-lg font-bold text-gray-800 mb-6">Why Choose Invisalign?</h2>
+      <div className="grid grid-cols-2 gap-4">
+        {[
+          { title: 'Nearly Invisible', icon: '👁️' },
+          { title: 'Removable', icon: '🍕' },
+          { title: 'Comfortable', icon: '😌' },
+          { title: 'Faster Results', icon: '⚡' },
+        ].map((item, i) => (
+          <div key={i} className="bg-white rounded-xl p-4 text-center shadow-sm">
+            <span className="text-2xl block mb-2">{item.icon}</span>
+            <h3 className="font-semibold text-gray-800 text-sm">{item.title}</h3>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <div className="px-6 py-6 bg-white">
+      <h2 className="text-lg font-bold text-gray-800 mb-4">Invisalign vs Traditional Braces</h2>
+      <div className="bg-gray-50 rounded-xl overflow-hidden">
+        <div className="grid grid-cols-3 text-xs font-semibold text-gray-500 bg-gray-100 p-3">
+          <span></span><span className="text-center text-[#0D9488]">Invisalign</span><span className="text-center">Braces</span>
+        </div>
+        {[
+          { label: 'Visibility', invis: 'Nearly invisible', braces: 'Visible metal' },
+          { label: 'Comfort', invis: 'Smooth plastic', braces: 'Brackets & wires' },
+          { label: 'Eating', invis: 'No restrictions', braces: 'Food limits' },
+        ].map((row, i) => (
+          <div key={i} className="grid grid-cols-3 text-xs p-3 border-t border-gray-100">
+            <span className="text-gray-600 font-medium">{row.label}</span>
+            <span className="text-center text-[#0D9488]">✓ {row.invis}</span>
+            <span className="text-center text-gray-400">{row.braces}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <div className="mx-6 my-6 bg-gradient-to-br from-[#0D9488] to-[#0D9488]/90 rounded-2xl p-8 text-center text-white shadow-xl">
+      <span className="text-[#0EA5E9] text-xs font-medium uppercase tracking-wider">Free Assessment</span>
+      <h3 className="text-xl font-bold mt-2 mb-2">Am I a Candidate?</h3>
+      <p className="text-white/80 text-sm mb-6">Find out if Invisalign is right for you.</p>
+      <button onClick={() => navigateTo('contact')} className="bg-white text-[#0D9488] px-8 py-3 rounded-xl font-bold text-sm shadow-lg">Take the Quiz</button>
+    </div>
+  </div>
+);
+
+// Pediatric Dentistry Detail Page
+const ServicePediatricPage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) => (
+  <div>
+    <div className="relative h-56 overflow-hidden">
+      <div className="absolute inset-0 bg-cover bg-center scale-105" style={{ backgroundImage: `url(${IMAGES.servicePediatricHero})` }} />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0D9488]/90 via-[#0D9488]/70 to-transparent" />
+      <div className="relative z-10 h-full flex flex-col justify-end px-6 pb-6">
+        <button onClick={() => navigateTo('services')} className="text-white/70 text-xs mb-3 flex items-center gap-1 hover:text-white transition-colors w-fit"><ChevronLeft className="w-3 h-3" /> Back to Services</button>
+        <span className="text-[#0EA5E9] text-xs font-medium uppercase tracking-wider mb-1">Kids Welcome</span>
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">Pediatric Dentistry</h1>
+        <p className="text-white/90 text-sm max-w-md">Making dentistry fun since 2012</p>
+      </div>
+    </div>
+    
+    <div className="px-6 py-8 bg-white">
+      <p className="text-gray-700 text-base leading-relaxed mb-4">We believe every child deserves a positive dental experience. Our kid-friendly environment helps children develop healthy habits and happy associations with dental care.</p>
+      <div className="bg-yellow-50 rounded-xl p-4 border border-yellow-200">
+        <p className="text-gray-700 text-sm">🎈 <strong>First visit?</strong> We take extra time to let kids explore and feel comfortable before any treatment.</p>
+      </div>
+    </div>
+    
+    <div className="px-6 py-8 bg-[#FAFAF9]">
+      <h2 className="text-lg font-bold text-gray-800 mb-6">What Makes Us Kid-Friendly</h2>
+      <div className="space-y-4">
+        {[
+          { icon: '🎮', title: 'Fun Waiting Area', desc: 'Games, books, and activities' },
+          { icon: '🦸', title: 'Superhero Sunglasses', desc: 'Cool shades to wear during treatment' },
+          { icon: '🏆', title: 'Prize Box', desc: 'Every brave kid gets a prize!' },
+          { icon: '💬', title: 'Kid-Friendly Language', desc: 'We explain everything in terms they understand' },
+        ].map((item, i) => (
+          <div key={i} className="flex items-start gap-4 bg-white rounded-xl p-4 shadow-sm">
+            <span className="text-2xl">{item.icon}</span>
+            <div>
+              <h3 className="font-semibold text-gray-800 text-sm">{item.title}</h3>
+              <p className="text-gray-500 text-xs">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <div className="px-6 py-6 bg-white">
+      <h2 className="text-lg font-bold text-gray-800 mb-4">Tips for Parents</h2>
+      <div className="space-y-3">
+        {['Start dental visits by age 1', 'Stay positive — kids pick up on anxiety', "Don't use dental visits as a threat", 'Let them bring a comfort item'].map((tip, i) => (
+          <div key={i} className="flex items-start gap-3">
+            <CheckCircle2 className="w-5 h-5 text-[#0D9488] shrink-0 mt-0.5" />
+            <p className="text-gray-600 text-sm">{tip}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <div className="mx-6 my-6 bg-gradient-to-br from-[#0D9488] to-[#0D9488]/90 rounded-2xl p-8 text-center text-white shadow-xl">
+      <span className="text-[#0EA5E9] text-xs font-medium uppercase tracking-wider">Kid-Friendly Care</span>
+      <h3 className="text-xl font-bold mt-2 mb-2">Schedule Your Child's First Visit</h3>
+      <p className="text-white/80 text-sm mb-6">We make every visit a positive experience.</p>
+      <button onClick={() => navigateTo('contact')} className="bg-white text-[#0D9488] px-8 py-3 rounded-xl font-bold text-sm shadow-lg">Book Kids Appointment</button>
+    </div>
+  </div>
+);
+
+// Emergency Care Detail Page
+const ServiceEmergencyPage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) => (
+  <div>
+    <div className="relative h-56 overflow-hidden">
+      <div className="absolute inset-0 bg-cover bg-center scale-105" style={{ backgroundImage: `url(${IMAGES.serviceEmergencyHero})` }} />
+      <div className="absolute inset-0 bg-gradient-to-r from-red-600/90 via-red-600/70 to-transparent" />
+      <div className="relative z-10 h-full flex flex-col justify-end px-6 pb-6">
+        <button onClick={() => navigateTo('services')} className="text-white/70 text-xs mb-3 flex items-center gap-1 hover:text-white transition-colors w-fit"><ChevronLeft className="w-3 h-3" /> Back to Services</button>
+        <span className="text-red-200 text-xs font-medium uppercase tracking-wider mb-1">Urgent Care</span>
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">Emergency Dental Care</h1>
+        <p className="text-white/90 text-sm max-w-md">Same-day appointments for urgent situations</p>
+      </div>
+    </div>
+    
+    <div className="bg-red-600 text-white px-6 py-4">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <Phone className="w-6 h-6 animate-pulse" />
+          <div>
+            <p className="font-bold text-sm">Dental Emergency? Call Now</p>
+            <p className="text-red-200 text-xs">We keep same-day slots open every day</p>
+          </div>
+        </div>
+        <a href="tel:5125550123" className="bg-white text-red-600 px-6 py-3 rounded-lg font-bold text-sm">(512) 555-0123</a>
+      </div>
+    </div>
+    
+    <div className="px-6 py-8 bg-white">
+      <p className="text-gray-700 text-base leading-relaxed mb-6">Dental emergencies don't wait for convenient times. Whether it's severe pain, a knocked-out tooth, or a broken restoration, we're here to help — fast.</p>
+      <h2 className="text-lg font-bold text-gray-800 mb-4">Common Dental Emergencies</h2>
+      <div className="space-y-3">
+        {[
+          { title: 'Severe Toothache', desc: 'Intense, persistent pain' },
+          { title: 'Knocked-Out Tooth', desc: 'Time-sensitive — call immediately' },
+          { title: 'Broken/Cracked Tooth', desc: 'From injury or biting hard objects' },
+          { title: 'Lost Crown or Filling', desc: 'Exposed tooth needs protection' },
+          { title: 'Abscess or Swelling', desc: 'Signs of infection' },
+        ].map((item, i) => (
+          <div key={i} className="flex items-start gap-3 bg-red-50 rounded-lg p-3">
+            <Zap className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+            <div>
+              <h3 className="font-semibold text-gray-800 text-sm">{item.title}</h3>
+              <p className="text-gray-500 text-xs">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <div className="px-6 py-6 bg-[#FAFAF9]">
+      <h2 className="text-lg font-bold text-gray-800 mb-4">What To Do While You Wait</h2>
+      <div className="bg-white rounded-xl p-4 shadow-sm space-y-3 text-sm text-gray-600">
+        <p>• <strong>Knocked-out tooth:</strong> Keep it moist in milk</p>
+        <p>• <strong>Severe pain:</strong> Take over-the-counter pain relief</p>
+        <p>• <strong>Swelling:</strong> Apply cold compress</p>
+        <p>• <strong>Bleeding:</strong> Apply gentle pressure with gauze</p>
+      </div>
+    </div>
+    
+    <div className="mx-6 my-6 bg-red-600 rounded-2xl p-8 text-center text-white shadow-xl">
+      <h3 className="text-xl font-bold mb-2">Don't Wait in Pain</h3>
+      <p className="text-red-100 text-sm mb-6">Call us now for same-day emergency care.</p>
+      <a href="tel:5125550123" className="inline-block bg-white text-red-600 px-8 py-3 rounded-xl font-bold text-sm shadow-lg">Call (512) 555-0123</a>
+    </div>
+  </div>
+);
+
+// Teeth Whitening Detail Page
+const ServiceWhiteningPage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) => (
+  <div>
+    <div className="relative h-56 overflow-hidden">
+      <div className="absolute inset-0 bg-cover bg-center scale-105" style={{ backgroundImage: `url(${IMAGES.serviceWhiteningHero})` }} />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0D9488]/90 via-[#0D9488]/70 to-transparent" />
+      <div className="relative z-10 h-full flex flex-col justify-end px-6 pb-6">
+        <button onClick={() => navigateTo('services')} className="text-white/70 text-xs mb-3 flex items-center gap-1 hover:text-white transition-colors w-fit"><ChevronLeft className="w-3 h-3" /> Back to Services</button>
+        <span className="text-[#0EA5E9] text-xs font-medium uppercase tracking-wider mb-1">Brighten Your Smile</span>
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">Teeth Whitening</h1>
+        <p className="text-white/90 text-sm max-w-md">Professional results in just one visit</p>
+      </div>
+    </div>
+    
+    <div className="px-6 py-8 bg-white">
+      <p className="text-gray-700 text-base leading-relaxed">Brighten your smile safely and effectively with professional whitening. Our treatments are stronger, faster, and more reliable than anything over the counter.</p>
+    </div>
+    
+    <div className="px-6 py-8 bg-[#FAFAF9]">
+      <h2 className="text-lg font-bold text-gray-800 mb-6">Choose Your Option</h2>
+      <div className="space-y-4">
+        <div className="bg-white rounded-xl p-5 shadow-sm border-2 border-[#0D9488]">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-bold text-gray-800">In-Office Whitening</h3>
+            <span className="bg-[#0D9488] text-white text-xs px-2 py-1 rounded-full">Popular</span>
+          </div>
+          <p className="text-gray-600 text-sm mb-3">Dramatic results in about one hour.</p>
+          <ul className="text-xs text-gray-500 space-y-1">
+            <li>✓ Up to 8 shades whiter</li>
+            <li>✓ Results in 1 hour</li>
+            <li>✓ Professional supervision</li>
+          </ul>
+        </div>
+        <div className="bg-white rounded-xl p-5 shadow-sm">
+          <h3 className="font-bold text-gray-800 mb-3">Take-Home Trays</h3>
+          <p className="text-gray-600 text-sm mb-3">Custom-fitted trays for gradual whitening at your convenience.</p>
+          <ul className="text-xs text-gray-500 space-y-1">
+            <li>✓ Custom-fitted for comfort</li>
+            <li>✓ Whiten on your schedule</li>
+            <li>✓ Great for touch-ups</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div className="mx-6 my-6 bg-gradient-to-br from-[#0D9488] to-[#0D9488]/90 rounded-2xl p-8 text-center text-white shadow-xl">
+      <span className="text-[#0EA5E9] text-xs font-medium uppercase tracking-wider">Limited Offer</span>
+      <h3 className="text-xl font-bold mt-2 mb-2">Get a Brighter Smile Today</h3>
+      <p className="text-white/80 text-sm mb-6">Ask about our whitening specials when you book.</p>
+      <button onClick={() => navigateTo('contact')} className="bg-white text-[#0D9488] px-8 py-3 rounded-xl font-bold text-sm shadow-lg">Book Whitening Session</button>
+    </div>
+    
+    <div className="px-6 py-8 bg-[#FAFAF9]">
+      <h2 className="text-lg font-bold text-gray-800 mb-4">Related Services</h2>
+      <div className="flex gap-3 overflow-x-auto pb-2">
+        {[SERVICES[1], SERVICES[0]].map(s => (
+          <div key={s.id} onClick={() => navigateTo(s.id)} className="flex-shrink-0 w-40 bg-white rounded-xl overflow-hidden shadow-sm cursor-pointer hover:shadow-md transition-shadow">
+            <img src={s.img} alt={s.name} className="w-full h-20 object-cover" />
+            <p className="p-3 font-semibold text-gray-800 text-xs">{s.name}</p>
+          </div>
+        ))}
       </div>
     </div>
   </div>
@@ -833,7 +1305,11 @@ export const ClearviewDentistryAustinMockup = () => {
         <div className="flex-1 mx-2 sm:mx-12">
           <div className="bg-[#1a1a1a] rounded-lg px-4 py-1.5 text-[11px] sm:text-xs text-white/80 flex items-center gap-2 max-w-lg mx-auto shadow-inner">
             <Shield className="w-3.5 h-3.5 text-green-400" />
-            <span className="font-medium">clearviewdentistryaustin.com{currentPage === 'home' ? '' : `/${currentPage.replace('-', '')}`}</span>
+            <span className="font-medium">clearviewdentistryaustin.com{
+              currentPage === 'home' ? '' : 
+              currentPage.startsWith('service-') ? `/services/${currentPage.replace('service-', '')}` :
+              `/${currentPage.replace('-', '')}`
+            }</span>
           </div>
         </div>
       </div>
@@ -913,6 +1389,12 @@ export const ClearviewDentistryAustinMockup = () => {
         <div ref={contentContainerRef} className="h-[calc(100%-3.5rem)] sm:h-[calc(100%-4rem)] overflow-y-auto scroll-smooth">
           {currentPage === 'home' && <HomePage navigateTo={navigateTo} />}
           {currentPage === 'services' && <ServicesPage navigateTo={navigateTo} />}
+          {currentPage === 'service-general' && <ServiceGeneralPage navigateTo={navigateTo} />}
+          {currentPage === 'service-cosmetic' && <ServiceCosmeticPage navigateTo={navigateTo} />}
+          {currentPage === 'service-invisalign' && <ServiceInvisalignPage navigateTo={navigateTo} />}
+          {currentPage === 'service-pediatric' && <ServicePediatricPage navigateTo={navigateTo} />}
+          {currentPage === 'service-emergency' && <ServiceEmergencyPage navigateTo={navigateTo} />}
+          {currentPage === 'service-whitening' && <ServiceWhiteningPage navigateTo={navigateTo} />}
           {currentPage === 'about' && <AboutPage navigateTo={navigateTo} />}
           {currentPage === 'new-patients' && <NewPatientsPage navigateTo={navigateTo} />}
           {currentPage === 'contact' && <ContactPage />}
