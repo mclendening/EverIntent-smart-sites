@@ -98,37 +98,49 @@ const navItems = [
 const HomePage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) => (
   <div>
     {/* Hero Section - with background image like Desert Cool Air */}
-    <div 
-      className="relative h-72 sm:h-80 bg-cover bg-center"
-      style={{ backgroundImage: `url(${IMAGES.hero})` }}
-    >
+    <div className="relative min-h-[350px] sm:min-h-[450px] overflow-hidden">
+      <img 
+        src={IMAGES.hero} 
+        alt="Clearview Dentistry Austin"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30" />
-      <div className="relative z-10 h-full flex flex-col justify-center px-6 sm:px-8">
-        <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-3 py-1 w-fit mb-4">
-          <Heart className="w-4 h-4 text-[#0D9488]" />
-          <span className="text-white/90 text-xs font-medium">Anxiety-Free Dentistry</span>
-        </div>
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 leading-tight">
-          Gentle Care for Your<br />
-          <span className="text-[#0D9488]">Whole Family</span>
-        </h1>
-        <p className="text-white/80 mb-4 text-sm max-w-md">
-          Austin's trusted choice for anxiety-friendly dentistry since 2012. Sedation available.
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <button 
-            onClick={() => navigateTo('contact')}
-            className="bg-[#0D9488] hover:bg-[#0F766E] text-white px-5 py-2.5 rounded-lg font-semibold text-sm transition-all flex items-center gap-2"
-          >
-            <Calendar className="w-4 h-4" />
-            Book Your Visit
-          </button>
-          <button 
-            onClick={() => navigateTo('new-patients')}
-            className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-5 py-2.5 rounded-lg font-semibold text-sm transition-all border border-white/30"
-          >
-            New Patient Special
-          </button>
+      
+      <div className="relative px-6 sm:px-10 py-12 sm:py-20">
+        <div className="max-w-xl">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 w-fit mb-5">
+            <Heart className="w-4 h-4 text-[#0D9488]" />
+            <span className="text-white/90 text-xs font-medium">Anxiety-Free Dentistry</span>
+          </div>
+          
+          <h1 className="text-white text-3xl sm:text-4xl lg:text-5xl font-bold mb-2 leading-[1.1]">
+            Gentle Care for Your
+          </h1>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-5 leading-[1.1]">
+            <span className="text-[#0D9488]">Whole Family</span>
+          </h1>
+          
+          <p className="text-white/80 text-sm sm:text-base mb-8 max-w-md">
+            Austin's trusted choice for anxiety-friendly dentistry since 2012. Sedation available for nervous patients.
+          </p>
+          
+          {/* CTAs */}
+          <div className="flex flex-wrap gap-3">
+            <button 
+              onClick={() => navigateTo('contact')}
+              className="bg-[#0D9488] hover:bg-[#0F766E] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm transition-all flex items-center gap-2"
+            >
+              <Calendar className="w-4 h-4" />
+              Book Your Visit
+            </button>
+            <button 
+              onClick={() => navigateTo('new-patients')}
+              className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm transition-all border border-white/30"
+            >
+              New Patient Special
+            </button>
+          </div>
         </div>
       </div>
     </div>
