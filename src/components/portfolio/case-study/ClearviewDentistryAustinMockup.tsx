@@ -151,7 +151,7 @@ const HomePage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) =>
               className="bg-[#0D9488] hover:bg-[#0F766E] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm transition-all flex items-center gap-2"
             >
               <Calendar className="w-4 h-4" />
-              Book Your Visit
+              Book Your Smile Consultation
             </button>
             <button 
               onClick={() => navigateTo('new-patients')}
@@ -1328,7 +1328,7 @@ export const ClearviewDentistryAustinMockup = () => {
           <div className="flex items-center gap-3">
             {/* Logo */}
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[#0D9488] flex items-center justify-center">
-              <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+              <Smile className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <div>
               <span className="text-white font-bold text-sm sm:text-base">Clearview Dentistry</span>
@@ -1342,10 +1342,10 @@ export const ClearviewDentistryAustinMockup = () => {
               <button
                 key={item.id}
                 onClick={() => navigateTo(item.id)}
-                className={`text-xs font-medium transition-all ${
+                className={`text-xs transition-all ${
                   currentPage === item.id 
-                    ? 'text-[#0D9488]' 
-                    : 'text-white/70 hover:text-white'
+                    ? 'text-white font-semibold' 
+                    : 'text-white/70 hover:text-white font-medium'
                 }`}
               >
                 {item.label}
@@ -1380,10 +1380,10 @@ export const ClearviewDentistryAustinMockup = () => {
               <button
                 key={item.id}
                 onClick={() => navigateTo(item.id)}
-                className={`block w-full text-left px-6 py-4 text-sm font-medium border-l-4 transition-all ${
+                className={`block w-full text-left px-6 py-4 text-sm border-l-4 transition-all ${
                   currentPage === item.id 
-                    ? 'text-[#0D9488] bg-white/5 border-[#0D9488]' 
-                    : 'text-white/70 border-transparent hover:bg-white/5'
+                    ? 'text-white font-semibold bg-white/5 border-[#0D9488]' 
+                    : 'text-white/70 font-medium border-transparent hover:bg-white/5'
                 }`}
               >
                 {item.label}
@@ -1411,7 +1411,7 @@ export const ClearviewDentistryAustinMockup = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <Heart className="w-5 h-5 text-[#0D9488]" />
+                  <Smile className="w-5 h-5 text-[#0D9488]" />
                   <span className="font-bold">Clearview Dentistry Austin</span>
                 </div>
                 <p className="text-white/60">Gentle care for your whole family since 2012.</p>
