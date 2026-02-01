@@ -43,6 +43,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Portfolio from './pages/Portfolio';
 import DesertCoolAir from './pages/portfolio/DesertCoolAir';
+import ClearviewDentistryAustin from './pages/portfolio/ClearviewDentistryAustin';
 import Industries from './pages/Industries';
 import HomeServices from './pages/industries/HomeServices';
 import ProfessionalServices from './pages/industries/ProfessionalServices';
@@ -443,6 +444,10 @@ export const routes: RouteRecord[] = [
       {
         path: 'portfolio/desert-cool-air',
         Component: DesertCoolAir,
+      },
+      {
+        path: 'portfolio/clearview-dentistry-austin',
+        Component: ClearviewDentistryAustin,
       },
       // Core pages (placeholder for now)
       ...coreRoutePaths.slice(1).map(createPlaceholderChild),
