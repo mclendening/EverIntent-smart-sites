@@ -116,8 +116,8 @@ const navItems = [
 // Home Page Component
 const HomePage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) => (
   <div>
-    {/* Hero Section - with background image like Desert Cool Air */}
-    <div className="relative min-h-[350px] sm:min-h-[450px] overflow-hidden">
+    {/* Hero Section - fills viewport: container (500/600/700) - chrome (40) - header (56) */}
+    <div className="relative h-[404px] md:h-[504px] lg:h-[604px] overflow-hidden">
       <img 
         src={IMAGES.hero} 
         alt="Clearview Dentistry Austin"
