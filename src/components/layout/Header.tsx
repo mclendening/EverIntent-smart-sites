@@ -46,12 +46,30 @@ const industriesItems = [
 ];
 
 /**
- * Flat navigation links
+ * Flat navigation links - Portfolio between Industries and Pricing
  */
 const flatNavLinks = [
+  { title: 'Portfolio', path: '/portfolio' },
   { title: 'Pricing', path: '/pricing' },
+  { title: 'Contact', path: '/contact' },
+];
+
+/**
+ * Resources section for mobile menu (mirrors footer)
+ */
+const resourcesLinks = [
+  { title: 'Portfolio', path: '/portfolio' },
+  { title: 'FAQ', path: '/pricing#faq' },
+  { title: 'Industries', path: '/industries' },
+];
+
+/**
+ * Company section for mobile menu
+ */
+const companyLinks = [
   { title: 'About', path: '/about' },
   { title: 'Contact', path: '/contact' },
+  { title: 'Careers', path: '/careers' },
 ];
 
 /**
@@ -209,16 +227,36 @@ export function Header() {
                 ))}
               </div>
               
-              {/* Flat links */}
+              {/* Resources section */}
               <div className="py-3 border-t border-border/30">
-                {flatNavLinks.map((link) => (
+                <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium">
+                  Resources
+                </span>
+                {resourcesLinks.map((item) => (
                   <Link 
-                    key={link.path}
-                    to={link.path} 
-                    className="block py-3 text-lg font-medium text-foreground hover:text-accent transition-colors" 
+                    key={item.path}
+                    to={item.path} 
+                    className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors" 
                     onClick={closeMobileMenu}
                   >
-                    {link.title}
+                    {item.title}
+                  </Link>
+                ))}
+              </div>
+              
+              {/* Company section */}
+              <div className="py-3 border-t border-border/30">
+                <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium">
+                  Company
+                </span>
+                {companyLinks.map((item) => (
+                  <Link 
+                    key={item.path}
+                    to={item.path} 
+                    className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors" 
+                    onClick={closeMobileMenu}
+                  >
+                    {item.title}
                   </Link>
                 ))}
               </div>

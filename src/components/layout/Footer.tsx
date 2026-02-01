@@ -37,6 +37,7 @@ const aiModesLinks = [
  * Resources column links
  */
 const resourcesLinks = [
+  { title: 'Portfolio', path: '/portfolio' },
   { title: 'FAQ', path: '/pricing#faq' },
   { title: 'Industries', path: '/industries' },
 ];
