@@ -52,19 +52,26 @@ type MockupPage = 'home' | 'services' | 'about' | 'new-patients' | 'contact';
 
 type ChatStep = 
   | 'initial' 
+  | 'patient-type'
+  | 'anxiety-check'
+  | 'anxiety-response'
+  | 'sedation-info'
   | 'service-type' 
-  | 'anxiety-support'
   | 'scheduling'
-  | 'time-select'
+  | 'scheduling-next'
+  | 'time-select-tue'
+  | 'time-select-thu'
   | 'contact-info'
   | 'confirmed'
-  | 'new-patient'
-  | 'insurance';
+  | 'emergency'
+  | 'emergency-urgent'
+  | 'end';
 
 interface QuickReply {
   label: string;
   value: string;
   nextStep: ChatStep;
+  timeData?: { day: string; time: string };
 }
 
 interface ChatMessage {
@@ -548,6 +555,7 @@ export const ClearviewDentistryAustinMockup = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showChatPrompt, setShowChatPrompt] = useState(false);
+  const [selectedAppointment, setSelectedAppointment] = useState<{ day: string; time: string } | null>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const contentContainerRef = useRef<HTMLDivElement>(null);
   const messageIdRef = useRef(0);
@@ -583,17 +591,17 @@ export const ClearviewDentistryAustinMockup = () => {
   useEffect(() => {
     if (chatOpen && messages.length === 0) {
       addBotMessage(
-        "Hi! 👋 I'm Maya from Clearview Dentistry. How can I help you today?",
+        "Hi there! 😊 Welcome to Clearview Dentistry Austin. How can I brighten your day?",
         [
-          { label: "😰 I'm nervous about the dentist", value: "anxiety", nextStep: 'anxiety-support' },
-          { label: "📅 Schedule an Appointment", value: "schedule", nextStep: 'service-type' },
-          { label: "🎁 New Patient Special ($99)", value: "new-patient", nextStep: 'new-patient' }
+          { label: "I need to book an appointment", value: "book", nextStep: 'patient-type' },
+          { label: "I'm a new patient", value: "new", nextStep: 'patient-type' },
+          { label: "I have a dental emergency", value: "emergency", nextStep: 'emergency' }
         ]
       );
     }
   }, [chatOpen]);
 
-  const addBotMessage = (text: string, quickReplies?: QuickReply[]) => {
+  const addBotMessage = (text: string, quickReplies?: QuickReply[], showInputFields?: boolean) => {
     setIsTyping(true);
     setTimeout(() => {
       setIsTyping(false);
@@ -604,7 +612,23 @@ export const ClearviewDentistryAustinMockup = () => {
         quickReplies
       };
       setMessages(prev => [...prev, newMessage]);
-    }, 1200);
+    }, 1500); // 1.5 second typing indicator
+  };
+
+  const restartChat = () => {
+    setMessages([]);
+    setChatStep('initial');
+    setSelectedAppointment(null);
+    setTimeout(() => {
+      addBotMessage(
+        "Hi there! 😊 Welcome to Clearview Dentistry Austin. How can I brighten your day?",
+        [
+          { label: "I need to book an appointment", value: "book", nextStep: 'patient-type' },
+          { label: "I'm a new patient", value: "new", nextStep: 'patient-type' },
+          { label: "I have a dental emergency", value: "emergency", nextStep: 'emergency' }
+        ]
+      );
+    }, 300);
   };
 
   const addUserMessage = (text: string) => {
@@ -620,89 +644,166 @@ export const ClearviewDentistryAustinMockup = () => {
     addUserMessage(reply.label);
     setChatStep(reply.nextStep);
 
+    // Store appointment data if provided
+    if (reply.timeData) {
+      setSelectedAppointment(reply.timeData);
+    }
+
     setTimeout(() => {
       switch (reply.nextStep) {
-        case 'anxiety-support':
+        case 'patient-type':
           addBotMessage(
-            "I completely understand – you're not alone! 💚 Dr. Chen specializes in anxiety-free dentistry. We offer sedation options, noise-canceling headphones, and go at your pace. Would you like to schedule a no-pressure consultation?",
+            "Welcome! We'd love to have you. Are you looking for care for yourself, your child, or your whole family?",
             [
-              { label: "Yes, that sounds great", value: "yes", nextStep: 'scheduling' },
-              { label: "Tell me more about sedation", value: "sedation", nextStep: 'confirmed' }
+              { label: "Just me", value: "self", nextStep: 'anxiety-check' },
+              { label: "My child", value: "child", nextStep: 'service-type' },
+              { label: "The whole family", value: "family", nextStep: 'service-type' }
+            ]
+          );
+          break;
+
+        case 'anxiety-check':
+          addBotMessage(
+            "Is there anything specific you're looking for? Some patients come to us because they've had anxiety about dental visits in the past — we specialize in gentle care.",
+            [
+              { label: "Yes, I have dental anxiety", value: "anxiety", nextStep: 'anxiety-response' },
+              { label: "Just a regular checkup", value: "checkup", nextStep: 'scheduling' },
+              { label: "I have a specific concern", value: "concern", nextStep: 'service-type' }
+            ]
+          );
+          break;
+
+        case 'anxiety-response':
+          addBotMessage(
+            "You're in the right place. 💙 Dr. Chen is known for her gentle approach, and we offer sedation options if needed. Would you like to schedule a no-pressure consultation first?",
+            [
+              { label: "Yes, that sounds good", value: "yes", nextStep: 'scheduling' },
+              { label: "Tell me more about sedation", value: "sedation", nextStep: 'sedation-info' }
+            ]
+          );
+          break;
+
+        case 'sedation-info':
+          addBotMessage(
+            "We offer nitrous oxide (laughing gas) for mild anxiety and oral sedation for more nervous patients. Dr. Chen will discuss options at your consultation. Ready to book?",
+            [
+              { label: "Yes, let's book", value: "book", nextStep: 'scheduling' },
+              { label: "I have more questions", value: "more", nextStep: 'initial' }
             ]
           );
           break;
 
         case 'service-type':
           addBotMessage(
-            "Great! What type of appointment are you looking for?",
+            "What type of appointment are you looking for?",
             [
-              { label: "🦷 Checkup & Cleaning", value: "checkup", nextStep: 'scheduling' },
-              { label: "😁 Cosmetic Consultation", value: "cosmetic", nextStep: 'scheduling' },
-              { label: "🚨 I have a dental emergency", value: "emergency", nextStep: 'confirmed' }
+              { label: "Cleaning & checkup", value: "cleaning", nextStep: 'scheduling' },
+              { label: "Cosmetic consultation", value: "cosmetic", nextStep: 'scheduling' },
+              { label: "Something else", value: "other", nextStep: 'scheduling' }
             ]
           );
           break;
 
         case 'scheduling':
           addBotMessage(
-            "Perfect! What day works best for you?",
+            "I have openings this week on Tuesday afternoon or Thursday morning. Which works better for you?",
             [
-              { label: "This week", value: "this-week", nextStep: 'time-select' },
-              { label: "Next week", value: "next-week", nextStep: 'time-select' },
-              { label: "Just exploring options", value: "exploring", nextStep: 'confirmed' }
+              { label: "Tuesday afternoon", value: "tuesday", nextStep: 'time-select-tue' },
+              { label: "Thursday morning", value: "thursday", nextStep: 'time-select-thu' },
+              { label: "Show me next week", value: "next", nextStep: 'scheduling-next' }
             ]
           );
           break;
 
-        case 'time-select':
+        case 'scheduling-next':
           addBotMessage(
-            "We have morning or afternoon appointments available. Which do you prefer?",
+            "Next week I have Monday morning or Wednesday afternoon available. Which would you prefer?",
             [
-              { label: "☀️ Morning (8am-12pm)", value: "morning", nextStep: 'contact-info' },
-              { label: "🌤️ Afternoon (1pm-5pm)", value: "afternoon", nextStep: 'contact-info' }
+              { label: "Monday morning", value: "monday", nextStep: 'time-select-tue', timeData: { day: 'Monday', time: '' } },
+              { label: "Wednesday afternoon", value: "wednesday", nextStep: 'time-select-thu', timeData: { day: 'Wednesday', time: '' } }
+            ]
+          );
+          break;
+
+        case 'time-select-tue':
+          addBotMessage(
+            "I have 2:00 PM or 3:30 PM available on Tuesday. Which would you prefer?",
+            [
+              { label: "2:00 PM", value: "2pm", nextStep: 'contact-info', timeData: { day: 'Tuesday', time: '2:00 PM' } },
+              { label: "3:30 PM", value: "330pm", nextStep: 'contact-info', timeData: { day: 'Tuesday', time: '3:30 PM' } }
+            ]
+          );
+          break;
+
+        case 'time-select-thu':
+          addBotMessage(
+            "I have 9:00 AM or 10:30 AM available on Thursday. Which would you prefer?",
+            [
+              { label: "9:00 AM", value: "9am", nextStep: 'contact-info', timeData: { day: 'Thursday', time: '9:00 AM' } },
+              { label: "10:30 AM", value: "1030am", nextStep: 'contact-info', timeData: { day: 'Thursday', time: '10:30 AM' } }
             ]
           );
           break;
 
         case 'contact-info':
           addBotMessage(
-            "Wonderful! I'll need your name and phone number to confirm the appointment."
+            "Perfect! To confirm your appointment, I just need your name and phone number so we can send you a reminder."
           );
+          // Show confirmation after a delay (simulating form submission)
           setTimeout(() => {
-            addBotMessage(
-              "✅ You're all set! We'll text you a confirmation. Is there anything else I can help with?",
-              [
-                { label: "That's all, thanks!", value: "done", nextStep: 'confirmed' },
-                { label: "I have more questions", value: "more", nextStep: 'initial' }
+            const appt = selectedAppointment || reply.timeData || { day: 'your selected day', time: 'your selected time' };
+            setMessages(prev => [...prev, {
+              id: ++messageIdRef.current,
+              sender: 'bot',
+              text: `✅ You're all set! Your appointment is confirmed for ${appt.day} at ${appt.time} with Dr. Chen. You'll receive a text reminder the day before. We can't wait to meet you! Is there anything else I can help with?`,
+              quickReplies: [
+                { label: "That's all, thanks!", value: "done", nextStep: 'end' },
+                { label: "I have another question", value: "more", nextStep: 'initial' }
               ]
-            );
-          }, 2000);
+            }]);
+          }, 2500);
           break;
 
-        case 'new-patient':
+        case 'emergency':
           addBotMessage(
-            "Excellent choice! 🎉 Our $99 New Patient Special includes a comprehensive exam, full X-rays, and professional cleaning. Would you like to schedule?",
+            "I'm so sorry you're dealing with a dental emergency! 😟 We keep same-day slots open for urgent cases. Are you experiencing severe pain right now?",
             [
-              { label: "Yes, schedule me!", value: "yes", nextStep: 'scheduling' },
-              { label: "Do you accept my insurance?", value: "insurance", nextStep: 'insurance' }
+              { label: "Yes, severe pain", value: "severe", nextStep: 'emergency-urgent' },
+              { label: "It's uncomfortable but manageable", value: "manageable", nextStep: 'scheduling' }
             ]
           );
           break;
 
-        case 'insurance':
+        case 'emergency-urgent':
           addBotMessage(
-            "We accept most major insurance plans including Delta Dental, Cigna, Aetna, and many more. Our team will verify your benefits before your visit. Ready to schedule?",
+            "Please call us right away at (512) 555-0123. We'll get you in as soon as possible today. If it's after hours, our voicemail has emergency instructions.",
             [
-              { label: "Yes, let's do it!", value: "yes", nextStep: 'scheduling' },
-              { label: "I'll call to verify first", value: "call", nextStep: 'confirmed' }
+              { label: "I'll call now", value: "call", nextStep: 'end' },
+              { label: "It can wait until tomorrow", value: "wait", nextStep: 'scheduling' }
             ]
           );
           break;
 
-        case 'confirmed':
+        case 'end':
           addBotMessage(
-            "Thank you for reaching out! We look forward to seeing your smile soon! 😊"
+            "Thank you for chatting with Clearview Dentistry Austin! Have a wonderful day 😊"
           );
+          // Show restart button after end message
+          setTimeout(() => {
+            setMessages(prev => [...prev, {
+              id: ++messageIdRef.current,
+              sender: 'bot',
+              text: '',
+              quickReplies: [
+                { label: "🔄 Start a new conversation", value: "restart", nextStep: 'initial' }
+              ]
+            }]);
+          }, 1800);
+          break;
+
+        case 'initial':
+          // Restart the conversation
+          restartChat();
           break;
       }
     }, 300);
@@ -833,22 +934,22 @@ export const ClearviewDentistryAustinMockup = () => {
           </footer>
         </div>
 
-        {/* Chat Prompt Bubble */}
+        {/* Chat Prompt Bubble - Sophie */}
         {!chatOpen && showChatPrompt && (
           <div className="absolute bottom-20 sm:bottom-24 right-4 sm:right-6 bg-white rounded-2xl shadow-2xl p-4 max-w-[200px] z-50 border border-gray-100">
             <button 
               onClick={() => setShowChatPrompt(false)}
-              className="absolute -top-2 -right-2 w-5 h-5 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+              className="absolute -top-2 -right-2 w-6 h-6 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-colors"
             >
-              <X className="w-3 h-3 text-gray-500" />
+              <X className="w-3.5 h-3.5 text-gray-600" />
             </button>
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#0D9488] to-[#0F766E] flex items-center justify-center shrink-0">
-                <span className="text-white text-sm font-bold">M</span>
+                <span className="text-white text-sm font-bold">S</span>
               </div>
               <div>
-                <p className="text-xs font-semibold text-gray-800 mb-1">Chat with Maya</p>
-                <p className="text-[11px] text-gray-500 leading-relaxed">Have questions? I can help schedule your visit! 😊</p>
+                <p className="text-xs font-semibold text-gray-800 mb-1">Sophie</p>
+                <p className="text-[11px] text-gray-500 leading-relaxed">Need to book? I can help you find the perfect time! 😊</p>
               </div>
             </div>
             <div className="absolute -bottom-2 right-8 w-4 h-4 bg-white border-r border-b border-gray-100 transform rotate-45" />
@@ -866,7 +967,7 @@ export const ClearviewDentistryAustinMockup = () => {
           </button>
         )}
 
-        {/* Chat Window */}
+        {/* Chat Window - Sophie */}
         {chatOpen && (
           <div className="absolute bottom-3 sm:bottom-6 right-3 sm:right-6 w-[calc(100%-1.5rem)] sm:w-[360px] h-[70%] sm:h-[450px] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden z-50 border border-gray-200">
             {/* Chat Header */}
@@ -874,12 +975,12 @@ export const ClearviewDentistryAustinMockup = () => {
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <div className="w-12 h-12 bg-gradient-to-br from-[#0D9488] to-[#0F766E] rounded-full flex items-center justify-center shadow-lg">
-                    <span className="text-white text-lg font-bold">M</span>
+                    <span className="text-white text-lg font-bold">S</span>
                   </div>
                   <span className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-500 rounded-full border-2 border-[#1E293B]" />
                 </div>
                 <div>
-                  <p className="text-white font-bold text-sm">Maya</p>
+                  <p className="text-white font-bold text-sm">Sophie</p>
                   <p className="text-white/60 text-[11px]">Patient Coordinator • Online</p>
                 </div>
               </div>
