@@ -83,7 +83,15 @@ export const DesertCoolAirMockup = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showChatPrompt, setShowChatPrompt] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const contentContainerRef = useRef<HTMLDivElement>(null);
   const messageIdRef = useRef(0);
+
+  // Scroll to top when page changes
+  useEffect(() => {
+    if (contentContainerRef.current) {
+      contentContainerRef.current.scrollTop = 0;
+    }
+  }, [currentPage]);
 
   // Show chat prompt after 3 seconds
   useEffect(() => {
@@ -345,7 +353,7 @@ export const DesertCoolAirMockup = () => {
         )}
 
         {/* Page Content */}
-        <div className="h-[calc(100%-3.5rem)] sm:h-[calc(100%-4rem)] overflow-y-auto scroll-smooth">
+        <div ref={contentContainerRef} className="h-[calc(100%-3.5rem)] sm:h-[calc(100%-4rem)] overflow-y-auto scroll-smooth">
           {currentPage === 'home' && <HomePage onNavigate={setCurrentPage} />}
           {currentPage === 'services' && <ServicesPage />}
           {currentPage === 'about' && <AboutPage />}
