@@ -245,17 +245,41 @@ export async function ensureGHLWidget(timeout = 12000): Promise<void> {
 /**
  * Hides the default GHL launcher bubble via shadow DOM manipulation.
  * Uses direct style injection rather than API to preserve widget visibility.
+ * Targets multiple possible launcher element selectors for full coverage.
  */
 export function hideLauncher(): void {
   if (!isBrowser()) return;
+  
+  const hideStyles = 'display:none !important; visibility:hidden !important; pointer-events:none !important; width:0 !important; height:0 !important; opacity:0 !important;';
+  
   const widget = document.querySelector('chat-widget') as HTMLElement & { shadowRoot: ShadowRoot | null };
   if (widget?.shadowRoot) {
-    const launcher = widget.shadowRoot.querySelector('button.lc_text-widget--bubble');
-    if (launcher instanceof HTMLElement) {
-      launcher.style.cssText =
-        'display:none !important; visibility:hidden !important; pointer-events:none !important; width:0 !important; height:0 !important;';
-    }
+    // Target all possible launcher elements
+    const launcherSelectors = [
+      'button.lc_text-widget--bubble',
+      'button.lc_text-widget--btn',
+      '.lc_text-widget--btn',
+      '.lc_text-widget--bubble',
+      '[class*="lc_text-widget"]',
+    ];
+    
+    launcherSelectors.forEach(selector => {
+      const launchers = widget.shadowRoot?.querySelectorAll(selector);
+      launchers?.forEach(launcher => {
+        if (launcher instanceof HTMLElement) {
+          launcher.style.cssText = hideStyles;
+        }
+      });
+    });
   }
+  
+  // Also hide any launcher elements that may be outside shadow DOM
+  const globalLaunchers = document.querySelectorAll('.lc_text-widget--btn, .lc_text-widget--bubble, [class*="lc_text-widget"]');
+  globalLaunchers.forEach(launcher => {
+    if (launcher instanceof HTMLElement) {
+      launcher.style.cssText = hideStyles;
+    }
+  });
 }
 
 /**
