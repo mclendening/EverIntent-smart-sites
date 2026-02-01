@@ -11,6 +11,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { Phone, Mail, MapPin, Clock, Star, ChevronRight, MessageCircle, Send, X, Menu } from 'lucide-react';
 import heroImage from '@/assets/portfolio/riverstone-plumbing-hero.jpg';
+import servicesImage from '@/assets/portfolio/riverstone-services.jpg';
+import aboutImage from '@/assets/portfolio/riverstone-about.jpg';
+import contactImage from '@/assets/portfolio/riverstone-contact.jpg';
 
 type MockupPage = 'home' | 'services' | 'about' | 'contact';
 
@@ -337,9 +340,17 @@ const HomePage = () => (
 );
 
 const ServicesPage = () => (
-  <div className="bg-gray-50 p-3 sm:p-6">
-    <h1 className="text-[#1E3A5F] text-sm sm:text-xl font-bold mb-3 sm:mb-6">Our Plumbing Services</h1>
-    <div className="space-y-2 sm:space-y-3">
+  <div className="bg-gray-50">
+    {/* Hero Banner with Image */}
+    <div className="relative h-24 sm:h-36">
+      <img src={servicesImage} alt="Plumbing services" className="absolute inset-0 w-full h-full object-cover" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1E3A5F]/80 to-[#1E3A5F]/95" />
+      <div className="relative h-full flex items-center justify-center">
+        <h1 className="text-white text-sm sm:text-xl font-bold drop-shadow-lg">Our Plumbing Services</h1>
+      </div>
+    </div>
+    
+    <div className="p-3 sm:p-6 space-y-2 sm:space-y-3">
       {[
         { name: 'Emergency Repairs', desc: '24/7 rapid response for urgent issues' },
         { name: 'Drain Cleaning', desc: 'Professional drain and sewer cleaning' },
@@ -364,66 +375,95 @@ const ServicesPage = () => (
 );
 
 const AboutPage = () => (
-  <div className="bg-gray-50 p-3 sm:p-6">
-    <h1 className="text-[#1E3A5F] text-sm sm:text-xl font-bold mb-3 sm:mb-4">About Riverstone Plumbing</h1>
-    <div className="bg-white p-3 sm:p-6 rounded-lg shadow-sm mb-3 sm:mb-4">
-      <p className="text-gray-600 text-[10px] sm:text-sm mb-2 sm:mb-4">
-        Since 1987, Riverstone Plumbing has served Denver families with honest, reliable plumbing services. 
-        Now in our third generation, we combine old-school craftsmanship with modern technology.
-      </p>
-      <div className="grid grid-cols-3 gap-2 sm:gap-4 text-center">
-        <div>
-          <p className="text-[#F97316] font-bold text-sm sm:text-2xl">35+</p>
-          <p className="text-gray-600 text-[8px] sm:text-xs">Years Experience</p>
-        </div>
-        <div>
-          <p className="text-[#F97316] font-bold text-sm sm:text-2xl">15K+</p>
-          <p className="text-gray-600 text-[8px] sm:text-xs">Jobs Completed</p>
-        </div>
-        <div>
-          <p className="text-[#F97316] font-bold text-sm sm:text-2xl">4.9★</p>
-          <p className="text-gray-600 text-[8px] sm:text-xs">Rating</p>
-        </div>
+  <div className="bg-gray-50">
+    {/* Hero Banner with Team Image */}
+    <div className="relative h-28 sm:h-40">
+      <img src={aboutImage} alt="Riverstone Plumbing team" className="absolute inset-0 w-full h-full object-cover" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1E3A5F]/70 to-[#1E3A5F]/90" />
+      <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
+        <h1 className="text-white text-sm sm:text-xl font-bold drop-shadow-lg mb-1">About Riverstone Plumbing</h1>
+        <p className="text-white/90 text-[9px] sm:text-xs drop-shadow-md">Family-owned since 1987</p>
       </div>
     </div>
-    <div className="bg-[#1E3A5F] p-3 sm:p-6 rounded-lg text-white text-center">
-      <p className="text-[10px] sm:text-sm italic mb-2">"We treat every home like our own."</p>
-      <p className="text-[9px] sm:text-xs opacity-80">— Mike Riverstone, Owner</p>
+    
+    <div className="p-3 sm:p-6">
+      <div className="bg-white p-3 sm:p-6 rounded-lg shadow-sm mb-3 sm:mb-4">
+        <p className="text-gray-600 text-[10px] sm:text-sm mb-2 sm:mb-4">
+          Since 1987, Riverstone Plumbing has served Denver families with honest, reliable plumbing services. 
+          Now in our third generation, we combine old-school craftsmanship with modern technology.
+        </p>
+        <div className="grid grid-cols-3 gap-2 sm:gap-4 text-center">
+          <div>
+            <p className="text-[#F97316] font-bold text-sm sm:text-2xl">35+</p>
+            <p className="text-gray-600 text-[8px] sm:text-xs">Years Experience</p>
+          </div>
+          <div>
+            <p className="text-[#F97316] font-bold text-sm sm:text-2xl">15K+</p>
+            <p className="text-gray-600 text-[8px] sm:text-xs">Jobs Completed</p>
+          </div>
+          <div>
+            <p className="text-[#F97316] font-bold text-sm sm:text-2xl">4.9★</p>
+            <p className="text-gray-600 text-[8px] sm:text-xs">Rating</p>
+          </div>
+        </div>
+      </div>
+      <div className="bg-[#1E3A5F] p-3 sm:p-6 rounded-lg text-white text-center">
+        <p className="text-[10px] sm:text-sm italic mb-2">"We treat every home like our own."</p>
+        <p className="text-[9px] sm:text-xs opacity-80">— Mike Riverstone, Owner</p>
+      </div>
     </div>
   </div>
 );
 
 const ContactPage = () => (
-  <div className="bg-gray-50 p-3 sm:p-6">
-    <h1 className="text-[#1E3A5F] text-sm sm:text-xl font-bold mb-3 sm:mb-4">Contact Us</h1>
-    <div className="bg-white p-3 sm:p-6 rounded-lg shadow-sm space-y-2 sm:space-y-4">
-      <div className="flex items-center gap-2 sm:gap-3">
-        <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-[#F97316]" />
-        <div>
-          <p className="text-[9px] sm:text-xs text-gray-500">Phone</p>
-          <p className="text-[10px] sm:text-sm font-medium text-[#1E3A5F]">(720) 555-0142</p>
+  <div className="bg-gray-50">
+    {/* Hero Banner with Contact Image */}
+    <div className="relative h-24 sm:h-32">
+      <img src={contactImage} alt="Contact us" className="absolute inset-0 w-full h-full object-cover" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1E3A5F]/80 to-[#1E3A5F]/95" />
+      <div className="relative h-full flex items-center justify-center">
+        <h1 className="text-white text-sm sm:text-xl font-bold drop-shadow-lg">Contact Us</h1>
+      </div>
+    </div>
+    
+    <div className="p-3 sm:p-6">
+      <div className="bg-white p-3 sm:p-6 rounded-lg shadow-sm space-y-2 sm:space-y-4">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-[#F97316]" />
+          <div>
+            <p className="text-[9px] sm:text-xs text-gray-500">Phone</p>
+            <p className="text-[10px] sm:text-sm font-medium text-[#1E3A5F]">(720) 555-0142</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-[#F97316]" />
+          <div>
+            <p className="text-[9px] sm:text-xs text-gray-500">Email</p>
+            <p className="text-[10px] sm:text-sm font-medium text-[#1E3A5F]">info@riverstoneplumbing.com</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-[#F97316]" />
+          <div>
+            <p className="text-[9px] sm:text-xs text-gray-500">Address</p>
+            <p className="text-[10px] sm:text-sm font-medium text-[#1E3A5F]">4521 Morrison Rd, Denver, CO 80219</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-[#F97316]" />
+          <div>
+            <p className="text-[9px] sm:text-xs text-gray-500">Hours</p>
+            <p className="text-[10px] sm:text-sm font-medium text-[#1E3A5F]">24/7 Emergency Service</p>
+          </div>
         </div>
       </div>
-      <div className="flex items-center gap-2 sm:gap-3">
-        <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-[#F97316]" />
-        <div>
-          <p className="text-[9px] sm:text-xs text-gray-500">Email</p>
-          <p className="text-[10px] sm:text-sm font-medium text-[#1E3A5F]">info@riverstoneplumbing.com</p>
-        </div>
-      </div>
-      <div className="flex items-center gap-2 sm:gap-3">
-        <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-[#F97316]" />
-        <div>
-          <p className="text-[9px] sm:text-xs text-gray-500">Address</p>
-          <p className="text-[10px] sm:text-sm font-medium text-[#1E3A5F]">4521 Morrison Rd, Denver, CO 80219</p>
-        </div>
-      </div>
-      <div className="flex items-center gap-2 sm:gap-3">
-        <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-[#F97316]" />
-        <div>
-          <p className="text-[9px] sm:text-xs text-gray-500">Hours</p>
-          <p className="text-[10px] sm:text-sm font-medium text-[#1E3A5F]">24/7 Emergency Service</p>
-        </div>
+      
+      {/* Quick Contact CTA */}
+      <div className="mt-3 sm:mt-4 bg-[#F97316] p-3 sm:p-4 rounded-lg text-center">
+        <p className="text-white font-medium text-[10px] sm:text-sm mb-2">Need help now?</p>
+        <button className="bg-white text-[#F97316] px-4 py-1.5 rounded-lg text-[10px] sm:text-sm font-bold">
+          Call (720) 555-0142
+        </button>
       </div>
     </div>
   </div>
