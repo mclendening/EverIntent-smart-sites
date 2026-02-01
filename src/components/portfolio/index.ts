@@ -8,6 +8,7 @@ export { PortfolioFilters } from './PortfolioFilters';
 export { PortfolioGrid } from './PortfolioGrid';
 export { PortfolioCard } from './PortfolioCard';
 export { MockupPreview } from './MockupPreview';
+export { MiniMockup } from './MiniMockup';
 export * from './portfolioData';
 
 // Case study components

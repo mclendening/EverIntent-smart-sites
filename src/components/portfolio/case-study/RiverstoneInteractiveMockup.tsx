@@ -95,7 +95,7 @@ export const RiverstoneInteractiveMockup = () => {
   ] as const;
 
   return (
-    <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden bg-card border border-border shadow-2xl">
+    <div className="relative w-full aspect-[16/9] min-h-[500px] md:min-h-[600px] lg:min-h-[700px] rounded-xl overflow-hidden bg-card border border-border shadow-2xl">
       {/* Browser Chrome */}
       <div className="h-8 sm:h-10 bg-muted flex items-center px-3 sm:px-4 gap-2 border-b border-border">
         <div className="flex gap-1.5 sm:gap-2">

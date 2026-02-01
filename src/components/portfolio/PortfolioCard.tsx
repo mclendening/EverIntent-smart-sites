@@ -6,7 +6,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { type PortfolioProject } from './portfolioData';
-import { MockupPreview } from './MockupPreview';
+import { MiniMockup } from './MiniMockup';
 import { cn } from '@/lib/utils';
 
 interface PortfolioCardProps {
@@ -46,9 +46,9 @@ export const PortfolioCard = ({ project, index }: PortfolioCardProps) => {
       )}
       style={{ animationDelay: `${index * 0.05}s` }}
     >
-      {/* Mockup Preview */}
+      {/* Mini Mockup Preview - Readable scaled-down version */}
       <div className="p-3 sm:p-4 pb-0">
-        <MockupPreview project={project} />
+        <MiniMockup project={project} />
       </div>
 
       {/* Card Content */}
