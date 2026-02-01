@@ -360,8 +360,8 @@ export const DesertCoolAirMockup = () => {
         {/* Page Content */}
         <div ref={contentContainerRef} className="h-[calc(100%-3.5rem)] sm:h-[calc(100%-4rem)] overflow-y-auto scroll-smooth">
           {currentPage === 'home' && <HomePage onNavigate={navigateTo} />}
-          {currentPage === 'services' && <ServicesPage />}
-          {currentPage === 'about' && <AboutPage />}
+          {currentPage === 'services' && <ServicesPage onNavigate={navigateTo} />}
+          {currentPage === 'about' && <AboutPage onNavigate={navigateTo} />}
           {currentPage === 'contact' && <ContactPage />}
           <FooterSection onNavigate={navigateTo} />
         </div>
@@ -546,7 +546,10 @@ const HomePage = ({ onNavigate }: PageProps) => (
           
           {/* CTAs */}
           <div className="flex flex-wrap gap-3">
-            <button className="bg-[#F97316] hover:bg-[#EA580C] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm font-semibold transition-all flex items-center gap-2">
+            <button 
+              onClick={() => onNavigate?.('contact')}
+              className="bg-[#F97316] hover:bg-[#EA580C] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm font-semibold transition-all flex items-center gap-2"
+            >
               Schedule Your Free Estimate
             </button>
             <button className="bg-white/10 backdrop-blur-sm border border-white/30 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm font-semibold hover:bg-white/20 transition-all flex items-center gap-2">
@@ -690,7 +693,10 @@ const HomePage = ({ onNavigate }: PageProps) => (
           <Phone className="w-5 h-5" />
           Call (602) 609-2300
         </button>
-        <button className="bg-white text-gray-900 px-8 py-4 rounded-lg text-sm font-bold hover:bg-gray-100 transition-all">
+        <button 
+          onClick={() => onNavigate?.('contact')}
+          className="bg-white text-gray-900 px-8 py-4 rounded-lg text-sm font-bold hover:bg-gray-100 transition-all"
+        >
           Request Estimate
         </button>
       </div>
@@ -699,7 +705,7 @@ const HomePage = ({ onNavigate }: PageProps) => (
 );
 
 // SERVICES PAGE
-const ServicesPage = () => (
+const ServicesPage = ({ onNavigate }: PageProps) => (
   <div className="bg-white">
     {/* Hero Banner */}
     <div className="relative h-44 sm:h-56 overflow-hidden">
@@ -741,7 +747,10 @@ const ServicesPage = () => (
                   ))}
                 </div>
               </div>
-              <button className="bg-[#F97316] text-white px-6 py-3 rounded-lg text-sm font-semibold hover:bg-[#EA580C] transition-all">
+              <button 
+                onClick={() => onNavigate?.('contact')}
+                className="bg-[#F97316] text-white px-6 py-3 rounded-lg text-sm font-semibold hover:bg-[#EA580C] transition-all"
+              >
                 Schedule {service.name.split(' ')[0]} Service
               </button>
             </div>
@@ -770,7 +779,7 @@ const ServicesPage = () => (
 );
 
 // ABOUT PAGE
-const AboutPage = () => (
+const AboutPage = ({ onNavigate }: PageProps) => (
   <div className="bg-white">
     {/* Hero Banner */}
     <div className="relative h-44 sm:h-56 overflow-hidden">
@@ -798,7 +807,10 @@ const AboutPage = () => (
             <p className="text-gray-500 text-sm leading-relaxed">
               Every technician on our team is NATE certified, drug tested, and background checked. When we send someone to your home, we send someone we'd trust in our own.
             </p>
-            <button className="mt-6 bg-[#F97316] text-white px-6 py-3 rounded-lg text-sm font-semibold hover:bg-[#EA580C] transition-all">
+            <button 
+              onClick={() => onNavigate?.('contact')}
+              className="mt-6 bg-[#F97316] text-white px-6 py-3 rounded-lg text-sm font-semibold hover:bg-[#EA580C] transition-all"
+            >
               Get a Free Estimate
             </button>
           </div>
