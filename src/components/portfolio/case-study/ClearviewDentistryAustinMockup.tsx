@@ -189,14 +189,18 @@ const HomePage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) =>
       <p className="text-gray-500 text-sm text-center mb-6">Comprehensive care for every smile</p>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {[
-          { name: 'General Dentistry', img: IMAGES.serviceGeneral, desc: 'Checkups & cleanings' },
-          { name: 'Cosmetic Dentistry', img: IMAGES.serviceCosmetic, desc: 'Smile makeovers' },
-          { name: 'Invisalign', img: IMAGES.serviceInvisalign, desc: 'Clear aligners' },
-          { name: 'Pediatric', img: IMAGES.servicePediatric, desc: 'Care for little ones' },
-          { name: 'Emergency Care', img: IMAGES.serviceEmergency, desc: 'Same-day available' },
-          { name: 'Whitening', img: IMAGES.serviceWhitening, desc: 'Brighten your smile' },
-        ].map((service, i) => (
-          <div key={i} className="bg-gray-50 rounded-xl overflow-hidden hover:shadow-lg transition-all group cursor-pointer">
+          { id: 'service-general' as MockupPage, name: 'General Dentistry', img: IMAGES.serviceGeneral, desc: 'Checkups & cleanings' },
+          { id: 'service-cosmetic' as MockupPage, name: 'Cosmetic Dentistry', img: IMAGES.serviceCosmetic, desc: 'Smile makeovers' },
+          { id: 'service-invisalign' as MockupPage, name: 'Invisalign', img: IMAGES.serviceInvisalign, desc: 'Clear aligners' },
+          { id: 'service-pediatric' as MockupPage, name: 'Pediatric', img: IMAGES.servicePediatric, desc: 'Care for little ones' },
+          { id: 'service-emergency' as MockupPage, name: 'Emergency Care', img: IMAGES.serviceEmergency, desc: 'Same-day available' },
+          { id: 'service-whitening' as MockupPage, name: 'Whitening', img: IMAGES.serviceWhitening, desc: 'Brighten your smile' },
+        ].map((service) => (
+          <div 
+            key={service.id} 
+            onClick={() => navigateTo(service.id)}
+            className="bg-gray-50 rounded-xl overflow-hidden hover:shadow-lg transition-all group cursor-pointer"
+          >
             <div className="relative h-24 overflow-hidden">
               <img src={service.img} alt={service.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
             </div>
