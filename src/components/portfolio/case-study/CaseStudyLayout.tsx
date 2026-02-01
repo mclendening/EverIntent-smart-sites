@@ -38,6 +38,7 @@ interface CaseStudyProps {
   location: string;
   description: string;
   services: string[];
+  ownerName?: string; // e.g., "Dr. Sarah Chen, DDS"
   
   // Colors
   primaryColor: string;
@@ -200,6 +201,7 @@ export const CaseStudyLayout = ({
   location,
   description,
   services,
+  ownerName,
   primaryColor,
   accentColor,
   discoveryPoints,
@@ -267,69 +269,80 @@ export const CaseStudyLayout = ({
       />
 
       <main className="min-h-screen bg-background">
-        {/* Hero Section */}
+        {/* Hero Section - Clean layout matching screenshot pattern */}
         <section 
-          className="relative py-12 sm:py-20 overflow-hidden"
+          className="relative py-12 sm:py-16 overflow-hidden"
           style={{ 
             background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColor}dd 100%)`
           }}
         >
-          <div className="container mx-auto px-4 sm:px-6">
+          <div className="container mx-auto px-4 sm:px-6 max-w-5xl">
             {/* Back Link */}
             <Link 
               to="/portfolio" 
-              className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 sm:mb-8 transition-colors"
+              className="inline-flex items-center gap-2 text-white/70 hover:text-white mb-8 sm:mb-10 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               <span className="text-sm">Back to Portfolio</span>
             </Link>
 
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-              {/* Text Content */}
-              <div>
-                <Badge 
-                  className="mb-4"
-                  style={{ backgroundColor: accentColor, color: 'white' }}
-                >
-                  {industry}
-                </Badge>
-                <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-                  {company}
-                </h1>
-                <p className="text-white/80 text-base sm:text-lg mb-4">
-                  {location}
-                </p>
-                <p className="text-white/90 text-sm sm:text-base mb-6">
-                  {description}
-                </p>
-                
-                {/* Service Tags */}
-                <div className="flex flex-wrap gap-2">
-                  {services.map((service, i) => (
-                    <span
-                      key={i}
-                      className="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-white text-xs sm:text-sm"
-                    >
-                      {service}
-                    </span>
-                  ))}
-                </div>
-              </div>
+            {/* Industry + Location inline */}
+            <div className="flex items-center gap-3 mb-4">
+              <Badge 
+                className="text-xs font-medium"
+                style={{ backgroundColor: accentColor, color: 'white' }}
+              >
+                {industry}
+              </Badge>
+              <span className="text-white/60 text-sm flex items-center gap-1">
+                <span className="text-white/40">◉</span> {location}
+              </span>
+            </div>
 
-              {/* Primary Result Highlight */}
-              <div className="lg:text-right">
-                <div className="inline-block bg-white/10 backdrop-blur-sm rounded-2xl p-6 sm:p-8">
+            {/* Company Name */}
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2 tracking-tight">
+              {company}
+            </h1>
+
+            {/* Owner/Title */}
+            {ownerName && (
+              <p className="text-white/70 text-base sm:text-lg mb-4">
+                {ownerName}
+              </p>
+            )}
+
+            {/* Description */}
+            <p className="text-white/80 text-sm sm:text-base mb-8 max-w-3xl leading-relaxed">
+              {description}
+            </p>
+
+            {/* Results - 3 metrics inline */}
+            <div className="flex flex-wrap gap-x-10 sm:gap-x-16 gap-y-4 mb-8">
+              {results.slice(0, 3).map((metric, index) => (
+                <div key={index}>
                   <div 
-                    className="text-4xl sm:text-6xl font-bold mb-2"
+                    className="text-2xl sm:text-4xl font-bold mb-1"
                     style={{ color: accentColor }}
                   >
-                    {results[0]?.value}
+                    {metric.value}{metric.suffix}
                   </div>
-                  <div className="text-white text-lg sm:text-xl">
-                    {results[0]?.label}
+                  <div className="text-white/60 text-xs sm:text-sm">
+                    {metric.label}
                   </div>
                 </div>
-              </div>
+              ))}
+            </div>
+            
+            {/* Service Tags */}
+            <div className="flex flex-wrap gap-2">
+              {services.map((service, i) => (
+                <span
+                  key={i}
+                  className="px-3 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white text-xs sm:text-sm"
+                >
+                  {service}
+                </span>
+              ))}
             </div>
           </div>
         </section>
