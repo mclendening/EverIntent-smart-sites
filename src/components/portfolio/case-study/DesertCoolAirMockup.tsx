@@ -363,6 +363,12 @@ export const DesertCoolAirMockup = () => {
         {/* Chat Prompt Bubble */}
         {!chatOpen && showChatPrompt && (
           <div className="absolute bottom-20 sm:bottom-24 right-4 sm:right-6 bg-white rounded-2xl shadow-2xl p-4 max-w-[200px] z-50 border border-gray-100">
+            <button 
+              onClick={() => setShowChatPrompt(false)}
+              className="absolute -top-2 -right-2 w-5 h-5 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+            >
+              <X className="w-3 h-3 text-gray-500" />
+            </button>
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#F97316] to-[#EA580C] flex items-center justify-center shrink-0">
                 <span className="text-white text-sm font-bold">C</span>
