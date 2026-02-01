@@ -41,6 +41,7 @@ import SmartWebsites from './pages/SmartWebsites';
 import Pricing from './pages/Pricing';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Portfolio from './pages/Portfolio';
 import Industries from './pages/Industries';
 import HomeServices from './pages/industries/HomeServices';
 import ProfessionalServices from './pages/industries/ProfessionalServices';
@@ -431,6 +432,11 @@ export const routes: RouteRecord[] = [
       {
         path: 'contact',
         Component: Contact,
+      },
+      // Portfolio hub page - dedicated component
+      {
+        path: 'portfolio',
+        Component: Portfolio,
       },
       // Core pages (placeholder for now)
       ...coreRoutePaths.slice(1).map(createPlaceholderChild),

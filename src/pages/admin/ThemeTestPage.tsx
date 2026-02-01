@@ -11,7 +11,6 @@ import { SocialProofBar } from '@/components/home/SocialProofBar';
 import HowWeHelpSection from '@/components/home/HowWeHelpSection';
 import { TransformationSection } from '@/components/home/TransformationSection';
 import { PricingTeaser } from '@/components/home/PricingTeaser';
-import { PortfolioPreview } from '@/components/home/PortfolioPreview';
 import { TestimonialsSection } from '@/components/home/TestimonialsSection';
 import { IndustriesSection } from '@/components/home/IndustriesSection';
 import { FinalCTASection } from '@/components/home/FinalCTASection';
@@ -181,8 +180,8 @@ function DynamicHeader({ theme }: { theme: Theme | null }) {
           <Link to="/pricing" className="nav-link px-4 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300">
             Pricing
           </Link>
-          <Link to="/our-work" className="nav-link px-4 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300">
-            Our Work
+          <Link to="/portfolio" className="nav-link px-4 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300">
+            Portfolio
           </Link>
           <Link to="/about" className="nav-link px-4 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300">
             About
@@ -216,7 +215,7 @@ function DynamicHeader({ theme }: { theme: Theme | null }) {
           <div className="fixed top-20 right-0 bottom-0 w-full max-w-sm bg-card border-l border-border z-50 lg:hidden overflow-y-auto">
             <div className="flex flex-col p-6 space-y-2">
               <Link to="/pricing" className="py-3 text-lg font-semibold text-foreground" onClick={closeMobileMenu}>Pricing</Link>
-              <Link to="/our-work" className="py-3 text-lg font-semibold text-foreground" onClick={closeMobileMenu}>Our Work</Link>
+              <Link to="/portfolio" className="py-3 text-lg font-semibold text-foreground" onClick={closeMobileMenu}>Portfolio</Link>
               <Link to="/about" className="py-3 text-lg font-semibold text-foreground" onClick={closeMobileMenu}>About</Link>
               <div className="pt-6">
                 <CTAButton to="/pricing" defaultText="Get Started" hoverText="Let's Go!" onClick={closeMobileMenu} fullWidth />
@@ -361,7 +360,6 @@ export default function ThemeTestPage() {
         <HowWeHelpSection />
         <TransformationSection />
         <PricingTeaser />
-        <PortfolioPreview />
         <TestimonialsSection />
         <IndustriesSection />
         <FinalCTASection />
