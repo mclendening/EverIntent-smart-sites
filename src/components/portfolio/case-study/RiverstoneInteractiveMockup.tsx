@@ -261,7 +261,7 @@ export const RiverstoneInteractiveMockup = () => {
   ] as const;
 
   return (
-    <div className="relative w-full min-h-[85vh] md:min-h-[700px] lg:min-h-[800px] rounded-2xl overflow-hidden bg-card border border-border/50 shadow-[0_25px_100px_-12px_rgba(0,0,0,0.4)]">
+    <div className="relative w-full h-[500px] md:h-[600px] lg:h-[700px] rounded-2xl overflow-hidden bg-card border border-border/50 shadow-[0_25px_100px_-12px_rgba(0,0,0,0.4)]">
       {/* Browser Chrome - Premium macOS Style */}
       <div className="h-9 sm:h-11 bg-gradient-to-b from-[#3d3d3d] to-[#2a2a2a] flex items-center px-3 sm:px-4 gap-3 border-b border-[#1a1a1a]">
         <div className="flex gap-2">
@@ -279,7 +279,7 @@ export const RiverstoneInteractiveMockup = () => {
       </div>
 
       {/* Website Content */}
-      <div className="h-[calc(100%-2.25rem)] sm:h-[calc(100%-2.75rem)] overflow-hidden relative bg-white">
+      <div className="h-[calc(100%-2.25rem)] sm:h-[calc(100%-2.75rem)] overflow-y-auto relative bg-white">
         {/* Navigation Header - Premium */}
         <nav className="h-14 sm:h-16 bg-white/95 backdrop-blur-md shadow-[0_2px_20px_-5px_rgba(0,0,0,0.1)] flex items-center justify-between px-4 sm:px-8 relative z-30 border-b border-gray-100">
           <div className="flex items-center gap-3 sm:gap-4">
