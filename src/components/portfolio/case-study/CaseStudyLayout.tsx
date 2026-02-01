@@ -14,7 +14,7 @@ import { useEffect, useState, useRef, ReactNode } from 'react';
 import { ArrowLeft, CheckCircle, Target, Wrench, Rocket, Quote } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
-import { Badge } from '@/components/ui/badge';
+
 
 interface JourneyPhase {
   icon: ReactNode;
@@ -286,61 +286,58 @@ export const CaseStudyLayout = ({
               <span className="text-sm">Back to Portfolio</span>
             </Link>
 
-            {/* Industry + Location inline */}
-            <div className="flex items-center gap-3 mb-4">
-              <Badge 
-                className="text-xs font-medium"
-                style={{ backgroundColor: accentColor, color: 'white' }}
-              >
-                {industry}
-              </Badge>
-              <span className="text-white/60 text-sm flex items-center gap-1">
-                <span className="text-white/40">◉</span> {location}
-              </span>
+            {/* Eyebrow - Industry + Location */}
+            <div className="flex items-center gap-4 mb-6 text-xs sm:text-sm tracking-[0.2em] uppercase">
+              <span style={{ color: accentColor }} className="font-semibold">{industry}</span>
+              <span className="w-8 h-px" style={{ backgroundColor: accentColor, opacity: 0.5 }} />
+              <span className="text-white/60">{location}</span>
             </div>
 
-            {/* Company Name */}
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2 tracking-tight">
+            {/* Company Name - Large editorial */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-3 tracking-tight leading-[1.1]">
               {company}
             </h1>
 
             {/* Owner/Title */}
             {ownerName && (
-              <p className="text-white/70 text-base sm:text-lg mb-4">
+              <p className="text-white/60 text-sm sm:text-base tracking-wide mb-6">
                 {ownerName}
               </p>
             )}
 
             {/* Description */}
-            <p className="text-white/80 text-sm sm:text-base mb-8 max-w-3xl leading-relaxed">
+            <p className="text-white/70 text-base sm:text-lg mb-10 max-w-2xl leading-relaxed font-light">
               {description}
             </p>
 
-            {/* Results - 3 metrics inline */}
-            <div className="flex flex-wrap gap-x-10 sm:gap-x-16 gap-y-4 mb-8">
-              {results.slice(0, 3).map((metric, index) => (
-                <div key={index}>
-                  <div 
-                    className="text-2xl sm:text-4xl font-bold mb-1"
-                    style={{ color: accentColor }}
-                  >
-                    {metric.value}{metric.suffix}
+            {/* Results - Bold stacked metrics with accent line */}
+            <div className="relative pl-6 border-l-2 mb-10" style={{ borderColor: accentColor }}>
+              <div className="flex flex-wrap gap-x-12 sm:gap-x-20 gap-y-6">
+                {results.slice(0, 3).map((metric, index) => (
+                  <div key={index} className="relative">
+                    <div 
+                      className="text-3xl sm:text-5xl font-bold tracking-tight"
+                      style={{ color: accentColor }}
+                    >
+                      {metric.value}{metric.suffix}
+                    </div>
+                    <div className="text-white/50 text-xs sm:text-sm uppercase tracking-[0.15em] mt-1">
+                      {metric.label}
+                    </div>
                   </div>
-                  <div className="text-white/60 text-xs sm:text-sm">
-                    {metric.label}
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
             
-            {/* Services - Elegant typographic list */}
-            <div className="flex flex-wrap items-center gap-x-1 text-white/50 text-xs sm:text-sm tracking-wide uppercase">
+            {/* Services - Minimal inline with accent dots */}
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
               {services.map((service, i) => (
-                <span key={i} className="flex items-center">
-                  <span className="text-white/80 font-light">{service}</span>
-                  {i < services.length - 1 && (
-                    <span className="mx-3 text-white/30">—</span>
-                  )}
+                <span key={i} className="flex items-center gap-2 text-white/70 text-sm">
+                  <span 
+                    className="w-1.5 h-1.5 rounded-full" 
+                    style={{ backgroundColor: accentColor }}
+                  />
+                  <span className="font-light">{service}</span>
                 </span>
               ))}
             </div>
