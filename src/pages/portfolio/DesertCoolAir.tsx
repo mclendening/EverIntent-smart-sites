@@ -1,6 +1,6 @@
 /**
- * @fileoverview Desert Cool Air case study page (formerly Riverstone Plumbing)
- * @module pages/portfolio/RiverstonePlumbing
+ * @fileoverview Desert Cool Air case study page
+ * @module pages/portfolio/DesertCoolAir
  * 
  * Complete case study featuring:
  * - Interactive website mockup with AI chatbot
@@ -12,10 +12,10 @@
 import { CaseStudyLayout } from '@/components/portfolio/case-study/CaseStudyLayout';
 import { DesertCoolAirMockup } from '@/components/portfolio/case-study/DesertCoolAirMockup';
 
-const RiverstonePlumbing = () => {
+const DesertCoolAir = () => {
   return (
     <CaseStudyLayout
-      slug="riverstone-plumbing"
+      slug="desert-cool-air"
       company="Desert Cool Air"
       industry="HVAC"
       location="Phoenix, AZ"
@@ -80,4 +80,4 @@ const RiverstonePlumbing = () => {
   );
 };
 
-export default RiverstonePlumbing;
+export default DesertCoolAir;
