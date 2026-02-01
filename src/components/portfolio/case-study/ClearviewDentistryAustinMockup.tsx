@@ -27,33 +27,33 @@ const COLORS = {
   cream: '#FAFAF9',
 };
 
-// Image URLs from Unsplash - dental/healthcare themed
+// Image URLs from Unsplash - pleasant, non-clinical dental/healthcare themed
 const IMAGES = {
-  hero: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200&q=80',
-  drChen: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&q=80',
-  hygienist: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=800&q=80',
-  receptionist: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=80',
-  serviceGeneral: 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=800&q=80',
-  serviceCosmetic: 'https://images.unsplash.com/photo-1606265752439-1f18756aa5fc?w=800&q=80',
-  serviceInvisalign: 'https://images.unsplash.com/photo-1598256989800-fe5f95da9787?w=800&q=80',
-  servicePediatric: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=800&q=80',
-  serviceEmergency: 'https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=800&q=80',
-  serviceWhitening: 'https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=800&q=80',
-  patient1: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=80',
-  patient2: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80',
-  patient3: 'https://images.unsplash.com/photo-1556745753-b2904692b3cd?w=800&q=80',
-  officeInterior: 'https://images.unsplash.com/photo-1629909615184-74f495363b67?w=800&q=80',
-  waitingRoom: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80',
-  family: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&q=80',
-  // Service Detail Heroes
-  serviceGeneralHero: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200&q=80',
-  serviceCosmeticHero: 'https://images.unsplash.com/photo-1581585090574-3e0b11459c7c?w=1200&q=80',
-  serviceInvisalignHero: 'https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=1200&q=80',
-  servicePediatricHero: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=1200&q=80',
-  serviceEmergencyHero: 'https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=1200&q=80',
-  serviceWhiteningHero: 'https://images.unsplash.com/photo-1581585090574-3e0b11459c7c?w=1200&q=80',
-  dentistConsultation: 'https://images.unsplash.com/photo-1588776814546-daab30f310ce?w=800&q=80',
-  happyPatient: 'https://images.unsplash.com/photo-1601288496920-b6154fe3626a?w=800&q=80',
+  hero: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=80', // Modern medical office lobby
+  drChen: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&q=80', // Female doctor portrait
+  hygienist: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=800&q=80', // Female healthcare worker
+  receptionist: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=80', // Professional woman
+  serviceGeneral: 'https://images.unsplash.com/photo-1588776814546-daab30f310ce?w=800&q=80', // Friendly dentist consultation
+  serviceCosmetic: 'https://images.unsplash.com/photo-1601288496920-b6154fe3626a?w=800&q=80', // Happy patient smile
+  serviceInvisalign: 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=800&q=80', // Clean dental office
+  servicePediatric: 'https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=800&q=80', // Happy child smiling
+  serviceEmergency: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80', // Medical professional ready to help
+  serviceWhitening: 'https://images.unsplash.com/photo-1581803118522-7b72a50f7e9f?w=800&q=80', // Bright confident smile
+  patient1: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=80', // Woman portrait
+  patient2: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80', // Man portrait
+  patient3: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&q=80', // Friendly woman smiling
+  officeInterior: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', // Clean modern medical interior
+  waitingRoom: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80', // Waiting room
+  family: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&q=80', // Happy family
+  // Service Detail Heroes - pleasant, non-clinical
+  serviceGeneralHero: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=80', // Modern clinic
+  serviceCosmeticHero: 'https://images.unsplash.com/photo-1601288496920-b6154fe3626a?w=1200&q=80', // Happy patient
+  serviceInvisalignHero: 'https://images.unsplash.com/photo-1581803118522-7b72a50f7e9f?w=1200&q=80', // Confident smile
+  servicePediatricHero: 'https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=1200&q=80', // Happy child
+  serviceEmergencyHero: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1200&q=80', // Medical professional
+  serviceWhiteningHero: 'https://images.unsplash.com/photo-1581803118522-7b72a50f7e9f?w=1200&q=80', // Bright smile
+  dentistConsultation: 'https://images.unsplash.com/photo-1588776814546-daab30f310ce?w=800&q=80', // Consultation
+  happyPatient: 'https://images.unsplash.com/photo-1601288496920-b6154fe3626a?w=800&q=80', // Happy patient
 };
 
 // Types
