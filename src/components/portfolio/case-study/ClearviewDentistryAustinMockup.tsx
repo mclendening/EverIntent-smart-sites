@@ -27,9 +27,9 @@ const COLORS = {
   cream: '#FAFAF9',
 };
 
-// Image URLs from Unsplash - pleasant, non-clinical dental/healthcare themed
+// Image URLs from Unsplash - warm, inviting, anxiety-friendly dental aesthetic
 const IMAGES = {
-  hero: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=80', // Modern medical office lobby
+  hero: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200&q=80', // Warm modern dental office reception
   drChen: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&q=80', // Female doctor portrait
   hygienist: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=800&q=80', // Female healthcare worker
   receptionist: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=80', // Professional woman
@@ -42,11 +42,11 @@ const IMAGES = {
   patient1: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=80', // Woman portrait
   patient2: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80', // Man portrait
   patient3: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&q=80', // Friendly woman smiling
-  officeInterior: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', // Clean modern medical interior
+  officeInterior: 'https://images.unsplash.com/photo-1629909615184-74f495363b67?w=800&q=80', // Beautiful modern dental interior
   waitingRoom: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80', // Waiting room
   family: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&q=80', // Happy family
-  // Service Detail Heroes - pleasant, non-clinical
-  serviceGeneralHero: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=80', // Modern clinic
+  // Service Detail Heroes - warm, inviting dental aesthetic
+  serviceGeneralHero: 'https://images.unsplash.com/photo-1629909615184-74f495363b67?w=1200&q=80', // Warm dental office
   serviceCosmeticHero: 'https://images.unsplash.com/photo-1601288496920-b6154fe3626a?w=1200&q=80', // Happy patient
   serviceInvisalignHero: 'https://images.unsplash.com/photo-1581803118522-7b72a50f7e9f?w=1200&q=80', // Confident smile
   servicePediatricHero: 'https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=1200&q=80', // Happy child
