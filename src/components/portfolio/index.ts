@@ -9,3 +9,6 @@ export { PortfolioGrid } from './PortfolioGrid';
 export { PortfolioCard } from './PortfolioCard';
 export { MockupPreview } from './MockupPreview';
 export * from './portfolioData';
+
+// Case study components
+export { CaseStudyLayout, RiverstoneInteractiveMockup } from './case-study';

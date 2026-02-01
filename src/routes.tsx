@@ -42,6 +42,7 @@ import Pricing from './pages/Pricing';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Portfolio from './pages/Portfolio';
+import RiverstonePlumbing from './pages/portfolio/RiverstonePlumbing';
 import Industries from './pages/Industries';
 import HomeServices from './pages/industries/HomeServices';
 import ProfessionalServices from './pages/industries/ProfessionalServices';
@@ -437,6 +438,11 @@ export const routes: RouteRecord[] = [
       {
         path: 'portfolio',
         Component: Portfolio,
+      },
+      // Portfolio case study pages
+      {
+        path: 'portfolio/riverstone-plumbing',
+        Component: RiverstonePlumbing,
       },
       // Core pages (placeholder for now)
       ...coreRoutePaths.slice(1).map(createPlaceholderChild),
