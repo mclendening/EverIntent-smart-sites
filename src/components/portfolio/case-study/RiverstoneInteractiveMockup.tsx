@@ -10,6 +10,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { Phone, Mail, MapPin, Clock, Star, ChevronRight, MessageCircle, Send, X, Menu } from 'lucide-react';
+import heroImage from '@/assets/portfolio/riverstone-plumbing-hero.jpg';
 
 type MockupPage = 'home' | 'services' | 'about' | 'contact';
 
@@ -262,22 +263,34 @@ export const RiverstoneInteractiveMockup = () => {
 // Sub-pages
 const HomePage = () => (
   <div className="bg-[#1E3A5F]">
-    {/* Hero */}
-    <div className="px-3 sm:px-8 py-4 sm:py-8 text-center">
-      <h1 className="text-white text-sm sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-3">
-        Denver's Most Trusted<br />Plumbing Experts
-      </h1>
-      <p className="text-white/80 text-[10px] sm:text-sm mb-3 sm:mb-6 max-w-md mx-auto">
-        Third-generation family business. 24/7 emergency service. 100% satisfaction guaranteed.
-      </p>
-      <div className="flex justify-center gap-2 sm:gap-3">
-        <button className="bg-[#F97316] text-white px-3 sm:px-6 py-1.5 sm:py-2.5 rounded-lg text-[10px] sm:text-sm font-medium hover:bg-[#EA580C] flex items-center gap-1 sm:gap-2">
-          <Phone className="w-3 h-3 sm:w-4 sm:h-4" />
-          Get Free Quote
-        </button>
-        <button className="border-2 border-white/30 text-white px-3 sm:px-6 py-1.5 sm:py-2.5 rounded-lg text-[10px] sm:text-sm font-medium hover:bg-white/10">
-          Our Services
-        </button>
+    {/* Hero with Real Image */}
+    <div className="relative">
+      {/* Background Image */}
+      <img 
+        src={heroImage} 
+        alt="Professional plumber at work"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1E3A5F]/90 via-[#1E3A5F]/80 to-[#1E3A5F]/95" />
+      
+      {/* Content */}
+      <div className="relative px-3 sm:px-8 py-6 sm:py-12 text-center">
+        <h1 className="text-white text-sm sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-3 drop-shadow-lg">
+          Denver's Most Trusted<br />Plumbing Experts
+        </h1>
+        <p className="text-white/90 text-[10px] sm:text-sm mb-3 sm:mb-6 max-w-md mx-auto drop-shadow-md">
+          Third-generation family business. 24/7 emergency service. 100% satisfaction guaranteed.
+        </p>
+        <div className="flex justify-center gap-2 sm:gap-3">
+          <button className="bg-[#F97316] text-white px-3 sm:px-6 py-1.5 sm:py-2.5 rounded-lg text-[10px] sm:text-sm font-medium hover:bg-[#EA580C] flex items-center gap-1 sm:gap-2 shadow-lg">
+            <Phone className="w-3 h-3 sm:w-4 sm:h-4" />
+            Get Free Quote
+          </button>
+          <button className="border-2 border-white/50 text-white px-3 sm:px-6 py-1.5 sm:py-2.5 rounded-lg text-[10px] sm:text-sm font-medium hover:bg-white/10 backdrop-blur-sm">
+            Our Services
+          </button>
+        </div>
       </div>
     </div>
 
