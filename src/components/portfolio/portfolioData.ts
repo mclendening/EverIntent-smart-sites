@@ -39,7 +39,7 @@ export interface PortfolioProject {
 export const portfolioProjects: PortfolioProject[] = [
   {
     id: '1',
-    slug: 'riverstone-plumbing',
+    slug: 'desert-cool-air',
     company: 'Desert Cool Air',
     industry: 'HVAC',
     filterCategory: 'home-services',
@@ -47,7 +47,7 @@ export const portfolioProjects: PortfolioProject[] = [
     keyMetric: '+247%',
     metricLabel: 'Qualified Leads',
     primaryColor: '#1a1a1a',
-    accentColor: '#F97316',
+    accentColor: '#E6A44C',
     description: 'Phoenix HVAC company keeping the Valley cool since 2010.',
     heroImage: desertCoolHero,
   },
