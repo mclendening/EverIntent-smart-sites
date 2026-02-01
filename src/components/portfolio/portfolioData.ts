@@ -7,7 +7,6 @@
 
 // Import hero images
 import desertCoolHero from '@/assets/portfolio/desertcoolair/hero-mountain.jpg';
-import desertCoolPreview from '@/assets/portfolio/screenshots/desert-cool-air-preview.jpg';
 import clearviewHero from '@/assets/portfolio/clearview-dentistry-hero.jpg';
 import ashfordHero from '@/assets/portfolio/ashford-law-hero.jpg';
 import summitHero from '@/assets/portfolio/summit-climate-hero.jpg';
@@ -32,8 +31,6 @@ export interface PortfolioProject {
   description: string;
   /** Hero image for mockup and case study - local import */
   heroImage: string;
-  /** Optional screenshot preview for portfolio cards (overrides MiniMockup) */
-  previewImage?: string;
 }
 
 /**
@@ -53,7 +50,6 @@ export const portfolioProjects: PortfolioProject[] = [
     accentColor: '#E6A44C',
     description: 'Phoenix HVAC company keeping the Valley cool since 2010.',
     heroImage: desertCoolHero,
-    previewImage: desertCoolPreview,
   },
   {
     id: '2',
