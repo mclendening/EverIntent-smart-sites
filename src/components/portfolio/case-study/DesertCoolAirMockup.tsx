@@ -272,8 +272,7 @@ export const DesertCoolAirMockup = () => {
         <div className="flex-1 mx-2 sm:mx-12">
           <div className="bg-[#1a1a1a] rounded-lg px-4 py-1.5 text-[11px] sm:text-xs text-white/80 flex items-center gap-2 max-w-lg mx-auto shadow-inner">
             <Shield className="w-3.5 h-3.5 text-green-400" />
-            <span className="font-medium">desertcoolair.com</span>
-            <span className="text-white/40">/{currentPage === 'home' ? '' : currentPage}</span>
+            <span className="font-medium">desertcoolair.com{currentPage === 'home' ? '' : `/${currentPage}`}</span>
           </div>
         </div>
       </div>
