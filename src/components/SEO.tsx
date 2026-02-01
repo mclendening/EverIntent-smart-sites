@@ -30,6 +30,8 @@ interface SEOProps {
   ogType?: 'website' | 'article';
   /** Whether to add noindex meta tag (for admin/preview pages) */
   noIndex?: boolean;
+  /** JSON-LD structured data for SEO/AEO */
+  structuredData?: Record<string, unknown>;
 }
 
 /**
@@ -95,6 +97,7 @@ export function SEO({
   ogImage = DEFAULT_OG_IMAGE,
   ogType = 'website',
   noIndex = false,
+  structuredData,
 }: SEOProps) {
   const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
   const canonicalUrl = canonical ? `${SITE_URL}${canonical}` : undefined;
@@ -125,6 +128,13 @@ export function SEO({
       
       {/* Robots */}
       {noIndex && <meta name="robots" content="noindex, nofollow" />}
+      
+      {/* JSON-LD Structured Data */}
+      {structuredData && (
+        <script type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </script>
+      )}
     </Head>
   );
 }

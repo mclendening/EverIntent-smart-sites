@@ -38,7 +38,7 @@ export interface RouteConfig {
 export const coreRoutes: RouteConfig[] = [
   { path: '/', title: 'Home', description: 'Professional websites for local businesses' },
   { path: '/pricing', title: 'Pricing', description: 'Simple, transparent pricing' },
-  { path: '/our-work', title: 'Our Work', description: 'See our work' },
+  { path: '/portfolio', title: 'Portfolio', description: 'Award-winning websites for local businesses' },
   { path: '/about', title: 'About', description: 'About EverIntent' },
   { path: '/contact', title: 'Contact', description: 'Get in touch' },
   { path: '/book-call', title: 'Book a Call', description: 'Schedule a consultation' },
