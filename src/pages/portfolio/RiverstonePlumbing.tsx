@@ -28,7 +28,7 @@ const RiverstonePlumbing = () => {
         '24/7 Automation'
       ]}
       primaryColor="#1a1a1a"
-      accentColor="#F97316"
+      accentColor="#E6A44C"
       
       discoveryPoints={[
         'Family-owned HVAC company serving Phoenix since 2010',
