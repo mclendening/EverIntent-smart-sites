@@ -438,7 +438,7 @@
 
   /* Luxury hero section */
   .hero {
-    @apply relative min-h-[90vh] flex items-center justify-center overflow-hidden;
+    @apply relative min-h-[calc(100vh-4rem)] md:min-h-[90vh] flex items-center justify-center overflow-hidden;
     background: var(--gradient-hero);
   }
 
