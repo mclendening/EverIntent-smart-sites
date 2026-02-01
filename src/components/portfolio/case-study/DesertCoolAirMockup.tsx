@@ -86,12 +86,21 @@ export const DesertCoolAirMockup = () => {
   const contentContainerRef = useRef<HTMLDivElement>(null);
   const messageIdRef = useRef(0);
 
-  // Scroll to top when page changes
-  useEffect(() => {
+  // Navigation handler that ALWAYS scrolls to top
+  const navigateTo = (page: MockupPage) => {
+    setCurrentPage(page);
+    setMobileMenuOpen(false);
+    // Force scroll to top immediately
     if (contentContainerRef.current) {
       contentContainerRef.current.scrollTop = 0;
     }
-  }, [currentPage]);
+    // Also use setTimeout as backup for any async rendering
+    setTimeout(() => {
+      if (contentContainerRef.current) {
+        contentContainerRef.current.scrollTop = 0;
+      }
+    }, 0);
+  };
 
   // Show chat prompt after 3 seconds
   useEffect(() => {
@@ -297,7 +306,7 @@ export const DesertCoolAirMockup = () => {
             {navItems.map(item => (
               <button
                 key={item.id}
-                onClick={() => setCurrentPage(item.id)}
+                onClick={() => navigateTo(item.id)}
                 className={`text-xs font-medium transition-all ${
                   currentPage === item.id 
                     ? 'text-[#F97316]' 
@@ -335,10 +344,7 @@ export const DesertCoolAirMockup = () => {
             {navItems.map(item => (
               <button
                 key={item.id}
-                onClick={() => {
-                  setCurrentPage(item.id);
-                  setMobileMenuOpen(false);
-                }}
+                onClick={() => navigateTo(item.id)}
                 className={`block w-full text-left px-6 py-4 text-sm font-medium border-l-4 transition-all ${
                   currentPage === item.id 
                     ? 'text-[#F97316] bg-white/5 border-[#F97316]' 
@@ -353,11 +359,11 @@ export const DesertCoolAirMockup = () => {
 
         {/* Page Content */}
         <div ref={contentContainerRef} className="h-[calc(100%-3.5rem)] sm:h-[calc(100%-4rem)] overflow-y-auto scroll-smooth">
-          {currentPage === 'home' && <HomePage onNavigate={setCurrentPage} />}
+          {currentPage === 'home' && <HomePage onNavigate={navigateTo} />}
           {currentPage === 'services' && <ServicesPage />}
           {currentPage === 'about' && <AboutPage />}
           {currentPage === 'contact' && <ContactPage />}
-          <FooterSection onNavigate={setCurrentPage} />
+          <FooterSection onNavigate={navigateTo} />
         </div>
 
         {/* Chat Prompt Bubble */}
