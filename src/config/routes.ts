@@ -46,6 +46,13 @@ export const coreRoutes: RouteConfig[] = [
   { path: '/careers', title: 'Careers', description: 'Join the EverIntent team' },
 ];
 
+/**
+ * Portfolio case study routes.
+ */
+export const portfolioCaseStudyRoutes: RouteConfig[] = [
+  { path: '/portfolio/riverstone-plumbing', title: 'Riverstone Plumbing Case Study', description: 'See how we helped Riverstone Plumbing achieve +312% qualified leads' },
+];
+
 // ============================================
 // SERVICE PAGES
 // ============================================
@@ -195,6 +202,7 @@ export const adminRoutes: RouteConfig[] = [
  */
 export const prerenderRoutes: string[] = [
   ...coreRoutes.map(r => r.path),
+  ...portfolioCaseStudyRoutes.map(r => r.path),
   primaryServiceRoute.path,
   ...serviceRoutes.map(r => r.path),
   ...productCategoryRoutes.map(r => r.path),
@@ -211,6 +219,7 @@ export const prerenderRoutes: string[] = [
  */
 export const allRoutes: RouteConfig[] = [
   ...coreRoutes,
+  ...portfolioCaseStudyRoutes,
   primaryServiceRoute,
   ...serviceRoutes,
   ...productCategoryRoutes,
