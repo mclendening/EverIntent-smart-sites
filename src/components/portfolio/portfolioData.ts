@@ -6,7 +6,7 @@
  */
 
 // Import hero images
-import riverstoneHero from '@/assets/portfolio/riverstone-plumbing-hero.jpg';
+import desertCoolHero from '@/assets/portfolio/desertcoolair/hero-mountain.jpg';
 import clearviewHero from '@/assets/portfolio/clearview-dentistry-hero.jpg';
 import ashfordHero from '@/assets/portfolio/ashford-law-hero.jpg';
 import summitHero from '@/assets/portfolio/summit-climate-hero.jpg';
@@ -40,16 +40,16 @@ export const portfolioProjects: PortfolioProject[] = [
   {
     id: '1',
     slug: 'riverstone-plumbing',
-    company: 'Riverstone Plumbing & Heating',
-    industry: 'Home Services',
+    company: 'Desert Cool Air',
+    industry: 'HVAC',
     filterCategory: 'home-services',
-    location: 'Denver, CO',
-    keyMetric: '+312%',
+    location: 'Phoenix, AZ',
+    keyMetric: '+247%',
     metricLabel: 'Qualified Leads',
-    primaryColor: '#1E3A5F',
+    primaryColor: '#1a1a1a',
     accentColor: '#F97316',
-    description: 'Third-generation plumbing company ready to grow beyond word-of-mouth.',
-    heroImage: riverstoneHero,
+    description: 'Phoenix HVAC company keeping the Valley cool since 2010.',
+    heroImage: desertCoolHero,
   },
   {
     id: '2',
