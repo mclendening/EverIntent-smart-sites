@@ -312,8 +312,16 @@ export const RiverstoneInteractiveMockup = () => {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="flex items-center gap-3">
+          {/* Mobile Nav Toggle - Show prominently on mobile */}
+          <button 
+            className="md:hidden p-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            <Menu className="w-5 h-5 text-[#1E3A5F]" />
+          </button>
+
+          {/* CTA Button - Desktop only */}
+          <div className="hidden md:flex items-center gap-3">
             <a href="tel:3035550147" className="hidden lg:flex items-center gap-2 text-[#1E3A5F] font-bold text-sm">
               <div className="w-8 h-8 rounded-full bg-[#1E3A5F]/5 flex items-center justify-center">
                 <Phone className="w-4 h-4" />
@@ -325,14 +333,6 @@ export const RiverstoneInteractiveMockup = () => {
               <span>Book Now</span>
             </button>
           </div>
-
-          {/* Mobile Nav Toggle */}
-          <button 
-            className="md:hidden p-2 ml-2 rounded-lg hover:bg-gray-100"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            <Menu className="w-5 h-5 text-gray-600" />
-          </button>
         </nav>
 
         {/* Mobile Menu */}
