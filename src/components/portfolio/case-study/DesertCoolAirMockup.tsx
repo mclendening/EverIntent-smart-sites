@@ -380,10 +380,10 @@ export const DesertCoolAirMockup = () => {
         {!chatOpen && (
           <button
             onClick={() => { setChatOpen(true); setShowChatPrompt(false); }}
-            className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-[#F97316] to-[#EA580C] rounded-full shadow-2xl shadow-orange-500/40 flex items-center justify-center hover:scale-110 transition-all z-50 group"
+            className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-[#F97316] to-[#EA580C] rounded-full shadow-lg shadow-orange-500/30 flex items-center justify-center hover:scale-110 transition-all z-50 group"
           >
-            <MessageCircle className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white animate-pulse" />
+            <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+            <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-white animate-pulse" />
           </button>
         )}
 
@@ -993,10 +993,10 @@ const FooterSection = ({ onNavigate }: PageProps) => (
         <div>
           <h4 className="font-bold text-xs mb-4 text-[#F97316]">Services</h4>
           <ul className="space-y-2 text-white/60 text-xs">
-            <li className="hover:text-white cursor-pointer">AC Repair</li>
-            <li className="hover:text-white cursor-pointer">AC Installation</li>
-            <li className="hover:text-white cursor-pointer">Heating</li>
-            <li className="hover:text-white cursor-pointer">Maintenance</li>
+            <li className="hover:text-white cursor-pointer" onClick={() => onNavigate?.('services')}>AC Repair</li>
+            <li className="hover:text-white cursor-pointer" onClick={() => onNavigate?.('services')}>AC Installation</li>
+            <li className="hover:text-white cursor-pointer" onClick={() => onNavigate?.('services')}>Heating</li>
+            <li className="hover:text-white cursor-pointer" onClick={() => onNavigate?.('services')}>Maintenance</li>
           </ul>
         </div>
 
@@ -1005,8 +1005,8 @@ const FooterSection = ({ onNavigate }: PageProps) => (
           <h4 className="font-bold text-xs mb-4 text-[#F97316]">Company</h4>
           <ul className="space-y-2 text-white/60 text-xs">
             <li className="hover:text-white cursor-pointer" onClick={() => onNavigate?.('about')}>About Us</li>
-            <li className="hover:text-white cursor-pointer">Reviews</li>
-            <li className="hover:text-white cursor-pointer">Careers</li>
+            <li className="hover:text-white cursor-pointer" onClick={() => onNavigate?.('home')}>Reviews</li>
+            <li className="hover:text-white cursor-pointer" onClick={() => onNavigate?.('about')}>Careers</li>
             <li className="hover:text-white cursor-pointer" onClick={() => onNavigate?.('contact')}>Contact</li>
           </ul>
         </div>
