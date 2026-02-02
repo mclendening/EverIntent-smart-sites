@@ -13,7 +13,8 @@ import { useState, useEffect, useRef } from 'react';
 import { 
   Menu, X, Phone, Mail, MapPin, Clock, Star, 
   MessageCircle, Send, ChevronRight, ChevronLeft, Check, Heart,
-  Shield, Calendar, Users, Sparkles, CheckCircle2, Smile, Zap
+  Shield, Calendar, Users, Sparkles, CheckCircle2, Smile, Zap,
+  Linkedin, Twitter, Facebook
 } from 'lucide-react';
 
 // Brand colors - calming teal/cyan for dental
@@ -57,7 +58,7 @@ const IMAGES = {
 };
 
 // Types
-type MockupPage = 'home' | 'services' | 'service-general' | 'service-cosmetic' | 'service-invisalign' | 'service-pediatric' | 'service-emergency' | 'service-whitening' | 'about' | 'new-patients' | 'contact';
+type MockupPage = 'home' | 'services' | 'service-general' | 'service-cosmetic' | 'service-invisalign' | 'service-pediatric' | 'service-emergency' | 'service-whitening' | 'about' | 'new-patients' | 'contact' | 'privacy' | 'cookies' | 'terms' | 'data-rights';
 
 // Service data for hub and detail pages
 const SERVICES = [
@@ -1680,6 +1681,362 @@ const ContactPage = () => (
 );
 
 // ============================================
+// LEGAL PAGES
+// ============================================
+
+// Privacy Policy Page
+const PrivacyPage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) => (
+  <div className="px-6 py-8 bg-white min-h-screen">
+    <button 
+      onClick={() => navigateTo('home')} 
+      className="text-gray-500 text-sm mb-6 flex items-center gap-1 hover:text-gray-700"
+    >
+      <ChevronLeft className="w-4 h-4" /> Back to Home
+    </button>
+    
+    <h1 className="text-2xl font-bold text-gray-800 mb-2">Privacy Policy</h1>
+    <p className="text-gray-500 text-sm mb-6">Last updated: February 1, 2026</p>
+    
+    <div className="space-y-6">
+      <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+        <p className="text-amber-800 text-sm">
+          ⚠️ DEMO SITE NOTICE: This is a portfolio demonstration website operated by EverIntent LLC. 
+          "Clearview Dentistry Austin" is a fictional business. No actual dental services are provided.
+        </p>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">About This Site</h2>
+        <p className="text-gray-600 text-sm leading-relaxed">
+          This website is a demonstration portfolio piece created by EverIntent LLC to showcase web development and AI automation capabilities. It does not represent a real dental practice.
+        </p>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">Information Collection</h2>
+        <p className="text-gray-600 text-sm leading-relaxed">
+          This demonstration site does not collect personal information. Any forms displayed are for demonstration purposes only and do not transmit or store data.
+        </p>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">Cookies</h2>
+        <p className="text-gray-600 text-sm leading-relaxed">
+          This site may use essential cookies for basic functionality. No tracking, advertising, or analytics cookies are used.
+        </p>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">Contact</h2>
+        <p className="text-gray-600 text-sm leading-relaxed mb-2">For questions about this portfolio demonstration:</p>
+        <div className="bg-gray-50 rounded-xl p-4 text-sm text-gray-600">
+          <p className="font-semibold text-gray-800">EverIntent LLC</p>
+          <p>2892 N Bellflower Blvd PMB 1018</p>
+          <p>Long Beach, CA 90815</p>
+          <p>info@everintent.com • (562) 685-9500</p>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// Cookie Policy Page
+const CookiesPage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) => (
+  <div className="px-6 py-8 bg-white min-h-screen">
+    <button 
+      onClick={() => navigateTo('home')} 
+      className="text-gray-500 text-sm mb-6 flex items-center gap-1 hover:text-gray-700"
+    >
+      <ChevronLeft className="w-4 h-4" /> Back to Home
+    </button>
+    
+    <h1 className="text-2xl font-bold text-gray-800 mb-2">Cookie Policy</h1>
+    <p className="text-gray-500 text-sm mb-6">Last updated: February 1, 2026</p>
+    
+    <div className="space-y-6">
+      <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+        <p className="text-amber-800 text-sm">
+          ⚠️ DEMO SITE NOTICE: This is a portfolio demonstration website operated by EverIntent LLC.
+        </p>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">What Are Cookies?</h2>
+        <p className="text-gray-600 text-sm leading-relaxed">
+          Cookies are small text files stored on your device when you visit websites. They help sites remember your preferences and improve functionality.
+        </p>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">Cookies We Use</h2>
+        <p className="text-gray-600 text-sm leading-relaxed mb-3">
+          This demonstration site may use only essential cookies required for basic functionality. We do not use:
+        </p>
+        <ul className="list-disc list-inside text-gray-600 text-sm space-y-1 ml-2">
+          <li>Tracking cookies</li>
+          <li>Advertising cookies</li>
+          <li>Analytics cookies</li>
+          <li>Third-party cookies</li>
+        </ul>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">Managing Cookies</h2>
+        <p className="text-gray-600 text-sm leading-relaxed">
+          You can control cookies through your browser settings. Most browsers allow you to block or delete cookies. Note that disabling cookies may affect site functionality.
+        </p>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">Contact</h2>
+        <div className="bg-gray-50 rounded-xl p-4 text-sm text-gray-600">
+          <p className="font-semibold text-gray-800">EverIntent LLC</p>
+          <p>2892 N Bellflower Blvd PMB 1018, Long Beach, CA 90815</p>
+          <p>info@everintent.com • (562) 685-9500</p>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// Terms of Service Page
+const TermsPage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) => (
+  <div className="px-6 py-8 bg-white min-h-screen">
+    <button 
+      onClick={() => navigateTo('home')} 
+      className="text-gray-500 text-sm mb-6 flex items-center gap-1 hover:text-gray-700"
+    >
+      <ChevronLeft className="w-4 h-4" /> Back to Home
+    </button>
+    
+    <h1 className="text-2xl font-bold text-gray-800 mb-2">Terms of Service</h1>
+    <p className="text-gray-500 text-sm mb-6">Last updated: February 1, 2026</p>
+    
+    <div className="space-y-6">
+      <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+        <p className="text-amber-800 text-sm">
+          ⚠️ DEMO SITE NOTICE: "Clearview Dentistry Austin" is a fictional business created for demonstration purposes only. 
+          This website is operated by EverIntent LLC.
+        </p>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">1. Purpose of This Website</h2>
+        <p className="text-gray-600 text-sm leading-relaxed">
+          This website exists solely to demonstrate the web development, AI automation, and digital marketing capabilities of EverIntent LLC. No actual dental services are offered, sold, or provided through this site.
+        </p>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">2. Fictional Content</h2>
+        <p className="text-gray-600 text-sm leading-relaxed">
+          All business information, testimonials, reviews, staff members, case studies, and service descriptions on this site are fictional examples created for demonstration purposes. Any resemblance to real dental practices, persons, or events is coincidental.
+        </p>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">3. No Business Relationship</h2>
+        <p className="text-gray-600 text-sm leading-relaxed">
+          Viewing this demonstration website does not create any business, contractual, or service relationship. You cannot purchase dental services through this site.
+        </p>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">4. Intellectual Property</h2>
+        <p className="text-gray-600 text-sm leading-relaxed">
+          This demonstration site, including its design, code, and content structure, is the intellectual property of EverIntent LLC. Images are sourced from stock photography providers.
+        </p>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">5. Limitation of Liability</h2>
+        <p className="text-gray-600 text-sm leading-relaxed">
+          EverIntent LLC makes no warranties regarding this demonstration site. We are not liable for any damages arising from viewing or interacting with this site.
+        </p>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">6. Contact</h2>
+        <div className="bg-gray-50 rounded-xl p-4 text-sm text-gray-600">
+          <p className="font-semibold text-gray-800">EverIntent LLC</p>
+          <p>2892 N Bellflower Blvd PMB 1018, Long Beach, CA 90815</p>
+          <p>info@everintent.com • (562) 685-9500</p>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// Data Rights Page (CCPA / Do Not Sell My Info)
+const DataRightsPage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) => (
+  <div className="px-6 py-8 bg-white min-h-screen">
+    <button 
+      onClick={() => navigateTo('home')} 
+      className="text-gray-500 text-sm mb-6 flex items-center gap-1 hover:text-gray-700"
+    >
+      <ChevronLeft className="w-4 h-4" /> Back to Home
+    </button>
+    
+    <h1 className="text-2xl font-bold text-gray-800 mb-2">Your Data Rights</h1>
+    <p className="text-gray-500 text-sm mb-6">California Consumer Privacy Act (CCPA) & Similar Laws</p>
+    
+    <div className="space-y-6">
+      <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+        <p className="text-amber-800 text-sm">
+          ⚠️ DEMO SITE NOTICE: This is a portfolio demonstration website. No personal data is collected, sold, or shared.
+        </p>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">Do Not Sell My Personal Information</h2>
+        <p className="text-gray-600 text-sm leading-relaxed">
+          EverIntent LLC does not sell personal information. This demonstration site does not collect personal data for sale or sharing with third parties for monetary or other valuable consideration.
+        </p>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">Your Rights Under CCPA</h2>
+        <p className="text-gray-600 text-sm leading-relaxed mb-3">If you are a California resident, you have the right to:</p>
+        <ul className="list-disc list-inside text-gray-600 text-sm space-y-1 ml-2">
+          <li>Know what personal information is being collected about you</li>
+          <li>Know whether your personal information is sold or disclosed and to whom</li>
+          <li>Say no to the sale of personal information</li>
+          <li>Access your personal information</li>
+          <li>Request deletion of your personal information</li>
+          <li>Equal service and price, even if you exercise your privacy rights</li>
+        </ul>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">How to Exercise Your Rights</h2>
+        <p className="text-gray-600 text-sm leading-relaxed">
+          Since this is a demonstration site that does not collect personal data, there is no data to access, delete, or opt-out of selling. If you have questions about EverIntent LLC's privacy practices for our actual business operations, please contact us.
+        </p>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">Contact for Data Requests</h2>
+        <div className="bg-gray-50 rounded-xl p-4 text-sm text-gray-600">
+          <p className="font-semibold text-gray-800">EverIntent LLC</p>
+          <p>2892 N Bellflower Blvd PMB 1018, Long Beach, CA 90815</p>
+          <p>Email: info@everintent.com</p>
+          <p>Phone: (562) 685-9500</p>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// ============================================
+// FOOTER COMPONENT
+// ============================================
+const MockupFooter = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) => (
+  <footer className="bg-[#1E293B] text-white">
+    {/* MAIN FOOTER CONTENT */}
+    <div className="px-6 py-8">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        {/* Left: Brand, Tagline, CTA */}
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <span className="text-[#0D9488] text-xl">✦</span>
+            <span className="font-bold text-lg">Clearview Dentistry Austin</span>
+          </div>
+          <p className="text-white/60 text-sm">
+            Gentle care for your whole family since 2012.
+          </p>
+          <p className="text-[#0D9488] text-sm font-medium">
+            Now accepting new patients.
+          </p>
+        </div>
+        
+        {/* Right: CTA Button + Social Icons */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <button
+            onClick={() => navigateTo('contact')}
+            className="flex items-center gap-2 bg-[#0D9488] text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity"
+          >
+            <Phone className="w-4 h-4" />
+            Book a Call
+          </button>
+          
+          {/* Social Icons */}
+          <div className="flex items-center gap-3">
+            <a href="#" className="text-white/40 hover:text-white/70 transition-colors">
+              <Facebook className="w-5 h-5" />
+            </a>
+            <a href="#" className="text-white/40 hover:text-white/70 transition-colors">
+              <Twitter className="w-5 h-5" />
+            </a>
+            <a href="#" className="text-white/40 hover:text-white/70 transition-colors">
+              <Linkedin className="w-5 h-5" />
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      {/* Contact Info Row */}
+      <div className="mt-6 pt-4 border-t border-white/10 text-center">
+        <div className="flex flex-wrap justify-center items-center gap-2 text-sm text-white/60">
+          <span className="flex items-center gap-1">
+            <Mail className="w-3.5 h-3.5" />
+            info@clearviewdentistryaustin.com
+          </span>
+          <span className="hidden sm:inline">•</span>
+          <span className="flex items-center gap-1">
+            <Phone className="w-3.5 h-3.5" />
+            (512) 555-0123
+          </span>
+        </div>
+        <p className="text-white/40 text-xs mt-2">1234 Oak Street, Austin, TX 78701</p>
+      </div>
+    </div>
+    
+    {/* DISCLAIMER SECTION */}
+    <div className="bg-[#0F172A] px-6 py-4 text-center space-y-2">
+      {/* Business Copyright */}
+      <p className="text-white/50 text-xs">
+        © 2024 Clearview Dentistry Austin. Professional Dental Services in Austin.
+      </p>
+      
+      {/* Demo Site Notice */}
+      <p className="text-white/40 text-[10px] leading-relaxed">
+        This website is operated by EverIntent LLC. Services are performed by licensed independent third-party providers in your area.
+      </p>
+      
+      {/* EverIntent Attribution */}
+      <div className="pt-2 border-t border-white/5 space-y-1">
+        <p className="text-white/50 text-[10px] font-medium">
+          EverIntent LLC
+        </p>
+        <p className="text-white/30 text-[10px]">
+          2892 N Bellflower Blvd PMB 1018, Long Beach, CA 90815
+        </p>
+        <p className="text-white/30 text-[10px]">
+          (562) 685-9500 | 
+          <button onClick={() => navigateTo('privacy')} className="hover:text-gray-400 transition-colors ml-1">Privacy Policy</button> | 
+          <button onClick={() => navigateTo('terms')} className="hover:text-gray-400 transition-colors ml-1">Terms of Service</button>
+        </p>
+      </div>
+    </div>
+    
+    {/* LEGAL LINKS BAR */}
+    <div className="bg-[#020617] px-6 py-3">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px]">
+        <p className="text-white/30">
+          © 2026 EverIntent LLC. All rights reserved.
+        </p>
+        <div className="flex items-center gap-4 text-white/40">
+          <button onClick={() => navigateTo('privacy')} className="hover:text-gray-300 transition-colors">Privacy</button>
+          <button onClick={() => navigateTo('cookies')} className="hover:text-gray-300 transition-colors">Cookies</button>
+          <button onClick={() => navigateTo('terms')} className="hover:text-gray-300 transition-colors">Terms</button>
+          <button onClick={() => navigateTo('data-rights')} className="hover:text-gray-300 transition-colors">Data Rights</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+);
+
+// ============================================
 // MAIN COMPONENT - Following Desert Cool Air pattern exactly
 // ============================================
 export const ClearviewDentistryAustinMockup = () => {
@@ -2049,34 +2406,13 @@ export const ClearviewDentistryAustinMockup = () => {
           {currentPage === 'about' && <AboutPage navigateTo={navigateTo} />}
           {currentPage === 'new-patients' && <NewPatientsPage navigateTo={navigateTo} />}
           {currentPage === 'contact' && <ContactPage />}
+          {currentPage === 'privacy' && <PrivacyPage navigateTo={navigateTo} />}
+          {currentPage === 'cookies' && <CookiesPage navigateTo={navigateTo} />}
+          {currentPage === 'terms' && <TermsPage navigateTo={navigateTo} />}
+          {currentPage === 'data-rights' && <DataRightsPage navigateTo={navigateTo} />}
           
           {/* Footer */}
-          <footer className="bg-[#1E293B] text-white px-6 py-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <Smile className="w-5 h-5 text-[#0D9488]" />
-                  <span className="font-bold">Clearview Dentistry Austin</span>
-                </div>
-                <p className="text-white/60">Gentle care for your whole family since 2012.</p>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-2">Contact</h4>
-                <p className="text-white/60">1234 Oak Street</p>
-                <p className="text-white/60">Austin, TX 78701</p>
-                <p className="text-white/60">(512) 555-0123</p>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-2">Hours</h4>
-                <p className="text-white/60">Mon-Thu: 8am-5pm</p>
-                <p className="text-white/60">Fri: 8am-3pm</p>
-                <p className="text-white/60">Sat: 9am-2pm</p>
-              </div>
-            </div>
-            <div className="mt-6 pt-4 border-t border-white/10 text-center text-white/40 text-xs">
-              © 2026 Clearview Dentistry Austin. All rights reserved.
-            </div>
-          </footer>
+          <MockupFooter navigateTo={navigateTo} />
         </div>
 
         {/* Chat Prompt Bubble - Sophie */}
