@@ -336,6 +336,12 @@ export const HonestWrenchAutoMockup: React.FC = () => {
   // RENDER
   // =============================================================================
 
+  // Desktop nav items - NO Home (logo handles it), NO Contact (CTA handles it)
+  const desktopNavItems = [
+    { id: 'services' as MockupPage, label: 'Services', hasDropdown: true },
+    { id: 'about' as MockupPage, label: 'About' },
+  ];
+
   return (
     <div className="relative w-full h-[500px] md:h-[600px] lg:h-[700px] bg-white rounded-xl overflow-hidden shadow-2xl border border-gray-200 flex flex-col">
       
@@ -350,25 +356,192 @@ export const HonestWrenchAutoMockup: React.FC = () => {
         {/* URL Bar */}
         <div className="flex-1 mx-2 md:mx-4">
           <div className="bg-white rounded-md px-3 py-1 md:py-1.5 text-[10px] md:text-xs text-gray-600 truncate border border-gray-200">
-            {getUrlPath()}
+            🔒 {getUrlPath()}
           </div>
         </div>
       </div>
 
+      {/* Header */}
+      <header 
+        className="flex-shrink-0 px-4 py-3 text-white"
+        style={{ backgroundColor: COLORS.primary }}
+      >
+        <div className="flex items-center justify-between">
+          {/* Logo - CLICKS TO HOME */}
+          <button 
+            onClick={() => navigateTo('home')}
+            className="flex items-center gap-2 hover:opacity-90 transition-opacity"
+          >
+            <div 
+              className="w-8 h-8 rounded-lg flex items-center justify-center"
+              style={{ backgroundColor: COLORS.accent }}
+            >
+              <Wrench className="w-5 h-5 text-white" />
+            </div>
+            <div className="text-left">
+              <span className="font-bold text-sm block">{BUSINESS.name}</span>
+              <span className="hidden sm:block text-[10px] text-white/80">{BUSINESS.tagline}</span>
+            </div>
+          </button>
+          
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-6">
+            {desktopNavItems.map(item => (
+              <div key={item.id} className="relative">
+                {item.hasDropdown ? (
+                  <div
+                    className="relative"
+                    onMouseEnter={() => setServicesDropdownOpen(true)}
+                    onMouseLeave={() => setServicesDropdownOpen(false)}
+                  >
+                    <button
+                      onClick={() => navigateTo('services')}
+                      className={`text-xs font-medium transition-all flex items-center gap-1 ${
+                        currentPage.startsWith('service') 
+                          ? 'text-white font-semibold' 
+                          : 'text-white/70 hover:text-white'
+                      }`}
+                    >
+                      {item.label}
+                      <ChevronRight className={`w-3 h-3 transition-transform ${servicesDropdownOpen ? 'rotate-90' : ''}`} />
+                    </button>
+                    
+                    {/* Services Dropdown */}
+                    {servicesDropdownOpen && (
+                      <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+                        <button
+                          onClick={() => navigateTo('services')}
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-semibold border-b border-gray-100"
+                        >
+                          All Services
+                        </button>
+                        {navItems.find(n => n.id === 'services')?.children?.map(child => (
+                          <button
+                            key={child.id}
+                            onClick={() => navigateTo(child.id)}
+                            className={`block w-full text-left px-4 py-2 text-sm transition-colors ${
+                              currentPage === child.id 
+                                ? 'bg-gray-50 font-semibold' 
+                                : 'text-gray-600 hover:bg-gray-50'
+                            }`}
+                            style={currentPage === child.id ? { color: COLORS.primary } : {}}
+                          >
+                            {child.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => navigateTo(item.id)}
+                    className={`text-xs font-medium transition-all ${
+                      currentPage === item.id 
+                        ? 'text-white font-semibold' 
+                        : 'text-white/70 hover:text-white'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                )}
+              </div>
+            ))}
+          </nav>
+          
+          {/* CTA Button - Industry-specific */}
+          <button 
+            onClick={() => navigateTo('contact')}
+            className="hidden md:flex items-center gap-2 bg-white px-4 py-2 rounded-lg text-xs font-semibold hover:shadow-lg transition-all"
+            style={{ color: COLORS.primary }}
+          >
+            <Calendar className="w-4 h-4" />
+            Schedule Service
+          </button>
+          
+          {/* Mobile menu button */}
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
+            className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+        
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <nav className="md:hidden mt-3 pb-2 border-t border-white/20 pt-3 space-y-1">
+            {/* Home link - only in mobile */}
+            <button
+              onClick={() => navigateTo('home')}
+              className={`block w-full text-left px-3 py-2.5 rounded-lg text-sm ${
+                currentPage === 'home' ? 'bg-white/20 font-semibold' : 'hover:bg-white/10'
+              }`}
+            >
+              Home
+            </button>
+            
+            {/* Services with nested items */}
+            <div>
+              <button
+                onClick={() => navigateTo('services')}
+                className={`block w-full text-left px-3 py-2.5 rounded-lg text-sm ${
+                  currentPage === 'services' ? 'bg-white/20 font-semibold' : 'hover:bg-white/10'
+                }`}
+              >
+                Services
+              </button>
+              <div className="ml-4 mt-1 space-y-1 border-l border-white/20 pl-3">
+                {navItems.find(n => n.id === 'services')?.children?.map(child => (
+                  <button
+                    key={child.id}
+                    onClick={() => navigateTo(child.id)}
+                    className={`block w-full text-left px-2 py-1.5 rounded text-xs ${
+                      currentPage === child.id ? 'text-white font-semibold' : 'text-white/70 hover:text-white'
+                    }`}
+                  >
+                    {child.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+            
+            {/* About */}
+            <button
+              onClick={() => navigateTo('about')}
+              className={`block w-full text-left px-3 py-2.5 rounded-lg text-sm ${
+                currentPage === 'about' ? 'bg-white/20 font-semibold' : 'hover:bg-white/10'
+              }`}
+            >
+              About
+            </button>
+            
+            {/* CTA Button at bottom */}
+            <button
+              onClick={() => navigateTo('contact')}
+              className="flex items-center justify-center gap-2 w-full mt-4 bg-white px-4 py-3 rounded-lg text-sm font-bold"
+              style={{ color: COLORS.primary }}
+            >
+              <Calendar className="w-4 h-4" />
+              Schedule Service
+            </button>
+          </nav>
+        )}
+      </header>
+
       {/* Main Content Area */}
       <div 
         ref={contentContainerRef}
-        className="flex-1 overflow-y-auto overflow-x-hidden"
+        className="flex-1 overflow-y-auto overflow-x-hidden bg-[#FAFAFA]"
       >
-        {/* Page content will be added in subsequent prompts */}
-        <div className="flex items-center justify-center h-full bg-gray-50">
+        {/* Placeholder - will be replaced with page components */}
+        <div className="flex items-center justify-center h-full">
           <div className="text-center p-8">
             <Wrench className="w-16 h-16 mx-auto mb-4" style={{ color: COLORS.primary }} />
             <h2 className="text-2xl font-bold mb-2" style={{ color: COLORS.primary }}>
               {BUSINESS.name}
             </h2>
             <p className="text-gray-600">{BUSINESS.tagline}</p>
-            <p className="text-sm text-gray-400 mt-4">Page: {currentPage}</p>
+            <p className="text-sm text-gray-400 mt-4">Current Page: {currentPage}</p>
           </div>
         </div>
       </div>
