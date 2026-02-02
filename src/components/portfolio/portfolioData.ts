@@ -16,6 +16,8 @@ import goldenGateHero from '@/assets/portfolio/golden-gate-roofing-hero.jpg';
 import harmonyHero from '@/assets/portfolio/harmony-wellness-hero.jpg';
 import precisionHero from '@/assets/portfolio/precision-auto-hero.jpg';
 import alexanderTreeHero from '@/assets/portfolio/alexandertree/hero-screenshot.jpg';
+// Honest Wrench Auto uses the precision-auto hero as a placeholder until custom screenshot is added
+import honestWrenchHero from '@/assets/portfolio/precision-auto-hero.jpg';
 
 export type IndustryFilter = 'all' | 'home-services' | 'healthcare' | 'professional' | 'automotive';
 
@@ -154,6 +156,20 @@ export const portfolioProjects: PortfolioProject[] = [
     accentColor: '#FEFCE8',
     description: 'Old school craftsmanship, modern reliability. Tree service since 1999.',
     heroImage: alexanderTreeHero,
+  },
+  {
+    id: '9',
+    slug: 'honest-wrench-auto',
+    company: 'Honest Wrench Auto',
+    industry: 'Auto Repair',
+    filterCategory: 'automotive',
+    location: 'Riverside, CA',
+    keyMetric: '+186%',
+    metricLabel: 'New Customers',
+    primaryColor: '#1E3A5F',
+    accentColor: '#D97706',
+    description: 'Family-owned auto repair built on transparency. No pressure, just honest service since 2008.',
+    heroImage: honestWrenchHero,
   },
 ];
 
