@@ -486,8 +486,9 @@ interface PageProps {
 // HOME PAGE - EXACT MATCH to spec from oak-roots-shine.lovable.app
 const HomePage = ({ onNavigate }: PageProps) => (
   <div className="bg-white">
-    {/* Hero Section - height = container minus ONLY browser chrome (36/44px) */}
-    <section className="relative h-[464px] md:h-[556px] lg:h-[656px] flex items-center justify-center overflow-hidden">
+    {/* Hero Section - fills 100% of content container height (no green bar visible) */}
+    {/* Mobile: 500px container - 36px chrome = 464px; Tablet: 600px - 44px = 556px; Desktop: 700px - 44px = 656px */}
+    <section className="relative h-[calc(500px-36px)] md:h-[calc(600px-44px)] lg:h-[calc(700px-44px)] flex items-center justify-center overflow-hidden">
       {/* Background image */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
