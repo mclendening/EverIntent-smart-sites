@@ -83,7 +83,11 @@ type MockupPage =
   | 'service-tires' 
   | 'service-ac' 
   | 'about' 
-  | 'contact';
+  | 'contact'
+  | 'privacy'
+  | 'cookies'
+  | 'terms'
+  | 'data-rights';
 
 interface ChatMessage {
   id: string;
@@ -451,45 +455,7 @@ const HomePage: React.FC<HomePageProps> = ({ navigateTo }) => (
       </div>
     </div>
     
-    {/* FOOTER */}
-    <footer 
-      className="px-6 py-8 text-white"
-      style={{ backgroundColor: COLORS.primary }}
-    >
-      <div className="flex flex-col md:flex-row justify-between gap-6">
-        <div>
-          <div className="flex items-center gap-2 mb-3">
-            <div 
-              className="w-8 h-8 rounded-lg flex items-center justify-center"
-              style={{ backgroundColor: COLORS.accent }}
-            >
-              <Wrench className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-bold">{BUSINESS.name}</span>
-          </div>
-          <p className="text-white/70 text-xs mb-2">{BUSINESS.tagline}</p>
-        </div>
-        
-        <div className="text-sm space-y-2 text-white/80">
-          <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4" />
-            <span className="text-xs">{BUSINESS.address}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Phone className="w-4 h-4" />
-            <span className="text-xs">{BUSINESS.phone}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4" />
-            <span className="text-xs">{BUSINESS.hours}</span>
-          </div>
-        </div>
-      </div>
-      
-      <div className="mt-6 pt-6 border-t border-white/20 text-center text-white/50 text-xs">
-        © 2024 {BUSINESS.name}. All rights reserved.
-      </div>
-    </footer>
+    <MockupFooter navigateTo={navigateTo} />
   </div>
 );
 
@@ -574,10 +540,10 @@ const ServicesPage: React.FC<HomePageProps> = ({ navigateTo }) => (
         </button>
       </div>
     </div>
+    
+    <MockupFooter navigateTo={navigateTo} />
   </div>
 );
-
-// =============================================================================
 // SERVICE DETAIL PAGE TEMPLATE
 // =============================================================================
 
@@ -1191,6 +1157,571 @@ const SERVICE_DETAILS: Record<string, ServiceDetailProps['service']> = {
 };
 
 // =============================================================================
+// ABOUT PAGE
+// =============================================================================
+
+const AboutPage: React.FC<HomePageProps> = ({ navigateTo }) => (
+  <div>
+    {/* HERO */}
+    <div className="relative h-64 overflow-hidden">
+      <div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${IMAGES.shopExterior})` }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+      <div className="absolute bottom-0 right-4 w-28 h-36 overflow-hidden rounded-t-xl">
+        <img src={IMAGES.ownerMarcus} alt="Marcus Reyes" className="w-full h-full object-cover object-top" />
+      </div>
+      <div className="relative z-10 h-full flex flex-col justify-end px-6 pb-6">
+        <span className="text-xs font-medium uppercase tracking-wider mb-1" style={{ color: COLORS.accent }}>Our Story</span>
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">Meet Marcus & Elena</h1>
+        <p className="text-white/80 text-sm max-w-sm">Building trust one repair at a time since 2008</p>
+      </div>
+    </div>
+    
+    {/* FOUNDER STORY */}
+    <div className="px-6 py-8 bg-white">
+      <div className="flex flex-col md:flex-row gap-6">
+        <div className="flex-shrink-0">
+          <img src={IMAGES.ownerMarcus} alt="Marcus Reyes" className="w-24 h-24 md:w-32 md:h-32 rounded-2xl object-cover shadow-lg" />
+        </div>
+        <div>
+          <p className="text-gray-700 text-base leading-relaxed mb-4">
+            After 12 years working as a dealership technician, I watched too many customers get pressured into repairs they didn't need. I'd see the confusion on their faces, the worry about whether they were being told the truth. In 2008, my wife Elena and I decided to do something about it.
+          </p>
+          <p className="text-gray-600 text-sm leading-relaxed">
+            We opened Honest Wrench Auto with a simple promise: show customers exactly what we see, explain it in plain English, and let them decide. No pressure. No upselling. Just straight talk and expert care. Seventeen years later, that promise hasn't changed.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    {/* VALUES */}
+    <div className="px-6 py-8 bg-[#FAFAF9]">
+      <h2 className="text-lg font-bold text-gray-800 mb-6 text-center">What We Believe</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {[
+          { icon: '📸', title: 'Transparency First', desc: 'We show you photos and videos of every issue we find—no guesswork' },
+          { icon: '🤝', title: 'Honesty Always', desc: "If you don't need a repair, we'll tell you. It's that simple." },
+          { icon: '👨‍👩‍👦', title: 'Family Values', desc: 'We treat every customer the way we want our own family treated' },
+        ].map((value, i) => (
+          <div key={i} className="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+            <span className="text-3xl mb-3 block">{value.icon}</span>
+            <h3 className="font-bold text-gray-800 mb-2">{value.title}</h3>
+            <p className="text-gray-500 text-sm">{value.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    {/* CREDENTIALS */}
+    <div className="px-6 py-8 bg-white">
+      <h2 className="text-lg font-bold text-gray-800 mb-6">Credentials & Certifications</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {[
+          'ASE Certified Master Technicians',
+          'AAA Approved Auto Repair Facility',
+          'BBB Accredited Business (A+ Rating)',
+          '17 Years Serving Riverside County',
+          'MACS Certified A/C Technicians',
+          'CA Bureau of Automotive Repair Licensed',
+        ].map((cred, i) => (
+          <div key={i} className="flex items-center gap-2 text-gray-700 text-sm">
+            <Check className="w-4 h-4 flex-shrink-0" style={{ color: COLORS.primary }} />
+            {cred}
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    {/* TEAM */}
+    <div className="px-6 py-8 bg-[#FAFAF9]">
+      <h2 className="text-lg font-bold text-gray-800 mb-6">Meet the Team</h2>
+      <div className="grid grid-cols-3 gap-4">
+        {[
+          { name: 'Marcus Reyes', role: 'Owner & Lead Tech', img: IMAGES.ownerMarcus },
+          { name: 'Elena Reyes', role: 'Business Manager', img: IMAGES.ownerElena },
+          { name: 'Alex Reyes', role: 'Service Writer', img: IMAGES.testimonialTyler },
+        ].map((member, i) => (
+          <div key={i} className="text-center">
+            <img src={member.img} alt={member.name} className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover mx-auto mb-3 shadow-md" />
+            <h3 className="font-semibold text-gray-800 text-xs md:text-sm">{member.name}</h3>
+            <p className="text-gray-500 text-[10px] md:text-xs">{member.role}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    {/* SHOP PHOTOS */}
+    <div className="px-6 py-8 bg-white">
+      <h2 className="text-lg font-bold text-gray-800 mb-4">Our Shop</h2>
+      <div className="grid grid-cols-2 gap-3">
+        <img src={IMAGES.servicesHub} alt="Shop Interior" className="rounded-xl h-32 w-full object-cover" />
+        <img src={IMAGES.shopExterior} alt="Shop Exterior" className="rounded-xl h-32 w-full object-cover" />
+      </div>
+      <p className="text-gray-500 text-sm mt-3 text-center">Clean, organized, and equipped with the latest diagnostic technology</p>
+    </div>
+    
+    {/* CTA */}
+    <div 
+      className="mx-6 my-6 rounded-2xl p-8 text-center text-white shadow-xl relative overflow-hidden"
+      style={{ background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primary}CC)` }}
+    >
+      <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+      <div className="relative z-10">
+        <h3 className="text-xl font-bold mb-2">Ready to Experience the Difference?</h3>
+        <p className="text-white/80 text-sm mb-6 max-w-md mx-auto">
+          Join thousands of Riverside families who trust Honest Wrench for their auto care.
+        </p>
+        <button 
+          onClick={() => navigateTo('contact')}
+          className="bg-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg hover:shadow-xl transition-all"
+          style={{ color: COLORS.primary }}
+        >
+          Schedule Your First Visit
+        </button>
+      </div>
+    </div>
+    
+    <MockupFooter navigateTo={navigateTo} />
+  </div>
+);
+
+// =============================================================================
+// CONTACT PAGE
+// =============================================================================
+
+const ContactPage: React.FC<HomePageProps> = ({ navigateTo }) => (
+  <div>
+    {/* HERO */}
+    <div className="relative h-48 overflow-hidden">
+      <div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${IMAGES.riverside})` }}
+      />
+      <div 
+        className="absolute inset-0"
+        style={{ background: `linear-gradient(to right, ${COLORS.primary}E6, ${COLORS.primary}B3)` }}
+      />
+      <div className="relative z-10 h-full flex flex-col justify-center px-6">
+        <span className="text-xs font-medium uppercase tracking-wider mb-1" style={{ color: COLORS.accent }}>Get In Touch</span>
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">Schedule Your Service</h1>
+        <p className="text-white/80 text-sm">We'd love to hear from you</p>
+      </div>
+    </div>
+    
+    {/* QUICK CONTACT */}
+    <div className="px-6 py-6 bg-white">
+      <div className="grid grid-cols-3 gap-3">
+        {[
+          { icon: Phone, label: 'Call', value: '(951) 555-0147' },
+          { icon: Mail, label: 'Email', value: 'info@hwrench.com' },
+          { icon: MapPin, label: 'Visit', value: 'Riverside, CA' },
+        ].map((item, i) => (
+          <div 
+            key={i}
+            className="flex flex-col items-center p-4 rounded-2xl text-center transition-colors cursor-pointer"
+            style={{ backgroundColor: `${COLORS.primary}08` }}
+          >
+            <div 
+              className="w-10 h-10 rounded-full text-white flex items-center justify-center mb-2"
+              style={{ backgroundColor: COLORS.primary }}
+            >
+              <item.icon className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-semibold text-gray-800">{item.label}</span>
+            <span className="text-[10px] text-gray-500 truncate w-full">{item.value}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    {/* CONTACT FORM */}
+    <div className="px-6 py-8 bg-[#FAFAF9]">
+      <div className="bg-white rounded-2xl shadow-lg p-6">
+        <h2 className="text-lg font-bold text-gray-800 mb-1">Send Us a Message</h2>
+        <p className="text-gray-500 text-sm mb-6">We'll get back to you within 1 business hour.</p>
+        
+        <div className="space-y-4">
+          <div>
+            <label className="block text-xs font-medium text-gray-700 mb-1">Your Name</label>
+            <input 
+              type="text"
+              placeholder="John Smith"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/20 outline-none transition-all text-sm"
+            />
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Email</label>
+              <input 
+                type="email"
+                placeholder="john@example.com"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/20 outline-none transition-all text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Phone</label>
+              <input 
+                type="tel"
+                placeholder="(555) 123-4567"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/20 outline-none transition-all text-sm"
+              />
+            </div>
+          </div>
+          
+          <div>
+            <label className="block text-xs font-medium text-gray-700 mb-1">What service do you need?</label>
+            <select className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/20 outline-none transition-all text-sm text-gray-500">
+              <option>Select a service...</option>
+              <option>Oil Change & Maintenance</option>
+              <option>Brake Service</option>
+              <option>Engine Diagnostics</option>
+              <option>Transmission Service</option>
+              <option>Tires & Alignment</option>
+              <option>A/C & Heating</option>
+              <option>Other / Not Sure</option>
+            </select>
+          </div>
+          
+          <div>
+            <label className="block text-xs font-medium text-gray-700 mb-1">Tell us about your vehicle</label>
+            <textarea 
+              placeholder="Year, make, model, and what's going on..."
+              rows={4}
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/20 outline-none transition-all text-sm resize-none"
+            />
+          </div>
+          
+          <button 
+            className="w-full text-white py-4 rounded-xl font-bold text-sm shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
+            style={{ background: `linear-gradient(to right, ${COLORS.primary}, ${COLORS.accent})` }}
+          >
+            Request Appointment
+          </button>
+          
+          <p className="text-center text-xs text-gray-400">
+            🔒 Your information is secure and never shared.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    {/* BUSINESS INFO */}
+    <div className="px-6 py-8 bg-white">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <MapPin className="w-5 h-5" style={{ color: COLORS.primary }} />
+            Location & Hours
+          </h3>
+          <div className="space-y-3">
+            <div>
+              <p className="font-medium text-gray-800 text-sm">{BUSINESS.name}</p>
+              <p className="text-gray-500 text-sm">{BUSINESS.address}</p>
+            </div>
+            <div className="pt-2 border-t border-gray-100">
+              <p className="font-medium text-gray-800 text-sm mb-2">Hours</p>
+              <div className="space-y-1 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Monday - Friday</span>
+                  <span className="text-gray-800">7:30am - 6:00pm</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Saturday</span>
+                  <span className="text-gray-800">8:00am - 3:00pm</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Sunday</span>
+                  <span className="text-gray-800">Closed</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <Phone className="w-5 h-5" style={{ color: COLORS.primary }} />
+            Direct Contact
+          </h3>
+          <div className="space-y-3">
+            <div 
+              className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-colors"
+              style={{ backgroundColor: `${COLORS.primary}08` }}
+            >
+              <Phone className="w-5 h-5" style={{ color: COLORS.primary }} />
+              <div>
+                <p className="font-medium text-gray-800 text-sm">{BUSINESS.phone}</p>
+                <p className="text-gray-500 text-xs">Call or text</p>
+              </div>
+            </div>
+            <div 
+              className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-colors"
+              style={{ backgroundColor: `${COLORS.primary}08` }}
+            >
+              <Mail className="w-5 h-5" style={{ color: COLORS.primary }} />
+              <div>
+                <p className="font-medium text-gray-800 text-sm">info@honestwrenchauto.com</p>
+                <p className="text-gray-500 text-xs">We reply within 1 hour</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    {/* MAP PLACEHOLDER */}
+    <div className="px-6 pb-8">
+      <div className="bg-gray-200 rounded-2xl h-48 flex items-center justify-center overflow-hidden relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300" />
+        <div className="relative z-10 text-center">
+          <MapPin className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+          <p className="text-gray-500 text-sm font-medium">View on Google Maps</p>
+          <p className="text-gray-400 text-xs">{BUSINESS.address}</p>
+        </div>
+      </div>
+    </div>
+    
+    <MockupFooter navigateTo={navigateTo} />
+  </div>
+);
+
+// =============================================================================
+// LEGAL PAGES
+// =============================================================================
+
+const PrivacyPage: React.FC<HomePageProps> = ({ navigateTo }) => (
+  <div className="px-6 py-10 bg-white min-h-full">
+    <button 
+      onClick={() => navigateTo('home')} 
+      className="text-gray-500 text-sm mb-6 flex items-center gap-1 hover:text-gray-700"
+    >
+      <ChevronLeft className="w-4 h-4" /> Back to Home
+    </button>
+    
+    <h1 className="text-2xl font-bold text-gray-800 mb-4">Privacy Policy</h1>
+    <p className="text-gray-500 text-sm mb-6">Last updated: January 2024</p>
+    
+    <div className="prose prose-sm text-gray-600 space-y-4 max-w-2xl">
+      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+        <p className="text-amber-800 text-sm font-medium">
+          ⚠️ DEMO SITE NOTICE: This is a portfolio demonstration website operated by EverIntent LLC. 
+          "{BUSINESS.name}" is a fictional business. No actual services are provided.
+        </p>
+      </div>
+      
+      <h2 className="text-lg font-semibold text-gray-800 mt-6">About This Site</h2>
+      <p>This website is a demonstration portfolio piece created by EverIntent LLC to showcase web development and AI automation capabilities.</p>
+      
+      <h2 className="text-lg font-semibold text-gray-800 mt-6">Information Collection</h2>
+      <p>This demonstration site does not collect personal information. Any forms displayed are for demonstration purposes only.</p>
+      
+      <h2 className="text-lg font-semibold text-gray-800 mt-6">Contact</h2>
+      <p className="font-medium">
+        EverIntent LLC<br/>
+        2892 N Bellflower Blvd PMB 1018<br/>
+        Long Beach, CA 90815<br/>
+        info@everintent.com • (562) 685-9500
+      </p>
+    </div>
+  </div>
+);
+
+const CookiesPage: React.FC<HomePageProps> = ({ navigateTo }) => (
+  <div className="px-6 py-10 bg-white min-h-full">
+    <button 
+      onClick={() => navigateTo('home')} 
+      className="text-gray-500 text-sm mb-6 flex items-center gap-1 hover:text-gray-700"
+    >
+      <ChevronLeft className="w-4 h-4" /> Back to Home
+    </button>
+    
+    <h1 className="text-2xl font-bold text-gray-800 mb-4">Cookie Policy</h1>
+    <p className="text-gray-500 text-sm mb-6">Last updated: January 2024</p>
+    
+    <div className="prose prose-sm text-gray-600 space-y-4 max-w-2xl">
+      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+        <p className="text-amber-800 text-sm font-medium">
+          ⚠️ DEMO SITE NOTICE: This is a portfolio demonstration website operated by EverIntent LLC.
+        </p>
+      </div>
+      
+      <h2 className="text-lg font-semibold text-gray-800 mt-6">What Are Cookies?</h2>
+      <p>Cookies are small text files stored on your device when you visit websites.</p>
+      
+      <h2 className="text-lg font-semibold text-gray-800 mt-6">Cookies We Use</h2>
+      <p>This demonstration site uses only essential cookies. We do not use tracking, advertising, or analytics cookies.</p>
+      
+      <h2 className="text-lg font-semibold text-gray-800 mt-6">Contact</h2>
+      <p>
+        EverIntent LLC<br/>
+        2892 N Bellflower Blvd PMB 1018, Long Beach, CA 90815<br/>
+        info@everintent.com • (562) 685-9500
+      </p>
+    </div>
+  </div>
+);
+
+const TermsPage: React.FC<HomePageProps> = ({ navigateTo }) => (
+  <div className="px-6 py-10 bg-white min-h-full">
+    <button 
+      onClick={() => navigateTo('home')} 
+      className="text-gray-500 text-sm mb-6 flex items-center gap-1 hover:text-gray-700"
+    >
+      <ChevronLeft className="w-4 h-4" /> Back to Home
+    </button>
+    
+    <h1 className="text-2xl font-bold text-gray-800 mb-4">Terms of Service</h1>
+    <p className="text-gray-500 text-sm mb-6">Last updated: January 2024</p>
+    
+    <div className="prose prose-sm text-gray-600 space-y-4 max-w-2xl">
+      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+        <p className="text-amber-800 text-sm font-medium">
+          ⚠️ DEMO SITE NOTICE: "{BUSINESS.name}" is a fictional business created for demonstration purposes only.
+        </p>
+      </div>
+      
+      <h2 className="text-lg font-semibold text-gray-800 mt-6">1. Purpose</h2>
+      <p>This website demonstrates the web development capabilities of EverIntent LLC. No actual auto repair services are offered.</p>
+      
+      <h2 className="text-lg font-semibold text-gray-800 mt-6">2. Fictional Content</h2>
+      <p>All business information, testimonials, and service descriptions are fictional examples.</p>
+      
+      <h2 className="text-lg font-semibold text-gray-800 mt-6">3. Contact</h2>
+      <p>
+        EverIntent LLC<br/>
+        2892 N Bellflower Blvd PMB 1018, Long Beach, CA 90815<br/>
+        info@everintent.com • (562) 685-9500
+      </p>
+    </div>
+  </div>
+);
+
+const DataRightsPage: React.FC<HomePageProps> = ({ navigateTo }) => (
+  <div className="px-6 py-10 bg-white min-h-full">
+    <button 
+      onClick={() => navigateTo('home')} 
+      className="text-gray-500 text-sm mb-6 flex items-center gap-1 hover:text-gray-700"
+    >
+      <ChevronLeft className="w-4 h-4" /> Back to Home
+    </button>
+    
+    <h1 className="text-2xl font-bold text-gray-800 mb-4">Your Data Rights</h1>
+    <p className="text-gray-500 text-sm mb-6">California Consumer Privacy Act (CCPA)</p>
+    
+    <div className="prose prose-sm text-gray-600 space-y-4 max-w-2xl">
+      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+        <p className="text-amber-800 text-sm font-medium">
+          ⚠️ DEMO SITE NOTICE: This is a portfolio demonstration. No personal data is collected, sold, or shared.
+        </p>
+      </div>
+      
+      <h2 className="text-lg font-semibold text-gray-800 mt-6">Do Not Sell My Personal Information</h2>
+      <p>EverIntent LLC does not sell personal information. This demonstration site does not collect personal data.</p>
+      
+      <h2 className="text-lg font-semibold text-gray-800 mt-6">Contact for Data Requests</h2>
+      <p>
+        EverIntent LLC<br/>
+        2892 N Bellflower Blvd PMB 1018, Long Beach, CA 90815<br/>
+        Email: info@everintent.com<br/>
+        Phone: (562) 685-9500
+      </p>
+    </div>
+  </div>
+);
+
+// =============================================================================
+// FOOTER COMPONENT
+// =============================================================================
+
+const MockupFooter: React.FC<HomePageProps> = ({ navigateTo }) => (
+  <footer className="bg-[#1a1a2e] text-white">
+    <div className="px-6 py-10">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {/* Brand */}
+        <div className="col-span-2 md:col-span-1">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: COLORS.accent }}>
+              <Wrench className="w-5 h-5 text-white" />
+            </div>
+            <span className="font-bold">{BUSINESS.name}</span>
+          </div>
+          <p className="text-gray-400 text-xs mb-3">{BUSINESS.tagline}</p>
+        </div>
+        
+        {/* Quick Links */}
+        <div>
+          <h4 className="font-semibold text-sm mb-3">Quick Links</h4>
+          <div className="space-y-2">
+            {[
+              { id: 'home' as MockupPage, label: 'Home' },
+              { id: 'services' as MockupPage, label: 'Services' },
+              { id: 'about' as MockupPage, label: 'About Us' },
+              { id: 'contact' as MockupPage, label: 'Contact' },
+              { id: 'privacy' as MockupPage, label: 'Privacy Policy' },
+              { id: 'terms' as MockupPage, label: 'Terms of Service' },
+            ].map(item => (
+              <button key={item.id} onClick={() => navigateTo(item.id)} className="block text-gray-400 text-xs hover:text-white transition-colors">
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+        
+        {/* Services */}
+        <div>
+          <h4 className="font-semibold text-sm mb-3">Services</h4>
+          <div className="space-y-2">
+            {SERVICES.map(service => (
+              <button key={service.id} onClick={() => navigateTo(service.id)} className="block text-gray-400 text-xs hover:text-white transition-colors">
+                {service.name}
+              </button>
+            ))}
+          </div>
+        </div>
+        
+        {/* Contact */}
+        <div>
+          <h4 className="font-semibold text-sm mb-3">Contact</h4>
+          <div className="space-y-2 text-xs">
+            <div className="flex items-center gap-2 text-gray-400">
+              <Phone className="w-3 h-3" style={{ color: COLORS.accent }} />
+              {BUSINESS.phone}
+            </div>
+            <div className="flex items-center gap-2 text-gray-400">
+              <Mail className="w-3 h-3" style={{ color: COLORS.accent }} />
+              info@hwrench.com
+            </div>
+            <div className="flex items-center gap-2 text-gray-400">
+              <MapPin className="w-3 h-3" style={{ color: COLORS.accent }} />
+              Riverside, CA Metro Area
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    {/* Disclaimer */}
+    <div className="border-t border-gray-800 px-6 py-6">
+      <p className="text-gray-400 text-xs text-center mb-2">
+        © 2024 {BUSINESS.name}. Professional Auto Repair in Riverside.
+      </p>
+      <p className="text-gray-500 text-[10px] text-center max-w-xl mx-auto mb-4">
+        This website is operated by EverIntent LLC. Services are performed by licensed independent providers.
+      </p>
+      <div className="border-t border-gray-800 pt-4 text-center">
+        <p className="text-gray-600 text-[10px]">
+          EverIntent LLC • 2892 N Bellflower Blvd PMB 1018, Long Beach, CA 90815 • (562) 685-9500
+        </p>
+      </div>
+    </div>
+  </footer>
+);
+
+// =============================================================================
 // MAIN COMPONENT
 // =============================================================================
 
@@ -1383,6 +1914,10 @@ export const HonestWrenchAutoMockup: React.FC = () => {
       'service-ac': '/services/ac-heating',
       'about': '/about',
       'contact': '/contact',
+      'privacy': '/privacy',
+      'cookies': '/cookies',
+      'terms': '/terms',
+      'data-rights': '/data-rights',
     };
     return BUSINESS.domain + paths[currentPage];
   };
@@ -1611,19 +2146,15 @@ export const HonestWrenchAutoMockup: React.FC = () => {
           <ServiceDetailPage navigateTo={navigateTo} service={SERVICE_DETAILS['service-ac']} />
         )}
         
-        {/* Placeholder for About/Contact */}
-        {(currentPage === 'about' || currentPage === 'contact') && (
-          <div className="flex items-center justify-center h-full">
-            <div className="text-center p-8">
-              <Wrench className="w-16 h-16 mx-auto mb-4" style={{ color: COLORS.primary }} />
-              <h2 className="text-2xl font-bold mb-2" style={{ color: COLORS.primary }}>
-                {BUSINESS.name}
-              </h2>
-              <p className="text-gray-600">{BUSINESS.tagline}</p>
-              <p className="text-sm text-gray-400 mt-4">Page: {currentPage}</p>
-            </div>
-          </div>
-        )}
+        {/* About & Contact Pages */}
+        {currentPage === 'about' && <AboutPage navigateTo={navigateTo} />}
+        {currentPage === 'contact' && <ContactPage navigateTo={navigateTo} />}
+        
+        {/* Legal Pages */}
+        {currentPage === 'privacy' && <PrivacyPage navigateTo={navigateTo} />}
+        {currentPage === 'cookies' && <CookiesPage navigateTo={navigateTo} />}
+        {currentPage === 'terms' && <TermsPage navigateTo={navigateTo} />}
+        {currentPage === 'data-rights' && <DataRightsPage navigateTo={navigateTo} />}
       </div>
 
       {/* Chat Bubble Prompt (when closed) */}
