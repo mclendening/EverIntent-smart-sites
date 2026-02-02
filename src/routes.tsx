@@ -44,6 +44,7 @@ import Contact from './pages/Contact';
 import Portfolio from './pages/Portfolio';
 import DesertCoolAir from './pages/portfolio/DesertCoolAir';
 import ClearviewDentistryAustin from './pages/portfolio/ClearviewDentistryAustin';
+import AlexanderTree from './pages/portfolio/AlexanderTree';
 import Industries from './pages/Industries';
 import HomeServices from './pages/industries/HomeServices';
 import ProfessionalServices from './pages/industries/ProfessionalServices';
@@ -448,6 +449,10 @@ export const routes: RouteRecord[] = [
       {
         path: 'portfolio/clearview-dentistry-austin',
         Component: ClearviewDentistryAustin,
+      },
+      {
+        path: 'portfolio/alexander-tree',
+        Component: AlexanderTree,
       },
       // Core pages (placeholder for now)
       ...coreRoutePaths.slice(1).map(createPlaceholderChild),
