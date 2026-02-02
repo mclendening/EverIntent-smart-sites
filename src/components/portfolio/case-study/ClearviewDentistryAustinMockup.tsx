@@ -2014,7 +2014,7 @@ const MockupFooter = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }
     {/* DISCLAIMER SECTION */}
     <div className="bg-[#0F172A] px-6 py-4 text-center space-y-2">
       <p className="text-white/50 text-xs">
-        © 2024 Clearview Dentistry Austin. Professional Dental Services in Austin.
+        © 2026 Clearview Dentistry Austin. Professional Dental Services in Austin.
       </p>
       <p className="text-white/40 text-[10px] leading-relaxed">
         This website is operated by EverIntent LLC. Services are performed by licensed independent third-party providers in your area.
