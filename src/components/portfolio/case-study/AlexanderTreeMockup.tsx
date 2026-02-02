@@ -263,8 +263,8 @@ export const AlexanderTreeMockup = () => {
         </div>
       </div>
 
-      {/* Website Content */}
-      <div ref={contentContainerRef} className="h-[calc(100%-2.25rem)] sm:h-[calc(100%-2.75rem)] overflow-y-auto relative bg-[#166534]">
+      {/* Website Content - NO background color here, hero handles its own bg */}
+      <div ref={contentContainerRef} className="h-[calc(100%-2.25rem)] sm:h-[calc(100%-2.75rem)] overflow-y-auto relative">
         {/* Navigation Header - ABSOLUTE overlay on hero */}
         <nav className="absolute top-0 left-0 right-0 h-14 sm:h-16 bg-transparent flex items-center justify-between px-4 sm:px-8 z-30">
           <div className="flex items-center gap-3">
