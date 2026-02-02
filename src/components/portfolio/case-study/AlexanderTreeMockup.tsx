@@ -495,24 +495,31 @@ const HomePage = ({ onNavigate }: PageProps) => (
         alt="Beautiful oak tree in residential neighborhood"
         className="absolute inset-0 w-full h-full object-cover"
       />
-      <div className="absolute inset-0 bg-black/40" />
+      {/* Dark overlay matching real site */}
+      <div className="absolute inset-0 bg-black/30" />
       
       {/* Centered content like the real site */}
       <div className="relative h-full flex flex-col items-center justify-center text-center px-6">
-        {/* Main headline - serif font style */}
-        <h1 className="text-white text-3xl sm:text-5xl lg:text-6xl font-serif italic mb-2 leading-[1.1]">
+        {/* Main headline - serif italic font using inline style to match real site */}
+        <h1 
+          className="text-white text-3xl sm:text-5xl lg:text-6xl mb-1 leading-[1.1]"
+          style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+        >
           Old School Craftsmanship.
         </h1>
-        <h1 className="text-white text-3xl sm:text-5xl lg:text-6xl font-serif italic mb-6 leading-[1.1]">
+        <h1 
+          className="text-white text-3xl sm:text-5xl lg:text-6xl mb-6 leading-[1.1]"
+          style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+        >
           Modern Reliability.
         </h1>
         
-        {/* Subtext */}
+        {/* Subtext - matches real site exactly */}
         <p className="text-white/90 text-sm sm:text-base lg:text-lg mb-8 max-w-2xl leading-relaxed">
           25+ years of treating every home like our own. No shortcuts. No mess left behind. Just honest, expert tree and landscape service.
         </p>
         
-        {/* Single CTA - white button with green text */}
+        {/* Single CTA - white button with green text, matching real site */}
         <button 
           onClick={() => onNavigate?.('contact')}
           className="bg-white hover:bg-gray-100 text-[#166534] px-8 sm:px-10 py-3 sm:py-4 rounded-lg text-sm sm:text-base font-semibold transition-all shadow-lg"
@@ -520,7 +527,7 @@ const HomePage = ({ onNavigate }: PageProps) => (
           Get Your Free Estimate
         </button>
         
-        {/* Footer text */}
+        {/* Footer text - below button */}
         <p className="text-white/60 text-xs sm:text-sm mt-8">
           Serving Greater Orange County Since 1999
         </p>
