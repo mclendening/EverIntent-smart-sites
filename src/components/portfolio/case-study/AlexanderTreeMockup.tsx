@@ -265,57 +265,60 @@ export const AlexanderTreeMockup = () => {
 
       {/* Website Content - NO background color here, hero handles its own bg */}
       <div ref={contentContainerRef} className="h-[calc(100%-2.25rem)] sm:h-[calc(100%-2.75rem)] overflow-y-auto relative">
-        {/* Navigation Header - ABSOLUTE overlay on hero */}
-        <nav className="absolute top-0 left-0 right-0 h-14 sm:h-16 bg-transparent flex items-center justify-between px-4 sm:px-8 z-30">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-white/10 flex items-center justify-center">
-              <TreePine className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+        
+        {/* Navigation Header - ONLY show on non-home pages */}
+        {currentPage !== 'home' && (
+          <nav className="sticky top-0 left-0 right-0 h-14 sm:h-16 bg-[#166534] flex items-center justify-between px-4 sm:px-8 z-30">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-white/10 flex items-center justify-center">
+                <TreePine className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+              </div>
+              <div>
+                <span className="text-white font-bold text-sm sm:text-base">Alexander Tree</span>
+                <span className="text-white/50 font-medium text-[9px] sm:text-[10px] block -mt-0.5">& Landscaping</span>
+              </div>
             </div>
-            <div>
-              <span className="text-white font-bold text-sm sm:text-base">Alexander Tree</span>
-              <span className="text-white/50 font-medium text-[9px] sm:text-[10px] block -mt-0.5">& Landscaping</span>
+
+            {/* Desktop Nav */}
+            <div className="hidden md:flex items-center gap-6 lg:gap-8">
+              {navItems.map(item => (
+                <button
+                  key={item.id}
+                  onClick={() => navigateTo(item.id)}
+                  className={`text-xs font-medium transition-all ${
+                    currentPage === item.id 
+                      ? 'text-[#FEFCE8]' 
+                      : 'text-white/70 hover:text-white'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
             </div>
-          </div>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-6 lg:gap-8">
-            {navItems.map(item => (
-              <button
-                key={item.id}
-                onClick={() => navigateTo(item.id)}
-                className={`text-xs font-medium transition-all ${
-                  currentPage === item.id 
-                    ? 'text-[#FEFCE8]' 
-                    : 'text-white/70 hover:text-white'
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Mobile Nav Toggle */}
-          <button 
-            className="md:hidden p-2.5 rounded-xl bg-white/10 hover:bg-white/20 transition-colors"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            <Menu className="w-5 h-5 text-white" />
-          </button>
-
-          {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-3">
-            <a href="tel:7145558234" className="hidden lg:flex items-center gap-2 text-white/80 font-medium text-sm">
-              <Phone className="w-4 h-4" />
-              (714) 555-8234
-            </a>
-            <button className="bg-[#FEFCE8] hover:bg-white text-[#166534] px-4 sm:px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all">
-              Get Free Estimate
+            {/* Mobile Nav Toggle */}
+            <button 
+              className="md:hidden p-2.5 rounded-xl bg-white/10 hover:bg-white/20 transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <Menu className="w-5 h-5 text-white" />
             </button>
-          </div>
-        </nav>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
+            {/* Desktop CTA */}
+            <div className="hidden md:flex items-center gap-3">
+              <a href="tel:7145558234" className="hidden lg:flex items-center gap-2 text-white/80 font-medium text-sm">
+                <Phone className="w-4 h-4" />
+                (714) 555-8234
+              </a>
+              <button className="bg-[#FEFCE8] hover:bg-white text-[#166534] px-4 sm:px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all">
+                Get Free Estimate
+              </button>
+            </div>
+          </nav>
+        )}
+
+        {/* Mobile Menu - for non-home pages */}
+        {currentPage !== 'home' && mobileMenuOpen && (
           <div className="md:hidden absolute top-14 sm:top-16 left-0 right-0 bg-[#166534]/98 backdrop-blur-md border-b border-white/10 z-40">
             {navItems.map(item => (
               <button
@@ -333,8 +336,8 @@ export const AlexanderTreeMockup = () => {
           </div>
         )}
 
-        {/* Page Content - no inner scroll container needed */}
-        {currentPage === 'home' && <HomePage onNavigate={navigateTo} />}
+        {/* Page Content */}
+        {currentPage === 'home' && <HomePage onNavigate={navigateTo} onOpenMenu={() => setMobileMenuOpen(true)} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} navItems={navItems} />}
         {currentPage === 'services' && <ServicesPage onNavigate={navigateTo} />}
         {currentPage === 'about' && <AboutPage onNavigate={navigateTo} />}
         {currentPage === 'contact' && <ContactPage />}
@@ -483,8 +486,16 @@ interface PageProps {
   onNavigate?: (page: MockupPage) => void;
 }
 
+interface HomePageProps extends PageProps {
+  onOpenMenu?: () => void;
+  mobileMenuOpen?: boolean;
+  setMobileMenuOpen?: (open: boolean) => void;
+  navItems?: readonly { id: MockupPage; label: string }[];
+}
+
 // HOME PAGE - EXACT MATCH to spec from oak-roots-shine.lovable.app
-const HomePage = ({ onNavigate }: PageProps) => (
+// NO visible navigation on hero - fully immersive like the real site
+const HomePage = ({ onNavigate, mobileMenuOpen, setMobileMenuOpen, navItems }: HomePageProps) => (
   <div className="bg-white">
     {/* Hero Section - fills 100% of content container height (no green bar visible) */}
     {/* Mobile: 500px container - 36px chrome = 464px; Tablet: 600px - 44px = 556px; Desktop: 700px - 44px = 656px */}
@@ -498,32 +509,74 @@ const HomePage = ({ onNavigate }: PageProps) => (
       {/* Gradient overlay - from-black/50 via-black/40 to-black/60 */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" />
       
+      {/* Floating hamburger menu - top right, minimal */}
+      <button 
+        className="absolute top-4 right-4 p-3 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors z-30"
+        onClick={() => setMobileMenuOpen?.(!mobileMenuOpen)}
+      >
+        {mobileMenuOpen ? <X className="w-6 h-6 text-white" /> : <Menu className="w-6 h-6 text-white" />}
+      </button>
+      
+      {/* Floating logo - top left */}
+      <button 
+        className="absolute top-4 left-4 flex items-center gap-2 z-30"
+        onClick={() => onNavigate?.('home')}
+      >
+        <div className="w-9 h-9 rounded-lg bg-white/10 backdrop-blur-sm flex items-center justify-center">
+          <TreePine className="w-5 h-5 text-white" />
+        </div>
+        <span className="text-white font-semibold text-sm">Alexander Tree</span>
+      </button>
+      
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && navItems && (
+        <div className="absolute top-16 left-4 right-4 bg-[#166534]/95 backdrop-blur-md rounded-xl shadow-2xl z-40 overflow-hidden">
+          {navItems.map(item => (
+            <button
+              key={item.id}
+              onClick={() => { onNavigate?.(item.id); setMobileMenuOpen?.(false); }}
+              className="block w-full text-left px-6 py-4 text-sm font-medium text-white/90 hover:bg-white/10 transition-all border-b border-white/5 last:border-0"
+            >
+              {item.label}
+            </button>
+          ))}
+          <button
+            onClick={() => { onNavigate?.('contact'); setMobileMenuOpen?.(false); }}
+            className="block w-full text-center px-6 py-4 text-sm font-bold bg-white text-green-900"
+          >
+            Get Your Free Estimate
+          </button>
+        </div>
+      )}
+      
       {/* Centered content */}
       <div className="relative text-center px-6">
-        {/* Main headline - Playfair Display, bold, text-5xl md:text-7xl */}
+        {/* Main headline - Playfair Display, bold italic */}
         <h1 
-          className="text-white text-5xl md:text-7xl font-bold leading-tight mb-6"
-          style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          className="text-white text-4xl sm:text-5xl md:text-7xl font-bold leading-tight mb-6"
+          style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
         >
-          Old School Craftsmanship.<br />
-          Modern Reliability.
+          Old School<br />
+          Craftsmanship.<br />
+          Modern<br />
+          Reliability.
         </h1>
         
-        {/* Subheadline - text-xl md:text-2xl, white/90 */}
-        <p className="text-white/90 text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed mb-8">
+        {/* Subheadline - text-lg md:text-2xl, white/90 */}
+        <p className="text-white/90 text-base sm:text-lg md:text-2xl max-w-xl mx-auto leading-relaxed mb-8">
           25+ years of treating every home like our own. No shortcuts. No mess left behind. Just honest, expert tree and landscape service.
         </p>
         
-        {/* CTA Button - WHITE bg, green-900 text, large padding px-10 py-7 */}
+        {/* CTA Button - WHITE bg, green-900 text, large padding */}
         <button 
           onClick={() => onNavigate?.('contact')}
-          className="bg-white hover:bg-green-50 text-green-900 text-lg font-semibold px-10 py-7 rounded shadow-xl hover:shadow-2xl transition-all"
+          className="bg-white hover:bg-green-50 text-green-900 text-base sm:text-lg font-semibold px-8 sm:px-10 py-5 sm:py-7 rounded shadow-xl hover:shadow-2xl transition-all"
         >
           Get Your Free Estimate
         </button>
         
         {/* Service area tagline - text-sm text-white/70 */}
-        <p className="text-white/70 text-sm mt-6">
+        <p className="text-white/70 text-xs sm:text-sm mt-6">
           Serving Greater Orange County Since 1999
         </p>
       </div>
