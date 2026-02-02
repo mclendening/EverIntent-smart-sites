@@ -15,7 +15,7 @@ import summitHero from '@/assets/portfolio/summit-climate-hero.jpg';
 import goldenGateHero from '@/assets/portfolio/golden-gate-roofing-hero.jpg';
 import harmonyHero from '@/assets/portfolio/harmony-wellness-hero.jpg';
 import precisionHero from '@/assets/portfolio/precision-auto-hero.jpg';
-import evergreenHero from '@/assets/portfolio/evergreen-landscapes-hero.jpg';
+import alexanderTreeHero from '@/assets/portfolio/alexandertree/hero-screenshot.jpg';
 
 export type IndustryFilter = 'all' | 'home-services' | 'healthcare' | 'professional' | 'automotive';
 
@@ -143,17 +143,17 @@ export const portfolioProjects: PortfolioProject[] = [
   },
   {
     id: '8',
-    slug: 'evergreen-landscapes',
-    company: 'Evergreen Landscapes',
-    industry: 'Landscaping',
+    slug: 'alexander-tree',
+    company: 'Alexander Tree & Landscaping',
+    industry: 'Tree Service',
     filterCategory: 'home-services',
-    location: 'Seattle, WA',
-    keyMetric: '+42%',
-    metricLabel: 'Avg Project Value',
-    primaryColor: '#16A34A',
-    accentColor: '#78350F',
-    description: 'Award-winning landscape design for Pacific Northwest homes.',
-    heroImage: evergreenHero,
+    location: 'Orange County, CA',
+    keyMetric: '+186%',
+    metricLabel: 'Qualified Leads',
+    primaryColor: '#166534',
+    accentColor: '#FEFCE8',
+    description: 'Old school craftsmanship, modern reliability. Tree service since 1999.',
+    heroImage: alexanderTreeHero,
   },
 ];
 

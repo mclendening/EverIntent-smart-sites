@@ -7,3 +7,4 @@ export { CaseStudyLayout } from './CaseStudyLayout';
 export { RiverstoneInteractiveMockup } from './RiverstoneInteractiveMockup';
 export { DesertCoolAirMockup } from './DesertCoolAirMockup';
 export { ClearviewDentistryAustinMockup } from './ClearviewDentistryAustinMockup';
+export { AlexanderTreeMockup } from './AlexanderTreeMockup';
