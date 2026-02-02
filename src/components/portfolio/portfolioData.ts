@@ -9,6 +9,7 @@
 import desertCoolHero from '@/assets/portfolio/desertcoolair/hero-mountain.jpg';
 import desertCoolPreview from '@/assets/portfolio/screenshots/desert-cool-air-preview.png';
 import clearviewHero from '@/assets/portfolio/clearview-dentistry-hero.jpg';
+import clearviewPreview from '@/assets/portfolio/screenshots/clearview-dentistry-austin-preview.png';
 import ashfordHero from '@/assets/portfolio/ashford-law-hero.jpg';
 import summitHero from '@/assets/portfolio/summit-climate-hero.jpg';
 import goldenGateHero from '@/assets/portfolio/golden-gate-roofing-hero.jpg';
@@ -68,6 +69,7 @@ export const portfolioProjects: PortfolioProject[] = [
     accentColor: '#0EA5E9',
     description: 'Anxiety-friendly dental practice focused on gentle patient care.',
     heroImage: clearviewHero,
+    previewImage: clearviewPreview,
   },
   {
     id: '3',
