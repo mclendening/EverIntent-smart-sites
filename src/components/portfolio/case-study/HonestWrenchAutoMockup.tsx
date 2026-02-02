@@ -12,8 +12,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Menu, X, Phone, Mail, MapPin, Clock, Star, MessageCircle, Send, 
-  ChevronRight, Check, Wrench, Car, Shield, Award, Users, Calendar,
-  ThumbsUp, Camera, FileText, AlertCircle, Gauge, Thermometer, CircleDot
+  ChevronRight, ChevronLeft, Check, Wrench, Car, Shield, Award, Users, Calendar,
+  ThumbsUp, Camera, FileText, AlertCircle, Gauge, Thermometer, CircleDot,
+  Droplets, Disc, Settings, Wind, Zap
 } from 'lucide-react';
 
 // =============================================================================
@@ -493,6 +494,703 @@ const HomePage: React.FC<HomePageProps> = ({ navigateTo }) => (
 );
 
 // =============================================================================
+// SERVICES HUB PAGE
+// =============================================================================
+
+const ServicesPage: React.FC<HomePageProps> = ({ navigateTo }) => (
+  <div>
+    {/* HERO */}
+    <div className="relative h-56 overflow-hidden">
+      <div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${IMAGES.servicesHub})` }}
+      />
+      <div 
+        className="absolute inset-0"
+        style={{ background: `linear-gradient(to right, ${COLORS.primary}F2, ${COLORS.primary}CC, transparent)` }}
+      />
+      <div className="relative z-10 h-full flex flex-col justify-center px-6">
+        <span className="text-xs font-medium uppercase tracking-wider mb-2" style={{ color: COLORS.accent }}>
+          What We Offer
+        </span>
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">Our Services</h1>
+        <p className="text-white/80 text-sm max-w-md">
+          Complete auto care from routine maintenance to major repairs—all with our transparency guarantee.
+        </p>
+      </div>
+    </div>
+    
+    {/* Service Cards Grid */}
+    <div className="px-6 py-10 bg-[#FAFAF9]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {SERVICES.map((service) => (
+          <div 
+            key={service.id}
+            onClick={() => navigateTo(service.id)}
+            className="group bg-white rounded-2xl shadow-sm overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+          >
+            <div className="relative h-44 overflow-hidden">
+              <img 
+                src={service.img} 
+                alt={service.name}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            </div>
+            <div className="p-5">
+              <h3 className="font-bold text-gray-800 text-lg mb-2 group-hover:text-[#1E3A5F] transition-colors">
+                {service.name}
+              </h3>
+              <p className="text-gray-500 text-sm mb-4">{service.desc}</p>
+              <span className="inline-flex items-center gap-1 font-semibold text-sm" style={{ color: COLORS.primary }}>
+                Learn More <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    {/* Bottom CTA */}
+    <div className="px-6 py-10 bg-white">
+      <div 
+        className="rounded-2xl p-8 text-center border"
+        style={{ 
+          background: `linear-gradient(135deg, ${COLORS.primary}08, ${COLORS.accent}08)`,
+          borderColor: `${COLORS.primary}20`
+        }}
+      >
+        <span className="text-4xl mb-4 block">🤔</span>
+        <h3 className="font-bold text-gray-800 text-xl mb-2">Not Sure What You Need?</h3>
+        <p className="text-gray-600 text-sm mb-6 max-w-md mx-auto">
+          Bring your car in for a free diagnostic check. We'll identify the issue and give you honest options.
+        </p>
+        <button 
+          onClick={() => navigateTo('contact')}
+          className="text-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
+          style={{ backgroundColor: COLORS.primary }}
+        >
+          Schedule Free Diagnostic
+        </button>
+      </div>
+    </div>
+  </div>
+);
+
+// =============================================================================
+// SERVICE DETAIL PAGE TEMPLATE
+// =============================================================================
+
+interface ServiceDetailProps {
+  navigateTo: (page: MockupPage) => void;
+  service: {
+    name: string;
+    category: string;
+    tagline: string;
+    heroImg: string;
+    actionImg: string;
+    stats: { value: string; label: string }[];
+    overview: string[];
+    included: { title: string; desc: string }[];
+    process: { step: string; title: string; desc: string; time: string }[];
+    differentiators: { icon: string; title: string; desc: string }[];
+    faqs: { q: string; a: string }[];
+    testimonial: { quote: string; name: string; location: string; img: string };
+    pricing: { headline: string; detail: string };
+    cta: { headline: string; subtext: string; button: string; reassurance: string };
+    related: MockupPage[];
+  };
+}
+
+const ServiceDetailPage: React.FC<ServiceDetailProps> = ({ navigateTo, service }) => (
+  <div>
+    {/* HERO */}
+    <div className="relative h-64 overflow-hidden">
+      <div 
+        className="absolute inset-0 bg-cover bg-center scale-105"
+        style={{ backgroundImage: `url(${service.heroImg})` }}
+      />
+      <div 
+        className="absolute inset-0"
+        style={{ background: `linear-gradient(to right, ${COLORS.primary}F2, ${COLORS.primary}BF, transparent)` }}
+      />
+      <div className="relative z-10 h-full flex flex-col justify-end px-6 pb-6">
+        <button 
+          onClick={() => navigateTo('services')} 
+          className="text-white/60 text-xs mb-4 flex items-center gap-1 hover:text-white transition-colors w-fit"
+        >
+          <ChevronLeft className="w-3 h-3" /> All Services
+        </button>
+        <span className="text-xs font-medium uppercase tracking-wider mb-1" style={{ color: COLORS.accent }}>
+          {service.category}
+        </span>
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">{service.name}</h1>
+        <p className="text-white/80 text-sm max-w-lg">{service.tagline}</p>
+      </div>
+    </div>
+    
+    {/* QUICK STATS BAR */}
+    <div className="px-6 py-4 text-white" style={{ backgroundColor: COLORS.primary }}>
+      <div className="flex justify-around text-center">
+        {service.stats.map((stat, i) => (
+          <div key={i}>
+            <p className="font-bold text-lg">{stat.value}</p>
+            <p className="text-white/70 text-xs">{stat.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    {/* OVERVIEW */}
+    <div className="px-6 py-8 bg-white">
+      <div className="max-w-2xl">
+        <h2 className="text-lg font-bold text-gray-800 mb-4">What is {service.name}?</h2>
+        {service.overview.map((para, i) => (
+          <p key={i} className={`${i === 0 ? 'text-gray-700 text-base' : 'text-gray-600 text-sm mt-4'} leading-relaxed`}>
+            {para}
+          </p>
+        ))}
+      </div>
+    </div>
+    
+    {/* VISUAL BREAK */}
+    <div className="px-6">
+      <div className="relative rounded-2xl overflow-hidden h-48">
+        <img src={service.actionImg} alt="Service in action" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+      </div>
+    </div>
+    
+    {/* WHAT'S INCLUDED */}
+    <div className="px-6 py-8 bg-[#FAFAF9]">
+      <h2 className="text-lg font-bold text-gray-800 mb-6">What's Included</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {service.included.map((item, i) => (
+          <div key={i} className="flex items-start gap-3 bg-white rounded-xl p-4 shadow-sm">
+            <div 
+              className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold"
+              style={{ backgroundColor: `${COLORS.primary}15`, color: COLORS.primary }}
+            >
+              ✓
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-800 text-sm">{item.title}</h3>
+              <p className="text-gray-500 text-xs">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    {/* THE PROCESS */}
+    <div className="px-6 py-8 bg-white">
+      <h2 className="text-lg font-bold text-gray-800 mb-2">How It Works</h2>
+      <p className="text-gray-500 text-sm mb-6">Our proven {service.process.length}-step process ensures quality results.</p>
+      <div className="space-y-6">
+        {service.process.map((item, i, arr) => (
+          <div key={item.step} className="flex gap-4">
+            <div className="flex flex-col items-center">
+              <div 
+                className="w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-sm shadow-lg"
+                style={{ background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.accent})` }}
+              >
+                {item.step}
+              </div>
+              {i < arr.length - 1 && (
+                <div className="w-0.5 flex-1 mt-2" style={{ background: `linear-gradient(to bottom, ${COLORS.primary}30, transparent)` }} />
+              )}
+            </div>
+            <div className="flex-1 pb-4">
+              <div className="flex items-center gap-3 mb-1">
+                <h3 className="font-bold text-gray-800">{item.title}</h3>
+                <span className="text-xs text-gray-400">{item.time}</span>
+              </div>
+              <p className="text-gray-600 text-sm">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    {/* WHY CHOOSE US */}
+    <div className="px-6 py-8 bg-[#FAFAF9]">
+      <h2 className="text-lg font-bold text-gray-800 mb-6">Why Choose Us for {service.name}</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {service.differentiators.map((item, i) => (
+          <div key={i} className="bg-white rounded-xl p-5 shadow-sm">
+            <span className="text-2xl mb-3 block">{item.icon}</span>
+            <h3 className="font-bold text-gray-800 mb-1">{item.title}</h3>
+            <p className="text-gray-500 text-sm">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    {/* FAQ */}
+    <div className="px-6 py-8 bg-white">
+      <h2 className="text-lg font-bold text-gray-800 mb-6">Frequently Asked Questions</h2>
+      <div className="space-y-4">
+        {service.faqs.map((faq, i) => (
+          <div key={i} className="bg-[#FAFAF9] rounded-xl p-5">
+            <h3 className="font-semibold text-gray-800 mb-2 flex items-start gap-2">
+              <span className="font-bold" style={{ color: COLORS.primary }}>Q:</span>
+              {faq.q}
+            </h3>
+            <p className="text-gray-600 text-sm pl-6">{faq.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    {/* TESTIMONIAL */}
+    <div className="px-6 py-8 bg-[#FAFAF9]">
+      <h2 className="text-lg font-bold text-gray-800 mb-6">What Customers Say</h2>
+      <div className="bg-white rounded-2xl p-6 shadow-sm">
+        <div className="flex items-start gap-4">
+          <img src={service.testimonial.img} alt="Customer" className="w-14 h-14 rounded-full object-cover flex-shrink-0" />
+          <div>
+            <div className="flex text-yellow-400 text-sm mb-2">★★★★★</div>
+            <p className="text-gray-700 text-sm italic mb-3">"{service.testimonial.quote}"</p>
+            <p className="text-gray-800 font-semibold text-sm">{service.testimonial.name}</p>
+            <p className="text-gray-500 text-xs">{service.testimonial.location}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    {/* PRICING HINT */}
+    <div 
+      className="mx-6 my-6 rounded-2xl p-6 border"
+      style={{ 
+        background: `linear-gradient(to right, ${COLORS.primary}10, ${COLORS.accent}10)`,
+        borderColor: `${COLORS.primary}20`
+      }}
+    >
+      <div className="flex items-start gap-4">
+        <div 
+          className="w-12 h-12 rounded-xl text-white flex items-center justify-center flex-shrink-0"
+          style={{ backgroundColor: COLORS.primary }}
+        >
+          <span className="text-xl">💰</span>
+        </div>
+        <div>
+          <h3 className="font-bold text-gray-800 mb-1">{service.pricing.headline}</h3>
+          <p className="text-gray-600 text-sm">{service.pricing.detail}</p>
+        </div>
+      </div>
+    </div>
+    
+    {/* PRIMARY CTA */}
+    <div 
+      className="mx-6 mb-6 rounded-2xl p-8 text-center text-white shadow-xl overflow-hidden relative"
+      style={{ background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primary}CC)` }}
+    >
+      <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+      <div className="relative z-10">
+        <h3 className="text-xl font-bold mb-2">{service.cta.headline}</h3>
+        <p className="text-white/80 text-sm mb-6 max-w-sm mx-auto">{service.cta.subtext}</p>
+        <button 
+          onClick={() => navigateTo('contact')}
+          className="bg-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
+          style={{ color: COLORS.primary }}
+        >
+          {service.cta.button}
+        </button>
+        <p className="text-white/60 text-xs mt-4">{service.cta.reassurance}</p>
+      </div>
+    </div>
+    
+    {/* RELATED SERVICES */}
+    <div className="px-6 py-8 bg-white">
+      <h2 className="text-lg font-bold text-gray-800 mb-4">Related Services</h2>
+      <div className="flex gap-4 overflow-x-auto pb-2">
+        {service.related.map(relatedId => {
+          const relatedService = SERVICES.find(s => s.id === relatedId);
+          if (!relatedService) return null;
+          return (
+            <div 
+              key={relatedId}
+              onClick={() => navigateTo(relatedId)}
+              className="flex-shrink-0 w-44 bg-[#FAFAF9] rounded-xl overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+            >
+              <img src={relatedService.img} alt={relatedService.name} className="w-full h-24 object-cover" />
+              <p className="p-3 font-semibold text-gray-800 text-sm">{relatedService.name}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+);
+
+// =============================================================================
+// SERVICE DATA - COMPREHENSIVE CONTENT
+// =============================================================================
+
+const SERVICE_DETAILS: Record<string, ServiceDetailProps['service']> = {
+  'service-oil': {
+    name: 'Oil Change & Maintenance',
+    category: 'Preventive Maintenance',
+    tagline: 'Keep your engine running smooth with our comprehensive oil service and 21-point inspection.',
+    heroImg: IMAGES.oilChange,
+    actionImg: 'https://images.unsplash.com/photo-1615906655593-ad0386982a0f?w=800&h=400&fit=crop',
+    stats: [
+      { value: '5,000+', label: 'Oil Changes/Year' },
+      { value: '30min', label: 'Avg. Service Time' },
+      { value: '100%', label: 'Satisfaction' }
+    ],
+    overview: [
+      "Regular oil changes are the single most important thing you can do to extend your engine's life. At Honest Wrench Auto, we don't just swap your oil—we perform a complimentary 21-point inspection to catch small issues before they become expensive repairs.",
+      "We use only high-quality conventional, synthetic blend, or full synthetic oils matched to your vehicle's specifications. Every service includes a new oil filter, fluid top-offs, and a detailed digital report of your vehicle's condition sent right to your phone."
+    ],
+    included: [
+      { title: 'Premium Oil & Filter', desc: 'Up to 5 quarts of quality oil matched to your vehicle specs' },
+      { title: '21-Point Inspection', desc: 'Comprehensive check of brakes, tires, fluids, belts, and more' },
+      { title: 'Fluid Top-Offs', desc: 'Washer fluid, coolant, and other fluids checked and topped' },
+      { title: 'Digital Report', desc: 'Photos and notes sent to your phone—see what we see' },
+      { title: 'Tire Pressure Check', desc: 'All four tires checked and adjusted to proper PSI' },
+      { title: 'Next Service Reminder', desc: 'We text you when your next oil change is due' }
+    ],
+    process: [
+      { step: '1', title: 'Drop Off or Wait', desc: 'Comfortable waiting area with WiFi, coffee, and snacks. Appointments recommended but walk-ins welcome.', time: '5 min' },
+      { step: '2', title: 'Drain & Replace', desc: 'We drain old oil, replace the filter, and add fresh oil matched to your vehicle manufacturer specs.', time: '15 min' },
+      { step: '3', title: 'Full Inspection', desc: 'Our technician performs a thorough 21-point inspection covering all major systems.', time: '10 min' },
+      { step: '4', title: 'Review & Go', desc: 'We walk you through our digital report—no pressure, just honest information about your car.', time: '5 min' }
+    ],
+    differentiators: [
+      { icon: '📸', title: 'Digital Inspection Reports', desc: 'Photos and video of your vehicle sent to your phone before any work' },
+      { icon: '⏱️', title: 'Fast Service', desc: 'Most oil changes completed in 30-45 minutes with appointment' },
+      { icon: '🛡️', title: 'Quality Products', desc: 'We use premium oils and filters—never cheap knockoffs' },
+      { icon: '📱', title: 'Service Reminders', desc: "We'll remind you when it's time—never miss maintenance again" }
+    ],
+    faqs: [
+      { q: 'How often should I change my oil?', a: 'Most modern vehicles can go 5,000-7,500 miles between oil changes with synthetic oil. We follow your manufacturer\'s recommendations and consider your driving conditions.' },
+      { q: 'Do I need synthetic oil?', a: 'It depends on your vehicle and driving habits. We\'ll recommend what\'s best for YOUR car—not what makes us the most money. Many newer vehicles require synthetic.' },
+      { q: 'How long does an oil change take?', a: 'With an appointment, most oil changes take 30-45 minutes including our full inspection. Walk-ins may take a bit longer depending on the queue.' },
+      { q: 'What\'s included in the 21-point inspection?', a: 'We check brakes, tires, belts, hoses, fluids, battery, lights, wipers, and more. You\'ll get a detailed report with photos of any concerns.' }
+    ],
+    testimonial: {
+      quote: "I've been getting my oil changed here for 3 years. They always show me exactly what they find and never push unnecessary services. Best shop I've ever used.",
+      name: 'Robert Martinez',
+      location: 'Riverside, CA',
+      img: IMAGES.testimonialJames
+    },
+    pricing: {
+      headline: 'Competitive Pricing, No Hidden Fees',
+      detail: 'Oil changes start at $39.95 for conventional oil. Synthetic blend and full synthetic options available. Price includes filter, fluids, and our complete 21-point inspection.'
+    },
+    cta: {
+      headline: 'Ready for Your Oil Change?',
+      subtext: 'Schedule online and skip the wait. Most appointments completed in under an hour.',
+      button: 'Schedule My Oil Change',
+      reassurance: 'No appointment? Walk-ins welcome!'
+    },
+    related: ['service-brakes', 'service-tires']
+  },
+  
+  'service-brakes': {
+    name: 'Brake Service & Repair',
+    category: 'Safety & Repairs',
+    tagline: 'Your safety depends on reliable brakes. We never recommend work you don\'t need.',
+    heroImg: IMAGES.brakeService,
+    actionImg: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&h=400&fit=crop',
+    stats: [
+      { value: '2,500+', label: 'Brake Jobs/Year' },
+      { value: '4.9★', label: 'Google Rating' },
+      { value: '24mo', label: 'Parts Warranty' }
+    ],
+    overview: [
+      "Nothing matters more than being able to stop when you need to. Our ASE-certified technicians inspect, service, and repair brake systems on all makes and models—giving you the stopping power and confidence you deserve.",
+      "We never recommend brake work you don't need. Every recommendation comes with photos and measurements so you can see exactly what we see. If your brake pads still have life in them, we'll tell you. It's that simple."
+    ],
+    included: [
+      { title: 'Free Brake Inspection', desc: 'Complete measurement and assessment at no charge' },
+      { title: 'Photo Documentation', desc: 'See exactly what your brakes look like before approving work' },
+      { title: 'Quality Parts', desc: 'OEM-equivalent or better pads and rotors, never cheap imports' },
+      { title: '24-Month Warranty', desc: 'All brake work backed by our parts and labor guarantee' },
+      { title: 'Road Test', desc: 'Every brake job includes a thorough road test for safety' },
+      { title: 'Brake Fluid Check', desc: 'We check and top off brake fluid as needed' }
+    ],
+    process: [
+      { step: '1', title: 'Free Inspection', desc: 'We remove wheels, measure pad thickness, inspect rotors, calipers, lines, and document everything with photos.', time: '20 min' },
+      { step: '2', title: 'Detailed Estimate', desc: 'You receive a written estimate with photos showing exactly what needs work and why. No surprises.', time: '10 min' },
+      { step: '3', title: 'Expert Repair', desc: 'Our ASE-certified technicians replace pads, resurface or replace rotors, and restore your stopping power.', time: '1-3 hrs' },
+      { step: '4', title: 'Test & Verify', desc: 'Complete road test ensures proper braking performance before you leave.', time: '15 min' }
+    ],
+    differentiators: [
+      { icon: '🆓', title: 'Free Inspections', desc: 'Never pay just to find out what\'s wrong with your brakes' },
+      { icon: '📷', title: 'See Before You Pay', desc: 'Photos and measurements before any work is approved' },
+      { icon: '🏆', title: 'ASE Certified Techs', desc: 'Factory-trained technicians who specialize in brake systems' },
+      { icon: '⚡', title: 'Same-Day Service', desc: 'Most brake jobs completed within 2-4 hours' }
+    ],
+    faqs: [
+      { q: 'How do I know if I need new brakes?', a: 'Common signs include squealing, grinding, longer stopping distances, or a pulsating brake pedal. But don\'t guess—bring it in for a free inspection.' },
+      { q: 'How long do brake pads last?', a: 'Typically 25,000-65,000 miles depending on driving style, vehicle weight, and pad quality. City driving wears brakes faster than highway driving.' },
+      { q: 'Do I always need to replace rotors?', a: 'Not always. If rotors have enough material and aren\'t warped, they can often be resurfaced. We\'ll show you measurements and let you decide.' },
+      { q: 'How much does a brake job cost?', a: 'It varies by vehicle and what\'s needed. Basic pad replacement starts around $150/axle. We provide exact quotes before any work begins.' }
+    ],
+    testimonial: {
+      quote: "Took my car in for squeaky brakes expecting to get ripped off. They showed me photos, measured my pads at 5mm, and told me I had another 10k miles. Didn't try to sell me anything. That's rare.",
+      name: 'Sarah Johnson',
+      location: 'Corona, CA',
+      img: IMAGES.testimonialLinda
+    },
+    pricing: {
+      headline: 'Honest Pricing, No Surprises',
+      detail: 'Brake pad replacement starts at $149/axle for most vehicles. Rotor replacement additional if needed. Complete quote provided before work begins.'
+    },
+    cta: {
+      headline: 'Concerned About Your Brakes?',
+      subtext: 'Don\'t wait until it\'s too late. Free inspections, no obligation.',
+      button: 'Get My Free Brake Check',
+      reassurance: 'No appointment needed for inspections'
+    },
+    related: ['service-tires', 'service-oil']
+  },
+  
+  'service-engine': {
+    name: 'Engine Diagnostics',
+    category: 'Diagnostics & Repair',
+    tagline: 'Check engine light on? We find the real problem—not just clear the code and hope.',
+    heroImg: IMAGES.engineDiag,
+    actionImg: 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&h=400&fit=crop',
+    stats: [
+      { value: '98%', label: 'First-Time Fix Rate' },
+      { value: '$89', label: 'Diagnostic Fee' },
+      { value: '1hr', label: 'Avg. Diagnosis Time' }
+    ],
+    overview: [
+      "That glowing check engine light can mean anything from a loose gas cap to a serious engine issue. At Honest Wrench Auto, we use professional-grade diagnostic equipment to identify the root cause—not just read a code and guess.",
+      "Our diagnostic process goes deeper than the parts store scanner. We perform live data analysis, component testing, and visual inspections to pinpoint exactly what's happening. Then we explain it in plain English so you can make an informed decision."
+    ],
+    included: [
+      { title: 'OBD-II Code Pull', desc: 'Read all stored and pending diagnostic trouble codes' },
+      { title: 'Live Data Analysis', desc: 'Monitor real-time sensor data while engine runs' },
+      { title: 'Component Testing', desc: 'Test suspected components to verify failures' },
+      { title: 'Visual Inspection', desc: 'Check for vacuum leaks, damaged wires, loose connections' },
+      { title: 'Written Report', desc: 'Detailed explanation of what we found and repair options' },
+      { title: 'Repair Estimate', desc: 'Complete quote if repairs are needed' }
+    ],
+    process: [
+      { step: '1', title: 'Code Scan', desc: 'We connect professional scanners to read all diagnostic codes and freeze frame data from your vehicle\'s computer.', time: '10 min' },
+      { step: '2', title: 'Live Analysis', desc: 'Monitor sensor readings in real-time while testing various conditions to isolate the problem.', time: '20 min' },
+      { step: '3', title: 'Component Test', desc: 'Physical testing of suspected components—we verify failures before recommending replacement.', time: '20 min' },
+      { step: '4', title: 'Report & Options', desc: 'Plain-English explanation of the issue with repair options and honest recommendations.', time: '10 min' }
+    ],
+    differentiators: [
+      { icon: '🔬', title: 'Advanced Equipment', desc: 'Same diagnostic tools used by dealerships, without the dealer price' },
+      { icon: '🎯', title: 'Root Cause Focus', desc: 'We find the actual problem, not just the symptom a code points to' },
+      { icon: '💬', title: 'Plain English', desc: 'We translate mechanic-speak so you understand what\'s happening' },
+      { icon: '🚗', title: 'Pre-Purchase Inspections', desc: 'Know what you\'re buying before you commit to a used car' }
+    ],
+    faqs: [
+      { q: 'Can I just get the code read for free?', a: 'Parts stores read codes free, but a code is just a starting point—not a diagnosis. We go deeper to find the actual problem so you don\'t waste money replacing parts that aren\'t broken.' },
+      { q: 'Is it safe to drive with check engine light on?', a: 'It depends. A solid light usually means a non-emergency issue. A flashing light means stop driving immediately—serious engine damage is possible.' },
+      { q: 'How much is a diagnostic?', a: 'Our diagnostic fee is $89, which is applied toward repairs if you have us do the work. You\'ll know exactly what\'s wrong before spending a dime on parts.' },
+      { q: 'Do you do pre-purchase inspections?', a: 'Absolutely! For $125, we\'ll give you a complete assessment of any used vehicle before you buy. It\'s the best investment you can make.' }
+    ],
+    testimonial: {
+      quote: "My check engine light had been on for months. Other shops just cleared it. Honest Wrench actually found a small vacuum leak causing the issue. Fixed it for $200 and it's been perfect since.",
+      name: 'Mike Torres',
+      location: 'Moreno Valley, CA',
+      img: IMAGES.testimonialTyler
+    },
+    pricing: {
+      headline: 'Know Before You Pay',
+      detail: 'Diagnostic fee is $89. If you approve repairs, the diagnostic fee is applied to your bill. Pre-purchase inspections are $125 for complete used vehicle assessment.'
+    },
+    cta: {
+      headline: 'Check Engine Light Glowing?',
+      subtext: 'Stop guessing. Get a real diagnosis from certified technicians.',
+      button: 'Diagnose My Check Engine Light',
+      reassurance: 'Same-day appointments available'
+    },
+    related: ['service-transmission', 'service-ac']
+  },
+  
+  'service-transmission': {
+    name: 'Transmission Service',
+    category: 'Drivetrain Service',
+    tagline: 'Smooth shifts keep you moving. Trust our experts for fluid services, repairs, and rebuilds.',
+    heroImg: IMAGES.transmission,
+    actionImg: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&h=400&fit=crop',
+    stats: [
+      { value: '500+', label: 'Transmissions Serviced' },
+      { value: '36mo', label: 'Rebuild Warranty' },
+      { value: '17yrs', label: 'Experience' }
+    ],
+    overview: [
+      "Your transmission is one of the most complex—and expensive—components in your vehicle. Regular maintenance can dramatically extend its life, while catching problems early can save you thousands in repairs.",
+      "At Honest Wrench Auto, we offer complete transmission care: fluid exchanges, filter replacements, and full diagnostic services. If repairs are needed, we'll explain exactly what's happening and provide honest options from minor fixes to complete rebuilds."
+    ],
+    included: [
+      { title: 'Fluid Analysis', desc: 'We assess fluid condition to gauge transmission health' },
+      { title: 'Filter Replacement', desc: 'New filter installed (if applicable to your vehicle)' },
+      { title: 'Pan Inspection', desc: 'Check for metal shavings or debris indicating wear' },
+      { title: 'Gasket Replacement', desc: 'New pan gasket to prevent leaks' },
+      { title: 'Proper Fluid', desc: 'Manufacturer-specified transmission fluid only' },
+      { title: 'Road Test', desc: 'Verify proper shifting after service' }
+    ],
+    process: [
+      { step: '1', title: 'Assessment', desc: 'We check fluid condition, look for leaks, and assess shifting quality during a test drive.', time: '20 min' },
+      { step: '2', title: 'Service or Diagnose', desc: 'Routine fluid service, or deeper diagnostic if problems are detected.', time: '1-2 hrs' },
+      { step: '3', title: 'Pan Inspection', desc: 'We inspect the pan for debris that indicates internal wear.', time: '15 min' },
+      { step: '4', title: 'Recommendations', desc: 'Honest assessment of transmission health and maintenance schedule.', time: '10 min' }
+    ],
+    differentiators: [
+      { icon: '🔍', title: 'Thorough Inspection', desc: 'We check fluid, pan, and shifting—not just drain and fill' },
+      { icon: '💧', title: 'Right Fluid', desc: 'We use ONLY manufacturer-specified fluid for your transmission' },
+      { icon: '⚠️', title: 'Early Detection', desc: 'We catch problems before they become expensive failures' },
+      { icon: '🔧', title: 'Rebuild Capability', desc: 'When major work is needed, we have the expertise to do it right' }
+    ],
+    faqs: [
+      { q: 'How often should transmission fluid be changed?', a: 'Most manufacturers recommend every 30,000-60,000 miles, but it varies by vehicle and driving conditions. Check your owner\'s manual or ask us.' },
+      { q: 'What are signs of transmission problems?', a: 'Slipping gears, rough shifting, delayed engagement, burning smell, or fluid leaks. Don\'t ignore these—early intervention saves money.' },
+      { q: 'Should I flush or just change the fluid?', a: 'We generally recommend a drain-and-fill over flushes for older vehicles. We\'ll explain what\'s best for YOUR transmission.' },
+      { q: 'How much does a transmission rebuild cost?', a: 'Rebuilds typically range from $1,500-$3,500 depending on the transmission. But regular maintenance can help you avoid this expense entirely.' }
+    ],
+    testimonial: {
+      quote: "My transmission was slipping bad. Another shop quoted $3,200 for a rebuild. Honest Wrench found a sensor issue and fixed it for $350. Still shifting perfectly a year later.",
+      name: 'David Park',
+      location: 'Riverside, CA',
+      img: IMAGES.testimonialJames
+    },
+    pricing: {
+      headline: 'Prevent the Big Repair',
+      detail: 'Transmission fluid service starts at $149 for most vehicles. A $150 service now could save you $3,000 later. We\'ll help you plan maintenance to maximize transmission life.'
+    },
+    cta: {
+      headline: 'Shifting Funny?',
+      subtext: 'Don\'t wait until it gets worse. Early diagnosis saves thousands.',
+      button: 'Check My Transmission',
+      reassurance: 'No-obligation assessment'
+    },
+    related: ['service-engine', 'service-oil']
+  },
+  
+  'service-tires': {
+    name: 'Tires & Alignment',
+    category: 'Tires & Suspension',
+    tagline: 'Better handling, longer tire life, and a smoother ride with proper alignment.',
+    heroImg: IMAGES.tires,
+    actionImg: 'https://images.unsplash.com/photo-1578844251758-2f71da64c96f?w=800&h=400&fit=crop',
+    stats: [
+      { value: '1,200+', label: 'Alignments/Year' },
+      { value: '4-wheel', label: 'Precision Alignment' },
+      { value: 'Same Day', label: 'Most Services' }
+    ],
+    overview: [
+      "Your tires are the only part of your car that touches the road—making them critical for safety, handling, and fuel efficiency. Whether you need new tires, a rotation, or a precision alignment, Honest Wrench Auto keeps you rolling safely.",
+      "Misaligned wheels cause uneven tire wear, pulling, and poor handling. Our computerized alignment system measures all four wheels and adjusts to manufacturer specifications, giving you a straight-tracking vehicle and maximum tire life."
+    ],
+    included: [
+      { title: 'Computerized Alignment', desc: 'Precision measurement and adjustment of all four wheels' },
+      { title: 'Tire Inspection', desc: 'Check tread depth, wear patterns, and sidewall condition' },
+      { title: 'Pressure Adjustment', desc: 'Set all tires to proper PSI for your vehicle' },
+      { title: 'Rotation Service', desc: 'Rotate tires to promote even wear (if needed)' },
+      { title: 'TPMS Check', desc: 'Verify tire pressure monitoring sensors work properly' },
+      { title: 'Before/After Report', desc: 'See the alignment specs before and after service' }
+    ],
+    process: [
+      { step: '1', title: 'Tire Assessment', desc: 'We measure tread depth, check for wear patterns, and inspect for damage.', time: '10 min' },
+      { step: '2', title: 'Alignment Check', desc: 'Vehicle goes on the alignment rack for precise computerized measurement.', time: '15 min' },
+      { step: '3', title: 'Precision Adjustment', desc: 'Adjust toe, camber, and caster to manufacturer specs.', time: '30 min' },
+      { step: '4', title: 'Verify & Report', desc: 'Final check and printed report showing all alignment specs.', time: '10 min' }
+    ],
+    differentiators: [
+      { icon: '📐', title: 'Precision Equipment', desc: 'Computer-guided alignment for accurate results every time' },
+      { icon: '💰', title: 'Competitive Pricing', desc: 'Quality tires and service without big-box markups' },
+      { icon: '🔄', title: 'Free Rotation', desc: 'Tire rotation included free with any oil change service' },
+      { icon: '📱', title: 'TPMS Experts', desc: 'We service and program all tire pressure monitoring systems' }
+    ],
+    faqs: [
+      { q: 'How do I know if I need an alignment?', a: 'Signs include pulling to one side, uneven tire wear, steering wheel off-center, or vibration at highway speeds. We recommend checking alignment annually.' },
+      { q: 'How often should I rotate my tires?', a: 'Every 5,000-7,500 miles, typically with your oil change. Regular rotation helps tires wear evenly and last longer.' },
+      { q: 'Do you sell tires?', a: 'Yes! We offer competitive pricing on quality tire brands and can often beat big-box store prices. Installation, balancing, and TPMS service included.' },
+      { q: 'How long does an alignment take?', a: 'A standard four-wheel alignment takes about 45-60 minutes. Tire rotations are typically 20-30 minutes.' }
+    ],
+    testimonial: {
+      quote: "My tires were wearing unevenly after just 15k miles. Got an alignment at Honest Wrench and the next set lasted over 50k miles. Should have come here first!",
+      name: 'Jennifer Adams',
+      location: 'Jurupa Valley, CA',
+      img: IMAGES.testimonialLinda
+    },
+    pricing: {
+      headline: 'Extend Your Tire Investment',
+      detail: 'Four-wheel alignment starts at $89. A proper alignment can add thousands of miles to your tire life. Free rotation with any oil change.'
+    },
+    cta: {
+      headline: 'Pulling to One Side?',
+      subtext: 'Get your alignment checked and extend your tire life.',
+      button: 'Align My Vehicle',
+      reassurance: 'Quick service, no appointment needed'
+    },
+    related: ['service-brakes', 'service-oil']
+  },
+  
+  'service-ac': {
+    name: 'A/C & Heating',
+    category: 'Climate Control',
+    tagline: 'Stay comfortable in Riverside heat. Expert A/C diagnosis and repair.',
+    heroImg: IMAGES.acHeating,
+    actionImg: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&h=400&fit=crop',
+    stats: [
+      { value: '800+', label: 'A/C Repairs/Year' },
+      { value: '115°', label: 'Riverside Summers' },
+      { value: 'Same Day', label: 'Most Repairs' }
+    ],
+    overview: [
+      "Riverside summers don't mess around—and neither should your air conditioning. Whether you're dealing with warm air when it should be cold, strange smells from the vents, or a heater that won't heat, our technicians will diagnose and repair the issue.",
+      "A/C systems are sealed and require specialized equipment to service properly. We use EPA-approved refrigerant recovery systems and have the training to find leaks, replace compressors, and get your cabin comfortable again."
+    ],
+    included: [
+      { title: 'Performance Test', desc: 'Measure vent temperature and system pressure' },
+      { title: 'Leak Detection', desc: 'UV dye testing to find hidden refrigerant leaks' },
+      { title: 'System Inspection', desc: 'Check compressor, condenser, evaporator, and lines' },
+      { title: 'Refrigerant Service', desc: 'Recover, recycle, and recharge to proper levels' },
+      { title: 'Cabin Filter', desc: 'Inspect and replace cabin air filter if needed' },
+      { title: 'Odor Treatment', desc: 'Eliminate musty smells from the ventilation system' }
+    ],
+    process: [
+      { step: '1', title: 'Performance Test', desc: 'We measure actual vent temperature and system pressures to assess A/C performance.', time: '15 min' },
+      { step: '2', title: 'Leak Detection', desc: 'UV dye test and electronic leak detector to find any refrigerant leaks.', time: '20 min' },
+      { step: '3', title: 'Diagnosis', desc: 'Identify failing components—compressor, condenser, evaporator, or controls.', time: '15 min' },
+      { step: '4', title: 'Repair & Verify', desc: 'Fix the issue and verify cold air output before you leave.', time: '1-3 hrs' }
+    ],
+    differentiators: [
+      { icon: '🌡️', title: 'Performance Testing', desc: 'We measure what your system is actually doing, not guess' },
+      { icon: '🔦', title: 'Leak Experts', desc: 'UV dye and electronic detection to find hidden leaks' },
+      { icon: '❄️', title: 'Complete Service', desc: 'A/C, heater core, blower motors, and climate controls' },
+      { icon: '⚡', title: 'Quick Recharges', desc: 'Simple refrigerant top-offs when that\'s all you need' }
+    ],
+    faqs: [
+      { q: 'Why is my A/C blowing warm air?', a: 'Common causes include low refrigerant (usually from a leak), a failing compressor, clogged condenser, or electrical issues. Diagnosis is the first step.' },
+      { q: 'How often does A/C need to be recharged?', a: 'A properly sealed system shouldn\'t need recharging. If you need frequent recharges, there\'s a leak that should be fixed.' },
+      { q: 'Why does my car smell musty?', a: 'Mold and bacteria can grow on your evaporator core. We can treat the system to eliminate odors and improve air quality.' },
+      { q: 'Can you work on newer R-1234yf systems?', a: 'Yes! We have the equipment to service both R-134a and the newer R-1234yf refrigerants used in newer vehicles.' }
+    ],
+    testimonial: {
+      quote: "My A/C died during a 110° week in July. Honest Wrench found a leak, fixed it, and had me cool again the same day. Lifesavers!",
+      name: 'Carlos Mendez',
+      location: 'Riverside, CA',
+      img: IMAGES.testimonialTyler
+    },
+    pricing: {
+      headline: 'Beat the Heat',
+      detail: 'A/C performance check and recharge starts at $149. Leak detection additional. We quote all repairs before work begins—no surprises.'
+    },
+    cta: {
+      headline: 'Sweating in Your Car?',
+      subtext: "Don't suffer through summer. Get your A/C fixed fast.",
+      button: 'Cool Me Down',
+      reassurance: 'Same-day service available'
+    },
+    related: ['service-engine', 'service-oil']
+  }
+};
+
+// =============================================================================
 // MAIN COMPONENT
 // =============================================================================
 
@@ -891,9 +1589,30 @@ export const HonestWrenchAutoMockup: React.FC = () => {
         className="flex-1 overflow-y-auto overflow-x-hidden bg-[#FAFAFA]"
       >
         {currentPage === 'home' && <HomePage navigateTo={navigateTo} />}
+        {currentPage === 'services' && <ServicesPage navigateTo={navigateTo} />}
         
-        {/* Placeholder for other pages */}
-        {currentPage !== 'home' && (
+        {/* Service Detail Pages */}
+        {currentPage === 'service-oil' && SERVICE_DETAILS['service-oil'] && (
+          <ServiceDetailPage navigateTo={navigateTo} service={SERVICE_DETAILS['service-oil']} />
+        )}
+        {currentPage === 'service-brakes' && SERVICE_DETAILS['service-brakes'] && (
+          <ServiceDetailPage navigateTo={navigateTo} service={SERVICE_DETAILS['service-brakes']} />
+        )}
+        {currentPage === 'service-engine' && SERVICE_DETAILS['service-engine'] && (
+          <ServiceDetailPage navigateTo={navigateTo} service={SERVICE_DETAILS['service-engine']} />
+        )}
+        {currentPage === 'service-transmission' && SERVICE_DETAILS['service-transmission'] && (
+          <ServiceDetailPage navigateTo={navigateTo} service={SERVICE_DETAILS['service-transmission']} />
+        )}
+        {currentPage === 'service-tires' && SERVICE_DETAILS['service-tires'] && (
+          <ServiceDetailPage navigateTo={navigateTo} service={SERVICE_DETAILS['service-tires']} />
+        )}
+        {currentPage === 'service-ac' && SERVICE_DETAILS['service-ac'] && (
+          <ServiceDetailPage navigateTo={navigateTo} service={SERVICE_DETAILS['service-ac']} />
+        )}
+        
+        {/* Placeholder for About/Contact */}
+        {(currentPage === 'about' || currentPage === 'contact') && (
           <div className="flex items-center justify-center h-full">
             <div className="text-center p-8">
               <Wrench className="w-16 h-16 mx-auto mb-4" style={{ color: COLORS.primary }} />
@@ -901,7 +1620,7 @@ export const HonestWrenchAutoMockup: React.FC = () => {
                 {BUSINESS.name}
               </h2>
               <p className="text-gray-600">{BUSINESS.tagline}</p>
-              <p className="text-sm text-gray-400 mt-4">Current Page: {currentPage}</p>
+              <p className="text-sm text-gray-400 mt-4">Page: {currentPage}</p>
             </div>
           </div>
         )}
