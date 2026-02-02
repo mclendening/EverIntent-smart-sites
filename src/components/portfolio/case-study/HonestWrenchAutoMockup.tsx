@@ -1503,7 +1503,7 @@ const PrivacyPage: React.FC<HomePageProps> = ({ navigateTo }) => (
     </button>
     
     <h1 className="text-2xl font-bold text-gray-800 mb-4">Privacy Policy</h1>
-    <p className="text-gray-500 text-sm mb-6">Last updated: January 2024</p>
+    <p className="text-gray-500 text-sm mb-6">Last updated: January 2026</p>
     
     <div className="prose prose-sm text-gray-600 space-y-4 max-w-2xl">
       <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
@@ -1540,7 +1540,7 @@ const CookiesPage: React.FC<HomePageProps> = ({ navigateTo }) => (
     </button>
     
     <h1 className="text-2xl font-bold text-gray-800 mb-4">Cookie Policy</h1>
-    <p className="text-gray-500 text-sm mb-6">Last updated: January 2024</p>
+    <p className="text-gray-500 text-sm mb-6">Last updated: January 2026</p>
     
     <div className="prose prose-sm text-gray-600 space-y-4 max-w-2xl">
       <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
@@ -1575,7 +1575,7 @@ const TermsPage: React.FC<HomePageProps> = ({ navigateTo }) => (
     </button>
     
     <h1 className="text-2xl font-bold text-gray-800 mb-4">Terms of Service</h1>
-    <p className="text-gray-500 text-sm mb-6">Last updated: January 2024</p>
+    <p className="text-gray-500 text-sm mb-6">Last updated: January 2026</p>
     
     <div className="prose prose-sm text-gray-600 space-y-4 max-w-2xl">
       <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
@@ -1707,7 +1707,7 @@ const MockupFooter: React.FC<HomePageProps> = ({ navigateTo }) => (
     {/* Disclaimer */}
     <div className="border-t border-gray-800 px-6 py-6">
       <p className="text-gray-400 text-xs text-center mb-2">
-        © 2024 {BUSINESS.name}. Professional Auto Repair in Riverside.
+        © 2026 {BUSINESS.name}. Professional Auto Repair in Riverside.
       </p>
       <p className="text-gray-500 text-[10px] text-center max-w-xl mx-auto mb-4">
         This website is operated by EverIntent LLC. Services are performed by licensed independent providers.
