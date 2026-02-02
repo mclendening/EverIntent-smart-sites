@@ -488,8 +488,8 @@ interface PageProps {
 // HOME PAGE - EXACT MATCH to spec from oak-roots-shine.lovable.app
 const HomePage = ({ onNavigate }: PageProps) => (
   <div className="bg-white">
-    {/* Hero Section - EXACT match to spec */}
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+    {/* Hero Section - height = container (500/600/700) minus 96px (chrome + header) */}
+    <section className="relative h-[404px] md:h-[504px] lg:h-[604px] flex items-center justify-center overflow-hidden">
       {/* Background image */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
