@@ -101,13 +101,19 @@ interface ChatMessage {
   quickReplies?: QuickReply[];
 }
 
-// Navigation items
-const navItems = [
+// Navigation items - Desktop excludes Home (logo navigates) and Contact (CTA handles)
+const desktopNavItems = [
+  { id: 'services', label: 'Services' },
+  { id: 'about', label: 'Meet Dr. Chen' },
+  { id: 'new-patients', label: 'New Patients' },
+] as const;
+
+// Mobile nav includes Home but excludes Contact (CTA handles)
+const mobileNavItems = [
   { id: 'home', label: 'Home' },
   { id: 'services', label: 'Services' },
   { id: 'about', label: 'Meet Dr. Chen' },
   { id: 'new-patients', label: 'New Patients' },
-  { id: 'contact', label: 'Contact' },
 ] as const;
 
 // ============================================
@@ -2326,8 +2332,11 @@ export const ClearviewDentistryAustinMockup = () => {
       <div className="h-[calc(100%-2.25rem)] sm:h-[calc(100%-2.75rem)] overflow-y-auto relative bg-white">
         {/* Navigation Header - Dark charcoal like Desert Cool Air */}
         <nav className="h-14 sm:h-16 bg-[#1E293B]/95 backdrop-blur-md flex items-center justify-between px-4 sm:px-8 relative z-30 border-b border-white/5">
-          <div className="flex items-center gap-3">
-            {/* Logo */}
+          <div 
+            className="flex items-center gap-3 cursor-pointer" 
+            onClick={() => navigateTo('home')}
+          >
+            {/* Logo - clickable to home */}
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[#0D9488] flex items-center justify-center">
               <Smile className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
@@ -2339,7 +2348,7 @@ export const ClearviewDentistryAustinMockup = () => {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-6 lg:gap-8">
-            {navItems.map(item => (
+            {desktopNavItems.map(item => (
               <button
                 key={item.id}
                 onClick={() => navigateTo(item.id)}
@@ -2368,8 +2377,11 @@ export const ClearviewDentistryAustinMockup = () => {
               <Phone className="w-4 h-4" />
               (512) 555-0123
             </a>
-            <button className="bg-[#0D9488] hover:bg-[#0F766E] text-white px-4 sm:px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all">
-              Book Appointment
+            <button 
+              onClick={() => navigateTo('contact')}
+              className="bg-[#0D9488] hover:bg-[#0F766E] text-white px-4 sm:px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all"
+            >
+              Book Your Smile
             </button>
           </div>
         </nav>
@@ -2377,7 +2389,7 @@ export const ClearviewDentistryAustinMockup = () => {
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden absolute top-14 sm:top-16 left-0 right-0 bg-[#1E293B]/98 backdrop-blur-md border-b border-white/5 z-40">
-            {navItems.map(item => (
+            {mobileNavItems.map(item => (
               <button
                 key={item.id}
                 onClick={() => navigateTo(item.id)}
@@ -2390,6 +2402,15 @@ export const ClearviewDentistryAustinMockup = () => {
                 {item.label}
               </button>
             ))}
+            {/* Mobile CTA Button */}
+            <div className="px-6 py-4 border-t border-white/10">
+              <button 
+                onClick={() => navigateTo('contact')}
+                className="w-full bg-[#0D9488] hover:bg-[#0F766E] text-white py-3 rounded-lg text-sm font-semibold transition-all"
+              >
+                Book Your Smile
+              </button>
+            </div>
           </div>
         )}
 
