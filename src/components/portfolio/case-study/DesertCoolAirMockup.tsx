@@ -513,7 +513,7 @@ interface PageProps {
 const HomePage = ({ onNavigate }: PageProps) => (
   <div className="bg-white">
     {/* Hero Section - Mountain background */}
-    <div className="relative min-h-[350px] sm:min-h-[450px] overflow-hidden">
+    <div className="relative h-[404px] md:h-[504px] lg:h-[604px] overflow-hidden">
       <img 
         src={heroMountain} 
         alt="Arizona desert mountains"
