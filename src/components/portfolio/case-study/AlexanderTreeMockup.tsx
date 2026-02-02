@@ -494,10 +494,10 @@ interface HomePageProps extends PageProps {
 }
 
 // HOME PAGE - EXACT MATCH to oak-roots-shine.lovable.app
-// PURE FULLSCREEN HERO - NO visible nav elements on mobile, just content
-const HomePage = ({ onNavigate }: HomePageProps) => (
+// FULLSCREEN HERO with floating nav overlay
+const HomePage = ({ onNavigate, mobileMenuOpen, setMobileMenuOpen, navItems }: HomePageProps) => (
   <div className="bg-white">
-    {/* Hero Section - fills 100% of viewport, NO nav visible */}
+    {/* Hero Section - fills 100% of viewport */}
     <section 
       className="relative flex items-center justify-center overflow-hidden"
       style={{ height: 'calc(500px - 36px)' }}  
@@ -521,8 +521,69 @@ const HomePage = ({ onNavigate }: HomePageProps) => (
       {/* Subtle dark gradient for text readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
       
-      {/* Centered content - NO nav elements visible */}
-      <div className="relative text-center px-5 sm:px-6 max-w-2xl mx-auto">
+      {/* Floating Navigation Overlay - logo left, hamburger right */}
+      <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-4 py-4 sm:px-6">
+        {/* Logo */}
+        <button onClick={() => onNavigate?.('home')} className="flex items-center gap-2">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center">
+            <TreePine className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+          </div>
+          <div className="hidden sm:block">
+            <span className="text-white font-bold text-sm">Alexander Tree</span>
+          </div>
+        </button>
+        
+        {/* Desktop Nav */}
+        <div className="hidden md:flex items-center gap-6">
+          {navItems?.filter(item => item.id !== 'home').map(item => (
+            <button
+              key={item.id}
+              onClick={() => onNavigate?.(item.id)}
+              className="text-white/80 hover:text-white text-xs font-medium transition-colors"
+            >
+              {item.label}
+            </button>
+          ))}
+          <button 
+            onClick={() => onNavigate?.('contact')}
+            className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-4 py-2 rounded-lg text-xs font-semibold transition-all"
+          >
+            Get Free Estimate
+          </button>
+        </div>
+        
+        {/* Mobile Hamburger */}
+        <button 
+          onClick={() => setMobileMenuOpen?.(!mobileMenuOpen)}
+          className="md:hidden p-2.5 rounded-xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors"
+        >
+          {mobileMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
+        </button>
+      </div>
+      
+      {/* Mobile Menu Dropdown */}
+      {mobileMenuOpen && (
+        <div className="absolute top-16 left-4 right-4 z-30 bg-black/80 backdrop-blur-md rounded-xl overflow-hidden border border-white/10">
+          {navItems?.map(item => (
+            <button
+              key={item.id}
+              onClick={() => onNavigate?.(item.id)}
+              className="block w-full text-left px-5 py-4 text-white/90 hover:bg-white/10 text-sm font-medium border-b border-white/5 last:border-b-0 transition-colors"
+            >
+              {item.label}
+            </button>
+          ))}
+          <button 
+            onClick={() => onNavigate?.('contact')}
+            className="block w-full text-left px-5 py-4 bg-[#166534] text-white text-sm font-semibold"
+          >
+            Get Free Estimate →
+          </button>
+        </div>
+      )}
+      
+      {/* Centered content */}
+      <div className="relative text-center px-5 sm:px-6 max-w-2xl mx-auto z-10">
         {/* Main headline - Playfair Display, italic, properly sized for mobile */}
         <h1 
           className="text-white text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.15] mb-4 sm:mb-6"
