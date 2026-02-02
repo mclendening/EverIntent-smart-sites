@@ -264,9 +264,9 @@ export const AlexanderTreeMockup = () => {
       </div>
 
       {/* Website Content */}
-      <div className="h-[calc(100%-2.25rem)] sm:h-[calc(100%-2.75rem)] overflow-y-auto relative bg-[#166534]">
-        {/* Navigation Header */}
-        <nav className="h-14 sm:h-16 bg-[#166534]/95 backdrop-blur-md flex items-center justify-between px-4 sm:px-8 relative z-30 border-b border-white/10">
+      <div ref={contentContainerRef} className="h-[calc(100%-2.25rem)] sm:h-[calc(100%-2.75rem)] overflow-y-auto relative bg-[#166534]">
+        {/* Navigation Header - ABSOLUTE overlay on hero */}
+        <nav className="absolute top-0 left-0 right-0 h-14 sm:h-16 bg-transparent flex items-center justify-between px-4 sm:px-8 z-30">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-white/10 flex items-center justify-center">
               <TreePine className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
@@ -333,14 +333,12 @@ export const AlexanderTreeMockup = () => {
           </div>
         )}
 
-        {/* Page Content */}
-        <div ref={contentContainerRef} className="h-[calc(100%-3.5rem)] sm:h-[calc(100%-4rem)] overflow-y-auto scroll-smooth">
-          {currentPage === 'home' && <HomePage onNavigate={navigateTo} />}
-          {currentPage === 'services' && <ServicesPage onNavigate={navigateTo} />}
-          {currentPage === 'about' && <AboutPage onNavigate={navigateTo} />}
-          {currentPage === 'contact' && <ContactPage />}
-          <FooterSection onNavigate={navigateTo} />
-        </div>
+        {/* Page Content - no inner scroll container needed */}
+        {currentPage === 'home' && <HomePage onNavigate={navigateTo} />}
+        {currentPage === 'services' && <ServicesPage onNavigate={navigateTo} />}
+        {currentPage === 'about' && <AboutPage onNavigate={navigateTo} />}
+        {currentPage === 'contact' && <ContactPage />}
+        <FooterSection onNavigate={navigateTo} />
 
         {/* Chat Prompt Bubble */}
         {!chatOpen && showChatPrompt && (
@@ -488,8 +486,8 @@ interface PageProps {
 // HOME PAGE - EXACT MATCH to spec from oak-roots-shine.lovable.app
 const HomePage = ({ onNavigate }: PageProps) => (
   <div className="bg-white">
-    {/* Hero Section - height = container (500/600/700) minus 96px (chrome + header) */}
-    <section className="relative h-[404px] md:h-[504px] lg:h-[604px] flex items-center justify-center overflow-hidden">
+    {/* Hero Section - height = container minus ONLY browser chrome (36/44px) */}
+    <section className="relative h-[464px] md:h-[556px] lg:h-[656px] flex items-center justify-center overflow-hidden">
       {/* Background image */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
