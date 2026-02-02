@@ -522,10 +522,10 @@ const HomePage = ({ onNavigate }: HomePageProps) => (
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
       
       {/* Centered content - NO nav elements visible */}
-      <div className="relative text-center px-6 max-w-2xl mx-auto">
-        {/* Main headline - Playfair Display, bold italic, larger */}
+      <div className="relative text-center px-5 sm:px-6 max-w-2xl mx-auto">
+        {/* Main headline - Playfair Display, italic, properly sized for mobile */}
         <h1 
-          className="text-white text-[2.5rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6"
+          className="text-white text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.15] mb-4 sm:mb-6"
           style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
         >
           Old School<br />
@@ -534,15 +534,15 @@ const HomePage = ({ onNavigate }: HomePageProps) => (
           Reliability.
         </h1>
         
-        {/* Subheadline */}
-        <p className="text-white/90 text-sm sm:text-base md:text-xl max-w-lg mx-auto leading-relaxed mb-8">
+        {/* Subheadline - smaller on mobile */}
+        <p className="text-white/90 text-xs sm:text-sm md:text-lg max-w-md mx-auto leading-relaxed mb-6 sm:mb-8">
           25+ years of treating every home like our own. No shortcuts. No mess left behind. Just honest, expert tree and landscape service.
         </p>
         
-        {/* CTA Button - WHITE bg, green text, prominent */}
+        {/* CTA Button - WHITE bg, green text, properly sized */}
         <button 
           onClick={() => onNavigate?.('contact')}
-          className="bg-white hover:bg-gray-50 text-green-800 text-sm sm:text-base font-semibold px-8 py-4 sm:px-10 sm:py-5 rounded shadow-xl hover:shadow-2xl transition-all border border-white/80"
+          className="bg-white hover:bg-gray-50 text-green-800 text-xs sm:text-sm md:text-base font-semibold px-6 py-3 sm:px-8 sm:py-4 rounded shadow-xl hover:shadow-2xl transition-all"
         >
           Get Your Free Estimate
         </button>
