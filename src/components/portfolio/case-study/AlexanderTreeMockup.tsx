@@ -485,59 +485,50 @@ interface PageProps {
   onNavigate?: (page: MockupPage) => void;
 }
 
-// HOME PAGE - Matching the real site exactly
+// HOME PAGE - EXACT MATCH to spec from oak-roots-shine.lovable.app
 const HomePage = ({ onNavigate }: PageProps) => (
   <div className="bg-white">
-    {/* Hero Section - Centered like the real site */}
-    <div className="relative h-[404px] md:h-[504px] lg:h-[604px] overflow-hidden">
-      <img 
-        src={heroBackground} 
-        alt="Beautiful oak tree in residential neighborhood"
-        className="absolute inset-0 w-full h-full object-cover"
+    {/* Hero Section - EXACT match to spec */}
+    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      {/* Background image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${heroBackground})` }}
       />
-      {/* Dark overlay matching real site */}
-      <div className="absolute inset-0 bg-black/30" />
       
-      {/* Centered content - exact match to real site */}
-      <div className="relative h-full flex flex-col items-center justify-center text-center px-6">
-        {/* Main headlines - Playfair Display italic, ~72px on desktop */}
+      {/* Gradient overlay - from-black/50 via-black/40 to-black/60 */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" />
+      
+      {/* Centered content */}
+      <div className="relative text-center px-6">
+        {/* Main headline - Playfair Display, bold, text-5xl md:text-7xl */}
         <h1 
-          className="text-white text-4xl sm:text-6xl lg:text-7xl mb-2 leading-[1.05] font-light"
-          style={{ fontFamily: "'Playfair Display', Georgia, 'Times New Roman', serif", fontStyle: 'italic' }}
+          className="text-white text-5xl md:text-7xl font-bold leading-tight mb-6"
+          style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
         >
-          Old School Craftsmanship.
-        </h1>
-        <h1 
-          className="text-white text-4xl sm:text-6xl lg:text-7xl mb-8 leading-[1.05] font-light"
-          style={{ fontFamily: "'Playfair Display', Georgia, 'Times New Roman', serif", fontStyle: 'italic' }}
-        >
+          Old School Craftsmanship.<br />
           Modern Reliability.
         </h1>
         
-        {/* Subtext */}
-        <p className="text-white/80 text-base sm:text-lg lg:text-xl mb-10 max-w-2xl leading-relaxed font-light">
+        {/* Subheadline - text-xl md:text-2xl, white/90 */}
+        <p className="text-white/90 text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed mb-8">
           25+ years of treating every home like our own. No shortcuts. No mess left behind. Just honest, expert tree and landscape service.
         </p>
         
-        {/* Gold CTA button - matches btn-gold styling */}
+        {/* CTA Button - WHITE bg, green-900 text, large padding px-10 py-7 */}
         <button 
           onClick={() => onNavigate?.('contact')}
-          className="px-8 sm:px-10 py-3.5 sm:py-4 rounded font-semibold text-sm sm:text-base tracking-wide transition-all"
-          style={{ 
-            background: 'hsl(43, 85%, 50%)', 
-            color: 'hsl(0, 0%, 5%)',
-            boxShadow: '0 4px 14px hsla(43, 76%, 55%, 0.3)'
-          }}
+          className="bg-white hover:bg-green-50 text-green-900 text-lg font-semibold px-10 py-7 rounded shadow-xl hover:shadow-2xl transition-all"
         >
           Get Your Free Estimate
         </button>
         
-        {/* Footer text */}
-        <p className="text-white/50 text-xs sm:text-sm mt-10 tracking-wide">
+        {/* Service area tagline - text-sm text-white/70 */}
+        <p className="text-white/70 text-sm mt-6">
           Serving Greater Orange County Since 1999
         </p>
       </div>
-    </div>
+    </section>
 
     {/* Services Section */}
     <div className="px-6 sm:px-10 py-14 sm:py-20 bg-white">
