@@ -493,67 +493,39 @@ interface HomePageProps extends PageProps {
   navItems?: readonly { id: MockupPage; label: string }[];
 }
 
-// HOME PAGE - EXACT MATCH to spec from oak-roots-shine.lovable.app
-// NO visible navigation on hero - fully immersive like the real site
-const HomePage = ({ onNavigate, mobileMenuOpen, setMobileMenuOpen, navItems }: HomePageProps) => (
+// HOME PAGE - EXACT MATCH to oak-roots-shine.lovable.app
+// PURE FULLSCREEN HERO - NO visible nav elements on mobile, just content
+const HomePage = ({ onNavigate }: HomePageProps) => (
   <div className="bg-white">
-    {/* Hero Section - fills 100% of content container height (no green bar visible) */}
-    {/* Mobile: 500px container - 36px chrome = 464px; Tablet: 600px - 44px = 556px; Desktop: 700px - 44px = 656px */}
-    <section className="relative h-[calc(500px-36px)] md:h-[calc(600px-44px)] lg:h-[calc(700px-44px)] flex items-center justify-center overflow-hidden">
-      {/* Background image */}
+    {/* Hero Section - fills 100% of viewport, NO nav visible */}
+    <section 
+      className="relative flex items-center justify-center overflow-hidden"
+      style={{ height: 'calc(500px - 36px)' }}  
+    >
+      {/* On md+, adjust for larger chrome */}
+      <style>{`
+        @media (min-width: 768px) {
+          section:first-child { height: calc(600px - 44px) !important; }
+        }
+        @media (min-width: 1024px) {
+          section:first-child { height: calc(700px - 44px) !important; }
+        }
+      `}</style>
+      
+      {/* Background image - edge to edge */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${heroBackground})` }}
       />
       
-      {/* Gradient overlay - from-black/50 via-black/40 to-black/60 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" />
+      {/* Subtle dark gradient for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
       
-      {/* Floating hamburger menu - top right, minimal */}
-      <button 
-        className="absolute top-4 right-4 p-3 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors z-30"
-        onClick={() => setMobileMenuOpen?.(!mobileMenuOpen)}
-      >
-        {mobileMenuOpen ? <X className="w-6 h-6 text-white" /> : <Menu className="w-6 h-6 text-white" />}
-      </button>
-      
-      {/* Floating logo - top left */}
-      <button 
-        className="absolute top-4 left-4 flex items-center gap-2 z-30"
-        onClick={() => onNavigate?.('home')}
-      >
-        <div className="w-9 h-9 rounded-lg bg-white/10 backdrop-blur-sm flex items-center justify-center">
-          <TreePine className="w-5 h-5 text-white" />
-        </div>
-        <span className="text-white font-semibold text-sm">Alexander Tree</span>
-      </button>
-      
-      {/* Mobile Menu Overlay */}
-      {mobileMenuOpen && navItems && (
-        <div className="absolute top-16 left-4 right-4 bg-[#166534]/95 backdrop-blur-md rounded-xl shadow-2xl z-40 overflow-hidden">
-          {navItems.map(item => (
-            <button
-              key={item.id}
-              onClick={() => { onNavigate?.(item.id); setMobileMenuOpen?.(false); }}
-              className="block w-full text-left px-6 py-4 text-sm font-medium text-white/90 hover:bg-white/10 transition-all border-b border-white/5 last:border-0"
-            >
-              {item.label}
-            </button>
-          ))}
-          <button
-            onClick={() => { onNavigate?.('contact'); setMobileMenuOpen?.(false); }}
-            className="block w-full text-center px-6 py-4 text-sm font-bold bg-white text-green-900"
-          >
-            Get Your Free Estimate
-          </button>
-        </div>
-      )}
-      
-      {/* Centered content */}
-      <div className="relative text-center px-6">
-        {/* Main headline - Playfair Display, bold italic */}
+      {/* Centered content - NO nav elements visible */}
+      <div className="relative text-center px-6 max-w-2xl mx-auto">
+        {/* Main headline - Playfair Display, bold italic, larger */}
         <h1 
-          className="text-white text-4xl sm:text-5xl md:text-7xl font-bold leading-tight mb-6"
+          className="text-white text-[2.5rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6"
           style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
         >
           Old School<br />
@@ -562,20 +534,20 @@ const HomePage = ({ onNavigate, mobileMenuOpen, setMobileMenuOpen, navItems }: H
           Reliability.
         </h1>
         
-        {/* Subheadline - text-lg md:text-2xl, white/90 */}
-        <p className="text-white/90 text-base sm:text-lg md:text-2xl max-w-xl mx-auto leading-relaxed mb-8">
+        {/* Subheadline */}
+        <p className="text-white/90 text-sm sm:text-base md:text-xl max-w-lg mx-auto leading-relaxed mb-8">
           25+ years of treating every home like our own. No shortcuts. No mess left behind. Just honest, expert tree and landscape service.
         </p>
         
-        {/* CTA Button - WHITE bg, green-900 text, large padding */}
+        {/* CTA Button - WHITE bg, green text, prominent */}
         <button 
           onClick={() => onNavigate?.('contact')}
-          className="bg-white hover:bg-green-50 text-green-900 text-base sm:text-lg font-semibold px-8 sm:px-10 py-5 sm:py-7 rounded shadow-xl hover:shadow-2xl transition-all"
+          className="bg-white hover:bg-gray-50 text-green-800 text-sm sm:text-base font-semibold px-8 py-4 sm:px-10 sm:py-5 rounded shadow-xl hover:shadow-2xl transition-all border border-white/80"
         >
           Get Your Free Estimate
         </button>
         
-        {/* Service area tagline - text-sm text-white/70 */}
+        {/* Service area tagline */}
         <p className="text-white/70 text-xs sm:text-sm mt-6">
           Serving Greater Orange County Since 1999
         </p>
