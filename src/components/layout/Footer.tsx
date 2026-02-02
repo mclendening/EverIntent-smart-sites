@@ -77,7 +77,7 @@ const socialLinks = [
  * @component
  */
 export function Footer() {
-  const currentYear = 2026;
+  const currentYear = new Date().getFullYear();
 
   return (
     <footer className="relative bg-card border-t border-border/20">
