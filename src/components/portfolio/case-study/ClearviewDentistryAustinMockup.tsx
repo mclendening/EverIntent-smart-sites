@@ -2074,7 +2074,7 @@ export const ClearviewDentistryAustinMockup = () => {
               </div>
             </div>
             <div className="mt-6 pt-4 border-t border-white/10 text-center text-white/40 text-xs">
-              © 2024 Clearview Dentistry Austin. All rights reserved.
+              © 2026 Clearview Dentistry Austin. All rights reserved.
             </div>
           </footer>
         </div>
