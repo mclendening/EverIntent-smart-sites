@@ -498,37 +498,42 @@ const HomePage = ({ onNavigate }: PageProps) => (
       {/* Dark overlay matching real site */}
       <div className="absolute inset-0 bg-black/30" />
       
-      {/* Centered content like the real site */}
+      {/* Centered content - exact match to real site */}
       <div className="relative h-full flex flex-col items-center justify-center text-center px-6">
-        {/* Main headline - serif italic font using inline style to match real site */}
+        {/* Main headlines - Playfair Display italic, ~72px on desktop */}
         <h1 
-          className="text-white text-3xl sm:text-5xl lg:text-6xl mb-1 leading-[1.1]"
-          style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+          className="text-white text-4xl sm:text-6xl lg:text-7xl mb-2 leading-[1.05] font-light"
+          style={{ fontFamily: "'Playfair Display', Georgia, 'Times New Roman', serif", fontStyle: 'italic' }}
         >
           Old School Craftsmanship.
         </h1>
         <h1 
-          className="text-white text-3xl sm:text-5xl lg:text-6xl mb-6 leading-[1.1]"
-          style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+          className="text-white text-4xl sm:text-6xl lg:text-7xl mb-8 leading-[1.05] font-light"
+          style={{ fontFamily: "'Playfair Display', Georgia, 'Times New Roman', serif", fontStyle: 'italic' }}
         >
           Modern Reliability.
         </h1>
         
-        {/* Subtext - matches real site exactly */}
-        <p className="text-white/90 text-sm sm:text-base lg:text-lg mb-8 max-w-2xl leading-relaxed">
+        {/* Subtext */}
+        <p className="text-white/80 text-base sm:text-lg lg:text-xl mb-10 max-w-2xl leading-relaxed font-light">
           25+ years of treating every home like our own. No shortcuts. No mess left behind. Just honest, expert tree and landscape service.
         </p>
         
-        {/* Single CTA - white button with green text, matching real site */}
+        {/* Gold CTA button - matches btn-gold styling */}
         <button 
           onClick={() => onNavigate?.('contact')}
-          className="bg-white hover:bg-gray-100 text-[#166534] px-8 sm:px-10 py-3 sm:py-4 rounded-lg text-sm sm:text-base font-semibold transition-all shadow-lg"
+          className="px-8 sm:px-10 py-3.5 sm:py-4 rounded font-semibold text-sm sm:text-base tracking-wide transition-all"
+          style={{ 
+            background: 'hsl(43, 85%, 50%)', 
+            color: 'hsl(0, 0%, 5%)',
+            boxShadow: '0 4px 14px hsla(43, 76%, 55%, 0.3)'
+          }}
         >
           Get Your Free Estimate
         </button>
         
-        {/* Footer text - below button */}
-        <p className="text-white/60 text-xs sm:text-sm mt-8">
+        {/* Footer text */}
+        <p className="text-white/50 text-xs sm:text-sm mt-10 tracking-wide">
           Serving Greater Orange County Since 1999
         </p>
       </div>
