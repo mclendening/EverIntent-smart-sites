@@ -25,7 +25,7 @@ import sprinklerRepair from '@/assets/portfolio/alexandertree/sprinkler-repair.j
 import haulingCleanup from '@/assets/portfolio/alexandertree/hauling-cleanup.jpg';
 import plantingSod from '@/assets/portfolio/alexandertree/planting-sod.jpg';
 import alexanderPortrait from '@/assets/portfolio/alexandertree/alexander-portrait.jpg';
-import heroScreenshot from '@/assets/portfolio/alexandertree/hero-screenshot.jpg';
+import heroBackground from '@/assets/portfolio/alexandertree/hero-background.jpg';
 
 type MockupPage = 'home' | 'services' | 'about' | 'contact';
 
@@ -491,7 +491,7 @@ const HomePage = ({ onNavigate }: PageProps) => (
     {/* Hero Section - Centered like the real site */}
     <div className="relative h-[404px] md:h-[504px] lg:h-[604px] overflow-hidden">
       <img 
-        src={heroScreenshot} 
+        src={heroBackground} 
         alt="Beautiful oak tree in residential neighborhood"
         className="absolute inset-0 w-full h-full object-cover"
       />
