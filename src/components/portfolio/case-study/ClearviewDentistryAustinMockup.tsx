@@ -1938,105 +1938,97 @@ const DataRightsPage = ({ navigateTo }: { navigateTo: (page: MockupPage) => void
 // ============================================
 const MockupFooter = ({ navigateTo }: { navigateTo: (page: MockupPage) => void }) => (
   <footer className="bg-[#1E293B] text-white">
-    {/* MAIN FOOTER CONTENT */}
-    <div className="px-6 py-8">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-        {/* Left: Brand, Tagline, CTA */}
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2">
+    {/* 4-COLUMN FOOTER */}
+    <div className="px-6 py-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Column 1: Brand */}
+        <div>
+          <div className="flex items-center gap-2 mb-3">
             <span className="text-[#0D9488] text-xl">✦</span>
             <span className="font-bold text-lg">Clearview Dentistry Austin</span>
           </div>
-          <p className="text-white/60 text-sm">
-            Gentle care for your whole family since 2012.
-          </p>
-          <p className="text-[#0D9488] text-sm font-medium">
-            Now accepting new patients.
-          </p>
-        </div>
-        
-        {/* Right: CTA Button + Social Icons */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <button
-            onClick={() => navigateTo('contact')}
-            className="flex items-center gap-2 bg-[#0D9488] text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity"
-          >
-            <Phone className="w-4 h-4" />
-            Book a Call
-          </button>
-          
-          {/* Social Icons */}
+          <p className="text-gray-400 text-sm mb-4">Gentle care for your whole family since 2012.</p>
           <div className="flex items-center gap-3">
-            <a href="#" className="text-white/40 hover:text-white/70 transition-colors">
-              <Facebook className="w-5 h-5" />
+            <a href="#" className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
+              <Facebook className="w-4 h-4" />
             </a>
-            <a href="#" className="text-white/40 hover:text-white/70 transition-colors">
-              <Twitter className="w-5 h-5" />
+            <a href="#" className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
+              <Twitter className="w-4 h-4" />
             </a>
-            <a href="#" className="text-white/40 hover:text-white/70 transition-colors">
-              <Linkedin className="w-5 h-5" />
+            <a href="#" className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors text-xs font-bold">
+              G
             </a>
           </div>
         </div>
-      </div>
-      
-      {/* Contact Info Row */}
-      <div className="mt-6 pt-4 border-t border-white/10 text-center">
-        <div className="flex flex-wrap justify-center items-center gap-2 text-sm text-white/60">
-          <span className="flex items-center gap-1">
-            <Mail className="w-3.5 h-3.5" />
-            info@clearviewdentistryaustin.com
-          </span>
-          <span className="hidden sm:inline">•</span>
-          <span className="flex items-center gap-1">
-            <Phone className="w-3.5 h-3.5" />
-            (512) 555-0123
-          </span>
+
+        {/* Column 2: Quick Links */}
+        <div>
+          <h4 className="font-semibold text-white mb-4">Quick Links</h4>
+          <div className="space-y-2">
+            <button onClick={() => navigateTo('home')} className="block text-gray-400 text-sm hover:text-white transition-colors">Home</button>
+            <button onClick={() => navigateTo('services')} className="block text-gray-400 text-sm hover:text-white transition-colors">Services</button>
+            <button onClick={() => navigateTo('about')} className="block text-gray-400 text-sm hover:text-white transition-colors">About Us</button>
+            <button onClick={() => navigateTo('contact')} className="block text-gray-400 text-sm hover:text-white transition-colors">Contact</button>
+            <button onClick={() => navigateTo('privacy')} className="block text-gray-400 text-sm hover:text-white transition-colors">Privacy Policy</button>
+            <button onClick={() => navigateTo('terms')} className="block text-gray-400 text-sm hover:text-white transition-colors">Terms of Service</button>
+          </div>
         </div>
-        <p className="text-white/40 text-xs mt-2">1234 Oak Street, Austin, TX 78701</p>
+
+        {/* Column 3: Services */}
+        <div>
+          <h4 className="font-semibold text-white mb-4">Services</h4>
+          <div className="space-y-2">
+            <button onClick={() => navigateTo('service-general')} className="block text-gray-400 text-sm hover:text-white transition-colors">General Dentistry</button>
+            <button onClick={() => navigateTo('service-cosmetic')} className="block text-gray-400 text-sm hover:text-white transition-colors">Cosmetic Dentistry</button>
+            <button onClick={() => navigateTo('service-invisalign')} className="block text-gray-400 text-sm hover:text-white transition-colors">Invisalign</button>
+            <button onClick={() => navigateTo('service-pediatric')} className="block text-gray-400 text-sm hover:text-white transition-colors">Pediatric Dentistry</button>
+            <button onClick={() => navigateTo('service-emergency')} className="block text-gray-400 text-sm hover:text-white transition-colors">Emergency Care</button>
+            <button onClick={() => navigateTo('service-whitening')} className="block text-gray-400 text-sm hover:text-white transition-colors">Teeth Whitening</button>
+          </div>
+        </div>
+
+        {/* Column 4: Contact */}
+        <div>
+          <h4 className="font-semibold text-white mb-4">Contact</h4>
+          <div className="space-y-3">
+            <div className="flex items-start gap-3">
+              <Phone className="w-4 h-4 text-[#0D9488] mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="text-white text-sm font-medium">(512) 555-0123</p>
+                <p className="text-gray-500 text-xs">Same-Day Appointments</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <Mail className="w-4 h-4 text-[#0D9488] flex-shrink-0" />
+              <p className="text-gray-400 text-sm">info@clearviewdentistryaustin.com</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <MapPin className="w-4 h-4 text-[#0D9488] flex-shrink-0" />
+              <p className="text-gray-400 text-sm">Austin, TX Metro Area</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    
+
     {/* DISCLAIMER SECTION */}
     <div className="bg-[#0F172A] px-6 py-4 text-center space-y-2">
-      {/* Business Copyright */}
       <p className="text-white/50 text-xs">
         © 2024 Clearview Dentistry Austin. Professional Dental Services in Austin.
       </p>
-      
-      {/* Demo Site Notice */}
       <p className="text-white/40 text-[10px] leading-relaxed">
         This website is operated by EverIntent LLC. Services are performed by licensed independent third-party providers in your area.
       </p>
-      
+
       {/* EverIntent Attribution */}
       <div className="pt-2 border-t border-white/5 space-y-1">
-        <p className="text-white/50 text-[10px] font-medium">
-          EverIntent LLC
-        </p>
-        <p className="text-white/30 text-[10px]">
-          2892 N Bellflower Blvd PMB 1018, Long Beach, CA 90815
-        </p>
+        <p className="text-white/50 text-[10px] font-medium">EverIntent LLC</p>
+        <p className="text-white/30 text-[10px]">2892 N Bellflower Blvd PMB 1018, Long Beach, CA 90815</p>
         <p className="text-white/30 text-[10px]">
           (562) 685-9500 | 
-          <button onClick={() => navigateTo('privacy')} className="hover:text-gray-400 transition-colors ml-1">Privacy Policy</button> | 
-          <button onClick={() => navigateTo('terms')} className="hover:text-gray-400 transition-colors ml-1">Terms of Service</button>
+          <button onClick={() => navigateTo('privacy')} className="hover:text-gray-400 ml-1">Privacy Policy</button> | 
+          <button onClick={() => navigateTo('terms')} className="hover:text-gray-400 ml-1">Terms of Service</button>
         </p>
-      </div>
-    </div>
-    
-    {/* LEGAL LINKS BAR */}
-    <div className="bg-[#020617] px-6 py-3">
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px]">
-        <p className="text-white/30">
-          © 2026 EverIntent LLC. All rights reserved.
-        </p>
-        <div className="flex items-center gap-4 text-white/40">
-          <button onClick={() => navigateTo('privacy')} className="hover:text-gray-300 transition-colors">Privacy</button>
-          <button onClick={() => navigateTo('cookies')} className="hover:text-gray-300 transition-colors">Cookies</button>
-          <button onClick={() => navigateTo('terms')} className="hover:text-gray-300 transition-colors">Terms</button>
-          <button onClick={() => navigateTo('data-rights')} className="hover:text-gray-300 transition-colors">Data Rights</button>
-        </div>
       </div>
     </div>
   </footer>
