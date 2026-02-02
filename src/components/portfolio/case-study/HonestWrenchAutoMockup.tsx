@@ -136,6 +136,363 @@ const INITIAL_BOT_MESSAGE: ChatMessage = {
 };
 
 // =============================================================================
+// SERVICE DATA
+// =============================================================================
+
+const SERVICES = [
+  { id: 'service-oil' as MockupPage, name: 'Oil Change & Maintenance', desc: 'Keep your engine running smooth', img: IMAGES.oilChange },
+  { id: 'service-brakes' as MockupPage, name: 'Brake Service', desc: 'Safety you can count on', img: IMAGES.brakeService },
+  { id: 'service-engine' as MockupPage, name: 'Engine Diagnostics', desc: 'Find the real problem', img: IMAGES.engineDiag },
+  { id: 'service-transmission' as MockupPage, name: 'Transmission Service', desc: 'Smooth shifts, longer life', img: IMAGES.transmission },
+  { id: 'service-tires' as MockupPage, name: 'Tires & Alignment', desc: 'Better handling, even wear', img: IMAGES.tires },
+  { id: 'service-ac' as MockupPage, name: 'A/C & Heating', desc: 'Stay comfortable year-round', img: IMAGES.acHeating },
+];
+
+const TESTIMONIALS = [
+  { 
+    name: 'James Martinez', 
+    location: 'Riverside', 
+    quote: "Finally found a shop I can trust. Marcus showed me photos of exactly what was wrong with my brakes—no pressure, just honest info. I've been coming back for 3 years now.", 
+    img: IMAGES.testimonialJames 
+  },
+  { 
+    name: 'Linda Chen', 
+    location: 'Corona', 
+    quote: "As a busy professional, I appreciate that they text me updates and never try to upsell unnecessary services. My whole family brings their cars here.", 
+    img: IMAGES.testimonialLinda 
+  },
+  { 
+    name: 'Tyler Rodriguez', 
+    location: 'Moreno Valley', 
+    quote: "First time getting my own car serviced and I was nervous about getting ripped off. These guys explained everything in plain English and the price was exactly what they quoted.", 
+    img: IMAGES.testimonialTyler 
+  },
+];
+
+// =============================================================================
+// HOME PAGE COMPONENT
+// =============================================================================
+
+interface HomePageProps {
+  navigateTo: (page: MockupPage) => void;
+}
+
+const HomePage: React.FC<HomePageProps> = ({ navigateTo }) => (
+  <div>
+    {/* HERO - FULL VIEWPORT HEIGHT */}
+    <div className="relative h-[404px] md:h-[504px] lg:h-[604px] overflow-hidden">
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center scale-105"
+        style={{ backgroundImage: `url(${IMAGES.heroShop})` }}
+      />
+      {/* Gradient Overlay */}
+      <div 
+        className="absolute inset-0"
+        style={{ 
+          background: `linear-gradient(to right, ${COLORS.primary}F2, ${COLORS.primary}CC, transparent)` 
+        }}
+      />
+      
+      {/* Hero Content */}
+      <div className="relative z-10 h-full flex flex-col justify-center px-6">
+        {/* Eyebrow */}
+        <span 
+          className="text-xs font-medium uppercase tracking-wider mb-2"
+          style={{ color: COLORS.accent }}
+        >
+          ★ 5-Star Rated • Serving Riverside Since 2008
+        </span>
+        
+        {/* Main Headline */}
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 max-w-lg leading-tight">
+          Honest Auto Repair You Can Actually Trust
+        </h1>
+        
+        {/* Subheadline */}
+        <p className="text-white/90 text-sm md:text-base mb-4 max-w-md">
+          We show you exactly what's wrong—with photos—before we touch a wrench. No surprises, no pressure, just straight talk.
+        </p>
+        
+        {/* Trust Badges */}
+        <div className="flex flex-wrap gap-4 text-white/80 text-xs mb-6">
+          <span className="flex items-center gap-1">
+            <Check className="w-3 h-3" /> ASE Certified Techs
+          </span>
+          <span className="flex items-center gap-1">
+            <Check className="w-3 h-3" /> 24-Month Warranty
+          </span>
+          <span className="flex items-center gap-1">
+            <Check className="w-3 h-3" /> Free Inspections
+          </span>
+        </div>
+        
+        {/* CTA Buttons */}
+        <div className="flex flex-wrap gap-3">
+          <button 
+            onClick={() => navigateTo('contact')}
+            className="flex items-center gap-2 bg-white text-gray-900 px-6 py-3 rounded-xl font-bold text-sm shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
+          >
+            <Calendar className="w-4 h-4" />
+            Schedule Service
+          </button>
+          <button 
+            onClick={() => navigateTo('services')}
+            className="bg-white/10 backdrop-blur text-white px-6 py-3 rounded-xl font-semibold text-sm border border-white/20 hover:bg-white/20 transition-all"
+          >
+            View Services →
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    {/* VALUE PROP BAR */}
+    <div 
+      className="px-6 py-4 text-white"
+      style={{ backgroundColor: COLORS.accent }}
+    >
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div>
+          <p className="font-bold text-sm">🔧 Digital Inspections with Every Service</p>
+          <p className="text-white/80 text-xs">Photos & video sent to your phone—see exactly what we see</p>
+        </div>
+        <button 
+          onClick={() => navigateTo('about')}
+          className="bg-white/20 backdrop-blur px-4 py-2 rounded-lg text-xs font-semibold hover:bg-white/30 transition-colors whitespace-nowrap"
+        >
+          Learn How It Works
+        </button>
+      </div>
+    </div>
+    
+    {/* SERVICES PREVIEW */}
+    <div className="px-6 py-10 bg-white">
+      <div className="text-center mb-8">
+        <span 
+          className="text-xs font-medium uppercase tracking-wider"
+          style={{ color: COLORS.primary }}
+        >
+          What We Do
+        </span>
+        <h2 className="text-xl font-bold text-gray-800 mt-1">Expert Auto Repair Services</h2>
+      </div>
+      
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {SERVICES.map((service) => (
+          <div 
+            key={service.id}
+            onClick={() => navigateTo(service.id)}
+            className="group cursor-pointer"
+          >
+            <div className="relative rounded-xl overflow-hidden mb-3">
+              <img 
+                src={service.img} 
+                alt={service.name}
+                className="w-full h-28 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            </div>
+            <h3 
+              className="font-semibold text-gray-800 text-sm group-hover:text-[#1E3A5F] transition-colors"
+            >
+              {service.name}
+            </h3>
+            <p className="text-gray-500 text-xs">{service.desc}</p>
+          </div>
+        ))}
+      </div>
+      
+      <div className="text-center mt-8">
+        <button 
+          onClick={() => navigateTo('services')}
+          className="font-semibold text-sm hover:underline"
+          style={{ color: COLORS.primary }}
+        >
+          View All Services →
+        </button>
+      </div>
+    </div>
+    
+    {/* WHY CHOOSE US */}
+    <div className="px-6 py-10 bg-[#FAFAF9]">
+      <div className="text-center mb-8">
+        <span 
+          className="text-xs font-medium uppercase tracking-wider"
+          style={{ color: COLORS.primary }}
+        >
+          Why Us
+        </span>
+        <h2 className="text-xl font-bold text-gray-800 mt-1">Why Customers Choose Honest Wrench</h2>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {[
+          { 
+            icon: <Camera className="w-6 h-6" />, 
+            title: 'See Before You Pay', 
+            desc: 'Digital inspections with photos sent to your phone before any work begins' 
+          },
+          { 
+            icon: <Shield className="w-6 h-6" />, 
+            title: 'No Upsell Guarantee', 
+            desc: "We'll never recommend repairs you don't need—period" 
+          },
+          { 
+            icon: <Award className="w-6 h-6" />, 
+            title: '24-Month Warranty', 
+            desc: '24 months / 24,000 miles on all repairs, parts and labor' 
+          },
+        ].map((item, i) => (
+          <div key={i} className="bg-white rounded-2xl p-6 shadow-sm text-center">
+            <div 
+              className="w-12 h-12 rounded-xl mx-auto mb-4 flex items-center justify-center"
+              style={{ backgroundColor: `${COLORS.accent}20`, color: COLORS.accent }}
+            >
+              {item.icon}
+            </div>
+            <h3 className="font-bold text-gray-800 mb-2 text-sm">{item.title}</h3>
+            <p className="text-gray-500 text-xs">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    {/* MEET THE OWNER */}
+    <div className="px-6 py-10 bg-white">
+      <div className="flex flex-col md:flex-row items-center gap-6">
+        <img 
+          src={IMAGES.ownerMarcus}
+          alt="Marcus Reyes"
+          className="w-28 h-28 rounded-2xl object-cover shadow-lg flex-shrink-0"
+        />
+        <div>
+          <span 
+            className="text-xs font-medium uppercase tracking-wider"
+            style={{ color: COLORS.primary }}
+          >
+            Meet the Owner
+          </span>
+          <h2 className="text-xl font-bold text-gray-800 mt-1 mb-2">Marcus Reyes</h2>
+          <p className="text-gray-600 text-sm mb-4">
+            After 12 years watching dealerships pressure customers into unnecessary repairs, 
+            I started Honest Wrench with a simple promise: treat every customer like family. 
+            We show you what's wrong, explain it in plain English, and let you decide.
+          </p>
+          <button 
+            onClick={() => navigateTo('about')}
+            className="font-semibold text-sm hover:underline"
+            style={{ color: COLORS.primary }}
+          >
+            Read Our Story →
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    {/* TESTIMONIALS */}
+    <div className="px-6 py-10 bg-[#FAFAF9]">
+      <div className="text-center mb-8">
+        <span 
+          className="text-xs font-medium uppercase tracking-wider"
+          style={{ color: COLORS.primary }}
+        >
+          Reviews
+        </span>
+        <h2 className="text-xl font-bold text-gray-800 mt-1">What Our Customers Say</h2>
+      </div>
+      
+      <div className="space-y-4">
+        {TESTIMONIALS.map((testimonial, i) => (
+          <div key={i} className="bg-white rounded-2xl p-5 shadow-sm">
+            <div className="flex items-start gap-4">
+              <img 
+                src={testimonial.img}
+                alt={testimonial.name}
+                className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+              />
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="font-semibold text-gray-800 text-sm">{testimonial.name}</span>
+                  <span className="text-gray-400 text-xs">• {testimonial.location}</span>
+                </div>
+                <div className="flex text-yellow-400 text-sm mb-2">★★★★★</div>
+                <p className="text-gray-600 text-sm italic">"{testimonial.quote}"</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    {/* FINAL CTA */}
+    <div 
+      className="mx-6 my-8 rounded-2xl p-8 text-center text-white shadow-xl relative overflow-hidden"
+      style={{ 
+        background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primary}CC)` 
+      }}
+    >
+      {/* Decorative elements */}
+      <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+      
+      <div className="relative z-10">
+        <h2 className="text-xl font-bold mb-2">Ready for Honest Auto Care?</h2>
+        <p className="text-white/80 text-sm mb-6 max-w-md mx-auto">
+          Schedule your service today. Free inspections, upfront pricing, and no pressure—ever.
+        </p>
+        <button 
+          onClick={() => navigateTo('contact')}
+          className="bg-white text-gray-900 px-8 py-3 rounded-xl font-bold text-sm shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
+          style={{ color: COLORS.primary }}
+        >
+          Get Your Free Inspection
+        </button>
+      </div>
+    </div>
+    
+    {/* FOOTER */}
+    <footer 
+      className="px-6 py-8 text-white"
+      style={{ backgroundColor: COLORS.primary }}
+    >
+      <div className="flex flex-col md:flex-row justify-between gap-6">
+        <div>
+          <div className="flex items-center gap-2 mb-3">
+            <div 
+              className="w-8 h-8 rounded-lg flex items-center justify-center"
+              style={{ backgroundColor: COLORS.accent }}
+            >
+              <Wrench className="w-5 h-5 text-white" />
+            </div>
+            <span className="font-bold">{BUSINESS.name}</span>
+          </div>
+          <p className="text-white/70 text-xs mb-2">{BUSINESS.tagline}</p>
+        </div>
+        
+        <div className="text-sm space-y-2 text-white/80">
+          <div className="flex items-center gap-2">
+            <MapPin className="w-4 h-4" />
+            <span className="text-xs">{BUSINESS.address}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Phone className="w-4 h-4" />
+            <span className="text-xs">{BUSINESS.phone}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Clock className="w-4 h-4" />
+            <span className="text-xs">{BUSINESS.hours}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div className="mt-6 pt-6 border-t border-white/20 text-center text-white/50 text-xs">
+        © 2024 {BUSINESS.name}. All rights reserved.
+      </div>
+    </footer>
+  </div>
+);
+
+// =============================================================================
 // MAIN COMPONENT
 // =============================================================================
 
@@ -533,17 +890,21 @@ export const HonestWrenchAutoMockup: React.FC = () => {
         ref={contentContainerRef}
         className="flex-1 overflow-y-auto overflow-x-hidden bg-[#FAFAFA]"
       >
-        {/* Placeholder - will be replaced with page components */}
-        <div className="flex items-center justify-center h-full">
-          <div className="text-center p-8">
-            <Wrench className="w-16 h-16 mx-auto mb-4" style={{ color: COLORS.primary }} />
-            <h2 className="text-2xl font-bold mb-2" style={{ color: COLORS.primary }}>
-              {BUSINESS.name}
-            </h2>
-            <p className="text-gray-600">{BUSINESS.tagline}</p>
-            <p className="text-sm text-gray-400 mt-4">Current Page: {currentPage}</p>
+        {currentPage === 'home' && <HomePage navigateTo={navigateTo} />}
+        
+        {/* Placeholder for other pages */}
+        {currentPage !== 'home' && (
+          <div className="flex items-center justify-center h-full">
+            <div className="text-center p-8">
+              <Wrench className="w-16 h-16 mx-auto mb-4" style={{ color: COLORS.primary }} />
+              <h2 className="text-2xl font-bold mb-2" style={{ color: COLORS.primary }}>
+                {BUSINESS.name}
+              </h2>
+              <p className="text-gray-600">{BUSINESS.tagline}</p>
+              <p className="text-sm text-gray-400 mt-4">Current Page: {currentPage}</p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Chat Bubble Prompt (when closed) */}
