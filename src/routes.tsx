@@ -45,6 +45,7 @@ import Portfolio from './pages/Portfolio';
 import DesertCoolAir from './pages/portfolio/DesertCoolAir';
 import ClearviewDentistryAustin from './pages/portfolio/ClearviewDentistryAustin';
 import AlexanderTree from './pages/portfolio/AlexanderTree';
+import HonestWrenchAuto from './pages/portfolio/HonestWrenchAuto';
 import Industries from './pages/Industries';
 import HomeServices from './pages/industries/HomeServices';
 import ProfessionalServices from './pages/industries/ProfessionalServices';
@@ -453,6 +454,10 @@ export const routes: RouteRecord[] = [
       {
         path: 'portfolio/alexander-tree',
         Component: AlexanderTree,
+      },
+      {
+        path: 'portfolio/honest-wrench-auto',
+        Component: HonestWrenchAuto,
       },
       // Core pages (placeholder for now)
       ...coreRoutePaths.slice(1).map(createPlaceholderChild),
