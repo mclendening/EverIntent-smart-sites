@@ -1778,14 +1778,34 @@ export const HonestWrenchAutoMockup: React.FC = () => {
 
   // Handle chat option click
   const handleChatOption = (value: string) => {
-    // Add user response
+    // Map values to display text
+    const displayMap: Record<string, string> = {
+      'schedule': 'I want to schedule a service',
+      'diagnose': 'My car is making a noise',
+      'hours': 'What are your hours?',
+      'human': 'I want to talk to someone',
+      'brakes': 'Squeaking brakes',
+      'engine': 'Engine knocking',
+      'other': 'Something else',
+      'oil': 'Oil Change',
+      'check-engine': 'Check Engine Light',
+      'other-service': 'Something Else',
+      'morning': 'Morning (7:30-10am)',
+      'midday': 'Midday (10am-2pm)',
+      'afternoon': 'Afternoon (2-6pm)',
+      'tomorrow': 'Tomorrow',
+      'this-week': 'This week',
+      'next-week': 'Next week',
+      'emergency': '🚨 This is urgent!',
+      'done': "That's all, thanks!",
+      'confirm-yes': 'Yes, looks good!',
+      'confirm-edit': 'I need to change something',
+    };
+
     const userMessage: ChatMessage = {
       id: `user-${Date.now()}`,
       type: 'user',
-      content: value === 'schedule' ? 'I want to schedule a service' :
-               value === 'diagnose' ? 'My car is making a noise' :
-               value === 'hours' ? 'What are your hours?' :
-               'I want to talk to someone',
+      content: displayMap[value] || value,
     };
     setChatMessages(prev => [...prev, userMessage]);
     setIsTyping(true);
@@ -1800,10 +1820,11 @@ export const HonestWrenchAutoMockup: React.FC = () => {
           botResponse = {
             id: `bot-${Date.now()}`,
             type: 'bot',
-            content: "Great! Let's get you scheduled. What are you driving? (Year, make, model works great!)",
+            content: "Great! Let's get you scheduled. 🚗\n\nWhat are you driving? (Year, make, model works great!)",
           };
           setChatStep('vehicle');
           break;
+          
         case 'diagnose':
           botResponse = {
             id: `bot-${Date.now()}`,
@@ -1813,39 +1834,192 @@ export const HonestWrenchAutoMockup: React.FC = () => {
               { label: 'Squeaking brakes', value: 'brakes' },
               { label: 'Engine knocking', value: 'engine' },
               { label: 'Something else', value: 'other' },
+              { label: '🚨 This is urgent!', value: 'emergency' },
             ],
           };
           setChatStep('diagnose');
           break;
+          
         case 'hours':
           botResponse = {
             id: `bot-${Date.now()}`,
             type: 'bot',
-            content: `We're open:\n📍 ${BUSINESS.address}\n⏰ ${BUSINESS.hours}\n📞 ${BUSINESS.phone}\n\nNeed to schedule a visit?`,
+            content: `We're open:\n\n📍 ${BUSINESS.address}\n\n⏰ Mon-Fri: 7:30am - 6pm\n    Saturday: 8am - 3pm\n    Sunday: Closed\n\n📞 ${BUSINESS.phone}\n\nNeed to schedule a visit?`,
             options: [
               { label: 'Yes, schedule me', value: 'schedule' },
               { label: "That's all, thanks!", value: 'done' },
             ],
           };
           break;
+          
         case 'human':
           botResponse = {
             id: `bot-${Date.now()}`,
             type: 'bot',
-            content: `No problem! Give us a call at ${BUSINESS.phone} and someone will be happy to help. We're available ${BUSINESS.hours}.`,
+            content: `No problem! Give us a call at ${BUSINESS.phone} and someone will be happy to help.\n\n⏰ We're available ${BUSINESS.hours}.\n\nOr if you prefer, I can have someone call you back. Want me to set that up?`,
+            options: [
+              { label: 'Yes, call me back', value: 'callback' },
+              { label: "I'll call you", value: 'done' },
+            ],
           };
           break;
+          
+        case 'callback':
+          botResponse = {
+            id: `bot-${Date.now()}`,
+            type: 'bot',
+            content: "Perfect! What's the best number to reach you? We'll give you a call within the hour during business hours.",
+          };
+          setChatStep('phone-callback');
+          break;
+          
         case 'brakes':
           botResponse = {
             id: `bot-${Date.now()}`,
             type: 'bot',
-            content: "Squeaky brakes are definitely worth checking out! It could be as simple as dust buildup, or your pads might be getting thin.\n\nGood news: we offer free brake inspections. We'll measure everything, take photos, and show you exactly what's going on—no obligation.\n\nWant to schedule a free brake check?",
+            content: "Squeaky brakes are definitely worth checking out! It could be as simple as dust buildup, or your pads might be getting thin.\n\n✅ Good news: we offer FREE brake inspections. We'll measure everything, take photos, and show you exactly what's going on—no obligation.\n\nWant to schedule a free brake check?",
             options: [
               { label: 'Yes, schedule me', value: 'schedule' },
               { label: 'Maybe later', value: 'done' },
             ],
           };
           break;
+          
+        case 'engine':
+          botResponse = {
+            id: `bot-${Date.now()}`,
+            type: 'bot',
+            content: "Engine knocking can mean a few things—could be something minor like low oil, or it might need a closer look.\n\n🔍 Our diagnostic check includes:\n• Computer scan\n• Visual inspection\n• Photo documentation\n• Plain-English explanation\n\nWant to schedule a diagnostic?",
+            options: [
+              { label: 'Yes, book diagnostic', value: 'schedule' },
+              { label: 'Tell me more first', value: 'engine-info' },
+            ],
+          };
+          break;
+          
+        case 'engine-info':
+          botResponse = {
+            id: `bot-${Date.now()}`,
+            type: 'bot',
+            content: "Our engine diagnostics are thorough but simple:\n\n1️⃣ We hook up our scanner\n2️⃣ Read all codes and data\n3️⃣ Do a hands-on inspection\n4️⃣ Take photos of anything we find\n5️⃣ Explain it all in plain English\n\nNo pressure, no upselling. Just honest answers.\n\nReady to book?",
+            options: [
+              { label: 'Yes, schedule me', value: 'schedule' },
+              { label: 'Maybe later', value: 'done' },
+            ],
+          };
+          break;
+          
+        case 'emergency':
+          botResponse = {
+            id: `bot-${Date.now()}`,
+            type: 'bot',
+            content: `🚨 Got it—this is urgent!\n\nCall us right now at ${BUSINESS.phone} and let them know it's an emergency. We'll get you in ASAP.\n\nIf your car is unsafe to drive:\n• Don't risk it\n• We can recommend a tow\n• Just tell them Wrenchy sent you\n\nYou'll be in good hands. 🔧`,
+          };
+          break;
+          
+        case 'other':
+          botResponse = {
+            id: `bot-${Date.now()}`,
+            type: 'bot',
+            content: "No worries—sometimes car problems are hard to describe! Tell me a bit more:\n\n• When does it happen? (starting, driving, stopping)\n• Any warning lights on?\n• Is it safe to drive?\n\nType your answer and I'll help figure out next steps.",
+          };
+          setChatStep('describe-issue');
+          break;
+          
+        case 'oil':
+          botResponse = {
+            id: `bot-${Date.now()}`,
+            type: 'bot',
+            content: "Oil change it is! 🛢️\n\nWe use quality synthetic blend or full synthetic (your choice), and we include a free multi-point inspection with every oil change.\n\nWhen works best for you?",
+            options: [
+              { label: 'Tomorrow', value: 'tomorrow' },
+              { label: 'This week', value: 'this-week' },
+              { label: 'Next week', value: 'next-week' },
+            ],
+          };
+          setChatStep('timing');
+          break;
+          
+        case 'check-engine':
+          botResponse = {
+            id: `bot-${Date.now()}`,
+            type: 'bot',
+            content: "Check engine light on? Let's see what's going on under the hood.\n\n🔍 Our diagnostic includes a full computer scan + visual inspection. We'll tell you exactly what's wrong and what it'll take to fix it.\n\nWhen can you bring it in?",
+            options: [
+              { label: 'Tomorrow', value: 'tomorrow' },
+              { label: 'This week', value: 'this-week' },
+              { label: 'Next week', value: 'next-week' },
+            ],
+          };
+          setChatStep('timing');
+          break;
+          
+        case 'other-service':
+          botResponse = {
+            id: `bot-${Date.now()}`,
+            type: 'bot',
+            content: "No problem! What do you need help with?\n\n• Tires / alignment\n• A/C or heating\n• Transmission\n• Something else\n\nJust type what you need and I'll take it from there.",
+          };
+          setChatStep('describe-service');
+          break;
+          
+        case 'tomorrow':
+        case 'this-week':
+        case 'next-week':
+          botResponse = {
+            id: `bot-${Date.now()}`,
+            type: 'bot',
+            content: "What time of day works best for drop-off?",
+            options: [
+              { label: 'Morning (7:30-10am)', value: 'morning' },
+              { label: 'Midday (10am-2pm)', value: 'midday' },
+              { label: 'Afternoon (2-6pm)', value: 'afternoon' },
+            ],
+          };
+          setChatStep('time-of-day');
+          break;
+          
+        case 'morning':
+        case 'midday':
+        case 'afternoon':
+          botResponse = {
+            id: `bot-${Date.now()}`,
+            type: 'bot',
+            content: "Perfect! 📋 Last step—what's the best phone number to reach you? We'll send a text confirmation and reminder.",
+          };
+          setChatStep('phone');
+          break;
+          
+        case 'done':
+          botResponse = {
+            id: `bot-${Date.now()}`,
+            type: 'bot',
+            content: "Thanks for chatting! 🔧\n\nRemember, we're here when you need us:\n📞 " + BUSINESS.phone + "\n📍 " + BUSINESS.address + "\n\nDrive safe!",
+          };
+          setChatStep('complete');
+          break;
+          
+        case 'confirm-yes':
+          botResponse = {
+            id: `bot-${Date.now()}`,
+            type: 'bot',
+            content: "🎉 You're all set!\n\nWe've texted your confirmation. See you soon!\n\nHelpful reminders:\n• Bring your keys\n• Note any recent changes\n• We have free coffee ☕\n\nQuestions? Just reply here or call us. Thanks for choosing Honest Wrench Auto!",
+          };
+          setChatStep('complete');
+          break;
+          
+        case 'confirm-edit':
+          botResponse = {
+            id: `bot-${Date.now()}`,
+            type: 'bot',
+            content: `No problem! Give us a call at ${BUSINESS.phone} and we can adjust your appointment. Or would you like to start over?`,
+            options: [
+              { label: 'Start over', value: 'schedule' },
+              { label: "I'll call", value: 'done' },
+            ],
+          };
+          break;
+          
         default:
           botResponse = {
             id: `bot-${Date.now()}`,
@@ -1855,7 +2029,7 @@ export const HonestWrenchAutoMockup: React.FC = () => {
       }
 
       setChatMessages(prev => [...prev, botResponse]);
-    }, 1500);
+    }, 1200);
   };
 
   // Handle user text input
@@ -1868,6 +2042,7 @@ export const HonestWrenchAutoMockup: React.FC = () => {
       content: userInput,
     };
     setChatMessages(prev => [...prev, userMessage]);
+    const savedInput = userInput;
     setUserInput('');
     setIsTyping(true);
 
@@ -1875,30 +2050,87 @@ export const HonestWrenchAutoMockup: React.FC = () => {
       setIsTyping(false);
       let botResponse: ChatMessage;
 
-      if (chatStep === 'vehicle') {
-        botResponse = {
-          id: `bot-${Date.now()}`,
-          type: 'bot',
-          content: `Great choice! 🚗 What service do you need today?`,
-          options: [
-            { label: 'Oil Change', value: 'oil' },
-            { label: 'Brake Check', value: 'brakes' },
-            { label: 'Check Engine Light', value: 'engine' },
-            { label: 'Something Else', value: 'other-service' },
-          ],
-        };
-        setChatStep('service');
-      } else {
-        botResponse = {
-          id: `bot-${Date.now()}`,
-          type: 'bot',
-          content: `Perfect! What's the best phone number to reach you? One of our team members will give you a quick call to lock in your appointment.`,
-        };
-        setChatStep('phone');
+      switch (chatStep) {
+        case 'vehicle':
+          botResponse = {
+            id: `bot-${Date.now()}`,
+            type: 'bot',
+            content: `Got it—${savedInput}! 🚗\n\nWhat service do you need today?`,
+            options: [
+              { label: 'Oil Change', value: 'oil' },
+              { label: 'Brake Check', value: 'brakes' },
+              { label: 'Check Engine Light', value: 'check-engine' },
+              { label: 'Something Else', value: 'other-service' },
+            ],
+          };
+          setChatStep('service');
+          break;
+          
+        case 'phone':
+        case 'phone-callback':
+          // Validate phone-like input
+          const phoneDigits = savedInput.replace(/\D/g, '');
+          if (phoneDigits.length >= 10) {
+            botResponse = {
+              id: `bot-${Date.now()}`,
+              type: 'bot',
+              content: `Got it! 📱 We'll text you at ${savedInput}.\n\n📋 **Your Appointment Summary:**\n• Service: Oil Change\n• When: Tomorrow morning\n• Where: ${BUSINESS.address}\n\nDoes everything look good?`,
+              options: [
+                { label: 'Yes, looks good!', value: 'confirm-yes' },
+                { label: 'I need to change something', value: 'confirm-edit' },
+              ],
+            };
+            setChatStep('confirm');
+          } else {
+            botResponse = {
+              id: `bot-${Date.now()}`,
+              type: 'bot',
+              content: "Hmm, that doesn't look like a complete phone number. Can you double-check? I need 10 digits to send your confirmation. 📱",
+            };
+          }
+          break;
+          
+        case 'describe-issue':
+          botResponse = {
+            id: `bot-${Date.now()}`,
+            type: 'bot',
+            content: `Thanks for the details! That sounds like something we should take a look at.\n\n🔍 I'd recommend scheduling a diagnostic so we can inspect it properly and give you honest answers.\n\nWant to book a diagnostic appointment?`,
+            options: [
+              { label: 'Yes, schedule me', value: 'schedule' },
+              { label: 'Maybe later', value: 'done' },
+            ],
+          };
+          break;
+          
+        case 'describe-service':
+          botResponse = {
+            id: `bot-${Date.now()}`,
+            type: 'bot',
+            content: `Got it—${savedInput}! We can definitely help with that.\n\nWhen works best to bring it in?`,
+            options: [
+              { label: 'Tomorrow', value: 'tomorrow' },
+              { label: 'This week', value: 'this-week' },
+              { label: 'Next week', value: 'next-week' },
+            ],
+          };
+          setChatStep('timing');
+          break;
+          
+        default:
+          botResponse = {
+            id: `bot-${Date.now()}`,
+            type: 'bot',
+            content: "Thanks for sharing! Is there anything specific I can help you with today?",
+            options: [
+              { label: '🗓️ Schedule Service', value: 'schedule' },
+              { label: '📍 Hours & Location', value: 'hours' },
+              { label: '💬 Talk to a Human', value: 'human' },
+            ],
+          };
       }
 
       setChatMessages(prev => [...prev, botResponse]);
-    }, 1500);
+    }, 1200);
   };
 
   // Get URL bar display
