@@ -485,60 +485,45 @@ interface PageProps {
   onNavigate?: (page: MockupPage) => void;
 }
 
-// HOME PAGE
+// HOME PAGE - Matching the real site exactly
 const HomePage = ({ onNavigate }: PageProps) => (
   <div className="bg-white">
-    {/* Hero Section */}
+    {/* Hero Section - Centered like the real site */}
     <div className="relative h-[404px] md:h-[504px] lg:h-[604px] overflow-hidden">
       <img 
         src={heroScreenshot} 
-        alt="Beautiful California landscape"
+        alt="Beautiful oak tree in residential neighborhood"
         className="absolute inset-0 w-full h-full object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30" />
+      <div className="absolute inset-0 bg-black/40" />
       
-      <div className="relative px-6 sm:px-10 py-12 sm:py-20">
-        <div className="max-w-xl">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white px-4 py-2 rounded-full text-[10px] sm:text-xs font-medium mb-5">
-            <div className="w-2 h-2 bg-[#FEFCE8] rounded-full" />
-            <span>Serving Greater Orange County Since 1999</span>
-          </div>
-          
-          <h1 className="text-white text-3xl sm:text-4xl lg:text-5xl font-black mb-2 leading-[1.1]">
-            Old School Craftsmanship.
-          </h1>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-5 leading-[1.1]">
-            <span className="text-[#FEFCE8]">Modern Reliability.</span>
-          </h1>
-          
-          <p className="text-white/70 text-sm sm:text-base font-medium mb-3">
-            25+ years of treating every home like our own.
-          </p>
-          
-          <p className="text-white/60 text-sm sm:text-base mb-8 max-w-md">
-            No shortcuts. No mess left behind. Just honest, expert tree and landscape service.
-          </p>
-          
-          {/* CTAs */}
-          <div className="flex flex-wrap gap-3">
-            <button 
-              onClick={() => onNavigate?.('contact')}
-              className="bg-[#FEFCE8] hover:bg-white text-[#166534] px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm font-semibold transition-all flex items-center gap-2"
-            >
-              Get Your Free Estimate
-            </button>
-            <button className="bg-white/10 backdrop-blur-sm border border-white/30 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm font-semibold hover:bg-white/20 transition-all flex items-center gap-2">
-              <Phone className="w-4 h-4" />
-              (714) 555-8234
-            </button>
-          </div>
-        </div>
-      </div>
-      
-      {/* Scroll indicator */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
-        <ChevronDown className="w-6 h-6 text-white/50 animate-bounce" />
+      {/* Centered content like the real site */}
+      <div className="relative h-full flex flex-col items-center justify-center text-center px-6">
+        {/* Main headline - serif font style */}
+        <h1 className="text-white text-3xl sm:text-5xl lg:text-6xl font-serif italic mb-2 leading-[1.1]">
+          Old School Craftsmanship.
+        </h1>
+        <h1 className="text-white text-3xl sm:text-5xl lg:text-6xl font-serif italic mb-6 leading-[1.1]">
+          Modern Reliability.
+        </h1>
+        
+        {/* Subtext */}
+        <p className="text-white/90 text-sm sm:text-base lg:text-lg mb-8 max-w-2xl leading-relaxed">
+          25+ years of treating every home like our own. No shortcuts. No mess left behind. Just honest, expert tree and landscape service.
+        </p>
+        
+        {/* Single CTA - white button with green text */}
+        <button 
+          onClick={() => onNavigate?.('contact')}
+          className="bg-white hover:bg-gray-100 text-[#166534] px-8 sm:px-10 py-3 sm:py-4 rounded-lg text-sm sm:text-base font-semibold transition-all shadow-lg"
+        >
+          Get Your Free Estimate
+        </button>
+        
+        {/* Footer text */}
+        <p className="text-white/60 text-xs sm:text-sm mt-8">
+          Serving Greater Orange County Since 1999
+        </p>
       </div>
     </div>
 
