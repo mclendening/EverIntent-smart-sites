@@ -31,7 +31,7 @@ const tiers = [
     period: '/month',
     description: 'For ad buyers who need lead capture.',
     features: ['Missed call text-back', 'AI chat widget', 'GBP sync', 'Lead management'],
-    popular: false,
+    popular: true,
     href: '/pricing#smart-lead',
   },
   {
@@ -40,12 +40,12 @@ const tiers = [
     period: '/month',
     description: 'Full automation for growing teams.',
     features: ['Online booking', 'Review automation', 'CRM pipelines', 'SMS campaigns'],
-    popular: true,
+    popular: false,
     href: '/pricing#smart-business',
   },
   {
     name: 'AI Employee',
-    price: 'from $497',
+    price: 'from $149',
     period: '/month',
     description: 'Voice AI that answers your phone.',
     features: ['24/7 call handling', 'Books appointments', 'Qualifies leads', 'Custom training'],
