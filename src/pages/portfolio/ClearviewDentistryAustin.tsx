@@ -23,7 +23,7 @@ const ClearviewDentistryAustin = () => {
       description="A patient-focused dental practice ready to grow beyond referrals with anxiety-friendly care as their differentiator. Dr. Chen had built a loyal patient base over 10 years, but growth had stalled at 12 new patients per month."
       services={[
         'Smart Website Professional',
-        'AI Receptionist',
+        'AI Employee',
         'Appointment Booking',
         'Review Management'
       ]}

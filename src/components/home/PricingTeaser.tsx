@@ -6,7 +6,7 @@
  * 1. Smart Site ($249 one-time)
  * 2. Smart Lead ($97/mo)
  * 3. Smart Business ($197/mo) - Most Popular
- * 4. AI Employee ($497/mo starting)
+ * 4. AI Employee ($197/mo starting)
  */
 
 import { Check, ArrowRight } from 'lucide-react';
@@ -42,7 +42,7 @@ const tiers = [
   },
   {
     name: 'AI Employee',
-    price: 'from $149',
+    price: 'from $197',
     period: '/month',
     description: 'Voice AI that answers your phone.',
     features: ['24/7 call handling', 'Books appointments', 'Qualifies leads', 'Custom training'],

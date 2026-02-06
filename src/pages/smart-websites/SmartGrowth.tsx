@@ -26,7 +26,7 @@ import {
  * New features in Smart Growth (beyond Smart Business)
  */
 const newFeatures = [
-  { icon: Bot, title: 'AI Voice Agent', description: 'AI answers calls, qualifies leads, and books appointments—like having a receptionist' },
+  { icon: Bot, title: 'AI Voice Agent', description: 'AI answers calls, qualifies leads, and books appointments—like having a full-time assistant' },
   { icon: Inbox, title: 'Unified inbox', description: 'SMS, email, chat, and social messages in one place' },
   { icon: Settings, title: 'Advanced automations', description: 'Custom workflows that run your business on autopilot' },
   { icon: PhoneCall, title: 'Quarterly strategy calls', description: 'Regular check-ins to optimize your system and results' },
@@ -55,7 +55,7 @@ const includedFromBusiness = [
 const faqs = [
   {
     question: 'What makes Smart Growth worth the extra cost?',
-    answer: 'AI Voice Agent alone replaces a $3k+/month receptionist. Add unified inbox and advanced automations, and you\'re running a business that scales without hiring.',
+    answer: 'AI Voice Agent alone replaces a $3k+/month front desk hire. Add unified inbox and advanced automations, and you\'re running a business that scales without hiring.',
   },
   {
     question: 'How does the AI Voice Agent work?',
@@ -67,7 +67,7 @@ const faqs = [
   },
   {
     question: 'Is there an AI Employee option beyond this?',
-    answer: 'Yes. If you want full AI takeover of calls, chat, and scheduling without a website, check out our AI Employee plans starting at $497/mo.',
+    answer: 'Yes. If you want full AI automation of calls, chat, and scheduling without a website, check out our AI Employee plans starting at $197/mo.',
   },
 ];
 

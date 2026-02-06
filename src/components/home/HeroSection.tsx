@@ -38,7 +38,7 @@ export function HeroSection() {
           
           {/* Subheadline - Clear value prop */}
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 md:mb-12 leading-relaxed animate-fade-in" style={{ animationDelay: '150ms' }}>
-            EverIntent provides AI-powered receptionists and websites for local businesses. 
+            EverIntent provides AI Employee automation and websites for local businesses. 
             Your phone answered 24/7. Appointments booked automatically. Leads captured while you sleep.
           </p>
           

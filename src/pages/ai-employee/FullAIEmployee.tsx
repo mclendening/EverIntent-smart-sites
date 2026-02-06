@@ -2,7 +2,7 @@
  * @fileoverview Full AI Employee Mode Page — Award-Winning Design
  * @module pages/ai-employee/FullAIEmployee
  *
- * The premium tier: complete AI receptionist across all channels.
+ * The premium tier: complete AI phone automation across all channels.
  * Features:
  * - Multi-channel capability showcase
  * - Interactive SMS demo
@@ -107,7 +107,7 @@ export default function FullAIEmployee() {
     <>
       <SEO 
         title="Full AI Employee — Complete Business Communication | EverIntent"
-        description="Complete AI receptionist: voice, SMS, web chat, booking, screening, and live transfers. Your entire phone operation, automated. $597/mo."
+        description="Complete AI Employee: voice, SMS, web chat, booking, screening, and live transfers. Your entire phone operation, automated. $597/mo."
       />
       
       <main className="min-h-screen">

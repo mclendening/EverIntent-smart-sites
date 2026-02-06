@@ -3,16 +3,16 @@
  * @module pages/Pricing
  * 
  * Consolidated AI Employee Modes:
- * - After-Hours: $197/mo + $1,497 setup (includes booking + missed call recovery)
+ * - After-Hours: $197/mo + $997 setup (includes booking + missed call recovery)
  * - Front Office: $297/mo + $1,497 setup (includes missed call recovery)
  * - Full AI Employee: $597/mo + $2,500 setup
  * - Web Chat Only: $79/mo + $497 setup
  * 
  * Smart Websites:
  * - Smart Site (T1): $249 one-time, $149/yr after Y1
- * - Smart Lead (T2): $97/mo, 400 SMS, 30 AI min
- * - Smart Business (T3): $197/mo, 600 SMS, 50 AI min
- * - Smart Growth (T4): $497/mo, 1000 SMS, 100 AI min
+ * - Smart Lead (T2): $97/mo
+ * - Smart Business (T3): $197/mo
+ * - Smart Growth (T4): $297/mo
  */
 
 import { useState, useEffect } from 'react';
@@ -31,7 +31,7 @@ import {
 // ============================================
 
 const websiteFeatures = [
-  { name: 'Price', t1: '$249', t2: '$97/mo', t3: '$197/mo', t4: '$497/mo' },
+  { name: 'Price', t1: '$249', t2: '$97/mo', t3: '$197/mo', t4: '$297/mo' },
   { name: 'Billing', t1: 'One-time', t2: 'Monthly', t3: 'Monthly', t4: 'Monthly' },
   { name: 'Professional Website', t1: true, t2: true, t3: true, t4: true },
   { name: 'Mobile Responsive', t1: true, t2: true, t3: true, t4: true },
@@ -71,7 +71,7 @@ const aiModes = [
     icon: Moon,
     bestFor: 'Complete after-hours coverage',
     price: '$197',
-    setup: '$1,497',
+    setup: '$997',
     description: 'AI answers after hours, books appointments, and texts back missed calls. Never lose a lead when you\'re closed.',
     href: '/let-ai-handle-it/after-hours',
   },
