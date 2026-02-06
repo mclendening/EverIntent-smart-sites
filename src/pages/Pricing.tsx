@@ -223,6 +223,17 @@ const Pricing = () => {
               AI Employee
             </button>
           </div>
+          
+          {/* Compare Plans Link */}
+          <div className="mt-6">
+            <Link 
+              to={activeTab === 'websites' ? '/compare-websites' : '/let-ai-handle-it'}
+              className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors text-sm font-medium"
+            >
+              <span className="story-link">Compare all {activeTab === 'websites' ? 'website' : 'AI'} plans</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </section>
 
