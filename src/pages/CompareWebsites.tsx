@@ -9,7 +9,7 @@
  * - Mobile horizontal scroll support
  */
 
-import { Check, Minus, Globe, MessageSquare, Zap, TrendingUp, ArrowRight, Sparkles } from 'lucide-react';
+import { Check, Minus, Globe, MessageSquare, Zap, TrendingUp, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
 
@@ -22,11 +22,10 @@ const tiers = [
     tagline: 'Professional presence',
     highlight: 'Look professional instantly',
     price: '$249',
-    period: 'one-time',
+    period: ' one-time',
     description: 'A beautiful, fast website that establishes credibility and trust.',
     icon: Globe,
     href: '/smart-websites/smart-site',
-    recommended: false,
   },
   {
     name: 'Smart Lead',
@@ -37,7 +36,6 @@ const tiers = [
     description: 'Turn every visitor into a potential customer with AI-powered engagement.',
     icon: MessageSquare,
     href: '/smart-websites/smart-lead',
-    recommended: true,
   },
   {
     name: 'Smart Business',
@@ -48,7 +46,6 @@ const tiers = [
     description: 'Full CRM and booking automation for growing service businesses.',
     icon: Zap,
     href: '/smart-websites/smart-business',
-    recommended: false,
   },
   {
     name: 'Smart Growth',
@@ -59,7 +56,6 @@ const tiers = [
     description: 'Complete business automation from first visit to booked appointment.',
     icon: TrendingUp,
     href: '/smart-websites/smart-growth',
-    recommended: false,
   },
 ];
 
@@ -145,11 +141,10 @@ export default function CompareWebsites() {
           <div className="absolute inset-0 bg-mesh opacity-30" />
           
           <div className="relative container mx-auto px-4 text-center">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-accent/30 bg-accent/5 mb-6">
-              <Globe className="w-4 h-4 text-accent" />
-              <span className="text-sm font-medium text-accent">Compare Websites</span>
-            </div>
+            {/* Eyebrow */}
+            <p className="text-sm font-medium text-accent tracking-wide uppercase mb-4">
+              Smart Website Plans
+            </p>
             
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
               <span className="text-foreground">Choose Your </span>
@@ -171,18 +166,8 @@ export default function CompareWebsites() {
                 return (
                   <div
                     key={tier.name}
-                    className={`relative rounded-2xl p-6 border transition-all duration-300 ${
-                      tier.recommended
-                        ? 'bg-primary/5 border-primary/50 shadow-lg shadow-primary/10'
-                        : 'bg-card/50 border-border/30 hover:border-primary/30'
-                    }`}
+                    className="relative rounded-2xl p-6 border border-border/30 bg-card/50 hover:border-primary/30 transition-all duration-300"
                   >
-                    {tier.recommended && (
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary text-primary-foreground text-xs font-medium rounded-full flex items-center gap-1">
-                        <Sparkles className="w-3 h-3" />
-                        RECOMMENDED
-                      </div>
-                    )}
                     
                     <div className="flex flex-col items-center text-center">
                       <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-4">
@@ -192,10 +177,7 @@ export default function CompareWebsites() {
                       <h3 className="text-lg font-semibold text-foreground">{tier.name}</h3>
                       <p className="text-sm text-muted-foreground mb-3">{tier.tagline}</p>
                       
-                      <div className="flex items-center gap-1 text-sm text-accent mb-4">
-                        <Sparkles className="w-3 h-3" />
-                        <span>{tier.highlight}</span>
-                      </div>
+                      <p className="text-sm text-accent mb-4">{tier.highlight}</p>
                       
                       <div className="mb-4">
                         <span className="text-3xl font-bold text-foreground">{tier.price}</span>
@@ -206,11 +188,7 @@ export default function CompareWebsites() {
                       
                       <Link
                         to={tier.href}
-                        className={`w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 ${
-                          tier.recommended
-                            ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                            : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                        }`}
+                        className="w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 bg-secondary text-secondary-foreground hover:bg-secondary/80"
                       >
                         Choose Plan
                         <ArrowRight className="w-4 h-4" />
@@ -227,9 +205,21 @@ export default function CompareWebsites() {
         <section className="pb-24 md:pb-32">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
-              {/* Scrollable table wrapper for mobile */}
+              {/* Sticky column headers */}
               <div className="overflow-x-auto -mx-4 px-4">
                 <div className="min-w-[700px]">
+                  {/* Column Headers */}
+                  <div className="grid grid-cols-5 gap-4 py-4 px-4 mb-4 border-b border-border/30 sticky top-0 bg-background/95 backdrop-blur-sm z-10">
+                    <div className="col-span-1">
+                      <span className="text-xs text-muted-foreground uppercase tracking-wider">Feature</span>
+                    </div>
+                    {tiers.map((tier) => (
+                      <div key={tier.name} className="col-span-1 text-center">
+                        <span className="text-sm font-semibold text-foreground">{tier.name}</span>
+                        <p className="text-xs text-muted-foreground">{tier.price}{tier.period}</p>
+                      </div>
+                    ))}
+                  </div>
                   {featureCategories.map((category) => (
                     <div key={category.name} className="mb-8">
                       {/* Category Header */}
