@@ -65,39 +65,45 @@ const modes = [
 
 /**
  * Feature comparison data organized by category
- * Updated to reflect 3 consolidated modes + GHL unlimited vs usage-based
+ * Unlimited AI is ONLY included in Full AI Employee, or available as $149/mo add-on
  */
 const featureCategories = [
   {
-    name: 'Unlimited AI (Included)',
-    description: 'Powered by GHL AI Employee — no per-message fees',
+    name: 'Unlimited AI',
+    description: 'Included with Full AI Employee, or add to any plan for $149/mo',
     features: [
-      { name: 'SMS/Text conversations', values: [true, true, true], badge: 'unlimited' },
-      { name: 'Missed call text-back', values: [true, true, true], badge: 'unlimited' },
-      { name: 'AI review responses', values: [true, true, true], badge: 'unlimited' },
-      { name: 'CRM integration', values: [true, true, true], badge: 'unlimited' },
-      { name: 'Custom AI training', values: [true, true, true], badge: 'unlimited' },
+      { name: 'Unlimited SMS/Text AI', values: ['+$149', '+$149', true], badge: 'addon' },
+      { name: 'Unlimited AI review responses', values: ['+$149', '+$149', true], badge: 'addon' },
+      { name: 'Unlimited content AI', values: ['+$149', '+$149', true], badge: 'addon' },
     ],
   },
   {
     name: 'Voice AI',
-    description: 'Inbound call handling — usage-based pricing',
+    description: 'Inbound call handling with included minutes',
     features: [
-      { name: 'AI voice answering', values: [true, true, true], badge: 'included' },
-      { name: 'After-hours coverage', values: [true, true, true], badge: 'included' },
-      { name: 'Custom greeting script', values: [true, true, true], badge: 'included' },
+      { name: 'AI voice answering', values: [true, true, true] },
+      { name: 'After-hours coverage', values: [true, true, true] },
+      { name: 'Custom greeting script', values: [true, true, true] },
       { name: 'Business hours coverage', values: [false, true, true] },
       { name: 'Live call transfer', values: [false, true, true] },
-      { name: 'Voice minutes', values: ['500/mo', '1,000/mo', '2,500/mo'], badge: 'included' },
+      { name: 'Voice minutes included', values: ['500/mo', '1,000/mo', '2,500/mo'] },
     ],
   },
   {
-    name: 'Lead Capture',
+    name: 'Core Features',
     features: [
+      { name: 'Missed call text-back', values: [true, true, true] },
+      { name: 'CRM integration', values: [true, true, true] },
+      { name: 'Custom AI training', values: [true, true, true] },
       { name: 'Contact info capture', values: [true, true, true] },
+      { name: 'Full call transcripts', values: [true, true, true] },
+    ],
+  },
+  {
+    name: 'Lead Qualification',
+    features: [
       { name: 'Lead qualification', values: [false, true, true] },
       { name: 'Lead scoring', values: [false, true, true] },
-      { name: 'Full call transcripts', values: [true, true, true] },
     ],
   },
   {
@@ -105,7 +111,7 @@ const featureCategories = [
     features: [
       { name: 'Appointment booking', values: [true, false, true] },
       { name: 'Calendar integration', values: [true, false, true] },
-      { name: 'Confirmation SMS', values: [true, true, true], badge: 'unlimited' },
+      { name: 'Confirmation SMS', values: [true, true, true] },
       { name: 'Rescheduling support', values: [true, false, true] },
     ],
   },
@@ -125,6 +131,7 @@ const featureCategories = [
  */
 function getModeFeatures(modeIndex: number) {
   const included: string[] = [];
+  const addons: string[] = [];
   const notIncluded: string[] = [];
   
   featureCategories.forEach(category => {
@@ -132,34 +139,47 @@ function getModeFeatures(modeIndex: number) {
       const value = feature.values[modeIndex];
       if (value === true) {
         included.push(feature.name);
+      } else if (typeof value === 'string' && value.startsWith('+$')) {
+        addons.push(`${feature.name} (${value})`);
+      } else if (typeof value === 'string') {
+        included.push(`${feature.name}: ${value}`);
       } else {
         notIncluded.push(feature.name);
       }
     });
   });
   
-  return { included, notIncluded };
+  return { included, addons, notIncluded };
 }
 
 /**
  * Renders a feature value cell for desktop
  */
 function FeatureValue({ value, badge }: { value: boolean | string; badge?: string }) {
+  // Handle add-on pricing display (e.g., "+$149")
+  if (typeof value === 'string' && value.startsWith('+$')) {
+    return (
+      <span className="text-xs font-medium text-muted-foreground">{value}</span>
+    );
+  }
+  // Handle other string values (e.g., "500/mo")
   if (typeof value === 'string') {
     return (
       <span className="text-sm font-medium text-foreground">{value}</span>
     );
   }
+  // Handle boolean true - included
   if (value === true) {
     return (
       <div className="flex items-center justify-center gap-1">
         <Check className="w-5 h-5 text-accent" />
-        {badge === 'unlimited' && (
-          <span className="text-[10px] font-medium text-green-500 uppercase">∞</span>
+        {badge === 'addon' && (
+          <span className="text-[9px] font-medium text-accent uppercase">Incl.</span>
         )}
       </div>
     );
   }
+  // Handle boolean false - not included
   return <Minus className="w-5 h-5 text-muted-foreground/30 mx-auto" />;
 }
 
@@ -169,7 +189,7 @@ function FeatureValue({ value, badge }: { value: boolean | string; badge?: strin
 function MobileModeCard({ mode, modeIndex }: { mode: typeof modes[0]; modeIndex: number }) {
   const [expanded, setExpanded] = useState(false);
   const Icon = mode.icon;
-  const { included, notIncluded } = getModeFeatures(modeIndex);
+  const { included, addons, notIncluded } = getModeFeatures(modeIndex);
   
   return (
     <div className={cn(
@@ -247,6 +267,20 @@ function MobileModeCard({ mode, modeIndex }: { mode: typeof modes[0]; modeIndex:
                   <li key={feature} className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-accent shrink-0 mt-0.5" />
                     <span className="text-sm text-foreground">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          
+          {addons.length > 0 && (
+            <div>
+              <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium mb-3">Available Add-ons</p>
+              <ul className="space-y-2">
+                {addons.map((feature) => (
+                  <li key={feature} className="flex items-start gap-2.5">
+                    <span className="text-xs text-accent shrink-0 mt-0.5">+</span>
+                    <span className="text-sm text-muted-foreground">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -428,11 +462,8 @@ export default function CompareAIEmployee() {
                       >
                         <div className="col-span-1 flex items-center gap-2">
                           <span className="text-sm text-muted-foreground">{feature.name}</span>
-                          {feature.badge === 'unlimited' && (
-                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-green-500/20 text-green-500 font-medium uppercase">Unlimited</span>
-                          )}
-                          {feature.badge === 'included' && (
-                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-accent/20 text-accent font-medium uppercase">Incl.</span>
+                          {feature.badge === 'addon' && (
+                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-accent/20 text-accent font-medium uppercase">+$149</span>
                           )}
                         </div>
                         {feature.values.map((value, idx) => (
