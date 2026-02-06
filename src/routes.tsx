@@ -60,8 +60,8 @@ import AutomotiveShowcase from './pages/industries/AutomotiveShowcase';
 import WarmyEmailDeliverability from './pages/WarmyEmailDeliverability';
 // AI Employee mode pages - Consolidated (After-Hours includes booking + missed call)
 import AfterHours from './pages/ai-employee/AfterHours';
-import FrontLineScreening from './pages/ai-employee/FrontLineScreening';
-import FullTakeover from './pages/ai-employee/FullTakeover';
+import FrontOffice from './pages/ai-employee/FrontOffice';
+import FullAIEmployee from './pages/ai-employee/FullAIEmployee';
 // Smart Websites tier pages
 import SmartSite from './pages/smart-websites/SmartSite';
 import SmartLead from './pages/smart-websites/SmartLead';
@@ -471,21 +471,20 @@ export const routes: RouteRecord[] = [
       },
       {
         path: 'let-ai-handle-it/front-office',
-        Component: FrontLineScreening,
-      },
-      // Legacy redirect - screening now points to front-office
-      {
-        path: 'let-ai-handle-it/screening',
-        Component: FrontLineScreening,
+        Component: FrontOffice,
       },
       {
         path: 'let-ai-handle-it/full-ai-employee',
-        Component: FullTakeover,
+        Component: FullAIEmployee,
       },
-      // Legacy redirect - full-takeover now points to full-ai-employee
+      // Legacy redirects for old URLs
+      {
+        path: 'let-ai-handle-it/screening',
+        Component: FrontOffice,
+      },
       {
         path: 'let-ai-handle-it/full-takeover',
-        Component: FullTakeover,
+        Component: FullAIEmployee,
       },
       // Smart Websites hub page
       {
