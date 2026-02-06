@@ -69,6 +69,7 @@ import SmartSite from './pages/smart-websites/SmartSite';
 import SmartLead from './pages/smart-websites/SmartLead';
 import SmartBusiness from './pages/smart-websites/SmartBusiness';
 import SmartGrowth from './pages/smart-websites/SmartGrowth';
+import CompareWebsites from './pages/CompareWebsites';
 import AdminLogin from './pages/admin/Login';
 import AdminResetPassword from './pages/admin/ResetPassword';
 import AdminDashboard from './pages/admin/Dashboard';
@@ -508,6 +509,11 @@ export const routes: RouteRecord[] = [
       {
         path: 'smart-websites/smart-growth',
         Component: SmartGrowth,
+      },
+      // Comparison pages
+      {
+        path: 'compare-websites',
+        Component: CompareWebsites,
       },
       // Warmy Email Deliverability - full service page
       {
