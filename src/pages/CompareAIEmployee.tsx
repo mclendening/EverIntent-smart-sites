@@ -454,15 +454,15 @@ export default function CompareAIEmployee() {
               {featureCategories.map((category) => (
                 <div 
                   key={category.name} 
-                  className="mb-8 rounded-xl bg-card/20 overflow-hidden"
+                  className="mb-8 rounded-xl bg-card/40 border border-border/20 overflow-hidden"
                 >
                   {/* Category Header */}
-                  <div className="px-5 py-3">
+                  <div className="px-5 py-3 border-b border-border/10">
                     <h3 className="text-sm font-semibold text-accent uppercase tracking-wider">
                       {category.name}
                     </h3>
                     {category.description && (
-                      <p className="text-xs text-muted-foreground mt-1">{category.description}</p>
+                      <p className="text-xs text-foreground/50 mt-1">{category.description}</p>
                     )}
                   </div>
                   
@@ -474,17 +474,17 @@ export default function CompareAIEmployee() {
                           key={feature.name}
                           className={cn(
                             "grid grid-cols-4 gap-3 py-3.5 px-5 transition-colors",
-                            "hover:bg-accent/10",
-                            featureIdx % 2 === 0 ? "bg-transparent" : "bg-card/30"
+                            "hover:bg-accent/8",
+                            featureIdx % 2 === 0 ? "bg-white/[0.02]" : "bg-white/[0.04]"
                           )}
                         >
                           {/* Feature name with tooltip */}
                           <div className="col-span-1 flex items-center gap-2">
-                            <span className="text-sm text-foreground">{feature.name}</span>
+                            <span className="text-sm text-foreground/90">{feature.name}</span>
                             {feature.tooltip && (
                               <Tooltip>
                                 <TooltipTrigger asChild>
-                                  <HelpCircle className="w-3.5 h-3.5 text-muted-foreground/50 cursor-help" />
+                                  <HelpCircle className="w-3.5 h-3.5 text-foreground/30 cursor-help hover:text-accent/60 transition-colors" />
                                 </TooltipTrigger>
                                 <TooltipContent side="top" className="max-w-xs">
                                   <p className="text-xs">{feature.tooltip}</p>
