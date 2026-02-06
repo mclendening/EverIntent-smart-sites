@@ -82,7 +82,7 @@ export default function FrontLineScreening() {
                   hoverText="Screen Every Call"
                 />
                 <Link 
-                  to="/let-ai-handle-it" 
+                  to="/compare-ai-employee" 
                   className="group inline-flex items-center gap-2 px-6 py-3 text-foreground hover:text-accent transition-colors"
                 >
                   <span>Compare All Modes</span>

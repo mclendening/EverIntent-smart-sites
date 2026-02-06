@@ -23,14 +23,13 @@ const servicesLinks = [
 ];
 
 /**
- * AI Modes column links
+ * AI Employee modes column links
  */
 const aiModesLinks = [
   { title: 'After-Hours', path: '/let-ai-handle-it/after-hours' },
-  { title: 'Booking Agent', path: '/let-ai-handle-it/booking' },
-  { title: 'Missed Call Recovery', path: '/let-ai-handle-it/missed-call' },
-  { title: 'Front Line Screening', path: '/let-ai-handle-it/screening' },
-  { title: 'Full AI Employee', path: '/let-ai-handle-it/full-takeover' },
+  { title: 'Front Office', path: '/let-ai-handle-it/front-office' },
+  { title: 'Full AI Employee', path: '/let-ai-handle-it/full-ai-employee' },
+  { title: 'Compare Modes', path: '/compare-ai-employee' },
 ];
 
 /**
@@ -104,10 +103,10 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* AI Modes */}
+          {/* AI Employee */}
           <div>
             <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">
-              AI Modes
+              AI Employee
             </h3>
             <div className="w-8 h-[2px] bg-gradient-to-r from-accent to-accent/20 mb-4" />
             <ul className="space-y-2">
