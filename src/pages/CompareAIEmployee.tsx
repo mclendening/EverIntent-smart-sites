@@ -452,11 +452,6 @@ export default function CompareAIEmployee() {
                     <h3 className="text-sm font-semibold text-accent uppercase tracking-wider">
                       {category.name}
                     </h3>
-                    {category.name === 'Unlimited AI' && (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-accent/10 text-accent font-medium ml-1">
-                        Add-on available
-                      </span>
-                    )}
                   </div>
                   {category.description && (
                     <p className="text-xs text-muted-foreground px-4 mb-3">{category.description}</p>
@@ -468,11 +463,8 @@ export default function CompareAIEmployee() {
                         key={feature.name}
                         className="grid grid-cols-4 gap-3 py-3 px-4 rounded-lg hover:bg-card/50 transition-colors"
                       >
-                        <div className="col-span-1 flex items-center gap-2">
+                        <div className="col-span-1">
                           <span className="text-sm text-foreground/80">{feature.name}</span>
-                          {feature.badge === 'addon' && (
-                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-accent/20 text-accent font-medium uppercase">+$149</span>
-                          )}
                         </div>
                         {feature.values.map((value, idx) => (
                           <div key={idx} className="col-span-1 flex items-center justify-center">
