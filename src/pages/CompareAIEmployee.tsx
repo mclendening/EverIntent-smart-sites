@@ -58,7 +58,7 @@ const modes = [
     setup: '$2,500 setup',
     description: 'Everything included. Voice, SMS, booking, screening, web chat—your complete AI front office.',
     icon: Bot,
-    href: '/let-ai-handle-it/full-takeover',
+    href: '/let-ai-handle-it/full-ai-employee',
     highlight: true,
   },
 ];

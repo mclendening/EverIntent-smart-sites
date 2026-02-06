@@ -94,7 +94,7 @@ const aiModes = [
     setup: '$2,500',
     description: 'All modes combined. Your complete AI-powered front office—voice, SMS, booking, screening, web chat.',
     featured: true,
-    href: '/let-ai-handle-it/full-takeover',
+    href: '/let-ai-handle-it/full-ai-employee',
   },
   {
     id: 'web-chat',
