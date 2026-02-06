@@ -593,10 +593,10 @@ const SmartWebsites = () => {
                 </ul>
                 <div className="flex flex-wrap gap-3">
                   <Button asChild variant="outline">
-                    <Link to="/pricing#warmy">
+                    <a href="/pricing#warmy">
                       Learn More
                       <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
+                    </a>
                   </Button>
                 </div>
               </div>

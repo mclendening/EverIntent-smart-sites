@@ -4,10 +4,10 @@
  * Automatically scrolls to top of page on route changes.
  * Respects hash anchors (e.g., /page#section) by scrolling to the element.
  * 
- * Must be placed inside the Router context.
+ * Must be placed inside the Router context and wrapped in ClientOnly.
  */
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
 /**
@@ -15,30 +15,36 @@ import { useLocation } from 'react-router-dom';
  * Uses smooth scrolling for anchor navigation, instant for page changes.
  */
 export function ScrollToTop() {
-  const { pathname, hash } = useLocation();
+  const { pathname, hash, key } = useLocation();
+  const lastPathRef = useRef(pathname);
 
   useEffect(() => {
     // If there's a hash, scroll to that element
     if (hash) {
-      // Small delay to ensure DOM is ready
+      // Longer delay to ensure DOM is fully ready after navigation
       const timeoutId = setTimeout(() => {
-        try {
-          // Validate hash is a valid CSS selector before querying
-          const element = document.getElementById(hash.slice(1));
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        } catch (e) {
-          // Invalid selector, just scroll to top
+        const elementId = hash.slice(1);
+        if (!elementId) return;
+        
+        const element = document.getElementById(elementId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          // Element not found, scroll to top
           window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
         }
-      }, 100);
+      }, 150);
       return () => clearTimeout(timeoutId);
     }
     
-    // Otherwise scroll to top instantly
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [pathname, hash]);
+    // Only scroll to top if pathname actually changed (not just hash)
+    // This prevents unwanted scrolling on same-page hash navigation
+    if (pathname !== lastPathRef.current || !hash) {
+      // Scroll to top instantly
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      lastPathRef.current = pathname;
+    }
+  }, [pathname, hash, key]);
 
   return null;
 }
