@@ -482,10 +482,6 @@ export const routes: RouteRecord[] = [
         path: 'let-ai-handle-it/screening',
         Component: FrontOffice,
       },
-      {
-        path: 'let-ai-handle-it/full-takeover',
-        Component: FullAIEmployee,
-      },
       // Smart Websites hub page
       {
         path: 'smart-websites',
