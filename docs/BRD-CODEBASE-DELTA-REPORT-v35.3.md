@@ -2378,6 +2378,66 @@ Additional alignment fixes applied after initial reconciliation:
 **After:** Removed redundant "Legal" (already in bottom legal links), added "Client Login" with external link handling  
 **Rationale:** Cleaner separation between internal navigation and external resources.
 
+### 26.6 GHL Chat Widget hideLauncher() Fix ✅ FIXED
+
+**Before:** `hideLauncher()` in `src/lib/ghlLoader.ts` used overly broad selectors including `[class*="lc_text-widget"]` which hid the entire chat panel, preventing the widget from opening.  
+**After:** Reverted to SSG doc pattern (`docs/ghl-chat-widget-implementation.md`) targeting ONLY `button.lc_text-widget--bubble` in the first shadow root.  
+**Rationale:** The wildcard selector was matching the chat panel container, not just the launcher button. Chat widget now opens correctly on both desktop and mobile.
+
+**Code Change:**
+```typescript
+// Before (broken)
+const launcherSelectors = [
+  'button.lc_text-widget--bubble',
+  'button.lc_text-widget--btn',
+  '.lc_text-widget--btn',
+  '.lc_text-widget--bubble',
+  '[class*="lc_text-widget"]', // ← This hid the entire widget!
+];
+
+// After (working)
+const launcher = shadowRoot.querySelector('button.lc_text-widget--bubble');
+```
+
+---
+
+## 27. Authoritative Baseline Summary
+
+The **v36 Offering Baseline** is now complete and verified. Key architectural patterns:
+
+### 27.1 Product Architecture
+- **Smart Websites:** Hub-and-spoke with dedicated tier pages (`/smart-websites/smart-site`, etc.)
+- **AI Employee:** Hub-and-spoke with dedicated mode pages (`/let-ai-handle-it/after-hours`, etc.)
+- **Industries:** Consolidated to 4 primary categories with showcase pages
+
+### 27.2 Pricing Ladder (Authoritative)
+| Product | Price | Setup |
+|---------|-------|-------|
+| Smart Site | $249 one-time | — |
+| Smart Lead | $97/mo | — |
+| Smart Business | $197/mo | — |
+| Smart Growth | $297/mo | — |
+| AI Employee M1-M4 | $497/mo | $997–$1,497 |
+| AI Employee M5 | $597/mo | $2,500 |
+
+### 27.3 Navigation Architecture
+- Header dropdowns link to dedicated product pages (not hash anchors)
+- Footer includes Client Login external link
+- Legal pages under `/legal/` prefix
+- Industries hub with 4 category stubs
+
+### 27.4 GHL Integration
+- Single sitewide widget (GHL_WIDGET_ID_SALES) fetched from edge function
+- Custom launcher buttons (DesktopChatButton, MobileBottomBar)
+- Default GHL launcher hidden via shadow DOM targeting
+- Composer fixes applied via `applyGHLComposerFixRetries()`
+
+### 27.5 SSG Compliance
+- All marketing pages pre-rendered via vite-react-ssg
+- Admin routes excluded from SSG (CSR-only)
+- Browser-dependent components wrapped in ClientOnly
+- Portal components (Toaster, Sonner) client-only
+
 ---
 
 **END OF REPORT**
@@ -2386,4 +2446,4 @@ Additional alignment fixes applied after initial reconciliation:
 
 *Generated: 2026-01-31 | BRD v35.3 | Complete Progression Analysis*  
 *Updated: 2026-02-06 | All discrepancies resolved — v36 Offering Baseline finalized*  
-*Updated: 2026-02-06 | Post-baseline fixes applied (§26)*
+*Updated: 2026-02-06 | Post-baseline fixes applied (§26) + GHL fix (§26.6) + Summary (§27)*
