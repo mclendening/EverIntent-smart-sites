@@ -71,26 +71,31 @@ const featureCategories = [
   {
     name: 'Call Handling',
     features: [
+      // After-Hours ✓ first
       { name: 'AI voice answering', values: [true, true, true] },
       { name: 'After-hours coverage', values: [true, true, true] },
+      { name: 'Custom greeting script', values: [true, true, true] },
+      // After-Hours ✗ last
       { name: 'Business hours coverage', values: [false, true, true] },
       { name: 'Live call transfer', values: [false, true, true] },
-      { name: 'Custom greeting script', values: [true, true, true] },
     ],
   },
   {
     name: 'Lead Capture',
     features: [
+      // After-Hours ✓ first
       { name: 'Missed call text-back', values: [true, true, true] },
-      { name: 'Lead qualification', values: [false, true, true] },
       { name: 'Contact info capture', values: [true, true, true] },
       { name: 'CRM integration', values: [true, true, true] },
+      // After-Hours ✗ last
+      { name: 'Lead qualification', values: [false, true, true] },
       { name: 'Lead scoring', values: [false, true, true] },
     ],
   },
   {
     name: 'Booking & Scheduling',
     features: [
+      // After-Hours ✓ first
       { name: 'Appointment booking', values: [true, false, true] },
       { name: 'Calendar integration', values: [true, false, true] },
       { name: 'Confirmation SMS', values: [true, true, true] },
@@ -100,7 +105,9 @@ const featureCategories = [
   {
     name: 'Support & Training',
     features: [
+      // After-Hours ✓ first
       { name: 'Custom AI training', values: [true, true, true] },
+      // After-Hours ✗ last
       { name: 'Dedicated onboarding', values: [false, true, true] },
       { name: 'Priority support', values: [false, false, true] },
       { name: 'Monthly optimization', values: [false, false, true] },
