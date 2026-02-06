@@ -115,8 +115,8 @@ export function PricingTeaser() {
                 ))}
               </ul>
               
-              <Link
-                to={tier.href}
+              <a
+                href={tier.href}
                 className={`block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 ${
                   tier.popular
                     ? 'bg-primary text-primary-foreground hover:bg-primary/90'
@@ -124,7 +124,7 @@ export function PricingTeaser() {
                 }`}
               >
                 Get Started
-              </Link>
+              </a>
             </div>
           ))}
         </div>

@@ -229,11 +229,11 @@ export default function WarmyEmailDeliverability() {
 
               <div className="flex flex-col sm:flex-row gap-2 justify-center lg:justify-start">
                 <CTAButton to="/pricing#warmy" defaultText="Get Warmy — $49/mo" hoverText="Boost Deliverability!" />
-                <Link to="/pricing#smart-lead">
+                <a href="/pricing#smart-lead">
                   <Button variant="outline" size="sm" className="gap-1.5 w-full sm:w-auto text-xs">
                     <CheckCircle className="w-3 h-3" />Free with Smart Lead
                   </Button>
-                </Link>
+                </a>
               </div>
             </div>
 
