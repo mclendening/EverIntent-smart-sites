@@ -45,6 +45,19 @@ const features = [
   'Full transcripts and recordings available',
 ];
 
+const unlimitedFeatures = [
+  { name: 'SMS/Text conversations', description: 'Unlimited AI-powered texting' },
+  { name: 'Missed call text-back', description: 'Instant response, no per-message fees' },
+  { name: 'AI review responses', description: 'Automated reputation management' },
+  { name: 'CRM integration', description: 'All leads sync automatically' },
+  { name: 'Lead qualification AI', description: 'Smart scoring included' },
+];
+
+const includedMinutes = {
+  voice: '1,000 voice minutes/mo',
+  overage: '$0.06/min after'
+};
+
 const qualifyingQuestions = [
   { question: '"What service are you looking for?"', purpose: 'Identifies service need' },
   { question: '"What\'s your timeline for this project?"', purpose: 'Gauges urgency' },
@@ -238,14 +251,55 @@ export default function FrontLineScreening() {
           </div>
         </section>
 
-        {/* Features Grid */}
+        {/* What's Unlimited Section */}
         <section className="py-20 md:py-32 bg-card">
           <div className="container">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-16">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/30 text-green-500 text-sm font-medium mb-6">
+                  <span>∞</span>
+                  <span>Powered by GHL AI Employee</span>
+                </div>
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
                   <span className="text-foreground">What's</span>{' '}
-                  <span className="text-gradient">Included</span>
+                  <span className="text-gradient">Unlimited</span>
+                </h2>
+                <p className="text-lg text-muted-foreground">
+                  No per-message fees. No hidden costs. Just results.
+                </p>
+              </div>
+
+              {/* Unlimited Features Grid */}
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+                {unlimitedFeatures.map((feature, index) => (
+                  <div key={index} className="p-5 rounded-xl bg-green-500/5 border border-green-500/20">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-green-500 font-bold">∞</span>
+                      <h3 className="font-semibold text-foreground">{feature.name}</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground">{feature.description}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Voice Minutes Callout */}
+              <div className="p-6 rounded-2xl bg-accent/5 border border-accent/20 text-center">
+                <h3 className="text-lg font-semibold text-foreground mb-2">Voice AI Minutes</h3>
+                <p className="text-2xl font-bold text-accent mb-1">{includedMinutes.voice}</p>
+                <p className="text-sm text-muted-foreground">{includedMinutes.overage}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Features Grid */}
+        <section className="py-20 md:py-32">
+          <div className="container">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+                  <span className="text-foreground">All</span>{' '}
+                  <span className="text-gradient">Features</span>
                 </h2>
                 <p className="text-lg text-muted-foreground">
                   Complete front office automation for your business.
