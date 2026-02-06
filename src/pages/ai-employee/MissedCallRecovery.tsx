@@ -38,7 +38,7 @@ export default function MissedCallRecovery() {
     <>
       <SEO 
         title="Missed Call Recovery — AI Employee | EverIntent"
-        description="Automatically text customers who couldn't reach you. Recover lost leads with instant SMS follow-up. $497/mo."
+        description="Automatically text customers who couldn't reach you. Recover lost leads with instant SMS follow-up. $149/mo."
       />
       
       <main className="min-h-screen">
@@ -56,7 +56,7 @@ export default function MissedCallRecovery() {
               </div>
               
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-6">
                 <PhoneOff className="w-4 h-4" />
                 <span>Missed Call Recovery</span>
               </div>
@@ -72,14 +72,14 @@ export default function MissedCallRecovery() {
               
               {/* Pricing */}
               <div className="mb-8">
-                <span className="text-4xl font-bold text-foreground">$497</span>
+                <span className="text-4xl font-bold text-foreground">$149</span>
                 <span className="text-muted-foreground">/mo</span>
-                <span className="text-sm text-muted-foreground ml-2">+ $997 setup</span>
+                <span className="text-sm text-muted-foreground ml-2">+ $1,497 setup</span>
               </div>
               
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <CTAButton 
-                  to="/pricing#missed-call" 
+                  to="/pricing?tab=ai" 
                   defaultText="Get Started"
                   hoverText="Recover Lost Leads"
                 />
@@ -168,9 +168,39 @@ export default function MissedCallRecovery() {
             </div>
           </div>
         </section>
+
+        {/* Why This Mode */}
+        <section className="py-16 md:py-24">
+          <div className="container">
+            <div className="max-w-3xl mx-auto text-center">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                <span className="text-foreground">Why</span>{' '}
+                <span className="text-gradient">Missed Call Recovery?</span>
+              </h2>
+              <p className="text-lg text-muted-foreground mb-8">
+                Perfect for busy owners who can't always answer the phone.
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+                <div className="p-5 rounded-xl bg-card border border-border/50">
+                  <h3 className="font-semibold text-foreground mb-2">Best For</h3>
+                  <p className="text-sm text-muted-foreground">Contractors on job sites, solo operators, busy teams</p>
+                </div>
+                <div className="p-5 rounded-xl bg-card border border-border/50">
+                  <h3 className="font-semibold text-foreground mb-2">Key Benefit</h3>
+                  <p className="text-sm text-muted-foreground">Text back within 60 seconds—before they call your competitor</p>
+                </div>
+                <div className="p-5 rounded-xl bg-accent/5 border border-accent/30">
+                  <h3 className="font-semibold text-accent mb-2">Want Voice AI Too?</h3>
+                  <p className="text-sm text-muted-foreground">After Hours mode adds voice answering for $149/mo</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
         
         {/* CTA */}
-        <section className="py-16 md:py-24">
+        <section className="py-16 md:py-24 bg-card">
           <div className="container">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -181,9 +211,9 @@ export default function MissedCallRecovery() {
                 Every missed call is a customer choosing your competitor. Fix it today.
               </p>
               <CTAButton 
-                to="/pricing#missed-call" 
+                to="/pricing?tab=ai" 
                 defaultText="Get Missed Call Recovery"
-                hoverText="$497/mo + $997 setup"
+                hoverText="$149/mo + $1,497 setup"
               />
             </div>
           </div>

@@ -19,9 +19,9 @@
  * - Web Chat Only: $79/mo + $497 setup
  */
 
-import { useState } from 'react';
-import { Check, Minus, ArrowRight, Phone, Moon, Calendar, PhoneForwarded, Filter, Bot, MessageSquare, Star } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Check, Minus, ArrowRight, Phone, Moon, Calendar, PhoneForwarded, Filter, Bot, MessageSquare, Star, ExternalLink } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
 import {
   Accordion,
@@ -58,10 +58,10 @@ const websiteFeatures = [
 ];
 
 const websiteTiers = [
-  { id: 'smart-site', name: 'Smart Site', key: 't1', cta: 'Get Started — $249', ctaStyle: 'secondary' },
-  { id: 'smart-lead', name: 'Smart Lead', key: 't2', cta: 'Start Free Trial', ctaStyle: 'primary', popular: true },
-  { id: 'smart-business', name: 'Smart Business', key: 't3', cta: 'Start Free Trial', ctaStyle: 'primary' },
-  { id: 'smart-growth', name: 'Smart Growth', key: 't4', cta: 'Book a Demo', ctaStyle: 'secondary' },
+  { id: 'smart-site', name: 'Smart Site', key: 't1', cta: 'Get Started', ctaStyle: 'secondary', href: '/smart-websites/smart-site' },
+  { id: 'smart-lead', name: 'Smart Lead', key: 't2', cta: 'Get Started', ctaStyle: 'primary', href: '/smart-websites/smart-lead' },
+  { id: 'smart-business', name: 'Smart Business', key: 't3', cta: 'Get Started', ctaStyle: 'primary', href: '/smart-websites/smart-business' },
+  { id: 'smart-growth', name: 'Smart Growth', key: 't4', cta: 'Get Started', ctaStyle: 'secondary', href: '/smart-websites/smart-growth' },
 ];
 
 // ============================================
@@ -77,6 +77,7 @@ const aiModes = [
     price: '$149',
     setup: '$1,497',
     description: 'You close at 5pm. Your AI does not. Answer calls, take messages, qualify leads.',
+    href: '/let-ai-handle-it/after-hours',
   },
   {
     id: 'booking',
@@ -86,6 +87,7 @@ const aiModes = [
     price: '$197',
     setup: '$1,497',
     description: 'Everything in After Hours, plus AI can send booking links and confirm appointments.',
+    href: '/let-ai-handle-it/booking',
   },
   {
     id: 'missed-call',
@@ -95,6 +97,7 @@ const aiModes = [
     price: '$149',
     setup: '$1,497',
     description: 'Every missed call gets a text within 60 seconds. AI starts the conversation before they call your competitor.',
+    href: '/let-ai-handle-it/missed-call',
   },
   {
     id: 'screening',
@@ -104,16 +107,18 @@ const aiModes = [
     price: '$297',
     setup: '$1,497',
     description: 'AI answers during business hours. Handles FAQs, qualifies leads, transfers hot opportunities to you live.',
+    href: '/let-ai-handle-it/screening',
   },
   {
     id: 'full',
     name: 'Full AI Employee',
     icon: Bot,
     bestFor: 'Everything above',
-    price: '15% off',
-    setup: '$1,497',
+    price: '$597',
+    setup: '$2,500',
     description: 'All modes combined. Your complete AI-powered front office.',
     featured: true,
+    href: '/let-ai-handle-it/full-takeover',
   },
   {
     id: 'web-chat',
@@ -123,6 +128,7 @@ const aiModes = [
     price: '$79',
     setup: '$497',
     description: 'AI chat widget for your website. Capture leads 24/7 without voice AI.',
+    href: '/contact',
   },
 ];
 
@@ -175,7 +181,16 @@ const faqSchema = {
 // ============================================
 
 const Pricing = () => {
+  const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState<'websites' | 'ai'>('websites');
+  
+  // Read tab from URL param on mount
+  useEffect(() => {
+    const tabParam = searchParams.get('tab');
+    if (tabParam === 'ai') {
+      setActiveTab('ai');
+    }
+  }, [searchParams]);
 
   return (
     <>
@@ -282,16 +297,25 @@ const Pricing = () => {
                     <td className="py-6 px-4"></td>
                     {websiteTiers.map((tier) => (
                       <td key={tier.id} className="py-6 px-4 text-center">
-                        <Link
-                          to="/contact"
-                          className={`inline-block px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
-                            tier.ctaStyle === 'primary'
-                              ? 'bg-accent text-accent-foreground hover:bg-accent-hover shadow-md'
-                              : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                          }`}
-                        >
-                          {tier.cta}
-                        </Link>
+                        <div className="flex flex-col gap-2">
+                          <Link
+                            to={tier.href}
+                            className="inline-flex items-center justify-center gap-1.5 text-sm text-accent hover:text-accent/80 transition-colors"
+                          >
+                            See Details
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </Link>
+                          <Link
+                            to="/contact"
+                            className={`inline-block px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
+                              tier.ctaStyle === 'primary'
+                                ? 'bg-accent text-accent-foreground hover:bg-accent-hover shadow-md'
+                                : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                            }`}
+                          >
+                            {tier.cta}
+                          </Link>
+                        </div>
                       </td>
                     ))}
                   </tr>
@@ -307,11 +331,7 @@ const Pricing = () => {
                 return (
                   <div
                     key={tier.id}
-                    className={`relative rounded-2xl p-6 border transition-all duration-300 ${
-                      tier.popular
-                        ? 'bg-accent/5 border-accent/50 shadow-lg shadow-accent/10'
-                        : 'bg-card/50 border-border/30'
-                    }`}
+                    className="relative rounded-2xl p-6 border transition-all duration-300 bg-card/50 border-border/30"
                   >
                     <h3 id={tier.id} className="text-lg font-semibold text-foreground mb-2">{tier.name}</h3>
                     <div className="mb-4">
@@ -323,7 +343,7 @@ const Pricing = () => {
                       </span>
                     </div>
                     <ul className="space-y-2 mb-6">
-                      {websiteFeatures.slice(2).map((feature) => {
+                      {websiteFeatures.slice(2, 8).map((feature) => {
                         const value = feature[tier.key as keyof typeof feature];
                         if (value === false) return null;
                         return (
@@ -331,22 +351,29 @@ const Pricing = () => {
                             <Check className="w-4 h-4 text-accent shrink-0" />
                             <span className="text-muted-foreground">
                               {feature.name}
-                              {typeof value === 'string' && value !== 'View' && value !== 'Full' && ` (${value})`}
                             </span>
                           </li>
                         );
                       })}
                     </ul>
-                    <Link
-                      to="/contact"
-                      className={`block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 ${
-                        tier.ctaStyle === 'primary'
-                          ? 'bg-accent text-accent-foreground hover:bg-accent-hover'
-                          : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                      }`}
-                    >
-                      {tier.cta}
-                    </Link>
+                    <div className="space-y-2">
+                      <Link
+                        to={tier.href}
+                        className="block w-full py-2 px-4 rounded-lg text-center text-sm font-medium text-accent border border-accent/30 hover:bg-accent/10 transition-colors"
+                      >
+                        See Full Details
+                      </Link>
+                      <Link
+                        to="/contact"
+                        className={`block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 ${
+                          tier.ctaStyle === 'primary'
+                            ? 'bg-accent text-accent-foreground hover:bg-accent-hover'
+                            : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                        }`}
+                      >
+                        {tier.cta}
+                      </Link>
+                    </div>
                   </div>
                 );
               })}
@@ -397,23 +424,32 @@ const Pricing = () => {
                         {mode.description}
                       </p>
 
-                      {/* Pricing */}
-                      <div className="flex items-center gap-6 md:w-auto">
+                      {/* Pricing & Actions */}
+                      <div className="flex items-center gap-4 md:w-auto">
                         <div className="text-right">
                           <span className="text-2xl font-bold text-foreground">{mode.price}</span>
-                          {mode.price !== '15% off' && <span className="text-muted-foreground text-sm">/mo</span>}
+                          <span className="text-muted-foreground text-sm">/mo</span>
                           <p className="text-xs text-muted-foreground">{mode.setup} setup</p>
                         </div>
-                        <Link
-                          to={mode.featured ? '/let-ai-handle-it/full-takeover' : '/contact'}
-                          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 whitespace-nowrap ${
-                            mode.featured
-                              ? 'bg-accent text-accent-foreground hover:bg-accent-hover'
-                              : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                          }`}
-                        >
-                          {mode.featured ? 'Learn More' : 'Get Started'}
-                        </Link>
+                        <div className="flex flex-col gap-1.5">
+                          <Link
+                            to={mode.href}
+                            className="inline-flex items-center justify-center gap-1 text-xs text-accent hover:text-accent/80 transition-colors"
+                          >
+                            See Details
+                            <ArrowRight className="w-3 h-3" />
+                          </Link>
+                          <Link
+                            to="/contact"
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+                              mode.featured
+                                ? 'bg-accent text-accent-foreground hover:bg-accent-hover'
+                                : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                            }`}
+                          >
+                            Get Started
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>

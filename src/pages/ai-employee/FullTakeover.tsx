@@ -65,18 +65,18 @@ export default function FullTakeover() {
               </div>
               
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-6">
                 <Bot className="w-4 h-4" />
                 <span>Full AI Employee</span>
               </div>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
                 <span className="text-foreground">Your Complete</span>{' '}
-                <span className="text-gradient">AI Receptionist</span>
+                <span className="text-gradient">AI Employee</span>
               </h1>
               
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-                Every channel. Every hour. Every lead. Your AI Employee handles calls, texts, web chat, booking, and screening — so you can focus on the work that pays.
+                Every channel. Every hour. Every lead. Your Full AI Employee handles calls, texts, web chat, booking, and screening — so you can focus on the work that pays.
               </p>
               
               {/* Pricing */}
@@ -88,7 +88,7 @@ export default function FullTakeover() {
               
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <CTAButton 
-                  to="/pricing#full-takeover" 
+                  to="/pricing?tab=ai" 
                   defaultText="Get Full AI Employee"
                   hoverText="Complete Solution"
                 />
@@ -194,7 +194,7 @@ export default function FullTakeover() {
                 Let AI handle your entire phone operation. You focus on what matters.
               </p>
               <CTAButton 
-                to="/pricing#full-takeover" 
+                to="/pricing?tab=ai" 
                 defaultText="Get Full AI Employee"
                 hoverText="$597/mo + $2,500 setup"
               />
