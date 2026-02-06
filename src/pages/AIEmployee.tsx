@@ -333,22 +333,15 @@ export default function AIEmployee() {
               {transcriptProofs.map((proof, index) => (
                 <div 
                   key={index}
-                  className="rounded-2xl border border-border/30 bg-card/50 p-6 hover:border-accent/30 transition-colors"
+                  className="rounded-2xl border border-border/30 bg-card/50 p-6"
                 >
                   <div className="flex items-center gap-2 mb-4">
                     <FileText className="w-5 h-5 text-accent" />
-                    <span className="text-xs text-muted-foreground uppercase tracking-wide">Transcript</span>
+                    <span className="text-xs text-muted-foreground uppercase tracking-wide">Real Result</span>
                   </div>
                   <h3 className="text-lg font-semibold text-foreground mb-3">{proof.title}</h3>
                   <p className="text-sm text-muted-foreground mb-4 italic">"{proof.preview}"</p>
                   <p className="text-sm text-accent font-medium">{proof.result}</p>
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-accent mt-4 transition-colors"
-                  >
-                    Read full transcript
-                    <ArrowRight className="w-3 h-3" />
-                  </Link>
                 </div>
               ))}
             </div>
