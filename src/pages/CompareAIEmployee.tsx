@@ -72,9 +72,10 @@ const featureCategories = [
     name: 'Unlimited AI',
     description: 'Included with Full AI Employee, or add to any plan for $149/mo',
     features: [
-      { name: 'Unlimited SMS/Text AI', values: ['+$149', '+$149', true], badge: 'addon' },
-      { name: 'Unlimited AI review responses', values: ['+$149', '+$149', true], badge: 'addon' },
-      { name: 'Unlimited content AI', values: ['+$149', '+$149', true], badge: 'addon' },
+      { name: 'Conversation AI (SMS/chat)', values: ['+$149', '+$149', true], badge: 'addon' },
+      { name: 'Reviews AI', values: ['+$149', '+$149', true], badge: 'addon' },
+      { name: 'Content AI', values: ['+$149', '+$149', true], badge: 'addon' },
+      { name: 'Funnel & Website AI', values: ['+$149', '+$149', true], badge: 'addon' },
     ],
   },
   {
@@ -467,7 +468,14 @@ export default function CompareAIEmployee() {
                           <span className="text-sm text-foreground/80">{feature.name}</span>
                         </div>
                         {feature.values.map((value, idx) => (
-                          <div key={idx} className="col-span-1 flex items-center justify-center">
+                          <div 
+                            key={idx} 
+                            className={cn(
+                              "col-span-1 flex items-center justify-center py-1 -my-1 rounded",
+                              // Subtle highlight on Full AI Employee column for addon features
+                              category.name === 'Unlimited AI' && idx === 2 && "bg-accent/10"
+                            )}
+                          >
                             <FeatureValue value={value} badge={feature.badge} />
                           </div>
                         ))}
