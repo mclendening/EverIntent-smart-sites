@@ -2,25 +2,21 @@
  * @fileoverview Pricing page with tabs for Smart Websites and AI Employee.
  * @module pages/Pricing
  * 
- * BRD v35.0 Pricing (from GAP-FIX-PROMPT-CHAIN.md Prompt 1):
+ * Consolidated AI Employee Modes:
+ * - After-Hours: $197/mo + $1,497 setup (includes booking + missed call recovery)
+ * - Front Office: $297/mo + $1,497 setup (includes missed call recovery)
+ * - Full AI Employee: $597/mo + $2,500 setup
+ * - Web Chat Only: $79/mo + $497 setup
  * 
  * Smart Websites:
  * - Smart Site (T1): $249 one-time, $149/yr after Y1
  * - Smart Lead (T2): $97/mo, 400 SMS, 30 AI min
  * - Smart Business (T3): $197/mo, 600 SMS, 50 AI min
  * - Smart Growth (T4): $497/mo, 1000 SMS, 100 AI min
- * 
- * AI Employee Modes:
- * - After Hours: $149/mo + $1,497 setup
- * - After Hours + Booking: $197/mo + $1,497 setup
- * - Missed Call Recovery: $149/mo + $1,497 setup
- * - Front Line Screening: $297/mo + $1,497 setup
- * - Full AI Employee: 15% bundle discount + $1,497 setup
- * - Web Chat Only: $79/mo + $497 setup
  */
 
 import { useState, useEffect } from 'react';
-import { Check, Minus, ArrowRight, Phone, Moon, Calendar, PhoneForwarded, Filter, Bot, MessageSquare, Star, ExternalLink } from 'lucide-react';
+import { Check, Minus, ArrowRight, Moon, ShieldCheck, Bot, MessageSquare } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
 import {
@@ -65,58 +61,38 @@ const websiteTiers = [
 ];
 
 // ============================================
-// DATA - AI Employee Modes
+// DATA - AI Employee Modes (Consolidated)
 // ============================================
 
 const aiModes = [
   {
     id: 'after-hours',
-    name: 'After Hours',
+    name: 'After-Hours',
     icon: Moon,
-    bestFor: 'Answer calls when you are closed',
-    price: '$149',
+    bestFor: 'Complete after-hours coverage',
+    price: '$197',
     setup: '$1,497',
-    description: 'You close at 5pm. Your AI does not. Answer calls, take messages, qualify leads.',
+    description: 'AI answers after hours, books appointments, and texts back missed calls. Never lose a lead when you\'re closed.',
     href: '/let-ai-handle-it/after-hours',
   },
   {
-    id: 'booking',
-    name: 'After Hours + Booking',
-    icon: Calendar,
-    bestFor: 'Let AI book appointments',
-    price: '$197',
-    setup: '$1,497',
-    description: 'Everything in After Hours, plus AI can send booking links and confirm appointments.',
-    href: '/let-ai-handle-it/booking',
-  },
-  {
-    id: 'missed-call',
-    name: 'Missed Call Recovery',
-    icon: PhoneForwarded,
-    bestFor: 'Text back every missed call in under 60s',
-    price: '$149',
-    setup: '$1,497',
-    description: 'Every missed call gets a text within 60 seconds. AI starts the conversation before they call your competitor.',
-    href: '/let-ai-handle-it/missed-call',
-  },
-  {
-    id: 'screening',
-    name: 'Front Line Screening',
-    icon: Filter,
-    bestFor: 'AI answers, screens, transfers',
+    id: 'front-office',
+    name: 'Front Office',
+    icon: ShieldCheck,
+    bestFor: 'Screen, qualify, and transfer',
     price: '$297',
     setup: '$1,497',
-    description: 'AI answers during business hours. Handles FAQs, qualifies leads, transfers hot opportunities to you live.',
-    href: '/let-ai-handle-it/screening',
+    description: 'AI screens all calls, qualifies leads, recovers missed calls, and transfers hot opportunities live.',
+    href: '/let-ai-handle-it/front-office',
   },
   {
     id: 'full',
     name: 'Full AI Employee',
     icon: Bot,
-    bestFor: 'Everything above',
+    bestFor: 'Everything included',
     price: '$597',
     setup: '$2,500',
-    description: 'All modes combined. Your complete AI-powered front office.',
+    description: 'All modes combined. Your complete AI-powered front office—voice, SMS, booking, screening, web chat.',
     featured: true,
     href: '/let-ai-handle-it/full-takeover',
   },
@@ -159,7 +135,11 @@ const faqItems = [
   },
   {
     question: "What's the setup process for AI Employee?",
-    answer: "The $1,497 setup includes custom AI training for your business, integration with your existing systems (calendar, CRM, phone), workflow configuration, and 30-day optimization. Most setups are live within 5-7 business days.",
+    answer: "Setup includes custom AI training for your business, integration with your existing systems (calendar, CRM, phone), workflow configuration, and 30-day optimization. Most setups are live within 5-7 business days.",
+  },
+  {
+    question: "Do all AI modes include missed call text-back?",
+    answer: "Yes! All AI Employee modes include missed call text-back recovery. When you can't answer, AI texts the caller within 60 seconds to keep the lead warm.",
   },
 ];
 
@@ -196,7 +176,7 @@ const Pricing = () => {
     <>
       <SEO
         title="Pricing | Smart Websites & AI Employee | EverIntent"
-        description="Professional websites from $249. AI automation from $149/month. Simple pricing with no contracts. See all plans and choose the right fit for your business."
+        description="Professional websites from $249. AI automation from $197/month. Simple pricing with no contracts. See all plans and choose the right fit for your business."
       />
       
       <script
@@ -212,7 +192,7 @@ const Pricing = () => {
             Simple, Transparent Pricing
           </h1>
           <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mb-8">
-            Professional websites from $249. AI automation from $149/month.
+            Professional websites from $249. AI automation from $197/month.
           </p>
 
           {/* Tab Switcher */}
@@ -424,32 +404,23 @@ const Pricing = () => {
                         {mode.description}
                       </p>
 
-                      {/* Pricing & Actions */}
-                      <div className="flex items-center gap-4 md:w-auto">
+                      {/* Pricing */}
+                      <div className="flex items-center gap-6 md:w-auto">
                         <div className="text-right">
                           <span className="text-2xl font-bold text-foreground">{mode.price}</span>
                           <span className="text-muted-foreground text-sm">/mo</span>
                           <p className="text-xs text-muted-foreground">{mode.setup} setup</p>
                         </div>
-                        <div className="flex flex-col gap-1.5">
-                          <Link
-                            to={mode.href}
-                            className="inline-flex items-center justify-center gap-1 text-xs text-accent hover:text-accent/80 transition-colors"
-                          >
-                            See Details
-                            <ArrowRight className="w-3 h-3" />
-                          </Link>
-                          <Link
-                            to="/contact"
-                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 whitespace-nowrap ${
-                              mode.featured
-                                ? 'bg-accent text-accent-foreground hover:bg-accent-hover'
-                                : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                            }`}
-                          >
-                            Get Started
-                          </Link>
-                        </div>
+                        <Link
+                          to={mode.href}
+                          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+                            mode.featured
+                              ? 'bg-accent text-accent-foreground hover:bg-accent-hover'
+                              : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                          }`}
+                        >
+                          Learn More
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -457,38 +428,37 @@ const Pricing = () => {
               })}
             </div>
 
-            {/* See AI in Action CTA */}
-            <div className="text-center mt-12">
-              <Link
-                to="/let-ai-handle-it"
-                className="inline-flex items-center gap-2 text-accent font-medium group"
-              >
-                <span className="story-link">See AI in Action</span>
-                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
+            {/* Missed Call Note */}
+            <div className="mt-8 max-w-md mx-auto p-4 rounded-xl bg-accent/5 border border-accent/20 text-center">
+              <p className="text-sm text-muted-foreground">
+                <span className="text-accent font-medium">All modes include</span> missed call text-back recovery.
+              </p>
             </div>
           </div>
         </section>
       )}
 
       {/* FAQ Section */}
-      <section className="py-16 md:py-24 bg-background">
+      <section id="faq" className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
               Frequently Asked Questions
             </h2>
+            <p className="text-muted-foreground">
+              Everything you need to know about pricing and plans.
+            </p>
           </div>
 
           <div className="max-w-3xl mx-auto">
-            <Accordion type="single" collapsible className="space-y-4">
+            <Accordion type="single" collapsible className="space-y-3">
               {faqItems.map((item, index) => (
                 <AccordionItem
                   key={index}
-                  value={`item-${index}`}
-                  className="rounded-xl border border-border/30 bg-card/50 px-6 overflow-hidden"
+                  value={`faq-${index}`}
+                  className="border border-border/30 rounded-xl px-6 bg-card/30 data-[state=open]:bg-card/50"
                 >
-                  <AccordionTrigger className="text-left text-foreground hover:text-accent py-4">
+                  <AccordionTrigger className="text-left text-foreground hover:text-accent hover:no-underline py-4">
                     {item.question}
                   </AccordionTrigger>
                   <AccordionContent className="text-muted-foreground pb-4">
@@ -501,21 +471,31 @@ const Pricing = () => {
         </div>
       </section>
 
-      {/* Final CTA */}
+      {/* Bottom CTA */}
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Not sure which plan?
-          </h2>
-          <p className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
-            Book a free 15-minute call. We'll help you find the right fit.
-          </p>
-          <Link
-            to="/contact"
-            className="btn-gold btn-glow"
-          >
-            Book a Call
-          </Link>
+          <div className="max-w-2xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+              Ready to get started?
+            </h2>
+            <p className="text-muted-foreground mb-8">
+              Book a free strategy call or get started with Smart Site today.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                to="/contact"
+                className="btn-gold btn-glow"
+              >
+                Book Strategy Call
+              </Link>
+              <Link
+                to="/smart-websites/smart-site"
+                className="px-6 py-3 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors font-medium"
+              >
+                Start with Smart Site — $249
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
     </>

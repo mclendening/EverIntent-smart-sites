@@ -1,13 +1,11 @@
 /**
- * @fileoverview AI Employee Product Page - Rebuilt per GAP Prompt 2
+ * @fileoverview AI Employee Product Page
  * @module pages/AIEmployee
  * 
- * BRD v35.0 Pricing:
- * - After Hours: $149/mo + $1,497 setup
- * - After Hours + Booking: $197/mo + $1,497 setup
- * - Missed Call Recovery: $149/mo + $1,497 setup
- * - Front Line Screening: $297/mo + $1,497 setup
- * - Full AI Employee: 15% bundle discount + $1,497 setup
+ * Consolidated pricing:
+ * - After-Hours: $197/mo + $1,497 setup (includes booking + missed call recovery)
+ * - Front Office: $297/mo + $1,497 setup (includes missed call recovery)
+ * - Full AI Employee: $597/mo + $2,500 setup (everything)
  * - Web Chat Only: $79/mo + $497 setup
  */
 
@@ -17,69 +15,62 @@ import { SMSDemo } from '@/components/ai-employee/SMSDemo';
 import { ClientOnly } from '@/components/ClientOnly';
 import { 
   Moon, 
-  Calendar, 
-  PhoneForwarded, 
-  Filter, 
+  ShieldCheck, 
   Bot, 
   MessageSquare,
   ArrowRight,
-  Star,
   Phone,
   Bell,
   CheckCircle2,
-  FileText
+  FileText,
+  Calendar
 } from 'lucide-react';
 
 // ============================================
-// DATA
+// DATA - Consolidated to 3 modes + web chat
 // ============================================
 
 const aiModes = [
   {
     id: 'after-hours',
-    name: 'After Hours',
+    name: 'After-Hours',
     icon: Moon,
-    description: 'You close at 5pm. Your AI does not. Answer calls, take messages, qualify leads.',
+    description: 'AI answers calls when you\'re closed, books appointments, and texts back missed calls. Complete after-hours coverage.',
     bestFor: 'Businesses with set hours',
-    price: '$149',
-    setup: '$1,497',
-  },
-  {
-    id: 'booking',
-    name: 'After Hours + Booking',
-    icon: Calendar,
-    description: 'Everything in After Hours, plus AI can send booking links and confirm appointments.',
-    bestFor: 'Service businesses that book appointments',
     price: '$197',
     setup: '$1,497',
+    href: '/let-ai-handle-it/after-hours',
   },
   {
-    id: 'missed-call',
-    name: 'Missed Call Recovery',
-    icon: PhoneForwarded,
-    description: 'Every missed call gets a text within 60 seconds. AI starts the conversation before they call your competitor.',
-    bestFor: 'Busy owners who cannot always answer',
-    price: '$149',
-    setup: '$1,497',
-  },
-  {
-    id: 'screening',
-    name: 'Front Line Screening',
-    icon: Filter,
-    description: 'AI answers during business hours. Handles FAQs, qualifies leads, transfers hot opportunities to you live.',
+    id: 'front-office',
+    name: 'Front Office',
+    icon: ShieldCheck,
+    description: 'AI answers during business hours. Screens callers, qualifies leads, recovers missed calls, transfers hot opportunities live.',
     bestFor: 'Teams drowning in calls',
     price: '$297',
     setup: '$1,497',
+    href: '/let-ai-handle-it/front-office',
   },
   {
     id: 'full',
     name: 'Full AI Employee',
     icon: Bot,
-    description: 'All modes combined. Your complete AI-powered front office.',
+    description: 'All modes combined. Your complete AI-powered front office—voice, SMS, booking, screening, web chat.',
     bestFor: 'Maximum automation',
-    price: '15% off',
-    setup: '$1,497',
+    price: '$597',
+    setup: '$2,500',
     featured: true,
+    href: '/let-ai-handle-it/full-takeover',
+  },
+  {
+    id: 'web-chat',
+    name: 'Web Chat Only',
+    icon: MessageSquare,
+    description: 'AI chat widget for your website. Capture leads 24/7 without voice AI.',
+    bestFor: 'Website chat without phone',
+    price: '$79',
+    setup: '$497',
+    href: '/contact',
   },
 ];
 
@@ -117,7 +108,7 @@ export default function AIEmployee() {
     <>
       <SEO 
         title="Let AI Handle It — 24/7 AI Phone Answering | EverIntent"
-        description="Your phone answered 24/7. Missed calls recovered. Appointments booked automatically. AI Employee starts at $149/mo."
+        description="Your phone answered 24/7. Missed calls recovered. Appointments booked automatically. AI Employee starts at $197/mo."
       />
       
       <main className="min-h-screen">
@@ -212,7 +203,7 @@ export default function AIEmployee() {
                 Choose Your Mode
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Five ways to let AI handle your phones. Start with one, add more as you grow.
+                Three ways to let AI handle your phones. All modes include missed call text-back.
               </p>
             </div>
 
@@ -254,18 +245,18 @@ export default function AIEmployee() {
                       <div className="flex items-center gap-6 md:w-auto">
                         <div className="text-right">
                           <span className="text-2xl font-bold text-foreground">{mode.price}</span>
-                          {mode.price !== '15% off' && <span className="text-muted-foreground text-sm">/mo</span>}
+                          <span className="text-muted-foreground text-sm">/mo</span>
                           <p className="text-xs text-muted-foreground">{mode.setup} setup</p>
                         </div>
                         <Link
-                          to={mode.featured ? '/let-ai-handle-it/full-takeover' : '/contact'}
+                          to={mode.href}
                           className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                             mode.featured
                               ? 'bg-accent text-accent-foreground hover:bg-accent-hover'
                               : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
                           }`}
                         >
-                          {mode.featured ? 'Learn More' : 'Get Started'}
+                          Learn More
                         </Link>
                       </div>
                     </div>
@@ -282,7 +273,7 @@ export default function AIEmployee() {
             <div className="max-w-3xl mx-auto rounded-2xl border border-accent/30 bg-accent/5 p-6 md:p-8">
               <div className="flex flex-col md:flex-row md:items-center gap-6">
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-foreground mb-2">One-Time $1,497 Setup Includes:</h3>
+                  <h3 className="text-xl font-bold text-foreground mb-2">One-Time Setup Includes:</h3>
                   <ul className="grid sm:grid-cols-2 gap-2 text-sm text-muted-foreground">
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-accent" />
@@ -303,8 +294,8 @@ export default function AIEmployee() {
                   </ul>
                 </div>
                 <div className="text-center md:text-right">
-                  <p className="text-sm text-muted-foreground">Web Chat Only:</p>
-                  <p className="text-lg font-bold text-foreground">$497 setup + $79/mo</p>
+                  <p className="text-sm text-muted-foreground">All modes include:</p>
+                  <p className="text-lg font-bold text-accent">Missed call text-back</p>
                 </div>
               </div>
             </div>

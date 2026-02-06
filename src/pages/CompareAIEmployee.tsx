@@ -5,6 +5,11 @@
  * Award-winning comparison with:
  * - Mobile: Expandable mode cards with inline features (no horizontal scroll)
  * - Desktop: Horizontal mode cards with feature highlights
+ * 
+ * Consolidated modes:
+ * - After-Hours: $197/mo (includes booking + missed call recovery)
+ * - Front Office: $297/mo (includes missed call recovery)
+ * - Full AI Employee: $597/mo (all features)
  */
 
 import { useState } from 'react';
@@ -12,8 +17,6 @@ import {
   Check, 
   Minus, 
   Moon, 
-  Calendar, 
-  PhoneOff, 
   ShieldCheck, 
   Bot, 
   ArrowRight, 
@@ -24,48 +27,28 @@ import { SEO } from '@/components/SEO';
 import { cn } from '@/lib/utils';
 
 /**
- * AI Employee mode data
+ * AI Employee mode data - Consolidated to 3 modes
  */
 const modes = [
   {
     name: 'After-Hours',
-    tagline: 'Never miss an after-hours call',
-    price: '$149',
+    tagline: 'Complete after-hours coverage',
+    price: '$197',
     period: '/mo',
     setup: '$1,497 setup',
-    description: 'AI answers calls when you\'re closed. Captures leads while you sleep.',
+    description: 'AI answers after hours, books appointments, texts back missed calls. Never lose a lead when you\'re closed.',
     icon: Moon,
     href: '/let-ai-handle-it/after-hours',
   },
   {
-    name: 'After Hours + Booking',
-    tagline: 'Book appointments automatically',
-    price: '$197',
-    period: '/mo',
-    setup: '$1,497 setup',
-    description: 'Everything in After Hours, plus AI books directly into your calendar.',
-    icon: Calendar,
-    href: '/let-ai-handle-it/booking',
-  },
-  {
-    name: 'Missed Call Recovery',
-    tagline: 'Recover every missed call',
-    price: '$149',
-    period: '/mo',
-    setup: '$1,497 setup',
-    description: 'Instant text follow-up when calls are missed. Keeps leads warm.',
-    icon: PhoneOff,
-    href: '/let-ai-handle-it/missed-call',
-  },
-  {
-    name: 'Front Line Screening',
+    name: 'Front Office',
     tagline: 'Qualify before you answer',
     price: '$297',
     period: '/mo',
     setup: '$1,497 setup',
-    description: 'AI screens and qualifies callers. Only talk to serious leads.',
+    description: 'AI screens all calls, qualifies leads, recovers missed calls, and transfers hot opportunities live.',
     icon: ShieldCheck,
-    href: '/let-ai-handle-it/screening',
+    href: '/let-ai-handle-it/front-office',
   },
   {
     name: 'Full AI Employee',
@@ -73,7 +56,7 @@ const modes = [
     price: '$597',
     period: '/mo',
     setup: '$2,500 setup',
-    description: 'Everything included. Voice, SMS, booking, screening—fully automated.',
+    description: 'Everything included. Voice, SMS, booking, screening, web chat—your complete AI front office.',
     icon: Bot,
     href: '/let-ai-handle-it/full-takeover',
     highlight: true,
@@ -82,44 +65,46 @@ const modes = [
 
 /**
  * Feature comparison data organized by category
+ * Updated to reflect 3 consolidated modes
  */
 const featureCategories = [
   {
     name: 'Call Handling',
     features: [
-      { name: 'AI voice answering', values: [true, true, false, true, true] },
-      { name: 'After-hours coverage', values: [true, true, false, true, true] },
-      { name: '24/7 availability', values: [true, true, false, true, true] },
-      { name: 'Live call transfer', values: [false, false, false, true, true] },
-      { name: 'Custom greeting script', values: [true, true, false, true, true] },
+      { name: 'AI voice answering', values: [true, true, true] },
+      { name: 'After-hours coverage', values: [true, true, true] },
+      { name: 'Business hours coverage', values: [false, true, true] },
+      { name: 'Live call transfer', values: [false, true, true] },
+      { name: 'Custom greeting script', values: [true, true, true] },
     ],
   },
   {
     name: 'Lead Capture',
     features: [
-      { name: 'Missed call text-back', values: [false, false, true, false, true] },
-      { name: 'Lead qualification', values: [false, false, false, true, true] },
-      { name: 'Contact info capture', values: [true, true, true, true, true] },
-      { name: 'CRM integration', values: [true, true, true, true, true] },
-      { name: 'Lead scoring', values: [false, false, false, true, true] },
+      { name: 'Missed call text-back', values: [true, true, true] },
+      { name: 'Lead qualification', values: [false, true, true] },
+      { name: 'Contact info capture', values: [true, true, true] },
+      { name: 'CRM integration', values: [true, true, true] },
+      { name: 'Lead scoring', values: [false, true, true] },
     ],
   },
   {
     name: 'Booking & Scheduling',
     features: [
-      { name: 'Appointment booking', values: [false, true, false, false, true] },
-      { name: 'Calendar integration', values: [false, true, false, false, true] },
-      { name: 'Confirmation SMS', values: [false, true, true, false, true] },
-      { name: 'Rescheduling support', values: [false, true, false, false, true] },
+      { name: 'Appointment booking', values: [true, false, true] },
+      { name: 'Calendar integration', values: [true, false, true] },
+      { name: 'Confirmation SMS', values: [true, true, true] },
+      { name: 'Rescheduling support', values: [true, false, true] },
     ],
   },
   {
     name: 'Support & Training',
     features: [
-      { name: 'Custom AI training', values: [true, true, true, true, true] },
-      { name: 'Dedicated onboarding', values: [false, false, false, true, true] },
-      { name: 'Priority support', values: [false, false, false, false, true] },
-      { name: 'Monthly optimization', values: [false, false, false, false, true] },
+      { name: 'Custom AI training', values: [true, true, true] },
+      { name: 'Dedicated onboarding', values: [false, true, true] },
+      { name: 'Priority support', values: [false, false, true] },
+      { name: 'Monthly optimization', values: [false, false, true] },
+      { name: 'Web chat widget', values: [false, false, true] },
     ],
   },
 ];
@@ -277,7 +262,7 @@ export default function CompareAIEmployee() {
     <>
       <SEO
         title="Compare AI Employee Modes | EverIntent"
-        description="Compare AI Employee modes side-by-side. From after-hours coverage at $149/mo to full automation at $597/mo. Find the perfect AI solution."
+        description="Compare AI Employee modes side-by-side. After-Hours at $197/mo, Front Office at $297/mo, or full automation at $597/mo. Find the perfect AI solution."
         canonical="/compare-ai-employee"
       />
       
@@ -297,7 +282,7 @@ export default function CompareAIEmployee() {
             </h1>
             
             <p className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto">
-              From after-hours coverage to complete phone automation. Pick what fits your business.
+              From after-hours coverage to complete phone automation. All modes include missed call text-back.
             </p>
           </div>
         </section>
@@ -311,10 +296,10 @@ export default function CompareAIEmployee() {
               ))}
             </div>
             
-            {/* Bundle Discount Note */}
+            {/* Bundle Note */}
             <div className="mt-8 max-w-lg mx-auto p-4 rounded-xl bg-accent/5 border border-accent/20">
               <p className="text-sm text-center text-muted-foreground">
-                <span className="text-accent font-medium">Save 15%</span> with Full AI Employee — all modes included in one package.
+                <span className="text-accent font-medium">All modes include</span> missed call text-back recovery.
               </p>
             </div>
           </div>
@@ -323,14 +308,14 @@ export default function CompareAIEmployee() {
         {/* Desktop: Mode Cards */}
         <section className="pb-12 hidden lg:block">
           <div className="container mx-auto px-4">
-            <div className="grid lg:grid-cols-5 gap-4 max-w-7xl mx-auto">
+            <div className="grid lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {modes.map((mode) => {
                 const Icon = mode.icon;
                 return (
                   <div
                     key={mode.name}
                     className={cn(
-                      "rounded-2xl p-5 border transition-all duration-300",
+                      "rounded-2xl p-6 border transition-all duration-300",
                       mode.highlight 
                         ? "border-accent/40 bg-accent/5" 
                         : "border-border/30 bg-card/30 hover:border-accent/30"
@@ -338,32 +323,34 @@ export default function CompareAIEmployee() {
                   >
                     <div className="flex flex-col items-center text-center">
                       <div className={cn(
-                        "w-11 h-11 rounded-xl flex items-center justify-center mb-3",
+                        "w-14 h-14 rounded-xl flex items-center justify-center mb-4",
                         mode.highlight ? "bg-accent/20" : "bg-accent/10"
                       )}>
-                        <Icon className="w-5 h-5 text-accent" />
+                        <Icon className="w-7 h-7 text-accent" />
                       </div>
                       
-                      <h3 className="text-base font-semibold text-foreground">{mode.name}</h3>
-                      <p className="text-xs text-muted-foreground mb-3">{mode.tagline}</p>
+                      <h3 className="text-xl font-semibold text-foreground">{mode.name}</h3>
+                      <p className="text-sm text-muted-foreground mb-4">{mode.tagline}</p>
                       
-                      <div className="mb-1">
-                        <span className="text-2xl font-bold text-foreground">{mode.price}</span>
+                      <div className="mb-2">
+                        <span className="text-3xl font-bold text-foreground">{mode.price}</span>
                         <span className="text-muted-foreground text-sm">{mode.period}</span>
                       </div>
-                      <p className="text-xs text-muted-foreground mb-4">{mode.setup}</p>
+                      <p className="text-xs text-muted-foreground mb-5">{mode.setup}</p>
+                      
+                      <p className="text-sm text-muted-foreground mb-5">{mode.description}</p>
                       
                       <Link
                         to={mode.href}
                         className={cn(
-                          "w-full py-2 px-3 rounded-lg text-center text-sm font-medium transition-all duration-300 flex items-center justify-center gap-1.5",
+                          "w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2",
                           mode.highlight 
                             ? "bg-accent text-accent-foreground hover:bg-accent/90"
                             : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
                         )}
                       >
                         Learn More
-                        <ArrowRight className="w-3.5 h-3.5" />
+                        <ArrowRight className="w-4 h-4" />
                       </Link>
                     </div>
                   </div>
@@ -371,10 +358,10 @@ export default function CompareAIEmployee() {
               })}
             </div>
             
-            {/* Bundle Discount Note */}
+            {/* Bundle Note */}
             <div className="mt-8 max-w-md mx-auto p-4 rounded-xl bg-accent/5 border border-accent/20 text-center">
               <p className="text-sm text-muted-foreground">
-                <span className="text-accent font-medium">Save 15%</span> with Full AI Employee — all modes included in one package.
+                <span className="text-accent font-medium">All modes include</span> missed call text-back recovery.
               </p>
             </div>
           </div>
@@ -383,9 +370,9 @@ export default function CompareAIEmployee() {
         {/* Desktop: Feature Comparison Table */}
         <section className="pb-24 hidden lg:block">
           <div className="container mx-auto px-4">
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-5xl mx-auto">
               {/* Column Headers */}
-              <div className="grid grid-cols-6 gap-3 py-4 px-4 mb-6 border-b border-border/30">
+              <div className="grid grid-cols-4 gap-3 py-4 px-4 mb-6 border-b border-border/30">
                 <div className="col-span-1">
                   <span className="text-xs text-muted-foreground uppercase tracking-wider">Feature</span>
                 </div>
@@ -411,7 +398,7 @@ export default function CompareAIEmployee() {
                     {category.features.map((feature) => (
                       <div
                         key={feature.name}
-                        className="grid grid-cols-6 gap-3 py-3 px-4 rounded-lg hover:bg-card/50 transition-colors"
+                        className="grid grid-cols-4 gap-3 py-3 px-4 rounded-lg hover:bg-card/50 transition-colors"
                       >
                         <div className="col-span-1 flex items-center">
                           <span className="text-sm text-muted-foreground">{feature.name}</span>

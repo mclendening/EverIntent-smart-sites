@@ -1,9 +1,10 @@
 /**
- * @fileoverview Front Line Screening Mode Page
+ * @fileoverview Front Office Mode Page
  * @module pages/ai-employee/FrontLineScreening
  * 
- * Dedicated product page for AI Employee Mode 4: Front Line Screening.
+ * Dedicated product page for AI Employee: Front Office Mode.
  * AI screens all incoming calls, qualifies leads, and transfers hot prospects.
+ * Includes missed call text-back recovery.
  */
 
 import { SEO } from '@/components/SEO';
@@ -15,7 +16,8 @@ import {
   CheckCircle2, 
   Phone,
   Filter,
-  UserCheck
+  UserCheck,
+  PhoneForwarded
 } from 'lucide-react';
 
 const features = [
@@ -23,6 +25,7 @@ const features = [
   'Asks qualifying questions you define',
   'Scores leads based on your criteria',
   'Hot leads transferred to you in real-time',
+  'Missed call text-back in under 60 seconds',
   'Spam and solicitors filtered automatically',
   'Only talk to leads worth your time',
 ];
@@ -38,8 +41,8 @@ export default function FrontLineScreening() {
   return (
     <>
       <SEO 
-        title="Front Line Screening — AI Employee | EverIntent"
-        description="AI screens every call, qualifies leads, and only transfers the hot ones to you. Stop wasting time on tire-kickers. $297/mo."
+        title="Front Office AI — Screen, Qualify & Transfer Calls | EverIntent"
+        description="AI screens every call, qualifies leads, texts back missed calls, and only transfers hot prospects. Stop wasting time on tire-kickers. $297/mo."
       />
       
       <main className="min-h-screen">
@@ -53,13 +56,13 @@ export default function FrontLineScreening() {
               <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground mb-6">
                 <Link to="/let-ai-handle-it" className="hover:text-accent transition-colors">AI Employee</Link>
                 <span>/</span>
-                <span className="text-accent">Front Line Screening</span>
+                <span className="text-accent">Front Office</span>
               </div>
               
               {/* Badge */}
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-6">
                 <ShieldCheck className="w-4 h-4" />
-                <span>Front Line Screening</span>
+                <span>Front Office Mode</span>
               </div>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
@@ -68,7 +71,7 @@ export default function FrontLineScreening() {
               </h1>
               
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-                Your AI screens every caller, asks your qualifying questions, and only transfers the hot prospects. Spam callers and tire-kickers never reach you.
+                Your AI front office screens every caller, asks qualifying questions, recovers missed calls, and only transfers the hot prospects. Spam callers and tire-kickers never reach you.
               </p>
               
               {/* Pricing */}
@@ -104,7 +107,7 @@ export default function FrontLineScreening() {
               <span className="text-gradient">Works</span>
             </h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
               <div className="text-center">
                 <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto mb-4">
                   <Phone className="w-8 h-8 text-accent" />
@@ -127,6 +130,14 @@ export default function FrontLineScreening() {
                 </div>
                 <h3 className="text-lg font-semibold mb-2">3. Hot Transfer</h3>
                 <p className="text-sm text-muted-foreground">Qualified leads transferred live to you</p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto mb-4">
+                  <PhoneForwarded className="w-8 h-8 text-accent" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">4. Missed Call Recovery</h3>
+                <p className="text-sm text-muted-foreground">Text-back in under 60 seconds</p>
               </div>
             </div>
           </div>
@@ -182,24 +193,20 @@ export default function FrontLineScreening() {
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
                 <span className="text-foreground">Why</span>{' '}
-                <span className="text-gradient">Front Line Screening?</span>
+                <span className="text-gradient">Front Office?</span>
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
                 Perfect for teams drowning in calls who need to filter out tire-kickers.
               </p>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
                 <div className="p-5 rounded-xl bg-card border border-border/50">
                   <h3 className="font-semibold text-foreground mb-2">Best For</h3>
-                  <p className="text-sm text-muted-foreground">High-volume businesses, sales teams, offices</p>
+                  <p className="text-sm text-muted-foreground">High-volume businesses, sales teams, busy offices</p>
                 </div>
                 <div className="p-5 rounded-xl bg-card border border-border/50">
                   <h3 className="font-semibold text-foreground mb-2">Key Benefit</h3>
                   <p className="text-sm text-muted-foreground">Only talk to qualified leads—AI handles the rest</p>
-                </div>
-                <div className="p-5 rounded-xl bg-accent/5 border border-accent/30">
-                  <h3 className="font-semibold text-accent mb-2">Want Everything?</h3>
-                  <p className="text-sm text-muted-foreground">Full AI Employee includes all modes for $597/mo</p>
                 </div>
               </div>
             </div>
@@ -219,7 +226,7 @@ export default function FrontLineScreening() {
               </p>
               <CTAButton 
                 to="/pricing?tab=ai" 
-                defaultText="Get Front Line Screening"
+                defaultText="Get Front Office Mode"
                 hoverText="$297/mo + $1,497 setup"
               />
             </div>
