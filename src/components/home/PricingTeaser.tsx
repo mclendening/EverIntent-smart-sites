@@ -132,7 +132,7 @@ export function PricingTeaser() {
         {/* See all plans link */}
         <div className="text-center">
           <Link 
-            to="/pricing" 
+            to="/compare-websites" 
             className="inline-flex items-center gap-2 text-primary font-medium group"
           >
             <span className="story-link">Compare all plans</span>
