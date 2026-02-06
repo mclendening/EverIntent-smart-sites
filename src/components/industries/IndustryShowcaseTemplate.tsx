@@ -129,7 +129,7 @@ function AnimatedTranscript({ messages }: { messages: TranscriptMessage[] }) {
           <Bot className="w-5 h-5 text-accent" />
         </div>
         <div>
-          <p className="font-medium text-foreground">AI Receptionist</p>
+          <p className="font-medium text-foreground">AI Employee</p>
           <p className="text-xs text-muted-foreground">Live call simulation</p>
         </div>
         <div className="ml-auto flex items-center gap-2">
@@ -514,7 +514,7 @@ export function IndustryShowcaseTemplate({
           <div className="text-center max-w-2xl mx-auto mb-12">
             <Badge variant="secondary" className="mb-4">The Solution</Badge>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-              <span className="text-foreground">Your AI receptionist </span>
+              <span className="text-foreground">Your AI Employee </span>
               <span className="text-gradient">in action</span>
             </h2>
             <p className="text-muted-foreground">

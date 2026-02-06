@@ -134,7 +134,7 @@ export default function AfterHours() {
                 <div className="mb-10">
                   <span className="text-5xl md:text-6xl font-bold text-foreground">$197</span>
                   <span className="text-xl text-muted-foreground">/mo</span>
-                  <p className="text-sm text-muted-foreground mt-2">+ $1,497 one-time setup</p>
+                  <p className="text-sm text-muted-foreground mt-2">+ $997 one-time setup</p>
                 </div>
                 
                 {/* CTAs */}
@@ -339,7 +339,7 @@ export default function AfterHours() {
                 <CTAButton 
                   to="/pricing?tab=ai" 
                   defaultText="Get After-Hours Mode"
-                  hoverText="$197/mo + $1,497 setup"
+                  hoverText="$197/mo + $997 setup"
                 />
                 <Link 
                   to="/contact"

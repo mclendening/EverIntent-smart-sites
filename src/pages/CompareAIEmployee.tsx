@@ -35,7 +35,7 @@ const modes = [
     tagline: 'Complete after-hours coverage',
     price: '$197',
     period: '/mo',
-    setup: '$1,497 setup',
+    setup: '$997 setup',
     description: 'AI answers after hours, books appointments, texts back missed calls. Never lose a lead when you\'re closed.',
     icon: Moon,
     href: '/let-ai-handle-it/after-hours',

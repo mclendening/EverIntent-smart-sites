@@ -3,7 +3,7 @@
  * @module pages/AIEmployee
  * 
  * Consolidated pricing:
- * - After-Hours: $197/mo + $1,497 setup (includes booking + missed call recovery)
+ * - After-Hours: $197/mo + $997 setup (includes booking + missed call recovery)
  * - Front Office: $297/mo + $1,497 setup (includes missed call recovery)
  * - Full AI Employee: $597/mo + $2,500 setup (everything)
  * - Web Chat Only: $79/mo + $497 setup
@@ -38,7 +38,7 @@ const aiModes = [
     description: 'AI answers calls when you\'re closed, books appointments, and texts back missed calls. Complete after-hours coverage.',
     bestFor: 'Businesses with set hours',
     price: '$197',
-    setup: '$1,497',
+    setup: '$997',
     href: '/let-ai-handle-it/after-hours',
   },
   {
