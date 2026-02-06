@@ -60,7 +60,7 @@ const aiModes = [
     price: '$597',
     setup: '$2,500',
     featured: true,
-    href: '/let-ai-handle-it/full-takeover',
+    href: '/let-ai-handle-it/full-ai-employee',
   },
   {
     id: 'web-chat',

@@ -36,7 +36,7 @@ const smartWebsitesTiers = [
 const aiEmployeeModes = [
   { title: 'After-Hours', path: '/let-ai-handle-it/after-hours', description: 'Calls, booking & missed call recovery' },
   { title: 'Front Office', path: '/let-ai-handle-it/front-office', description: 'Screen, qualify & transfer' },
-  { title: 'Full AI Employee', path: '/let-ai-handle-it/full-takeover', description: 'Complete phone management' },
+  { title: 'Full AI Employee', path: '/let-ai-handle-it/full-ai-employee', description: 'Complete phone management' },
   { title: 'Compare Plans', path: '/compare-ai-employee', description: 'Side-by-side comparison' },
 ];
 

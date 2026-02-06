@@ -184,7 +184,7 @@ const primaryServicePath = '/beautiful-websites';
 const aiEmployeeModePaths = [
   '/let-ai-handle-it/after-hours',
   '/let-ai-handle-it/front-office',
-  '/let-ai-handle-it/full-takeover',
+  '/let-ai-handle-it/full-ai-employee',
 ];
 
 // Smart Websites tier paths
@@ -478,6 +478,11 @@ export const routes: RouteRecord[] = [
         path: 'let-ai-handle-it/screening',
         Component: FrontLineScreening,
       },
+      {
+        path: 'let-ai-handle-it/full-ai-employee',
+        Component: FullTakeover,
+      },
+      // Legacy redirect - full-takeover now points to full-ai-employee
       {
         path: 'let-ai-handle-it/full-takeover',
         Component: FullTakeover,
