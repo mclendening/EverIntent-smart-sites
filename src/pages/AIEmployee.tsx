@@ -1,318 +1,414 @@
 /**
- * @fileoverview AI Employee Product Page
+ * @fileoverview AI Employee Product Page - Rebuilt per GAP Prompt 2
  * @module pages/AIEmployee
  * 
- * The primary product page for the AI Employee™ — a 24/7 AI receptionist system.
- * Per BRD v35.0, this is the hero product with 5 operating modes (M1-M5).
- * 
- * Page Structure:
- * - Hero: "Your AI Receptionist" value prop
- * - Problem: Missed call revenue loss ($200+ per missed call)
- * - Solution: AI Employee capabilities
- * - Modes: 5 operating modes with pricing
- * - Social Proof: Transcript examples
- * - CTA: Route to checkout
+ * BRD v35.0 Pricing:
+ * - After Hours: $149/mo + $1,497 setup
+ * - After Hours + Booking: $197/mo + $1,497 setup
+ * - Missed Call Recovery: $149/mo + $1,497 setup
+ * - Front Line Screening: $297/mo + $1,497 setup
+ * - Full AI Employee: 15% bundle discount + $1,497 setup
+ * - Web Chat Only: $79/mo + $497 setup
  */
 
 import { SEO } from '@/components/SEO';
-import { CTAButton } from '@/components/CTAButton';
+import { Link } from 'react-router-dom';
+import { SMSDemo } from '@/components/ai-employee/SMSDemo';
+import { ClientOnly } from '@/components/ClientOnly';
 import { 
-  Phone, 
-  Clock, 
+  Moon, 
   Calendar, 
-  MessageSquare, 
-  ShieldCheck, 
+  PhoneForwarded, 
+  Filter, 
+  Bot, 
+  MessageSquare,
   ArrowRight,
+  Star,
+  Phone,
+  Bell,
   CheckCircle2,
-  PhoneOff,
-  DollarSign,
-  Bot,
-  Zap
+  FileText
 } from 'lucide-react';
 
-/**
- * AI Employee operating modes per BRD v35.0.
- * Each mode represents a different level of AI automation.
- */
+// ============================================
+// DATA
+// ============================================
+
 const aiModes = [
   {
-    id: 'M1',
-    name: 'After-Hours Answering',
-    description: 'AI answers calls outside business hours, takes messages, and sends SMS summaries.',
-    price: '$497/mo',
-    setupFee: '$997',
-    features: ['Voice answering', 'Message taking', 'SMS summaries', 'Call transcripts'],
-    icon: Clock,
-    path: '/let-ai-handle-it/after-hours',
+    id: 'after-hours',
+    name: 'After Hours',
+    icon: Moon,
+    description: 'You close at 5pm. Your AI does not. Answer calls, take messages, qualify leads.',
+    bestFor: 'Businesses with set hours',
+    price: '$149',
+    setup: '$1,497',
   },
   {
-    id: 'M2',
-    name: 'After-Hours + Booking',
-    description: 'Everything in M1, plus AI books appointments directly into your calendar.',
-    price: '$497/mo',
-    setupFee: '$997',
-    features: ['All M1 features', 'Calendar integration', 'Appointment booking', 'Confirmation SMS'],
+    id: 'booking',
+    name: 'After Hours + Booking',
     icon: Calendar,
-    popular: true,
-    path: '/let-ai-handle-it/booking',
+    description: 'Everything in After Hours, plus AI can send booking links and confirm appointments.',
+    bestFor: 'Service businesses that book appointments',
+    price: '$197',
+    setup: '$1,497',
   },
   {
-    id: 'M3',
+    id: 'missed-call',
     name: 'Missed Call Recovery',
-    description: 'AI follows up on missed calls with SMS, re-engages leads, and books appointments.',
-    price: '$497/mo',
-    setupFee: '$997',
-    features: ['Missed call detection', 'Automated SMS follow-up', 'Lead re-engagement', 'Booking links'],
-    icon: PhoneOff,
-    path: '/let-ai-handle-it/missed-call',
+    icon: PhoneForwarded,
+    description: 'Every missed call gets a text within 60 seconds. AI starts the conversation before they call your competitor.',
+    bestFor: 'Busy owners who cannot always answer',
+    price: '$149',
+    setup: '$1,497',
   },
   {
-    id: 'M4',
-    name: 'Front Line Screener',
-    description: 'AI screens all incoming calls, qualifies leads, and transfers hot prospects to you.',
-    price: '$547/mo',
-    setupFee: '$1,497',
-    features: ['Live call screening', 'Lead qualification', 'Priority routing', 'Human transfer'],
-    icon: ShieldCheck,
-    path: '/let-ai-handle-it/screening',
+    id: 'screening',
+    name: 'Front Line Screening',
+    icon: Filter,
+    description: 'AI answers during business hours. Handles FAQs, qualifies leads, transfers hot opportunities to you live.',
+    bestFor: 'Teams drowning in calls',
+    price: '$297',
+    setup: '$1,497',
   },
   {
-    id: 'M5',
+    id: 'full',
     name: 'Full AI Employee',
-    description: 'Complete AI receptionist: voice, SMS, web chat, booking, screening, and transfers.',
-    price: '$597/mo',
-    setupFee: '$2,500',
-    features: ['All M1-M4 features', 'Web chat integration', 'Multi-channel support', 'Priority support'],
     icon: Bot,
-    path: '/let-ai-handle-it/full-takeover',
+    description: 'All modes combined. Your complete AI-powered front office.',
+    bestFor: 'Maximum automation',
+    price: '15% off',
+    setup: '$1,497',
+    featured: true,
   },
 ];
 
-/**
- * Problem statistics to emphasize revenue loss from missed calls.
- */
-const problemStats = [
-  { value: '62%', label: 'of calls to small businesses go unanswered' },
-  { value: '$200+', label: 'average value of a missed call' },
-  { value: '$2,400', label: 'monthly revenue lost to 12 missed calls' },
+const transcriptProofs = [
+  {
+    title: '11pm emergency call → $2,400 job booked',
+    preview: '"I have a water heater emergency!" AI responded in 12 seconds, booked a 7am appointment.',
+    result: 'Plumber arrived, fixed leak, $2,400 invoice paid same day.',
+  },
+  {
+    title: 'Missed call recovered → New client signed',
+    preview: 'Customer called during lunch rush. AI texted back in 47 seconds.',
+    result: 'Booked consultation, signed $4,800 annual contract.',
+  },
+  {
+    title: 'FAQ handled → Owner saved 20 min',
+    preview: '"What are your hours? Do you do weekends?" AI answered instantly.',
+    result: 'Customer booked Saturday appointment without owner involvement.',
+  },
 ];
 
-/**
- * AI Employee capabilities for the solution section.
- */
-const capabilities = [
-  { icon: Phone, title: 'Voice Answering', description: 'Natural voice AI answers calls like a real receptionist' },
-  { icon: MessageSquare, title: 'SMS Follow-up', description: 'Automated text messages to recover missed leads' },
-  { icon: Calendar, title: 'Instant Booking', description: 'Books appointments directly into your calendar' },
-  { icon: ShieldCheck, title: 'Call Screening', description: 'Qualifies leads and filters spam calls' },
-  { icon: Zap, title: 'Human Transfer', description: 'Hot leads transferred to you in real-time' },
-  { icon: Bot, title: 'Web Chat', description: 'AI chat widget for your website visitors' },
+const howItWorksSteps = [
+  { icon: Phone, label: 'Customer calls or texts', color: 'text-blue-400' },
+  { icon: Bot, label: 'AI responds instantly', color: 'text-accent' },
+  { icon: Calendar, label: 'Qualifies and books', color: 'text-green-400' },
+  { icon: Bell, label: 'You get notified', color: 'text-purple-400' },
 ];
 
-/**
- * AI Employee product page component.
- * Primary conversion path for the AI-first business model.
- * 
- * @component
- * @returns {JSX.Element} Complete AI Employee product page
- */
+// ============================================
+// COMPONENT
+// ============================================
+
 export default function AIEmployee() {
   return (
     <>
       <SEO 
-        title="AI Employee™ — Your 24/7 AI Receptionist | EverIntent"
-        description="Stop losing money to missed calls. AI Employee answers 24/7, books appointments, screens calls, and recovers missed leads. Starting at $497/mo."
+        title="Let AI Handle It — 24/7 AI Phone Answering | EverIntent"
+        description="Your phone answered 24/7. Missed calls recovered. Appointments booked automatically. AI Employee starts at $149/mo."
       />
       
       <main className="min-h-screen">
-        {/* Hero Section */}
-        <section className="relative py-20 md:py-32 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-accent/5 to-transparent" />
+        {/* Hero Section - Full Viewport */}
+        <section className="relative min-h-[90vh] flex items-center py-20 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-accent/5 via-background to-background" />
           <div className="absolute inset-0 bg-mesh opacity-30" />
           
           <div className="container relative">
             <div className="max-w-4xl mx-auto text-center">
-              {/* Eyebrow */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-6">
-                <Bot className="w-4 h-4" />
-                <span>AI Employee™</span>
-              </div>
-              
-              {/* Headline */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                <span className="text-foreground">Your</span>{' '}
-                <span className="text-gradient">24/7 AI Receptionist</span>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+                Let AI Handle It
               </h1>
               
-              {/* Subheadline */}
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-                Never miss another call. Never lose another lead. 
-                AI Employee answers, books, and screens — so you can focus on the work that matters.
+              <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-8">
+                Your phone answered 24/7. Missed calls recovered. Appointments booked automatically.
               </p>
               
-              {/* CTA */}
+              {/* Stats Row */}
+              <div className="flex flex-wrap justify-center gap-6 md:gap-12 mb-10 text-sm md:text-base">
+                <div className="text-center">
+                  <span className="text-destructive font-bold">62%</span>
+                  <span className="text-muted-foreground ml-2">of calls missed</span>
+                </div>
+                <div className="text-muted-foreground">→</div>
+                <div className="text-center">
+                  <span className="text-destructive font-bold">$200+</span>
+                  <span className="text-muted-foreground ml-2">lost per call</span>
+                </div>
+                <div className="text-muted-foreground">→</div>
+                <div className="text-center">
+                  <span className="text-accent font-bold">AI fixes this</span>
+                </div>
+              </div>
+              
+              {/* CTAs */}
               <div className="flex flex-wrap items-center justify-center gap-4">
-                <CTAButton 
-                  to="/pricing" 
-                  defaultText="See Pricing"
-                  hoverText="Starting at $497/mo"
-                />
+                <Link 
+                  to="/pricing"
+                  className="btn-gold btn-glow"
+                >
+                  See Pricing
+                </Link>
                 <a 
-                  href="#modes" 
+                  href="#demo" 
                   className="group inline-flex items-center gap-2 px-6 py-3 text-foreground hover:text-accent transition-colors"
                 >
-                  <span>Explore Modes</span>
+                  <span>Watch Demo</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </a>
               </div>
             </div>
           </div>
         </section>
-        
-        {/* Problem Section */}
-        <section className="py-16 md:py-24 bg-card">
+
+        {/* SMS Demo Section */}
+        <section id="demo" className="py-16 md:py-24 bg-muted/30">
           <div className="container">
-            <div className="max-w-3xl mx-auto text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                <span className="text-foreground">Missed Calls Are</span>{' '}
-                <span className="text-gradient">Killing Your Revenue</span>
-              </h2>
-              <p className="text-lg text-muted-foreground">
-                Every unanswered call is a customer choosing your competitor instead.
-              </p>
-            </div>
-            
-            {/* Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              {problemStats.map((stat, index) => (
-                <div key={index} className="text-center p-6 rounded-2xl bg-background border border-border/50">
-                  <div className="flex items-center justify-center mb-4">
-                    <DollarSign className="w-8 h-8 text-destructive" />
-                  </div>
-                  <div className="text-4xl font-bold text-foreground mb-2">{stat.value}</div>
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
-                </div>
-              ))}
+            <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+              {/* Left: Phone Mockup */}
+              <div className="order-2 lg:order-1">
+                <ClientOnly>
+                  <SMSDemo />
+                </ClientOnly>
+              </div>
+              
+              {/* Right: Copy */}
+              <div className="order-1 lg:order-2 text-center lg:text-left">
+                <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                  <span className="text-foreground">Watch AI Recover a </span>
+                  <span className="text-gradient">$2,400 Job</span>
+                </h2>
+                <p className="text-lg text-muted-foreground mb-6">
+                  11:47pm. Customer has a water heater emergency. Your phone goes to voicemail.
+                </p>
+                <p className="text-lg text-muted-foreground mb-6">
+                  But AI Employee catches it. Texts back in under 60 seconds. Books the appointment. You wake up to a $2,400 job on your calendar.
+                </p>
+                <p className="text-lg text-foreground font-medium">
+                  This happens every night for our customers.
+                </p>
+              </div>
             </div>
           </div>
         </section>
-        
-        {/* Solution Section */}
+
+        {/* Mode Cards Section */}
+        <section id="modes" className="py-16 md:py-24">
+          <div className="container">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                Choose Your Mode
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Five ways to let AI handle your phones. Start with one, add more as you grow.
+              </p>
+            </div>
+
+            {/* Mode Cards */}
+            <div className="space-y-4 max-w-4xl mx-auto">
+              {aiModes.map((mode) => {
+                const Icon = mode.icon;
+                return (
+                  <div
+                    key={mode.id}
+                    className={`rounded-2xl p-6 border transition-all duration-300 hover-lift ${
+                      mode.featured
+                        ? 'bg-accent/10 border-accent/50 shadow-lg shadow-accent/10'
+                        : 'bg-card/50 border-border/30 hover:border-accent/30'
+                    }`}
+                  >
+                    <div className="flex flex-col md:flex-row md:items-center gap-4">
+                      {/* Icon & Name */}
+                      <div className="flex items-center gap-4 md:w-1/4">
+                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                          mode.featured ? 'bg-accent/20' : 'bg-muted'
+                        }`}>
+                          <Icon className={`w-6 h-6 ${mode.featured ? 'text-accent' : 'text-muted-foreground'}`} />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-semibold text-foreground">{mode.name}</h3>
+                            {mode.featured && (
+                              <span className="px-2 py-0.5 bg-accent text-accent-foreground text-xs font-medium rounded-full flex items-center gap-1">
+                                <Star className="w-3 h-3" />
+                                Most Complete
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-sm text-muted-foreground">Best for: {mode.bestFor}</p>
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-sm text-muted-foreground md:flex-1">
+                        {mode.description}
+                      </p>
+
+                      {/* Pricing */}
+                      <div className="flex items-center gap-6 md:w-auto">
+                        <div className="text-right">
+                          <span className="text-2xl font-bold text-foreground">{mode.price}</span>
+                          {mode.price !== '15% off' && <span className="text-muted-foreground text-sm">/mo</span>}
+                          <p className="text-xs text-muted-foreground">{mode.setup} setup</p>
+                        </div>
+                        <Link
+                          to={mode.featured ? '/pricing' : '/contact'}
+                          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+                            mode.featured
+                              ? 'bg-accent text-accent-foreground hover:bg-accent-hover'
+                              : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                          }`}
+                        >
+                          {mode.featured ? 'Calculate Bundle' : 'Get Started'}
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* Setup Fee Callout */}
+        <section className="py-12 bg-muted/30">
+          <div className="container">
+            <div className="max-w-3xl mx-auto rounded-2xl border border-accent/30 bg-accent/5 p-6 md:p-8">
+              <div className="flex flex-col md:flex-row md:items-center gap-6">
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-foreground mb-2">One-Time $1,497 Setup Includes:</h3>
+                  <ul className="grid sm:grid-cols-2 gap-2 text-sm text-muted-foreground">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-accent" />
+                      Business-specific AI training
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-accent" />
+                      System integration
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-accent" />
+                      Testing & QA
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-accent" />
+                      30-day optimization
+                    </li>
+                  </ul>
+                </div>
+                <div className="text-center md:text-right">
+                  <p className="text-sm text-muted-foreground">Web Chat Only:</p>
+                  <p className="text-lg font-bold text-foreground">$497 setup + $79/mo</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Transcript Proof Section */}
         <section className="py-16 md:py-24">
           <div className="container">
-            <div className="max-w-3xl mx-auto text-center mb-12">
+            <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                <span className="text-foreground">AI Employee</span>{' '}
-                <span className="text-gradient">Has You Covered</span>
+                Real Results from Real Businesses
               </h2>
-              <p className="text-lg text-muted-foreground">
-                A complete AI receptionist system that handles calls, messages, and bookings — 24 hours a day, 7 days a week.
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                These conversations happened. These jobs were booked. This revenue was captured.
               </p>
             </div>
-            
-            {/* Capabilities Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {capabilities.map((cap, index) => (
-                <div key={index} className="p-6 rounded-2xl bg-card border border-border/50 hover:border-accent/30 transition-colors">
-                  <cap.icon className="w-10 h-10 text-accent mb-4" />
-                  <h3 className="text-lg font-semibold text-foreground mb-2">{cap.title}</h3>
-                  <p className="text-sm text-muted-foreground">{cap.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-        
-        {/* Modes Section */}
-        <section id="modes" className="py-16 md:py-24 bg-card">
-          <div className="container">
-            <div className="max-w-3xl mx-auto text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                <span className="text-foreground">Choose Your</span>{' '}
-                <span className="text-gradient">AI Mode</span>
-              </h2>
-              <p className="text-lg text-muted-foreground">
-                Five operating modes to match your business needs. Start simple, scale as you grow.
-              </p>
-            </div>
-            
-            {/* Modes Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-              {aiModes.map((mode) => (
+
+            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {transcriptProofs.map((proof, index) => (
                 <div 
-                  key={mode.id} 
-                  className={`relative p-6 rounded-2xl bg-background border transition-all ${
-                    mode.popular 
-                      ? 'border-accent shadow-lg shadow-accent/10' 
-                      : 'border-border/50 hover:border-accent/30'
-                  }`}
+                  key={index}
+                  className="rounded-2xl border border-border/30 bg-card/50 p-6 hover:border-accent/30 transition-colors"
                 >
-                  {mode.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-accent text-accent-foreground text-xs font-medium">
-                      Most Popular
-                    </div>
-                  )}
-                  
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2 rounded-xl bg-accent/10">
-                      <mode.icon className="w-6 h-6 text-accent" />
-                    </div>
-                    <span className="text-xs font-medium text-muted-foreground">{mode.id}</span>
+                  <div className="flex items-center gap-2 mb-4">
+                    <FileText className="w-5 h-5 text-accent" />
+                    <span className="text-xs text-muted-foreground uppercase tracking-wide">Transcript</span>
                   </div>
-                  
-                  <h3 className="text-xl font-bold text-foreground mb-2">{mode.name}</h3>
-                  <p className="text-sm text-muted-foreground mb-4">{mode.description}</p>
-                  
-                  <div className="mb-4">
-                    <span className="text-2xl font-bold text-foreground">{mode.price}</span>
-                    <span className="text-sm text-muted-foreground ml-2">+ {mode.setupFee} setup</span>
-                  </div>
-                  
-                  <ul className="space-y-2 mb-6">
-                    {mode.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <CheckCircle2 className="w-4 h-4 text-accent flex-shrink-0" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  
-                  <CTAButton 
-                    to={mode.path}
-                    defaultText="Learn More"
-                    hoverText="See Details"
-                    className="w-full"
-                  />
+                  <h3 className="text-lg font-semibold text-foreground mb-3">{proof.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-4 italic">"{proof.preview}"</p>
+                  <p className="text-sm text-accent font-medium">{proof.result}</p>
+                  <Link
+                    to="/contact"
+                    className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-accent mt-4 transition-colors"
+                  >
+                    Read full transcript
+                    <ArrowRight className="w-3 h-3" />
+                  </Link>
                 </div>
               ))}
             </div>
           </div>
         </section>
-        
-        {/* Final CTA Section */}
+
+        {/* How It Works */}
+        <section className="py-16 md:py-24 bg-muted/30">
+          <div className="container">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                How It Works
+              </h2>
+            </div>
+
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 max-w-4xl mx-auto">
+              {howItWorksSteps.map((step, index) => {
+                const Icon = step.icon;
+                return (
+                  <div key={index} className="flex items-center gap-4">
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-16 h-16 rounded-2xl bg-card border border-border/50 flex items-center justify-center mb-3">
+                        <Icon className={`w-8 h-8 ${step.color}`} />
+                      </div>
+                      <p className="text-sm text-foreground font-medium max-w-[120px]">{step.label}</p>
+                    </div>
+                    {index < howItWorksSteps.length - 1 && (
+                      <ArrowRight className="w-6 h-6 text-muted-foreground hidden md:block" />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* Final CTA */}
         <section className="py-16 md:py-24">
           <div className="container">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                <span className="text-foreground">Ready to Stop</span>{' '}
-                <span className="text-gradient">Losing Leads?</span>
+                Ready to never miss a lead?
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
-                Join hundreds of local businesses using AI Employee to capture every call and convert more leads.
+                Join hundreds of local businesses using AI Employee to capture every call.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-4">
-                <CTAButton 
-                  to="/pricing" 
-                  defaultText="See All Pricing"
-                  hoverText="Let's Go!"
-                />
-                <a 
-                  href="/contact" 
+                <Link 
+                  to="/pricing"
+                  className="btn-gold btn-glow"
+                >
+                  See Pricing
+                </Link>
+                <Link 
+                  to="/contact"
                   className="group inline-flex items-center gap-2 px-6 py-3 text-foreground hover:text-accent transition-colors"
                 >
-                  <span>Talk to a Human</span>
+                  <span>Book a Demo</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
+                </Link>
               </div>
             </div>
           </div>
