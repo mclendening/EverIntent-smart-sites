@@ -65,53 +65,57 @@ const modes = [
 
 /**
  * Feature comparison data organized by category
- * Updated to reflect 3 consolidated modes
+ * Updated to reflect 3 consolidated modes + GHL unlimited vs usage-based
  */
 const featureCategories = [
   {
-    name: 'Call Handling',
+    name: 'Unlimited AI (Included)',
+    description: 'Powered by GHL AI Employee — no per-message fees',
     features: [
-      // After-Hours ✓ first
-      { name: 'AI voice answering', values: [true, true, true] },
-      { name: 'After-hours coverage', values: [true, true, true] },
-      { name: 'Custom greeting script', values: [true, true, true] },
-      // After-Hours ✗ last
+      { name: 'SMS/Text conversations', values: [true, true, true], badge: 'unlimited' },
+      { name: 'Missed call text-back', values: [true, true, true], badge: 'unlimited' },
+      { name: 'AI review responses', values: [true, true, true], badge: 'unlimited' },
+      { name: 'CRM integration', values: [true, true, true], badge: 'unlimited' },
+      { name: 'Custom AI training', values: [true, true, true], badge: 'unlimited' },
+    ],
+  },
+  {
+    name: 'Voice AI',
+    description: 'Inbound call handling — usage-based pricing',
+    features: [
+      { name: 'AI voice answering', values: [true, true, true], badge: 'included' },
+      { name: 'After-hours coverage', values: [true, true, true], badge: 'included' },
+      { name: 'Custom greeting script', values: [true, true, true], badge: 'included' },
       { name: 'Business hours coverage', values: [false, true, true] },
       { name: 'Live call transfer', values: [false, true, true] },
+      { name: 'Voice minutes', values: ['500/mo', '1,000/mo', '2,500/mo'], badge: 'included' },
     ],
   },
   {
     name: 'Lead Capture',
     features: [
-      // After-Hours ✓ first
-      { name: 'Missed call text-back', values: [true, true, true] },
       { name: 'Contact info capture', values: [true, true, true] },
-      { name: 'CRM integration', values: [true, true, true] },
-      // After-Hours ✗ last
       { name: 'Lead qualification', values: [false, true, true] },
       { name: 'Lead scoring', values: [false, true, true] },
+      { name: 'Full call transcripts', values: [true, true, true] },
     ],
   },
   {
     name: 'Booking & Scheduling',
     features: [
-      // After-Hours ✓ first
       { name: 'Appointment booking', values: [true, false, true] },
       { name: 'Calendar integration', values: [true, false, true] },
-      { name: 'Confirmation SMS', values: [true, true, true] },
+      { name: 'Confirmation SMS', values: [true, true, true], badge: 'unlimited' },
       { name: 'Rescheduling support', values: [true, false, true] },
     ],
   },
   {
-    name: 'Support & Training',
+    name: 'Premium Features',
     features: [
-      // After-Hours ✓ first
-      { name: 'Custom AI training', values: [true, true, true] },
-      // After-Hours ✗ last
+      { name: 'Web chat widget', values: [false, false, true] },
       { name: 'Dedicated onboarding', values: [false, true, true] },
       { name: 'Priority support', values: [false, false, true] },
       { name: 'Monthly optimization', values: [false, false, true] },
-      { name: 'Web chat widget', values: [false, false, true] },
     ],
   },
 ];
@@ -140,9 +144,21 @@ function getModeFeatures(modeIndex: number) {
 /**
  * Renders a feature value cell for desktop
  */
-function FeatureValue({ value }: { value: boolean }) {
+function FeatureValue({ value, badge }: { value: boolean | string; badge?: string }) {
+  if (typeof value === 'string') {
+    return (
+      <span className="text-sm font-medium text-foreground">{value}</span>
+    );
+  }
   if (value === true) {
-    return <Check className="w-5 h-5 text-accent mx-auto" />;
+    return (
+      <div className="flex items-center justify-center gap-1">
+        <Check className="w-5 h-5 text-accent" />
+        {badge === 'unlimited' && (
+          <span className="text-[10px] font-medium text-green-500 uppercase">∞</span>
+        )}
+      </div>
+    );
   }
   return <Minus className="w-5 h-5 text-muted-foreground/30 mx-auto" />;
 }
@@ -394,12 +410,15 @@ export default function CompareAIEmployee() {
               {/* Feature Categories */}
               {featureCategories.map((category) => (
                 <div key={category.name} className="mb-8">
-                  <div className="flex items-center gap-2 mb-4 px-4">
+                  <div className="flex items-center gap-2 mb-2 px-4">
                     <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                     <h3 className="text-sm font-semibold text-accent uppercase tracking-wider">
                       {category.name}
                     </h3>
                   </div>
+                  {category.description && (
+                    <p className="text-xs text-muted-foreground px-4 mb-4">{category.description}</p>
+                  )}
                   
                   <div className="space-y-1">
                     {category.features.map((feature) => (
@@ -407,12 +426,18 @@ export default function CompareAIEmployee() {
                         key={feature.name}
                         className="grid grid-cols-4 gap-3 py-3 px-4 rounded-lg hover:bg-card/50 transition-colors"
                       >
-                        <div className="col-span-1 flex items-center">
+                        <div className="col-span-1 flex items-center gap-2">
                           <span className="text-sm text-muted-foreground">{feature.name}</span>
+                          {feature.badge === 'unlimited' && (
+                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-green-500/20 text-green-500 font-medium uppercase">Unlimited</span>
+                          )}
+                          {feature.badge === 'included' && (
+                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-accent/20 text-accent font-medium uppercase">Incl.</span>
+                          )}
                         </div>
                         {feature.values.map((value, idx) => (
                           <div key={idx} className="col-span-1 flex items-center justify-center">
-                            <FeatureValue value={value} />
+                            <FeatureValue value={value} badge={feature.badge} />
                           </div>
                         ))}
                       </div>
@@ -442,7 +467,7 @@ export default function CompareAIEmployee() {
                   Ask a question
                 </Link>
                 <Link
-                  to="/let-ai-handle-it/full-takeover"
+                  to="/let-ai-handle-it/full-ai-employee"
                   className="btn-gold px-5 py-2.5 rounded-lg flex items-center justify-center gap-2 text-sm"
                 >
                   Get Full AI Employee

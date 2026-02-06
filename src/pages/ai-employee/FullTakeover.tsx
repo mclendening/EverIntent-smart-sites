@@ -61,6 +61,21 @@ const features = [
   'Priority support and onboarding',
 ];
 
+const unlimitedFeatures = [
+  { name: 'SMS/Text conversations', description: 'Unlimited AI-powered texting' },
+  { name: 'Missed call text-back', description: 'Instant response, no per-message fees' },
+  { name: 'AI review responses', description: 'Automated reputation management' },
+  { name: 'Web chat conversations', description: 'Unlimited website chat sessions' },
+  { name: 'CRM integration', description: 'All leads sync automatically' },
+  { name: 'Lead qualification AI', description: 'Smart scoring included' },
+];
+
+const includedMinutes = {
+  voice: '2,500 voice minutes/mo',
+  overage: '$0.06/min after',
+  note: 'Most businesses never exceed this'
+};
+
 const stats = [
   { icon: Phone, value: '24/7', label: 'Coverage' },
   { icon: Users, value: '5', label: 'Channels' },
@@ -250,8 +265,50 @@ export default function FullTakeover() {
           </div>
         </section>
 
-        {/* Features Grid */}
+        {/* What's Unlimited Section */}
         <section className="py-20 md:py-32">
+          <div className="container">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-16">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/30 text-green-500 text-sm font-medium mb-6">
+                  <span>∞</span>
+                  <span>Powered by GHL AI Employee Unlimited</span>
+                </div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+                  <span className="text-foreground">What's</span>{' '}
+                  <span className="text-gradient">Unlimited</span>
+                </h2>
+                <p className="text-lg text-muted-foreground">
+                  No per-message fees. No hidden costs. Just results.
+                </p>
+              </div>
+
+              {/* Unlimited Features Grid */}
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+                {unlimitedFeatures.map((feature, index) => (
+                  <div key={index} className="p-5 rounded-xl bg-green-500/5 border border-green-500/20">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-green-500 font-bold">∞</span>
+                      <h3 className="font-semibold text-foreground">{feature.name}</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground">{feature.description}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Voice Minutes Callout */}
+              <div className="p-6 rounded-2xl bg-accent/10 border border-accent/30 text-center">
+                <h3 className="text-lg font-semibold text-foreground mb-2">Voice AI Minutes</h3>
+                <p className="text-3xl font-bold text-accent mb-1">{includedMinutes.voice}</p>
+                <p className="text-sm text-muted-foreground mb-2">{includedMinutes.overage}</p>
+                <p className="text-xs text-accent">{includedMinutes.note}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Features Grid */}
+        <section className="py-20 md:py-32 bg-card">
           <div className="container">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-16">
