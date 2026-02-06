@@ -45,12 +45,12 @@ const tiers = [
   },
   {
     name: 'AI Employee',
-    price: '$497',
+    price: 'from $497',
     period: '/month',
     description: 'Voice AI that answers your phone.',
     features: ['24/7 call handling', 'Books appointments', 'Qualifies leads', 'Custom training'],
     popular: false,
-    href: '/pricing#ai-employee',
+    href: '/let-ai-handle-it',
   },
 ];
 

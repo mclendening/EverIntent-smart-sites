@@ -49,7 +49,7 @@ const companyLinks = [
   { title: 'About', path: '/about' },
   { title: 'Contact', path: '/contact' },
   { title: 'Careers', path: '/careers' },
-  { title: 'Legal', path: '/legal/privacy' },
+  { title: 'Client Login', path: 'https://app.everintent.com', external: true },
 ];
 
 /**
@@ -153,12 +153,23 @@ export function Footer() {
             <ul className="space-y-2">
               {companyLinks.map((link) => (
                 <li key={link.path}>
-                  <Link
-                    to={link.path}
-                    className="text-sm text-muted-foreground hover:text-accent transition-colors duration-300"
-                  >
-                    {link.title}
-                  </Link>
+                  {'external' in link && link.external ? (
+                    <a
+                      href={link.path}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-muted-foreground hover:text-accent transition-colors duration-300"
+                    >
+                      {link.title}
+                    </a>
+                  ) : (
+                    <Link
+                      to={link.path}
+                      className="text-sm text-muted-foreground hover:text-accent transition-colors duration-300"
+                    >
+                      {link.title}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
