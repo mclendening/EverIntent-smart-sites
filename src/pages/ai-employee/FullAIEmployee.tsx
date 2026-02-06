@@ -1,7 +1,7 @@
 /**
  * @fileoverview Full AI Employee Mode Page — Award-Winning Design
- * @module pages/ai-employee/FullTakeover
- * 
+ * @module pages/ai-employee/FullAIEmployee
+ *
  * The premium tier: complete AI receptionist across all channels.
  * Features:
  * - Multi-channel capability showcase
@@ -102,7 +102,7 @@ const comparisonPoints = {
 // COMPONENT
 // ============================================
 
-export default function FullTakeover() {
+export default function FullAIEmployee() {
   return (
     <>
       <SEO 

@@ -1,7 +1,7 @@
 /**
  * @fileoverview Front Office Mode Page — Award-Winning Design
- * @module pages/ai-employee/FrontLineScreening
- * 
+ * @module pages/ai-employee/FrontOffice
+ *
  * Features:
  * - Animated call screening flow
  * - Live transfer visualization
@@ -105,7 +105,7 @@ const transcriptProofs = [
 // COMPONENT
 // ============================================
 
-export default function FrontLineScreening() {
+export default function FrontOffice() {
   return (
     <>
       <SEO 
