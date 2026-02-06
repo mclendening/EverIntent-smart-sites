@@ -12,7 +12,6 @@ import { Link } from 'react-router-dom';
 import { Check, ArrowRight, Bot, Inbox, Settings, PhoneCall, Calendar, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { SEO } from '@/components/SEO';
 import {
   Breadcrumb,
@@ -113,9 +112,9 @@ export default function SmartGrowth() {
 
           <div className="max-w-4xl">
             {/* Tier badge */}
-            <Badge className="mb-6 bg-accent/20 text-accent border border-accent/30">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-6">
               Top Tier • Full AI Power
-            </Badge>
+            </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] mb-6 tracking-tight">
               <span className="text-foreground">Smart </span>

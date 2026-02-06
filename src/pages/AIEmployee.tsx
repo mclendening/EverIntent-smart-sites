@@ -156,7 +156,7 @@ export default function AIEmployee() {
               {/* CTAs */}
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <Link 
-                  to="/pricing"
+                  to="/pricing?tab=ai"
                   className="btn-gold btn-glow"
                 >
                   See Pricing
@@ -384,7 +384,7 @@ export default function AIEmployee() {
               </p>
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <Link 
-                  to="/pricing"
+                  to="/pricing?tab=ai"
                   className="btn-gold btn-glow"
                 >
                   See Pricing
