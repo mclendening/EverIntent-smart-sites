@@ -2446,4 +2446,5 @@ The **v36 Offering Baseline** is now complete and verified. Key architectural pa
 
 *Generated: 2026-01-31 | BRD v35.3 | Complete Progression Analysis*  
 *Updated: 2026-02-06 | All discrepancies resolved — v36 Offering Baseline finalized*  
-*Updated: 2026-02-06 | Post-baseline fixes applied (§26) + GHL fix (§26.6) + Summary (§27)*
+*Updated: 2026-02-06 | Post-baseline fixes applied (§26) + GHL fix (§26.6) + Summary (§27)*  
+*Updated: 2026-02-06 | Homepage confirmed at pre-delta luxury minimal state*
