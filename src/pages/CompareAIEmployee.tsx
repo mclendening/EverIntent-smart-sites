@@ -180,7 +180,7 @@ function FeatureValue({ value, badge }: { value: boolean | string; badge?: strin
     );
   }
   // Handle boolean false - not included
-  return <Minus className="w-5 h-5 text-muted-foreground/30 mx-auto" />;
+  return <Minus className="w-5 h-5 text-muted-foreground/50 mx-auto" />;
 }
 
 /**
@@ -293,8 +293,8 @@ function MobileModeCard({ mode, modeIndex }: { mode: typeof modes[0]; modeIndex:
               <ul className="space-y-2">
                 {notIncluded.slice(0, 4).map((feature) => (
                   <li key={feature} className="flex items-start gap-2.5">
-                    <Minus className="w-4 h-4 text-muted-foreground/40 shrink-0 mt-0.5" />
-                    <span className="text-sm text-muted-foreground/60">{feature}</span>
+                    <Minus className="w-4 h-4 text-muted-foreground/50 shrink-0 mt-0.5" />
+                    <span className="text-sm text-muted-foreground/70">{feature}</span>
                   </li>
                 ))}
                 {notIncluded.length > 4 && (
@@ -443,7 +443,13 @@ export default function CompareAIEmployee() {
               
               {/* Feature Categories */}
               {featureCategories.map((category) => (
-                <div key={category.name} className="mb-8">
+                <div 
+                  key={category.name} 
+                  className={cn(
+                    "mb-8 rounded-xl",
+                    category.name === 'Unlimited AI' && "bg-accent/5 border border-accent/20 py-4"
+                  )}
+                >
                   <div className="flex items-center gap-2 mb-2 px-4">
                     <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                     <h3 className="text-sm font-semibold text-accent uppercase tracking-wider">
@@ -461,7 +467,7 @@ export default function CompareAIEmployee() {
                         className="grid grid-cols-4 gap-3 py-3 px-4 rounded-lg hover:bg-card/50 transition-colors"
                       >
                         <div className="col-span-1 flex items-center gap-2">
-                          <span className="text-sm text-muted-foreground">{feature.name}</span>
+                          <span className="text-sm text-foreground/80">{feature.name}</span>
                           {feature.badge === 'addon' && (
                             <span className="text-[9px] px-1.5 py-0.5 rounded bg-accent/20 text-accent font-medium uppercase">+$149</span>
                           )}
