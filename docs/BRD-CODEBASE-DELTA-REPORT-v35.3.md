@@ -2344,9 +2344,46 @@ The following items were flagged as "discrepancies" from BRD v35.3 but are now c
 
 ---
 
+## 26. Post-Baseline Fixes (2026-02-06)
+
+Additional alignment fixes applied after initial reconciliation:
+
+### 26.1 Header Smart Websites Dropdown Links ✅ FIXED
+
+**Before:** Links pointed to `/pricing#smart-site`, `/pricing#smart-lead`, etc.  
+**After:** Links now point to `/smart-websites/smart-site`, `/smart-websites/smart-lead`, etc.  
+**Rationale:** Aligns with hub-and-spoke architecture. Dropdown should link to dedicated tier pages, not pricing anchors.
+
+### 26.2 PricingTeaser AI Employee Display ✅ FIXED
+
+**Before:** Displayed "$497/mo" as flat price  
+**After:** Displays "from $497/mo" to reflect tiered pricing ($497–$597)  
+**Rationale:** Accurate representation of the pricing ladder per v36 luxury spec.
+
+### 26.3 Footer Client Login Link ✅ ADDED
+
+**Before:** No external client login link  
+**After:** Added "Client Login" under Company column linking to `https://app.everintent.com`  
+**Rationale:** Standard agency pattern for existing customer access.
+
+### 26.4 Favicon Cache-Buster ✅ ADDED
+
+**Before:** `/favicon.svg` (no cache control)  
+**After:** `/favicon.svg?v=1` (cache-buster appended)  
+**Rationale:** Ensures favicon updates propagate to browsers.
+
+### 26.5 Footer Company Links Refactored
+
+**Before:** "Legal" link in Company column  
+**After:** Removed redundant "Legal" (already in bottom legal links), added "Client Login" with external link handling  
+**Rationale:** Cleaner separation between internal navigation and external resources.
+
+---
+
 **END OF REPORT**
 
 *This document serves as the comprehensive baseline comparison and progression analysis. The current codebase structure, navigation, and pricing represents the verified offering baseline for EverIntent.*
 
 *Generated: 2026-01-31 | BRD v35.3 | Complete Progression Analysis*  
-*Updated: 2026-02-06 | All discrepancies resolved — v36 Offering Baseline finalized*
+*Updated: 2026-02-06 | All discrepancies resolved — v36 Offering Baseline finalized*  
+*Updated: 2026-02-06 | Post-baseline fixes applied (§26)*
