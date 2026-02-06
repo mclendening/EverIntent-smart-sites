@@ -22,6 +22,7 @@ const smartWebsitesTiers = [
   { title: 'Smart Lead', path: '/smart-websites/smart-lead', description: '$97/mo' },
   { title: 'Smart Business', path: '/smart-websites/smart-business', description: '$197/mo' },
   { title: 'Smart Growth', path: '/smart-websites/smart-growth', description: '$297/mo' },
+  { title: 'Compare Plans', path: '/compare-websites', description: 'Side-by-side comparison' },
 ];
 
 /**
