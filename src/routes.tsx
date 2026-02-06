@@ -58,10 +58,8 @@ import HealthWellnessShowcase from './pages/industries/HealthWellnessShowcase';
 import AutomotiveShowcase from './pages/industries/AutomotiveShowcase';
 // Standalone service pages
 import WarmyEmailDeliverability from './pages/WarmyEmailDeliverability';
-// AI Employee mode pages
+// AI Employee mode pages - Consolidated (After-Hours includes booking + missed call)
 import AfterHours from './pages/ai-employee/AfterHours';
-import BookingAgent from './pages/ai-employee/BookingAgent';
-import MissedCallRecovery from './pages/ai-employee/MissedCallRecovery';
 import FrontLineScreening from './pages/ai-employee/FrontLineScreening';
 import FullTakeover from './pages/ai-employee/FullTakeover';
 // Smart Websites tier pages
@@ -182,12 +180,10 @@ const coreRoutePaths = ['/', '/pricing', '/our-work', '/about', '/contact', '/bo
 const primaryServicePath = '/beautiful-websites';
 
 // Benefit-oriented service pages
-// AI Employee mode paths
+// AI Employee mode paths - Consolidated
 const aiEmployeeModePaths = [
   '/let-ai-handle-it/after-hours',
-  '/let-ai-handle-it/booking',
-  '/let-ai-handle-it/missed-call',
-  '/let-ai-handle-it/screening',
+  '/let-ai-handle-it/front-office',
   '/let-ai-handle-it/full-takeover',
 ];
 
@@ -468,19 +464,16 @@ export const routes: RouteRecord[] = [
         path: 'let-ai-handle-it',
         Component: AIEmployee,
       },
-      // AI Employee mode pages
+      // AI Employee mode pages - Consolidated
       {
         path: 'let-ai-handle-it/after-hours',
         Component: AfterHours,
       },
       {
-        path: 'let-ai-handle-it/booking',
-        Component: BookingAgent,
+        path: 'let-ai-handle-it/front-office',
+        Component: FrontLineScreening,
       },
-      {
-        path: 'let-ai-handle-it/missed-call',
-        Component: MissedCallRecovery,
-      },
+      // Legacy redirect - screening now points to front-office
       {
         path: 'let-ai-handle-it/screening',
         Component: FrontLineScreening,

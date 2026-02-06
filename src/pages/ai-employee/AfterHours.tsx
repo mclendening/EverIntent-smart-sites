@@ -1,27 +1,33 @@
 /**
- * @fileoverview After-Hours Answering Mode Page
+ * @fileoverview After-Hours Mode Page
  * @module pages/ai-employee/AfterHours
  * 
- * Dedicated product page for AI Employee Mode 1: After-Hours Answering.
- * AI answers calls outside business hours, takes messages, and sends SMS summaries.
+ * Dedicated product page for AI Employee: After-Hours Mode.
+ * AI answers calls outside business hours, takes messages, books appointments,
+ * and includes missed call text-back recovery.
+ * 
+ * Consolidated: Includes booking + missed call recovery in base price.
  */
 
 import { SEO } from '@/components/SEO';
 import { CTAButton } from '@/components/CTAButton';
 import { Link } from 'react-router-dom';
 import { 
-  Clock, 
+  Moon, 
   ArrowRight, 
   CheckCircle2, 
   MessageSquare, 
   Phone,
   FileText,
-  Moon
+  Calendar,
+  PhoneForwarded
 } from 'lucide-react';
 
 const features = [
   'Natural voice AI answers calls after hours',
   'Takes detailed messages from callers',
+  'Books appointments directly into your calendar',
+  'Missed call text-back in under 60 seconds',
   'Sends SMS summaries to your phone',
   'Full call transcripts available',
   'Custom greeting with your business name',
@@ -29,17 +35,17 @@ const features = [
 ];
 
 const useCases = [
-  { title: 'Weekend Coverage', description: 'Never miss a Saturday lead while you\'re with family' },
-  { title: 'Holiday Answering', description: 'Stay available during holidays without working' },
-  { title: 'Evening Calls', description: 'Capture leads calling after 5pm' },
+  { icon: Moon, title: 'Weekend Coverage', description: 'Never miss a Saturday lead while you\'re with family' },
+  { icon: Calendar, title: 'Appointment Booking', description: 'AI books directly into your calendar 24/7' },
+  { icon: PhoneForwarded, title: 'Missed Call Recovery', description: 'Text-back within 60 seconds keeps leads warm' },
 ];
 
 export default function AfterHours() {
   return (
     <>
       <SEO 
-        title="After-Hours Answering — AI Employee | EverIntent"
-        description="AI answers your calls after business hours, takes messages, and sends SMS summaries. Never miss an after-hours lead again. $149/mo."
+        title="After-Hours AI — Calls, Booking & Missed Call Recovery | EverIntent"
+        description="AI answers your calls after hours, books appointments, and texts back missed calls instantly. Complete after-hours coverage. $197/mo."
       />
       
       <main className="min-h-screen">
@@ -59,21 +65,21 @@ export default function AfterHours() {
               {/* Badge */}
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-6">
                 <Moon className="w-4 h-4" />
-                <span>After-Hours Answering</span>
+                <span>After-Hours Mode</span>
               </div>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                <span className="text-foreground">Never Miss an</span>{' '}
-                <span className="text-gradient">After-Hours Lead</span>
+                <span className="text-foreground">Complete</span>{' '}
+                <span className="text-gradient">After-Hours Coverage</span>
               </h1>
               
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-                Your AI receptionist answers calls when you're closed, takes messages, and texts you the details. Wake up to leads, not voicemails.
+                AI answers calls, books appointments, and texts back missed calls—all while you're closed. Wake up to leads and booked jobs, not voicemails.
               </p>
               
               {/* Pricing */}
               <div className="mb-8">
-                <span className="text-4xl font-bold text-foreground">$149</span>
+                <span className="text-4xl font-bold text-foreground">$197</span>
                 <span className="text-muted-foreground">/mo</span>
                 <span className="text-sm text-muted-foreground ml-2">+ $1,497 setup</span>
               </div>
@@ -104,7 +110,7 @@ export default function AfterHours() {
               <span className="text-gradient">Works</span>
             </h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
               <div className="text-center">
                 <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto mb-4">
                   <Phone className="w-8 h-8 text-accent" />
@@ -117,16 +123,24 @@ export default function AfterHours() {
                 <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto mb-4">
                   <MessageSquare className="w-8 h-8 text-accent" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">2. AI Takes Message</h3>
-                <p className="text-sm text-muted-foreground">Captures name, number, and reason for calling</p>
+                <h3 className="text-lg font-semibold mb-2">2. AI Engages</h3>
+                <p className="text-sm text-muted-foreground">Captures info, answers FAQs, qualifies the lead</p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto mb-4">
+                  <Calendar className="w-8 h-8 text-accent" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">3. Books Appointment</h3>
+                <p className="text-sm text-muted-foreground">Schedules directly into your calendar</p>
               </div>
               
               <div className="text-center">
                 <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto mb-4">
                   <FileText className="w-8 h-8 text-accent" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">3. You Get a Text</h3>
-                <p className="text-sm text-muted-foreground">Instant SMS summary + full transcript in dashboard</p>
+                <h3 className="text-lg font-semibold mb-2">4. You Get Notified</h3>
+                <p className="text-sm text-muted-foreground">Instant SMS + full transcript in dashboard</p>
               </div>
             </div>
           </div>
@@ -162,13 +176,16 @@ export default function AfterHours() {
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              {useCases.map((useCase, idx) => (
-                <div key={idx} className="p-6 rounded-2xl bg-background border border-border/50">
-                  <Clock className="w-8 h-8 text-accent mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">{useCase.title}</h3>
-                  <p className="text-sm text-muted-foreground">{useCase.description}</p>
-                </div>
-              ))}
+              {useCases.map((useCase, idx) => {
+                const Icon = useCase.icon;
+                return (
+                  <div key={idx} className="p-6 rounded-2xl bg-background border border-border/50">
+                    <Icon className="w-8 h-8 text-accent mb-4" />
+                    <h3 className="text-lg font-semibold mb-2">{useCase.title}</h3>
+                    <p className="text-sm text-muted-foreground">{useCase.description}</p>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -182,21 +199,17 @@ export default function AfterHours() {
                 <span className="text-gradient">After-Hours?</span>
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
-                Perfect for businesses with set hours who want to capture leads when closed.
+                Complete coverage when you're closed—calls answered, appointments booked, missed calls recovered.
               </p>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
                 <div className="p-5 rounded-xl bg-card border border-border/50">
                   <h3 className="font-semibold text-foreground mb-2">Best For</h3>
-                  <p className="text-sm text-muted-foreground">Businesses with set hours (9-5, weekdays only)</p>
+                  <p className="text-sm text-muted-foreground">Businesses with set hours who need complete after-hours coverage</p>
                 </div>
                 <div className="p-5 rounded-xl bg-card border border-border/50">
                   <h3 className="font-semibold text-foreground mb-2">Key Benefit</h3>
-                  <p className="text-sm text-muted-foreground">Never miss an evening or weekend lead again</p>
-                </div>
-                <div className="p-5 rounded-xl bg-accent/5 border border-accent/30">
-                  <h3 className="font-semibold text-accent mb-2">Want Booking Too?</h3>
-                  <p className="text-sm text-muted-foreground">Upgrade to After Hours + Booking for $197/mo</p>
+                  <p className="text-sm text-muted-foreground">Wake up to booked appointments instead of missed opportunities</p>
                 </div>
               </div>
             </div>
@@ -208,16 +221,16 @@ export default function AfterHours() {
           <div className="container">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                <span className="text-foreground">Ready to Capture</span>{' '}
-                <span className="text-gradient">After-Hours Leads?</span>
+                <span className="text-foreground">Ready for Complete</span>{' '}
+                <span className="text-gradient">After-Hours Coverage?</span>
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
                 Stop losing customers to voicemail. Start tonight.
               </p>
               <CTAButton 
                 to="/pricing?tab=ai" 
-                defaultText="Get After-Hours Answering"
-                hoverText="$149/mo + $1,497 setup"
+                defaultText="Get After-Hours Mode"
+                hoverText="$197/mo + $1,497 setup"
               />
             </div>
           </div>

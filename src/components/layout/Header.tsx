@@ -3,6 +3,11 @@
  * @module components/layout/Header
  * 
  * Clean mega-menu style navigation with logical groupings.
+ * 
+ * Consolidated AI Employee modes:
+ * - After-Hours (includes booking + missed call recovery)
+ * - Front Office (renamed from Front Line Screening)
+ * - Full AI Employee
  */
 
 import { useState, useEffect } from 'react';
@@ -26,13 +31,11 @@ const smartWebsitesTiers = [
 ];
 
 /**
- * AI Employee modes dropdown
+ * AI Employee modes dropdown - Consolidated
  */
 const aiEmployeeModes = [
-  { title: 'After-Hours', path: '/let-ai-handle-it/after-hours', description: 'Coverage when you\'re closed' },
-  { title: 'Booking Agent', path: '/let-ai-handle-it/booking', description: 'Appointment scheduling' },
-  { title: 'Missed Call Recovery', path: '/let-ai-handle-it/missed-call', description: 'Recapture lost leads' },
-  { title: 'Front Line Screening', path: '/let-ai-handle-it/screening', description: 'Qualify before you answer' },
+  { title: 'After-Hours', path: '/let-ai-handle-it/after-hours', description: 'Calls, booking & missed call recovery' },
+  { title: 'Front Office', path: '/let-ai-handle-it/front-office', description: 'Screen, qualify & transfer' },
   { title: 'Full AI Employee', path: '/let-ai-handle-it/full-takeover', description: 'Complete phone management' },
   { title: 'Compare Plans', path: '/compare-ai-employee', description: 'Side-by-side comparison' },
 ];
