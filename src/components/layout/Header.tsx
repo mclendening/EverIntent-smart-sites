@@ -34,6 +34,7 @@ const aiEmployeeModes = [
   { title: 'Missed Call Recovery', path: '/let-ai-handle-it/missed-call', description: 'Recapture lost leads' },
   { title: 'Front Line Screening', path: '/let-ai-handle-it/screening', description: 'Qualify before you answer' },
   { title: 'Full AI Employee', path: '/let-ai-handle-it/full-takeover', description: 'Complete phone management' },
+  { title: 'Compare Plans', path: '/compare-ai-employee', description: 'Side-by-side comparison' },
 ];
 
 /**

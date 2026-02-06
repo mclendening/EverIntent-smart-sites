@@ -227,7 +227,7 @@ const Pricing = () => {
           {/* Compare Plans Link */}
           <div className="mt-6">
             <Link 
-              to={activeTab === 'websites' ? '/compare-websites' : '/let-ai-handle-it'}
+              to={activeTab === 'websites' ? '/compare-websites' : '/compare-ai-employee'}
               className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors text-sm font-medium"
             >
               <span className="story-link">Compare all {activeTab === 'websites' ? 'website' : 'AI'} plans</span>

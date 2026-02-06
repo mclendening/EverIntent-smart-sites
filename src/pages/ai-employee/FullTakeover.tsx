@@ -1,5 +1,5 @@
 /**
- * @fileoverview Full Takeover Mode Page
+ * @fileoverview Full AI Employee Mode Page
  * @module pages/ai-employee/FullTakeover
  * 
  * Dedicated product page for AI Employee Mode 5: Full AI Employee.
@@ -151,7 +151,7 @@ export default function FullTakeover() {
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
                 <span className="text-foreground">Why Full</span>{' '}
-                <span className="text-gradient">Takeover?</span>
+                <span className="text-gradient">AI Employee?</span>
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
                 Instead of piecing together individual modes, get everything in one package with priority support.
