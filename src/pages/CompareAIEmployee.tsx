@@ -400,10 +400,10 @@ export default function CompareAIEmployee() {
                       <Link
                         to={mode.href}
                         className={cn(
-                          "w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2",
+                          "w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium flex items-center justify-center gap-2",
                           mode.highlight 
-                            ? "bg-accent text-accent-foreground hover:bg-accent/90"
-                            : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                            ? "btn-gold"
+                            : "bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
                         )}
                       >
                         Learn More
@@ -445,19 +445,21 @@ export default function CompareAIEmployee() {
               {featureCategories.map((category) => (
                 <div 
                   key={category.name} 
-                  className={cn(
-                    "mb-8 rounded-xl",
-                    category.name === 'Unlimited AI' && "bg-accent/5 border border-accent/20 py-4"
-                  )}
+                  className="mb-6"
                 >
-                  <div className="flex items-center gap-2 mb-2 px-4">
+                  <div className="flex items-center gap-2 mb-3 px-4">
                     <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                     <h3 className="text-sm font-semibold text-accent uppercase tracking-wider">
                       {category.name}
                     </h3>
+                    {category.name === 'Unlimited AI' && (
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-accent/10 text-accent font-medium ml-1">
+                        Add-on available
+                      </span>
+                    )}
                   </div>
                   {category.description && (
-                    <p className="text-xs text-muted-foreground px-4 mb-4">{category.description}</p>
+                    <p className="text-xs text-muted-foreground px-4 mb-3">{category.description}</p>
                   )}
                   
                   <div className="space-y-1">
@@ -505,7 +507,7 @@ export default function CompareAIEmployee() {
                 </Link>
                 <Link
                   to="/let-ai-handle-it/full-ai-employee"
-                  className="btn-gold px-5 py-2.5 rounded-lg flex items-center justify-center gap-2 text-sm"
+                  className="btn-gold flex items-center justify-center gap-2"
                 >
                   Get Full AI Employee
                   <ArrowRight className="w-4 h-4" />
