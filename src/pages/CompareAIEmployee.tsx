@@ -15,16 +15,23 @@
 import { useState } from 'react';
 import { 
   Check, 
-  Minus, 
+  X,
   Moon, 
   ShieldCheck, 
   Bot, 
   ArrowRight, 
-  ChevronDown 
+  ChevronDown,
+  HelpCircle
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
 import { cn } from '@/lib/utils';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 /**
  * AI Employee mode data - Consolidated to 3 modes
@@ -72,57 +79,57 @@ const featureCategories = [
     name: 'Unlimited AI',
     description: 'Included with Full AI Employee, or add to any plan for $149/mo',
     features: [
-      { name: 'Conversation AI (SMS/chat)', values: ['+$149', '+$149', true], badge: 'addon' },
-      { name: 'Reviews AI', values: ['+$149', '+$149', true], badge: 'addon' },
-      { name: 'Content AI', values: ['+$149', '+$149', true], badge: 'addon' },
-      { name: 'Funnel & Website AI', values: ['+$149', '+$149', true], badge: 'addon' },
+      { name: 'Conversation AI (SMS/chat)', tooltip: 'Automated text responses across all channels', values: ['+$149', '+$149', true], badge: 'addon' },
+      { name: 'Reviews AI', tooltip: 'Auto-respond to Google & Facebook reviews', values: ['+$149', '+$149', true], badge: 'addon' },
+      { name: 'Content AI', tooltip: 'Generate marketing copy, emails, and social posts', values: ['+$149', '+$149', true], badge: 'addon' },
+      { name: 'Funnel & Website AI', tooltip: 'AI-assisted landing page and funnel builder', values: ['+$149', '+$149', true], badge: 'addon' },
     ],
   },
   {
     name: 'Voice AI',
     description: 'Inbound call handling with included minutes',
     features: [
-      { name: 'AI voice answering', values: [true, true, true] },
-      { name: 'After-hours coverage', values: [true, true, true] },
-      { name: 'Custom greeting script', values: [true, true, true] },
-      { name: 'Business hours coverage', values: [false, true, true] },
-      { name: 'Live call transfer', values: [false, true, true] },
-      { name: 'Voice minutes included', values: ['500/mo', '1,000/mo', '2,500/mo'] },
+      { name: 'AI voice answering', tooltip: 'AI answers calls and handles conversations', values: [true, true, true] },
+      { name: 'After-hours coverage', tooltip: 'Answer calls outside business hours', values: [true, true, true] },
+      { name: 'Custom greeting script', tooltip: 'Personalized call scripts for your brand', values: [true, true, true] },
+      { name: 'Business hours coverage', tooltip: 'AI handles calls during the day too', values: [false, true, true] },
+      { name: 'Live call transfer', tooltip: 'Transfer hot leads to your team in real-time', values: [false, true, true] },
+      { name: 'Voice minutes included', tooltip: 'Monthly voice AI minutes allocation', values: ['500/mo', '1,000/mo', '2,500/mo'] },
     ],
   },
   {
     name: 'Core Features',
     features: [
-      { name: 'Missed call text-back', values: [true, true, true] },
-      { name: 'CRM integration', values: [true, true, true] },
-      { name: 'Custom AI training', values: [true, true, true] },
-      { name: 'Contact info capture', values: [true, true, true] },
-      { name: 'Full call transcripts', values: [true, true, true] },
+      { name: 'Missed call text-back', tooltip: 'Automatically text leads who didn\'t connect', values: [true, true, true] },
+      { name: 'CRM integration', tooltip: 'Sync all interactions to your CRM', values: [true, true, true] },
+      { name: 'Custom AI training', tooltip: 'Train AI on your business specifics', values: [true, true, true] },
+      { name: 'Contact info capture', tooltip: 'Collect caller name, email, and details', values: [true, true, true] },
+      { name: 'Full call transcripts', tooltip: 'Complete transcription of every call', values: [true, true, true] },
     ],
   },
   {
     name: 'Lead Qualification',
     features: [
-      { name: 'Lead qualification', values: [false, true, true] },
-      { name: 'Lead scoring', values: [false, true, true] },
+      { name: 'Lead qualification', tooltip: 'AI qualifies leads before transfer', values: [false, true, true] },
+      { name: 'Lead scoring', tooltip: 'Prioritize leads based on intent signals', values: [false, true, true] },
     ],
   },
   {
     name: 'Booking & Scheduling',
     features: [
-      { name: 'Appointment booking', values: [true, false, true] },
-      { name: 'Calendar integration', values: [true, false, true] },
-      { name: 'Confirmation SMS', values: [true, true, true] },
-      { name: 'Rescheduling support', values: [true, false, true] },
+      { name: 'Appointment booking', tooltip: 'AI books appointments on your calendar', values: [true, false, true] },
+      { name: 'Calendar integration', tooltip: 'Syncs with Google, Outlook, and more', values: [true, false, true] },
+      { name: 'Confirmation SMS', tooltip: 'Automated appointment reminders', values: [true, true, true] },
+      { name: 'Rescheduling support', tooltip: 'AI handles reschedule requests', values: [true, false, true] },
     ],
   },
   {
     name: 'Premium Features',
     features: [
-      { name: 'Web chat widget', values: [false, false, true] },
-      { name: 'Dedicated onboarding', values: [false, true, true] },
-      { name: 'Priority support', values: [false, false, true] },
-      { name: 'Monthly optimization', values: [false, false, true] },
+      { name: 'Web chat widget', tooltip: 'AI chatbot for your website', values: [false, false, true] },
+      { name: 'Dedicated onboarding', tooltip: 'White-glove setup assistance', values: [false, true, true] },
+      { name: 'Priority support', tooltip: 'Fast-track support response', values: [false, false, true] },
+      { name: 'Monthly optimization', tooltip: 'Ongoing AI tuning and improvements', values: [false, false, true] },
     ],
   },
 ];
@@ -154,7 +161,7 @@ function getModeFeatures(modeIndex: number) {
 }
 
 /**
- * Renders a feature value cell for desktop
+ * Renders a feature value cell for desktop - styled like reference
  */
 function FeatureValue({ value, badge }: { value: boolean | string; badge?: string }) {
   // Handle add-on pricing display (e.g., "+$149")
@@ -169,19 +176,20 @@ function FeatureValue({ value, badge }: { value: boolean | string; badge?: strin
       <span className="text-sm font-medium text-foreground">{value}</span>
     );
   }
-  // Handle boolean true - included
+  // Handle boolean true - checkmark in circle
   if (value === true) {
     return (
-      <div className="flex items-center justify-center gap-1">
-        <Check className="w-5 h-5 text-accent" />
-        {badge === 'addon' && (
-          <span className="text-[9px] font-medium text-accent uppercase">Incl.</span>
-        )}
+      <div className="w-7 h-7 rounded-full bg-accent/20 flex items-center justify-center">
+        <Check className="w-4 h-4 text-accent" />
       </div>
     );
   }
-  // Handle boolean false - not included
-  return <Minus className="w-5 h-5 text-muted-foreground/50 mx-auto" />;
+  // Handle boolean false - subtle X
+  return (
+    <div className="w-7 h-7 rounded-full bg-muted/30 flex items-center justify-center">
+      <X className="w-3.5 h-3.5 text-muted-foreground/40" />
+    </div>
+  );
 }
 
 /**
@@ -294,8 +302,8 @@ function MobileModeCard({ mode, modeIndex }: { mode: typeof modes[0]; modeIndex:
               <ul className="space-y-2">
                 {notIncluded.slice(0, 4).map((feature) => (
                   <li key={feature} className="flex items-start gap-2.5">
-                    <Minus className="w-4 h-4 text-muted-foreground/50 shrink-0 mt-0.5" />
-                    <span className="text-sm text-muted-foreground/70">{feature}</span>
+                    <X className="w-4 h-4 text-muted-foreground/40 shrink-0 mt-0.5" />
+                    <span className="text-sm text-muted-foreground/60">{feature}</span>
                   </li>
                 ))}
                 {notIncluded.length > 4 && (
@@ -446,39 +454,54 @@ export default function CompareAIEmployee() {
               {featureCategories.map((category) => (
                 <div 
                   key={category.name} 
-                  className={
-                    category.name === 'Unlimited AI' 
-                      ? "mb-6 border-l-2 border-accent pl-2" 
-                      : "mb-6"
-                  }
+                  className="mb-8 rounded-xl bg-card/20 overflow-hidden"
                 >
-                  <div className="flex items-center gap-2 mb-3 px-4">
-                    <div className="w-1.5 h-1.5 rounded-full bg-accent" />
+                  {/* Category Header */}
+                  <div className="px-5 py-3">
                     <h3 className="text-sm font-semibold text-accent uppercase tracking-wider">
                       {category.name}
                     </h3>
+                    {category.description && (
+                      <p className="text-xs text-muted-foreground mt-1">{category.description}</p>
+                    )}
                   </div>
-                  {category.description && (
-                    <p className="text-xs text-muted-foreground px-4 mb-3">{category.description}</p>
-                  )}
                   
-                  <div className="space-y-1">
-                    {category.features.map((feature) => (
-                      <div
-                        key={feature.name}
-                        className="grid grid-cols-4 gap-3 py-3 px-4 rounded-lg hover:bg-card/50 transition-colors"
-                      >
-                        <div className="col-span-1">
-                          <span className="text-sm text-foreground/80">{feature.name}</span>
-                        </div>
-                        {feature.values.map((value, idx) => (
-                          <div key={idx} className="col-span-1 flex items-center justify-center">
-                            <FeatureValue value={value} badge={feature.badge} />
+                  {/* Feature Rows */}
+                  <TooltipProvider delayDuration={200}>
+                    <div>
+                      {category.features.map((feature, featureIdx) => (
+                        <div
+                          key={feature.name}
+                          className={cn(
+                            "grid grid-cols-4 gap-3 py-3.5 px-5 transition-colors",
+                            "hover:bg-accent/10",
+                            featureIdx % 2 === 0 ? "bg-transparent" : "bg-card/30"
+                          )}
+                        >
+                          {/* Feature name with tooltip */}
+                          <div className="col-span-1 flex items-center gap-2">
+                            <span className="text-sm text-foreground">{feature.name}</span>
+                            {feature.tooltip && (
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <HelpCircle className="w-3.5 h-3.5 text-muted-foreground/50 cursor-help" />
+                                </TooltipTrigger>
+                                <TooltipContent side="top" className="max-w-xs">
+                                  <p className="text-xs">{feature.tooltip}</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            )}
                           </div>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
+                          {/* Values */}
+                          {feature.values.map((value, idx) => (
+                            <div key={idx} className="col-span-1 flex items-center justify-center">
+                              <FeatureValue value={value} badge={feature.badge} />
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </TooltipProvider>
                 </div>
               ))}
             </div>
