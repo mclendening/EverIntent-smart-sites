@@ -315,7 +315,7 @@ const Contact = () => {
                     <div>
                       <p className="font-medium text-foreground">Hours</p>
                       <p className="text-muted-foreground">
-                        Mon–Fri: 9am–6pm EST
+                        Mon–Fri: 9am–6pm PST
                         <br />
                         <span className="text-sm">(AI Employee answers 24/7)</span>
                       </p>
