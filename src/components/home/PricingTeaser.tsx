@@ -22,7 +22,6 @@ const tiers = [
     period: 'one-time',
     description: 'Professional website. You own it.',
     features: ['5-page website', 'Mobile responsive', 'SEO-ready', 'Ready in 5 days'],
-    popular: false,
     href: '/pricing#smart-site',
   },
   {
@@ -31,7 +30,6 @@ const tiers = [
     period: '/month',
     description: 'For ad buyers who need lead capture.',
     features: ['Missed call text-back', 'AI chat widget', 'GBP sync', 'Lead management'],
-    popular: true,
     href: '/pricing#smart-lead',
   },
   {
@@ -40,7 +38,6 @@ const tiers = [
     period: '/month',
     description: 'Full automation for growing teams.',
     features: ['Online booking', 'Review automation', 'CRM pipelines', 'SMS campaigns'],
-    popular: false,
     href: '/pricing#smart-business',
   },
   {
@@ -49,7 +46,6 @@ const tiers = [
     period: '/month',
     description: 'Voice AI that answers your phone.',
     features: ['24/7 call handling', 'Books appointments', 'Qualifies leads', 'Custom training'],
-    popular: false,
     href: '/let-ai-handle-it',
   },
 ];
@@ -84,17 +80,8 @@ export function PricingTeaser() {
           {tiers.map((tier) => (
             <div 
               key={tier.name}
-              className={`relative rounded-2xl p-6 md:p-8 border transition-all duration-300 hover-lift ${
-                tier.popular 
-                  ? 'bg-primary/5 border-primary/50 shadow-lg shadow-primary/10' 
-                  : 'bg-card/50 border-border/30 hover:border-primary/30'
-              }`}
+              className="relative rounded-2xl p-6 md:p-8 border transition-all duration-300 hover-lift bg-card/50 border-border/30 hover:border-primary/30"
             >
-              {tier.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary text-primary-foreground text-xs font-medium rounded-full">
-                  Most Popular
-                </div>
-              )}
               
               <div className="mb-4">
                 <h3 className="text-lg font-semibold text-foreground mb-1">{tier.name}</h3>
@@ -117,11 +104,7 @@ export function PricingTeaser() {
               
               <a
                 href={tier.href}
-                className={`block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 ${
-                  tier.popular
-                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                    : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                }`}
+                className="block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 bg-secondary text-secondary-foreground hover:bg-secondary/80"
               >
                 Get Started
               </a>
