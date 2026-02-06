@@ -53,16 +53,10 @@ export default function FrontLineScreening() {
           <div className="container relative">
             <div className="max-w-4xl mx-auto text-center">
               {/* Breadcrumb */}
-              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground mb-6">
+              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground mb-8">
                 <Link to="/let-ai-handle-it" className="hover:text-accent transition-colors">AI Employee</Link>
                 <span>/</span>
                 <span className="text-accent">Front Office</span>
-              </div>
-              
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-6">
-                <ShieldCheck className="w-4 h-4" />
-                <span>Front Office Mode</span>
               </div>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
