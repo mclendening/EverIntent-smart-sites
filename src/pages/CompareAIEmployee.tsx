@@ -468,14 +468,7 @@ export default function CompareAIEmployee() {
                           <span className="text-sm text-foreground/80">{feature.name}</span>
                         </div>
                         {feature.values.map((value, idx) => (
-                          <div 
-                            key={idx} 
-                            className={cn(
-                              "col-span-1 flex items-center justify-center py-1 -my-1 rounded",
-                              // Subtle highlight on Full AI Employee column for addon features
-                              category.name === 'Unlimited AI' && idx === 2 && "bg-accent/10"
-                            )}
-                          >
+                          <div key={idx} className="col-span-1 flex items-center justify-center">
                             <FeatureValue value={value} badge={feature.badge} />
                           </div>
                         ))}
