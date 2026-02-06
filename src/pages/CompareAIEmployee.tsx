@@ -167,27 +167,27 @@ function FeatureValue({ value, badge }: { value: boolean | string; badge?: strin
   // Handle add-on pricing display (e.g., "+$149")
   if (typeof value === 'string' && value.startsWith('+$')) {
     return (
-      <span className="text-xs font-medium text-muted-foreground">{value}</span>
+      <span className="text-xs font-medium text-foreground/50">{value}</span>
     );
   }
   // Handle other string values (e.g., "500/mo")
   if (typeof value === 'string') {
     return (
-      <span className="text-sm font-medium text-foreground">{value}</span>
+      <span className="text-sm font-medium text-foreground/90">{value}</span>
     );
   }
-  // Handle boolean true - checkmark in circle
+  // Handle boolean true - bright checkmark in subtle circle
   if (value === true) {
     return (
-      <div className="w-7 h-7 rounded-full bg-accent/20 flex items-center justify-center">
-        <Check className="w-4 h-4 text-accent" />
+      <div className="w-7 h-7 rounded-full bg-accent/25 flex items-center justify-center">
+        <Check className="w-4 h-4 text-accent drop-shadow-[0_0_3px_hsl(var(--accent)/0.5)]" />
       </div>
     );
   }
-  // Handle boolean false - subtle X
+  // Handle boolean false - very subtle X
   return (
-    <div className="w-7 h-7 rounded-full bg-muted/30 flex items-center justify-center">
-      <X className="w-3.5 h-3.5 text-muted-foreground/40" />
+    <div className="w-7 h-7 rounded-full bg-foreground/5 flex items-center justify-center">
+      <X className="w-3.5 h-3.5 text-foreground/20" />
     </div>
   );
 }
@@ -468,15 +468,11 @@ export default function CompareAIEmployee() {
                   
                   {/* Feature Rows */}
                   <TooltipProvider delayDuration={200}>
-                    <div>
-                      {category.features.map((feature, featureIdx) => (
+                    <div className="divide-y divide-border/10">
+                      {category.features.map((feature) => (
                         <div
                           key={feature.name}
-                          className={cn(
-                            "grid grid-cols-4 gap-3 py-3.5 px-5 transition-colors",
-                            "hover:bg-accent/8",
-                            featureIdx % 2 === 0 ? "bg-white/[0.02]" : "bg-white/[0.04]"
-                          )}
+                          className="grid grid-cols-4 gap-3 py-3.5 px-5 transition-colors hover:bg-accent/[0.06]"
                         >
                           {/* Feature name with tooltip */}
                           <div className="col-span-1 flex items-center gap-2">
