@@ -446,7 +446,11 @@ export default function CompareAIEmployee() {
               {featureCategories.map((category) => (
                 <div 
                   key={category.name} 
-                  className="mb-6"
+                  className={
+                    category.name === 'Unlimited AI' 
+                      ? "mb-6 border-l-2 border-accent pl-2" 
+                      : "mb-6"
+                  }
                 >
                   <div className="flex items-center gap-2 mb-3 px-4">
                     <div className="w-1.5 h-1.5 rounded-full bg-accent" />
