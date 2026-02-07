@@ -35,13 +35,13 @@ EverIntent v2.2 Smart Websites restructure:
 
 | ID | Task | Status | Verification | Notes |
 |----|------|--------|--------------|-------|
-| 2.1 | Create `/smart-websites/add-ons` hub page | `todo` | Page builds; matches AI Employee aesthetic | 6 pack cards with headlines, bullets, price, CTA |
-| 2.2 | Build Email Authority pack card ($49/mo) | `todo` | Card renders; links work | Warmy deliverability + inbox warmup |
-| 2.3 | Build Get Paid Now pack card ($49/mo) | `todo` | Card renders; links work | Invoicing + payment collection |
-| 2.4 | Build Social Autopilot pack card ($49/mo) | `todo` | Card renders; links work | Social scheduling + content calendar |
-| 2.5 | Build Omnichannel Inbox pack card ($99/mo) | `todo` | Card renders; links work | Unified messaging across channels |
-| 2.6 | Build AI Voice Chat pack card ($79/mo) | `todo` | Card renders; links work | Website chat widget with voice |
-| 2.7 | Build Unlimited AI pack card ($99/mo) | `todo` | Card renders; links work | Unlimited AI usage for heavy users |
+| 2.1 | Create `/smart-websites/add-ons` hub page | `done` | Page builds; matches AI Employee aesthetic | 6 pack cards with headlines, bullets, price, CTA |
+| 2.2 | Build Email Authority pack card ($49/mo) | `done` | Card renders; links work | Warmy deliverability + inbox warmup |
+| 2.3 | Build Get Paid Now pack card ($49/mo) | `done` | Card renders; links work | Invoicing + payment collection |
+| 2.4 | Build Social Autopilot pack card ($97/mo) | `done` | Card renders; links work | Social scheduling + content calendar |
+| 2.5 | Build Omnichannel Inbox pack card ($99/mo) | `done` | Card renders; links work | Unified messaging across channels |
+| 2.6 | Build AI Voice Chat pack card ($79/mo) | `done` | Card renders; links work | Website chat widget with voice |
+| 2.7 | Build Unlimited AI pack card ($149/mo) | `done` | Card renders; links work | Unlimited AI usage for heavy users |
 | 2.8 | Add detail sections/modals for each pack | `todo` | "Learn More" opens correct detail | No client-side routing; use existing modal patterns |
 | 2.9 | Add "Recommended Add-Ons" to Launch page | `todo` | Section renders; max 2 packs | Email Authority |
 | 2.10 | Add "Recommended Add-Ons" to Capture page | `todo` | Section renders; max 2 packs | Get Paid Now, AI Voice Chat |

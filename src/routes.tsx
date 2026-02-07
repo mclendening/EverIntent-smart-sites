@@ -67,6 +67,7 @@ import SmartSite from './pages/smart-websites/SmartSite';
 import SmartLead from './pages/smart-websites/SmartLead';
 import SmartBusiness from './pages/smart-websites/SmartBusiness';
 import SmartGrowth from './pages/smart-websites/SmartGrowth';
+import AddOns from './pages/smart-websites/AddOns';
 import CompareWebsites from './pages/CompareWebsites';
 import CompareAIEmployee from './pages/CompareAIEmployee';
 import AdminLogin from './pages/admin/Login';
@@ -193,6 +194,7 @@ const smartWebsitesTierPaths = [
   '/smart-websites/smart-lead',
   '/smart-websites/smart-business',
   '/smart-websites/smart-growth',
+  '/smart-websites/add-ons',
 ];
 
 const servicePaths = [
@@ -503,6 +505,11 @@ export const routes: RouteRecord[] = [
       {
         path: 'smart-websites/smart-growth',
         Component: SmartGrowth,
+      },
+      // Smart Websites Add-Ons hub
+      {
+        path: 'smart-websites/add-ons',
+        Component: AddOns,
       },
       // Comparison pages
       {
