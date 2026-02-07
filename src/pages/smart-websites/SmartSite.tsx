@@ -13,6 +13,7 @@ import { Check, ArrowRight, Globe, Shield, MapPin, BarChart3, FileText, Smartpho
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { SEO } from '@/components/SEO';
+import { RecommendedAddOns } from '@/components/smart-websites/RecommendedAddOns';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -210,6 +211,9 @@ export default function SmartSite() {
           </div>
         </div>
       </section>
+
+      {/* Recommended Add-Ons */}
+      <RecommendedAddOns tier="launch" />
 
       {/* CTA Section */}
       <section className="py-16 lg:py-24 bg-background">

@@ -13,6 +13,7 @@ import { Check, ArrowRight, Bot, Inbox, Settings, PhoneCall, Calendar, Star } fr
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { SEO } from '@/components/SEO';
+import { RecommendedAddOns } from '@/components/smart-websites/RecommendedAddOns';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -245,6 +246,9 @@ export default function SmartGrowth() {
           </div>
         </div>
       </section>
+
+      {/* Recommended Add-Ons */}
+      <RecommendedAddOns tier="scale" />
 
       {/* CTA Section */}
       <section className="py-16 lg:py-24 bg-card/30">
