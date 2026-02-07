@@ -193,12 +193,16 @@ function getPlanFeatures(planIndex: number) {
   featureCategories.forEach(category => {
     category.features.forEach(feature => {
       const value = feature.values[planIndex] as boolean | string;
-      if (value === true || value === 'Included') {
+      if (value === true) {
+        included.push(feature.name);
+      } else if (value === 'Included') {
+        // Explicit "Included" string - show with checkmark (e.g., Web Chat, Unlimited AI)
         included.push(feature.name);
       } else if (typeof value === 'string' && value.startsWith('+$')) {
-        // Extract just the price for cleaner display
+        // Add-on pricing (e.g., "+$79/mo", "+$149/mo")
         addons.push({ name: feature.name, price: value });
       } else if (typeof value === 'string') {
+        // Other string values (e.g., "500/mo" for voice minutes)
         included.push(`${feature.name}: ${value}`);
       } else if (value === false) {
         notIncluded.push(feature.name);
@@ -307,13 +311,9 @@ function MobilePlanCard({ plan, planIndex }: { plan: typeof plans[0]; planIndex:
       </button>
       
       {/* Expandable Feature List */}
-      <div
-        className={cn(
-          "overflow-hidden transition-all duration-300 ease-out",
-          expanded ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
-        )}
-      >
-        <div className="p-5 pt-0 space-y-4">
+      {/* Expandable Feature List - removed max-height restriction */}
+      {expanded && (
+        <div className="p-5 pt-0 space-y-4 border-t border-border/10">
           {included.length > 0 && (
             <div>
               <p className="text-xs text-accent uppercase tracking-wider font-medium mb-3">Included</p>
@@ -363,7 +363,7 @@ function MobilePlanCard({ plan, planIndex }: { plan: typeof plans[0]; planIndex:
             </div>
           )}
         </div>
-      </div>
+      )}
     </div>
   );
 }
