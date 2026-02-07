@@ -144,13 +144,13 @@ Launch   Lead   Conversion   Scale    Growth AI
 
 | Current Term | Proposed Term | Analysis |
 |--------------|---------------|----------|
-| Smart Websites | Smart Sites | Loses "smart" distinction; "Sites" is generic |
-| AI Employee | AI Plans | "Employee" conveys always-on, human-replacement value; "Plans" is generic |
+| Smart Websites | ~~Smart Sites~~ | ❌ Loses "smart" distinction; "Sites" is generic — **REJECTED** |
+| AI Employee | ~~AI Plans~~ | ❌ "Employee" conveys always-on, human-replacement value; "Plans" is generic — **REJECTED** |
 | After-Hours | (unchanged) | ✓ Strong |
 | Front Office | (unchanged) | ✓ Strong |
 | Full AI Employee | (unchanged) | ✓ Strong |
 
-**Recommendation:** Retain "Smart Websites" and "AI Employee" — these are brand assets with distinct value propositions.
+**Recommendation:** Retain **"Smart Websites"** and **"AI Employee"** — these are brand assets with distinct value propositions. Do not shorten or genericize.
 
 #### Issue #4: Duplicate Functionality at Similar Price Points
 
