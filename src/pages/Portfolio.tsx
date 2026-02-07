@@ -87,7 +87,7 @@ const Portfolio = () => {
   return (
     <>
       <SEO 
-        title="Portfolio | Award-Winning Websites for Local Businesses | EverIntent"
+        title="Portfolio: Award-Winning Websites for Local Businesses"
         description="Explore our portfolio of award-winning websites that drive real results. 87 projects, $3.8M revenue generated, 4.9★ rating. See how we transform local businesses."
         canonical="/portfolio"
         structuredData={structuredData}

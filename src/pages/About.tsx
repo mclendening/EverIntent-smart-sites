@@ -53,7 +53,7 @@ const About = () => {
   return (
     <>
       <SEO
-        title="About | EverIntent"
+        title="About Us"
         description="25+ years of enterprise automation experience, now serving local businesses. We build systems that pay for themselves."
       />
 

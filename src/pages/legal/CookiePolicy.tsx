@@ -28,8 +28,8 @@ export default function CookiePolicy() {
   return (
     <>
       <SEO
-        title="Cookie Policy | EverIntent"
-        description="EverIntent Cookie Policy - Learn about the cookies we use and how to manage your preferences."
+        title="Cookie Policy"
+        description="EverIntent Cookie Policy: Learn about the cookies we use and how to manage your preferences."
       />
 
       <div className="min-h-screen bg-background">

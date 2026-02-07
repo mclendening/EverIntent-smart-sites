@@ -74,7 +74,7 @@ export default function SmartBusiness() {
   return (
     <>
       <SEO 
-        title="Smart Business | Booking & Reviews Website $197/mo | EverIntent"
+        title="Smart Business: Booking and Reviews Website $197/mo"
         description="Website + online booking + review automation for $197/mo. Let customers book 24/7 and build your Google reputation automatically. $497 setup, 5-day delivery."
         canonical="/smart-websites/smart-business"
       />

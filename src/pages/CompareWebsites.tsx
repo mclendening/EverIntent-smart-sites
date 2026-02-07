@@ -251,7 +251,7 @@ export default function CompareWebsites() {
   return (
     <>
       <SEO
-        title="Compare Smart Websites | EverIntent"
+        title="Compare Smart Websites"
         description="Compare Smart Website tiers side-by-side. From $249 one-time to full automation at $297/mo. Find the perfect plan for your business."
         canonical="/compare-websites"
       />
