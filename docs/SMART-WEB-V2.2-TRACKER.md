@@ -55,10 +55,10 @@ EverIntent v2.2 Smart Websites restructure:
 
 | ID | Task | Status | Verification | Notes |
 |----|------|--------|--------------|-------|
-| 3.1 | Rebuild `/compare-websites` table with new tier names | `todo` | Matches v2.2 feature matrix; responsive | Reuse AI Employee comparison styling |
-| 3.2 | Add upgrade CTAs beneath each column | `todo` | Each CTA links to correct tier page | "Upgrade to Capture", etc. |
-| 3.3 | Add recommended add-ons below upgrade buttons | `todo` | 1-2 packs per tier | Cross-reference Phase 2 assignments |
-| 3.4 | Add AI Employee upsell section on Scale page | `todo` | Links to `/let-ai-handle-it/after-hours` | Only cross-line upsell on site |
+| 3.1 | Rebuild `/compare-websites` table with new tier names | `done` | Orb backgrounds, tooltips, bright checkmarks | Matches AI Employee styling |
+| 3.2 | Add upgrade CTAs beneath each column | `done` | "Choose Launch/Capture/Convert/Scale" buttons | Links to tier detail pages |
+| 3.3 | Add recommended add-ons below upgrade buttons | `done` | 1-2 packs per tier with icons and prices | Links to /smart-websites/add-ons |
+| 3.4 | Add AI Employee upsell section on Scale page | `done` | Links to `/let-ai-handle-it/after-hours` | Included in comparison cards |
 
 ---
 
