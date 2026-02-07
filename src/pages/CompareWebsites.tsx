@@ -133,7 +133,6 @@ const tiers = [
     icon: Zap,
     href: '/smart-websites/smart-business',
     bgVariant: 'convert' as const,
-    highlight: true,
     recommendedAddons: [
       { id: 'social-autopilot', name: 'Social Autopilot', price: '$97/mo', icon: Share2 },
       { id: 'omnichannel-inbox', name: 'Omnichannel Inbox', price: '$99/mo', icon: Inbox }
@@ -264,12 +263,7 @@ function MobileTierCard({ tier, tierIndex }: { tier: typeof tiers[0]; tierIndex:
   
   return (
     <div 
-      className={cn(
-        "border rounded-2xl overflow-hidden relative",
-        tier.highlight 
-          ? "border-accent/40 bg-accent/5" 
-          : "border-border/30 bg-card/30"
-      )}
+      className="border rounded-2xl overflow-hidden relative border-border/30 bg-card/30"
     >
       {/* Animated background orbs */}
       <CardBackground variant={tier.bgVariant} />
@@ -295,12 +289,7 @@ function MobileTierCard({ tier, tierIndex }: { tier: typeof tiers[0]; tierIndex:
         {/* CTA Button */}
         <Link
           to={tier.href}
-          className={cn(
-            "mt-4 w-full py-3 px-4 rounded-xl text-center text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2",
-            tier.highlight 
-              ? "btn-gold"
-              : "bg-accent/10 text-accent hover:bg-accent/20"
-          )}
+          className="mt-4 w-full py-3 px-4 rounded-xl text-center text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 bg-accent/10 text-accent hover:bg-accent/20"
         >
           Choose {tier.name}
           <ArrowRight className="w-4 h-4" />
@@ -311,20 +300,20 @@ function MobileTierCard({ tier, tierIndex }: { tier: typeof tiers[0]; tierIndex:
           <div className="mt-4 pt-4 border-t border-border/20">
             <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">Recommended Add-ons</p>
             <div className="flex flex-wrap gap-2">
-              {tier.recommendedAddons.map((addon) => {
-                const AddonIcon = addon.icon;
-                return (
-                  <Link
-                    key={addon.id}
-                    to="/smart-websites/add-ons"
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-card/50 border border-border/30 text-xs text-muted-foreground hover:border-accent/30 hover:text-foreground transition-colors"
-                  >
-                    <AddonIcon className="w-3 h-3 text-accent" />
-                    <span>{addon.name}</span>
-                    <span className="text-foreground/50">{addon.price}</span>
-                  </Link>
-                );
-              })}
+                    {tier.recommendedAddons.map((addon) => {
+                      const AddonIcon = addon.icon;
+                      return (
+                        <Link
+                          key={addon.id}
+                          to="/smart-websites/add-ons"
+                          className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-accent transition-colors group"
+                        >
+                          <AddonIcon className="w-3 h-3 text-accent/70 group-hover:text-accent" />
+                          <span className="underline underline-offset-2 decoration-border/50 group-hover:decoration-accent/50">{addon.name}</span>
+                          <span className="text-foreground/40">{addon.price}</span>
+                        </Link>
+                      );
+                    })}
             </div>
           </div>
         )}
@@ -457,12 +446,7 @@ export default function CompareWebsites() {
                 return (
                   <div
                     key={tier.name}
-                    className={cn(
-                      "rounded-2xl p-6 border transition-all duration-300 relative overflow-hidden",
-                      tier.highlight 
-                        ? "border-accent/40 bg-accent/5" 
-                        : "border-border/30 bg-card/30 hover:border-accent/30"
-                    )}
+                    className="rounded-2xl p-6 border transition-all duration-300 relative overflow-hidden border-border/30 bg-card/30 hover:border-accent/30"
                   >
                     {/* Animated background orbs */}
                     <CardBackground variant={tier.bgVariant} />
@@ -485,12 +469,7 @@ export default function CompareWebsites() {
                       {/* Upgrade CTA */}
                       <Link
                         to={tier.href}
-                        className={cn(
-                          "w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2",
-                          tier.highlight
-                            ? "btn-gold"
-                            : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                        )}
+                        className="w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 bg-secondary text-secondary-foreground hover:bg-secondary/80"
                       >
                         Choose {tier.name}
                         <ArrowRight className="w-4 h-4" />
@@ -507,11 +486,11 @@ export default function CompareWebsites() {
                                 <Link
                                   key={addon.id}
                                   to="/smart-websites/add-ons"
-                                  className="flex items-center gap-2 p-2 rounded-lg bg-card/50 border border-border/30 text-xs hover:border-accent/30 transition-colors group"
+                                  className="flex items-center gap-2 py-1.5 text-xs group"
                                 >
-                                  <AddonIcon className="w-3.5 h-3.5 text-accent" />
-                                  <span className="text-muted-foreground group-hover:text-foreground transition-colors">{addon.name}</span>
-                                  <span className="ml-auto text-foreground/50">{addon.price}</span>
+                                  <AddonIcon className="w-3.5 h-3.5 text-accent/70 group-hover:text-accent transition-colors" />
+                                  <span className="text-muted-foreground group-hover:text-foreground underline underline-offset-2 decoration-border/50 group-hover:decoration-accent/50 transition-colors">{addon.name}</span>
+                                  <span className="ml-auto text-foreground/40">{addon.price}</span>
                                 </Link>
                               );
                             })}
@@ -607,12 +586,7 @@ export default function CompareWebsites() {
                   <div key={tier.name} className="col-span-1 flex justify-center">
                     <Link
                       to={tier.href}
-                      className={cn(
-                        "w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2",
-                        tier.highlight
-                          ? "btn-gold"
-                          : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                      )}
+                      className="w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 bg-secondary text-secondary-foreground hover:bg-secondary/80"
                     >
                       Get {tier.name}
                       <ArrowRight className="w-4 h-4" />
