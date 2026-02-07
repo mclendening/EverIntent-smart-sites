@@ -7,16 +7,17 @@
  * - Email (required)
  * - Phone (optional)
  * - Company (optional)
- * - Inquiry type dropdown (AI Employee, Smart Website, Pricing, Partnership, Other)
+ * - Product Interest dropdown (AI Employee tiers, Smart Website tiers)
+ * - Add-On Packs checkboxes (optional)
  * - Message (required)
  * - TCPA consent checkbox (required)
  * 
  * Submits to the existing submit-form edge function with form_type='contact'.
- * Displays business contact info below the form.
+ * Tier and add-on selections are sent as separate fields for GHL tagging.
  */
 
 import { useState } from 'react';
-import { Send, Mail, Phone, MapPin, Clock } from 'lucide-react';
+import { Send, Mail, Phone, MapPin, Clock, Check } from 'lucide-react';
 import { SEO } from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -34,22 +35,38 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
 /**
- * Inquiry type options for the dropdown.
+ * Product interest options - combines AI Employee and Smart Website tiers
  */
-const inquiryTypes = [
-  { value: 'ai-employee', label: 'AI Employee' },
-  { value: 'smart-website', label: 'Smart Website' },
-  { value: 'pricing', label: 'Pricing Question' },
-  { value: 'partnership', label: 'Partnership' },
-  { value: 'other', label: 'Other' },
+const productOptions = [
+  { value: '', label: 'Select a product...' },
+  // Smart Website Tiers
+  { value: 'launch', label: 'Launch – $249 one-time website', group: 'Smart Websites' },
+  { value: 'capture', label: 'Capture – $97/mo lead capture', group: 'Smart Websites' },
+  { value: 'convert', label: 'Convert – $197/mo booking + reviews', group: 'Smart Websites' },
+  { value: 'scale', label: 'Scale – $297/mo full AI power', group: 'Smart Websites' },
+  // AI Employee Plans
+  { value: 'after-hours', label: 'After-Hours AI – $197/mo', group: 'AI Employee' },
+  { value: 'front-office', label: 'Front Office AI – $297/mo', group: 'AI Employee' },
+  { value: 'full-ai', label: 'Full AI Employee – $597/mo', group: 'AI Employee' },
+  // Other
+  { value: 'general', label: 'General Inquiry', group: 'Other' },
+  { value: 'partnership', label: 'Partnership Opportunity', group: 'Other' },
+];
+
+/**
+ * Add-on pack options with pricing
+ */
+const addOnPacks = [
+  { id: 'email-authority', name: 'Email Authority', price: 49 },
+  { id: 'get-paid-now', name: 'Get Paid Now', price: 49 },
+  { id: 'ai-voice-chat', name: 'AI Voice Chat', price: 79 },
+  { id: 'social-autopilot', name: 'Social Autopilot', price: 97 },
+  { id: 'omnichannel-inbox', name: 'Omnichannel Inbox', price: 99 },
+  { id: 'unlimited-ai', name: 'Unlimited AI', price: 149 },
 ];
 
 /**
  * Contact page component with form and business info.
- * 
- * @component
- * @example
- * <Contact />
  */
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -58,7 +75,8 @@ const Contact = () => {
     email: '',
     phone: '',
     company: '',
-    inquiryType: '',
+    productInterest: '',
+    selectedAddOns: [] as string[],
     message: '',
     tcpaConsent: false,
   });
@@ -68,6 +86,15 @@ const Contact = () => {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleAddOnToggle = (addOnId: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      selectedAddOns: prev.selectedAddOns.includes(addOnId)
+        ? prev.selectedAddOns.filter((id) => id !== addOnId)
+        : [...prev.selectedAddOns, addOnId],
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -88,7 +115,9 @@ const Contact = () => {
           email: formData.email,
           phone: formData.phone || null,
           company: formData.company || null,
-          message: `[${formData.inquiryType || 'General'}] ${formData.message}`,
+          product_interest: formData.productInterest || null,
+          selected_addons: formData.selectedAddOns.length > 0 ? formData.selectedAddOns : null,
+          message: formData.message,
           tcpa_consent: formData.tcpaConsent,
           source_page: '/contact',
         },
@@ -102,7 +131,8 @@ const Contact = () => {
         email: '',
         phone: '',
         company: '',
-        inquiryType: '',
+        productInterest: '',
+        selectedAddOns: [],
         message: '',
         tcpaConsent: false,
       });
@@ -113,6 +143,10 @@ const Contact = () => {
       setIsSubmitting(false);
     }
   };
+
+  // Show add-ons section only when a product tier is selected (not general inquiries)
+  const showAddOns = formData.productInterest && 
+    !['general', 'partnership'].includes(formData.productInterest);
 
   return (
     <>
@@ -141,83 +175,130 @@ const Contact = () => {
             {/* Contact Form */}
             <div className="order-2 lg:order-1">
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Name */}
-                <div className="space-y-2">
-                  <Label htmlFor="name">Name *</Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Your name"
-                    className="bg-card/50"
-                  />
+                {/* Name & Email side by side on desktop */}
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Name *</Label>
+                    <Input
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
+                      placeholder="Your name"
+                      className="bg-card/50"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email *</Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                      placeholder="you@company.com"
+                      className="bg-card/50"
+                    />
+                  </div>
                 </div>
 
-                {/* Email */}
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email *</Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="you@company.com"
-                    className="bg-card/50"
-                  />
+                {/* Phone & Company side by side */}
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone</Label>
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="(555) 123-4567"
+                      className="bg-card/50"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="company">Company</Label>
+                    <Input
+                      id="company"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleInputChange}
+                      placeholder="Your company name"
+                      className="bg-card/50"
+                    />
+                  </div>
                 </div>
 
-                {/* Phone */}
+                {/* Product Interest */}
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Phone</Label>
-                  <Input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    placeholder="(555) 123-4567"
-                    className="bg-card/50"
-                  />
-                </div>
-
-                {/* Company */}
-                <div className="space-y-2">
-                  <Label htmlFor="company">Company</Label>
-                  <Input
-                    id="company"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleInputChange}
-                    placeholder="Your company name"
-                    className="bg-card/50"
-                  />
-                </div>
-
-                {/* Inquiry Type */}
-                <div className="space-y-2">
-                  <Label htmlFor="inquiryType">What can we help with?</Label>
+                  <Label htmlFor="productInterest">What are you interested in?</Label>
                   <Select
-                    value={formData.inquiryType}
+                    value={formData.productInterest}
                     onValueChange={(value) =>
-                      setFormData((prev) => ({ ...prev, inquiryType: value }))
+                      setFormData((prev) => ({ ...prev, productInterest: value, selectedAddOns: [] }))
                     }
                   >
                     <SelectTrigger className="bg-card/50">
-                      <SelectValue placeholder="Select a topic" />
+                      <SelectValue placeholder="Select a product or service" />
                     </SelectTrigger>
-                    <SelectContent>
-                      {inquiryTypes.map((type) => (
-                        <SelectItem key={type.value} value={type.value}>
-                          {type.label}
-                        </SelectItem>
-                      ))}
+                    <SelectContent className="bg-card border-border">
+                      <SelectItem value="general">General Inquiry</SelectItem>
+                      <SelectItem value="partnership">Partnership Opportunity</SelectItem>
+                      <div className="px-2 py-1.5 text-xs font-semibold text-accent">Smart Websites</div>
+                      <SelectItem value="launch">Launch – $249 one-time website</SelectItem>
+                      <SelectItem value="capture">Capture – $97/mo lead capture</SelectItem>
+                      <SelectItem value="convert">Convert – $197/mo booking + reviews</SelectItem>
+                      <SelectItem value="scale">Scale – $297/mo full AI power</SelectItem>
+                      <div className="px-2 py-1.5 text-xs font-semibold text-accent">AI Employee</div>
+                      <SelectItem value="after-hours">After-Hours AI – $197/mo</SelectItem>
+                      <SelectItem value="front-office">Front Office AI – $297/mo</SelectItem>
+                      <SelectItem value="full-ai">Full AI Employee – $597/mo</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
+
+                {/* Add-On Packs (conditional) */}
+                {showAddOns && (
+                  <div className="space-y-3">
+                    <Label>Add-On Packs (optional)</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Enhance your plan with these optional add-ons
+                    </p>
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      {addOnPacks.map((pack) => (
+                        <div
+                          key={pack.id}
+                          onClick={() => handleAddOnToggle(pack.id)}
+                          className={`
+                            flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors
+                            ${formData.selectedAddOns.includes(pack.id)
+                              ? 'border-accent bg-accent/10'
+                              : 'border-border/50 bg-card/30 hover:border-border'
+                            }
+                          `}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className={`
+                              w-5 h-5 rounded border-2 flex items-center justify-center transition-colors
+                              ${formData.selectedAddOns.includes(pack.id)
+                                ? 'border-accent bg-accent'
+                                : 'border-muted-foreground/30'
+                              }
+                            `}>
+                              {formData.selectedAddOns.includes(pack.id) && (
+                                <Check className="w-3 h-3 text-accent-foreground" />
+                              )}
+                            </div>
+                            <span className="text-sm text-foreground">{pack.name}</span>
+                          </div>
+                          <span className="text-sm text-muted-foreground">${pack.price}/mo</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Message */}
                 <div className="space-y-2">
@@ -229,7 +310,7 @@ const Contact = () => {
                     onChange={handleInputChange}
                     required
                     placeholder="Tell us about your business and what you're looking for..."
-                    rows={5}
+                    rows={4}
                     className="bg-card/50"
                   />
                 </div>
@@ -256,7 +337,8 @@ const Contact = () => {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-6 text-base font-semibold"
+                  variant="gold"
+                  className="w-full py-6 text-base font-semibold btn-glow"
                 >
                   {isSubmitting ? (
                     'Sending...'
