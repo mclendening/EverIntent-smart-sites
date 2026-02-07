@@ -338,10 +338,6 @@ export default function CompareAIEmployee() {
           <div className="absolute inset-0 bg-mesh opacity-30" />
           
           <div className="relative container mx-auto px-4 text-center">
-            <p className="text-sm font-medium text-accent tracking-wide uppercase mb-4">
-              AI Employee Modes
-            </p>
-            
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
               <span className="text-foreground">Choose Your </span>
               <span className="text-gradient">AI Employee</span>
