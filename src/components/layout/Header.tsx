@@ -164,11 +164,16 @@ export function Header() {
           <div className="w-12 lg:hidden" />
         </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - No animation for iOS compatibility */}
       {isMounted && mobileMenuOpen && (
-        <>
-          <div className="fixed inset-0 bg-background/95 backdrop-blur-md z-[70] lg:hidden" onClick={closeMobileMenu} />
-          <div className="fixed top-20 right-0 bottom-0 w-full max-w-sm bg-card border-l border-border/30 z-[80] lg:hidden overflow-y-auto overscroll-contain animate-slide-in-right">
+        <div className="fixed inset-0 z-[80] lg:hidden">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-background" 
+            onClick={closeMobileMenu} 
+          />
+          {/* Menu panel */}
+          <div className="absolute top-20 left-0 right-0 bottom-0 bg-background overflow-y-auto overscroll-contain">
             <div className="flex flex-col p-6 pb-24 space-y-2">
             {/* AI Employee section */}
               <div className="py-3">
@@ -271,7 +276,7 @@ export function Header() {
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
       </header>
     </>
