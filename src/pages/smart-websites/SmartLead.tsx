@@ -13,6 +13,7 @@ import { Check, ArrowRight, MessageSquare, Phone, Users, Zap, Clock, BarChart3 }
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { SEO } from '@/components/SEO';
+import { RecommendedAddOns } from '@/components/smart-websites/RecommendedAddOns';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -242,6 +243,9 @@ export default function SmartLead() {
           </div>
         </div>
       </section>
+
+      {/* Recommended Add-Ons */}
+      <RecommendedAddOns tier="capture" />
 
       {/* CTA Section */}
       <section className="py-16 lg:py-24 bg-card/30">
