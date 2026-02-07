@@ -1,13 +1,12 @@
 /**
- * @fileoverview CTAButton Component - Primary Call-to-Action Button
+ * @fileoverview CTAButton Component - SSG-Safe Primary CTA
  * @module components/CTAButton
  * 
- * Luxury gold CTA button with subtle hover effects.
- * Uses native <a> tags for cross-page hash links to ensure proper scrolling.
+ * Uses native anchor tags for true static site navigation.
+ * Ensures each page loads as a fresh HTML document for SEO.
  */
 
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 
 /**
  * Props for the CTAButton component
@@ -28,10 +27,12 @@ interface CTAButtonProps {
 }
 
 /**
- * CTAButton - Primary call-to-action button with luxury gold styling.
+ * CTAButton - SSG-safe primary call-to-action button.
  * 
- * Uses native <a> for cross-page hash navigation to trigger browser scrolling.
- * Uses React Router Link for same-page or non-hash navigation.
+ * Uses native <a href> for all navigation to ensure:
+ * - Full page loads for proper SSG behavior
+ * - URL updates correctly in all browsers
+ * - Search engines follow links naturally
  * 
  * @component
  */
@@ -44,13 +45,6 @@ export function CTAButton({
   fullWidth = false
 }: CTAButtonProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const location = useLocation();
-  
-  // Determine if this is a cross-page hash link
-  const hasHash = to.includes('#');
-  const targetPath = hasHash ? to.split('#')[0] : to;
-  const currentPath = location.pathname;
-  const isCrossPageHash = hasHash && targetPath && targetPath !== currentPath;
 
   const buttonContent = (
     <span className="relative">
@@ -65,26 +59,15 @@ export function CTAButton({
     </span>
   );
 
-  const commonProps = {
-    onClick,
-    onMouseEnter: () => setIsHovered(true),
-    onMouseLeave: () => setIsHovered(false),
-    className: `btn-gold btn-glow inline-flex items-center justify-center gap-2 ${fullWidth ? 'w-full' : ''} ${className}`,
-  };
-
-  // Use native <a> for cross-page hash links to trigger browser's hash scrolling
-  if (isCrossPageHash) {
-    return (
-      <a href={to} {...commonProps}>
-        {buttonContent}
-      </a>
-    );
-  }
-
-  // Use React Router Link for same-page or non-hash navigation
   return (
-    <Link to={to} {...commonProps}>
+    <a 
+      href={to}
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`btn-gold btn-glow inline-flex items-center justify-center gap-2 ${fullWidth ? 'w-full' : ''} ${className}`}
+    >
       {buttonContent}
-    </Link>
+    </a>
   );
 }

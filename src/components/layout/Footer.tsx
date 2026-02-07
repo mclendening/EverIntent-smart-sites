@@ -1,11 +1,10 @@
 /**
- * @fileoverview Site Footer - Mobile-First Design
+ * @fileoverview Site Footer - SSG-Safe Navigation
  * @module components/layout/Footer
  * 
- * Clean multi-section layout matching the original design.
+ * Uses native anchor tags for true static site navigation.
  */
 
-import { Link } from 'react-router-dom';
 import { Linkedin, Twitter, Facebook, Phone, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -71,9 +70,7 @@ const socialLinks = [
 ];
 
 /**
- * Site footer with original mobile-first design.
- * 
- * @component
+ * Site footer with SSG-safe native anchor navigation.
  */
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -81,7 +78,7 @@ export function Footer() {
   return (
     <footer className="relative bg-card border-t border-border/20">
       <div className="container py-12 md:py-16">
-        {/* Main footer grid - 2 columns on mobile, 4 on desktop */}
+        {/* Main footer grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
           {/* Services */}
           <div>
@@ -92,12 +89,12 @@ export function Footer() {
             <ul className="space-y-2">
               {servicesLinks.map((link) => (
                 <li key={link.path}>
-                  <Link
-                    to={link.path}
+                  <a
+                    href={link.path}
                     className="text-sm text-muted-foreground hover:text-accent transition-colors duration-300"
                   >
                     {link.title}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -112,12 +109,12 @@ export function Footer() {
             <ul className="space-y-2">
               {aiModesLinks.map((link) => (
                 <li key={link.path}>
-                  <Link
-                    to={link.path}
+                  <a
+                    href={link.path}
                     className="text-sm text-muted-foreground hover:text-accent transition-colors duration-300"
                   >
                     {link.title}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -132,12 +129,12 @@ export function Footer() {
             <ul className="space-y-2">
               {resourcesLinks.map((link) => (
                 <li key={link.path}>
-                  <Link
-                    to={link.path}
+                  <a
+                    href={link.path}
                     className="text-sm text-muted-foreground hover:text-accent transition-colors duration-300"
                   >
                     {link.title}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -162,12 +159,12 @@ export function Footer() {
                       {link.title}
                     </a>
                   ) : (
-                    <Link
-                      to={link.path}
+                    <a
+                      href={link.path}
                       className="text-sm text-muted-foreground hover:text-accent transition-colors duration-300"
                     >
                       {link.title}
-                    </Link>
+                    </a>
                   )}
                 </li>
               ))}
@@ -177,26 +174,25 @@ export function Footer() {
 
         {/* Brand section */}
         <div className="border-t border-border/20 pt-10 pb-8">
-          {/* Mobile: all centered | Desktop: brand left, CTA+social right */}
           <div className="flex flex-col items-center md:flex-row md:items-start md:justify-between gap-6">
             {/* Left side - Brand */}
             <div className="flex flex-col items-center md:items-start text-center md:text-left">
-              <Link to="/" className="text-2xl font-bold text-foreground mb-3">
+              <a href="/" className="text-2xl font-bold text-foreground mb-3">
                 <span className="text-accent">✦</span> Ever<span className="text-gradient">Intent</span>
-              </Link>
+              </a>
               <p className="text-sm text-muted-foreground max-w-xs">
                 AI-powered business solutions. Never miss a call. Never lose a lead. <span className="text-accent font-medium">Smart Websites from $249.</span>
               </p>
             </div>
             
-            {/* Right side - CTA + Social (desktop only on right) */}
+            {/* Right side - CTA + Social */}
             <div className="flex flex-col items-center md:items-end gap-4">
               <div className="flex items-center gap-4">
                 <Button asChild>
-                  <Link to="/contact">
+                  <a href="/contact">
                     <Phone className="w-4 h-4 mr-2" />
                     Book a Call
-                  </Link>
+                  </a>
                 </Button>
                 <div className="flex items-center gap-2">
                   {socialLinks.map((social) => (
@@ -216,7 +212,7 @@ export function Footer() {
             </div>
           </div>
           
-          {/* Contact Info - Always centered */}
+          {/* Contact Info */}
           <div className="flex flex-col items-center gap-2 text-sm mt-6">
             <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
               <a href="mailto:info@everintent.com" className="text-accent hover:underline flex items-center gap-1">
@@ -235,7 +231,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom section - Mobile: centered | Desktop: copyright left, legal right */}
+        {/* Bottom section */}
         <div className="border-t border-border/20 pt-6 pb-24 md:pb-6">
           <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
             <p className="text-xs text-muted-foreground">
@@ -243,13 +239,13 @@ export function Footer() {
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               {legalLinks.map((link) => (
-                <Link
+                <a
                   key={link.path}
-                  to={link.path}
+                  href={link.path}
                   className="text-xs text-muted-foreground hover:text-accent transition-colors"
                 >
                   {link.title}
-                </Link>
+                </a>
               ))}
             </div>
           </div>

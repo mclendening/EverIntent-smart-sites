@@ -1,17 +1,12 @@
 /**
- * @fileoverview Header Component - Luxury Navigation
+ * @fileoverview Header Component - SSG-Safe Luxury Navigation
  * @module components/layout/Header
  * 
- * Clean mega-menu style navigation with logical groupings.
- * 
- * Consolidated AI Employee modes:
- * - After-Hours (includes booking + missed call recovery)
- * - Front Office (renamed from Front Line Screening)
- * - Full AI Employee
+ * Uses native anchor tags for true static site navigation.
+ * Each link triggers a full page load for proper SSG behavior.
  */
 
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { NavDropdown } from '@/components/layout/NavDropdown';
@@ -51,7 +46,7 @@ const industriesItems = [
 ];
 
 /**
- * Flat navigation links - Portfolio between Industries and Pricing
+ * Flat navigation links
  */
 const flatNavLinks = [
   { title: 'Portfolio', path: '/portfolio' },
@@ -60,7 +55,7 @@ const flatNavLinks = [
 ];
 
 /**
- * Resources section for mobile menu (mirrors footer)
+ * Resources section for mobile menu
  */
 const resourcesLinks = [
   { title: 'Portfolio', path: '/portfolio' },
@@ -78,9 +73,7 @@ const companyLinks = [
 ];
 
 /**
- * Header - Luxury navigation component
- * 
- * @component
+ * Header - SSG-safe luxury navigation component
  */
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -113,8 +106,8 @@ export function Header() {
       }`}
     >
       <div className="container flex h-20 items-center justify-between">
-        {/* Logo */}
-        <Link to="/" className="flex items-center group">
+        {/* Logo - Native anchor */}
+        <a href="/" className="flex items-center group">
           <LogoRenderer 
             scale={0.42} 
             showTagline={true}
@@ -128,7 +121,7 @@ export function Header() {
               taglineConfig: activeTheme.logoConfig.taglineConfig,
             } : undefined}
           />
-        </Link>
+        </a>
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-1">
@@ -148,11 +141,11 @@ export function Header() {
           ))}
         </nav>
 
-        {/* Desktop CTA */}
+        {/* Desktop CTA - Native anchor */}
         <div className="hidden lg:flex items-center">
-          <Link to="/pricing" className="btn-gold btn-glow">
+          <a href="/pricing" className="btn-gold btn-glow">
             Get Started
-          </Link>
+          </a>
         </div>
 
         {/* Mobile Menu Button */}
@@ -170,65 +163,59 @@ export function Header() {
             <div className="flex flex-col p-6 pb-24 space-y-2">
             {/* AI Employee section */}
               <div className="py-3">
-                <Link 
-                  to="/let-ai-handle-it"
+                <a 
+                  href="/let-ai-handle-it"
                   className="text-xs uppercase tracking-wider text-muted-foreground font-medium hover:text-accent"
-                  onClick={closeMobileMenu}
                 >
                   AI Employee
-                </Link>
+                </a>
                 {aiEmployeeModes.map((item) => (
-                  <Link 
+                  <a 
                     key={item.path}
-                    to={item.path} 
-                    className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors" 
-                    onClick={closeMobileMenu}
+                    href={item.path} 
+                    className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors"
                   >
                     {item.title}
-                  </Link>
+                  </a>
                 ))}
               </div>
               
               {/* Smart Websites section */}
               <div className="py-3 border-t border-border/30">
-                <Link 
-                  to="/smart-websites"
+                <a 
+                  href="/smart-websites"
                   className="text-xs uppercase tracking-wider text-muted-foreground font-medium hover:text-accent"
-                  onClick={closeMobileMenu}
                 >
                   Smart Websites
-                </Link>
+                </a>
                 {smartWebsitesTiers.map((item) => (
-                  <Link 
+                  <a 
                     key={item.path}
-                    to={item.path} 
-                    className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors" 
-                    onClick={closeMobileMenu}
+                    href={item.path} 
+                    className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors"
                   >
                     {item.title}
                     <span className="text-xs text-muted-foreground ml-2">{item.description}</span>
-                  </Link>
+                  </a>
                 ))}
               </div>
               
               {/* Industries section */}
               <div className="py-3 border-t border-border/30">
-                <Link 
-                  to="/industries" 
+                <a 
+                  href="/industries" 
                   className="text-xs uppercase tracking-wider text-muted-foreground font-medium hover:text-accent"
-                  onClick={closeMobileMenu}
                 >
                   Industries
-                </Link>
+                </a>
                 {industriesItems.map((item) => (
-                  <Link 
+                  <a 
                     key={item.path}
-                    to={item.path} 
-                    className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors" 
-                    onClick={closeMobileMenu}
+                    href={item.path} 
+                    className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors"
                   >
                     {item.title}
-                  </Link>
+                  </a>
                 ))}
               </div>
               
@@ -238,14 +225,13 @@ export function Header() {
                   Resources
                 </span>
                 {resourcesLinks.map((item) => (
-                  <Link 
+                  <a 
                     key={item.path}
-                    to={item.path} 
-                    className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors" 
-                    onClick={closeMobileMenu}
+                    href={item.path} 
+                    className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors"
                   >
                     {item.title}
-                  </Link>
+                  </a>
                 ))}
               </div>
               
@@ -255,26 +241,24 @@ export function Header() {
                   Company
                 </span>
                 {companyLinks.map((item) => (
-                  <Link 
+                  <a 
                     key={item.path}
-                    to={item.path} 
-                    className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors" 
-                    onClick={closeMobileMenu}
+                    href={item.path} 
+                    className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors"
                   >
                     {item.title}
-                  </Link>
+                  </a>
                 ))}
               </div>
 
-              {/* Mobile CTA */}
+              {/* Mobile CTA - Native anchor */}
               <div className="pt-6">
-                <Link 
-                  to="/pricing" 
-                  className="btn-gold btn-glow w-full text-center"
-                  onClick={closeMobileMenu}
+                <a 
+                  href="/pricing" 
+                  className="btn-gold btn-glow w-full text-center block"
                 >
                   Get Started
-                </Link>
+                </a>
               </div>
             </div>
           </div>

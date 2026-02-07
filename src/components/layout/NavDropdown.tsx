@@ -1,19 +1,16 @@
 /**
- * @fileoverview Navigation Dropdown Component
+ * @fileoverview Navigation Dropdown Component - SSG-Safe
  * @module components/layout/NavDropdown
  * 
- * Dropdown menu for navigation with hover delay to prevent
- * accidental triggers on mobile/touch devices.
+ * Uses native anchor tags for true static site navigation.
  * 
  * Features:
  * - 150ms hover delay before opening
  * - Smooth fade-in animation
- * - Closes on mouse leave with delay
- * - Accessible keyboard navigation
+ * - Native <a> tags for SEO-perfect navigation
  */
 
 import { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -35,20 +32,9 @@ interface NavDropdownProps {
 }
 
 /**
- * NavDropdown - Accessible dropdown menu with hover delay
+ * NavDropdown - SSG-safe dropdown menu with hover delay
  * 
- * Implements 150ms hover delay to prevent accidental triggers,
- * especially important for mobile/touch users.
- * 
- * @component
- * @example
- * <NavDropdown 
- *   label="Smart Websites"
- *   items={[
- *     { title: 'Smart Site', path: '/smart-websites#smart-site', description: '$249 one-time' },
- *     { title: 'Smart Lead', path: '/smart-websites#smart-lead', description: '$97/mo' },
- *   ]}
- * />
+ * Uses native <a href> for all links to ensure proper static page loads.
  */
 export function NavDropdown({ label, items, hubPath, className }: NavDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -56,30 +42,25 @@ export function NavDropdown({ label, items, hubPath, className }: NavDropdownPro
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleMouseEnter = () => {
-    // Clear any pending close timeout
     if (closeTimeoutRef.current) {
       clearTimeout(closeTimeoutRef.current);
       closeTimeoutRef.current = null;
     }
-    // 150ms delay before opening
     openTimeoutRef.current = setTimeout(() => {
       setIsOpen(true);
     }, 150);
   };
 
   const handleMouseLeave = () => {
-    // Clear any pending open timeout
     if (openTimeoutRef.current) {
       clearTimeout(openTimeoutRef.current);
       openTimeoutRef.current = null;
     }
-    // 100ms delay before closing to allow moving to dropdown
     closeTimeoutRef.current = setTimeout(() => {
       setIsOpen(false);
     }, 100);
   };
 
-  // Cleanup timeouts on unmount
   useEffect(() => {
     return () => {
       if (openTimeoutRef.current) clearTimeout(openTimeoutRef.current);
@@ -93,10 +74,10 @@ export function NavDropdown({ label, items, hubPath, className }: NavDropdownPro
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Trigger - Link if hubPath provided, otherwise button */}
+      {/* Trigger - Native anchor for SSG */}
       {hubPath ? (
-        <Link
-          to={hubPath}
+        <a
+          href={hubPath}
           className={cn(
             "nav-link px-4 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300 flex items-center gap-1",
             isOpen && "text-foreground",
@@ -110,7 +91,7 @@ export function NavDropdown({ label, items, hubPath, className }: NavDropdownPro
               isOpen && "rotate-180"
             )} 
           />
-        </Link>
+        </a>
       ) : (
         <button
           className={cn(
@@ -131,19 +112,18 @@ export function NavDropdown({ label, items, hubPath, className }: NavDropdownPro
         </button>
       )}
 
-      {/* Dropdown menu */}
+      {/* Dropdown menu - Native anchors */}
       {isOpen && (
         <div 
           className="absolute top-full left-0 mt-1 min-w-[220px] bg-card border border-border rounded-lg shadow-layered z-50 py-2 animate-fade-in"
           role="menu"
         >
           {items.map((item) => (
-            <Link
+            <a
               key={item.path}
-              to={item.path}
+              href={item.path}
               className="block px-4 py-2.5 text-sm hover:bg-accent/10 transition-colors"
               role="menuitem"
-              onClick={() => setIsOpen(false)}
             >
               <span className="font-medium text-foreground">{item.title}</span>
               {item.description && (
@@ -151,7 +131,7 @@ export function NavDropdown({ label, items, hubPath, className }: NavDropdownPro
                   {item.description}
                 </span>
               )}
-            </Link>
+            </a>
           ))}
         </div>
       )}

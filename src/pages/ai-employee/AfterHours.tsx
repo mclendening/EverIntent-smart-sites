@@ -13,7 +13,6 @@
 import { SEO } from '@/components/SEO';
 import { CTAButton } from '@/components/CTAButton';
 import { ClientOnly } from '@/components/ClientOnly';
-import { Link } from 'react-router-dom';
 import { 
   SMSDemo, 
   AnimatedFlowDiagram, 
@@ -115,7 +114,7 @@ export default function AfterHours() {
             <div className="max-w-5xl mx-auto">
               {/* Breadcrumb */}
               <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground mb-8">
-                <Link to="/let-ai-handle-it" className="hover:text-accent transition-colors">AI Employee</Link>
+                <a href="/let-ai-handle-it" className="hover:text-accent transition-colors">AI Employee</a>
                 <span>/</span>
                 <span className="text-accent">After-Hours</span>
               </div>
@@ -144,13 +143,13 @@ export default function AfterHours() {
                     defaultText="Start Tonight"
                     hoverText="Get After-Hours Mode"
                   />
-                  <Link 
-                    to="/compare-ai-employee" 
+                  <a 
+                    href="/compare-ai-employee" 
                     className="group inline-flex items-center gap-2 px-6 py-3 text-foreground hover:text-accent transition-colors"
                   >
                     <span>Compare All Modes</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </Link>
+                  </a>
                 </div>
               </div>
 
@@ -337,13 +336,13 @@ export default function AfterHours() {
                   defaultText="Get After-Hours Mode"
                   hoverText="$197/mo + $997 setup"
                 />
-                <Link 
-                  to="/contact"
+                <a 
+                  href="/contact"
                   className="group inline-flex items-center gap-2 px-6 py-3 text-foreground hover:text-accent transition-colors"
                 >
                   <span>Book a Demo</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                </a>
               </div>
             </div>
           </div>
