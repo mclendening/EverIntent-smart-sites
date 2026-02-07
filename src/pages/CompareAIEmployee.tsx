@@ -344,7 +344,7 @@ export default function CompareAIEmployee() {
             </h1>
             
             <p className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto">
-              From after-hours coverage to complete phone automation. All modes include missed call text-back.
+              From after-hours coverage to complete phone automation. Every AI Employee plan includes missed call text-back.
             </p>
           </div>
         </section>
