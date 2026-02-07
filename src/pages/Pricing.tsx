@@ -2,7 +2,7 @@
  * @fileoverview Pricing page with tabs for Smart Websites and AI Employee.
  * @module pages/Pricing
  * 
- * Consolidated AI Employee Modes:
+ * Consolidated AI Employee Plans:
  * - After-Hours: $197/mo + $997 setup (includes booking + missed call recovery)
  * - Front Office: $297/mo + $1,497 setup (includes missed call recovery)
  * - Full AI Employee: $597/mo + $2,500 setup
@@ -61,10 +61,10 @@ const websiteTiers = [
 ];
 
 // ============================================
-// DATA - AI Employee Modes (Consolidated)
+// DATA - AI Employee Plans (Consolidated)
 // ============================================
 
-const aiModes = [
+const aiPlans = [
   {
     id: 'after-hours',
     name: 'After-Hours',
@@ -92,7 +92,7 @@ const aiModes = [
     bestFor: 'Everything included',
     price: '$597',
     setup: '$2,500',
-    description: 'All modes combined. Your complete AI-powered front office—voice, SMS, booking, screening, web chat.',
+    description: 'All features included. Your complete AI-powered front office—voice, SMS, booking, screening, web chat, and Unlimited AI.',
     featured: true,
     href: '/let-ai-handle-it/full-ai-employee',
   },
@@ -138,8 +138,8 @@ const faqItems = [
     answer: "Setup includes custom AI training for your business, integration with your existing systems (calendar, CRM, phone), workflow configuration, and 30-day optimization. Most setups are live within 5-7 business days.",
   },
   {
-    question: "Do all AI modes include missed call text-back?",
-    answer: "Yes! All AI Employee modes include missed call text-back recovery. When you can't answer, AI texts the caller within 60 seconds to keep the lead warm.",
+    question: "Do all AI Employee plans include missed call text-back?",
+    answer: "Yes! All AI Employee plans include missed call text-back recovery. When you can't answer, AI texts the caller within 60 seconds to keep the lead warm.",
   },
 ];
 
@@ -371,16 +371,16 @@ const Pricing = () => {
       {activeTab === 'ai' && (
         <section id="ai-employee" className="py-16 md:py-24 bg-muted/30">
           <div className="container mx-auto px-4">
-            {/* Mode Cards */}
+            {/* Plan Cards */}
             <div className="space-y-4 max-w-4xl mx-auto">
-              {aiModes.map((mode) => {
-                const Icon = mode.icon;
+              {aiPlans.map((plan) => {
+                const Icon = plan.icon;
                 return (
                   <div
-                    key={mode.id}
-                    id={mode.id}
+                    key={plan.id}
+                    id={plan.id}
                     className={`rounded-2xl p-6 border transition-all duration-300 hover-lift ${
-                      mode.featured
+                      plan.featured
                         ? 'bg-accent/10 border-accent/50 shadow-lg shadow-accent/10'
                         : 'bg-card/50 border-border/30 hover:border-accent/30'
                     }`}
@@ -389,32 +389,32 @@ const Pricing = () => {
                       {/* Icon & Name */}
                       <div className="flex items-center gap-4 md:w-1/4">
                         <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                          mode.featured ? 'bg-accent/20' : 'bg-muted'
+                          plan.featured ? 'bg-accent/20' : 'bg-muted'
                         }`}>
-                          <Icon className={`w-6 h-6 ${mode.featured ? 'text-accent' : 'text-muted-foreground'}`} />
+                          <Icon className={`w-6 h-6 ${plan.featured ? 'text-accent' : 'text-muted-foreground'}`} />
                         </div>
                         <div>
-                          <h3 className="font-semibold text-foreground">{mode.name}</h3>
-                          <p className="text-sm text-muted-foreground">{mode.bestFor}</p>
+                          <h3 className="font-semibold text-foreground">{plan.name}</h3>
+                          <p className="text-sm text-muted-foreground">{plan.bestFor}</p>
                         </div>
                       </div>
 
                       {/* Description */}
                       <p className="text-sm text-muted-foreground md:flex-1">
-                        {mode.description}
+                        {plan.description}
                       </p>
 
                       {/* Pricing */}
                       <div className="flex items-center gap-6 md:w-auto">
                         <div className="text-right">
-                          <span className="text-2xl font-bold text-foreground">{mode.price}</span>
+                          <span className="text-2xl font-bold text-foreground">{plan.price}</span>
                           <span className="text-muted-foreground text-sm">/mo</span>
-                          <p className="text-xs text-muted-foreground">{mode.setup} setup</p>
+                          <p className="text-xs text-muted-foreground">{plan.setup} setup</p>
                         </div>
                         <Link
-                          to={mode.href}
+                          to={plan.href}
                           className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 whitespace-nowrap ${
-                            mode.featured
+                            plan.featured
                               ? 'bg-accent text-accent-foreground hover:bg-accent-hover'
                               : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
                           }`}
@@ -431,7 +431,7 @@ const Pricing = () => {
             {/* Missed Call Note */}
             <div className="mt-8 max-w-md mx-auto p-4 rounded-xl bg-accent/5 border border-accent/20 text-center">
               <p className="text-sm text-muted-foreground">
-                <span className="text-accent font-medium">All modes include</span> missed call text-back recovery.
+                <span className="text-accent font-medium">All plans include</span> missed call text-back recovery.
               </p>
             </div>
           </div>

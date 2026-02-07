@@ -3,10 +3,10 @@
  * @module pages/CompareAIEmployee
  * 
  * Award-winning comparison with:
- * - Mobile: Expandable mode cards with inline features (no horizontal scroll)
- * - Desktop: Horizontal mode cards with feature highlights
+ * - Mobile: Expandable plan cards with inline features (no horizontal scroll)
+ * - Desktop: Horizontal plan cards with feature highlights
  * 
- * Consolidated modes:
+ * Consolidated plans:
  * - After-Hours: $197/mo (includes booking + missed call recovery)
  * - Front Office: $297/mo (includes missed call recovery)
  * - Full AI Employee: $597/mo (all features)
@@ -85,9 +85,9 @@ function CardBackground({ variant }: { variant: 'after-hours' | 'front-office' |
 }
 
 /**
- * AI Employee mode data - Consolidated to 3 modes
+ * AI Employee plan data - Consolidated to 3 plans
  */
-const modes = [
+const plans = [
   {
     name: 'After-Hours' as const,
     tagline: 'Complete after-hours coverage',
@@ -112,7 +112,7 @@ const modes = [
     price: '$597',
     period: '/mo',
     setup: '$2,500 setup',
-    description: 'Everything included. Voice, SMS, booking, screening, web chat—your complete AI front office.',
+    description: 'Everything included. Voice, SMS, booking, screening, web chat, and Unlimited AI—your complete AI front office.',
     href: '/let-ai-handle-it/full-ai-employee',
     highlight: true,
   },
@@ -124,13 +124,13 @@ const modes = [
  */
 const featureCategories = [
   {
-    name: 'Unlimited AI',
-    description: 'Included with Full AI Employee, or add to any plan for $149/mo',
+    name: 'Unlimited AI Add-on',
+    description: 'All 4 features included with Full AI Employee. Add all 4 to any other plan for $149/mo.',
     features: [
-      { name: 'Unlimited Conversation AI', tooltip: 'Unlimited automated text responses across SMS, chat, and DMs', values: ['+$149', '+$149', true], badge: 'addon' },
-      { name: 'Unlimited Reviews AI', tooltip: 'Unlimited auto-responses to Google & Facebook reviews', values: ['+$149', '+$149', true], badge: 'addon' },
-      { name: 'Unlimited Content AI', tooltip: 'Unlimited marketing copy, emails, and social posts', values: ['+$149', '+$149', true], badge: 'addon' },
-      { name: 'Unlimited Funnel AI', tooltip: 'Unlimited AI-assisted landing pages and funnels', values: ['+$149', '+$149', true], badge: 'addon' },
+      { name: 'Unlimited Conversation AI', tooltip: 'Unlimited automated text responses across SMS, web chat, and social DMs', values: ['+$149/mo', '+$149/mo', 'Included'], badge: 'addon' },
+      { name: 'Unlimited Reviews AI', tooltip: 'Unlimited auto-responses to Google & Facebook reviews', values: ['+$149/mo', '+$149/mo', 'Included'], badge: 'addon' },
+      { name: 'Unlimited Content AI', tooltip: 'Unlimited AI-generated marketing copy, emails, and social posts', values: ['+$149/mo', '+$149/mo', 'Included'], badge: 'addon' },
+      { name: 'Unlimited Funnel AI', tooltip: 'Unlimited AI-assisted landing pages and sales funnels', values: ['+$149/mo', '+$149/mo', 'Included'], badge: 'addon' },
     ],
   },
   {
@@ -174,7 +174,7 @@ const featureCategories = [
   {
     name: 'Premium Features',
     features: [
-      { name: 'Web chat widget', tooltip: 'AI chatbot for your website. Available as add-on for other plans.', values: ['+$79', '+$79', true], badge: 'addon' },
+      { name: 'AI Web Chat Widget', tooltip: 'AI-powered chatbot for your website. Captures leads 24/7.', values: ['+$79/mo', '+$79/mo', 'Included'], badge: 'addon' },
       { name: 'Dedicated onboarding', tooltip: 'White-glove setup assistance', values: [false, true, true] },
       { name: 'Priority support', tooltip: 'Fast-track support response', values: [false, false, true] },
       { name: 'Monthly optimization', tooltip: 'Ongoing AI tuning and improvements', values: [false, false, true] },
@@ -183,24 +183,24 @@ const featureCategories = [
 ];
 
 /**
- * Get all features for a specific mode index
+ * Get all features for a specific plan index
  */
-function getModeFeatures(modeIndex: number) {
+function getPlanFeatures(planIndex: number) {
   const included: string[] = [];
   const addons: { name: string; price: string }[] = [];
   const notIncluded: string[] = [];
   
   featureCategories.forEach(category => {
     category.features.forEach(feature => {
-      const value = feature.values[modeIndex];
-      if (value === true) {
+      const value = feature.values[planIndex] as boolean | string;
+      if (value === true || value === 'Included') {
         included.push(feature.name);
       } else if (typeof value === 'string' && value.startsWith('+$')) {
         // Extract just the price for cleaner display
         addons.push({ name: feature.name, price: value });
       } else if (typeof value === 'string') {
         included.push(`${feature.name}: ${value}`);
-      } else {
+      } else if (value === false) {
         notIncluded.push(feature.name);
       }
     });
@@ -242,18 +242,18 @@ function FeatureValue({ value, badge }: { value: boolean | string; badge?: strin
 }
 
 /**
- * Mobile mode card with expandable features
+ * Mobile plan card with expandable features
  */
-function MobileModeCard({ mode, modeIndex }: { mode: typeof modes[0]; modeIndex: number }) {
+function MobilePlanCard({ plan, planIndex }: { plan: typeof plans[0]; planIndex: number }) {
   const [expanded, setExpanded] = useState(false);
-  const { included, addons, notIncluded } = getModeFeatures(modeIndex);
-  const bgVariant = mode.name === 'After-Hours' ? 'after-hours' : mode.name === 'Front Office' ? 'front-office' : 'full';
+  const { included, addons, notIncluded } = getPlanFeatures(planIndex);
+  const bgVariant = plan.name === 'After-Hours' ? 'after-hours' : plan.name === 'Front Office' ? 'front-office' : 'full';
   
   return (
     <div 
       className={cn(
         "border rounded-2xl overflow-hidden relative",
-        mode.highlight 
+        plan.highlight 
           ? "border-accent/40 bg-accent/5" 
           : "border-border/30 bg-card/30"
       )}
@@ -261,27 +261,26 @@ function MobileModeCard({ mode, modeIndex }: { mode: typeof modes[0]; modeIndex:
       {/* Animated background orbs */}
       <CardBackground variant={bgVariant} />
       
-      {/* Card Header */}
       <div className="p-5 relative">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
-            <h3 className="text-lg font-semibold text-foreground">{mode.name}</h3>
-            <p className="text-sm text-muted-foreground mt-1">{mode.tagline}</p>
+            <h3 className="text-lg font-semibold text-foreground">{plan.name}</h3>
+            <p className="text-sm text-muted-foreground mt-1">{plan.tagline}</p>
           </div>
           <div className="text-right shrink-0">
-            <span className="text-2xl font-bold text-foreground">{mode.price}</span>
-            <span className="text-sm text-muted-foreground">{mode.period}</span>
-            <p className="text-xs text-muted-foreground mt-0.5">{mode.setup}</p>
+            <span className="text-2xl font-bold text-foreground">{plan.price}</span>
+            <span className="text-sm text-muted-foreground">{plan.period}</span>
+            <p className="text-xs text-muted-foreground mt-0.5">{plan.setup}</p>
           </div>
         </div>
-        <p className="text-sm text-muted-foreground mt-3">{mode.description}</p>
+        <p className="text-sm text-muted-foreground mt-3">{plan.description}</p>
         
         {/* CTA Button */}
         <Link
-          to={mode.href}
+          to={plan.href}
           className={cn(
             "mt-4 w-full py-3 px-4 rounded-xl text-center text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2",
-            mode.highlight 
+            plan.highlight 
               ? "bg-accent text-accent-foreground hover:bg-accent/90"
               : "bg-accent/10 text-accent hover:bg-accent/20"
           )}
@@ -402,8 +401,8 @@ export default function CompareAIEmployee() {
         <section className="pb-16 lg:hidden">
           <div className="container mx-auto px-4">
             <div className="space-y-4 max-w-lg mx-auto">
-              {modes.map((mode, idx) => (
-                <MobileModeCard key={mode.name} mode={mode} modeIndex={idx} />
+              {plans.map((plan, idx) => (
+                <MobilePlanCard key={plan.name} plan={plan} planIndex={idx} />
               ))}
             </div>
             
@@ -419,14 +418,14 @@ export default function CompareAIEmployee() {
         <section className="pb-12 hidden lg:block">
           <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {modes.map((mode) => {
-                const bgVariant = mode.name === 'After-Hours' ? 'after-hours' : mode.name === 'Front Office' ? 'front-office' : 'full';
+              {plans.map((plan) => {
+                const bgVariant = plan.name === 'After-Hours' ? 'after-hours' : plan.name === 'Front Office' ? 'front-office' : 'full';
                 return (
                   <div
-                    key={mode.name}
+                    key={plan.name}
                     className={cn(
                       "rounded-2xl p-6 border transition-all duration-300 relative overflow-hidden",
-                      mode.highlight 
+                      plan.highlight 
                         ? "border-accent/40 bg-accent/5" 
                         : "border-border/30 bg-card/30 hover:border-accent/30"
                     )}
@@ -435,22 +434,22 @@ export default function CompareAIEmployee() {
                     <CardBackground variant={bgVariant} />
                     
                     <div className="flex flex-col items-center text-center relative z-10">
-                      <h3 className="text-xl font-semibold text-foreground">{mode.name}</h3>
-                      <p className="text-sm text-muted-foreground mb-4">{mode.tagline}</p>
+                      <h3 className="text-xl font-semibold text-foreground">{plan.name}</h3>
+                      <p className="text-sm text-muted-foreground mb-4">{plan.tagline}</p>
                       
                       <div className="mb-2">
-                        <span className="text-3xl font-bold text-foreground">{mode.price}</span>
-                        <span className="text-muted-foreground text-sm">{mode.period}</span>
+                        <span className="text-3xl font-bold text-foreground">{plan.price}</span>
+                        <span className="text-muted-foreground text-sm">{plan.period}</span>
                       </div>
-                      <p className="text-xs text-muted-foreground mb-5">{mode.setup}</p>
+                      <p className="text-xs text-muted-foreground mb-5">{plan.setup}</p>
                       
-                      <p className="text-sm text-muted-foreground mb-5">{mode.description}</p>
+                      <p className="text-sm text-muted-foreground mb-5">{plan.description}</p>
                       
                       <Link
-                        to={mode.href}
+                        to={plan.href}
                         className={cn(
                           "w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium flex items-center justify-center gap-2",
-                          mode.highlight 
+                          plan.highlight 
                             ? "btn-gold"
                             : "bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
                         )}
@@ -482,10 +481,10 @@ export default function CompareAIEmployee() {
                 <div className="col-span-1">
                   <span className="text-xs text-muted-foreground uppercase tracking-wider">Feature</span>
                 </div>
-                {modes.map((mode) => (
-                  <div key={mode.name} className="col-span-1 text-center">
-                    <span className="text-sm font-semibold text-foreground">{mode.name}</span>
-                    <p className="text-xs text-muted-foreground">{mode.price}{mode.period}</p>
+                {plans.map((plan) => (
+                  <div key={plan.name} className="col-span-1 text-center">
+                    <span className="text-sm font-semibold text-foreground">{plan.name}</span>
+                    <p className="text-xs text-muted-foreground">{plan.price}{plan.period}</p>
                   </div>
                 ))}
               </div>
