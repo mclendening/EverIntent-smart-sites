@@ -127,10 +127,10 @@ const featureCategories = [
     name: 'Unlimited AI',
     description: 'Included with Full AI Employee, or add to any plan for $149/mo',
     features: [
-      { name: 'Conversation AI (SMS/chat)', tooltip: 'Automated text responses across all channels', values: ['+$149', '+$149', true], badge: 'addon' },
-      { name: 'Reviews AI', tooltip: 'Auto-respond to Google & Facebook reviews', values: ['+$149', '+$149', true], badge: 'addon' },
-      { name: 'Content AI', tooltip: 'Generate marketing copy, emails, and social posts', values: ['+$149', '+$149', true], badge: 'addon' },
-      { name: 'Funnel & Website AI', tooltip: 'AI-assisted landing page and funnel builder', values: ['+$149', '+$149', true], badge: 'addon' },
+      { name: 'Unlimited Conversation AI', tooltip: 'Unlimited automated text responses across SMS, chat, and DMs', values: ['+$149', '+$149', true], badge: 'addon' },
+      { name: 'Unlimited Reviews AI', tooltip: 'Unlimited auto-responses to Google & Facebook reviews', values: ['+$149', '+$149', true], badge: 'addon' },
+      { name: 'Unlimited Content AI', tooltip: 'Unlimited marketing copy, emails, and social posts', values: ['+$149', '+$149', true], badge: 'addon' },
+      { name: 'Unlimited Funnel AI', tooltip: 'Unlimited AI-assisted landing pages and funnels', values: ['+$149', '+$149', true], badge: 'addon' },
     ],
   },
   {
@@ -174,7 +174,7 @@ const featureCategories = [
   {
     name: 'Premium Features',
     features: [
-      { name: 'Web chat widget', tooltip: 'AI chatbot for your website', values: [false, false, true] },
+      { name: 'Web chat widget', tooltip: 'AI chatbot for your website. Available as add-on for other plans.', values: ['+$79', '+$79', true], badge: 'addon' },
       { name: 'Dedicated onboarding', tooltip: 'White-glove setup assistance', values: [false, true, true] },
       { name: 'Priority support', tooltip: 'Fast-track support response', values: [false, false, true] },
       { name: 'Monthly optimization', tooltip: 'Ongoing AI tuning and improvements', values: [false, false, true] },
@@ -187,7 +187,7 @@ const featureCategories = [
  */
 function getModeFeatures(modeIndex: number) {
   const included: string[] = [];
-  const addons: string[] = [];
+  const addons: { name: string; price: string }[] = [];
   const notIncluded: string[] = [];
   
   featureCategories.forEach(category => {
@@ -196,7 +196,8 @@ function getModeFeatures(modeIndex: number) {
       if (value === true) {
         included.push(feature.name);
       } else if (typeof value === 'string' && value.startsWith('+$')) {
-        addons.push(`${feature.name} (${value})`);
+        // Extract just the price for cleaner display
+        addons.push({ name: feature.name, price: value });
       } else if (typeof value === 'string') {
         included.push(`${feature.name}: ${value}`);
       } else {
@@ -332,10 +333,12 @@ function MobileModeCard({ mode, modeIndex }: { mode: typeof modes[0]; modeIndex:
             <div>
               <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium mb-3">Available Add-ons</p>
               <ul className="space-y-2">
-                {addons.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2.5">
+                {addons.map((addon) => (
+                  <li key={addon.name} className="flex items-start gap-2.5">
                     <span className="text-xs text-accent shrink-0 mt-0.5">+</span>
-                    <span className="text-sm text-muted-foreground">{feature}</span>
+                    <span className="text-sm text-muted-foreground">
+                      {addon.name} <span className="text-foreground/50">({addon.price})</span>
+                    </span>
                   </li>
                 ))}
               </ul>
