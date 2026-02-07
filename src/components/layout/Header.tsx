@@ -7,12 +7,17 @@
  */
 
 import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { NavDropdown } from '@/components/layout/NavDropdown';
-import { Button } from '@/components/ui/button';
 import { LogoRenderer } from '@/components/logo/LogoRenderer';
 import { activeTheme } from '@/config/themes';
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+} from '@/components/ui/sheet';
 
 /**
  * Smart Websites dropdown - ordered by conversion ladder
@@ -76,7 +81,6 @@ const companyLinks = [
  * Header - SSG-safe luxury navigation component
  */
 export function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -91,194 +95,177 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const closeMobileMenu = () => {
-    setMobileMenuOpen(false);
-  };
-
   const showScrolledStyles = isMounted && scrolled;
 
   return (
-    <>
-      {/* Mobile Menu Toggle - Fixed position, always on top */}
-      {isMounted && (
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="fixed top-5 right-4 z-[100] lg:hidden w-12 h-12 flex items-center justify-center rounded-full bg-background border border-border/50 shadow-lg"
-          aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-        >
-          {mobileMenuOpen ? <X className="h-6 w-6 text-foreground" /> : <Menu className="h-6 w-6 text-foreground" />}
-        </button>
-      )}
-
-      <header 
-        className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-500 ${
-          showScrolledStyles || mobileMenuOpen
-            ? 'bg-background/95 backdrop-blur-xl border-b border-border/20' 
-            : 'bg-transparent'
-        }`}
-      >
-        <div className="container flex h-20 items-center justify-between">
-          {/* Logo - Native anchor */}
-          <a href="/" className="flex items-center group">
-            <LogoRenderer 
-              scale={0.42} 
-              showTagline={true}
-              accentHsl={activeTheme.accentConfig.accent}
-              config={activeTheme.logoConfig ? {
-                name: activeTheme.name,
-                taglineText: activeTheme.logoConfig.taglineText,
-                everConfig: activeTheme.logoConfig.everConfig,
-                intentConfig: activeTheme.logoConfig.intentConfig,
-                streakConfig: activeTheme.logoConfig.streakConfig,
-                taglineConfig: activeTheme.logoConfig.taglineConfig,
-              } : undefined}
-            />
-          </a>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1">
-            <NavDropdown label="AI Employee" items={aiEmployeeModes} hubPath="/let-ai-handle-it" />
-            <NavDropdown label="Smart Websites" items={smartWebsitesTiers} hubPath="/smart-websites" />
-            <NavDropdown label="Industries" items={industriesItems} hubPath="/industries" />
-            
-            {flatNavLinks.map((link) => (
-              <NavLink 
-                key={link.path}
-                to={link.path} 
-                className="nav-link px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-300"
-                activeClassName="text-accent"
-              >
-                {link.title}
-              </NavLink>
-            ))}
-          </nav>
-
-          {/* Desktop CTA - Native anchor */}
-          <div className="hidden lg:flex items-center">
-            <a href="/pricing" className="btn-gold btn-glow">
-              Get Started
-            </a>
-          </div>
-
-          {/* Spacer for mobile to prevent overlap with fixed button */}
-          <div className="w-12 lg:hidden" />
-        </div>
-
-      {/* Mobile Menu - No animation for iOS compatibility */}
-      {isMounted && mobileMenuOpen && (
-        <div className="fixed inset-0 z-[80] lg:hidden">
-          {/* Backdrop */}
-          <div 
-            className="absolute inset-0 bg-background" 
-            onClick={closeMobileMenu} 
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        showScrolledStyles
+          ? 'bg-background/95 backdrop-blur-xl border-b border-border/20' 
+          : 'bg-transparent'
+      }`}
+    >
+      <div className="container flex h-20 items-center justify-between">
+        {/* Logo - Native anchor */}
+        <a href="/" className="flex items-center group">
+          <LogoRenderer 
+            scale={0.42} 
+            showTagline={true}
+            accentHsl={activeTheme.accentConfig.accent}
+            config={activeTheme.logoConfig ? {
+              name: activeTheme.name,
+              taglineText: activeTheme.logoConfig.taglineText,
+              everConfig: activeTheme.logoConfig.everConfig,
+              intentConfig: activeTheme.logoConfig.intentConfig,
+              streakConfig: activeTheme.logoConfig.streakConfig,
+              taglineConfig: activeTheme.logoConfig.taglineConfig,
+            } : undefined}
           />
-          {/* Menu panel */}
-          <div className="absolute top-20 left-0 right-0 bottom-0 bg-background overflow-y-auto overscroll-contain">
-            <div className="flex flex-col p-6 pb-24 space-y-2">
-            {/* AI Employee section */}
-              <div className="py-3">
-                <a 
-                  href="/let-ai-handle-it"
-                  className="text-xs uppercase tracking-wider text-muted-foreground font-medium hover:text-accent"
-                >
-                  AI Employee
-                </a>
-                {aiEmployeeModes.map((item) => (
-                  <a 
-                    key={item.path}
-                    href={item.path} 
-                    className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors"
-                  >
-                    {item.title}
-                  </a>
-                ))}
-              </div>
-              
-              {/* Smart Websites section */}
-              <div className="py-3 border-t border-border/30">
-                <a 
-                  href="/smart-websites"
-                  className="text-xs uppercase tracking-wider text-muted-foreground font-medium hover:text-accent"
-                >
-                  Smart Websites
-                </a>
-                {smartWebsitesTiers.map((item) => (
-                  <a 
-                    key={item.path}
-                    href={item.path} 
-                    className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors"
-                  >
-                    {item.title}
-                    <span className="text-xs text-muted-foreground ml-2">{item.description}</span>
-                  </a>
-                ))}
-              </div>
-              
-              {/* Industries section */}
-              <div className="py-3 border-t border-border/30">
-                <a 
-                  href="/industries" 
-                  className="text-xs uppercase tracking-wider text-muted-foreground font-medium hover:text-accent"
-                >
-                  Industries
-                </a>
-                {industriesItems.map((item) => (
-                  <a 
-                    key={item.path}
-                    href={item.path} 
-                    className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors"
-                  >
-                    {item.title}
-                  </a>
-                ))}
-              </div>
-              
-              {/* Resources section */}
-              <div className="py-3 border-t border-border/30">
-                <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium">
-                  Resources
-                </span>
-                {resourcesLinks.map((item) => (
-                  <a 
-                    key={item.path}
-                    href={item.path} 
-                    className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors"
-                  >
-                    {item.title}
-                  </a>
-                ))}
-              </div>
-              
-              {/* Company section */}
-              <div className="py-3 border-t border-border/30">
-                <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium">
-                  Company
-                </span>
-                {companyLinks.map((item) => (
-                  <a 
-                    key={item.path}
-                    href={item.path} 
-                    className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors"
-                  >
-                    {item.title}
-                  </a>
-                ))}
-              </div>
+        </a>
 
-              {/* Mobile CTA - Native anchor */}
-              <div className="pt-6">
-                <a 
-                  href="/pricing" 
-                  className="btn-gold btn-glow w-full text-center block"
-                >
-                  Get Started
-                </a>
-              </div>
-            </div>
-          </div>
+        {/* Desktop Navigation */}
+        <nav className="hidden lg:flex items-center gap-1">
+          <NavDropdown label="AI Employee" items={aiEmployeeModes} hubPath="/let-ai-handle-it" />
+          <NavDropdown label="Smart Websites" items={smartWebsitesTiers} hubPath="/smart-websites" />
+          <NavDropdown label="Industries" items={industriesItems} hubPath="/industries" />
+          
+          {flatNavLinks.map((link) => (
+            <NavLink 
+              key={link.path}
+              to={link.path} 
+              className="nav-link px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-300"
+              activeClassName="text-accent"
+            >
+              {link.title}
+            </NavLink>
+          ))}
+        </nav>
+
+        {/* Desktop CTA - Native anchor */}
+        <div className="hidden lg:flex items-center">
+          <a href="/pricing" className="btn-gold btn-glow">
+            Get Started
+          </a>
         </div>
-      )}
-      </header>
-    </>
+
+        {/* Mobile Menu - Using Sheet (Radix Dialog) for iOS compatibility */}
+        <div className="lg:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <button
+                className="w-12 h-12 flex items-center justify-center rounded-full bg-background/80 border border-border/50"
+                aria-label="Open menu"
+              >
+                <Menu className="h-6 w-6 text-foreground" />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-full max-w-sm overflow-y-auto">
+              <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+              <div className="flex flex-col pt-6 pb-24 space-y-2">
+                {/* AI Employee section */}
+                <div className="py-3">
+                  <a 
+                    href="/let-ai-handle-it"
+                    className="text-xs uppercase tracking-wider text-muted-foreground font-medium hover:text-accent"
+                  >
+                    AI Employee
+                  </a>
+                  {aiEmployeeModes.map((item) => (
+                    <a 
+                      key={item.path}
+                      href={item.path} 
+                      className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors"
+                    >
+                      {item.title}
+                    </a>
+                  ))}
+                </div>
+                
+                {/* Smart Websites section */}
+                <div className="py-3 border-t border-border/30">
+                  <a 
+                    href="/smart-websites"
+                    className="text-xs uppercase tracking-wider text-muted-foreground font-medium hover:text-accent"
+                  >
+                    Smart Websites
+                  </a>
+                  {smartWebsitesTiers.map((item) => (
+                    <a 
+                      key={item.path}
+                      href={item.path} 
+                      className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors"
+                    >
+                      {item.title}
+                      <span className="text-xs text-muted-foreground ml-2">{item.description}</span>
+                    </a>
+                  ))}
+                </div>
+                
+                {/* Industries section */}
+                <div className="py-3 border-t border-border/30">
+                  <a 
+                    href="/industries" 
+                    className="text-xs uppercase tracking-wider text-muted-foreground font-medium hover:text-accent"
+                  >
+                    Industries
+                  </a>
+                  {industriesItems.map((item) => (
+                    <a 
+                      key={item.path}
+                      href={item.path} 
+                      className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors"
+                    >
+                      {item.title}
+                    </a>
+                  ))}
+                </div>
+                
+                {/* Resources section */}
+                <div className="py-3 border-t border-border/30">
+                  <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium">
+                    Resources
+                  </span>
+                  {resourcesLinks.map((item) => (
+                    <a 
+                      key={item.path}
+                      href={item.path} 
+                      className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors"
+                    >
+                      {item.title}
+                    </a>
+                  ))}
+                </div>
+                
+                {/* Company section */}
+                <div className="py-3 border-t border-border/30">
+                  <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium">
+                    Company
+                  </span>
+                  {companyLinks.map((item) => (
+                    <a 
+                      key={item.path}
+                      href={item.path} 
+                      className="block py-2.5 pl-2 text-foreground hover:text-accent transition-colors"
+                    >
+                      {item.title}
+                    </a>
+                  ))}
+                </div>
+
+                {/* Mobile CTA - Native anchor */}
+                <div className="pt-6">
+                  <a 
+                    href="/pricing" 
+                    className="btn-gold btn-glow w-full text-center block"
+                  >
+                    Get Started
+                  </a>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </div>
+    </header>
   );
 }
