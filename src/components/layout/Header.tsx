@@ -167,8 +167,8 @@ export function Header() {
       {/* Mobile Menu */}
       {isMounted && mobileMenuOpen && (
         <>
-          <div className="fixed inset-0 bg-background/90 backdrop-blur-sm z-40 lg:hidden" onClick={closeMobileMenu} />
-          <div className="fixed top-20 right-0 bottom-0 w-full max-w-sm bg-card border-l border-border/30 z-50 lg:hidden overflow-y-auto overscroll-contain animate-slide-in-right">
+          <div className="fixed inset-0 bg-background/95 backdrop-blur-md z-[70] lg:hidden" onClick={closeMobileMenu} />
+          <div className="fixed top-20 right-0 bottom-0 w-full max-w-sm bg-card border-l border-border/30 z-[80] lg:hidden overflow-y-auto overscroll-contain animate-slide-in-right">
             <div className="flex flex-col p-6 pb-24 space-y-2">
             {/* AI Employee section */}
               <div className="py-3">
