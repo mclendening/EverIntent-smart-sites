@@ -47,7 +47,7 @@ EverIntent v2.2 Smart Websites restructure:
 | 2.10 | Add "Recommended Add-Ons" to Capture page | `done` | Section renders; max 2 packs | Get Paid Now, AI Voice Chat |
 | 2.11 | Add "Recommended Add-Ons" to Convert page | `done` | Section renders; max 2 packs | Social Autopilot, Omnichannel Inbox |
 | 2.12 | Add "Recommended Add-Ons" to Scale page | `done` | Section renders; max 2 packs | Omnichannel Inbox |
-| 2.13 | Extend checkout with add-on selection step | `todo` | Test transactions with pack combos | SSG-compatible form handling |
+| 2.13 | Extend checkout with add-on selection step | `done` | Test transactions with pack combos | Tier + add-on selection on /contact form |
 
 ---
 
