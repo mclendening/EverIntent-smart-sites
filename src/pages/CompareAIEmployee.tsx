@@ -35,24 +35,26 @@ import {
  * Creates premium, slowly-drifting abstract shapes with visible soft glow
  */
 function CardBackground({ variant }: { variant: 'after-hours' | 'front-office' | 'full' }) {
+  // Orbs positioned fully inside the card bounds (no negative positions)
+  // so they work with overflow-hidden containers
   const configs = {
     'after-hours': {
       orbs: [
-        { size: 'w-64 h-64', position: '-top-16 -left-16', color: 'bg-accent/15', blur: 'blur-3xl', animation: 'animate-drift-slow', delay: '0s' },
-        { size: 'w-48 h-48', position: '-bottom-12 -right-12', color: 'bg-accent/10', blur: 'blur-3xl', animation: 'animate-drift-slow-reverse', delay: '2s' },
+        { size: 'w-48 h-48', position: 'top-0 left-0', color: 'bg-accent/20', blur: 'blur-3xl', animation: 'animate-drift-slow', delay: '0s' },
+        { size: 'w-40 h-40', position: 'bottom-0 right-0', color: 'bg-accent/15', blur: 'blur-3xl', animation: 'animate-drift-slow-reverse', delay: '2s' },
       ]
     },
     'front-office': {
       orbs: [
-        { size: 'w-56 h-56', position: '-top-12 -right-16', color: 'bg-accent/15', blur: 'blur-3xl', animation: 'animate-drift-slow-reverse', delay: '1s' },
-        { size: 'w-44 h-44', position: '-bottom-8 left-4', color: 'bg-accent/10', blur: 'blur-3xl', animation: 'animate-drift-slow', delay: '3s' },
+        { size: 'w-52 h-52', position: 'top-0 right-0', color: 'bg-accent/20', blur: 'blur-3xl', animation: 'animate-drift-slow-reverse', delay: '1s' },
+        { size: 'w-40 h-40', position: 'bottom-0 left-0', color: 'bg-accent/15', blur: 'blur-3xl', animation: 'animate-drift-slow', delay: '3s' },
       ]
     },
     'full': {
       orbs: [
-        { size: 'w-72 h-72', position: '-top-20 left-0', color: 'bg-accent/20', blur: 'blur-3xl', animation: 'animate-drift-slow', delay: '0s' },
-        { size: 'w-56 h-56', position: '-bottom-16 -right-8', color: 'bg-accent/15', blur: 'blur-3xl', animation: 'animate-drift-slow-reverse', delay: '2s' },
-        { size: 'w-40 h-40', position: 'top-1/3 -right-8', color: 'bg-accent/10', blur: 'blur-3xl', animation: 'animate-breathe', delay: '4s' },
+        { size: 'w-56 h-56', position: 'top-0 left-0', color: 'bg-accent/25', blur: 'blur-3xl', animation: 'animate-drift-slow', delay: '0s' },
+        { size: 'w-48 h-48', position: 'bottom-0 right-0', color: 'bg-accent/20', blur: 'blur-3xl', animation: 'animate-drift-slow-reverse', delay: '2s' },
+        { size: 'w-32 h-32', position: 'top-1/2 right-0', color: 'bg-accent/15', blur: 'blur-3xl', animation: 'animate-breathe', delay: '4s' },
       ]
     }
   };
@@ -60,7 +62,7 @@ function CardBackground({ variant }: { variant: 'after-hours' | 'front-office' |
   const config = configs[variant];
 
   return (
-    <div className="absolute inset-0 pointer-events-none" style={{ overflow: 'visible' }}>
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {config.orbs.map((orb, idx) => (
         <div
           key={idx}
