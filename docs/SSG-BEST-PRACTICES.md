@@ -580,26 +580,33 @@ export default function Page() {
 
 ## 10. Internal Linking
 
-### ✅ Use React Router Link (Not `<a>` Tags)
+### ✅ Use Native `<a>` Tags (Not React Router Link)
+
+For true SSG with proper URL handling across all browsers, use native anchor tags:
 
 ```tsx
-import { Link } from 'react-router-dom';
-
-// GOOD: SPA navigation, no full reload
-<Link to="/services">Our Services</Link>
-
-// BAD: Causes full page reload
+// GOOD: True static navigation, URL updates in all browsers
 <a href="/services">Our Services</a>
+
+// BAD: SPA-style client-side navigation (URL may not update in some mobile browsers)
+<Link to="/services">Our Services</Link>
 ```
+
+**Why native anchors for SSG?**
+1. Each page loads as a fresh HTML document
+2. URL updates correctly in ALL browsers (including Firefox mobile)
+3. Search engines follow links naturally
+4. No JavaScript required for navigation
+5. Matches the static nature of pre-rendered pages
 
 ### ✅ Descriptive Link Text
 
 ```tsx
 // GOOD: Descriptive anchor text
-<Link to="/services/seo">Learn about our SEO services</Link>
+<a href="/services/seo">Learn about our SEO services</a>
 
 // BAD: Generic anchor text
-<Link to="/services/seo">Click here</Link>
+<a href="/services/seo">Click here</a>
 ```
 
 ---

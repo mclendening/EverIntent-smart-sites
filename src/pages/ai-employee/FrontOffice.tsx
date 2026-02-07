@@ -12,7 +12,6 @@
 import { SEO } from '@/components/SEO';
 import { CTAButton } from '@/components/CTAButton';
 import { ClientOnly } from '@/components/ClientOnly';
-import { Link } from 'react-router-dom';
 import { 
   AnimatedFlowDiagram, 
   DashboardPreview, 
@@ -123,7 +122,7 @@ export default function FrontOffice() {
             <div className="max-w-5xl mx-auto">
               {/* Breadcrumb */}
               <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground mb-8">
-                <Link to="/let-ai-handle-it" className="hover:text-accent transition-colors">AI Employee</Link>
+                <a href="/let-ai-handle-it" className="hover:text-accent transition-colors">AI Employee</a>
                 <span>/</span>
                 <span className="text-accent">Front Office</span>
               </div>
@@ -152,13 +151,13 @@ export default function FrontOffice() {
                     defaultText="Get Started"
                     hoverText="Screen Every Call"
                   />
-                  <Link 
-                    to="/compare-ai-employee" 
+                  <a 
+                    href="/compare-ai-employee" 
                     className="group inline-flex items-center gap-2 px-6 py-3 text-foreground hover:text-accent transition-colors"
                   >
                     <span>Compare All Modes</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </Link>
+                  </a>
                 </div>
               </div>
 
@@ -256,10 +255,6 @@ export default function FrontOffice() {
           <div className="container">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-16">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/30 text-green-500 text-sm font-medium mb-6">
-                  <span>∞</span>
-                  <span>Powered by GHL AI Employee</span>
-                </div>
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
                   <span className="text-foreground">What's</span>{' '}
                   <span className="text-gradient">Unlimited</span>
@@ -272,9 +267,9 @@ export default function FrontOffice() {
               {/* Unlimited Features Grid */}
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
                 {unlimitedFeatures.map((feature, index) => (
-                  <div key={index} className="p-5 rounded-xl bg-green-500/5 border border-green-500/20">
+                  <div key={index} className="p-5 rounded-xl bg-accent/5 border border-accent/20">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-green-500 font-bold">∞</span>
+                      <span className="text-accent font-bold">∞</span>
                       <h3 className="font-semibold text-foreground">{feature.name}</h3>
                     </div>
                     <p className="text-sm text-muted-foreground">{feature.description}</p>
@@ -371,13 +366,13 @@ export default function FrontOffice() {
                   defaultText="Get Front Office Mode"
                   hoverText="$297/mo + $1,497 setup"
                 />
-                <Link 
-                  to="/contact"
+                <a 
+                  href="/contact"
                   className="group inline-flex items-center gap-2 px-6 py-3 text-foreground hover:text-accent transition-colors"
                 >
                   <span>Book a Demo</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                </a>
               </div>
             </div>
           </div>
