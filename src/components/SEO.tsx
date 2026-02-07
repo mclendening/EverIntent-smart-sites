@@ -8,7 +8,7 @@
  * - Do NOT include "| EverIntent" in title prop - it's appended automatically
  * - Do NOT use em dashes (—) anywhere - use colons, commas, or periods instead
  * - Keep titles under 60 characters (before brand suffix)
- * - Use colons for separators: "Smart Site: Professional Website for $249"
+ * - Use colons for separators: "Launch: Professional Website for $249"
  * 
  * The SEO component automatically appends "| EverIntent" to all titles.
  */

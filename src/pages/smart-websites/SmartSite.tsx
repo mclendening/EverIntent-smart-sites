@@ -63,7 +63,7 @@ export default function SmartSite() {
   return (
     <>
       <SEO 
-        title="Smart Site: Professional Website for $249 One-Time"
+        title="Launch: Professional Website for $249 One-Time"
         description="Get a professional 5-page website for just $249 one-time. Includes mobile design, SSL, SEO setup, and Google Maps. Built in 5 days. You own everything."
         canonical="/smart-websites/smart-site"
       />
@@ -89,7 +89,7 @@ export default function SmartSite() {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage className="text-foreground">Smart Site</BreadcrumbPage>
+                <BreadcrumbPage className="text-foreground">Launch</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -101,12 +101,11 @@ export default function SmartSite() {
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] mb-6 tracking-tight">
-              <span className="text-foreground">Smart </span>
-              <span className="text-gradient">Site</span>
+              <span className="text-gradient">Launch</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl">
-              A professional website without the professional price tag. 
+              Get online fast. A professional website without the professional price tag. 
               One payment. No monthly fees. You own everything.
             </p>
 
@@ -229,7 +228,7 @@ export default function SmartSite() {
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/smart-websites/smart-lead">See Smart Lead →</Link>
+              <Link to="/smart-websites/smart-lead">See Capture →</Link>
             </Button>
           </div>
         </div>

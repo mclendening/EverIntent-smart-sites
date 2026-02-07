@@ -20,14 +20,14 @@ EverIntent v2.2 Smart Websites restructure:
 
 | ID | Task | Status | Verification | Notes |
 |----|------|--------|--------------|-------|
-| 1.1 | Rename "Smart Site" → "Launch" across all pages | `todo` | Check headings, nav, meta tags; no 404s | Slug `/smart-websites/smart-site` unchanged |
-| 1.2 | Rename "Smart Lead" → "Capture" across all pages | `todo` | Check headings, nav, meta tags; no 404s | Slug `/smart-websites/smart-lead` unchanged |
-| 1.3 | Rename "Smart Business" → "Convert" across all pages | `todo` | Check headings, nav, meta tags; no 404s | Slug `/smart-websites/smart-business` unchanged |
-| 1.4 | Rename "Smart Growth" → "Scale" across all pages | `todo` | Check headings, nav, meta tags; no 404s | Slug `/smart-websites/smart-growth` unchanged |
-| 1.5 | Rewrite tier descriptions (outcome-focused copy) | `todo` | Launch="Get online fast", Capture="Never miss a lead", Convert="Turn visitors into customers", Scale="AI-powered growth engine" | Match dark/purple/yellow aesthetic |
-| 1.6 | Update Smart Websites dropdown menu | `todo` | Hover test all menu items on staging | List: Launch, Capture, Convert, Scale, Compare Plans, Add-On Packs |
-| 1.7 | Update all internal links and breadcrumbs | `todo` | Click-test all navigation paths | No new URLs; existing slugs only |
-| 1.8 | Refresh SEO metadata (title, description, canonical) | `todo` | Source inspection + SEO checker | One H1 per page; proper heading hierarchy |
+| 1.1 | Rename "Smart Site" → "Launch" across all pages | `done` | Check headings, nav, meta tags; no 404s | Slug `/smart-websites/smart-site` unchanged |
+| 1.2 | Rename "Smart Lead" → "Capture" across all pages | `done` | Check headings, nav, meta tags; no 404s | Slug `/smart-websites/smart-lead` unchanged |
+| 1.3 | Rename "Smart Business" → "Convert" across all pages | `done` | Check headings, nav, meta tags; no 404s | Slug `/smart-websites/smart-business` unchanged |
+| 1.4 | Rename "Smart Growth" → "Scale" across all pages | `done` | Check headings, nav, meta tags; no 404s | Slug `/smart-websites/smart-growth` unchanged |
+| 1.5 | Rewrite tier descriptions (outcome-focused copy) | `done` | Launch="Get online fast", Capture="Never miss a lead", Convert="Turn visitors into customers", Scale="AI-powered growth engine" | Match dark/purple/yellow aesthetic |
+| 1.6 | Update Smart Websites dropdown menu | `done` | Hover test all menu items on staging | List: Launch, Capture, Convert, Scale, Compare Plans, Add-On Packs |
+| 1.7 | Update all internal links and breadcrumbs | `done` | Click-test all navigation paths | No new URLs; existing slugs only |
+| 1.8 | Refresh SEO metadata (title, description, canonical) | `done` | Source inspection + SEO checker | One H1 per page; proper heading hierarchy |
 
 ---
 
@@ -105,4 +105,5 @@ EverIntent v2.2 Smart Websites restructure:
 | Date | Change | Author |
 |------|--------|--------|
 | 2026-02-07 | Tracker created per ChatGPT v2.2 spec | Lovable |
+| 2026-02-07 | Phase 1 (1.1-1.8) complete: Renamed all tiers to Launch/Capture/Convert/Scale, updated nav dropdown with Add-On Packs link, refreshed SEO metadata | Lovable |
 

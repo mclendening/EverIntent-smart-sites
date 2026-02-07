@@ -17,28 +17,28 @@ import { Link } from 'react-router-dom';
  */
 const tiers = [
   {
-    name: 'Smart Site',
+    name: 'Launch',
     price: '$249',
     period: 'one-time',
-    description: 'Professional website. You own it.',
+    description: 'Get online fast. You own it.',
     features: ['5-page website', 'Mobile responsive', 'SEO-ready', 'Ready in 5 days'],
-    href: '/pricing#smart-site',
+    href: '/pricing#launch',
   },
   {
-    name: 'Smart Lead',
+    name: 'Capture',
     price: '$97',
     period: '/month',
-    description: 'For ad buyers who need lead capture.',
+    description: 'Never miss a lead.',
     features: ['Missed call text-back', 'AI chat widget', 'GBP sync', 'Lead management'],
-    href: '/pricing#smart-lead',
+    href: '/pricing#capture',
   },
   {
-    name: 'Smart Business',
+    name: 'Convert',
     price: '$197',
     period: '/month',
-    description: 'Full automation for growing teams.',
+    description: 'Turn visitors into customers.',
     features: ['Online booking', 'Review automation', 'CRM pipelines', 'SMS campaigns'],
-    href: '/pricing#smart-business',
+    href: '/pricing#convert',
   },
   {
     name: 'AI Employee',

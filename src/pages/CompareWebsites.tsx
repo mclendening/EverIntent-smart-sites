@@ -18,8 +18,8 @@ import { cn } from '@/lib/utils';
  */
 const tiers = [
   {
-    name: 'Smart Site',
-    tagline: 'Professional presence',
+    name: 'Launch',
+    tagline: 'Get online fast',
     price: '$249',
     period: ' one-time',
     description: 'A beautiful, fast website that establishes credibility and trust.',
@@ -27,8 +27,8 @@ const tiers = [
     href: '/smart-websites/smart-site',
   },
   {
-    name: 'Smart Lead',
-    tagline: 'Capture & convert',
+    name: 'Capture',
+    tagline: 'Never miss a lead',
     price: '$97',
     period: '/mo',
     description: 'Turn every visitor into a potential customer with AI-powered engagement.',
@@ -36,8 +36,8 @@ const tiers = [
     href: '/smart-websites/smart-lead',
   },
   {
-    name: 'Smart Business',
-    tagline: 'Automate operations',
+    name: 'Convert',
+    tagline: 'Turn visitors into customers',
     price: '$197',
     period: '/mo',
     description: 'Full CRM and booking automation for growing service businesses.',
@@ -45,8 +45,8 @@ const tiers = [
     href: '/smart-websites/smart-business',
   },
   {
-    name: 'Smart Growth',
-    tagline: 'Full automation',
+    name: 'Scale',
+    tagline: 'AI-powered growth engine',
     price: '$297',
     period: '/mo',
     description: 'Complete business automation from first visit to booked appointment.',
