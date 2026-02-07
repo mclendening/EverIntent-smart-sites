@@ -16,9 +16,6 @@ import { useState } from 'react';
 import { 
   Check, 
   X,
-  Moon, 
-  ShieldCheck, 
-  Bot, 
   ArrowRight, 
   ChevronDown,
   HelpCircle
@@ -34,37 +31,57 @@ import {
 } from '@/components/ui/tooltip';
 
 /**
+ * Card background styles - subtle, premium gradients for each tier
+ * Each has a unique visual identity without icons
+ */
+const cardBackgrounds = {
+  'After-Hours': `
+    radial-gradient(ellipse at 20% 80%, hsl(40 55% 56% / 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, hsl(220 30% 40% / 0.04) 0%, transparent 40%),
+    linear-gradient(135deg, transparent 40%, hsl(40 55% 56% / 0.02) 100%)
+  `,
+  'Front Office': `
+    radial-gradient(ellipse at 80% 80%, hsl(40 55% 56% / 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 20%, hsl(200 40% 50% / 0.04) 0%, transparent 40%),
+    linear-gradient(225deg, transparent 40%, hsl(40 55% 56% / 0.03) 100%)
+  `,
+  'Full AI Employee': `
+    radial-gradient(ellipse at 50% 100%, hsl(40 55% 56% / 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 0% 0%, hsl(40 70% 60% / 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 0%, hsl(40 70% 60% / 0.06) 0%, transparent 50%),
+    linear-gradient(180deg, hsl(40 55% 56% / 0.02) 0%, transparent 50%)
+  `,
+};
+
+/**
  * AI Employee mode data - Consolidated to 3 modes
  */
 const modes = [
   {
-    name: 'After-Hours',
+    name: 'After-Hours' as const,
     tagline: 'Complete after-hours coverage',
     price: '$197',
     period: '/mo',
     setup: '$997 setup',
     description: 'AI answers after hours, books appointments, texts back missed calls. Never lose a lead when you\'re closed.',
-    icon: Moon,
     href: '/let-ai-handle-it/after-hours',
   },
   {
-    name: 'Front Office',
+    name: 'Front Office' as const,
     tagline: 'Qualify before you answer',
     price: '$297',
     period: '/mo',
     setup: '$1,497 setup',
     description: 'AI screens all calls, qualifies leads, recovers missed calls, and transfers hot opportunities live.',
-    icon: ShieldCheck,
     href: '/let-ai-handle-it/front-office',
   },
   {
-    name: 'Full AI Employee',
+    name: 'Full AI Employee' as const,
     tagline: 'Complete phone automation',
     price: '$597',
     period: '/mo',
     setup: '$2,500 setup',
     description: 'Everything included. Voice, SMS, booking, screening, web chat—your complete AI front office.',
-    icon: Bot,
     href: '/let-ai-handle-it/full-ai-employee',
     highlight: true,
   },
@@ -197,37 +214,39 @@ function FeatureValue({ value, badge }: { value: boolean | string; badge?: strin
  */
 function MobileModeCard({ mode, modeIndex }: { mode: typeof modes[0]; modeIndex: number }) {
   const [expanded, setExpanded] = useState(false);
-  const Icon = mode.icon;
   const { included, addons, notIncluded } = getModeFeatures(modeIndex);
+  const bgStyle = cardBackgrounds[mode.name];
   
   return (
-    <div className={cn(
-      "border rounded-2xl overflow-hidden",
-      mode.highlight 
-        ? "border-accent/40 bg-accent/5" 
-        : "border-border/30 bg-card/30"
-    )}>
+    <div 
+      className={cn(
+        "border rounded-2xl overflow-hidden relative",
+        mode.highlight 
+          ? "border-accent/40" 
+          : "border-border/30"
+      )}
+      style={{ background: bgStyle }}
+    >
+      {/* Base background layer */}
+      <div className={cn(
+        "absolute inset-0 -z-10",
+        mode.highlight ? "bg-accent/5" : "bg-card/30"
+      )} />
+      
       {/* Card Header */}
-      <div className="p-5">
-        <div className="flex items-start gap-4">
-          <div className={cn(
-            "w-12 h-12 rounded-xl flex items-center justify-center shrink-0",
-            mode.highlight ? "bg-accent/20" : "bg-accent/10"
-          )}>
-            <Icon className="w-6 h-6 text-accent" />
-          </div>
+      <div className="p-5 relative">
+        <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
-            <div className="flex items-baseline justify-between gap-2">
-              <h3 className="text-lg font-semibold text-foreground">{mode.name}</h3>
-              <div className="text-right shrink-0">
-                <span className="text-xl font-bold text-foreground">{mode.price}</span>
-                <span className="text-sm text-muted-foreground">{mode.period}</span>
-              </div>
-            </div>
+            <h3 className="text-lg font-semibold text-foreground">{mode.name}</h3>
+            <p className="text-sm text-muted-foreground mt-1">{mode.tagline}</p>
+          </div>
+          <div className="text-right shrink-0">
+            <span className="text-2xl font-bold text-foreground">{mode.price}</span>
+            <span className="text-sm text-muted-foreground">{mode.period}</span>
             <p className="text-xs text-muted-foreground mt-0.5">{mode.setup}</p>
-            <p className="text-sm text-muted-foreground mt-2">{mode.description}</p>
           </div>
         </div>
+        <p className="text-sm text-muted-foreground mt-3">{mode.description}</p>
         
         {/* CTA Button */}
         <Link
@@ -361,36 +380,35 @@ export default function CompareAIEmployee() {
             {/* Bundle Note */}
             <div className="mt-8 max-w-lg mx-auto p-4 rounded-xl bg-accent/5 border border-accent/20">
               <p className="text-sm text-center text-muted-foreground">
-                <span className="text-accent font-medium">All modes include</span> missed call text-back recovery.
+                <span className="text-accent font-medium">Every plan includes</span> missed call text-back recovery.
               </p>
             </div>
           </div>
         </section>
         
-        {/* Desktop: Mode Cards */}
         <section className="pb-12 hidden lg:block">
           <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {modes.map((mode) => {
-                const Icon = mode.icon;
+                const bgStyle = cardBackgrounds[mode.name];
                 return (
                   <div
                     key={mode.name}
                     className={cn(
-                      "rounded-2xl p-6 border transition-all duration-300",
+                      "rounded-2xl p-6 border transition-all duration-300 relative overflow-hidden",
                       mode.highlight 
-                        ? "border-accent/40 bg-accent/5" 
-                        : "border-border/30 bg-card/30 hover:border-accent/30"
+                        ? "border-accent/40" 
+                        : "border-border/30 hover:border-accent/30"
                     )}
+                    style={{ background: bgStyle }}
                   >
-                    <div className="flex flex-col items-center text-center">
-                      <div className={cn(
-                        "w-14 h-14 rounded-xl flex items-center justify-center mb-4",
-                        mode.highlight ? "bg-accent/20" : "bg-accent/10"
-                      )}>
-                        <Icon className="w-7 h-7 text-accent" />
-                      </div>
-                      
+                    {/* Base background layer */}
+                    <div className={cn(
+                      "absolute inset-0 -z-10",
+                      mode.highlight ? "bg-accent/5" : "bg-card/30"
+                    )} />
+                    
+                    <div className="flex flex-col items-center text-center relative">
                       <h3 className="text-xl font-semibold text-foreground">{mode.name}</h3>
                       <p className="text-sm text-muted-foreground mb-4">{mode.tagline}</p>
                       
@@ -423,7 +441,7 @@ export default function CompareAIEmployee() {
             {/* Bundle Note */}
             <div className="mt-8 max-w-md mx-auto p-4 rounded-xl bg-accent/5 border border-accent/20 text-center">
               <p className="text-sm text-muted-foreground">
-                <span className="text-accent font-medium">All modes include</span> missed call text-back recovery.
+                <span className="text-accent font-medium">Every plan includes</span> missed call text-back recovery.
               </p>
             </div>
           </div>
