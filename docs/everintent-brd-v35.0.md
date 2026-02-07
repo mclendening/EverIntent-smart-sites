@@ -2802,6 +2802,38 @@ body { font-family: var(--font-sans); }
 }
 ```
 
+### F.4 Social Share & OG Image Specification
+
+**Primary OG Image:** `public/og-image.jpg` (1200×630)
+
+**Canonical Brand Elements:**
+| Element | Value | Notes |
+|---------|-------|-------|
+| "Ever" | #FFFFFF (white) | Bold weight, left-positioned |
+| "Intent" | #A855F7 (vibrant purple) | Bold weight, right of "Ever" |
+| Streak | Gradient from #A855F7 → #7878DD | Tapered line below wordmark |
+| Tagline | "Web Design & Practical AI" | White, regular weight |
+| Background | Deep indigo/navy (#0f1219 → #151a2e) | Neural network visualization overlay |
+
+**⚠️ CRITICAL: AI Image Generation Constraint**
+
+AI image generators (DALL-E, Midjourney, Flux, etc.) **CANNOT reliably render precise brand text**. They will:
+- Misspell words
+- Use wrong fonts
+- Break letter spacing
+- Apply incorrect colors
+
+**Correct Workflow for OG Images:**
+1. **Never** generate the logo text with AI
+2. **Start with** a user-provided logo asset (screenshot from LogoRenderer, Figma export, etc.)
+3. **Use AI image editing** to enhance the background around the existing logo
+4. The image edit tool preserves the original logo while adding context (neural networks, gradients, particles)
+
+**Example prompt for enhancement (NOT generation):**
+> "Place this logo in a stunning dark indigo background with subtle glowing neural network patterns, flowing data streams, and elegant abstract AI visualization. Keep the logo crisp and centered."
+
+**Reference:** The production OG image was created by taking the database-rendered logo (via LogoRenderer) and using AI image editing to add a premium indigo AI-themed backdrop with neural network patterns and geometric crystals.
+
 ---
 
 ## Appendix G: Phased Implementation Plan
