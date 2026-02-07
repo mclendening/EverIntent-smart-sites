@@ -160,17 +160,15 @@ export function Header() {
         <>
           <div className="fixed inset-0 bg-background/90 backdrop-blur-sm z-40 lg:hidden" onClick={closeMobileMenu} />
           <div className="fixed top-20 right-0 bottom-0 w-full max-w-sm bg-card border-l border-border/30 z-50 lg:hidden overflow-y-auto overscroll-contain animate-slide-in-right">
-            {/* Close button - always visible at top */}
-            <div className="sticky top-0 flex justify-end p-4 bg-card border-b border-border/30">
-              <button 
-                onClick={closeMobileMenu}
-                className="p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
-                aria-label="Close menu"
-              >
-                <X className="h-6 w-6 text-foreground" />
-              </button>
-            </div>
-            <div className="flex flex-col p-6 pb-24 space-y-2">
+            {/* Close button - fixed position top-right */}
+            <button 
+              onClick={closeMobileMenu}
+              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-muted/80 hover:bg-muted transition-colors"
+              aria-label="Close menu"
+            >
+              <X className="h-5 w-5 text-foreground" />
+            </button>
+            <div className="flex flex-col p-6 pt-16 pb-24 space-y-2">
             {/* AI Employee section */}
               <div className="py-3">
                 <a 
