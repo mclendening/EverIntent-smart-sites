@@ -175,7 +175,7 @@ const Pricing = () => {
   return (
     <>
       <SEO
-        title="Pricing | Smart Websites & AI Employee | EverIntent"
+        title="Pricing: Smart Websites and AI Employee"
         description="Professional websites from $249. AI automation from $197/month. Simple pricing with no contracts. See all plans and choose the right fit for your business."
       />
       

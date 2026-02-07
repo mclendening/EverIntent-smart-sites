@@ -109,7 +109,7 @@ export default function FrontOffice() {
   return (
     <>
       <SEO 
-        title="Front Office AI — Screen, Qualify & Transfer Calls | EverIntent"
+        title="Front Office AI: Screen, Qualify and Transfer Calls"
         description="AI screens every call, qualifies leads, and only transfers hot prospects. Stop wasting time on tire-kickers. $297/mo."
       />
       

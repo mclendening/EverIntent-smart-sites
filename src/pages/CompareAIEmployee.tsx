@@ -373,7 +373,7 @@ export default function CompareAIEmployee() {
   return (
     <>
       <SEO
-        title="Compare AI Employee Modes | EverIntent"
+        title="Compare AI Employee Modes"
         description="Compare AI Employee modes side-by-side. After-Hours at $197/mo, Front Office at $297/mo, or full automation at $597/mo. Find the perfect AI solution."
         canonical="/compare-ai-employee"
       />

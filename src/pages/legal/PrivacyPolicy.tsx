@@ -26,8 +26,8 @@ export default function PrivacyPolicy() {
   return (
     <>
       <SEO
-        title="Privacy Policy | EverIntent"
-        description="EverIntent Privacy Policy - Learn how we collect, use, and protect your data. We never sell personal information."
+        title="Privacy Policy"
+        description="EverIntent Privacy Policy: Learn how we collect, use, and protect your data. We never sell personal information."
       />
 
       <div className="min-h-screen bg-background">

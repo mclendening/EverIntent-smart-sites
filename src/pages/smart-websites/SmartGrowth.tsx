@@ -78,7 +78,7 @@ export default function SmartGrowth() {
   return (
     <>
       <SEO 
-        title="Smart Growth | Full AI Website $297/mo | EverIntent"
+        title="Smart Growth: Full AI Website $297/mo"
         description="AI Voice Agent + unified inbox + advanced automations for $297/mo. The website that runs your business. $997 setup, 5-day delivery, quarterly strategy calls."
         canonical="/smart-websites/smart-growth"
       />

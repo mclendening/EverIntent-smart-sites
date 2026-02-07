@@ -75,7 +75,7 @@ export default function SmartLead() {
   return (
     <>
       <SEO 
-        title="Smart Lead | Lead Capture Website $97/mo | EverIntent"
+        title="Smart Lead: Lead Capture Website $97/mo"
         description="Stop losing leads you paid for. Smart Lead includes AI chat, missed-call text-back, CRM, and automation for $97/mo + $249 setup. Built in 5 days."
         canonical="/smart-websites/smart-lead"
       />

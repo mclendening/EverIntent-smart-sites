@@ -117,7 +117,7 @@ const Contact = () => {
   return (
     <>
       <SEO
-        title="Contact | EverIntent"
+        title="Contact Us"
         description="Questions about AI Employee or Smart Websites? We respond within 24 hours. Get in touch with our team."
       />
 

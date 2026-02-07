@@ -1,14 +1,16 @@
 /**
- * @fileoverview SEO Component - Search Engine Optimization Meta Tags
- * @description Manages page-level SEO meta tags using vite-react-ssg's Head component.
- *              Provides consistent SEO structure across all pages per BRD v34.0 Section 18.
+ * SEO Component - Search Engine Optimization Meta Tags
  * 
- * @module components/SEO
- * @see {@link https://docs.lovable.dev} Lovable Documentation
+ * Manages page-level SEO meta tags using vite-react-ssg's Head component.
+ * Provides consistent SEO structure across all pages.
  * 
- * @brd-reference BRD v34.0 Section 18 - SEO Strategy
- * @brd-reference BRD v34.0 Section 18.1 - Meta Tag Standards
- * @brd-reference BRD v34.0 Section 18.2 - Open Graph Requirements
+ * IMPORTANT TITLE CONVENTIONS:
+ * - Do NOT include "| EverIntent" in title prop - it's appended automatically
+ * - Do NOT use em dashes (—) anywhere - use colons, commas, or periods instead
+ * - Keep titles under 60 characters (before brand suffix)
+ * - Use colons for separators: "Smart Site: Professional Website for $249"
+ * 
+ * The SEO component automatically appends "| EverIntent" to all titles.
  */
 
 import { Head } from 'vite-react-ssg';

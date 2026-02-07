@@ -133,7 +133,7 @@ export default function DataRightsRequest() {
   return (
     <>
       <SEO
-        title="Data Rights Request | EverIntent"
+        title="Data Rights Request"
         description="Submit a data rights request to EverIntent. Exercise your CCPA rights to know, delete, or correct your personal data."
       />
 

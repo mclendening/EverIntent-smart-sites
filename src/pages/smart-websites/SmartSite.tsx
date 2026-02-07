@@ -63,7 +63,7 @@ export default function SmartSite() {
   return (
     <>
       <SEO 
-        title="Smart Site | Professional Website for $249 One-Time | EverIntent"
+        title="Smart Site: Professional Website for $249 One-Time"
         description="Get a professional 5-page website for just $249 one-time. Includes mobile design, SSL, SEO setup, and Google Maps. Built in 5 days. You own everything."
         canonical="/smart-websites/smart-site"
       />

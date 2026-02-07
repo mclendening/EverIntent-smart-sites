@@ -107,7 +107,7 @@ export default function AIEmployee() {
   return (
     <>
       <SEO 
-        title="Let AI Handle It — 24/7 AI Phone Answering | EverIntent"
+        title="AI Employee: 24/7 AI Phone Answering"
         description="Your phone answered 24/7. Missed calls recovered. Appointments booked automatically. AI Employee starts at $197/mo."
       />
       

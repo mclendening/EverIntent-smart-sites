@@ -106,7 +106,7 @@ export default function FullAIEmployee() {
   return (
     <>
       <SEO 
-        title="Full AI Employee — Complete Business Communication | EverIntent"
+        title="Full AI Employee: Complete Business Automation"
         description="Complete AI Employee: voice, SMS, web chat, booking, screening, and live transfers. Your entire phone operation, automated. $597/mo."
       />
       
