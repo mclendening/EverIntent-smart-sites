@@ -42,7 +42,7 @@ EverIntent v2.2 Smart Websites restructure:
 | 2.5 | Build Omnichannel Inbox pack card ($99/mo) | `done` | Card renders; links work | Unified messaging across channels |
 | 2.6 | Build AI Voice Chat pack card ($79/mo) | `done` | Card renders; links work | Website chat widget with voice |
 | 2.7 | Build Unlimited AI pack card ($149/mo) | `done` | Card renders; links work | Unlimited AI usage for heavy users |
-| 2.8 | Add detail sections/modals for each pack | `todo` | "Learn More" opens correct detail | No client-side routing; use existing modal patterns |
+| 2.8 | Add detail sections/modals for each pack | `done` | "Learn More" opens correct detail | No client-side routing; use existing modal patterns |
 | 2.9 | Add "Recommended Add-Ons" to Launch page | `todo` | Section renders; max 2 packs | Email Authority |
 | 2.10 | Add "Recommended Add-Ons" to Capture page | `todo` | Section renders; max 2 packs | Get Paid Now, AI Voice Chat |
 | 2.11 | Add "Recommended Add-Ons" to Convert page | `todo` | Section renders; max 2 packs | Social Autopilot, Omnichannel Inbox |
