@@ -108,11 +108,11 @@ const plans = [
   },
   {
     name: 'Full AI Employee' as const,
-    tagline: 'Complete phone automation',
+    tagline: 'Your AI-powered front office',
     price: '$597',
     period: '/mo',
     setup: '$2,500 setup',
-    description: 'Everything included. Voice, SMS, booking, screening, web chat, and Unlimited AI—your complete AI front office.',
+    description: 'Voice AI, SMS, booking, screening, live transfer, web chat, and Unlimited AI included. Handles calls, qualifies leads, and books appointments around the clock.',
     href: '/let-ai-handle-it/full-ai-employee',
     highlight: true,
   },
