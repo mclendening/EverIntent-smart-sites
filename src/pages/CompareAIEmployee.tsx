@@ -31,27 +31,52 @@ import {
 } from '@/components/ui/tooltip';
 
 /**
- * Card background styles - subtle, premium gradients for each tier
- * Each has a unique visual identity without icons
+ * Animated floating orb background for cards
+ * Creates premium, slowly-drifting abstract shapes
  */
-const cardBackgrounds = {
-  'After-Hours': `
-    radial-gradient(ellipse at 20% 80%, hsl(40 55% 56% / 0.06) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, hsl(220 30% 40% / 0.04) 0%, transparent 40%),
-    linear-gradient(135deg, transparent 40%, hsl(40 55% 56% / 0.02) 100%)
-  `,
-  'Front Office': `
-    radial-gradient(ellipse at 80% 80%, hsl(40 55% 56% / 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 20% 20%, hsl(200 40% 50% / 0.04) 0%, transparent 40%),
-    linear-gradient(225deg, transparent 40%, hsl(40 55% 56% / 0.03) 100%)
-  `,
-  'Full AI Employee': `
-    radial-gradient(ellipse at 50% 100%, hsl(40 55% 56% / 0.12) 0%, transparent 60%),
-    radial-gradient(ellipse at 0% 0%, hsl(40 70% 60% / 0.06) 0%, transparent 50%),
-    radial-gradient(ellipse at 100% 0%, hsl(40 70% 60% / 0.06) 0%, transparent 50%),
-    linear-gradient(180deg, hsl(40 55% 56% / 0.02) 0%, transparent 50%)
-  `,
-};
+function CardBackground({ variant }: { variant: 'after-hours' | 'front-office' | 'full' }) {
+  const configs = {
+    'after-hours': {
+      orbs: [
+        { size: 'w-32 h-32', position: 'top-[-20%] left-[-10%]', color: 'bg-accent/[0.08]', animation: 'animate-drift-slow', delay: '0s' },
+        { size: 'w-24 h-24', position: 'bottom-[-15%] right-[-5%]', color: 'bg-accent/[0.05]', animation: 'animate-drift-slow-reverse', delay: '2s' },
+      ]
+    },
+    'front-office': {
+      orbs: [
+        { size: 'w-28 h-28', position: 'top-[-15%] right-[-10%]', color: 'bg-accent/[0.08]', animation: 'animate-drift-slow-reverse', delay: '1s' },
+        { size: 'w-20 h-20', position: 'bottom-[-10%] left-[10%]', color: 'bg-accent/[0.06]', animation: 'animate-drift-slow', delay: '3s' },
+      ]
+    },
+    'full': {
+      orbs: [
+        { size: 'w-40 h-40', position: 'top-[-25%] left-[20%]', color: 'bg-accent/[0.12]', animation: 'animate-drift-slow', delay: '0s' },
+        { size: 'w-32 h-32', position: 'bottom-[-20%] right-[-10%]', color: 'bg-accent/[0.08]', animation: 'animate-drift-slow-reverse', delay: '2s' },
+        { size: 'w-24 h-24', position: 'top-[40%] right-[-15%]', color: 'bg-accent/[0.06]', animation: 'animate-breathe', delay: '4s' },
+      ]
+    }
+  };
+
+  const config = configs[variant];
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {config.orbs.map((orb, idx) => (
+        <div
+          key={idx}
+          className={cn(
+            "absolute rounded-full blur-2xl",
+            orb.size,
+            orb.position,
+            orb.color,
+            orb.animation
+          )}
+          style={{ animationDelay: orb.delay }}
+        />
+      ))}
+    </div>
+  );
+}
 
 /**
  * AI Employee mode data - Consolidated to 3 modes
@@ -215,23 +240,19 @@ function FeatureValue({ value, badge }: { value: boolean | string; badge?: strin
 function MobileModeCard({ mode, modeIndex }: { mode: typeof modes[0]; modeIndex: number }) {
   const [expanded, setExpanded] = useState(false);
   const { included, addons, notIncluded } = getModeFeatures(modeIndex);
-  const bgStyle = cardBackgrounds[mode.name];
+  const bgVariant = mode.name === 'After-Hours' ? 'after-hours' : mode.name === 'Front Office' ? 'front-office' : 'full';
   
   return (
     <div 
       className={cn(
         "border rounded-2xl overflow-hidden relative",
         mode.highlight 
-          ? "border-accent/40" 
-          : "border-border/30"
+          ? "border-accent/40 bg-accent/5" 
+          : "border-border/30 bg-card/30"
       )}
-      style={{ background: bgStyle }}
     >
-      {/* Base background layer */}
-      <div className={cn(
-        "absolute inset-0 -z-10",
-        mode.highlight ? "bg-accent/5" : "bg-card/30"
-      )} />
+      {/* Animated background orbs */}
+      <CardBackground variant={bgVariant} />
       
       {/* Card Header */}
       <div className="p-5 relative">
@@ -390,25 +411,21 @@ export default function CompareAIEmployee() {
           <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {modes.map((mode) => {
-                const bgStyle = cardBackgrounds[mode.name];
+                const bgVariant = mode.name === 'After-Hours' ? 'after-hours' : mode.name === 'Front Office' ? 'front-office' : 'full';
                 return (
                   <div
                     key={mode.name}
                     className={cn(
                       "rounded-2xl p-6 border transition-all duration-300 relative overflow-hidden",
                       mode.highlight 
-                        ? "border-accent/40" 
-                        : "border-border/30 hover:border-accent/30"
+                        ? "border-accent/40 bg-accent/5" 
+                        : "border-border/30 bg-card/30 hover:border-accent/30"
                     )}
-                    style={{ background: bgStyle }}
                   >
-                    {/* Base background layer */}
-                    <div className={cn(
-                      "absolute inset-0 -z-10",
-                      mode.highlight ? "bg-accent/5" : "bg-card/30"
-                    )} />
+                    {/* Animated background orbs */}
+                    <CardBackground variant={bgVariant} />
                     
-                    <div className="flex flex-col items-center text-center relative">
+                    <div className="flex flex-col items-center text-center relative z-10">
                       <h3 className="text-xl font-semibold text-foreground">{mode.name}</h3>
                       <p className="text-sm text-muted-foreground mb-4">{mode.tagline}</p>
                       
