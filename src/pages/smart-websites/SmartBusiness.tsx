@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { Check, ArrowRight, Calendar, Star, MessageSquare, Phone, Users, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { SEO } from '@/components/SEO';
 import { RecommendedAddOns } from '@/components/smart-websites/RecommendedAddOns';
 import {
@@ -230,14 +231,22 @@ export default function SmartBusiness() {
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8 text-center">
               Common Questions
             </h2>
-            <div className="space-y-6">
+            <Accordion type="single" collapsible className="space-y-4">
               {faqs.map((faq, index) => (
-                <div key={index} className="p-6 rounded-xl bg-card/50 border border-border/50">
-                  <h3 className="text-lg font-semibold text-foreground mb-2">{faq.question}</h3>
-                  <p className="text-muted-foreground">{faq.answer}</p>
-                </div>
+                <AccordionItem 
+                  key={index} 
+                  value={`faq-${index}`}
+                  className="rounded-xl bg-card/50 border border-border/50 px-6"
+                >
+                  <AccordionTrigger className="text-lg font-semibold text-foreground hover:no-underline py-5">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground pb-5">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
               ))}
-            </div>
+            </Accordion>
           </div>
         </div>
       </section>
