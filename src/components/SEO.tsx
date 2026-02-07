@@ -44,7 +44,7 @@ const SITE_NAME = 'EverIntent';
  * Default meta description per BRD v34.0 messaging
  * @constant {string}
  */
-const DEFAULT_DESCRIPTION = 'Professional smart websites for local businesses. Built in 5 days. Starting at $249. You own everything.';
+const DEFAULT_DESCRIPTION = 'Stop losing money to missed calls. AI Employee answers 24/7, books appointments, and captures every lead. Smart Websites starting at $249.';
 
 /**
  * Default Open Graph image
