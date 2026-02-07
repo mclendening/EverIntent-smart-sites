@@ -98,62 +98,71 @@ export function Header() {
   const showScrolledStyles = isMounted && scrolled;
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-500 ${
-        showScrolledStyles || mobileMenuOpen
-          ? 'bg-background/95 backdrop-blur-xl border-b border-border/20' 
-          : 'bg-transparent'
-      }`}
-    >
-      <div className="container flex h-20 items-center justify-between">
-        {/* Logo - Native anchor */}
-        <a href="/" className="flex items-center group">
-          <LogoRenderer 
-            scale={0.42} 
-            showTagline={true}
-            accentHsl={activeTheme.accentConfig.accent}
-            config={activeTheme.logoConfig ? {
-              name: activeTheme.name,
-              taglineText: activeTheme.logoConfig.taglineText,
-              everConfig: activeTheme.logoConfig.everConfig,
-              intentConfig: activeTheme.logoConfig.intentConfig,
-              streakConfig: activeTheme.logoConfig.streakConfig,
-              taglineConfig: activeTheme.logoConfig.taglineConfig,
-            } : undefined}
-          />
-        </a>
+    <>
+      {/* Mobile Menu Toggle - Fixed position, always on top */}
+      {isMounted && (
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="fixed top-5 right-4 z-[100] lg:hidden w-12 h-12 flex items-center justify-center rounded-full bg-background border border-border/50 shadow-lg"
+          aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+        >
+          {mobileMenuOpen ? <X className="h-6 w-6 text-foreground" /> : <Menu className="h-6 w-6 text-foreground" />}
+        </button>
+      )}
 
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-1">
-          <NavDropdown label="AI Employee" items={aiEmployeeModes} hubPath="/let-ai-handle-it" />
-          <NavDropdown label="Smart Websites" items={smartWebsitesTiers} hubPath="/smart-websites" />
-          <NavDropdown label="Industries" items={industriesItems} hubPath="/industries" />
-          
-          {flatNavLinks.map((link) => (
-            <NavLink 
-              key={link.path}
-              to={link.path} 
-              className="nav-link px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-300"
-              activeClassName="text-accent"
-            >
-              {link.title}
-            </NavLink>
-          ))}
-        </nav>
-
-        {/* Desktop CTA - Native anchor */}
-        <div className="hidden lg:flex items-center">
-          <a href="/pricing" className="btn-gold btn-glow">
-            Get Started
+      <header 
+        className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-500 ${
+          showScrolledStyles || mobileMenuOpen
+            ? 'bg-background/95 backdrop-blur-xl border-b border-border/20' 
+            : 'bg-transparent'
+        }`}
+      >
+        <div className="container flex h-20 items-center justify-between">
+          {/* Logo - Native anchor */}
+          <a href="/" className="flex items-center group">
+            <LogoRenderer 
+              scale={0.42} 
+              showTagline={true}
+              accentHsl={activeTheme.accentConfig.accent}
+              config={activeTheme.logoConfig ? {
+                name: activeTheme.name,
+                taglineText: activeTheme.logoConfig.taglineText,
+                everConfig: activeTheme.logoConfig.everConfig,
+                intentConfig: activeTheme.logoConfig.intentConfig,
+                streakConfig: activeTheme.logoConfig.streakConfig,
+                taglineConfig: activeTheme.logoConfig.taglineConfig,
+              } : undefined}
+            />
           </a>
-        </div>
 
-        {/* Mobile Menu Button */}
-        <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-          {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          <span className="sr-only">Toggle menu</span>
-        </Button>
-      </div>
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center gap-1">
+            <NavDropdown label="AI Employee" items={aiEmployeeModes} hubPath="/let-ai-handle-it" />
+            <NavDropdown label="Smart Websites" items={smartWebsitesTiers} hubPath="/smart-websites" />
+            <NavDropdown label="Industries" items={industriesItems} hubPath="/industries" />
+            
+            {flatNavLinks.map((link) => (
+              <NavLink 
+                key={link.path}
+                to={link.path} 
+                className="nav-link px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-300"
+                activeClassName="text-accent"
+              >
+                {link.title}
+              </NavLink>
+            ))}
+          </nav>
+
+          {/* Desktop CTA - Native anchor */}
+          <div className="hidden lg:flex items-center">
+            <a href="/pricing" className="btn-gold btn-glow">
+              Get Started
+            </a>
+          </div>
+
+          {/* Spacer for mobile to prevent overlap with fixed button */}
+          <div className="w-12 lg:hidden" />
+        </div>
 
       {/* Mobile Menu */}
       {isMounted && mobileMenuOpen && (
@@ -264,6 +273,7 @@ export function Header() {
           </div>
         </>
       )}
-    </header>
+      </header>
+    </>
   );
 }
