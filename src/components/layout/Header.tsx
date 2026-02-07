@@ -23,11 +23,12 @@ import {
  * Smart Websites dropdown - ordered by conversion ladder
  */
 const smartWebsitesTiers = [
-  { title: 'Smart Site', path: '/smart-websites/smart-site', description: '$249 one-time' },
-  { title: 'Smart Lead', path: '/smart-websites/smart-lead', description: '$97/mo' },
-  { title: 'Smart Business', path: '/smart-websites/smart-business', description: '$197/mo' },
-  { title: 'Smart Growth', path: '/smart-websites/smart-growth', description: '$297/mo' },
+  { title: 'Launch', path: '/smart-websites/smart-site', description: '$249 one-time' },
+  { title: 'Capture', path: '/smart-websites/smart-lead', description: '$97/mo' },
+  { title: 'Convert', path: '/smart-websites/smart-business', description: '$197/mo' },
+  { title: 'Scale', path: '/smart-websites/smart-growth', description: '$297/mo' },
   { title: 'Compare Plans', path: '/compare-websites', description: 'Side-by-side comparison' },
+  { title: 'Add-On Packs', path: '/smart-websites/add-ons', description: 'Extend your plan' },
 ];
 
 /**

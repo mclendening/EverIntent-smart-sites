@@ -54,10 +54,10 @@ const websiteFeatures = [
 ];
 
 const websiteTiers = [
-  { id: 'smart-site', name: 'Smart Site', key: 't1', cta: 'Get Started', ctaStyle: 'secondary', href: '/smart-websites/smart-site' },
-  { id: 'smart-lead', name: 'Smart Lead', key: 't2', cta: 'Get Started', ctaStyle: 'primary', href: '/smart-websites/smart-lead' },
-  { id: 'smart-business', name: 'Smart Business', key: 't3', cta: 'Get Started', ctaStyle: 'primary', href: '/smart-websites/smart-business' },
-  { id: 'smart-growth', name: 'Smart Growth', key: 't4', cta: 'Get Started', ctaStyle: 'secondary', href: '/smart-websites/smart-growth' },
+  { id: 'launch', name: 'Launch', key: 't1', cta: 'Get Started', ctaStyle: 'secondary', href: '/smart-websites/smart-site' },
+  { id: 'capture', name: 'Capture', key: 't2', cta: 'Get Started', ctaStyle: 'primary', href: '/smart-websites/smart-lead' },
+  { id: 'convert', name: 'Convert', key: 't3', cta: 'Get Started', ctaStyle: 'primary', href: '/smart-websites/smart-business' },
+  { id: 'scale', name: 'Scale', key: 't4', cta: 'Get Started', ctaStyle: 'secondary', href: '/smart-websites/smart-growth' },
 ];
 
 // ============================================
@@ -361,7 +361,7 @@ const Pricing = () => {
 
             {/* T1 Renewal Note */}
             <p className="text-center text-sm text-muted-foreground mt-8">
-              Smart Site: $149/year hosting after first year. You own everything.
+              Launch: $149/year hosting after first year. You own everything.
             </p>
           </div>
         </section>

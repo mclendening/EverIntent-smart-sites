@@ -21,7 +21,7 @@ const SmartWebsites = () => {
    */
   const tiers = [
     {
-      name: "Smart Site",
+      name: "Launch",
       tagline: "Get Online Fast",
       price: "$249",
       priceNote: "one-time",
@@ -46,8 +46,8 @@ const SmartWebsites = () => {
       cta: "Get Started",
     },
     {
-      name: "Smart Lead",
-      tagline: "Best for Ad Buyers",
+      name: "Capture",
+      tagline: "Never Miss a Lead",
       price: "$97",
       priceNote: "/month",
       setup: "$249",
@@ -71,8 +71,8 @@ const SmartWebsites = () => {
       cta: "Start Capturing Leads",
     },
     {
-      name: "Smart Business",
-      tagline: "Grow & Scale",
+      name: "Convert",
+      tagline: "Turn Visitors into Customers",
       price: "$197",
       priceNote: "/month",
       setup: "$497",
@@ -96,8 +96,8 @@ const SmartWebsites = () => {
       cta: "Grow Your Business",
     },
     {
-      name: "Smart Growth",
-      tagline: "Full AI Power",
+      name: "Scale",
+      tagline: "AI-Powered Growth Engine",
       price: "$297",
       priceNote: "/month",
       setup: "$997",
@@ -156,8 +156,8 @@ const SmartWebsites = () => {
       answer: "Yes, 100%. Your domain, your content, your site. We don't do lock-in contracts or hostage situations. If you ever want to leave, we'll help you migrate everything."
     },
     {
-      question: "What happens after the first year with Smart Site?",
-      answer: "Smart Site includes 1 year of hosting free. After Year 1, hosting renews at $149/year. This covers hosting, SSL, security updates, and basic maintenance. You can cancel anytime."
+      question: "What happens after the first year with Launch?",
+      answer: "Launch includes 1 year of hosting free. After Year 1, hosting renews at $149/year. This covers hosting, SSL, security updates, and basic maintenance. You can cancel anytime."
     },
     {
       question: "How long does it take to build my site?",
@@ -169,7 +169,7 @@ const SmartWebsites = () => {
     },
     {
       question: "What if I'm running ads?",
-      answer: "Smart Lead ($97/mo) is specifically designed for businesses running paid traffic. It includes missed-call text-back, AI chat widget, and CRM so you don't lose leads you paid for."
+      answer: "Capture ($97/mo) is specifically designed for businesses running paid traffic. It includes missed-call text-back, AI chat widget, and CRM so you don't lose leads you paid for."
     },
     {
       question: "Do you offer refunds?",
@@ -219,7 +219,7 @@ const SmartWebsites = () => {
     <>
       <SEO 
         title="Smart Websites | Professional Sites from $249 to $297/mo"
-        description="Get a professional website built in 5 days. Choose from Smart Site ($249), Smart Lead ($97/mo), Smart Business ($197/mo), or Smart Growth ($297/mo). You own everything."
+        description="Get a professional website built in 5 days. Choose from Launch ($249), Capture ($97/mo), Convert ($197/mo), or Scale ($297/mo). You own everything."
         canonical="/smart-websites"
       />
 
@@ -570,7 +570,7 @@ const SmartWebsites = () => {
                 </h2>
                 <p className="text-lg text-muted-foreground mb-6">
                   Running email campaigns? Warmy Booster warms up your domain so your messages 
-                  land in the inbox—not the spam folder. Bundled free with Smart Lead or available 
+                  land in the inbox—not the spam folder. Bundled free with Capture or available 
                   as a $49/mo add-on.
                 </p>
                 <ul className="space-y-3 mb-6">
@@ -588,7 +588,7 @@ const SmartWebsites = () => {
                   </li>
                   <li className="flex items-center gap-3">
                     <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
-                    <span className="text-foreground">Free with Smart Lead tier</span>
+                    <span className="text-foreground">Free with Capture tier</span>
                   </li>
                 </ul>
                 <div className="flex flex-wrap gap-3">
@@ -605,7 +605,7 @@ const SmartWebsites = () => {
                 <div className="text-muted-foreground mb-4">/month add-on</div>
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-sm text-primary font-medium">
                   <Star className="h-4 w-4" />
-                  FREE with Smart Lead
+                  FREE with Capture
                 </div>
               </div>
             </div>

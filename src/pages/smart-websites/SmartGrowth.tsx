@@ -78,7 +78,7 @@ export default function SmartGrowth() {
   return (
     <>
       <SEO 
-        title="Smart Growth: Full AI Website $297/mo"
+        title="Scale: AI-Powered Growth Engine $297/mo"
         description="AI Voice Agent + unified inbox + advanced automations for $297/mo. The website that runs your business. $997 setup, 5-day delivery, quarterly strategy calls."
         canonical="/smart-websites/smart-growth"
       />
@@ -105,7 +105,7 @@ export default function SmartGrowth() {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage className="text-foreground">Smart Growth</BreadcrumbPage>
+                <BreadcrumbPage className="text-foreground">Scale</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -113,16 +113,15 @@ export default function SmartGrowth() {
           <div className="max-w-4xl">
             {/* Tier badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-6">
-              Top Tier • Full AI Power
+              AI-Powered Growth Engine • Full AI Power
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] mb-6 tracking-tight">
-              <span className="text-foreground">Smart </span>
-              <span className="text-gradient">Growth</span>
+              <span className="text-gradient">Scale</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl">
-              AI Voice Agent. Unified inbox. Advanced automations. 
+              AI-powered growth engine. AI Voice Agent. Unified inbox. Advanced automations. 
               This isn't just a website—it's a business that runs itself.
             </p>
 
@@ -155,10 +154,10 @@ export default function SmartGrowth() {
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              What's New in Smart Growth
+              What's New in Scale
             </h2>
             <p className="text-lg text-muted-foreground">
-              Everything in Smart Business, plus full AI power.
+              Everything in Convert, plus full AI power.
             </p>
           </div>
 
@@ -181,7 +180,7 @@ export default function SmartGrowth() {
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8 text-center">
-              Plus Everything in Smart Business
+              Plus Everything in Convert
             </h2>
             <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-3">
               {includedFromBusiness.map((item, index) => (
@@ -259,7 +258,7 @@ export default function SmartGrowth() {
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button asChild size="lg" variant="gold" className="btn-glow">
               <Link to="/contact">
-                Get Smart Growth
+                Get Scale
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>

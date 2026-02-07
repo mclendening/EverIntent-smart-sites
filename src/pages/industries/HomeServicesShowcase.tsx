@@ -86,7 +86,7 @@ const faqItems = [
   },
   {
     question: 'How quickly can I get started?',
-    answer: 'Smart Lead websites launch in 5 business days. AI Employee setup takes an additional 3-5 days for voice training and integration. Most contractors are fully live within 2 weeks.',
+    answer: 'Capture websites launch in 5 business days. AI Employee setup takes an additional 3-5 days for voice training and integration. Most contractors are fully live within 2 weeks.',
   },
   {
     question: 'Do I own my website and customer data?',
@@ -99,7 +99,7 @@ export default function HomeServicesShowcase() {
     <>
       <SEO
         title="Home Services AI Solutions | HVAC, Plumbing, Electrical"
-        description="Never miss another service call. AI-powered websites and phone answering for HVAC, plumbing, electrical, and roofing contractors. Get Smart Lead from $97/mo."
+        description="Never miss another service call. AI-powered websites and phone answering for HVAC, plumbing, electrical, and roofing contractors. Get Capture from $97/mo."
         canonical="/industries/home-services/showcase"
       />
 
@@ -125,11 +125,11 @@ export default function HomeServicesShowcase() {
         painPoints={painPoints}
         transcript={transcript}
         websiteMockups={websiteMockups}
-        recommendedTier="Smart Lead"
+        recommendedTier="Capture"
         tierPrice="$97/mo"
         tierSetup="$249"
         faqItems={faqItems}
-        ctaText="Get Smart Lead"
+        ctaText="Get Capture"
         ctaLink="/checkout/smart-lead"
       />
     </>

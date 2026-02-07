@@ -127,11 +127,11 @@ export default function AutomotiveShowcase() {
         painPoints={painPoints}
         transcript={transcript}
         websiteMockups={websiteMockups}
-        recommendedTier="Smart Lead"
+        recommendedTier="Capture"
         tierPrice="$97/mo"
         tierSetup="$249"
         faqItems={faqItems}
-        ctaText="Get Smart Lead"
+        ctaText="Get Capture"
         ctaLink="/checkout/smart-lead"
       />
     </>

@@ -74,8 +74,8 @@ export default function SmartBusiness() {
   return (
     <>
       <SEO 
-        title="Smart Business: Booking and Reviews Website $197/mo"
-        description="Website + online booking + review automation for $197/mo. Let customers book 24/7 and build your Google reputation automatically. $497 setup, 5-day delivery."
+        title="Convert: Booking and Reviews Website $197/mo"
+        description="Turn visitors into customers. Convert includes online booking + review automation for $197/mo. Let customers book 24/7 and build your Google reputation automatically."
         canonical="/smart-websites/smart-business"
       />
 
@@ -100,7 +100,7 @@ export default function SmartBusiness() {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage className="text-foreground">Smart Business</BreadcrumbPage>
+                <BreadcrumbPage className="text-foreground">Convert</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -108,17 +108,16 @@ export default function SmartBusiness() {
           <div className="max-w-4xl">
             {/* Tier badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-6">
-              Grow & Scale • Booking + Reviews
+              Turn Visitors into Customers • Booking + Reviews
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] mb-6 tracking-tight">
-              <span className="text-foreground">Smart </span>
-              <span className="text-gradient">Business</span>
+              <span className="text-gradient">Convert</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl">
-              Online booking + review automation. Let customers schedule themselves. 
-              Build your reputation on autopilot.
+              Turn visitors into customers. Online booking + review automation. 
+              Let customers schedule themselves. Build your reputation on autopilot.
             </p>
 
             {/* Pricing */}
@@ -150,10 +149,10 @@ export default function SmartBusiness() {
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              What's New in Smart Business
+              What's New in Convert
             </h2>
             <p className="text-lg text-muted-foreground">
-              Everything in Smart Lead, plus the tools to scale.
+              Everything in Capture, plus the tools to scale.
             </p>
           </div>
 
@@ -176,7 +175,7 @@ export default function SmartBusiness() {
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8 text-center">
-              Plus Everything in Smart Lead
+              Plus Everything in Capture
             </h2>
             <div className="grid md:grid-cols-3 gap-4">
               {includedFromLead.map((item, index) => (
@@ -254,12 +253,12 @@ export default function SmartBusiness() {
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button asChild size="lg" variant="gold" className="btn-glow">
               <Link to="/contact">
-                Get Smart Business
+                Get Convert
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/smart-websites/smart-growth">See Smart Growth →</Link>
+              <Link to="/smart-websites/smart-growth">See Scale →</Link>
             </Button>
           </div>
         </div>

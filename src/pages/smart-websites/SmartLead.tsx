@@ -75,8 +75,8 @@ export default function SmartLead() {
   return (
     <>
       <SEO 
-        title="Smart Lead: Lead Capture Website $97/mo"
-        description="Stop losing leads you paid for. Smart Lead includes AI chat, missed-call text-back, CRM, and automation for $97/mo + $249 setup. Built in 5 days."
+        title="Capture: Lead Capture Website $97/mo"
+        description="Never miss a lead. Capture includes AI chat, missed-call text-back, CRM, and automation for $97/mo + $249 setup. Built in 5 days."
         canonical="/smart-websites/smart-lead"
       />
 
@@ -102,7 +102,7 @@ export default function SmartLead() {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage className="text-foreground">Smart Lead</BreadcrumbPage>
+                <BreadcrumbPage className="text-foreground">Capture</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -110,12 +110,11 @@ export default function SmartLead() {
           <div className="max-w-4xl">
             {/* Tier badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-6">
-              Lead Capture • Best for Ad Buyers
+              Never Miss a Lead • Best for Ad Buyers
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] mb-6 tracking-tight">
-              <span className="text-foreground">Smart </span>
-              <span className="text-gradient">Lead</span>
+              <span className="text-gradient">Capture</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl">
@@ -178,7 +177,7 @@ export default function SmartLead() {
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8 text-center">
-              Plus Everything in Smart Site
+              Plus Everything in Launch
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {includedFromSite.map((item, index) => (
@@ -256,12 +255,12 @@ export default function SmartLead() {
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button asChild size="lg" variant="gold" className="btn-glow">
               <Link to="/contact">
-                Get Smart Lead
+                Get Capture
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/smart-websites/smart-business">See Smart Business →</Link>
+              <Link to="/smart-websites/smart-business">See Convert →</Link>
             </Button>
           </div>
         </div>
