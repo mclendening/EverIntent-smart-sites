@@ -475,18 +475,20 @@ export default function CompareAIEmployee() {
                           className="grid grid-cols-4 gap-3 py-3.5 px-5 transition-colors hover:bg-accent/[0.06]"
                         >
                           {/* Feature name with tooltip */}
-                          <div className="col-span-1 flex items-center gap-2">
+                          <div className="col-span-1 flex items-center justify-between pr-3">
                             <span className="text-sm text-foreground/90">{feature.name}</span>
-                            {feature.tooltip && (
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <HelpCircle className="w-3.5 h-3.5 text-foreground/30 cursor-help hover:text-accent/60 transition-colors" />
-                                </TooltipTrigger>
-                                <TooltipContent side="top" className="max-w-xs">
-                                  <p className="text-xs">{feature.tooltip}</p>
-                                </TooltipContent>
-                              </Tooltip>
-                            )}
+                            <div className="w-4 flex items-center justify-center flex-shrink-0">
+                              {feature.tooltip && (
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <HelpCircle className="w-3.5 h-3.5 text-foreground/30 cursor-help hover:text-accent/60 transition-colors" />
+                                  </TooltipTrigger>
+                                  <TooltipContent side="right" className="max-w-xs">
+                                    <p className="text-xs">{feature.tooltip}</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              )}
+                            </div>
                           </div>
                           {/* Values */}
                           {feature.values.map((value, idx) => (
