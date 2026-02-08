@@ -1,6 +1,7 @@
 # Smart Websites v2.2 Implementation Tracker
 
 **Created:** 2026-02-07  
+**Last Updated:** 2026-02-08  
 **Status:** Active  
 **Owner:** EverIntent Development Team
 
@@ -13,10 +14,11 @@ EverIntent v2.2 Smart Websites restructure:
 - Introduce 6 add-on packs with cross-sell integration
 - Maintain SSG compatibility (no URL redirects)
 - Preserve Smart Websites / AI Employee product separation
+- **Phase 6 Addition**: Dedicated checkout flow per Design Spec v5.0
 
 ---
 
-## Phase 1 – Tier Renaming & Messaging (Week 1–2)
+## Phase 1 – Tier Renaming & Messaging ✅ COMPLETE
 
 | ID | Task | Status | Verification | Notes |
 |----|------|--------|--------------|-------|
@@ -31,7 +33,7 @@ EverIntent v2.2 Smart Websites restructure:
 
 ---
 
-## Phase 2 – Add-On Packs & Cross-Sell (Week 3–4)
+## Phase 2 – Add-On Packs & Cross-Sell ✅ COMPLETE (Task 2.13 Replaced)
 
 | ID | Task | Status | Verification | Notes |
 |----|------|--------|--------------|-------|
@@ -47,11 +49,11 @@ EverIntent v2.2 Smart Websites restructure:
 | 2.10 | Add "Recommended Add-Ons" to Capture page | `done` | Section renders; max 2 packs | Get Paid Now, AI Voice Chat |
 | 2.11 | Add "Recommended Add-Ons" to Convert page | `done` | Section renders; max 2 packs | Social Autopilot, Omnichannel Inbox |
 | 2.12 | Add "Recommended Add-Ons" to Scale page | `done` | Section renders; max 2 packs | Omnichannel Inbox |
-| 2.13 | Extend checkout with add-on selection step | `done` | Test transactions with pack combos | Tier + add-on selection on /contact form |
+| 2.13 | ~~Extend checkout with add-on selection step~~ | `replaced` | ~~Test transactions with pack combos~~ | **REPLACED BY PHASE 6** – Contact form incorrectly modified; dedicated checkout required per Design Spec v5.0 |
 
 ---
 
-## Phase 3 – Comparison & Upgrade Paths (Week 5–6)
+## Phase 3 – Comparison & Upgrade Paths ✅ COMPLETE
 
 | ID | Task | Status | Verification | Notes |
 |----|------|--------|--------------|-------|
@@ -62,29 +64,304 @@ EverIntent v2.2 Smart Websites restructure:
 
 ---
 
-## Phase 4 – Analytics, SEO & Ongoing Optimisation
+## Phase 4 – Analytics, SEO & Ongoing Optimisation ⏸️ DEFERRED
+
+> **Note**: Phase 4 tasks are deferred until Phase 6 checkout is complete. Analytics instrumentation will be implemented as part of the checkout flow.
 
 | ID | Task | Status | Verification | Notes |
 |----|------|--------|--------------|-------|
-| 4.1 | Instrument tier selection tracking | `todo` | Test events appear in dashboard | Use existing analytics framework |
-| 4.2 | Instrument add-on selection + attach rate tracking | `todo` | Test events appear in dashboard | Track pack selections |
-| 4.3 | Instrument cross-sell click tracking | `todo` | Test events appear in dashboard | Track recommended pack clicks |
-| 4.4 | Instrument Scale → AI Employee upgrade tracking | `todo` | Test events appear in dashboard | Track cross-line conversions |
-| 4.5 | Post-launch SEO audit (Phase 1) | `todo` | Document results in tracker | Meta tags, headings, internal links |
-| 4.6 | Post-launch SEO audit (Phase 2) | `todo` | Document results in tracker | Add-ons page, pack details |
-| 4.7 | Post-launch SEO audit (Phase 3) | `todo` | Document results in tracker | Comparison table, upgrade paths |
+| 4.1 | Instrument tier selection tracking | `deferred` | Test events appear in dashboard | Will integrate with Phase 6 checkout |
+| 4.2 | Instrument add-on selection + attach rate tracking | `deferred` | Test events appear in dashboard | Will integrate with Phase 6 checkout |
+| 4.3 | Instrument cross-sell click tracking | `deferred` | Test events appear in dashboard | Track recommended pack clicks |
+| 4.4 | Instrument Scale → AI Employee upgrade tracking | `deferred` | Test events appear in dashboard | Track cross-line conversions |
+| 4.5 | Post-launch SEO audit (Phase 1) | `deferred` | Document results in tracker | Meta tags, headings, internal links |
+| 4.6 | Post-launch SEO audit (Phase 2) | `deferred` | Document results in tracker | Add-ons page, pack details |
+| 4.7 | Post-launch SEO audit (Phase 3) | `deferred` | Document results in tracker | Comparison table, upgrade paths |
 
 ---
 
-## Phase 5 – Communications & Training
+## Phase 5 – Communications & Training ⏸️ DEFERRED
+
+> **Note**: Phase 5 tasks are external communications tasks that require checkout to be functional first.
 
 | ID | Task | Status | Verification | Notes |
 |----|------|--------|--------------|-------|
-| 5.1 | Draft customer announcement email | `todo` | Marketing + legal review | Explain new names; URLs unchanged |
-| 5.2 | Send test batch to internal staff | `todo` | Confirm formatting | Pre-send verification |
-| 5.3 | Update knowledge base articles | `todo` | Remove "Smart Lead", "Smart Growth" refs | Use new tier names |
-| 5.4 | Update sales sheets and FAQs | `todo` | Remove outdated references | Include add-on pack descriptions |
-| 5.5 | Conduct sales/support training session | `todo` | Team can explain new structure | Focus on positioning packs |
+| 5.1 | Draft customer announcement email | `deferred` | Marketing + legal review | Pending Phase 6 completion |
+| 5.2 | Send test batch to internal staff | `deferred` | Confirm formatting | Pending Phase 6 completion |
+| 5.3 | Update knowledge base articles | `deferred` | Remove "Smart Lead", "Smart Growth" refs | Pending Phase 6 completion |
+| 5.4 | Update sales sheets and FAQs | `deferred` | Remove outdated references | Pending Phase 6 completion |
+| 5.5 | Conduct sales/support training session | `deferred` | Team can explain new structure | Pending Phase 6 completion |
+
+---
+
+## Phase 6 – Checkout Implementation 🚧 IN PROGRESS
+
+> **Authority**: `docs/Detail-Checkout-design.md` (Site Implementation Tasks 1-10)  
+> **Spec**: `docs/Tasks-Checkout-Design-Spec-v5.0.md`
+
+### Architecture Summary
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    everintent.com                                │
+│  /checkout/[tier]                                                │
+│  ┌─────────────┐   ┌─────────────┐   ┌─────────────┐            │
+│  │  Step 1     │ → │  Step 2     │ → │  Step 3     │            │
+│  │  Plan +     │   │  Contact    │   │  Review     │            │
+│  │  Add-Ons    │   │  Details    │   │  & Confirm  │            │
+│  └─────────────┘   └─────────────┘   └──────┬──────┘            │
+│                                              │                   │
+│         ┌────────────────────────────────────┘                   │
+│         ▼                                                        │
+│  ┌─────────────────────────────────────┐                         │
+│  │ start-checkout Edge Function        │                         │
+│  │ • Save to checkout_submissions      │                         │
+│  │ • Upsert GHL contact + tags         │                         │
+│  │ • Return redirect URL               │                         │
+│  └──────────────┬──────────────────────┘                         │
+└─────────────────│───────────────────────────────────────────────┘
+                  │
+                  ▼  window.location.href redirect
+┌─────────────────────────────────────────────────────────────────┐
+│               go.everintent.com/[tier]                           │
+│               GHL SaaS Checkout                                  │
+│  • Pre-filled: firstName, email, phone, business_name           │
+│  • Stripe payment processing                                     │
+│  • Sub-account provisioning                                      │
+│  • Webhook → n8n → onboarding                                   │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Existing Assets (Site-Level Knowledge)
+
+| Asset | Path | Status | Notes |
+|-------|------|--------|-------|
+| `checkout_submissions` table | Supabase | ✅ Ready | Has all required columns: name, email, phone, company, service_interest, tcpa_consent, ghl_* sync fields, UTM fields |
+| `start-checkout` edge function | `supabase/functions/start-checkout/index.ts` | ⚠️ Needs Update | Currently saves + syncs but does NOT return GHL redirect URL |
+| GHL Client library | `supabase/functions/_shared/ghlClient.ts` | ✅ Ready | Has `upsertContact`, `addTags`, `addNote`, `TIER_TAG_MAP` |
+| GHL secrets | Supabase Secrets | ✅ Ready | `GHL_API_TOKEN`, `GHL_LOCATION_ID` configured |
+| Contact page | `src/pages/Contact.tsx` | ✅ Separate | Will remain a simple inquiry form (no checkout logic) |
+| Form components | `src/components/ui/form.tsx` | ✅ Ready | react-hook-form integration available |
+| Add-on data | `src/pages/Contact.tsx` lines 59-66 | ✅ Reference | Pack IDs, names, prices defined |
+
+### Tasks
+
+| ID | Task | Status | Verification | Notes |
+|----|------|--------|--------------|-------|
+| 6.1 | Create checkout route structure | `todo` | Routes exist: `/checkout/launch`, `/checkout/capture`, etc. | Dynamic `[tier]` param or separate pages; SSG compatible |
+| 6.2 | Build CheckoutPage component | `todo` | Page renders with 3-step progress indicator | Multi-step form with session persistence |
+| 6.3 | Build Step 1: Plan & Add-On Selection | `todo` | Tier pre-selected from URL param; add-ons toggleable | Show tier card with price; add-on cards with checkboxes |
+| 6.4 | Build Step 2: Contact Details Form | `todo` | Name, Email, Phone, Business Name, Domain question, TCPA | Inline validation; side-by-side fields on desktop |
+| 6.5 | Build Step 3: Review & Confirm | `todo` | OrderSummary component shows all selections | Editable: "Change Plan" / "Edit Details" links back to steps |
+| 6.6 | Build OrderSummary component | `todo` | Dynamic pricing: setup + monthly + add-ons = total | Reusable across checkout pages |
+| 6.7 | Implement back navigation | `todo` | User can click back to previous step without losing data | Use React state + sessionStorage persistence |
+| 6.8 | Update start-checkout to return redirect URL | `todo` | Function returns `{ success, id, redirect_url }` | Build URL: `go.everintent.com/[tier]?firstName=...&email=...` |
+| 6.9 | Implement redirect after form submission | `todo` | `window.location.href = redirect_url` on success | Show loading state during submission |
+| 6.10 | Update tier page CTAs to `/checkout/[tier]` | `todo` | All "Get Started" buttons link to checkout | Launch, Capture, Convert, Scale pages |
+| 6.11 | Update comparison page CTAs | `todo` | "Choose [Tier]" buttons link to checkout | `/compare-websites` table buttons |
+| 6.12 | Add AI Employee checkout routes | `todo` | `/checkout/after-hours`, `/checkout/front-office`, `/checkout/full-ai` | Same pattern; different tier config |
+| 6.13 | QA: Test all checkout flows | `todo` | Submit test checkouts; verify Supabase + GHL sync + redirect | Cross-browser, mobile testing |
+
+### UX Specification
+
+#### Step 1: Plan & Add-On Selection
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│  [●]───────○───────○   Step 1 of 3: Customize Your Plan        │
+├────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌─────────────────────────────────────┐                        │
+│  │  ✓ Capture Plan                     │  ← Pre-selected        │
+│  │  $97/month · Never miss a lead      │                        │
+│  │  [Change Plan ▼]                    │  ← Dropdown to switch  │
+│  └─────────────────────────────────────┘                        │
+│                                                                 │
+│  Add Optional Packs:                                            │
+│  ┌──────────────────┐ ┌──────────────────┐ ┌──────────────────┐│
+│  │ □ Email Authority│ │ ☑ Get Paid Now  │ │ □ AI Voice Chat  ││
+│  │    $49/mo        │ │    $49/mo       │ │    $79/mo        ││
+│  └──────────────────┘ └──────────────────┘ └──────────────────┘│
+│  ┌──────────────────┐ ┌──────────────────┐ ┌──────────────────┐│
+│  │ □ Social Autopilot│ │ □ Omnichannel   │ │ □ Unlimited AI   ││
+│  │    $97/mo        │ │    $99/mo       │ │    $149/mo       ││
+│  └──────────────────┘ └──────────────────┘ └──────────────────┘│
+│                                                                 │
+│  ┌─────────────────────────────────────┐                        │
+│  │  Order Summary                      │                        │
+│  │  Capture Plan         $97/mo        │                        │
+│  │  Get Paid Now         $49/mo        │                        │
+│  │  ──────────────────────────         │                        │
+│  │  Monthly Total       $146/mo        │                        │
+│  └─────────────────────────────────────┘                        │
+│                                                                 │
+│                              [Continue to Details →]            │
+└────────────────────────────────────────────────────────────────┘
+```
+
+**Behavior:**
+- Tier pre-selected based on URL (`/checkout/capture` → Capture selected)
+- User can change tier via dropdown (state updates, add-ons reset)
+- Add-on cards toggle on click (checkbox + card highlight)
+- OrderSummary updates dynamically
+- "Continue" validates at least one plan selected
+
+#### Step 2: Contact Details
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│  ○───────[●]───────○   Step 2 of 3: Your Details               │
+├────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────────────┐ ┌──────────────────────┐              │
+│  │ First Name *         │ │ Last Name *          │              │
+│  │ [________________]   │ │ [________________]   │              │
+│  └──────────────────────┘ └──────────────────────┘              │
+│                                                                 │
+│  ┌──────────────────────┐ ┌──────────────────────┐              │
+│  │ Email *              │ │ Phone *              │              │
+│  │ [________________]   │ │ [________________]   │              │
+│  └──────────────────────┘ └──────────────────────┘              │
+│                                                                 │
+│  ┌─────────────────────────────────────────────────┐            │
+│  │ Business Name *                                 │            │
+│  │ [________________________________________________]           │
+│  └─────────────────────────────────────────────────┘            │
+│                                                                 │
+│  Do you have a domain for your website?                         │
+│  ○ Yes, I have a domain                                         │
+│  ○ No, I need help getting one                                  │
+│                                                                 │
+│  ┌─────────────────────────────────────────────────┐            │
+│  │ Message (optional)                              │            │
+│  │ [________________________________________________]           │
+│  └─────────────────────────────────────────────────┘            │
+│                                                                 │
+│  ☑ I agree to receive communications from EverIntent.           │
+│    View our Privacy Policy. *                                   │
+│                                                                 │
+│  [← Back]                        [Review Your Order →]          │
+└────────────────────────────────────────────────────────────────┘
+```
+
+**Behavior:**
+- All fields except Message are required
+- Inline validation (red border + error message on blur)
+- Domain question: radio buttons (stored as `has_domain: boolean`)
+- TCPA checkbox required before proceeding
+- "Back" returns to Step 1 with data preserved
+- "Review" validates all fields, advances to Step 3
+
+#### Step 3: Review & Confirm
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│  ○───────○───────[●]   Step 3 of 3: Review & Confirm           │
+├────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌─────────────────────────────────────┐                        │
+│  │  Your Plan                   [Edit] │                        │
+│  │  ─────────────────────────────────  │                        │
+│  │  Capture Plan         $97/mo        │                        │
+│  │  Get Paid Now         $49/mo        │                        │
+│  │  ═══════════════════════════════    │                        │
+│  │  Monthly Total       $146/mo        │                        │
+│  └─────────────────────────────────────┘                        │
+│                                                                 │
+│  ┌─────────────────────────────────────┐                        │
+│  │  Your Details                [Edit] │                        │
+│  │  ─────────────────────────────────  │                        │
+│  │  Jane Smith                         │                        │
+│  │  jane@company.com                   │                        │
+│  │  (555) 123-4567                     │                        │
+│  │  Acme Services LLC                  │                        │
+│  │  Domain: I need help getting one    │                        │
+│  └─────────────────────────────────────┘                        │
+│                                                                 │
+│  [← Back]              [Complete Checkout →]                    │
+│                                                                 │
+│  By clicking "Complete Checkout" you will be redirected to      │
+│  our secure payment page to finalize your order.                │
+└────────────────────────────────────────────────────────────────┘
+```
+
+**Behavior:**
+- "[Edit]" links return to respective step with data preserved
+- "Complete Checkout" button:
+  1. Show loading spinner + "Processing..."
+  2. POST to `start-checkout` edge function
+  3. On success: `window.location.href = redirect_url`
+  4. On error: Show toast error, remain on page
+- Button disabled during submission
+
+#### Session Persistence
+
+```typescript
+// On each step change, persist to sessionStorage
+sessionStorage.setItem('checkout_state', JSON.stringify({
+  tier: 'capture',
+  addOns: ['get-paid-now'],
+  details: {
+    firstName: 'Jane',
+    lastName: 'Smith',
+    email: 'jane@company.com',
+    phone: '5551234567',
+    businessName: 'Acme Services LLC',
+    hasDomain: false,
+    message: ''
+  },
+  currentStep: 2,
+  tcpaConsent: true
+}));
+
+// On page load, restore from sessionStorage if available
+const savedState = sessionStorage.getItem('checkout_state');
+if (savedState) {
+  const parsed = JSON.parse(savedState);
+  if (parsed.tier === tierFromUrl) {
+    // Restore state
+  }
+}
+```
+
+#### GHL Redirect URL Format
+
+```
+https://go.everintent.com/[tier]
+  ?first_name={firstName}
+  &last_name={lastName}
+  &email={email}
+  &phone={phone}
+  &company_name={businessName}
+  &addons={comma-separated-addon-ids}
+```
+
+Example:
+```
+https://go.everintent.com/capture?first_name=Jane&last_name=Smith&email=jane%40company.com&phone=5551234567&company_name=Acme%20Services%20LLC&addons=get-paid-now
+```
+
+---
+
+## GHL Tag Updates Required
+
+The `ghlClient.ts` TIER_TAG_MAP needs these additions for v2.2:
+
+```typescript
+// NEW: v2.2 tier names (primary)
+'launch': 'EI: Tier - Launch',
+'capture': 'EI: Tier - Capture',
+'convert': 'EI: Tier - Convert',
+'scale': 'EI: Tier - Scale',
+
+// NEW: Add-on pack tags
+'email-authority': 'EI: AddOn - Email Authority',
+'get-paid-now': 'EI: AddOn - Get Paid Now',
+'ai-voice-chat': 'EI: AddOn - AI Voice Chat',
+'social-autopilot': 'EI: AddOn - Social Autopilot',
+'omnichannel-inbox': 'EI: AddOn - Omnichannel Inbox',
+'unlimited-ai': 'EI: AddOn - Unlimited AI',
+```
 
 ---
 
@@ -97,6 +374,8 @@ EverIntent v2.2 Smart Websites restructure:
 | **SEO/AEO Adherence** | Updated meta tags, meaningful alt text, proper headings, accessible tables |
 | **Verification Required** | Every task includes verification step; only mark complete after staging test |
 | **Product Separation** | Smart Websites and AI Employee remain distinct product lines |
+| **Contact Page Separation** | `/contact` remains a simple inquiry form; checkout is `/checkout/[tier]` |
+| **Session Persistence** | User can navigate back without losing data |
 
 ---
 
@@ -106,4 +385,8 @@ EverIntent v2.2 Smart Websites restructure:
 |------|--------|--------|
 | 2026-02-07 | Tracker created per ChatGPT v2.2 spec | Lovable |
 | 2026-02-07 | Phase 1 (1.1-1.8) complete: Renamed all tiers to Launch/Capture/Convert/Scale, updated nav dropdown with Add-On Packs link, refreshed SEO metadata | Lovable |
-
+| 2026-02-08 | Task 2.13 marked `replaced` – contact form incorrectly modified; dedicated checkout required | Lovable |
+| 2026-02-08 | Phase 4-5 marked `deferred` pending Phase 6 completion | Lovable |
+| 2026-02-08 | **Phase 6 added** – Checkout Implementation per `Detail-Checkout-design.md` and `Tasks-Checkout-Design-Spec-v5.0.md` | Lovable |
+| 2026-02-08 | Added detailed UX specifications for 3-step checkout with wireframes | Lovable |
+| 2026-02-08 | Documented existing assets (checkout_submissions, start-checkout, ghlClient) | Lovable |
