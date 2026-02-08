@@ -83,6 +83,9 @@ import TermsOfService from './pages/legal/TermsOfService';
 import CookiePolicy from './pages/legal/CookiePolicy';
 import DataRightsRequest from './pages/legal/DataRightsRequest';
 
+// Checkout page
+import CheckoutPage from './pages/checkout/CheckoutPage';
+
 // ============================================
 // LAYOUT COMPONENTS
 // ============================================
@@ -330,14 +333,16 @@ const automotiveServicesPaths = [
   '/industries/automotive-services/audio-installation',
 ];
 
-// Checkout flow pages
+// Checkout flow pages - 8 tiers per v5.2 spec
 const checkoutPaths = [
-  '/checkout/smart-site',
-  '/checkout/smart-lead',
-  '/checkout/smart-business',
-  '/checkout/smart-growth',
-  '/checkout/smart-launch',
-  '/checkout/success',
+  '/checkout/launch',
+  '/checkout/capture',
+  '/checkout/convert',
+  '/checkout/scale',
+  '/checkout/after-hours',
+  '/checkout/front-office',
+  '/checkout/full-ai',
+  '/checkout/web-chat',
 ];
 
 // Legal and compliance pages
@@ -577,8 +582,11 @@ export const routes: RouteRecord[] = [
       ...professionalServicesPaths.map(createPlaceholderChild),
       ...healthWellnessPaths.map(createPlaceholderChild),
       ...automotiveServicesPaths.map(createPlaceholderChild),
-      // Checkout
-      ...checkoutPaths.map(createPlaceholderChild),
+      // Checkout routes - dedicated component with tier param
+      {
+        path: 'checkout/:tier',
+        Component: CheckoutPage,
+      },
       // Legal
       // Legal pages (actual components)
       { path: 'legal/privacy', Component: PrivacyPolicy },
