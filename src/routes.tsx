@@ -582,11 +582,15 @@ export const routes: RouteRecord[] = [
       ...professionalServicesPaths.map(createPlaceholderChild),
       ...healthWellnessPaths.map(createPlaceholderChild),
       ...automotiveServicesPaths.map(createPlaceholderChild),
-      // Checkout routes - dedicated component with tier param
-      {
-        path: 'checkout/:tier',
-        Component: CheckoutPage,
-      },
+      // Checkout routes - explicit SSG routes for each tier
+      { path: 'checkout/launch', Component: CheckoutPage },
+      { path: 'checkout/capture', Component: CheckoutPage },
+      { path: 'checkout/convert', Component: CheckoutPage },
+      { path: 'checkout/scale', Component: CheckoutPage },
+      { path: 'checkout/after-hours', Component: CheckoutPage },
+      { path: 'checkout/front-office', Component: CheckoutPage },
+      { path: 'checkout/full-ai', Component: CheckoutPage },
+      { path: 'checkout/web-chat', Component: CheckoutPage },
       // Legal
       // Legal pages (actual components)
       { path: 'legal/privacy', Component: PrivacyPolicy },
