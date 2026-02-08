@@ -2440,6 +2440,225 @@ The **v36 Offering Baseline** is now complete and verified. Key architectural pa
 
 ---
 
+## 28. Checkout Design Specification v5.2
+
+This section documents the comprehensive checkout experience design as defined in `docs/Detail-Checkout-design-v5.2.md`. This specification supersedes all previous checkout-related documentation.
+
+### 28.1 Architectural Overview
+
+The checkout flow is a **two-stage architecture**:
+
+1. **Stage 1 (Pre-Checkout Form):** Multi-step React form on everintent.com capturing lead data, tier selection, and add-ons
+2. **Stage 2 (GHL Payment):** Redirect to GoHighLevel SaaS checkout (`go.everintent.com/[tier]`) for Stripe payment processing
+
+```
+User → React Form → start-checkout Edge Function → Supabase + GHL API → Redirect URL → GHL Checkout
+```
+
+### 28.2 SSG Routes
+
+Eight pre-generated checkout routes (SSG):
+
+| Route | Tier | Type |
+|-------|------|------|
+| `/checkout/launch` | Launch | Smart Websites |
+| `/checkout/capture` | Capture | Smart Websites |
+| `/checkout/convert` | Convert | Smart Websites |
+| `/checkout/scale` | Scale | Smart Websites |
+| `/checkout/after-hours` | After-Hours | AI Employee |
+| `/checkout/front-office` | Front Office | AI Employee |
+| `/checkout/full-ai-employee` | Full AI Employee | AI Employee |
+| `/checkout/web-chat-only` | Web Chat Only | AI Employee |
+
+### 28.3 Three-Step UI Flow
+
+**Step 1: Plan & Add-Ons Selection**
+- Tier dropdown pre-filled from URL route (e.g., `/checkout/convert` → Convert)
+- **CRITICAL:** Tier change resets all selected add-ons to prevent invalid combinations
+- Dynamic `OrderSummary` component shows real-time pricing
+- Add-on checkboxes with prices from static config
+
+**Step 2: Contact Details**
+- Fields: First Name, Last Name, Email (required), Phone, Business Name
+- **Domain Logic:** Radio pattern ("I have a domain" vs "I need help finding one")
+  - If "I have a domain" → show text input for domain name
+  - If "I need help" → hide input, store `has_domain: false`
+- Message textarea with **500-character limit** and live counter
+- TCPA consent checkbox (required)
+
+**Step 3: Review & Confirm**
+- Read-only summary of all selections and contact info
+- **Section-specific "Edit" links** for direct navigation back to Step 1 or Step 2
+- Client-side total verification against server before submission
+- "Complete Checkout" button triggers edge function
+
+### 28.4 State Management
+
+- **sessionStorage** persistence across steps and page refreshes
+- Schema: `{ tier, addons[], contact{}, step, totals{} }`
+- Abandon/resume via `?resume=[submission_id]` query parameter
+- State cleared on successful redirect to GHL
+
+### 28.5 Edge Function: `start-checkout`
+
+**Endpoint:** `POST /functions/v1/start-checkout`
+
+**Request Payload:**
+```json
+{
+  "name": "string",
+  "email": "string",
+  "phone": "string",
+  "company": "string",
+  "message": "string",
+  "service_interest": "launch|capture|convert|scale|after-hours|front-office|full-ai-employee|web-chat-only",
+  "tcpa_consent": true,
+  "utm_source": "string",
+  "utm_medium": "string",
+  "utm_campaign": "string",
+  "source_page": "string",
+  "ip_address": "string",
+  "user_agent": "string"
+}
+```
+
+**Responsibilities:**
+1. Validate required fields (name, email)
+2. Insert into `checkout_submissions` table with `status: 'new'`, `ghl_sync_status: 'pending'`
+3. Upsert contact to GHL via `ghlClient.ts`
+4. Apply tier tag (e.g., `EI: Tier – Launch`)
+5. Apply add-on tags (e.g., `EI: AddOn – AI Voice Chat`)
+6. Create GHL note with full submission context
+7. Update `ghl_sync_status` to `synced` or `failed`
+8. Return `{ success: true, id, ghl_sync_status, redirect_url }`
+
+### 28.6 Tagging Schema v2.2
+
+**Tier Tags (en-dash separator):**
+| Tier | Tag |
+|------|-----|
+| Launch | `EI: Tier – Launch` |
+| Capture | `EI: Tier – Capture` |
+| Convert | `EI: Tier – Convert` |
+| Scale | `EI: Tier – Scale` |
+| After-Hours | `EI: Tier – After-Hours` |
+| Front Office | `EI: Tier – Front Office` |
+| Full AI Employee | `EI: Tier – Full AI Employee` |
+| Web Chat Only | `EI: Tier – Web Chat Only` |
+
+**Add-On Tags:**
+| Add-On | Tag |
+|--------|-----|
+| Email Authority | `EI: AddOn – Email Authority` |
+| Get Paid Now | `EI: AddOn – Get Paid Now` |
+| Social Autopilot | `EI: AddOn – Social Autopilot` |
+| Omnichannel Inbox | `EI: AddOn – Omnichannel Inbox` |
+| AI Voice Chat | `EI: AddOn – AI Voice Chat` |
+| Unlimited AI | `EI: AddOn – Unlimited AI` |
+
+**Note:** Tags use **en-dash (–)** not hyphen (-) per v5.2 spec.
+
+### 28.7 GHL Redirect URLs
+
+Each tier maps to a GHL SaaS checkout URL:
+
+| Tier | Redirect URL |
+|------|--------------|
+| Launch | `https://go.everintent.com/launch?first_name=...` |
+| Capture | `https://go.everintent.com/capture?first_name=...` |
+| Convert | `https://go.everintent.com/convert?first_name=...` |
+| Scale | `https://go.everintent.com/scale?first_name=...` |
+| After-Hours | `https://go.everintent.com/after-hours?first_name=...` |
+| Front Office | `https://go.everintent.com/front-office?first_name=...` |
+| Full AI Employee | `https://go.everintent.com/full-ai-employee?first_name=...` |
+| Web Chat Only | `https://go.everintent.com/web-chat-only?first_name=...` |
+
+Query parameters pre-fill GHL form: `first_name`, `last_name`, `email`, `phone`, `company`.
+
+### 28.8 Database Schema
+
+**Table: `checkout_submissions`** (existing, aligned with types.ts)
+
+| Column | Type | Description |
+|--------|------|-------------|
+| id | UUID | Primary key |
+| name | text | Full name (required) |
+| email | text | Email (required) |
+| phone | text | Phone number |
+| company | text | Business name |
+| message | text | Optional message (max 500 chars) |
+| service_interest | text | Tier slug |
+| tcpa_consent | boolean | TCPA agreement |
+| consent_timestamp | timestamp | When consent given |
+| utm_source/medium/campaign | text | UTM tracking |
+| source_page | text | Page URL |
+| ip_address | text | Client IP |
+| user_agent | text | Browser UA |
+| status | text | `new`, `redirected`, `paid`, `failed` |
+| ghl_contact_id | text | GHL contact ID |
+| ghl_sync_status | text | `pending`, `synced`, `failed` |
+| ghl_synced_at | timestamp | Sync timestamp |
+| ghl_error | text | Error message if failed |
+| created_at | timestamp | Creation time |
+| updated_at | timestamp | Last update |
+
+### 28.9 GHL Pipeline Stages
+
+**Pipeline: Checkout Pipeline**
+
+1. **Pre-Checkout** – Contact started form, not yet redirected
+2. **Payment Pending** – Redirected to GHL, awaiting payment
+3. **Paid – Onboarding** – Payment complete, snapshot provisioning
+4. **Snapshot Applied** – Onboarding forms/calls scheduled
+5. **Active Customer** – Fully onboarded
+
+### 28.10 Error Handling
+
+| Scenario | Behavior |
+|----------|----------|
+| Missing required fields | Return 400 with field-specific errors |
+| Supabase insert failure | Return 500, log error, do not call GHL |
+| GHL API failure | Save to Supabase with `ghl_sync_status: 'failed'`, return success with warning |
+| Total mismatch | Client-side verification before submit; reject if mismatch |
+| Network timeout | Retry logic with exponential backoff (3 attempts) |
+
+### 28.11 Abandon & Resume
+
+- Submission ID stored in `sessionStorage`
+- On return visit with `?resume=[id]`, fetch submission from Supabase
+- Pre-fill form with saved data
+- Show "Welcome back" toast notification
+
+### 28.12 Analytics & Attribution
+
+- UTM parameters captured and stored
+- Events to track:
+  - `checkout_started` – Step 1 loaded
+  - `plan_selected` – Tier changed
+  - `addon_toggled` – Add-on selected/deselected
+  - `step_completed` – Step transition
+  - `checkout_submitted` – Form submitted
+  - `checkout_redirected` – Redirect to GHL
+
+### 28.13 Implementation Checklist
+
+| Task | Status |
+|------|--------|
+| Create CheckoutPage component with 3-step flow | ⬜ TODO |
+| Implement sessionStorage persistence | ⬜ TODO |
+| Build OrderSummary with real-time pricing | ⬜ TODO |
+| Add tier dropdown with add-on reset logic | ⬜ TODO |
+| Implement domain radio pattern | ⬜ TODO |
+| Add 500-char message limit with counter | ⬜ TODO |
+| Build Review step with Edit links | ⬜ TODO |
+| Update ghlClient.ts with v2.2 tag maps | ⬜ TODO |
+| Update start-checkout to return redirect_url | ⬜ TODO |
+| Add SSG routes for all 8 tiers | ⬜ TODO |
+| Implement abandon/resume logic | ⬜ TODO |
+| Add analytics event tracking | ⬜ TODO |
+
+---
+
 **END OF REPORT**
 
 *This document serves as the comprehensive baseline comparison and progression analysis. The current codebase structure, navigation, and pricing represents the verified offering baseline for EverIntent.*
@@ -2447,4 +2666,5 @@ The **v36 Offering Baseline** is now complete and verified. Key architectural pa
 *Generated: 2026-01-31 | BRD v35.3 | Complete Progression Analysis*  
 *Updated: 2026-02-06 | All discrepancies resolved — v36 Offering Baseline finalized*  
 *Updated: 2026-02-06 | Post-baseline fixes applied (§26) + GHL fix (§26.6) + Summary (§27)*  
-*Updated: 2026-02-06 | Homepage confirmed at pre-delta luxury minimal state*
+*Updated: 2026-02-06 | Homepage confirmed at pre-delta luxury minimal state*  
+*Updated: 2026-02-08 | Added §28 Checkout Design Specification v5.2*
