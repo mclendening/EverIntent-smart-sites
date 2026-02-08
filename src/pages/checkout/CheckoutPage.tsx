@@ -6,7 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
 import { CheckoutStep1Selection } from '@/components/checkout/CheckoutStep1Selection';
 import { CheckoutStep2Details } from '@/components/checkout/CheckoutStep2Details';
@@ -50,12 +50,12 @@ const getInitialState = (tier: TierSlug): CheckoutState => ({
 });
 
 export default function CheckoutPage() {
-  const { tier: tierParam } = useParams<{ tier: string }>();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   
-  // Map URL tier param to TierSlug
-  const urlTier = (tierParam || 'capture') as TierSlug;
-  const validTier = TIER_CONFIG[urlTier] ? urlTier : 'capture';
+  // Extract tier from URL path (e.g., /checkout/capture -> capture)
+  const tierFromPath = location.pathname.split('/').pop() || 'capture';
+  const validTier = TIER_CONFIG[tierFromPath as TierSlug] ? tierFromPath as TierSlug : 'capture';
   
   const [step, setStep] = useState(1);
   const [state, setState] = useState<CheckoutState>(() => getInitialState(validTier));
