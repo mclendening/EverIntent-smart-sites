@@ -71,13 +71,13 @@ export function OrderSummary({ tier, addons, monthlyTotal, setupTotal }: OrderSu
           {!tierConfig.isOneTime && monthlyTotal > 0 && (
             <div className="flex justify-between font-semibold">
               <span>Monthly Total</span>
-              <span className="text-primary">{formatPrice(monthlyTotal)}</span>
+              <span className="text-accent">{formatPrice(monthlyTotal)}</span>
             </div>
           )}
           {setupTotal > 0 && (
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">One-Time Setup</span>
-              <span>${setupTotal}</span>
+              <span className="text-accent/80">${setupTotal}</span>
             </div>
           )}
         </div>
