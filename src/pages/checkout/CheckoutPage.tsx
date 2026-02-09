@@ -151,12 +151,22 @@ export default function CheckoutPage() {
         noIndex
       />
       
-      <div className="min-h-screen bg-background py-8 md:py-12">
+      <div className="min-h-screen bg-background py-6 md:py-12 pb-24 md:pb-12">
         <div className="container max-w-6xl mx-auto px-4">
           {/* Progress Indicator */}
           <CheckoutProgress currentStep={step} />
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+          {/* Mobile Order Summary - shows at top on mobile */}
+          <div className="lg:hidden mt-6">
+            <OrderSummary
+              tier={state.tier}
+              addons={state.addons}
+              monthlyTotal={monthlyTotal}
+              setupTotal={setupTotal}
+            />
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 mt-6 lg:mt-8">
             {/* Main Content Area */}
             <div className="lg:col-span-2">
               {step === 1 && (
@@ -194,8 +204,8 @@ export default function CheckoutPage() {
               )}
             </div>
             
-            {/* Order Summary Sidebar */}
-            <div className="lg:col-span-1">
+            {/* Desktop Order Summary Sidebar - hidden on mobile */}
+            <div className="hidden lg:block lg:col-span-1">
               <OrderSummary
                 tier={state.tier}
                 addons={state.addons}

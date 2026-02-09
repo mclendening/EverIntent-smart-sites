@@ -111,15 +111,15 @@ export function CheckoutStep1Selection({
                   onCheckedChange={() => onAddonToggle(addon.slug)}
                   className="sr-only"
                 />
-                <div className="flex-1">
-                  <div className="flex items-start justify-between">
-                    <div>
+                <div className="flex-1 pr-6">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1">
+                    <div className="flex-1">
                       <p className="font-medium">{addon.displayName}</p>
                       <p className="text-sm text-muted-foreground mt-0.5">
                         {addon.description}
                       </p>
                     </div>
-                    <div className="ml-4 shrink-0">
+                    <div className="shrink-0">
                       <span className="font-semibold text-primary">
                         {formatPrice(addon.monthlyPrice)}
                       </span>

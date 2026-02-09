@@ -19,9 +19,9 @@ export function OrderSummary({ tier, addons, monthlyTotal, setupTotal }: OrderSu
   const tierConfig = TIER_CONFIG[tier];
   
   return (
-    <Card className="sticky top-28 bg-card border-border shadow-lg">
-      <CardHeader className="pb-4">
-        <CardTitle className="text-lg">Order Summary</CardTitle>
+    <Card className="lg:sticky lg:top-28 bg-card border-border shadow-lg">
+      <CardHeader className="pb-3 lg:pb-4">
+        <CardTitle className="text-base lg:text-lg">Order Summary</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Selected Plan */}
