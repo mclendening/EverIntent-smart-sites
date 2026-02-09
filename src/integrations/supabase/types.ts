@@ -37,20 +37,29 @@ export type Database = {
       }
       checkout_submissions: {
         Row: {
+          addons: Json | null
+          business_name: string | null
           company: string | null
           consent_timestamp: string | null
           created_at: string
+          domain_name: string | null
           email: string
+          first_name: string | null
           ghl_contact_id: string | null
           ghl_error: string | null
           ghl_sync_status: string | null
           ghl_synced_at: string | null
+          has_domain: boolean | null
           id: string
           ip_address: string | null
+          last_name: string | null
           message: string | null
+          monthly_total: number | null
           name: string
           phone: string | null
+          selected_tier: string | null
           service_interest: string | null
+          setup_total: number | null
           source_page: string | null
           status: string | null
           tcpa_consent: boolean | null
@@ -61,20 +70,29 @@ export type Database = {
           utm_source: string | null
         }
         Insert: {
+          addons?: Json | null
+          business_name?: string | null
           company?: string | null
           consent_timestamp?: string | null
           created_at?: string
+          domain_name?: string | null
           email: string
+          first_name?: string | null
           ghl_contact_id?: string | null
           ghl_error?: string | null
           ghl_sync_status?: string | null
           ghl_synced_at?: string | null
+          has_domain?: boolean | null
           id?: string
           ip_address?: string | null
+          last_name?: string | null
           message?: string | null
+          monthly_total?: number | null
           name: string
           phone?: string | null
+          selected_tier?: string | null
           service_interest?: string | null
+          setup_total?: number | null
           source_page?: string | null
           status?: string | null
           tcpa_consent?: boolean | null
@@ -85,20 +103,29 @@ export type Database = {
           utm_source?: string | null
         }
         Update: {
+          addons?: Json | null
+          business_name?: string | null
           company?: string | null
           consent_timestamp?: string | null
           created_at?: string
+          domain_name?: string | null
           email?: string
+          first_name?: string | null
           ghl_contact_id?: string | null
           ghl_error?: string | null
           ghl_sync_status?: string | null
           ghl_synced_at?: string | null
+          has_domain?: boolean | null
           id?: string
           ip_address?: string | null
+          last_name?: string | null
           message?: string | null
+          monthly_total?: number | null
           name?: string
           phone?: string | null
+          selected_tier?: string | null
           service_interest?: string | null
+          setup_total?: number | null
           source_page?: string | null
           status?: string | null
           tcpa_consent?: boolean | null
