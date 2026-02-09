@@ -151,7 +151,7 @@ export default function CheckoutPage() {
         noIndex
       />
       
-      <div className="min-h-screen bg-background py-6 md:py-12 pb-24 md:pb-12">
+      <div className="min-h-screen bg-background pt-24 pb-24 md:pt-28 md:pb-12">
         <div className="container max-w-6xl mx-auto px-4">
           {/* Progress Indicator */}
           <CheckoutProgress currentStep={step} />
