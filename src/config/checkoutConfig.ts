@@ -186,6 +186,8 @@ export interface AddonConfig {
   description: string;
   monthlyPrice: number;
   ghlTag: string;
+  /** Tiers where this add-on is already included */
+  includedInTiers?: TierSlug[];
 }
 
 export const ADDON_CONFIG: Record<AddonSlug, AddonConfig> = {
@@ -223,6 +225,7 @@ export const ADDON_CONFIG: Record<AddonSlug, AddonConfig> = {
     description: 'Voice-enabled AI chat for your website',
     monthlyPrice: 79,
     ghlTag: 'EI: AddOn – AI Voice Chat',
+    includedInTiers: ['full-ai'],
   },
   'unlimited-ai': {
     slug: 'unlimited-ai',
@@ -230,6 +233,7 @@ export const ADDON_CONFIG: Record<AddonSlug, AddonConfig> = {
     description: 'Unlimited AI usage across all features',
     monthlyPrice: 149,
     ghlTag: 'EI: AddOn – Unlimited AI',
+    includedInTiers: ['full-ai'],
   },
 };
 
@@ -257,6 +261,14 @@ export const TIER_TAG_MAP: Record<TierSlug, string> = {
  */
 export function getTiersByProductLine(productLine: 'smart-websites' | 'ai-employee'): TierConfig[] {
   return Object.values(TIER_CONFIG).filter(tier => tier.productLine === productLine);
+}
+
+/**
+ * Check if an add-on is already included in the selected tier
+ */
+export function isAddonIncludedInTier(addonSlug: AddonSlug, tierSlug: TierSlug): boolean {
+  const addon = ADDON_CONFIG[addonSlug];
+  return addon.includedInTiers?.includes(tierSlug) ?? false;
 }
 
 /**
