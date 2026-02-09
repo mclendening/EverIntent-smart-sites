@@ -36,10 +36,10 @@
     --muted: 0 0% 14%;
     --muted-foreground: 220 10% 55%;
 
-    /* Accent: Luxury Gold/Bronze - #CBA052 equivalent */
-    --accent: 40 55% 56%;
-    --accent-hover: 40 60% 48%;
-    --accent-glow: 40 60% 68%;
+    /* Accent: Luxury Gold - vibrant warm gold #F59F0A equivalent */
+    --accent: 39 95% 50%;
+    --accent-hover: 39 95% 45%;
+    --accent-glow: 39 90% 60%;
     --accent-foreground: 0 0% 5%;
 
     /* Secondary accent: Muted slate blue */
