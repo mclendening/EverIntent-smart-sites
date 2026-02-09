@@ -126,10 +126,19 @@ export default function CheckoutPage() {
     setState(prev => ({ ...prev, [field]: value }));
   };
 
-  // Step navigation
-  const nextStep = () => setStep(prev => Math.min(prev + 1, 3));
-  const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
-  const goToStep = (targetStep: number) => setStep(targetStep);
+  // Step navigation - scroll to top when changing steps
+  const nextStep = () => {
+    setStep(prev => Math.min(prev + 1, 3));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  const prevStep = () => {
+    setStep(prev => Math.max(prev - 1, 1));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  const goToStep = (targetStep: number) => {
+    setStep(targetStep);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Calculate totals
   const tierConfig = TIER_CONFIG[state.tier];
