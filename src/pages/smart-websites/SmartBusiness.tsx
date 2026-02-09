@@ -133,10 +133,10 @@ export default function SmartBusiness() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button asChild size="lg" variant="gold" className="btn-glow">
-                <Link to="/contact">
+                <a href="/checkout/convert">
                   Grow Your Business
                   <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
+                </a>
               </Button>
               <Button asChild size="lg" variant="outline">
                 <Link to="/smart-websites">Compare All Tiers</Link>
@@ -265,10 +265,10 @@ export default function SmartBusiness() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button asChild size="lg" variant="gold" className="btn-glow">
-              <Link to="/contact">
+              <a href="/checkout/convert">
                 Get Convert
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
+              </a>
             </Button>
             <Button asChild size="lg" variant="outline">
               <Link to="/smart-websites/smart-growth">See Scale →</Link>

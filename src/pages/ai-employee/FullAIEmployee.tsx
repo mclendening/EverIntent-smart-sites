@@ -144,7 +144,7 @@ export default function FullAIEmployee() {
                 {/* CTAs */}
                 <div className="flex flex-wrap items-center justify-center gap-4">
                   <CTAButton 
-                    to="/pricing?tab=ai" 
+                    to="/checkout/full-ai" 
                     defaultText="Get Full AI Employee"
                     hoverText="Complete Solution"
                   />
@@ -400,7 +400,7 @@ export default function FullAIEmployee() {
               
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <CTAButton 
-                  to="/pricing?tab=ai" 
+                  to="/checkout/full-ai" 
                   defaultText="Get Full AI Employee"
                   hoverText="$597/mo + $2,500 setup"
                 />

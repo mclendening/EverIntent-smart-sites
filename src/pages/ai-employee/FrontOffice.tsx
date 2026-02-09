@@ -147,7 +147,7 @@ export default function FrontOffice() {
                 {/* CTAs */}
                 <div className="flex flex-wrap items-center justify-center gap-4">
                   <CTAButton 
-                    to="/pricing?tab=ai" 
+                    to="/checkout/front-office" 
                     defaultText="Get Started"
                     hoverText="Screen Every Call"
                   />
@@ -362,7 +362,7 @@ export default function FrontOffice() {
               
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <CTAButton 
-                  to="/pricing?tab=ai" 
+                  to="/checkout/front-office" 
                   defaultText="Get Front Office Mode"
                   hoverText="$297/mo + $1,497 setup"
                 />
