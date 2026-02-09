@@ -1,6 +1,6 @@
 /**
  * @fileoverview Checkout Step 1 - Plan Confirmation & Add-On Selection
- * @description Confirms pre-selected tier from URL, with option to change
+ * @description Confirms pre-selected tier from URL, with tabbed change option
  * @brd-reference Detail-Checkout-design-v5.2.md Section 4.1
  */
 
@@ -56,19 +56,19 @@ export function CheckoutStep1Selection({
       {/* Plan Confirmation / Selection */}
       {!isChangingPlan ? (
         /* Confirmed Plan Card */
-        <Card className="border-primary/50 bg-primary/5">
+        <Card className="border-accent/30 bg-accent/[0.03]">
           <CardHeader className="pb-2">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
                   {tierConfig.productLine === 'smart-websites' ? (
-                    <Globe className="w-5 h-5 text-primary" />
+                    <Globe className="w-5 h-5 text-accent" />
                   ) : (
-                    <Bot className="w-5 h-5 text-primary" />
+                    <Bot className="w-5 h-5 text-accent" />
                   )}
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                  <p className="text-xs font-medium text-accent/80 uppercase tracking-wide">
                     {tierConfig.productLine === 'smart-websites' ? 'Smart Website' : 'AI Employee'}
                   </p>
                   <CardTitle className="text-xl">{tierConfig.displayName}</CardTitle>
@@ -92,12 +92,12 @@ export function CheckoutStep1Selection({
             <div className="flex items-baseline gap-2">
               {tierConfig.isOneTime ? (
                 <>
-                  <span className="text-3xl font-bold">${tierConfig.setupFee}</span>
+                  <span className="text-3xl font-bold text-accent">${tierConfig.setupFee}</span>
                   <span className="text-muted-foreground">one-time</span>
                 </>
               ) : (
                 <>
-                  <span className="text-3xl font-bold">${tierConfig.monthlyPrice}</span>
+                  <span className="text-3xl font-bold text-accent">${tierConfig.monthlyPrice}</span>
                   <span className="text-muted-foreground">/month</span>
                   {tierConfig.setupFee > 0 && (
                     <span className="text-sm text-muted-foreground ml-2">
@@ -109,12 +109,12 @@ export function CheckoutStep1Selection({
             </div>
 
             {/* Plan Features */}
-            <div className="pt-4 border-t border-border">
+            <div className="pt-4 border-t border-border/50">
               <p className="text-sm font-medium mb-2">Included Features:</p>
               <ul className="space-y-1.5">
                 {tierConfig.features.map((feature, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                    <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                    <Check className="w-4 h-4 text-accent shrink-0 mt-0.5" />
                     <span>{feature}</span>
                   </li>
                 ))}
@@ -124,7 +124,7 @@ export function CheckoutStep1Selection({
         </Card>
       ) : (
         /* Plan Selector with Tabs */
-        <Card>
+        <Card className="border-border/50">
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg">Select a Different Plan</CardTitle>
@@ -139,13 +139,19 @@ export function CheckoutStep1Selection({
           </CardHeader>
           <CardContent>
             <Tabs defaultValue={currentProductLine} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-4">
-                <TabsTrigger value="smart-websites" className="flex items-center gap-2">
+              <TabsList className="grid w-full grid-cols-2 mb-4 bg-muted/50">
+                <TabsTrigger 
+                  value="smart-websites" 
+                  className="flex items-center gap-2 data-[state=active]:bg-accent/10 data-[state=active]:text-accent"
+                >
                   <Globe className="w-4 h-4" />
                   <span className="hidden sm:inline">Smart Websites</span>
                   <span className="sm:hidden">Websites</span>
                 </TabsTrigger>
-                <TabsTrigger value="ai-employee" className="flex items-center gap-2">
+                <TabsTrigger 
+                  value="ai-employee" 
+                  className="flex items-center gap-2 data-[state=active]:bg-accent/10 data-[state=active]:text-accent"
+                >
                   <Bot className="w-4 h-4" />
                   <span className="hidden sm:inline">AI Employee</span>
                   <span className="sm:hidden">AI</span>
@@ -194,8 +200,8 @@ export function CheckoutStep1Selection({
                 className={cn(
                   'relative flex cursor-pointer rounded-lg border p-4 transition-all',
                   isSelected
-                    ? 'border-primary bg-primary/5 ring-1 ring-primary'
-                    : 'border-border hover:border-primary/50'
+                    ? 'border-accent/50 bg-accent/[0.05] ring-1 ring-accent/30'
+                    : 'border-border/50 hover:border-accent/30 hover:bg-accent/[0.02]'
                 )}
               >
                 <Checkbox
@@ -212,7 +218,10 @@ export function CheckoutStep1Selection({
                       </p>
                     </div>
                     <div className="shrink-0">
-                      <span className="font-semibold text-primary">
+                      <span className={cn(
+                        "font-semibold",
+                        isSelected ? "text-accent" : "text-accent/70"
+                      )}>
                         {formatPrice(addon.monthlyPrice)}
                       </span>
                     </div>
@@ -222,8 +231,8 @@ export function CheckoutStep1Selection({
                 {/* Selection indicator */}
                 {isSelected && (
                   <div className="absolute top-2 right-2">
-                    <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
-                      <Check className="w-3 h-3 text-primary-foreground" />
+                    <div className="w-5 h-5 rounded-full bg-accent flex items-center justify-center">
+                      <Check className="w-3 h-3 text-background" />
                     </div>
                   </div>
                 )}
@@ -235,7 +244,7 @@ export function CheckoutStep1Selection({
 
       {/* Navigation */}
       <div className="flex justify-end pt-4">
-        <Button onClick={onNext} size="lg">
+        <Button onClick={onNext} size="lg" className="btn-gold">
           Continue
         </Button>
       </div>
@@ -257,8 +266,8 @@ function TierOption({ tier, isSelected, onSelect }: TierOptionProps) {
       className={cn(
         'w-full text-left p-4 rounded-lg border transition-all',
         isSelected
-          ? 'border-primary bg-primary/5 ring-1 ring-primary'
-          : 'border-border hover:border-primary/50'
+          ? 'border-accent/50 bg-accent/[0.05] ring-1 ring-accent/30'
+          : 'border-border/50 hover:border-accent/30 hover:bg-accent/[0.02]'
       )}
     >
       <div className="flex items-center justify-between">
@@ -266,8 +275,8 @@ function TierOption({ tier, isSelected, onSelect }: TierOptionProps) {
           <div className="flex items-center gap-2">
             <span className="font-semibold">{tier.displayName}</span>
             {isSelected && (
-              <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
-                <Check className="w-3 h-3 text-primary-foreground" />
+              <div className="w-5 h-5 rounded-full bg-accent flex items-center justify-center">
+                <Check className="w-3 h-3 text-background" />
               </div>
             )}
           </div>
@@ -275,9 +284,13 @@ function TierOption({ tier, isSelected, onSelect }: TierOptionProps) {
         </div>
         <div className="text-right">
           {tier.isOneTime ? (
-            <span className="font-semibold">${tier.setupFee} <span className="text-sm font-normal text-muted-foreground">one-time</span></span>
+            <span className={cn("font-semibold", isSelected ? "text-accent" : "text-accent/70")}>
+              ${tier.setupFee} <span className="text-sm font-normal text-muted-foreground">one-time</span>
+            </span>
           ) : (
-            <span className="font-semibold">${tier.monthlyPrice}<span className="text-sm font-normal text-muted-foreground">/mo</span></span>
+            <span className={cn("font-semibold", isSelected ? "text-accent" : "text-accent/70")}>
+              ${tier.monthlyPrice}<span className="text-sm font-normal text-muted-foreground">/mo</span>
+            </span>
           )}
         </div>
       </div>
