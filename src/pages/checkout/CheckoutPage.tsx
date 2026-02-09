@@ -5,10 +5,9 @@
  * @brd-reference Detail-Checkout-design-v5.2.md Section 4
  */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
-import { Layout } from '@/components/layout/Layout';
 import { CheckoutStep1Selection } from '@/components/checkout/CheckoutStep1Selection';
 import { CheckoutStep2Details } from '@/components/checkout/CheckoutStep2Details';
 import { CheckoutStep3Review } from '@/components/checkout/CheckoutStep3Review';
@@ -62,31 +61,46 @@ export default function CheckoutPage() {
   const [state, setState] = useState<CheckoutState>(() => getInitialState(validTier));
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  // SSG-safe: Only access sessionStorage after hydration
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   // Load from sessionStorage on mount (handles refresh and resume)
+  // Only runs client-side after hydration
   useEffect(() => {
-    const resumeId = searchParams.get('resume');
-    const savedState = sessionStorage.getItem(STORAGE_KEY);
+    if (!isHydrated) return;
     
-    if (savedState) {
-      try {
+    const resumeId = searchParams.get('resume');
+    
+    try {
+      const savedState = sessionStorage.getItem(STORAGE_KEY);
+      if (savedState) {
         const parsed = JSON.parse(savedState) as CheckoutState;
         setState(parsed);
         // If resuming, go to review step
         if (resumeId) {
           setStep(3);
         }
-      } catch {
-        // Invalid state, use defaults
-        setState(getInitialState(validTier));
       }
+    } catch {
+      // Invalid state or SSR, use defaults
+      setState(getInitialState(validTier));
     }
-  }, [validTier, searchParams]);
+  }, [isHydrated, validTier, searchParams]);
 
-  // Persist to sessionStorage on state change
+  // Persist to sessionStorage on state change (client-side only)
   useEffect(() => {
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }, [state]);
+    if (!isHydrated) return;
+    
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch {
+      // sessionStorage not available
+    }
+  }, [state, isHydrated]);
 
   // Handle tier change - clear addons per v5.2 spec
   const handleTierChange = (newTier: TierSlug) => {
@@ -125,14 +139,16 @@ export default function CheckoutPage() {
   );
   const setupTotal = tierConfig.setupFee;
 
-  // Get tier display name for SEO
+  // Get tier display name for SEO - use colon per SEO standard, no manual brand append
   const tierDisplayName = tierConfig?.displayName || 'Checkout';
 
   return (
-    <Layout>
+    <>
       <SEO 
-        title={`Checkout - ${tierDisplayName} | EverIntent`}
+        title={`Checkout: ${tierDisplayName} Plan`}
         description={`Complete your ${tierDisplayName} plan checkout. Get started with EverIntent today.`}
+        canonical={`/checkout/${validTier}`}
+        noIndex
       />
       
       <div className="min-h-screen bg-background py-8 md:py-12">
@@ -190,6 +206,6 @@ export default function CheckoutPage() {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
 }
