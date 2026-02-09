@@ -110,12 +110,12 @@ export const activeTheme: ThemeConfig = {
   name: 'Indigo Night',
   baseHue: 32,
   accentConfig: {
-    accent: '39 95% 50%',
-    accentHover: '39 95% 45%',
-    accentGlow: '39 90% 60%',
-    accentForeground: '0 0% 5%',
-    h: 39,
-    s: 95,
+    accent: '247 92% 50%',
+    accentHover: '247 92% 45%',
+    accentGlow: '247 90% 60%',
+    accentForeground: '0 0% 100%',
+    h: 247,
+    s: 92,
     l: 50,
   },
   staticColors: {
