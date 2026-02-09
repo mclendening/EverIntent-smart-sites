@@ -57,7 +57,7 @@ export function CheckoutStep1Selection({
               <SelectTrigger id="tier-select" className="w-full">
                 <SelectValue placeholder="Select a plan" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-card border-border z-50">
                 {allTiers.map((tier) => (
                   <SelectItem key={tier.slug} value={tier.slug}>
                     <div className="flex items-center justify-between w-full gap-4">
