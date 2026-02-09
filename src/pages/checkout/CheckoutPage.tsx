@@ -13,7 +13,7 @@ import { CheckoutStep2Details } from '@/components/checkout/CheckoutStep2Details
 import { CheckoutStep3Review } from '@/components/checkout/CheckoutStep3Review';
 import { CheckoutProgress } from '@/components/checkout/CheckoutProgress';
 import { OrderSummary } from '@/components/checkout/OrderSummary';
-import { TIER_CONFIG, ADDON_CONFIG, TIER_TAG_MAP, type TierSlug, type AddonSlug } from '@/config/checkoutConfig';
+import { TIER_CONFIG, ADDON_CONFIG, type TierSlug, type AddonSlug } from '@/config/checkoutConfig';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 // Storage key for sessionStorage persistence
@@ -231,37 +231,32 @@ export default function CheckoutPage() {
                         ghlTag: ADDON_CONFIG[slug]?.ghlTag,
                       }));
 
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      const insertPayload: any = {
-                        name: `${state.firstName} ${state.lastName}`.trim(),
-                        first_name: state.firstName,
-                        last_name: state.lastName,
-                        email: state.email,
-                        phone: state.phone || null,
-                        company: state.businessName || null,
-                        business_name: state.businessName || null,
-                        has_domain: state.hasDomain,
-                        domain_name: state.domainName || null,
-                        message: state.message || null,
-                        tcpa_consent: state.tcpaConsent,
-                        consent_timestamp: new Date().toISOString(),
-                        selected_tier: state.tier,
-                        service_interest: TIER_TAG_MAP[state.tier],
-                        addons: addonDetails,
-                        monthly_total: monthlyTotal,
-                        setup_total: setupTotal,
-                        source_page: location.pathname,
-                        utm_source: state.utmSource || null,
-                        utm_medium: state.utmMedium || null,
-                        utm_campaign: state.utmCampaign || null,
-                        user_agent: navigator.userAgent,
-                      };
+                      // Call start-checkout Edge Function
+                      const { data, error: fnError } = await supabase.functions.invoke('start-checkout', {
+                        body: {
+                          first_name: state.firstName,
+                          last_name: state.lastName,
+                          email: state.email,
+                          phone: state.phone || null,
+                          business_name: state.businessName || null,
+                          has_domain: state.hasDomain,
+                          domain_name: state.domainName || null,
+                          message: state.message || null,
+                          selected_tier: state.tier,
+                          addons: addonDetails,
+                          monthly_total: monthlyTotal,
+                          setup_total: setupTotal,
+                          tcpa_consent: state.tcpaConsent,
+                          utm_source: state.utmSource || null,
+                          utm_medium: state.utmMedium || null,
+                          utm_campaign: state.utmCampaign || null,
+                          source_page: location.pathname,
+                          user_agent: navigator.userAgent,
+                        },
+                      });
 
-                      const { error: dbError } = await supabase
-                        .from('checkout_submissions')
-                        .insert(insertPayload);
-
-                      if (dbError) throw dbError;
+                      if (fnError) throw new Error(fnError.message || 'Checkout submission failed');
+                      if (!data?.success) throw new Error(data?.error || 'Checkout submission failed');
 
                       // Clear sessionStorage on success
                       sessionStorage.removeItem(STORAGE_KEY);
@@ -271,8 +266,10 @@ export default function CheckoutPage() {
                         description: 'Redirecting to complete your payment...',
                       });
 
-                      // TODO: Batch 5 will call start-checkout Edge Function 
-                      // for GHL sync and redirect to GHL payment page
+                      // Redirect to pre-filled GHL checkout page
+                      if (data.redirect_url) {
+                        window.location.href = data.redirect_url;
+                      }
 
                     } catch (err: unknown) {
                       const message = err instanceof Error ? err.message : 'Something went wrong. Please try again.';

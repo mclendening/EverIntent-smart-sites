@@ -1,70 +1,96 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import { upsertContact, addTags, addNote, TIER_TAG_MAP } from '../_shared/ghlClient.ts';
+import { upsertContact, addTags, addNote } from '../_shared/ghlClient.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
+};
+
+/** Map tier slugs to GHL tags (en-dash convention per BRD §28.6) */
+const TIER_TAG_MAP: Record<string, string> = {
+  'launch': 'EI: Tier – Launch',
+  'capture': 'EI: Tier – Capture',
+  'convert': 'EI: Tier – Convert',
+  'scale': 'EI: Tier – Scale',
+  'after-hours': 'EI: Tier – After-Hours',
+  'front-office': 'EI: Tier – Front Office',
+  'full-ai': 'EI: Tier – Full AI Employee',
+  'web-chat': 'EI: Tier – Web Chat Only',
 };
 
 serve(async (req) => {
-  // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
     const body = await req.json();
-    console.log('[start-checkout] Received checkout:', JSON.stringify(body, null, 2));
+    console.log('[start-checkout] Received:', JSON.stringify(body, null, 2));
 
     const {
-      name,
+      first_name,
+      last_name,
       email,
       phone,
-      company,
+      business_name,
+      has_domain,
+      domain_name,
       message,
-      service_interest, // e.g., "T1", "T2", "T3", "T4"
+      selected_tier,
+      addons,          // Array<{ slug, name, monthlyPrice, ghlTag }>
+      monthly_total,
+      setup_total,
       tcpa_consent,
       utm_source,
       utm_medium,
       utm_campaign,
       source_page,
-      ip_address,
       user_agent,
     } = body;
 
     // Validate required fields
-    if (!name || !email) {
-      console.error('[start-checkout] Missing required fields');
+    if (!first_name || !email || !selected_tier) {
       return new Response(
-        JSON.stringify({ error: 'Missing required fields: name, email' }),
+        JSON.stringify({ error: 'Missing required fields: first_name, email, selected_tier' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    // Initialize Supabase client
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const fullName = `${first_name} ${last_name || ''}`.trim();
+
+    // Initialize Supabase
+    const supabase = createClient(
+      Deno.env.get('SUPABASE_URL')!,
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+    );
 
     // Insert into checkout_submissions
     const { data: submission, error: insertError } = await supabase
       .from('checkout_submissions')
       .insert({
-        name,
+        name: fullName,
+        first_name,
+        last_name: last_name || null,
         email,
-        phone,
-        company,
-        message,
-        service_interest,
+        phone: phone || null,
+        company: business_name || null,
+        business_name: business_name || null,
+        has_domain: has_domain ?? false,
+        domain_name: domain_name || null,
+        message: message || null,
+        selected_tier,
+        service_interest: TIER_TAG_MAP[selected_tier] || selected_tier,
+        addons: addons || [],
+        monthly_total: monthly_total ?? 0,
+        setup_total: setup_total ?? 0,
         tcpa_consent: tcpa_consent || false,
         consent_timestamp: tcpa_consent ? new Date().toISOString() : null,
-        utm_source,
-        utm_medium,
-        utm_campaign,
-        source_page,
-        ip_address,
-        user_agent,
+        utm_source: utm_source || null,
+        utm_medium: utm_medium || null,
+        utm_campaign: utm_campaign || null,
+        source_page: source_page || null,
+        user_agent: user_agent || null,
         status: 'new',
         ghl_sync_status: 'pending',
       })
@@ -72,68 +98,80 @@ serve(async (req) => {
       .single();
 
     if (insertError) {
-      console.error('[start-checkout] Database insert error:', insertError);
+      console.error('[start-checkout] DB insert error:', insertError);
       return new Response(
         JSON.stringify({ error: 'Failed to save checkout submission' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    console.log('[start-checkout] Checkout saved:', submission.id);
+    console.log('[start-checkout] Saved submission:', submission.id);
 
-    // Sync to GHL
+    // ── GHL Sync ──
     let ghlContactId: string | null = null;
     let ghlSyncStatus = 'pending';
     let ghlError: string | null = null;
 
     try {
-      // Parse name into first/last
-      const nameParts = name.trim().split(' ');
-      const firstName = nameParts[0];
-      const lastName = nameParts.slice(1).join(' ') || undefined;
-
-      // Upsert contact in GHL
       const { id: contactId } = await upsertContact({
         email,
-        firstName,
-        lastName,
-        phone,
-        companyName: company,
+        firstName: first_name,
+        lastName: last_name || undefined,
+        phone: phone || undefined,
+        companyName: business_name || undefined,
       });
-
       ghlContactId = contactId;
 
-      // Add tier tag if service_interest matches (supports smart-site, m1-m5, etc.)
-      const tierKey = service_interest?.toLowerCase();
-      const tierTag = tierKey ? TIER_TAG_MAP[tierKey] : null;
-      if (tierTag) {
-        await addTags(contactId, [tierTag]);
+      // Collect all tags: tier + add-ons
+      const tags: string[] = [];
+      const tierTag = TIER_TAG_MAP[selected_tier];
+      if (tierTag) tags.push(tierTag);
+
+      if (Array.isArray(addons)) {
+        for (const addon of addons) {
+          if (addon.ghlTag) tags.push(addon.ghlTag);
+        }
       }
 
-      // Add note with checkout details
-      const noteBody = `Checkout Started
----
-Name: ${name}
-Email: ${email}
-Phone: ${phone || 'N/A'}
-Company: ${company || 'N/A'}
-Service Interest: ${service_interest || 'N/A'}
+      if (tags.length) await addTags(contactId, tags);
+
+      // Build detailed sales note
+      const addonLines = Array.isArray(addons) && addons.length
+        ? addons.map((a: { name: string; monthlyPrice: number }) => `  • ${a.name} ($${a.monthlyPrice}/mo)`).join('\n')
+        : '  None';
+
+      const noteBody = `🛒 Checkout Started
+───────────────────
+Plan: ${TIER_TAG_MAP[selected_tier] || selected_tier}
+Monthly: $${monthly_total ?? 0}/mo
+Setup: $${setup_total ?? 0}
+
+Add-Ons:
+${addonLines}
+
+Contact:
+  Name: ${fullName}
+  Email: ${email}
+  Phone: ${phone || 'N/A'}
+  Business: ${business_name || 'N/A'}
+  Domain: ${has_domain ? (domain_name || 'Has domain') : 'Needs domain'}
+
 Message: ${message || 'N/A'}
 Source: ${source_page || 'N/A'}
 UTM: ${utm_source || '-'}/${utm_medium || '-'}/${utm_campaign || '-'}
-TCPA Consent: ${tcpa_consent ? 'Yes' : 'No'}`;
+TCPA: ${tcpa_consent ? 'Yes' : 'No'}`;
 
       await addNote(contactId, noteBody);
 
       ghlSyncStatus = 'synced';
-      console.log('[start-checkout] GHL sync successful:', contactId);
-    } catch (ghlErr) {
-      console.error('[start-checkout] GHL sync error:', ghlErr);
+      console.log('[start-checkout] GHL sync OK:', contactId);
+    } catch (err) {
+      console.error('[start-checkout] GHL sync error:', err);
       ghlSyncStatus = 'failed';
-      ghlError = ghlErr instanceof Error ? ghlErr.message : 'Unknown GHL error';
+      ghlError = err instanceof Error ? err.message : 'Unknown GHL error';
     }
 
-    // Update submission with GHL sync status
+    // Update submission with GHL status
     await supabase
       .from('checkout_submissions')
       .update({
@@ -144,13 +182,38 @@ TCPA Consent: ${tcpa_consent ? 'Yes' : 'No'}`;
       })
       .eq('id', submission.id);
 
-    console.log('[start-checkout] Completed successfully');
+    // ── Build GHL redirect URL ──
+    // Base URL maps tier slug to GHL checkout path
+    const GHL_CHECKOUT_BASE = 'https://go.everintent.com';
+    const tierPaths: Record<string, string> = {
+      'launch': '/launch',
+      'capture': '/capture',
+      'convert': '/convert',
+      'scale': '/scale',
+      'after-hours': '/after-hours',
+      'front-office': '/front-office',
+      'full-ai': '/full-ai',
+      'web-chat': '/web-chat',
+    };
+
+    const tierPath = tierPaths[selected_tier] || `/${selected_tier}`;
+    const redirectParams = new URLSearchParams();
+    redirectParams.set('first_name', first_name);
+    if (last_name) redirectParams.set('last_name', last_name);
+    redirectParams.set('email', email);
+    if (phone) redirectParams.set('phone', phone);
+    if (business_name) redirectParams.set('company_name', business_name);
+
+    const redirectUrl = `${GHL_CHECKOUT_BASE}${tierPath}?${redirectParams.toString()}`;
+
+    console.log('[start-checkout] Redirect URL:', redirectUrl);
 
     return new Response(
-      JSON.stringify({ 
-        success: true, 
+      JSON.stringify({
+        success: true,
         id: submission.id,
         ghl_sync_status: ghlSyncStatus,
+        redirect_url: redirectUrl,
       }),
       { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
