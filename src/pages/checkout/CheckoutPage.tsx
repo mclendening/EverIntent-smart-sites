@@ -8,6 +8,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
+import { Layout } from '@/components/layout/Layout';
 import { CheckoutStep1Selection } from '@/components/checkout/CheckoutStep1Selection';
 import { CheckoutStep2Details } from '@/components/checkout/CheckoutStep2Details';
 import { CheckoutStep3Review } from '@/components/checkout/CheckoutStep3Review';
@@ -128,7 +129,7 @@ export default function CheckoutPage() {
   const tierDisplayName = tierConfig?.displayName || 'Checkout';
 
   return (
-    <>
+    <Layout>
       <SEO 
         title={`Checkout - ${tierDisplayName} | EverIntent`}
         description={`Complete your ${tierDisplayName} plan checkout. Get started with EverIntent today.`}
@@ -189,6 +190,6 @@ export default function CheckoutPage() {
           </div>
         </div>
       </div>
-    </>
+    </Layout>
   );
 }
