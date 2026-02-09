@@ -9,10 +9,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TIER_CONFIG, ADDON_CONFIG, formatPrice, getTiersByProductLine, type TierSlug, type AddonSlug } from '@/config/checkoutConfig';
+import { TIER_CONFIG, ADDON_CONFIG, formatPrice, getTiersByProductLine, isAddonIncludedInTier, type TierSlug, type AddonSlug } from '@/config/checkoutConfig';
 import type { CheckoutState } from '@/pages/checkout/CheckoutPage';
 import { cn } from '@/lib/utils';
-import { Check, Pencil, Globe, Bot } from 'lucide-react';
+import { Check, Pencil, Globe, Bot, ArrowLeft } from 'lucide-react';
 
 interface CheckoutStep1SelectionProps {
   state: CheckoutState;
@@ -43,10 +43,30 @@ export function CheckoutStep1Selection({
     setIsChangingPlan(false);
   };
 
+  // Back button: navigate to originating page or product line default
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      // Fallback: go to the product line's main page
+      const fallback = tierConfig.productLine === 'ai-employee' 
+        ? '/let-ai-handle-it' 
+        : '/smart-websites';
+      window.location.href = fallback;
+    }
+  };
+
   return (
     <div className="space-y-8">
-      {/* Step Header */}
+      {/* Step Header with Back */}
       <div>
+        <button
+          onClick={handleBack}
+          className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-3"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to details
+        </button>
         <h1 className="text-2xl font-bold">Confirm Your Plan</h1>
         <p className="text-muted-foreground mt-1">
           Review your selection and add optional features
@@ -192,21 +212,27 @@ export function CheckoutStep1Selection({
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {allAddons.map((addon) => {
+            const isIncluded = isAddonIncludedInTier(addon.slug, state.tier);
             const isSelected = state.addons.includes(addon.slug);
             
             return (
               <label
                 key={addon.slug}
                 className={cn(
-                  'relative flex cursor-pointer rounded-lg border p-4 transition-all',
-                  isSelected
-                    ? 'border-gold/50 bg-gold/[0.05] ring-1 ring-gold/30'
-                    : 'border-border/50 hover:border-gold/30 hover:bg-gold/[0.02]'
+                  'relative flex rounded-lg border p-4 transition-all',
+                  isIncluded
+                    ? 'border-gold/20 bg-gold/[0.03] cursor-default opacity-80'
+                    : isSelected
+                      ? 'border-gold/50 bg-gold/[0.05] ring-1 ring-gold/30 cursor-pointer'
+                      : 'border-border/50 hover:border-gold/30 hover:bg-gold/[0.02] cursor-pointer'
                 )}
               >
                 <Checkbox
-                  checked={isSelected}
-                  onCheckedChange={() => onAddonToggle(addon.slug)}
+                  checked={isSelected || isIncluded}
+                  onCheckedChange={() => {
+                    if (!isIncluded) onAddonToggle(addon.slug);
+                  }}
+                  disabled={isIncluded}
                   className="sr-only"
                 />
                 <div className="flex-1 pr-6">
@@ -218,20 +244,27 @@ export function CheckoutStep1Selection({
                       </p>
                     </div>
                     <div className="shrink-0">
-                      <span className={cn(
-                        "font-semibold",
-                        isSelected ? "text-gold" : "text-gold/70"
-                      )}>
-                        {formatPrice(addon.monthlyPrice)}
-                      </span>
+                      {isIncluded ? (
+                        <span className="text-sm font-medium text-gold">Included</span>
+                      ) : (
+                        <span className={cn(
+                          "font-semibold",
+                          isSelected ? "text-gold" : "text-gold/70"
+                        )}>
+                          {formatPrice(addon.monthlyPrice)}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
                 
                 {/* Selection indicator */}
-                {isSelected && (
+                {(isSelected || isIncluded) && (
                   <div className="absolute top-2 right-2">
-                    <div className="w-5 h-5 rounded-full bg-gold flex items-center justify-center">
+                    <div className={cn(
+                      "w-5 h-5 rounded-full flex items-center justify-center",
+                      isIncluded ? "bg-gold/50" : "bg-gold"
+                    )}>
                       <Check className="w-3 h-3 text-background" />
                     </div>
                   </div>
