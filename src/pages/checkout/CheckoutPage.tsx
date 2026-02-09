@@ -13,8 +13,9 @@ import { CheckoutStep2Details } from '@/components/checkout/CheckoutStep2Details
 import { CheckoutStep3Review } from '@/components/checkout/CheckoutStep3Review';
 import { CheckoutProgress } from '@/components/checkout/CheckoutProgress';
 import { OrderSummary } from '@/components/checkout/OrderSummary';
-import { TIER_CONFIG, ADDON_CONFIG, type TierSlug, type AddonSlug } from '@/config/checkoutConfig';
-
+import { TIER_CONFIG, ADDON_CONFIG, TIER_TAG_MAP, type TierSlug, type AddonSlug } from '@/config/checkoutConfig';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 // Storage key for sessionStorage persistence
 const STORAGE_KEY = 'everintent_checkout_state';
 
@@ -50,6 +51,7 @@ const getInitialState = (tier: TierSlug): CheckoutState => ({
 });
 
 export default function CheckoutPage() {
+  const { toast } = useToast();
   const location = useLocation();
   const [searchParams] = useSearchParams();
   
@@ -68,8 +70,20 @@ export default function CheckoutPage() {
     setIsHydrated(true);
   }, []);
 
+  // Capture UTM params on mount (client-side only)
+  useEffect(() => {
+    if (!isHydrated) return;
+    
+    const utmSource = searchParams.get('utm_source') || undefined;
+    const utmMedium = searchParams.get('utm_medium') || undefined;
+    const utmCampaign = searchParams.get('utm_campaign') || undefined;
+    
+    if (utmSource || utmMedium || utmCampaign) {
+      setState(prev => ({ ...prev, utmSource, utmMedium, utmCampaign }));
+    }
+  }, [isHydrated, searchParams]);
+
   // Load from sessionStorage on mount (handles refresh and resume)
-  // Only runs client-side after hydration
   useEffect(() => {
     if (!isHydrated) return;
     
@@ -80,13 +94,11 @@ export default function CheckoutPage() {
       if (savedState) {
         const parsed = JSON.parse(savedState) as CheckoutState;
         setState(parsed);
-        // If resuming, go to review step
         if (resumeId) {
           setStep(3);
         }
       }
     } catch {
-      // Invalid state or SSR, use defaults
       setState(getInitialState(validTier));
     }
   }, [isHydrated, validTier, searchParams]);
@@ -205,7 +217,66 @@ export default function CheckoutPage() {
                   onSubmit={async () => {
                     setIsLoading(true);
                     setError(null);
-                    // Submit logic will be wired in Batch 4
+                    
+                    try {
+                      // Client-side data integrity check
+                      if (!state.firstName || !state.email || !state.tcpaConsent) {
+                        throw new Error('Missing required fields. Please go back and complete all fields.');
+                      }
+
+                      const addonDetails = state.addons.map(slug => ({
+                        slug,
+                        name: ADDON_CONFIG[slug]?.displayName,
+                        monthlyPrice: ADDON_CONFIG[slug]?.monthlyPrice,
+                        ghlTag: ADDON_CONFIG[slug]?.ghlTag,
+                      }));
+
+                      const { error: dbError } = await supabase
+                        .from('checkout_submissions')
+                        .insert({
+                          name: `${state.firstName} ${state.lastName}`.trim(),
+                          first_name: state.firstName,
+                          last_name: state.lastName,
+                          email: state.email,
+                          phone: state.phone || null,
+                          company: state.businessName || null,
+                          business_name: state.businessName || null,
+                          has_domain: state.hasDomain,
+                          domain_name: state.domainName || null,
+                          message: state.message || null,
+                          tcpa_consent: state.tcpaConsent,
+                          consent_timestamp: new Date().toISOString(),
+                          selected_tier: state.tier,
+                          service_interest: TIER_TAG_MAP[state.tier],
+                          addons: addonDetails as unknown as Record<string, unknown>,
+                          monthly_total: monthlyTotal,
+                          setup_total: setupTotal,
+                          source_page: location.pathname,
+                          utm_source: state.utmSource || null,
+                          utm_medium: state.utmMedium || null,
+                          utm_campaign: state.utmCampaign || null,
+                          user_agent: navigator.userAgent,
+                        });
+
+                      if (dbError) throw dbError;
+
+                      // Clear sessionStorage on success
+                      sessionStorage.removeItem(STORAGE_KEY);
+
+                      toast({
+                        title: 'Order submitted!',
+                        description: 'Redirecting to complete your payment...',
+                      });
+
+                      // TODO: Batch 5 will call start-checkout Edge Function 
+                      // for GHL sync and redirect to GHL payment page
+
+                    } catch (err: unknown) {
+                      const message = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
+                      setError(message);
+                    } finally {
+                      setIsLoading(false);
+                    }
                   }}
                   isLoading={isLoading}
                   error={error}
