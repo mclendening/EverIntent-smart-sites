@@ -68,6 +68,11 @@ export default {
         },
         "intent-blue": "hsl(var(--intent-blue))",
         "secondary-accent": "hsl(var(--secondary-accent))",
+        gold: {
+          DEFAULT: "hsl(var(--gold))",
+          hover: "hsl(var(--gold-hover))",
+          glow: "hsl(var(--gold-glow))",
+        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",

@@ -36,11 +36,16 @@
     --muted: 0 0% 14%;
     --muted-foreground: 220 10% 55%;
 
-    /* Accent: Luxury Gold - vibrant warm gold #F59F0A equivalent */
-    --accent: 39 95% 50%;
-    --accent-hover: 39 95% 45%;
-    --accent-glow: 39 90% 60%;
-    --accent-foreground: 0 0% 5%;
+    /* Accent: Theme-controlled (purple for logo, etc.) */
+    --accent: 247 92% 50%;
+    --accent-hover: 247 92% 45%;
+    --accent-glow: 247 90% 60%;
+    --accent-foreground: 0 0% 100%;
+    
+    /* Gold: Fixed luxury gold for pricing, CTAs - NOT theme-overridden */
+    --gold: 39 95% 50%;
+    --gold-hover: 39 95% 45%;
+    --gold-glow: 39 90% 60%;
 
     /* Secondary accent: Muted slate blue */
     --secondary-accent: 215 15% 38%;
