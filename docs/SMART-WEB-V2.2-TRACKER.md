@@ -412,12 +412,12 @@ https://go.everintent.com/[tier]
 
 | ID | Task | Status | Verification | Notes |
 |----|------|--------|--------------|-------|
-| 6.1 | Create SSG checkout routes | `todo` | Routes exist: `/checkout/launch`, `/checkout/capture`, etc. | 8 static routes (4 Smart Websites + 4 AI Employee) |
-| 6.2 | Build CheckoutPage component | `todo` | Page renders with 3-step progress indicator | Shared component, tier passed as prop |
-| 6.3 | Build Step 1: Plan & Add-On Selection | `todo` | Tier dropdown resets add-ons; cards toggle; summary updates | Per v5.2 Section 4.1 wireframe |
+| 6.1 | Create SSG checkout routes | `done` | Routes exist: `/checkout/launch`, `/checkout/capture`, etc. | 8 static routes (4 Smart Websites + 4 AI Employee) |
+| 6.2 | Build CheckoutPage component | `done` | Page renders with 3-step progress indicator | Shared component, tier passed as prop |
+| 6.3 | Build Step 1: Plan & Add-On Selection | `done` | Tier dropdown resets add-ons; cards toggle; summary updates | Per v5.2 Section 4.1 wireframe; uses confirmation card + Change button with filtered two-tab selector |
 | 6.4 | Build Step 2: Contact Details Form | `todo` | Domain radio pattern; 500-char message counter; inline validation | Per v5.2 Section 4.2 wireframe |
 | 6.5 | Build Step 3: Review & Confirm | `todo` | [Edit] links navigate to Step 1/2; legal notice; loading state | Per v5.2 Section 4.3 wireframe |
-| 6.6 | Build OrderSummary component | `todo` | Dynamic pricing: tier + add-ons = monthly total | Reusable across steps |
+| 6.6 | Build OrderSummary component | `done` | Dynamic pricing: tier + add-ons = monthly total | Reusable across steps |
 | 6.7 | Implement sessionStorage persistence | `todo` | Data survives back navigation, tab refresh | Per v5.2 Section 4.4 |
 | 6.8 | Update start-checkout edge function | `todo` | Returns `{ success, id, redirect_url }` | Build URL per GHL format spec |
 | 6.9 | Update ghlClient.ts with v2.2 tags | `todo` | TIER_TAGS + ADDON_TAGS maps complete | Per v5.2 Section 1.5 |
@@ -427,6 +427,7 @@ https://go.everintent.com/[tier]
 | 6.13 | Update comparison page CTAs | `todo` | "Choose [Tier]" → `/checkout/[tier]` | `/compare-websites` buttons |
 | 6.14 | Implement resume link handling | `todo` | `?resume=abc123` restores state from Supabase | Per v5.2 Section 4.4 abandonment spec |
 | 6.15 | QA: All 9 scenario categories | `todo` | Test SC1-SC9 per v5.2 Section 5.1 | Cross-browser, mobile, abandon/return |
+| 6.16 | Decouple gold accent from theme system | `done` | Checkout pricing uses `--gold` (HSL 39 95% 50%) via `text-gold`/`bg-gold`/`border-gold`; logo retains purple `--accent` | Prevents runtime theme override flash; dedicated CSS variable + Tailwind utilities added to index.css and tailwind.config.ts |
 
 ### Error Handling (v5.2 Section 8)
 
@@ -493,3 +494,5 @@ The `ghlClient.ts` TIER_TAG_MAP needs these additions for v2.2:
 | 2026-02-08 | Phase 4-5 marked `deferred` pending Phase 6 | Lovable |
 | 2026-02-08 | Phase 6 added – Checkout Implementation per v5.0 spec | Lovable |
 | 2026-02-08 | **Phase 6 updated to v5.2 spec** – Complete end-to-end design including: SSG static routes, 3-step wireframes, domain radio pattern, message char counter, tier dropdown resets add-ons, Edit links on review step, session persistence, abandonment/resume, 9 scenario categories, pipeline stages, tagging schema, error handling | Lovable |
+| 2026-02-09 | **Batch 1 complete**: Tasks 6.1, 6.2, 6.3, 6.6 marked `done` – SSG routes, CheckoutPage shell, Step 1 selection UI, and OrderSummary implemented | Lovable |
+| 2026-02-09 | **Task 6.16 added**: Gold accent color decoupled from theme system – dedicated `--gold` CSS variable (HSL 39 95% 50%) with Tailwind utilities (`text-gold`, `bg-gold`, `border-gold`) to prevent runtime theme override flash on checkout pricing | Lovable |
