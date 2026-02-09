@@ -54,10 +54,10 @@ const websiteFeatures = [
 ];
 
 const websiteTiers = [
-  { id: 'launch', name: 'Launch', key: 't1', cta: 'Get Started', ctaStyle: 'secondary', href: '/smart-websites/smart-site' },
-  { id: 'capture', name: 'Capture', key: 't2', cta: 'Get Started', ctaStyle: 'primary', href: '/smart-websites/smart-lead' },
-  { id: 'convert', name: 'Convert', key: 't3', cta: 'Get Started', ctaStyle: 'primary', href: '/smart-websites/smart-business' },
-  { id: 'scale', name: 'Scale', key: 't4', cta: 'Get Started', ctaStyle: 'secondary', href: '/smart-websites/smart-growth' },
+  { id: 'launch', name: 'Launch', key: 't1', cta: 'Get Started', ctaStyle: 'secondary', href: '/smart-websites/smart-site', checkoutHref: '/checkout/launch' },
+  { id: 'capture', name: 'Capture', key: 't2', cta: 'Get Started', ctaStyle: 'primary', href: '/smart-websites/smart-lead', checkoutHref: '/checkout/capture' },
+  { id: 'convert', name: 'Convert', key: 't3', cta: 'Get Started', ctaStyle: 'primary', href: '/smart-websites/smart-business', checkoutHref: '/checkout/convert' },
+  { id: 'scale', name: 'Scale', key: 't4', cta: 'Get Started', ctaStyle: 'secondary', href: '/smart-websites/smart-growth', checkoutHref: '/checkout/scale' },
 ];
 
 // ============================================
@@ -74,6 +74,7 @@ const aiPlans = [
     setup: '$997',
     description: 'AI answers after hours, books appointments, and texts back missed calls. Never lose a lead when you\'re closed.',
     href: '/let-ai-handle-it/after-hours',
+    checkoutHref: '/checkout/after-hours',
   },
   {
     id: 'front-office',
@@ -84,6 +85,7 @@ const aiPlans = [
     setup: '$1,497',
     description: 'AI screens all calls, qualifies leads, recovers missed calls, and transfers hot opportunities live.',
     href: '/let-ai-handle-it/front-office',
+    checkoutHref: '/checkout/front-office',
   },
   {
     id: 'full',
@@ -95,6 +97,7 @@ const aiPlans = [
     description: 'All features included. Your complete AI-powered front office—voice, SMS, booking, screening, web chat, and Unlimited AI.',
     featured: true,
     href: '/let-ai-handle-it/full-ai-employee',
+    checkoutHref: '/checkout/full-ai',
   },
   {
     id: 'web-chat',
@@ -105,6 +108,7 @@ const aiPlans = [
     setup: '$497',
     description: 'AI chat widget for your website. Capture leads 24/7 without voice AI.',
     href: '/contact',
+    checkoutHref: '/checkout/web-chat',
   },
 ];
 
@@ -285,8 +289,8 @@ const Pricing = () => {
                             See Details
                             <ArrowRight className="w-3.5 h-3.5" />
                           </Link>
-                          <Link
-                            to="/contact"
+                        <a
+                            href={tier.checkoutHref}
                             className={`inline-block px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
                               tier.ctaStyle === 'primary'
                                 ? 'bg-accent text-accent-foreground hover:bg-accent-hover shadow-md'
@@ -294,7 +298,7 @@ const Pricing = () => {
                             }`}
                           >
                             {tier.cta}
-                          </Link>
+                          </a>
                         </div>
                       </td>
                     ))}
@@ -343,8 +347,8 @@ const Pricing = () => {
                       >
                         See Full Details
                       </Link>
-                      <Link
-                        to="/contact"
+                      <a
+                        href={tier.checkoutHref}
                         className={`block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 ${
                           tier.ctaStyle === 'primary'
                             ? 'bg-accent text-accent-foreground hover:bg-accent-hover'
@@ -352,7 +356,7 @@ const Pricing = () => {
                         }`}
                       >
                         {tier.cta}
-                      </Link>
+                      </a>
                     </div>
                   </div>
                 );
@@ -411,16 +415,16 @@ const Pricing = () => {
                           <span className="text-muted-foreground text-sm">/mo</span>
                           <p className="text-xs text-muted-foreground">{plan.setup} setup</p>
                         </div>
-                        <Link
-                          to={plan.href}
+                        <a
+                          href={plan.checkoutHref}
                           className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                             plan.featured
                               ? 'bg-accent text-accent-foreground hover:bg-accent-hover'
                               : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
                           }`}
                         >
-                          Learn More
-                        </Link>
+                          Get Started
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -482,17 +486,17 @@ const Pricing = () => {
               Book a free strategy call or get started with Smart Site today.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/contact"
+              <a
+                href="/checkout/launch"
                 className="btn-gold btn-glow"
               >
-                Book Strategy Call
-              </Link>
+                Start with Launch — $249
+              </a>
               <Link
-                to="/smart-websites/smart-site"
+                to="/contact"
                 className="px-6 py-3 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors font-medium"
               >
-                Start with Smart Site — $249
+                Book Strategy Call
               </Link>
             </div>
           </div>

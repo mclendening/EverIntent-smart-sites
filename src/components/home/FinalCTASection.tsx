@@ -34,12 +34,12 @@ export function FinalCTASection() {
           
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-            <Link 
-              to="/pricing" 
+            <a 
+              href="/checkout/launch" 
               className="btn-gold btn-glow w-full sm:w-auto"
             >
-              Get Started
-            </Link>
+              Get Started — $249
+            </a>
             <Link 
               to="/contact" 
               className="group inline-flex items-center justify-center gap-2 px-6 py-3 text-foreground hover:text-accent transition-all duration-300 w-full sm:w-auto"

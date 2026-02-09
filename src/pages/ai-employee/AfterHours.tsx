@@ -139,7 +139,7 @@ export default function AfterHours() {
                 {/* CTAs */}
                 <div className="flex flex-wrap items-center justify-center gap-4">
                   <CTAButton 
-                    to="/pricing?tab=ai" 
+                    to="/checkout/after-hours" 
                     defaultText="Start Tonight"
                     hoverText="Get After-Hours Mode"
                   />
@@ -332,7 +332,7 @@ export default function AfterHours() {
               
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <CTAButton 
-                  to="/pricing?tab=ai" 
+                  to="/checkout/after-hours" 
                   defaultText="Get After-Hours Mode"
                   hoverText="$197/mo + $997 setup"
                 />

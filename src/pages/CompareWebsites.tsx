@@ -105,6 +105,7 @@ const tiers = [
     description: 'A beautiful, fast website that establishes credibility and trust.',
     icon: Globe,
     href: '/smart-websites/smart-site',
+    checkoutHref: '/checkout/launch',
     bgVariant: 'launch' as const,
     recommendedAddons: [
       { id: 'email-authority', name: 'Email Authority', price: '$79/mo', icon: Mail }
@@ -118,6 +119,7 @@ const tiers = [
     description: 'Turn every visitor into a potential customer with AI-powered engagement.',
     icon: MessageSquare,
     href: '/smart-websites/smart-lead',
+    checkoutHref: '/checkout/capture',
     bgVariant: 'capture' as const,
     recommendedAddons: [
       { id: 'get-paid-now', name: 'Get Paid Now', price: '$49/mo', icon: CreditCard },
@@ -132,6 +134,7 @@ const tiers = [
     description: 'Full CRM and booking automation for growing service businesses.',
     icon: Zap,
     href: '/smart-websites/smart-business',
+    checkoutHref: '/checkout/convert',
     bgVariant: 'convert' as const,
     recommendedAddons: [
       { id: 'social-autopilot', name: 'Social Autopilot', price: '$97/mo', icon: Share2 },
@@ -146,6 +149,7 @@ const tiers = [
     description: 'Complete business automation from first visit to booked appointment.',
     icon: TrendingUp,
     href: '/smart-websites/smart-growth',
+    checkoutHref: '/checkout/scale',
     bgVariant: 'scale' as const,
     recommendedAddons: [
       { id: 'omnichannel-inbox', name: 'Omnichannel Inbox', price: '$99/mo', icon: Inbox },
@@ -287,13 +291,13 @@ function MobileTierCard({ tier, tierIndex }: { tier: typeof tiers[0]; tierIndex:
         </div>
         
         {/* CTA Button */}
-        <Link
-          to={tier.href}
+        <a
+          href={tier.checkoutHref}
           className="mt-4 w-full py-3 px-4 rounded-xl text-center text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 bg-accent/10 text-accent hover:bg-accent/20"
         >
           Choose {tier.name}
           <ArrowRight className="w-4 h-4" />
-        </Link>
+        </a>
         
         {/* Recommended Add-ons */}
         {tier.recommendedAddons.length > 0 && (
@@ -467,13 +471,13 @@ export default function CompareWebsites() {
                       <p className="text-sm text-muted-foreground mb-5">{tier.description}</p>
                       
                       {/* Upgrade CTA */}
-                      <Link
-                        to={tier.href}
+                      <a
+                        href={tier.checkoutHref}
                         className="w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 bg-secondary text-secondary-foreground hover:bg-secondary/80"
                       >
                         Choose {tier.name}
                         <ArrowRight className="w-4 h-4" />
-                      </Link>
+                      </a>
                       
                       {/* Recommended Add-ons */}
                       {tier.recommendedAddons.length > 0 && (
@@ -584,13 +588,13 @@ export default function CompareWebsites() {
                 <div className="col-span-1" />
                 {tiers.map((tier) => (
                   <div key={tier.name} className="col-span-1 flex justify-center">
-                    <Link
-                      to={tier.href}
+                    <a
+                      href={tier.checkoutHref}
                       className="w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 bg-secondary text-secondary-foreground hover:bg-secondary/80"
                     >
                       Get {tier.name}
                       <ArrowRight className="w-4 h-4" />
-                    </Link>
+                    </a>
                   </div>
                 ))}
               </div>
@@ -631,18 +635,18 @@ export default function CompareWebsites() {
                 Get a website that works as hard as you do.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <a
+                  href="/checkout/capture"
+                  className="btn-gold px-5 py-2.5 rounded-lg flex items-center justify-center gap-2 text-sm"
+                >
+                  Get started with Capture
+                  <ArrowRight className="w-4 h-4" />
+                </a>
                 <Link
                   to="/contact"
                   className="px-5 py-2.5 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors text-sm"
                 >
                   Ask a question
-                </Link>
-                <Link
-                  to="/smart-websites/smart-lead"
-                  className="btn-gold px-5 py-2.5 rounded-lg flex items-center justify-center gap-2 text-sm"
-                >
-                  Get started with Capture
-                  <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
             </div>

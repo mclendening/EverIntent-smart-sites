@@ -96,6 +96,7 @@ const plans = [
     setup: '$997 setup',
     description: 'AI answers after hours, books appointments, texts back missed calls. Never lose a lead when you\'re closed.',
     href: '/let-ai-handle-it/after-hours',
+    checkoutHref: '/checkout/after-hours',
   },
   {
     name: 'Front Office' as const,
@@ -105,6 +106,7 @@ const plans = [
     setup: '$1,497 setup',
     description: 'AI screens all calls, qualifies leads, recovers missed calls, and transfers hot opportunities live.',
     href: '/let-ai-handle-it/front-office',
+    checkoutHref: '/checkout/front-office',
   },
   {
     name: 'Full AI Employee' as const,
@@ -114,6 +116,7 @@ const plans = [
     setup: '$2,500 setup',
     description: 'Voice, SMS, web chat, booking, screening, and Unlimited AI for reviews, content, and marketing. Your full AI team member.',
     href: '/let-ai-handle-it/full-ai-employee',
+    checkoutHref: '/checkout/full-ai',
     highlight: true,
   },
 ];
@@ -280,8 +283,8 @@ function MobilePlanCard({ plan, planIndex }: { plan: typeof plans[0]; planIndex:
         <p className="text-sm text-muted-foreground mt-3">{plan.description}</p>
         
         {/* CTA Button */}
-        <Link
-          to={plan.href}
+        <a
+          href={plan.checkoutHref}
           className={cn(
             "mt-4 w-full py-3 px-4 rounded-xl text-center text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2",
             plan.highlight 
@@ -289,9 +292,9 @@ function MobilePlanCard({ plan, planIndex }: { plan: typeof plans[0]; planIndex:
               : "bg-accent/10 text-accent hover:bg-accent/20"
           )}
         >
-          Learn More
+          Get Started
           <ArrowRight className="w-4 h-4" />
-        </Link>
+        </a>
       </div>
       
       {/* Expand/Collapse Toggle */}
@@ -445,8 +448,8 @@ export default function CompareAIEmployee() {
                       
                       <p className="text-sm text-muted-foreground mb-5">{plan.description}</p>
                       
-                      <Link
-                        to={plan.href}
+                      <a
+                        href={plan.checkoutHref}
                         className={cn(
                           "w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium flex items-center justify-center gap-2",
                           plan.highlight 
@@ -454,9 +457,9 @@ export default function CompareAIEmployee() {
                             : "bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
                         )}
                       >
-                        Learn More
+                        Get Started
                         <ArrowRight className="w-4 h-4" />
-                      </Link>
+                      </a>
                     </div>
                   </div>
                 );
@@ -562,13 +565,13 @@ export default function CompareAIEmployee() {
                 >
                   Ask a question
                 </Link>
-                <Link
-                  to="/let-ai-handle-it/full-ai-employee"
+                <a
+                  href="/checkout/full-ai"
                   className="btn-gold flex items-center justify-center gap-2"
                 >
                   Get Full AI Employee
                   <ArrowRight className="w-4 h-4" />
-                </Link>
+                </a>
               </div>
             </div>
           </div>
