@@ -19,7 +19,7 @@ export function OrderSummary({ tier, addons, monthlyTotal, setupTotal }: OrderSu
   const tierConfig = TIER_CONFIG[tier];
   
   return (
-    <Card className="lg:sticky lg:top-28 bg-card border-border shadow-lg">
+    <Card className="lg:sticky lg:top-28 bg-card border-border shadow-lg border-l-2 border-l-accent/30">
       <CardHeader className="pb-3 lg:pb-4">
         <CardTitle className="text-base lg:text-lg">Order Summary</CardTitle>
       </CardHeader>
@@ -33,10 +33,10 @@ export function OrderSummary({ tier, addons, monthlyTotal, setupTotal }: OrderSu
             </div>
             <div className="text-right">
               {tierConfig.isOneTime ? (
-                <p className="font-semibold">${tierConfig.setupFee}</p>
+                <p className="font-semibold text-accent">${tierConfig.setupFee}</p>
               ) : (
                 <>
-                  <p className="font-semibold">{formatPrice(tierConfig.monthlyPrice)}</p>
+                  <p className="font-semibold text-accent">{formatPrice(tierConfig.monthlyPrice)}</p>
                   {tierConfig.setupFee > 0 && (
                     <p className="text-xs text-muted-foreground">+ ${tierConfig.setupFee} setup</p>
                   )}
@@ -57,7 +57,7 @@ export function OrderSummary({ tier, addons, monthlyTotal, setupTotal }: OrderSu
                 return (
                   <div key={addonSlug} className="flex justify-between text-sm">
                     <span>{addon.displayName}</span>
-                    <span>{formatPrice(addon.monthlyPrice)}</span>
+                    <span className="text-accent/90">{formatPrice(addon.monthlyPrice)}</span>
                   </div>
                 );
               })}
