@@ -231,32 +231,35 @@ export default function CheckoutPage() {
                         ghlTag: ADDON_CONFIG[slug]?.ghlTag,
                       }));
 
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      const insertPayload: any = {
+                        name: `${state.firstName} ${state.lastName}`.trim(),
+                        first_name: state.firstName,
+                        last_name: state.lastName,
+                        email: state.email,
+                        phone: state.phone || null,
+                        company: state.businessName || null,
+                        business_name: state.businessName || null,
+                        has_domain: state.hasDomain,
+                        domain_name: state.domainName || null,
+                        message: state.message || null,
+                        tcpa_consent: state.tcpaConsent,
+                        consent_timestamp: new Date().toISOString(),
+                        selected_tier: state.tier,
+                        service_interest: TIER_TAG_MAP[state.tier],
+                        addons: addonDetails,
+                        monthly_total: monthlyTotal,
+                        setup_total: setupTotal,
+                        source_page: location.pathname,
+                        utm_source: state.utmSource || null,
+                        utm_medium: state.utmMedium || null,
+                        utm_campaign: state.utmCampaign || null,
+                        user_agent: navigator.userAgent,
+                      };
+
                       const { error: dbError } = await supabase
                         .from('checkout_submissions')
-                        .insert({
-                          name: `${state.firstName} ${state.lastName}`.trim(),
-                          first_name: state.firstName,
-                          last_name: state.lastName,
-                          email: state.email,
-                          phone: state.phone || null,
-                          company: state.businessName || null,
-                          business_name: state.businessName || null,
-                          has_domain: state.hasDomain,
-                          domain_name: state.domainName || null,
-                          message: state.message || null,
-                          tcpa_consent: state.tcpaConsent,
-                          consent_timestamp: new Date().toISOString(),
-                          selected_tier: state.tier,
-                          service_interest: TIER_TAG_MAP[state.tier],
-                          addons: addonDetails as unknown as Record<string, unknown>,
-                          monthly_total: monthlyTotal,
-                          setup_total: setupTotal,
-                          source_page: location.pathname,
-                          utm_source: state.utmSource || null,
-                          utm_medium: state.utmMedium || null,
-                          utm_campaign: state.utmCampaign || null,
-                          user_agent: navigator.userAgent,
-                        });
+                        .insert(insertPayload);
 
                       if (dbError) throw dbError;
 
