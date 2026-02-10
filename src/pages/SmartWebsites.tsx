@@ -346,7 +346,7 @@ const SmartWebsites = () => {
                     ))}
                   </div>
                   <Button asChild className="w-full" variant={tier.highlight ? "gold" : "outline"}>
-                    <Link to="/pricing">{tier.cta}</Link>
+                    <a href={`/checkout/${tier.name === 'Launch' ? 'launch' : tier.name === 'Capture' ? 'capture' : tier.name === 'Convert' ? 'convert' : 'scale'}`}>{tier.cta}</a>
                   </Button>
                 </CardContent>
               </Card>
@@ -459,7 +459,7 @@ const SmartWebsites = () => {
                       className={tier.highlight ? 'btn-gold text-xs' : 'text-xs'}
                       variant={tier.highlight ? "default" : "outline"}
                     >
-                      <Link to="/pricing">{tier.cta}</Link>
+                      <a href={`/checkout/${tier.name === 'Launch' ? 'launch' : tier.name === 'Capture' ? 'capture' : tier.name === 'Convert' ? 'convert' : 'scale'}`}>{tier.cta}</a>
                     </Button>
                   </div>
                 ))}
