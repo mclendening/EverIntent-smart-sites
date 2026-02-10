@@ -1074,7 +1074,52 @@ Admin clicks "Revert to Original" on theme editor
 | **Version bump** | Revert creates a new version entry with changelog note: "Reverted to original seed" |
 | **Active theme protection** | If the theme being reverted is the active production theme, Warning 2 adds: "This theme is currently LIVE. Reverting will affect your production site after the next publish." |
 
-### 15.4 Storage
+### 15.4 Write Current as New Default
+
+Admins can also **overwrite the seed snapshot** for a theme with the current (potentially edited) configuration, making the current state the new "original" for future reverts. This is equally destructive (destroys the previous baseline) and uses the **same two-layer warning system**.
+
+#### 15.4.1 Flow
+
+```
+Admin clicks "Set as New Default" on theme editor
+    │
+    ▼
+┌─────────────────────────────────────────┐
+│ WARNING 1 — Soft Warning                │
+│                                         │
+│ "You are about to overwrite the saved   │
+│  default for [Theme Name]. The current  │
+│  original default will be permanently   │
+│  replaced with the current config."     │
+│                                         │
+│ [Cancel]  [Continue]                    │
+└─────────────────────┬───────────────────┘
+                      │
+                      ▼
+┌─────────────────────────────────────────┐
+│ WARNING 2 — Hard Warning + Export       │
+│                                         │
+│ "⚠️ FINAL WARNING: The existing default │
+│  snapshot will be permanently replaced. │
+│  This cannot be undone."               │
+│                                         │
+│ [Export Current Default First (JSON)]   │
+│                                         │
+│ [Cancel]  [Overwrite Default]           │
+└─────────────────────────────────────────┘
+```
+
+#### 15.4.2 Key Behaviors
+
+| Behavior | Detail |
+|----------|--------|
+| **Export button** | Warning 2 includes "Export Current Default First" — downloads the **existing seed snapshot** (not the edited theme) so the admin can recover it later via import |
+| **Scope** | Operates on whichever theme the admin is currently viewing/editing — does NOT need to be the active production theme |
+| **What gets written** | The complete current `site_themes` row config (all JSONB columns) replaces the `theme_seeds.seed_config` (or `original_seed` column) |
+| **Audit** | Creates a changelog entry: "Default snapshot overwritten by admin" with timestamp |
+| **No publish triggered** | This only changes the saved baseline — it does NOT publish or affect the live site |
+
+### 15.5 Storage
 
 ```sql
 -- Option A: Dedicated column on site_themes
