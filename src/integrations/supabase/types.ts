@@ -38,6 +38,7 @@ export type Database = {
       checkout_submissions: {
         Row: {
           addons: Json | null
+          affiliate_id: string | null
           business_name: string | null
           company: string | null
           consent_timestamp: string | null
@@ -71,6 +72,7 @@ export type Database = {
         }
         Insert: {
           addons?: Json | null
+          affiliate_id?: string | null
           business_name?: string | null
           company?: string | null
           consent_timestamp?: string | null
@@ -104,6 +106,7 @@ export type Database = {
         }
         Update: {
           addons?: Json | null
+          affiliate_id?: string | null
           business_name?: string | null
           company?: string | null
           consent_timestamp?: string | null
@@ -139,6 +142,7 @@ export type Database = {
       }
       form_submissions: {
         Row: {
+          affiliate_id: string | null
           company: string | null
           consent_timestamp: string | null
           created_at: string
@@ -162,6 +166,7 @@ export type Database = {
           utm_source: string | null
         }
         Insert: {
+          affiliate_id?: string | null
           company?: string | null
           consent_timestamp?: string | null
           created_at?: string
@@ -185,6 +190,7 @@ export type Database = {
           utm_source?: string | null
         }
         Update: {
+          affiliate_id?: string | null
           company?: string | null
           consent_timestamp?: string | null
           created_at?: string
@@ -211,6 +217,7 @@ export type Database = {
       }
       job_applications: {
         Row: {
+          affiliate_id: string | null
           consent_timestamp: string | null
           cover_letter: string | null
           created_at: string
@@ -238,6 +245,7 @@ export type Database = {
           video_intro_url: string | null
         }
         Insert: {
+          affiliate_id?: string | null
           consent_timestamp?: string | null
           cover_letter?: string | null
           created_at?: string
@@ -265,6 +273,7 @@ export type Database = {
           video_intro_url?: string | null
         }
         Update: {
+          affiliate_id?: string | null
           consent_timestamp?: string | null
           cover_letter?: string | null
           created_at?: string
