@@ -8,7 +8,7 @@
  * 
  * SSG Compatible: Imported statically, zero runtime DB calls.
  * 
- * @generated 2026-01-16
+ * @generated 2026-02-10
  */
 
 // Logo element types for embedded config
@@ -110,13 +110,13 @@ export const activeTheme: ThemeConfig = {
   name: 'Indigo Night',
   baseHue: 32,
   accentConfig: {
-    accent: '247 92% 50%',
-    accentHover: '247 92% 45%',
-    accentGlow: '247 90% 60%',
-    accentForeground: '0 0% 100%',
-    h: 247,
-    s: 92,
-    l: 50,
+    accent: '240 70% 60%',
+    accentHover: '32 95% 44%',
+    accentGlow: '240 70% 60%',
+    accentForeground: '222 47% 11%',
+    h: 240,
+    s: 70,
+    l: 60,
   },
   staticColors: {
     background: '222 47% 7%',
