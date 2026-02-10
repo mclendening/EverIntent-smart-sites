@@ -31,11 +31,8 @@ export function CheckoutStep1Selection({
   const [isChangingPlan, setIsChangingPlan] = useState(false);
   const allAddons = Object.values(ADDON_CONFIG);
 
-  // Get tiers grouped by product line
   const websiteTiers = getTiersByProductLine('smart-websites');
   const aiTiers = getTiersByProductLine('ai-employee');
-
-  // Determine which tab should be active based on current selection
   const currentProductLine = tierConfig.productLine;
 
   const handlePlanSelect = (tier: TierSlug) => {
@@ -43,12 +40,10 @@ export function CheckoutStep1Selection({
     setIsChangingPlan(false);
   };
 
-  // Back button: navigate to originating page or product line default
   const handleBack = () => {
     if (window.history.length > 1) {
       window.history.back();
     } else {
-      // Fallback: go to the product line's main page
       const fallback = tierConfig.productLine === 'ai-employee' 
         ? '/let-ai-handle-it' 
         : '/smart-websites';
@@ -57,14 +52,15 @@ export function CheckoutStep1Selection({
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8" role="region" aria-label="Plan and add-on selection">
       {/* Step Header with Back */}
       <div>
         <button
           onClick={handleBack}
-          className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-3"
+          className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
+          aria-label="Go back to previous page"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-4 h-4" aria-hidden="true" />
           Back to details
         </button>
         <h1 className="text-2xl font-bold">Confirm Your Plan</h1>
@@ -75,12 +71,11 @@ export function CheckoutStep1Selection({
 
       {/* Plan Confirmation / Selection */}
       {!isChangingPlan ? (
-        /* Confirmed Plan Card */
-        <Card className="border-gold/30 bg-gold/[0.03]">
+        <Card className="border-gold/30 bg-gold/[0.03]" role="region" aria-label="Selected plan">
           <CardHeader className="pb-2">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center" aria-hidden="true">
                   {tierConfig.productLine === 'smart-websites' ? (
                     <Globe className="w-5 h-5 text-gold" />
                   ) : (
@@ -99,8 +94,9 @@ export function CheckoutStep1Selection({
                 size="sm" 
                 onClick={() => setIsChangingPlan(true)}
                 className="text-muted-foreground hover:text-foreground"
+                aria-label="Change selected plan"
               >
-                <Pencil className="w-4 h-4 mr-1" />
+                <Pencil className="w-4 h-4 mr-1" aria-hidden="true" />
                 Change
               </Button>
             </div>
@@ -108,8 +104,7 @@ export function CheckoutStep1Selection({
           <CardContent className="space-y-4">
             <p className="text-muted-foreground">{tierConfig.tagline}</p>
             
-            {/* Pricing */}
-            <div className="flex items-baseline gap-2">
+            <div className="flex items-baseline gap-2" aria-label={`Price: ${tierConfig.isOneTime ? `$${tierConfig.setupFee} one-time` : `$${tierConfig.monthlyPrice} per month`}`}>
               {tierConfig.isOneTime ? (
                 <>
                   <span className="text-3xl font-bold text-gold">${tierConfig.setupFee}</span>
@@ -128,13 +123,12 @@ export function CheckoutStep1Selection({
               )}
             </div>
 
-            {/* Plan Features */}
             <div className="pt-4 border-t border-border/50">
               <p className="text-sm font-medium mb-2">Included Features:</p>
-              <ul className="space-y-1.5">
+              <ul className="space-y-1.5" aria-label="Plan features">
                 {tierConfig.features.map((feature, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                    <Check className="w-4 h-4 text-gold shrink-0 mt-0.5" />
+                    <Check className="w-4 h-4 text-gold shrink-0 mt-0.5" aria-hidden="true" />
                     <span>{feature}</span>
                   </li>
                 ))}
@@ -143,8 +137,7 @@ export function CheckoutStep1Selection({
           </CardContent>
         </Card>
       ) : (
-        /* Plan Selector with Tabs */
-        <Card className="border-border/50">
+        <Card className="border-border/50" role="region" aria-label="Plan selector">
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg">Select a Different Plan</CardTitle>
@@ -159,12 +152,12 @@ export function CheckoutStep1Selection({
           </CardHeader>
           <CardContent>
             <Tabs defaultValue={currentProductLine} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-4 bg-muted/50">
+              <TabsList className="grid w-full grid-cols-2 mb-4 bg-muted/50" aria-label="Product line">
                 <TabsTrigger 
                   value="smart-websites" 
                   className="flex items-center gap-2 data-[state=active]:bg-gold/10 data-[state=active]:text-gold"
                 >
-                  <Globe className="w-4 h-4" />
+                  <Globe className="w-4 h-4" aria-hidden="true" />
                   <span className="hidden sm:inline">Smart Websites</span>
                   <span className="sm:hidden">Websites</span>
                 </TabsTrigger>
@@ -172,7 +165,7 @@ export function CheckoutStep1Selection({
                   value="ai-employee" 
                   className="flex items-center gap-2 data-[state=active]:bg-gold/10 data-[state=active]:text-gold"
                 >
-                  <Bot className="w-4 h-4" />
+                  <Bot className="w-4 h-4" aria-hidden="true" />
                   <span className="hidden sm:inline">AI Employee</span>
                   <span className="sm:hidden">AI</span>
                 </TabsTrigger>
@@ -205,12 +198,13 @@ export function CheckoutStep1Selection({
       )}
 
       {/* Add-Ons Grid */}
-      <div className="space-y-4">
+      <fieldset className="space-y-4">
+        <legend className="sr-only">Optional add-on features</legend>
         <div>
           <h2 className="text-lg font-semibold">Enhance Your Plan</h2>
           <p className="text-sm text-muted-foreground">Add optional features to supercharge your results</p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" role="group" aria-label="Available add-ons">
           {allAddons.map((addon) => {
             const isIncluded = isAddonIncludedInTier(addon.slug, state.tier);
             const isSelected = state.addons.includes(addon.slug);
@@ -219,13 +213,14 @@ export function CheckoutStep1Selection({
               <label
                 key={addon.slug}
                 className={cn(
-                  'relative flex rounded-lg border p-4 transition-all',
+                  'relative flex rounded-lg border p-4 transition-all focus-within:ring-2 focus-within:ring-gold/50',
                   isIncluded
                     ? 'border-gold/20 bg-gold/[0.03] cursor-default opacity-80'
                     : isSelected
                       ? 'border-gold/50 bg-gold/[0.05] ring-1 ring-gold/30 cursor-pointer'
                       : 'border-border/50 hover:border-gold/30 hover:bg-gold/[0.02] cursor-pointer'
                 )}
+                aria-label={`${addon.displayName} - ${isIncluded ? 'Included in your plan' : formatPrice(addon.monthlyPrice)}`}
               >
                 <Checkbox
                   checked={isSelected || isIncluded}
@@ -234,6 +229,7 @@ export function CheckoutStep1Selection({
                   }}
                   disabled={isIncluded}
                   className="sr-only"
+                  aria-label={`${isIncluded ? 'Included' : isSelected ? 'Remove' : 'Add'} ${addon.displayName}`}
                 />
                 <div className="flex-1 pr-6">
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1">
@@ -258,9 +254,8 @@ export function CheckoutStep1Selection({
                   </div>
                 </div>
                 
-                {/* Selection indicator */}
                 {(isSelected || isIncluded) && (
-                  <div className="absolute top-2 right-2">
+                  <div className="absolute top-2 right-2" aria-hidden="true">
                     <div className={cn(
                       "w-5 h-5 rounded-full flex items-center justify-center",
                       isIncluded ? "bg-gold/50" : "bg-gold"
@@ -273,7 +268,7 @@ export function CheckoutStep1Selection({
             );
           })}
         </div>
-      </div>
+      </fieldset>
 
       {/* Navigation */}
       <div className="flex justify-end pt-4">
@@ -296,8 +291,9 @@ function TierOption({ tier, isSelected, onSelect }: TierOptionProps) {
   return (
     <button
       onClick={onSelect}
+      aria-pressed={isSelected}
       className={cn(
-        'w-full text-left p-4 rounded-lg border transition-all',
+        'w-full text-left p-4 rounded-lg border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-gold',
         isSelected
           ? 'border-gold/50 bg-gold/[0.05] ring-1 ring-gold/30'
           : 'border-border/50 hover:border-gold/30 hover:bg-gold/[0.02]'
@@ -308,7 +304,7 @@ function TierOption({ tier, isSelected, onSelect }: TierOptionProps) {
           <div className="flex items-center gap-2">
             <span className="font-semibold">{tier.displayName}</span>
             {isSelected && (
-              <div className="w-5 h-5 rounded-full bg-gold flex items-center justify-center">
+              <div className="w-5 h-5 rounded-full bg-gold flex items-center justify-center" aria-hidden="true">
                 <Check className="w-3 h-3 text-background" />
               </div>
             )}

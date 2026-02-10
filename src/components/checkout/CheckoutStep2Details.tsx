@@ -39,7 +39,7 @@ export function CheckoutStep2Details({
   };
 
   const validateDomain = (domain: string) => {
-    if (!domain) return true; // Optional if hasDomain is false
+    if (!domain) return true;
     return /^(?=.*\.)[^\s]+\.[a-zA-Z]{2,}$/i.test(domain);
   };
 
@@ -79,14 +79,13 @@ export function CheckoutStep2Details({
     if (Object.keys(newErrors).length === 0) {
       onNext();
     } else {
-      // Focus first error field
       const firstErrorField = Object.keys(newErrors)[0];
       document.getElementById(firstErrorField)?.focus();
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
+    <form onSubmit={handleSubmit} className="space-y-8" noValidate aria-label="Contact details form">
       {/* Step Header */}
       <div>
         <h1 className="text-2xl font-bold">Your Details</h1>
@@ -111,9 +110,13 @@ export function CheckoutStep2Details({
                 onChange={(e) => updateField('firstName', e.target.value)}
                 placeholder="Jane"
                 className={errors.firstName ? 'border-destructive' : ''}
+                aria-required="true"
+                aria-invalid={!!errors.firstName}
+                aria-describedby={errors.firstName ? 'firstName-error' : undefined}
+                autoComplete="given-name"
               />
               {errors.firstName && (
-                <p className="text-sm text-destructive">{errors.firstName}</p>
+                <p id="firstName-error" className="text-sm text-destructive" role="alert">{errors.firstName}</p>
               )}
             </div>
             <div className="space-y-2">
@@ -124,9 +127,13 @@ export function CheckoutStep2Details({
                 onChange={(e) => updateField('lastName', e.target.value)}
                 placeholder="Doe"
                 className={errors.lastName ? 'border-destructive' : ''}
+                aria-required="true"
+                aria-invalid={!!errors.lastName}
+                aria-describedby={errors.lastName ? 'lastName-error' : undefined}
+                autoComplete="family-name"
               />
               {errors.lastName && (
-                <p className="text-sm text-destructive">{errors.lastName}</p>
+                <p id="lastName-error" className="text-sm text-destructive" role="alert">{errors.lastName}</p>
               )}
             </div>
           </div>
@@ -142,9 +149,13 @@ export function CheckoutStep2Details({
                 onChange={(e) => updateField('email', e.target.value)}
                 placeholder="jane@example.com"
                 className={errors.email ? 'border-destructive' : ''}
+                aria-required="true"
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? 'email-error' : undefined}
+                autoComplete="email"
               />
               {errors.email && (
-                <p className="text-sm text-destructive">{errors.email}</p>
+                <p id="email-error" className="text-sm text-destructive" role="alert">{errors.email}</p>
               )}
             </div>
             <div className="space-y-2">
@@ -156,9 +167,13 @@ export function CheckoutStep2Details({
                 onChange={(e) => updateField('phone', e.target.value)}
                 placeholder="(555) 123-4567"
                 className={errors.phone ? 'border-destructive' : ''}
+                aria-required="true"
+                aria-invalid={!!errors.phone}
+                aria-describedby={errors.phone ? 'phone-error' : undefined}
+                autoComplete="tel"
               />
               {errors.phone && (
-                <p className="text-sm text-destructive">{errors.phone}</p>
+                <p id="phone-error" className="text-sm text-destructive" role="alert">{errors.phone}</p>
               )}
             </div>
           </div>
@@ -172,9 +187,13 @@ export function CheckoutStep2Details({
               onChange={(e) => updateField('businessName', e.target.value)}
               placeholder="Acme Services LLC"
               className={errors.businessName ? 'border-destructive' : ''}
+              aria-required="true"
+              aria-invalid={!!errors.businessName}
+              aria-describedby={errors.businessName ? 'businessName-error' : undefined}
+              autoComplete="organization"
             />
             {errors.businessName && (
-              <p className="text-sm text-destructive">{errors.businessName}</p>
+              <p id="businessName-error" className="text-sm text-destructive" role="alert">{errors.businessName}</p>
             )}
           </div>
         </CardContent>
@@ -194,6 +213,7 @@ export function CheckoutStep2Details({
                 updateField('domainName', '');
               }
             }}
+            aria-label="Do you have a domain?"
           >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="yes" id="domain-yes" />
@@ -214,9 +234,11 @@ export function CheckoutStep2Details({
                 onChange={(e) => updateField('domainName', e.target.value)}
                 placeholder="example.com"
                 className={errors.domainName ? 'border-destructive' : ''}
+                aria-invalid={!!errors.domainName}
+                aria-describedby={errors.domainName ? 'domainName-error' : undefined}
               />
               {errors.domainName && (
-                <p className="text-sm text-destructive">{errors.domainName}</p>
+                <p id="domainName-error" className="text-sm text-destructive" role="alert">{errors.domainName}</p>
               )}
             </div>
           )}
@@ -240,8 +262,11 @@ export function CheckoutStep2Details({
               }}
               placeholder="Tell us anything else we should know..."
               rows={4}
+              aria-label="Additional notes"
+              aria-describedby="message-counter"
+              maxLength={MAX_MESSAGE_LENGTH}
             />
-            <p className="text-xs text-muted-foreground text-right">
+            <p id="message-counter" className="text-xs text-muted-foreground text-right" aria-live="polite">
               {state.message.length}/{MAX_MESSAGE_LENGTH} characters
             </p>
           </div>
@@ -255,6 +280,9 @@ export function CheckoutStep2Details({
             id="tcpaConsent"
             checked={state.tcpaConsent}
             onCheckedChange={(checked) => updateField('tcpaConsent', checked === true)}
+            aria-required="true"
+            aria-invalid={!!errors.tcpaConsent}
+            aria-describedby={errors.tcpaConsent ? 'tcpaConsent-error' : undefined}
           />
           <Label htmlFor="tcpaConsent" className="text-sm leading-relaxed cursor-pointer">
             I agree to receive SMS, email, and phone communications from EverIntent 
@@ -266,7 +294,7 @@ export function CheckoutStep2Details({
           </Label>
         </div>
         {errors.tcpaConsent && (
-          <p className="text-sm text-destructive ml-7">{errors.tcpaConsent}</p>
+          <p id="tcpaConsent-error" className="text-sm text-destructive ml-7" role="alert">{errors.tcpaConsent}</p>
         )}
       </div>
 
