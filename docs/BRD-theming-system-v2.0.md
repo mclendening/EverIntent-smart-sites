@@ -546,9 +546,32 @@ A **user-facing light/dark mode switch** must be visible on every page. This is 
 </script>
 ```
 
-### 11.4 Admin Control
+### 11.4 Admin Control — Default Mode Setting
 
-Each theme's admin editor already generates both `:root` (light) and `.dark` (dark) token sets. The toggle simply adds/removes the `.dark` class. No additional admin config needed beyond ensuring both token sets are complete.
+Each theme stores a **`defaultMode`** field (`"dark"` | `"light"` | `"system"`) in the database. This determines the site's default appearance when no user preference is stored in `localStorage`.
+
+```jsonc
+// In site_themes table — new field or nested in existing config
+{
+  "defaultMode": "dark"  // "dark" | "light" | "system"
+}
+```
+
+The inline `<head>` script checks `localStorage` first; if absent, falls back to the theme's `defaultMode`. Admin can set this per theme in the theme editor.
+
+```html
+<script>
+  (function() {
+    var stored = localStorage.getItem('theme-mode');
+    var themeDefault = '{{THEME_DEFAULT_MODE}}'; // Baked at build time
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var mode = stored || themeDefault || 'dark';
+    var isDark = mode === 'dark' || (mode === 'system' && prefersDark);
+    if (isDark) document.documentElement.classList.add('dark');
+    else document.documentElement.classList.remove('dark');
+  })();
+</script>
+```
 
 ---
 
@@ -556,11 +579,11 @@ Each theme's admin editor already generates both `:root` (light) and `.dark` (da
 
 ### 12.1 Requirement
 
-An **admin-managed accessibility module** that ensures WCAG 2.1 AA compliance across all 10 themes, with user-facing controls for common accommodations.
+An **admin-managed accessibility module** that ensures WCAG 2.1 AA compliance across all 10 themes, with user-facing controls for common accommodations. The widget follows the **Elementor Ally pattern** — a floating button that opens a panel, with admin controls for visibility, scheduling, and icon customization.
 
 ### 12.2 User-Facing Accessibility Widget
 
-A floating accessibility button (♿ icon or equivalent) opens a panel with:
+A floating accessibility button opens a panel with:
 
 | Control | Function | Persistence |
 |---------|----------|-------------|
@@ -571,7 +594,64 @@ A floating accessibility button (♿ icon or equivalent) opens a panel with:
 | **Link Underlines** | Forces underlines on all links | `localStorage` |
 | **Focus Indicators** | Enhances focus ring visibility (3px solid, high contrast) | `localStorage` |
 
-### 12.3 Admin Theme Config for ADA
+### 12.3 Widget Visibility & Scheduling (Admin-Controlled)
+
+Inspired by Elementor Ally's device-specific visibility and the common WordPress "pause/hide widget" pattern:
+
+| Admin Control | Options | Behavior |
+|---------------|---------|----------|
+| **Widget Visibility** | `visible` \| `hidden` \| `paused` | Controls whether the floating button appears |
+| **Hide Indefinitely** | Boolean toggle | Widget is completely removed from DOM (not just `display:none`) |
+| **Pause for Duration** | Time picker (hours/days) | Widget hidden for set period, auto-restores. Stores `adaWidgetPausedUntil` timestamp in DB. |
+| **Device Visibility** | Desktop / Mobile / Both | Toggle widget per device type (like Elementor Ally) |
+| **Position** | `bottom-left` \| `bottom-right` \| `top-left` \| `top-right` + custom offset (px) | Where the floating button appears |
+
+#### Scheduling Schema
+
+```jsonc
+// In site_themes.component_tokens.accessibility or dedicated column
+{
+  "widget": {
+    "visibility": "visible",       // "visible" | "hidden" | "paused"
+    "pausedUntil": null,           // ISO timestamp or null
+    "showOnDesktop": true,
+    "showOnMobile": true,
+    "position": "bottom-right",
+    "offsetX": 16,
+    "offsetY": 16
+  }
+}
+```
+
+### 12.4 Widget Icon — Configurable Per Theme
+
+Each of the 10 base themes can have a **different accessibility widget icon**. This allows brand-appropriate iconography rather than a one-size-fits-all ♿ symbol.
+
+| Admin Control | Options |
+|---------------|---------|
+| **Icon Type** | `accessibility` (♿) \| `universal-access` \| `eye` \| `hand` \| `custom-svg` |
+| **Icon Color** | HSL color picker (defaults to `--accent-foreground`) |
+| **Button Background** | HSL color picker (defaults to `--accent`) |
+| **Button Size** | `sm` (40px) \| `md` (48px) \| `lg` (56px) |
+| **Button Shape** | `circle` \| `rounded-square` \| `pill` (with label text) |
+| **Label Text** | Optional text shown next to icon (pill shape only), e.g., "Accessibility" |
+
+```jsonc
+// In site_themes.component_tokens.accessibility
+{
+  "icon": {
+    "type": "universal-access",    // Lucide icon name or "custom-svg"
+    "customSvg": null,             // SVG string if type is "custom-svg"
+    "color": "0 0% 100%",
+    "background": "H 70% 60%",
+    "size": "md",
+    "shape": "circle",
+    "label": null
+  }
+}
+```
+
+### 12.5 Admin Theme Config for ADA
 
 New JSONB column or nested key in `component_tokens`:
 
@@ -590,12 +670,30 @@ New JSONB column or nested key in `component_tokens`:
       "foreground": "0 0% 100%",
       "border": "0 0% 100%",
       "accent": "60 100% 50%"
+    },
+    "widget": {
+      "visibility": "visible",
+      "pausedUntil": null,
+      "showOnDesktop": true,
+      "showOnMobile": true,
+      "position": "bottom-right",
+      "offsetX": 16,
+      "offsetY": 16
+    },
+    "icon": {
+      "type": "universal-access",
+      "customSvg": null,
+      "color": "0 0% 100%",
+      "background": "H 70% 60%",
+      "size": "md",
+      "shape": "circle",
+      "label": null
     }
   }
 }
 ```
 
-### 12.4 Built-In Accessibility Requirements (Every Theme)
+### 12.6 Built-In Accessibility Requirements (Every Theme)
 
 | Requirement | Spec |
 |-------------|------|
@@ -608,7 +706,7 @@ New JSONB column or nested key in `component_tokens`:
 | **Screen Reader** | Proper ARIA labels on custom controls (toggles, sliders, modals) |
 | **Contrast Validation** | Admin theme editor shows real-time contrast ratio check (pass/fail badge) for fg/bg pairs |
 
-### 12.5 SSG Compatibility
+### 12.7 SSG Compatibility
 
 The accessibility widget preferences are applied via CSS classes on `<html>` (e.g., `class="dark ada-large-text ada-reduced-motion"`), loaded from `localStorage` in the same `<head>` script as the theme mode toggle. No hydration mismatch.
 
@@ -930,7 +1028,270 @@ The admin UI includes an **Effects** panel with:
 
 ---
 
-## 15. Per-Page Theme Assignments (Unchanged)
+## 15. Theme Revert to Original (Safety System)
+
+### 15.1 Requirement
+
+Each of the 10 seeded themes has an **immutable snapshot** stored at creation time. Admins can revert any theme to its original seeded state. This is a destructive operation and requires a **two-layer warning system** with an export escape hatch.
+
+### 15.2 Revert Flow
+
+```
+Admin clicks "Revert to Original" on theme editor
+    │
+    ▼
+┌─────────────────────────────────────────┐
+│ WARNING 1 — Soft Warning                │
+│                                         │
+│ "You are about to revert [Theme Name]   │
+│  to its original seeded state. All      │
+│  custom changes will be lost."          │
+│                                         │
+│ [Cancel]  [Continue to Revert]          │
+└─────────────────────┬───────────────────┘
+                      │
+                      ▼
+┌─────────────────────────────────────────┐
+│ WARNING 2 — Hard Warning + Export       │
+│                                         │
+│ "⚠️ FINAL WARNING: This cannot be      │
+│  undone. Your current theme will be     │
+│  permanently replaced."                 │
+│                                         │
+│ [Export Current Theme First (JSON)]     │
+│                                         │
+│ [Cancel]  [Revert — I understand]       │
+└─────────────────────────────────────────┘
+```
+
+### 15.3 Key Behaviors
+
+| Behavior | Detail |
+|----------|--------|
+| **Export before revert** | Warning 2 includes a prominent "Export Current Theme First" button that downloads the current (pre-revert) theme as JSON — works whether the theme is active, in-edit, or just being browsed |
+| **Scope** | Reverts the theme the admin is currently **viewing/editing** — NOT necessarily the active production theme |
+| **Immutable seed** | Original seed data is stored in a `theme_seeds` table or `original_config` JSONB column on `site_themes`, populated at seeding time and never modified |
+| **Version bump** | Revert creates a new version entry with changelog note: "Reverted to original seed" |
+| **Active theme protection** | If the theme being reverted is the active production theme, Warning 2 adds: "This theme is currently LIVE. Reverting will affect your production site after the next publish." |
+
+### 15.4 Storage
+
+```sql
+-- Option A: Dedicated column on site_themes
+ALTER TABLE site_themes ADD COLUMN original_seed JSONB;
+-- Populated once during seeding, never modified
+
+-- Option B: Dedicated table (preferred for audit trail)
+CREATE TABLE theme_seeds (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  theme_id UUID REFERENCES site_themes(id) ON DELETE CASCADE,
+  seed_config JSONB NOT NULL,  -- Complete theme config snapshot
+  seeded_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  UNIQUE(theme_id)
+);
+```
+
+---
+
+## 16. Component Style Modules (Admin CRUD)
+
+### 16.1 Requirement
+
+A **generic, extensible system** for admins to create and manage custom color/style tokens for any UI component — without requiring code changes or AI prompting. This is the equivalent of Shopify's **section-level Custom CSS** and Elementor's **Global Styles → Custom Selectors**, adapted as a structured token system.
+
+### 16.2 Concept: Style Modules
+
+A **Style Module** is a named collection of design tokens scoped to a specific UI component or element. Modules are stored as entries in a JSONB array on the theme and emitted as CSS custom properties by the publish pipeline.
+
+**Examples of Style Modules an admin might create:**
+
+| Module Name | Target Component | Tokens |
+|-------------|-----------------|--------|
+| `checkout-progress` | `CheckoutProgress` | `--cpm-circle-bg`, `--cpm-circle-border`, `--cpm-number-color`, `--cpm-active-bg`, `--cpm-completed-bg`, `--cpm-connector-color` |
+| `comparison-grid` | `CompareAIEmployee` | `--cgm-grid-line-color`, `--cgm-checkmark-bg`, `--cgm-checkmark-icon`, `--cgm-x-bg`, `--cgm-x-icon`, `--cgm-header-bg` |
+| `sms-demo` | `SMSDemo` | `--sdm-outgoing-bg`, `--sdm-incoming-bg`, `--sdm-system-bg`, `--sdm-input-bg`, `--sdm-action-color` |
+| `pricing-card` | Pricing cards | `--pcm-featured-border`, `--pcm-featured-bg`, `--pcm-badge-bg`, `--pcm-badge-text` |
+
+### 16.3 Admin CRUD Interface
+
+```
+┌─────────────────────────────────────────────────────────┐
+│ Style Modules                           [+ New Module]  │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│ ▸ checkout-progress (6 tokens)          [Edit] [Delete] │
+│ ▸ comparison-grid (6 tokens)            [Edit] [Delete] │
+│ ▸ sms-demo (5 tokens)                   [Edit] [Delete] │
+│ ▸ pricing-card (4 tokens)               [Edit] [Delete] │
+│                                                         │
+│ [+ New Module]                                          │
+└─────────────────────────────────────────────────────────┘
+
+── Edit Module: checkout-progress ──────────────────────────
+
+Module Name:  [checkout-progress        ]
+CSS Prefix:   [--cpm-                   ]  (auto-generated, editable)
+Description:  [Checkout step indicator   ]
+
+Tokens:
+┌──────────────────┬───────────────┬──────────────┐
+│ Token Name       │ Default Value │ Current      │
+├──────────────────┼───────────────┼──────────────┤
+│ circle-bg        │ var(--muted)  │ [🎨 picker]  │
+│ circle-border    │ var(--border) │ [🎨 picker]  │
+│ number-color     │ var(--fg)     │ [🎨 picker]  │
+│ active-bg        │ var(--accent) │ [🎨 picker]  │
+│ completed-bg     │ var(--accent) │ [🎨 picker]  │
+│ connector-color  │ var(--border) │ [🎨 picker]  │
+├──────────────────┼───────────────┼──────────────┤
+│ [+ Add Token]                                   │
+└──────────────────────────────────────────────────┘
+
+[Save Module]  [Delete Module]
+```
+
+### 16.4 Database Schema
+
+```jsonc
+// In site_themes.component_tokens — new "modules" key
+{
+  "sidebar": { /* ... */ },
+  "gold": { /* ... */ },
+  "modules": [
+    {
+      "id": "checkout-progress",
+      "name": "Checkout Progress",
+      "prefix": "--cpm",
+      "description": "Checkout step indicator styling",
+      "tokens": {
+        "circle-bg": "var(--muted)",
+        "circle-border": "var(--border)",
+        "number-color": "var(--foreground)",
+        "active-bg": "var(--accent)",
+        "completed-bg": "var(--accent)",
+        "connector-color": "var(--border)"
+      }
+    },
+    {
+      "id": "comparison-grid",
+      "name": "Comparison Grid",
+      "prefix": "--cgm",
+      "description": "Feature comparison table elements",
+      "tokens": {
+        "grid-line-color": "var(--border)",
+        "checkmark-bg": "hsl(var(--accent) / 0.25)",
+        "checkmark-icon": "var(--accent)",
+        "x-bg": "hsl(var(--foreground) / 0.05)",
+        "x-icon": "hsl(var(--foreground) / 0.2)",
+        "header-bg": "var(--card)"
+      }
+    }
+  ]
+}
+```
+
+### 16.5 CSS Output
+
+The publish pipeline flattens modules into CSS custom properties:
+
+```css
+:root {
+  /* Module: checkout-progress */
+  --cpm-circle-bg: var(--muted);
+  --cpm-circle-border: var(--border);
+  --cpm-number-color: var(--foreground);
+  --cpm-active-bg: var(--accent);
+  --cpm-completed-bg: var(--accent);
+  --cpm-connector-color: var(--border);
+
+  /* Module: comparison-grid */
+  --cgm-grid-line-color: var(--border);
+  --cgm-checkmark-bg: hsl(var(--accent) / 0.25);
+  --cgm-checkmark-icon: var(--accent);
+  --cgm-x-bg: hsl(var(--foreground) / 0.05);
+  --cgm-x-icon: hsl(var(--foreground) / 0.2);
+  --cgm-header-bg: var(--card);
+}
+```
+
+### 16.6 Component Integration Pattern
+
+Components consume module tokens via standard CSS variables with fallbacks:
+
+```tsx
+// CheckoutProgress.tsx
+<div className="bg-[hsl(var(--cpm-circle-bg,var(--muted)))]">
+  <span className="text-[hsl(var(--cpm-number-color,var(--foreground)))]">1</span>
+</div>
+```
+
+### 16.7 Why This Matters
+
+- **No code changes needed** to add new style tokens for any component
+- **No AI prompting needed** — admin creates modules with a form
+- **Follows Shopify/Elementor pattern** of section-level custom styling
+- **Theme-portable** — modules are included in theme export/import JSON
+- **Composable** — modules reference semantic tokens as defaults, maintaining theme cohesion
+- **Future-proof** — as new components are added, admins can create matching modules
+
+---
+
+## 17. Demo & Interactive Element Theming
+
+### 17.1 Requirement
+
+All interactive demo elements on the site (SMS mockups, chat simulations, flow diagrams, dashboard previews) must follow theme color tokens. Currently, components like `SMSDemo` use hardcoded iOS-style colors (`#007AFF`, `#3a3a3c`, `#1c1c1e`, `#34C759`) that are completely disconnected from the theme system.
+
+### 17.2 Demo Token Mapping
+
+| Hardcoded Value | Purpose | Theme Token |
+|-----------------|---------|-------------|
+| `#007AFF` (iOS blue) | Outgoing message bubble, action buttons | `var(--accent)` |
+| `#3a3a3c` | Incoming message bubble | `var(--card)` |
+| `#1c1c1e` | Phone frame, input bar | `var(--background)` |
+| `#000` | Phone screen | Slightly darker than `var(--background)` |
+| `#34C759` | Read receipt checkmark | `var(--highlight)` |
+| `#007AFF` | Send button | `var(--accent)` |
+| `text-blue-400` | "How It Works" step icon | `var(--accent)` |
+| `text-green-400` | "How It Works" step icon | `var(--highlight)` |
+| `text-purple-400` | "How It Works" step icon | Could become a Style Module token |
+
+### 17.3 Style Module for Demo Elements
+
+Rather than hardcoding the mapping, this is an ideal candidate for a **Style Module** (§16):
+
+```jsonc
+{
+  "id": "sms-demo",
+  "name": "SMS Demo Mockup",
+  "prefix": "--sdm",
+  "tokens": {
+    "outgoing-bg": "var(--accent)",
+    "incoming-bg": "var(--card)",
+    "frame-bg": "var(--background)",
+    "screen-bg": "0 0% 0%",
+    "action-color": "var(--accent)",
+    "read-receipt": "var(--highlight)",
+    "system-badge-bg": "hsl(var(--foreground) / 0.1)",
+    "typing-dot": "hsl(var(--foreground) / 0.5)"
+  }
+}
+```
+
+### 17.4 Other Demo Elements to Theme
+
+| Component | File | Hardcoded Colors to Migrate |
+|-----------|------|-----------------------------|
+| `SMSDemo` | `src/components/ai-employee/SMSDemo.tsx` | iOS blue, iOS gray, iOS green |
+| `AnimatedFlowDiagram` | `src/components/ai-employee/AnimatedFlowDiagram.tsx` | TBD — audit needed |
+| `DashboardPreview` | `src/components/ai-employee/DashboardPreview.tsx` | TBD — audit needed |
+| `TranscriptCard` | `src/components/ai-employee/TranscriptCard.tsx` | TBD — audit needed |
+| `HonestWrenchAutoMockup` | `src/components/portfolio/case-study/HonestWrenchAutoMockup.tsx` | TBD — audit needed |
+| All portfolio mockups | `src/components/portfolio/case-study/*.tsx` | TBD — audit needed |
+
+---
+
+## 18. Per-Page Theme Assignments (Unchanged)
 
 The `page_theme_assignments` table maps routes to themes. This remains unchanged from v1.0.
 
@@ -942,9 +1303,9 @@ VALUES ('/portfolio', '<ocean-blue-theme-id>');
 
 ---
 
-## 16. Publish Pipeline Changes
+## 19. Publish Pipeline Changes
 
-### 16.1 `sync-theme-to-github` Edge Function Updates
+### 19.1 `sync-theme-to-github` Edge Function Updates
 
 The edge function must be updated to:
 
@@ -955,91 +1316,109 @@ The edge function must be updated to:
 5. **Handle typography_config:** Emit `--font-heading`, `--font-body`, `--font-mono`
 6. **Handle effects_config:** Emit transition, focus, alert, and state tokens
 7. **Generate ADA utility classes:** `.ada-large-text`, `.ada-high-contrast`, `.ada-reduced-motion`, `.ada-dyslexia-font`, `.ada-underline-links`, `.ada-focus-enhanced`
+8. **Flatten Style Modules:** Emit `--{prefix}-{token}` for each module in `component_tokens.modules`
+9. **Emit ADA widget config:** Visibility, icon, position as CSS vars or data attributes
+10. **Bake `defaultMode`:** Inject into `<head>` script template
 
-### 16.2 `themes.ts` Updates
+### 19.2 `themes.ts` Updates
 
 The TypeScript config file must include:
 - `darkModeTokens` alongside existing `staticColors`
-- `componentTokens` for sidebar, gold, shadows, gradients
+- `componentTokens` for sidebar, gold, shadows, gradients, **and Style Modules**
 - `typographyConfig` for font families
 - `effectsConfig` for transitions, hover, alerts, toasts, modals
-- `accessibilityConfig` for ADA controls
+- `accessibilityConfig` for ADA controls (widget visibility, icon, position)
+- `defaultMode` for light/dark default preference
 
 ---
 
-## 17. Migration Plan
+## 20. Migration Plan
 
 ### Phase 1: Schema & Seed (No Breaking Changes)
-1. Add `component_tokens`, `typography_config`, and `effects_config` columns to `site_themes`
-2. Populate `dark_mode_overrides` with full dark token set for existing Indigo Night theme
-3. Seed 9 additional themes
-4. Update admin UI to expose new fields
+1. Add `component_tokens`, `typography_config`, `effects_config`, `default_mode` columns to `site_themes`
+2. Add `original_seed` column or `theme_seeds` table for revert functionality
+3. Populate `dark_mode_overrides` with full dark token set for existing Indigo Night theme
+4. Seed 9 additional themes + store original seeds
+5. Update admin UI to expose new fields
 
 ### Phase 2: Pipeline Update
-1. Update `sync-theme-to-github` to emit dual-mode CSS + effects + ADA tokens
+1. Update `sync-theme-to-github` to emit dual-mode CSS + effects + ADA tokens + Style Modules
 2. Update `themes.ts` generation to include new token groups
 3. Refactor `index.css` to eliminate all hardcoded HSL values
 
 ### Phase 3: User-Facing Controls
-1. Implement light/dark mode toggle (header + mobile)
-2. Implement ADA accessibility widget (floating button + panel)
-3. Inline `<head>` script for FOUC prevention and localStorage hydration
+1. Implement light/dark mode toggle (header + mobile) with admin-configurable default
+2. Implement ADA accessibility widget (floating button + panel + pause/hide scheduling)
+3. Inline `<head>` script for FOUC prevention, localStorage hydration, and ADA class restoration
 4. Wire effects tokens into all interactive components
 
-### Phase 4: Export/Import
-1. Build theme export (JSON download from admin)
+### Phase 4: Admin — Style Modules & Revert
+1. Build Style Modules CRUD UI (create/edit/delete modules + tokens)
+2. Build theme revert system (2-layer warnings + export escape hatch)
+3. Seed initial Style Modules for checkout-progress, comparison-grid, sms-demo
+
+### Phase 5: Export/Import
+1. Build theme export (JSON download from admin — including Style Modules)
 2. Build theme import (file picker + schema validation + create/update flow)
 3. Document JSON schema for AI/human editing
 
-### Phase 5: Component Refactor
+### Phase 6: Component Refactor
 1. Audit all components for hardcoded color/transition strings
-2. Replace with CSS variable references
+2. Replace with CSS variable references (including Style Module tokens)
 3. Wire alert/toast/modal variants to effects tokens
-4. Verify SSG hydration compatibility
+4. Migrate demo elements (SMSDemo, etc.) to theme tokens / Style Module tokens
+5. Verify SSG hydration compatibility
 
-### Phase 6: QA
+### Phase 7: QA
 1. Test all pages in light mode across all 10 themes
-2. Test ADA widget in all modes and themes
-3. Fix contrast issues
-4. Verify accessibility (WCAG AA minimum, AAA for high contrast mode)
-5. Export → edit → re-import round-trip test
+2. Test ADA widget visibility/pause/hide in all modes and themes
+3. Test ADA icon customization per theme
+4. Fix contrast issues
+5. Verify accessibility (WCAG AA minimum, AAA for high contrast mode)
+6. Export → edit → re-import round-trip test
+7. Revert-to-original round-trip test (revert + verify seed restored)
 
 ---
 
-## 18. Versioning
+## 21. Versioning
 
-### 18.1 Logo Versions (Unchanged)
+### 21.1 Logo Versions (Unchanged)
 - Each logo configuration gets a version number
 - `is_active` flag for current version
 - Changelog notes for documentation
 
-### 18.2 Theme Versions (Unchanged)
+### 21.2 Theme Versions (Unchanged)
 - Each theme configuration gets a version number
 - Theme references a specific `logo_version_id`
 - `published_theme_configs` table stores generated output for rollback
 
-### 18.3 Export Format Versioning
+### 21.3 Export Format Versioning
 - `$version` field in exported JSON ensures forward compatibility
 - Import logic checks version and applies migrations if importing an older format
-- Version history: `1.0` (legacy), `2.0` (current — full token + effects + ADA)
+- Version history: `1.0` (legacy), `2.0` (current — full token + effects + ADA + Style Modules)
 
 ---
 
-## 19. Open Items
+## 22. Open Items
 
 - [ ] Confirm gold token independence vs. per-theme override strategy
 - [ ] Define font loading strategy (Google Fonts CDN vs. self-hosted)
 - [ ] ~~Determine if mode toggle should be user-facing or admin-preview only~~ → **RESOLVED: User-facing (§11)**
+- [ ] ~~Determine if ADA widget should be always visible~~ → **RESOLVED: Admin-controlled visibility + pause/hide scheduling (§12.3)**
 - [ ] Audit all hardcoded icon-gradient utility classes for token migration
-- [ ] Define accessibility contrast requirements per mode (WCAG AA vs AAA) → **AA default, AAA via high-contrast toggle (§12)**
+- [ ] ~~Define accessibility contrast requirements per mode~~ → **RESOLVED: AA default, AAA via high-contrast toggle (§12)**
 - [ ] Host JSON schema at `https://everintent.com/schemas/theme-v2.0.json` for validation
 - [ ] Decide on OpenDyslexic font licensing / self-hosting
 - [ ] Define max file size for theme JSON import (suggested: 500KB)
 - [ ] Determine if per-page theme assignments should also carry per-page effects overrides
+- [ ] Define maximum number of Style Modules per theme (suggested: 50)
+- [ ] Determine if Style Modules should support light/dark variants or inherit from semantic tokens
+- [ ] Audit all demo/mockup components for hardcoded color inventory
+- [ ] Define ADA widget icon library (Lucide subset? Full custom SVG upload?)
 
 ---
 
-## 20. Appendix: Hardcoded Values Audit
+## 23. Appendix: Hardcoded Values Audit
 
 CSS properties in `index.css` that currently use hardcoded HSL values and must be migrated to tokens:
 
@@ -1061,30 +1440,49 @@ CSS properties in `index.css` that currently use hardcoded HSL values and must b
 | — | Modal overlay | Hardcoded `rgba(0,0,0,0.7)` | `effects_config.modal.overlayColor` |
 | — | Disabled states | Hardcoded `opacity: 0.5` | `effects_config.disabled.opacity` |
 
+### 23.1 Component Hardcoded Color Audit
+
+| Component | Hardcoded Values | Target |
+|-----------|-----------------|--------|
+| `SMSDemo` | `#007AFF`, `#3a3a3c`, `#1c1c1e`, `#34C759`, `#000` | Style Module `sms-demo` |
+| `AIEmployee` | `text-blue-400`, `text-green-400`, `text-purple-400` | Semantic or Style Module tokens |
+| `CompareAIEmployee` | `bg-accent/25`, `text-foreground/20` | ✅ Already tokenized (mostly) |
+| `CheckoutProgress` | Uses `bg-primary`, `border-primary` | Could use Style Module for finer control |
+| Portfolio mockups | TBD — full audit needed | Style Modules per mockup |
+
 ---
 
-## 21. Appendix: Updated Phase 7 Task Breakdown (for Tracker v2.2)
+## 24. Appendix: Updated Phase 7 Task Breakdown (for Tracker v2.2)
 
 | Task | Description | Deps |
 |------|-------------|------|
-| 7.1 | Add `component_tokens`, `typography_config`, `effects_config` columns to `site_themes` | — |
-| 7.2 | Populate Indigo Night `dark_mode_overrides` with full dark token set | 7.1 |
-| 7.3 | Build hue-derived primitive generation function (SQL or Edge) | — |
-| 7.4 | Seed 9 additional themes using primitive generator | 7.1, 7.3 |
-| 7.5 | Seed effects_config defaults for all 10 themes | 7.4 |
-| 7.6 | Update `sync-theme-to-github` to emit dual-mode CSS + effects + ADA tokens | 7.1 |
-| 7.7 | Update `themes.ts` generation for new token structure | 7.6 |
-| 7.8 | Admin: Base hue slider with live preview | 7.1 |
-| 7.9 | Admin: Component token editors (sidebar, gold, shadows) | 7.1 |
-| 7.10 | Admin: Effects editor panel (transitions, hover, alerts, toasts) | 7.5 |
-| 7.11 | Admin: Typography config editor | 7.1 |
-| 7.12 | Refactor `index.css` — replace all hardcoded HSL with tokens | 7.6 |
-| 7.13 | Refactor `.tsx` components — replace hardcoded colors/transitions | 7.12 |
-| 7.14 | Implement user-facing light/dark mode toggle | 7.6 |
-| 7.15 | Implement ADA accessibility widget (floating panel + `<head>` script) | 7.6 |
-| 7.16 | Admin: ADA config editor + real-time contrast checker | 7.15 |
-| 7.17 | Build theme export (JSON download) | 7.1 |
-| 7.18 | Build theme import (file upload + validation + create/update) | 7.17 |
-| 7.19 | Wire alert/toast/modal variants to effects tokens | 7.5, 7.13 |
-| 7.20 | Full QA: all 10 themes × both modes × ADA states | 7.14, 7.15 |
-| 7.21 | Export → edit → re-import round-trip validation test | 7.18 |
+| 7.1 | Add `component_tokens`, `typography_config`, `effects_config`, `default_mode` columns to `site_themes` | — |
+| 7.2 | Add `original_seed` column or `theme_seeds` table for revert system | — |
+| 7.3 | Populate Indigo Night `dark_mode_overrides` with full dark token set | 7.1 |
+| 7.4 | Build hue-derived primitive generation function (SQL or Edge) | — |
+| 7.5 | Seed 9 additional themes using primitive generator + store original seeds | 7.1, 7.2, 7.4 |
+| 7.6 | Seed effects_config + ADA widget config defaults for all 10 themes | 7.5 |
+| 7.7 | Update `sync-theme-to-github` to emit dual-mode CSS + effects + ADA + Style Modules | 7.1 |
+| 7.8 | Update `themes.ts` generation for new token structure + defaultMode | 7.7 |
+| 7.9 | Admin: Base hue slider with live preview | 7.1 |
+| 7.10 | Admin: Component token editors (sidebar, gold, shadows) | 7.1 |
+| 7.11 | Admin: Effects editor panel (transitions, hover, alerts, toasts) | 7.6 |
+| 7.12 | Admin: Typography config editor | 7.1 |
+| 7.13 | Admin: Style Modules CRUD (create/edit/delete modules + tokens) | 7.1 |
+| 7.14 | Admin: Default light/dark mode selector per theme | 7.1 |
+| 7.15 | Admin: ADA widget config (visibility, pause/hide scheduling, device toggle) | 7.6 |
+| 7.16 | Admin: ADA icon customizer per theme (icon type, color, size, shape) | 7.15 |
+| 7.17 | Admin: Theme revert to original (2-layer warning + export escape hatch) | 7.2, 7.19 |
+| 7.18 | Admin: Real-time contrast checker for fg/bg token pairs | 7.10 |
+| 7.19 | Build theme export (JSON download — includes Style Modules) | 7.1 |
+| 7.20 | Build theme import (file upload + validation + create/update) | 7.19 |
+| 7.21 | Refactor `index.css` — replace all hardcoded HSL with tokens | 7.7 |
+| 7.22 | Refactor `.tsx` components — replace hardcoded colors/transitions | 7.21 |
+| 7.23 | Migrate demo elements (SMSDemo, etc.) to theme tokens / Style Modules | 7.13, 7.22 |
+| 7.24 | Implement user-facing light/dark mode toggle (header + mobile + `<head>` script) | 7.7 |
+| 7.25 | Implement ADA accessibility widget (floating panel + pause/hide + icon) | 7.7, 7.15 |
+| 7.26 | Wire alert/toast/modal variants to effects tokens | 7.6, 7.22 |
+| 7.27 | Seed initial Style Modules (checkout-progress, comparison-grid, sms-demo) | 7.5, 7.13 |
+| 7.28 | Full QA: all 10 themes × both modes × ADA states × Style Modules | 7.24, 7.25, 7.27 |
+| 7.29 | Export → edit → re-import round-trip validation test | 7.20 |
+| 7.30 | Revert-to-original round-trip validation test | 7.17 |
