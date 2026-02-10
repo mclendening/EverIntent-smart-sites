@@ -34,7 +34,7 @@ export function CheckoutStep3Review({
   const tierConfig = TIER_CONFIG[state.tier];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8" role="region" aria-label="Order review">
       {/* Step Header */}
       <div>
         <h1 className="text-2xl font-bold">Review Your Order</h1>
@@ -45,8 +45,8 @@ export function CheckoutStep3Review({
 
       {/* Error Alert */}
       {error && (
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
+        <Alert variant="destructive" role="alert">
+          <AlertCircle className="h-4 w-4" aria-hidden="true" />
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
@@ -60,13 +60,13 @@ export function CheckoutStep3Review({
             size="sm" 
             onClick={() => onEdit(1)}
             className="gap-1"
+            aria-label="Edit plan and add-on selections"
           >
-            <Pencil className="h-3 w-3" />
+            <Pencil className="h-3 w-3" aria-hidden="true" />
             Edit
           </Button>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* Selected Plan */}
           <div className="flex justify-between">
             <div>
               <p className="font-medium">{tierConfig.displayName}</p>
@@ -86,7 +86,6 @@ export function CheckoutStep3Review({
             </div>
           </div>
 
-          {/* Selected Add-ons */}
           {state.addons.length > 0 && (
             <>
               <Separator />
@@ -104,9 +103,8 @@ export function CheckoutStep3Review({
             </>
           )}
 
-          {/* Totals */}
           <Separator />
-          <div className="space-y-2">
+          <div className="space-y-2" aria-label="Order totals">
             {!tierConfig.isOneTime && monthlyTotal > 0 && (
               <div className="flex justify-between font-semibold text-lg">
                 <span>Monthly Total</span>
@@ -132,8 +130,9 @@ export function CheckoutStep3Review({
             size="sm" 
             onClick={() => onEdit(2)}
             className="gap-1"
+            aria-label="Edit contact details"
           >
-            <Pencil className="h-3 w-3" />
+            <Pencil className="h-3 w-3" aria-hidden="true" />
             Edit
           </Button>
         </CardHeader>
@@ -184,10 +183,11 @@ export function CheckoutStep3Review({
           size="lg" 
           className="w-full text-lg py-6"
           disabled={isLoading}
+          aria-busy={isLoading}
         >
           {isLoading ? (
             <>
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" aria-hidden="true" />
               Processing...
             </>
           ) : (

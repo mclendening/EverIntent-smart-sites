@@ -19,7 +19,7 @@ export function OrderSummary({ tier, addons, monthlyTotal, setupTotal }: OrderSu
   const tierConfig = TIER_CONFIG[tier];
   
   return (
-    <Card className="lg:sticky lg:top-28 bg-card border-border shadow-lg border-l-2 border-l-gold/30">
+    <Card className="lg:sticky lg:top-28 bg-card border-border shadow-lg border-l-2 border-l-gold/30" role="complementary" aria-label="Order summary">
       <CardHeader className="pb-3 lg:pb-4">
         <CardTitle className="text-base lg:text-lg">Order Summary</CardTitle>
       </CardHeader>

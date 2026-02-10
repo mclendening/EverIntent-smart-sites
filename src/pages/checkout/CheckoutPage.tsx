@@ -5,7 +5,7 @@
  * @brd-reference Detail-Checkout-design-v5.2.md Section 4
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
 import { CheckoutStep1Selection } from '@/components/checkout/CheckoutStep1Selection';
@@ -16,6 +16,15 @@ import { OrderSummary } from '@/components/checkout/OrderSummary';
 import { TIER_CONFIG, ADDON_CONFIG, type TierSlug, type AddonSlug } from '@/config/checkoutConfig';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import {
+  trackCheckoutStarted,
+  trackPlanChanged,
+  trackAddonToggled,
+  trackDetailsCompleted,
+  trackCheckoutSubmitted,
+  trackCheckoutRedirected,
+} from '@/lib/checkoutAnalytics';
+
 // Storage key for sessionStorage persistence
 const STORAGE_KEY = 'everintent_checkout_state';
 
@@ -64,11 +73,20 @@ export default function CheckoutPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isHydrated, setIsHydrated] = useState(false);
+  const [isResuming, setIsResuming] = useState(false);
+  const hasTrackedStart = useRef(false);
 
   // SSG-safe: Only access sessionStorage after hydration
   useEffect(() => {
     setIsHydrated(true);
   }, []);
+
+  // Track checkout_started once on mount
+  useEffect(() => {
+    if (!isHydrated || hasTrackedStart.current) return;
+    hasTrackedStart.current = true;
+    trackCheckoutStarted(validTier);
+  }, [isHydrated, validTier]);
 
   // Capture UTM params on mount (client-side only)
   useEffect(() => {
@@ -83,25 +101,91 @@ export default function CheckoutPage() {
     }
   }, [isHydrated, searchParams]);
 
-  // Load from sessionStorage on mount (handles refresh and resume)
+  // Handle ?resume=[id] - fetch from Supabase
   useEffect(() => {
     if (!isHydrated) return;
     
     const resumeId = searchParams.get('resume');
-    
-    try {
-      const savedState = sessionStorage.getItem(STORAGE_KEY);
-      if (savedState) {
-        const parsed = JSON.parse(savedState) as CheckoutState;
-        setState(parsed);
-        if (resumeId) {
-          setStep(3);
+    if (!resumeId) {
+      // No resume param - load from sessionStorage
+      try {
+        const savedState = sessionStorage.getItem(STORAGE_KEY);
+        if (savedState) {
+          const parsed = JSON.parse(savedState) as CheckoutState;
+          // Only restore if tier matches URL (or if it's a valid tier)
+          if (TIER_CONFIG[parsed.tier]) {
+            setState(parsed);
+          }
         }
+      } catch {
+        setState(getInitialState(validTier));
       }
-    } catch {
-      setState(getInitialState(validTier));
+      return;
     }
-  }, [isHydrated, validTier, searchParams]);
+
+    // Resume from Supabase
+    setIsResuming(true);
+    (async () => {
+      try {
+        const { data, error: fetchError } = await supabase
+          .from('checkout_submissions')
+          .select('*')
+          .eq('id', resumeId)
+          .eq('status', 'pending')
+          .maybeSingle();
+
+        if (fetchError || !data) {
+          toast({
+            title: 'Could not resume checkout',
+            description: 'This checkout session may have expired. Starting fresh.',
+            variant: 'destructive',
+          });
+          setState(getInitialState(validTier));
+          setIsResuming(false);
+          return;
+        }
+
+        // Map DB record back to CheckoutState
+        const addonsArray: AddonSlug[] = Array.isArray(data.addons)
+          ? (data.addons as Array<{ slug: string }>).map(a => a.slug as AddonSlug).filter(slug => slug in ADDON_CONFIG)
+          : [];
+
+        const resumedState: CheckoutState = {
+          tier: (data.selected_tier as TierSlug) || validTier,
+          addons: addonsArray,
+          firstName: data.first_name || '',
+          lastName: data.last_name || '',
+          email: data.email || '',
+          phone: data.phone || '',
+          businessName: data.business_name || '',
+          hasDomain: data.has_domain ?? false,
+          domainName: data.domain_name || '',
+          message: data.message || '',
+          tcpaConsent: data.tcpa_consent ?? false,
+          utmSource: data.utm_source || undefined,
+          utmMedium: data.utm_medium || undefined,
+          utmCampaign: data.utm_campaign || undefined,
+        };
+
+        setState(resumedState);
+        // Jump to review step for resumed checkouts
+        setStep(3);
+        toast({
+          title: 'Checkout resumed',
+          description: 'We restored your previous selections. Please review and complete your order.',
+        });
+      } catch {
+        toast({
+          title: 'Could not resume checkout',
+          description: 'Starting a fresh checkout.',
+          variant: 'destructive',
+        });
+        setState(getInitialState(validTier));
+      } finally {
+        setIsResuming(false);
+      }
+    })();
+  }, [isHydrated, searchParams, validTier, toast]);
 
   // Persist to sessionStorage on state change (client-side only)
   useEffect(() => {
@@ -114,23 +198,27 @@ export default function CheckoutPage() {
     }
   }, [state, isHydrated]);
 
-  // Handle tier change - clear addons per v5.2 spec
+  // Handle tier change - clear addons per v5.2 spec + track
   const handleTierChange = (newTier: TierSlug) => {
+    const oldTier = state.tier;
     setState(prev => ({
       ...prev,
       tier: newTier,
-      addons: [], // Reset addons on tier change
+      addons: [],
     }));
+    trackPlanChanged(oldTier, newTier);
   };
 
-  // Handle addon toggle
+  // Handle addon toggle + track
   const handleAddonToggle = (addon: AddonSlug) => {
+    const wasSelected = state.addons.includes(addon);
     setState(prev => ({
       ...prev,
       addons: prev.addons.includes(addon)
         ? prev.addons.filter(a => a !== addon)
         : [...prev.addons, addon],
     }));
+    trackAddonToggled(addon, !wasSelected, state.tier);
   };
 
   // Update individual fields
@@ -140,6 +228,9 @@ export default function CheckoutPage() {
 
   // Step navigation - scroll to top when changing steps
   const nextStep = () => {
+    if (step === 2) {
+      trackDetailsCompleted(state.tier);
+    }
     setStep(prev => Math.min(prev + 1, 3));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -160,8 +251,19 @@ export default function CheckoutPage() {
   );
   const setupTotal = tierConfig.setupFee;
 
-  // Get tier display name for SEO - use colon per SEO standard, no manual brand append
   const tierDisplayName = tierConfig?.displayName || 'Checkout';
+
+  // Show loading state while resuming
+  if (isResuming) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="w-8 h-8 border-2 border-gold border-t-transparent rounded-full animate-spin mx-auto" aria-label="Loading" />
+          <p className="text-muted-foreground">Resuming your checkout...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -172,7 +274,7 @@ export default function CheckoutPage() {
         noIndex
       />
       
-      <div className="min-h-screen bg-background pt-24 pb-24 md:pt-28 md:pb-12">
+      <main className="min-h-screen bg-background pt-24 pb-24 md:pt-28 md:pb-12" aria-label="Checkout">
         <div className="container max-w-6xl mx-auto px-4">
           {/* Progress Indicator */}
           <CheckoutProgress currentStep={step} />
@@ -218,8 +320,9 @@ export default function CheckoutPage() {
                     setIsLoading(true);
                     setError(null);
                     
+                    trackCheckoutSubmitted(state.tier, monthlyTotal, setupTotal, state.addons.length);
+                    
                     try {
-                      // Client-side data integrity check
                       if (!state.firstName || !state.email || !state.tcpaConsent) {
                         throw new Error('Missing required fields. Please go back and complete all fields.');
                       }
@@ -231,7 +334,6 @@ export default function CheckoutPage() {
                         ghlTag: ADDON_CONFIG[slug]?.ghlTag,
                       }));
 
-                      // Call start-checkout Edge Function
                       const { data, error: fnError } = await supabase.functions.invoke('start-checkout', {
                         body: {
                           first_name: state.firstName,
@@ -258,7 +360,6 @@ export default function CheckoutPage() {
                       if (fnError) throw new Error(fnError.message || 'Checkout submission failed');
                       if (!data?.success) throw new Error(data?.error || 'Checkout submission failed');
 
-                      // Clear sessionStorage on success
                       sessionStorage.removeItem(STORAGE_KEY);
 
                       toast({
@@ -266,8 +367,8 @@ export default function CheckoutPage() {
                         description: 'Redirecting to complete your payment...',
                       });
 
-                      // Redirect to pre-filled GHL checkout page
                       if (data.redirect_url) {
+                        trackCheckoutRedirected(state.tier, data.redirect_url);
                         window.location.href = data.redirect_url;
                       }
 
@@ -285,17 +386,17 @@ export default function CheckoutPage() {
             </div>
             
             {/* Desktop Order Summary Sidebar - hidden on mobile */}
-            <div className="hidden lg:block lg:col-span-1">
+            <aside className="hidden lg:block lg:col-span-1" aria-label="Order summary">
               <OrderSummary
                 tier={state.tier}
                 addons={state.addons}
                 monthlyTotal={monthlyTotal}
                 setupTotal={setupTotal}
               />
-            </div>
+            </aside>
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }
