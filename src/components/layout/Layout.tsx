@@ -11,6 +11,7 @@ import { CookieConsent } from '@/components/CookieConsent';
 import { GHLChatWidget } from '@/components/GHLChatWidget';
 import { DesktopChatButton } from '@/components/DesktopChatButton';
 import { ClientOnly } from '@/components/ClientOnly';
+import { AffiliateTracker } from '@/components/AffiliateTracker';
 
 /**
  * Props for the Layout component.
@@ -52,6 +53,7 @@ export function Layout({ children }: LayoutProps) {
       {/* Browser-dependent components wrapped in ClientOnly to prevent hydration mismatches */}
       {/* These components use localStorage which doesn't exist during SSR */}
       <ClientOnly>
+        <AffiliateTracker />
         <MobileBottomBar />
         <DesktopChatButton />
         <GHLChatWidget />

@@ -123,7 +123,11 @@ serve(async (req) => {
       ghlContactId = contactId;
 
       // Collect all tags: tier + add-ons
-      const tags: string[] = [];
+    const tags: string[] = [];
+      
+      // Always apply Checkout – Pending for abandoned cart recovery (Task 6.24.4)
+      tags.push('EI: Checkout – Pending');
+      
       const tierTag = TIER_TAG_MAP[selected_tier];
       if (tierTag) tags.push(tierTag);
 
