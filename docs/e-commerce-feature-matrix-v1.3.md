@@ -1,4 +1,4 @@
-# EverIntent Sales Infrastructure & Feature Matrix v1.2
+# EverIntent Sales Infrastructure & Feature Matrix v1.3
 
 **Purpose:** Comprehensive breakdown of the unified sales infrastructure — covering checkout recovery, affiliate tracking, attribution, lifecycle automation, and GHL pipeline integration — for Phase 6.24+ implementation. Reframed from "e-commerce features" to "sales infrastructure" to reflect the system's true scope: capturing and attributing traffic from all sources (ads, organic, referrals, chat) into a single GHL-powered pipeline.
 
@@ -14,6 +14,7 @@
 | v1.1 | 2026-02-10 | **Lovable revision:** Fixed all incorrect "Next.js" references → React (Vite SSG) + Supabase Edge Functions (Deno). Restored separate "GHL vs Site" owner column. Re-numbered features to original 1.x–5.x scheme. Restored dropped features (5.8–5.10). Corrected cookie-to-edge-function data flow (POST body, not middleware headers). Corrected P0 scope (removed premature promotions of C4/E1). Added this changelog. |
 | v1.2 | 2026-02-10 | **Major update:** (1) Reframed document title from "E-Commerce & Affiliate Feature Matrix" to "Sales Infrastructure & Feature Matrix" to reflect unified sales pipeline scope. (2) Added GHL Audit section confirming all 29 `EI:` tags and 5-stage Checkout Pipeline exist in GHL. (3) Replaced flat P0–P3 priority matrix with phased implementation roadmap (Phase 0–5) with realistic effort estimates (8–12 hours total site-side, up from 4). (4) Added Phase 0 (manual GHL prep) as explicit prerequisite — tags/pipeline must exist before code fires. (5) Resequenced implementation: DB migration (Phase 1) before edge function updates (Phase 3) to respect data dependency. (6) Added `EI: Chat – Inquiry` tag for mid-funnel chat triggers and `EI: Checkout – Pending` lifecycle tag to feature matrix. (7) Added Section 6 "Chat & Top-of-Funnel Integration" describing how chat widget feeds into the same pipeline. (8) Added Section 7 "End-to-End Test Scenarios" with 3 acceptance flows. (9) Updated architecture diagram to include chat widget entry point. (10) Moved Promo Code (5.1) from P0 to P2 — not needed for initial launch. |
 | v1.2.1 | 2026-02-10 | **GHL Implementation Taskbook:** (1) Added Section 10 "GHL Implementation Taskbook" with 30+ detailed GHL-side tasks across 7 categories (Workflows, Pipeline Automation, SaaS Checkout Pages, Affiliate Manager, Chat Automation, Communications Templates, Reporting). (2) Each task includes trigger conditions, action steps, tag references, and dependencies. (3) Identified critical gap: `ghlClient.ts` still uses legacy pre-v2.2 tag names (Smart Site, M1-M5) that don't match the 29 tags in GHL — requires reconciliation before Phase 3 edge function work. (4) Added GHL SaaS Checkout Page setup (8 pages, Stripe products, query param mapping) as prerequisite for end-to-end flow. (5) Expanded Phase 4 table to cross-reference Section 10 task IDs. (6) Added GHL-specific acceptance criteria to Phase 5 test scenarios. |
+| v1.3 | 2026-02-10 | **ChatGPT review integration:** (1) Added `EI: Chat – High Intent` tag to Lifecycle Tags table, GHL Tag Registry quick reference, and GHL-CH2 task. (2) Updated Attribution tag count from 2 → 3 in quick reference. (3) Total unique tags updated from ~22 to ~23. (4) Added explicit prerequisites checklist for Phase 3 code work: Affiliate ID custom field (GHL-CF1), ghlClient.ts tag reconciliation, and Stripe/SaaS checkout page creation (GHL-C1). (5) Documented ChatGPT's validation that v1.2.1 aligns with live GHL config and BRD requirements. |
 
 ---
 
@@ -73,9 +74,10 @@ All tags confirmed present in GoHighLevel Tags page:
 | `EI: Active Customer` | Fully active, post-onboarding | GHL automation |
 | `EI: Affiliate – [ID]` | Affiliate attribution (dynamic per partner) | Edge Functions (all 3) |
 | `EI: Chat – Inquiry` | Mid-funnel chat trigger for pipeline placement | GHL Chat Widget |
+| `EI: Chat – High Intent` | High-intent chat escalation (pricing keywords / duration trigger) | GHL Chat Widget / Workflow |
 | `EI: Checkout – Expired` | Cart abandoned >7 days, removed from recovery | GHL Workflow |
 
-> **Note:** 29 tags exist in GHL including some duplicate hyphen-style variants. The ~17 unique functional tags listed above cover all required automation triggers.
+> **Note:** 30 tags exist in GHL including some duplicate hyphen-style variants. The ~18 unique functional tags listed above cover all required automation triggers.
 
 ### Checkout Pipeline (Verified)
 
@@ -231,6 +233,12 @@ Replaces the flat P0–P3 priority matrix from v1.1 with a dependency-aware, pha
 ### Phase 3: Edge Function Updates (Supabase / Deno)
 
 **Depends on Phase 1 (DB columns must exist) and Phase 2 (cookie reader utility).**
+
+> ⚠️ **Phase 3 Prerequisites Checklist** (all must be confirmed before writing code):
+> 1. ✅ `ghlClient.ts` tag names reconciled to v2.2 en-dash format (see Section 10 "Critical Gap")
+> 2. ⬜ GHL custom field `Affiliate ID` created and field ID captured as Supabase secret `GHL_AFFILIATE_FIELD_ID` (GHL-CF1)
+> 3. ⬜ At least 1 GHL SaaS checkout page created and accepting query params (GHL-C1/C4) — validates redirect URL pattern
+> 4. ⬜ `EI: Chat – High Intent` tag created in GHL (needed for CH2 automation)
 
 | Task | Feature ID | Est. Effort | Notes |
 |------|-----------|-------------|-------|
@@ -413,8 +421,8 @@ Common tag registry for both chat widget agents and checkout automation:
 | Tier | `EI: Tier – Launch`, `Capture`, `Convert`, `Scale`, `After-Hours`, `Front Office`, `Full AI Employee`, `Web Chat Only` | 8 |
 | Add-On | `EI: AddOn – AI Voice Chat`, `Unlimited AI`, `Email Authority`, `Get Paid Now`, `Social Autopilot`, `Omnichannel Inbox` | 6 |
 | Lifecycle | `EI: Checkout – Pending`, `EI: Redirected`, `EI: Paid`, `EI: Onboarding Complete`, `EI: Active Customer`, `EI: Checkout – Expired` | 6 |
-| Attribution | `EI: Affiliate – [ID]` (dynamic), `EI: Chat – Inquiry` | 2 |
-| **Total unique** | | **~22** |
+| Attribution | `EI: Affiliate – [ID]` (dynamic), `EI: Chat – Inquiry`, `EI: Chat – High Intent` | 3 |
+| **Total unique** | | **~23** |
 
 > Chat agents should be trained on this registry so they can see a visitor's current state, affiliate source, and UTMs when providing decision support.
 
@@ -732,7 +740,7 @@ Build a GHL form or portal feature for affiliates to manually register deals:
 | Condition | Action |
 |-----------|--------|
 | Chat duration > 5 minutes | Internal notification to sales team via Slack/email/SMS |
-| Keywords detected: "pricing", "cost", "how much", "plan", "compare", "upgrade" | Apply tag `EI: Chat – High Intent` + notify sales |
+| Keywords detected: "pricing", "cost", "how much", "plan", "compare", "upgrade" | Apply tag `EI: Chat – High Intent` + notify sales. **Tag must exist in GHL** (add during Phase 0 verification or as part of GHL-CH2 setup). |
 | Agent manually escalates | Transfer to live sales rep |
 
 ---
