@@ -136,14 +136,16 @@ export default function CheckoutPage() {
           .maybeSingle();
 
         if (fetchError || !data) {
+          console.log('[Checkout] Resume failed - no data for ID:', resumeId);
           setState(getInitialState(validTier));
           setIsResuming(false);
           setTimeout(() => {
+            console.log('[Checkout] Firing error toast');
             toast.error('Could not resume checkout', {
               description: 'This checkout session may have expired. Starting fresh.',
-              duration: 6000,
+              duration: 8000,
             });
-          }, 500);
+          }, 1500);
           return;
         }
 
@@ -176,16 +178,17 @@ export default function CheckoutPage() {
           toast.success('Checkout resumed', {
             description: 'We restored your previous selections. Please review and complete your order.',
           });
-        }, 500);
+        }, 1500);
       } catch {
+        console.log('[Checkout] Resume threw error');
         setState(getInitialState(validTier));
         setIsResuming(false);
         setTimeout(() => {
           toast.error('Could not resume checkout', {
             description: 'Starting a fresh checkout.',
-            duration: 6000,
+            duration: 8000,
           });
-        }, 500);
+        }, 1500);
       }
     })();
   // eslint-disable-next-line react-hooks/exhaustive-deps
