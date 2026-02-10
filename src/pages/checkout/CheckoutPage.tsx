@@ -135,13 +135,16 @@ export default function CheckoutPage() {
           .maybeSingle();
 
         if (fetchError || !data) {
-          toast({
-            title: 'Could not resume checkout',
-            description: 'This checkout session may have expired. Starting fresh.',
-            variant: 'destructive',
-          });
           setState(getInitialState(validTier));
           setIsResuming(false);
+          // Delay toast so it renders after the main UI mounts
+          setTimeout(() => {
+            toast({
+              title: 'Could not resume checkout',
+              description: 'This checkout session may have expired. Starting fresh.',
+              variant: 'destructive',
+            });
+          }, 300);
           return;
         }
 
