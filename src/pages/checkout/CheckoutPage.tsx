@@ -15,7 +15,7 @@ import { CheckoutProgress } from '@/components/checkout/CheckoutProgress';
 import { OrderSummary } from '@/components/checkout/OrderSummary';
 import { TIER_CONFIG, ADDON_CONFIG, type TierSlug, type AddonSlug } from '@/config/checkoutConfig';
 import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import {
   trackCheckoutStarted,
   trackPlanChanged,
@@ -60,7 +60,7 @@ const getInitialState = (tier: TierSlug): CheckoutState => ({
 });
 
 export default function CheckoutPage() {
-  const { toast } = useToast();
+  
   const location = useLocation();
   const [searchParams] = useSearchParams();
   
@@ -75,6 +75,7 @@ export default function CheckoutPage() {
   const [isHydrated, setIsHydrated] = useState(false);
   const [isResuming, setIsResuming] = useState(false);
   const hasTrackedStart = useRef(false);
+  const hasInitialized = useRef(false);
 
   // SSG-safe: Only access sessionStorage after hydration
   useEffect(() => {
@@ -101,9 +102,10 @@ export default function CheckoutPage() {
     }
   }, [isHydrated, searchParams]);
 
-  // Handle ?resume=[id] - fetch from Supabase
+  // Handle ?resume=[id] OR sessionStorage restore — runs ONCE after hydration
   useEffect(() => {
-    if (!isHydrated) return;
+    if (!isHydrated || hasInitialized.current) return;
+    hasInitialized.current = true;
     
     const resumeId = searchParams.get('resume');
     if (!resumeId) {
@@ -112,7 +114,6 @@ export default function CheckoutPage() {
         const savedState = sessionStorage.getItem(STORAGE_KEY);
         if (savedState) {
           const parsed = JSON.parse(savedState) as CheckoutState;
-          // Only restore if tier matches URL (or if it's a valid tier)
           if (TIER_CONFIG[parsed.tier]) {
             setState(parsed);
           }
@@ -137,14 +138,12 @@ export default function CheckoutPage() {
         if (fetchError || !data) {
           setState(getInitialState(validTier));
           setIsResuming(false);
-          // Delay toast so it renders after the main UI mounts
           setTimeout(() => {
-            toast({
-              title: 'Could not resume checkout',
+            toast.error('Could not resume checkout', {
               description: 'This checkout session may have expired. Starting fresh.',
-              variant: 'destructive',
+              duration: 6000,
             });
-          }, 300);
+          }, 500);
           return;
         }
 
@@ -171,24 +170,26 @@ export default function CheckoutPage() {
         };
 
         setState(resumedState);
-        // Jump to review step for resumed checkouts
         setStep(3);
-        toast({
-          title: 'Checkout resumed',
-          description: 'We restored your previous selections. Please review and complete your order.',
-        });
-      } catch {
-        toast({
-          title: 'Could not resume checkout',
-          description: 'Starting a fresh checkout.',
-          variant: 'destructive',
-        });
-        setState(getInitialState(validTier));
-      } finally {
         setIsResuming(false);
+        setTimeout(() => {
+          toast.success('Checkout resumed', {
+            description: 'We restored your previous selections. Please review and complete your order.',
+          });
+        }, 500);
+      } catch {
+        setState(getInitialState(validTier));
+        setIsResuming(false);
+        setTimeout(() => {
+          toast.error('Could not resume checkout', {
+            description: 'Starting a fresh checkout.',
+            duration: 6000,
+          });
+        }, 500);
       }
     })();
-  }, [isHydrated, searchParams, validTier, toast]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isHydrated]);
 
   // Persist to sessionStorage on state change (client-side only)
   useEffect(() => {
@@ -365,8 +366,7 @@ export default function CheckoutPage() {
 
                       sessionStorage.removeItem(STORAGE_KEY);
 
-                      toast({
-                        title: 'Order submitted!',
+                      toast.success('Order submitted!', {
                         description: 'Redirecting to complete your payment...',
                       });
 
