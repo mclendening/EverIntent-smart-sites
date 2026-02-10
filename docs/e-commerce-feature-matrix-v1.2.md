@@ -13,6 +13,7 @@
 | v1.0 | 2026-02-10 | Initial draft produced by ChatGPT from Lovable's original analysis. |
 | v1.1 | 2026-02-10 | **Lovable revision:** Fixed all incorrect "Next.js" references → React (Vite SSG) + Supabase Edge Functions (Deno). Restored separate "GHL vs Site" owner column. Re-numbered features to original 1.x–5.x scheme. Restored dropped features (5.8–5.10). Corrected cookie-to-edge-function data flow (POST body, not middleware headers). Corrected P0 scope (removed premature promotions of C4/E1). Added this changelog. |
 | v1.2 | 2026-02-10 | **Major update:** (1) Reframed document title from "E-Commerce & Affiliate Feature Matrix" to "Sales Infrastructure & Feature Matrix" to reflect unified sales pipeline scope. (2) Added GHL Audit section confirming all 29 `EI:` tags and 5-stage Checkout Pipeline exist in GHL. (3) Replaced flat P0–P3 priority matrix with phased implementation roadmap (Phase 0–5) with realistic effort estimates (8–12 hours total site-side, up from 4). (4) Added Phase 0 (manual GHL prep) as explicit prerequisite — tags/pipeline must exist before code fires. (5) Resequenced implementation: DB migration (Phase 1) before edge function updates (Phase 3) to respect data dependency. (6) Added `EI: Chat – Inquiry` tag for mid-funnel chat triggers and `EI: Checkout – Pending` lifecycle tag to feature matrix. (7) Added Section 6 "Chat & Top-of-Funnel Integration" describing how chat widget feeds into the same pipeline. (8) Added Section 7 "End-to-End Test Scenarios" with 3 acceptance flows. (9) Updated architecture diagram to include chat widget entry point. (10) Moved Promo Code (5.1) from P0 to P2 — not needed for initial launch. |
+| v1.2.1 | 2026-02-10 | **GHL Implementation Taskbook:** (1) Added Section 10 "GHL Implementation Taskbook" with 30+ detailed GHL-side tasks across 7 categories (Workflows, Pipeline Automation, SaaS Checkout Pages, Affiliate Manager, Chat Automation, Communications Templates, Reporting). (2) Each task includes trigger conditions, action steps, tag references, and dependencies. (3) Identified critical gap: `ghlClient.ts` still uses legacy pre-v2.2 tag names (Smart Site, M1-M5) that don't match the 29 tags in GHL — requires reconciliation before Phase 3 edge function work. (4) Added GHL SaaS Checkout Page setup (8 pages, Stripe products, query param mapping) as prerequisite for end-to-end flow. (5) Expanded Phase 4 table to cross-reference Section 10 task IDs. (6) Added GHL-specific acceptance criteria to Phase 5 test scenarios. |
 
 ---
 
@@ -244,27 +245,35 @@ Replaces the flat P0–P3 priority matrix from v1.1 with a dependency-aware, pha
 ### Phase 4: GHL Workflow Configuration (No Code)
 
 **Can begin as soon as Phase 0 is complete. Assign to GHL specialist.**
+**See Section 10 "GHL Implementation Taskbook" for full detailed task breakdown.**
 
-| Task | Feature ID | Est. Effort | Notes |
-|------|-----------|-------------|-------|
-| Recovery Workflow (30m trigger) | 1.2 | 1 hour | Trigger on `EI: Checkout – Pending`, check for `EI: Paid`, send SMS/email with `?resume=[id]` |
-| Completion Tag on Payment | 1.5 | 30 min | Stripe webhook → `EI: Paid` tag |
-| Cart Expiry Workflow (7-day) | 1.6 | 30 min | Remove `Pending`, apply `EI: Checkout – Expired` |
-| Affiliate Dashboard setup | 2.7 | 2 hours | GHL Affiliate Manager configuration |
-| Deal Registration Form | 2.5 | 1 hour | GHL custom form for manual affiliate claims |
-| Commission Rules | 2.8 | 2 hours | Per-product commission percentages |
-| Chat Inquiry → Pre-Checkout placement | 6.3 | 30 min | Workflow: on `EI: Chat – Inquiry` → move to Pre-Checkout stage |
-| Chat-to-Sales escalation rule | 6.4 | 1 hour | Keyword/duration trigger → notify sales |
+| Task | Feature ID | Section 10 Ref | Est. Effort | Notes |
+|------|-----------|----------------|-------------|-------|
+| Recovery Workflow (30m trigger) | 1.2 | GHL-W1 | 1 hour | Trigger on `EI: Checkout – Pending`, check for `EI: Paid`, send SMS/email with `?resume=[id]` |
+| Completion Tag on Payment | 1.5 | GHL-W3 | 30 min | Stripe webhook → `EI: Paid` tag + remove `Pending` |
+| Cart Expiry Workflow (7-day) | 1.6 | GHL-W2 | 30 min | Remove `Pending`, apply `EI: Checkout – Expired` |
+| Opportunity creation on checkout start | — | GHL-W4 | 1 hour | Auto-create opportunity in Pre-Checkout stage |
+| Opportunity stage progression | — | GHL-W5 | 1.5 hours | Auto-move through 5 pipeline stages on tag events |
+| SaaS Checkout Pages (8 tiers) | — | GHL-C1–C4 | 3 hours | Create GHL checkout pages, Stripe products, query param mapping |
+| Affiliate Dashboard setup | 2.7 | GHL-A1–A3 | 2 hours | GHL Affiliate Manager configuration |
+| Deal Registration Form | 2.5 | GHL-A2 | 1 hour | GHL custom form for manual affiliate claims |
+| Commission Rules | 2.8 | GHL-A3 | 2 hours | Per-product commission percentages |
+| Chat Inquiry → Pre-Checkout placement | 6.3 | GHL-CH1 | 30 min | Workflow: on `EI: Chat – Inquiry` → create opportunity in Pre-Checkout |
+| Chat-to-Sales escalation rule | 6.4 | GHL-CH2 | 1 hour | Keyword/duration trigger → notify sales |
+| Communications templates (SMS + email) | 1.2, 1.4 | GHL-T1–T3 | 1.5 hours | Cart recovery SMS, email, and expiry notification |
+| Reporting dashboards | 3.4, 3.5 | GHL-R1–R2 | 2 hours | Affiliate source + channel ROI reporting |
 
-**Phase 4 total: ~8.5 hours** (GHL config, no site code)
+**Phase 4 total: ~17.5 hours** (GHL config, no site code — expanded from 8.5h with full taskbook scope)
 
 ### Phase 5: End-to-End Validation
 
-| Scenario | What to Verify |
-|----------|----------------|
-| **SC1: Anonymous → Abandon → Recover → Pay** | Visit site → start checkout → abandon → verify `EI: Checkout – Pending` tag in GHL → receive recovery SMS/email after 30m → click `?resume=[id]` → complete payment → verify `EI: Paid` tag applied and recovery workflow stops |
-| **SC2: Referred Visitor → Form Submit → Affiliate Tracked** | Visit `?ref=PARTNER123` → verify `ei_affiliate` cookie set (90d) → submit contact form → verify `affiliate_id` in `form_submissions` table → verify `EI: Affiliate – PARTNER123` tag in GHL → verify commission tracked in Affiliate Manager |
-| **SC3: Chat Prospect → Pipeline → Checkout → Affiliate** | Open chat on landing page → verify `EI: Chat – Inquiry` tag → verify contact placed in Pre-Checkout stage → proceed to checkout → verify affiliate tracking still works if `?ref=` was present → complete purchase → verify full pipeline progression |
+| Scenario | What to Verify (Site) | What to Verify (GHL) |
+|----------|----------------------|---------------------|
+| **SC1: Anonymous → Abandon → Recover → Pay** | Visit site → start checkout → abandon → verify Supabase record `status='pending'` | GHL: `EI: Checkout – Pending` tag applied → opportunity created in Pre-Checkout → recovery SMS/email sent after 30m with `?resume=[id]` → user clicks resume link → completes payment → `EI: Paid` tag applied → `Pending` tag removed → opportunity moves to Paid – Onboarding → recovery workflow stops |
+| **SC2: Referred Visitor → Form Submit → Affiliate Tracked** | Visit `?ref=PARTNER123` → verify `ei_affiliate` cookie set (90d) → submit contact form → verify `affiliate_id` in `form_submissions` table | GHL: `EI: Affiliate – PARTNER123` tag on contact → Affiliate ID custom field populated → Affiliate Manager shows referral → on conversion, commission tracked |
+| **SC3: Chat Prospect → Pipeline → Checkout → Affiliate** | Open chat on landing page → proceed to checkout → verify affiliate tracking still works if `?ref=` was present | GHL: `EI: Chat – Inquiry` tag applied → opportunity created in Pre-Checkout → if chat > X min, sales notified → on checkout start, `Pending` tag added alongside inquiry → full pipeline progression through to Active Customer |
+| **SC4: Cart Expiry (7-day)** | Verify no site-side action needed | GHL: After 7 days with no `EI: Paid`, `Pending` tag removed → `EI: Checkout – Expired` tag applied → opportunity closed/archived |
+| **SC5: Stripe Payment → Onboarding** | N/A (GHL-only) | GHL: Stripe webhook fires → `EI: Paid` tag applied → snapshot provisioning triggered → intake form sent → welcome email sequence starts → `EI: Onboarding Complete` tag applied after intake → opportunity moves to Snapshot Applied → Active Customer |
 
 ---
 
@@ -408,3 +417,448 @@ Common tag registry for both chat widget agents and checkout automation:
 | **Total unique** | | **~22** |
 
 > Chat agents should be trained on this registry so they can see a visitor's current state, affiliate source, and UTMs when providing decision support.
+
+---
+
+## Section 10: GHL Implementation Taskbook
+
+> **Audience:** GHL specialist / ChatGPT agent configuring GoHighLevel.
+> **No site code changes.** Everything in this section is GHL-native configuration.
+> **Prerequisite:** Phase 0 (tags + pipeline) is ✅ COMPLETE.
+
+### Critical Gap: Tag Name Reconciliation
+
+⚠️ **Before any Phase 3 (edge function) work begins**, the shared GHL client library (`ghlClient.ts`) must be updated. It currently uses **legacy pre-v2.2 tag names**:
+
+| Current in Code | Should Be (matches GHL) |
+|----------------|------------------------|
+| `EI: AI Mode - M1 After-Hours` | `EI: Tier – After-Hours` |
+| `EI: AI Mode - M2 After-Hours + Booking` | *(deprecated — no v2.2 equivalent)* |
+| `EI: AI Mode - M3 Missed Call Recovery` | *(deprecated — no v2.2 equivalent)* |
+| `EI: AI Mode - M4 Front Line Screener` | `EI: Tier – Front Office` |
+| `EI: AI Mode - M5 Full AI Employee` | `EI: Tier – Full AI Employee` |
+| `EI: Tier - Smart Site` | `EI: Tier – Launch` |
+| `EI: Tier - Smart Lead` | `EI: Tier – Capture` |
+| `EI: Tier - Smart Business` | `EI: Tier – Convert` |
+| `EI: Tier - Smart Growth` | `EI: Tier – Scale` |
+| `EI: Product - Web Chat Only` | `EI: Tier – Web Chat Only` |
+| `EI: Checkout Started - T1/T2/T3/T4` | *(deprecated legacy tags)* |
+
+**Action required (Site-side, Task 6.24.5 prerequisite):** Update `ghlClient.ts` `GHL_TAGS` and `TIER_TAG_MAP` to use the v2.2 en-dash tag names that match what exists in GHL. The `start-checkout` edge function already has its own correct `TIER_TAG_MAP` — these must be consolidated.
+
+---
+
+### GHL-W: Workflow Configuration
+
+#### GHL-W1: Abandoned Cart Recovery Workflow
+
+**Feature refs:** 1.2, 1.4
+**Trigger:** Tag added → `EI: Checkout – Pending`
+**Priority:** P0 (critical for revenue recovery)
+
+| Step | Action | Details |
+|------|--------|---------|
+| 1 | **Trigger** | Tag Added: `EI: Checkout – Pending` |
+| 2 | **Wait** | 30 minutes |
+| 3 | **Condition** | Contact does NOT have tag `EI: Paid` |
+| 4a | *(If no Paid tag)* **Send SMS** | Template GHL-T1: "Hi {first_name}, you started setting up your {tier} plan but didn't finish. Pick up where you left off: {resume_link}" |
+| 4b | *(If no Paid tag)* **Send Email** | Template GHL-T2: Branded email with resume link, plan summary, and "Complete Your Setup" CTA |
+| 5 | **Wait** | 24 hours *(P2: Multi-Touch)* |
+| 6 | **Condition** | Contact still does NOT have tag `EI: Paid` |
+| 7 | *(If no Paid tag)* **Send Email** | Follow-up with social proof / urgency: "X businesses signed up this week" |
+| 8 | **Wait** | 48 hours (72h total from start) *(P2: Multi-Touch)* |
+| 9 | **Condition** | Contact still does NOT have tag `EI: Paid` |
+| 10 | *(If no Paid tag)* **Send Email** | Final touch: "We're holding your spot — here's a direct line to our team if you have questions" |
+
+**Resume link source:** The `?resume=[id]` URL is written into the GHL contact note by the `start-checkout` edge function. The SMS/email templates should reference this from the contact's notes or a custom field.
+
+**Implementation note:** Steps 5–10 are P2 (Multi-Touch Recovery, feature 1.4). For P0 launch, implement steps 1–4 only.
+
+---
+
+#### GHL-W2: Cart Expiry Workflow (7-Day TTL)
+
+**Feature ref:** 1.6
+**Trigger:** Tag added → `EI: Checkout – Pending`
+**Priority:** P1
+
+| Step | Action | Details |
+|------|--------|---------|
+| 1 | **Trigger** | Tag Added: `EI: Checkout – Pending` |
+| 2 | **Wait** | 7 days |
+| 3 | **Condition** | Contact does NOT have tag `EI: Paid` |
+| 4a | *(If no Paid tag)* **Remove Tag** | Remove `EI: Checkout – Pending` |
+| 4b | *(If no Paid tag)* **Add Tag** | Add `EI: Checkout – Expired` |
+| 4c | *(If no Paid tag)* **Update Opportunity** | Move to "Lost" or archive in Checkout Pipeline |
+| 5 | *(Optional)* **Internal Notification** | Notify sales: "Cart expired for {contact_name} — {tier} plan" (template GHL-T3) |
+
+---
+
+#### GHL-W3: Checkout Completion (Stripe Payment Success)
+
+**Feature ref:** 1.5
+**Trigger:** Stripe webhook → payment success event
+**Priority:** P0
+
+| Step | Action | Details |
+|------|--------|---------|
+| 1 | **Trigger** | Stripe Payment Success webhook (configure in GHL → Payments → Integrations) |
+| 2 | **Add Tag** | `EI: Paid` |
+| 3 | **Remove Tag** | `EI: Checkout – Pending` (stops recovery workflow GHL-W1) |
+| 4 | **Update Opportunity** | Move from "Payment Pending" → "Paid – Onboarding" stage |
+| 5 | **Add Tag** | `EI: Redirected` (if not already present — confirms full checkout loop) |
+
+**Critical:** This workflow MUST fire before GHL-W1's 30-minute check. The `EI: Paid` tag is the kill switch for all recovery sequences.
+
+---
+
+#### GHL-W4: Opportunity Creation on Checkout Start
+
+**Feature ref:** Pipeline automation
+**Trigger:** Tag added → `EI: Checkout – Pending`
+**Priority:** P0
+
+| Step | Action | Details |
+|------|--------|---------|
+| 1 | **Trigger** | Tag Added: `EI: Checkout – Pending` |
+| 2 | **Create Opportunity** | Pipeline: "Checkout Pipeline" → Stage: "Pre-Checkout" |
+| 3 | **Set Opportunity Name** | `{contact_name} — {tier_tag}` (extract tier from contact's tier tag) |
+| 4 | **Set Opportunity Value** | Monthly value from tier (e.g., $97 for Capture, $197 for Convert). Reference the tier tag to determine value. |
+| 5 | **Assign Owner** | Default sales team member or round-robin |
+
+**Value mapping for opportunity:**
+| Tier Tag | Monthly Value | Setup Fee |
+|----------|-------------|-----------|
+| `EI: Tier – Launch` | $0 (one-time $249) | $249 |
+| `EI: Tier – Capture` | $97 | $0 |
+| `EI: Tier – Convert` | $197 | $0 |
+| `EI: Tier – Scale` | $297 | $0 |
+| `EI: Tier – After-Hours` | $197 | $997 |
+| `EI: Tier – Front Office` | $297 | $1,497 |
+| `EI: Tier – Full AI Employee` | $597 | $2,500 |
+| `EI: Tier – Web Chat Only` | $79 | $0 |
+
+---
+
+#### GHL-W5: Opportunity Stage Progression
+
+**Feature ref:** Pipeline automation
+**Trigger:** Multiple tag events
+**Priority:** P1
+
+This can be a single workflow with multiple branches or separate mini-workflows:
+
+| Tag Event | Pipeline Action |
+|-----------|----------------|
+| `EI: Checkout – Pending` added | → Pre-Checkout (handled by GHL-W4) |
+| `EI: Redirected` added | → Move to "Payment Pending" |
+| `EI: Paid` added | → Move to "Paid – Onboarding" (handled by GHL-W3) |
+| `EI: Onboarding Complete` added | → Move to "Snapshot Applied" |
+| `EI: Active Customer` added | → Move to "Active Customer" |
+| `EI: Checkout – Expired` added | → Close opportunity as "Lost" |
+
+---
+
+### GHL-C: SaaS Checkout Pages
+
+#### GHL-C1: Create 8 GHL SaaS Checkout Pages
+
+**Priority:** P0 (required for redirect URL to work)
+
+Each tier needs a GHL-hosted checkout page at `https://go.everintent.com/[tier]`:
+
+| Tier Slug | Checkout URL | Stripe Product | Monthly Price | Setup Fee |
+|-----------|-------------|---------------|--------------|-----------|
+| `launch` | `go.everintent.com/launch` | Launch Website | $249 one-time | — |
+| `capture` | `go.everintent.com/capture` | Capture Plan | $97/mo | — |
+| `convert` | `go.everintent.com/convert` | Convert Plan | $197/mo | — |
+| `scale` | `go.everintent.com/scale` | Scale Plan | $297/mo | — |
+| `after-hours` | `go.everintent.com/after-hours` | After-Hours AI | $197/mo | $997 |
+| `front-office` | `go.everintent.com/front-office` | Front Office AI | $297/mo | $1,497 |
+| `full-ai` | `go.everintent.com/full-ai` | Full AI Employee | $597/mo | $2,500 |
+| `web-chat` | `go.everintent.com/web-chat` | Web Chat Only | $79/mo | — |
+
+**For each page:**
+1. Create Stripe product + price in GHL Payments
+2. Build GHL funnel/checkout page with branded design matching EverIntent aesthetic
+3. Configure thank-you/confirmation page (GHL-C2)
+4. Test payment flow end-to-end with Stripe test mode
+
+#### GHL-C2: Configure Thank-You Pages
+
+**Feature ref:** 5.2
+**Priority:** P1
+
+Each checkout page needs a branded thank-you page that:
+- Confirms the purchase and plan name
+- Sets expectations for next steps (onboarding timeline)
+- Provides support contact info
+- Can be a single shared page with dynamic plan name, or per-tier pages
+
+#### GHL-C3: Configure Stripe Products & Prices
+
+**Priority:** P0
+
+For each of the 8 tiers:
+1. Create a Stripe product in GHL → Payments → Products
+2. Set the correct pricing (monthly recurring or one-time for Launch)
+3. For tiers with setup fees (After-Hours, Front Office, Full AI), configure as either:
+   - A separate one-time charge at checkout, OR
+   - A combined first-month charge (setup + first month)
+4. Enable Stripe test mode for validation before going live
+
+#### GHL-C4: Query Parameter Pre-Fill Mapping
+
+**Priority:** P0
+
+The `start-checkout` edge function constructs redirect URLs with these query params:
+
+```
+https://go.everintent.com/[tier]
+  ?first_name={firstName}
+  &last_name={lastName}
+  &email={email}
+  &phone={phone}
+  &company_name={businessName}
+```
+
+**GHL configuration required:**
+1. Each checkout page must map these URL params to the correct form fields
+2. Test that pre-filled values appear correctly in the checkout form
+3. Ensure the email field is used for contact matching (so the GHL contact created by the edge function is linked to the payment)
+
+---
+
+### GHL-A: Affiliate Manager Configuration
+
+#### GHL-A1: Configure Affiliate Manager
+
+**Feature ref:** 2.7
+**Priority:** P1
+
+| Task | Details |
+|------|---------|
+| Enable Affiliate Manager in GHL | Settings → Integrations → Affiliate Manager |
+| Create affiliate program | Name: "EverIntent Partner Program" |
+| Set referral window | 90 days (matches cookie expiry) |
+| Configure tracking method | Tag-based: `EI: Affiliate – [ID]` |
+| Create affiliate portal page | URL: `partners.everintent.com` or GHL subdomain |
+
+#### GHL-A2: Deal Registration Form
+
+**Feature ref:** 2.5
+**Priority:** P1
+
+Build a GHL form or portal feature for affiliates to manually register deals:
+
+| Field | Type | Required |
+|-------|------|----------|
+| Affiliate ID / Name | Text | Yes |
+| Client Email | Email | Yes |
+| Client Name | Text | Yes |
+| Client Phone | Phone | No |
+| Notes / Context | Textarea | No |
+
+**Workflow on submission:** Create or update GHL contact → apply `EI: Affiliate – [ID]` tag → create opportunity in Pre-Checkout if none exists.
+
+#### GHL-A3: Commission Rules
+
+**Feature ref:** 2.8
+**Priority:** P1
+
+| Tier | Commission Type | Suggested Rate | Notes |
+|------|----------------|---------------|-------|
+| Launch ($249 one-time) | One-time | 15–20% ($37–$50) | Single payout |
+| Capture ($97/mo) | Recurring | 10–15% ($10–$15/mo) | For X months or lifetime |
+| Convert ($197/mo) | Recurring | 10–15% ($20–$30/mo) | Higher value = higher payout |
+| Scale ($297/mo) | Recurring | 10–15% ($30–$45/mo) | Top tier website |
+| After-Hours ($197/mo) | Recurring + Setup | 10% MRR + 10% setup | Dual commission |
+| Front Office ($297/mo) | Recurring + Setup | 10% MRR + 10% setup | Dual commission |
+| Full AI Employee ($597/mo) | Recurring + Setup | 10% MRR + 10% setup | Highest value product |
+| Web Chat Only ($79/mo) | Recurring | 10% ($8/mo) | Entry-level |
+| Add-Ons ($49–$149/mo) | Recurring | 10% | Commission on add-on MRR |
+
+**Decision needed:** Recurring commission duration — lifetime, 12 months, or first 6 months?
+
+---
+
+### GHL-CF: Custom Fields
+
+#### GHL-CF1: Create/Verify Custom Fields
+
+**Priority:** P0 (required for affiliate passthrough)
+
+| Field Name | Field Type | Object | Purpose |
+|-----------|-----------|--------|---------|
+| `Affiliate ID` | Single Line Text | Contact | Stores the `?ref=` value from cookie. Used by Affiliate Manager for attribution. |
+| `Resume Link` | Single Line Text | Contact | *(Optional)* Store the `?resume=[id]` URL directly on the contact for easy access in recovery templates. Currently stored in notes only. |
+| `Selected Tier` | Single Line Text | Contact | *(Optional)* Store the tier slug for segmentation and reporting. Currently derivable from tier tag. |
+| `UTM Source` | Single Line Text | Contact | *(Optional)* First-touch UTM source for attribution. Currently stored in Supabase only. |
+| `UTM Medium` | Single Line Text | Contact | *(Optional)* First-touch UTM medium. |
+| `UTM Campaign` | Single Line Text | Contact | *(Optional)* First-touch UTM campaign. |
+
+**Required for Phase 3:** At minimum, the `Affiliate ID` custom field must exist. The edge functions need its GHL field ID to populate it via the API (`customFields` array in the upsert payload).
+
+**Action:** After creating the field in GHL, note down the field ID (visible in GHL custom fields settings) and add it as a Supabase secret (`GHL_AFFILIATE_FIELD_ID`) so edge functions can reference it.
+
+---
+
+### GHL-CH: Chat Automation
+
+#### GHL-CH1: Chat Inquiry → Pipeline Placement
+
+**Feature ref:** 6.3
+**Trigger:** Chat widget session opens (or manual tag application)
+**Priority:** P1
+
+| Step | Action | Details |
+|------|--------|---------|
+| 1 | **Trigger** | Tag Added: `EI: Chat – Inquiry` (can be auto-applied by GHL chat widget bot, or manually by agent) |
+| 2 | **Condition** | Contact does NOT have an existing opportunity in Checkout Pipeline |
+| 3 | **Create Opportunity** | Pipeline: "Checkout Pipeline" → Stage: "Pre-Checkout" |
+| 4 | **Set Opportunity Name** | `{contact_name} — Chat Inquiry` |
+| 5 | *(Optional)* **Internal Notification** | Notify sales: "New chat inquiry from {contact_name} on {page_url}" |
+
+**Chat widget configuration:**
+- GHL Chat Widget → Bot Settings → When chat starts, apply tag `EI: Chat – Inquiry`
+- Alternatively, configure the chat bot to ask qualifying questions and only apply the tag when a buying-intent keyword is detected
+
+#### GHL-CH2: Chat-to-Sales Escalation
+
+**Feature ref:** 6.4
+**Trigger:** Chat session conditions
+**Priority:** P2
+
+| Condition | Action |
+|-----------|--------|
+| Chat duration > 5 minutes | Internal notification to sales team via Slack/email/SMS |
+| Keywords detected: "pricing", "cost", "how much", "plan", "compare", "upgrade" | Apply tag `EI: Chat – High Intent` + notify sales |
+| Agent manually escalates | Transfer to live sales rep |
+
+---
+
+### GHL-T: Communications Templates
+
+#### GHL-T1: Cart Recovery SMS Template
+
+**Feature ref:** 1.2
+**Priority:** P0
+
+```
+Hi {first_name} 👋 You started setting up your {selected_tier} plan with EverIntent 
+but didn't finish. No worries — your selections are saved!
+
+Pick up where you left off: {resume_link}
+
+Questions? Reply to this text and we'll help you out.
+
+— The EverIntent Team
+```
+
+**Character count:** ~280 (within SMS limit with link shortening)
+**Personalization fields:** `{first_name}`, `{selected_tier}` (from tier tag), `{resume_link}` (from contact notes or custom field)
+
+#### GHL-T2: Cart Recovery Email Template
+
+**Feature ref:** 1.2
+**Priority:** P0
+
+**Subject line options:**
+- "You're almost there, {first_name} 🚀"
+- "Your {selected_tier} plan is waiting"
+- "Don't lose your spot — complete your setup"
+
+**Body structure:**
+1. Personal greeting referencing their selected plan
+2. Summary of what they chose (tier + add-ons from contact notes)
+3. Clear "Complete Your Setup" CTA button → `{resume_link}`
+4. Social proof: "Join X businesses already using EverIntent"
+5. Support contact info
+6. TCPA-compliant unsubscribe link
+
+#### GHL-T3: Cart Expiry Internal Notification
+
+**Feature ref:** 1.6
+**Priority:** P2
+
+Internal-only notification sent to sales team when a cart expires:
+
+```
+⏰ Cart Expired: {contact_name}
+Plan: {selected_tier}
+Email: {email}
+Phone: {phone}
+Affiliate: {affiliate_id or "None"}
+Originally started: {checkout_start_date}
+
+Consider a manual follow-up if this was a high-value prospect.
+```
+
+---
+
+### GHL-R: Reporting & Dashboards
+
+#### GHL-R1: Affiliate Source Reporting
+
+**Feature ref:** 3.4
+**Priority:** P2
+
+Build a GHL dashboard or report that shows:
+- Number of referrals per affiliate (by `EI: Affiliate – [ID]` tag count)
+- Conversion rate per affiliate (referrals with `EI: Paid` tag / total referrals)
+- Revenue per affiliate (opportunity value for converted referrals)
+- Commission owed per affiliate (based on GHL-A3 rules)
+
+#### GHL-R2: Channel ROI Dashboard
+
+**Feature ref:** 3.5
+**Priority:** P2
+
+Build a GHL dashboard that compares acquisition channels:
+- Group contacts by UTM source (from custom fields or notes)
+- Compare: organic, paid (Google/Facebook), referral (affiliate), chat, direct
+- Track: leads generated, conversion rate, revenue, cost per acquisition
+
+---
+
+### GHL Task Summary
+
+| Category | Task Count | P0 Tasks | P1 Tasks | P2 Tasks | Total Est. Effort |
+|----------|-----------|----------|----------|----------|-------------------|
+| GHL-W (Workflows) | 5 | W1, W3, W4 | W2, W5 | — | 4.5 hours |
+| GHL-C (Checkout Pages) | 4 | C1, C3, C4 | C2 | — | 3 hours |
+| GHL-A (Affiliate) | 3 | — | A1, A2, A3 | — | 5 hours |
+| GHL-CF (Custom Fields) | 1 | CF1 | — | — | 30 min |
+| GHL-CH (Chat) | 2 | — | CH1 | CH2 | 1.5 hours |
+| GHL-T (Templates) | 3 | T1, T2 | — | T3 | 1.5 hours |
+| GHL-R (Reporting) | 2 | — | — | R1, R2 | 2 hours |
+| **Totals** | **20** | **7** | **7** | **6** | **~18 hours** |
+
+### GHL Implementation Order
+
+```
+Phase 0 ✅ (Tags + Pipeline — DONE)
+    │
+    ▼
+GHL-CF1 (Custom Fields — Affiliate ID)          ← NEXT
+    │
+    ├──▶ GHL-C1, C3, C4 (SaaS Checkout Pages)   ← Can parallel
+    │
+    ▼
+GHL-W4 (Opportunity Creation)
+GHL-W3 (Stripe Payment → Paid tag)
+GHL-W1 (Cart Recovery — 30m, P0 steps only)
+GHL-T1, T2 (Recovery SMS + Email templates)
+    │
+    ▼
+GHL-W2 (Cart Expiry — 7 day)
+GHL-W5 (Stage Progression)
+GHL-C2 (Thank-You Pages)
+GHL-CH1 (Chat → Pipeline)
+GHL-A1, A2, A3 (Affiliate Manager)
+    │
+    ▼
+GHL-CH2 (Chat Escalation)
+GHL-T3 (Expiry Notification)
+GHL-R1, R2 (Reporting)
+```
