@@ -501,6 +501,83 @@ The `ghlClient.ts` TIER_TAG_MAP needs these additions for v2.2:
 
 ---
 
+## Phase 7 – Dynamic Theme System v2.0 📋 PLANNED
+
+> **Authority**: `docs/BRD-theming-system-v2.0.md` (v2.0)  
+> **Depends On**: Phase 6 completion (gold token system, checkout styling)  
+> **Scope**: Fully database-driven theming with admin CRUD, 10 themes, light/dark mode, ADA accessibility, Style Modules, export/import
+
+### Architecture Summary
+
+Three-tier design token model (Primitive → Semantic → Component) with static-bake pipeline:
+```
+Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build → Static CSS
+```
+
+### Task Breakdown
+
+#### Batch 1: Schema & Seed (7.1–7.6)
+
+| ID | Task | Status | Deps | Notes |
+|----|------|--------|------|-------|
+| 7.1 | Add `component_tokens`, `typography_config`, `effects_config`, `default_mode` columns to `site_themes` | `todo` | — | JSONB columns; see BRD §5.1 for schema |
+| 7.2 | Add `original_seed` column or `theme_seeds` table for revert system | `todo` | — | Immutable snapshots for revert-to-original (§15) |
+| 7.3 | Populate Indigo Night `dark_mode_overrides` with full dark token set | `todo` | 7.1 | Complete set, not just overrides (§5.1) |
+| 7.4 | Build hue-derived primitive generation function (SQL or Edge) | `todo` | — | Algorithmic token generation from base hue (§3.3) |
+| 7.5 | Seed 9 additional themes using primitive generator + store original seeds | `todo` | 7.1, 7.2, 7.4 | 10 themes total (§8.1); store seeds for revert |
+| 7.6 | Seed effects_config + ADA widget config defaults for all 10 themes | `todo` | 7.5 | Transitions, hover, alerts, ADA visibility/icon (§14, §12) |
+
+#### Batch 2: Pipeline Update (7.7–7.8)
+
+| ID | Task | Status | Deps | Notes |
+|----|------|--------|------|-------|
+| 7.7 | Update `sync-theme-to-github` to emit dual-mode CSS + effects + ADA + Style Modules | `todo` | 7.1 | `:root{}` light + `.dark{}` dark; flatten modules (§19.1) |
+| 7.8 | Update `themes.ts` generation for new token structure + defaultMode | `todo` | 7.7 | Include componentTokens, effectsConfig, accessibilityConfig (§19.2) |
+
+#### Batch 3: Admin Core UI (7.9–7.14)
+
+| ID | Task | Status | Deps | Notes |
+|----|------|--------|------|-------|
+| 7.9 | Admin: Base hue slider with live preview | `todo` | 7.1 | Auto-regenerates all hue-dependent tokens (§10.2) |
+| 7.10 | Admin: Component token editors (sidebar, gold, shadows) | `todo` | 7.1 | Color pickers for Tier 3 tokens (§10.1) |
+| 7.11 | Admin: Effects editor panel (transitions, hover, alerts, toasts) | `todo` | 7.6 | Per-element-type controls (§14.4) |
+| 7.12 | Admin: Typography config editor | `todo` | 7.1 | Font family pickers for heading/body/mono (§4.3) |
+| 7.13 | Admin: Style Modules CRUD (create/edit/delete modules + tokens) | `todo` | 7.1 | Generic component token system — no code changes needed (§16) |
+| 7.14 | Admin: Default light/dark mode selector per theme | `todo` | 7.1 | `dark`/`light`/`system` dropdown (§11.4) |
+
+#### Batch 4: Admin Advanced (7.15–7.20)
+
+| ID | Task | Status | Deps | Notes |
+|----|------|--------|------|-------|
+| 7.15 | Admin: ADA widget config (visibility, pause/hide scheduling, device toggle) | `todo` | 7.6 | Hide indefinitely, pause for duration, per-device (§12.3) |
+| 7.16 | Admin: ADA icon customizer per theme (icon type, color, size, shape) | `todo` | 7.15 | Configurable per base theme (§12.4) |
+| 7.17 | Admin: Theme revert to original (2-layer warning + export escape hatch) | `todo` | 7.2, 7.19 | Warning 1 → Warning 2 with "Export First" button (§15) |
+| 7.18 | Admin: Real-time contrast checker for fg/bg token pairs | `todo` | 7.10 | WCAG AA/AAA pass/fail badge (§12.6) |
+| 7.19 | Build theme export (JSON download — includes Style Modules) | `todo` | 7.1 | Self-documenting schema v2.0 (§13) |
+| 7.20 | Build theme import (file upload + validation + create/update) | `todo` | 7.19 | Schema validation with clear error messages (§13.3) |
+
+#### Batch 5: Component Refactor & User-Facing (7.21–7.26)
+
+| ID | Task | Status | Deps | Notes |
+|----|------|--------|------|-------|
+| 7.21 | Refactor `index.css` — replace all hardcoded HSL with tokens | `todo` | 7.7 | See hardcoded audit in BRD §23 |
+| 7.22 | Refactor `.tsx` components — replace hardcoded colors/transitions | `todo` | 7.21 | Systematic audit of all components |
+| 7.23 | Migrate demo elements (SMSDemo, etc.) to theme tokens / Style Modules | `todo` | 7.13, 7.22 | iOS-style colors → accent/card/highlight tokens (§17) |
+| 7.24 | Implement user-facing light/dark mode toggle (header + mobile + `<head>` script) | `todo` | 7.7 | FOUC prevention via inline script (§11.3) |
+| 7.25 | Implement ADA accessibility widget (floating panel + pause/hide + icon) | `todo` | 7.7, 7.15 | 6 controls: font size, contrast, motion, dyslexia, underlines, focus (§12.2) |
+| 7.26 | Wire alert/toast/modal variants to effects tokens | `todo` | 7.6, 7.22 | Info/success/warning/error variants (§14.2) |
+
+#### Batch 6: Seed & QA (7.27–7.30)
+
+| ID | Task | Status | Deps | Notes |
+|----|------|--------|------|-------|
+| 7.27 | Seed initial Style Modules (checkout-progress, comparison-grid, sms-demo) | `todo` | 7.5, 7.13 | Pre-built modules for key components (§16.2) |
+| 7.28 | Full QA: all 10 themes × both modes × ADA states × Style Modules | `todo` | 7.24, 7.25, 7.27 | Light + dark mode across all themes |
+| 7.29 | Export → edit → re-import round-trip validation test | `todo` | 7.20 | JSON schema integrity check |
+| 7.30 | Revert-to-original round-trip validation test | `todo` | 7.17 | Verify seed restored correctly |
+
+---
+
 ## Changelog
 
 | Date | Change | Author |
@@ -516,3 +593,4 @@ The `ghlClient.ts` TIER_TAG_MAP needs these additions for v2.2:
 | 2026-02-09 | **Phase 6 full spec reconciliation**: Line-by-line audit of v5.2 spec against tracker revealed 10 gaps. Added tasks: 6.18 (add-on eligibility matrix per SC7), 6.19 (Step 1 Back button routing per §4.1), 6.20 (Supabase schema migration per §1.3), 6.21 (UTM capture per §9), 6.22 (accessibility audit per §4.1.3), 6.23 (analytics events per §9), 6.24 (abandoned cart follow-up per §4.4). Expanded 6.8 scope to include GHL note creation and redirect URL construction. Expanded 6.9 to include createNote(). Marked 6.12 and 6.13 as `replaced` by 6.17. Reorganized all tasks into 7 sequential batches (B1–B7) with correct dependencies. | Lovable |
 | 2026-02-10 | **ChatGPT review integration**: Updated 6.24 reference from Matrix v1.2 → v1.3. Expanded 6.24.1 remaining items (Affiliate ID field, Chat – High Intent tag, SaaS checkout page verification). Added ghlClient.ts tag reconciliation as explicit prerequisite in 6.24.5. Expanded 6.24.7 from 3 → 5 E2E scenarios (added cart expiry + Stripe→onboarding). | Lovable |
 | 2026-02-10 | **Post-mortem: Feb 9 color regression.** Hand-coded `--gold` CSS variable and checkout color overrides were correctly wiped by admin theme republish. Updated 6.16 with critical rule: **all color/styling changes must flow through admin CRUD → DB → publish pipeline, never directly in code.** Gold accents must be re-added via admin theme system expansion (6.16), not CSS patches. | Lovable |
+| 2026-02-10 | **Phase 7 added**: Dynamic Theme System v2.0 — 30 tasks across 6 batches per BRD v2.0. Covers: schema expansion, 10-theme seeding, dual-mode CSS pipeline, admin CRUD (hue slider, effects editor, Style Modules, ADA widget config, icon customizer, revert-to-original), user-facing light/dark toggle, ADA accessibility widget with pause/hide scheduling, theme export/import JSON, component refactor, demo element theming, and full QA. | Lovable |
