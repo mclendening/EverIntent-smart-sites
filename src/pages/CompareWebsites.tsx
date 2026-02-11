@@ -404,6 +404,59 @@ export default function CompareWebsites() {
         title="Compare Smart Websites"
         description="Compare Smart Website tiers side-by-side. From $249 one-time to full automation at $297/mo. Find the perfect plan for your business."
         canonical="/compare-websites"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "name": "Smart Website Plans Comparison",
+          "description": "Compare EverIntent Smart Website tiers: Launch, Capture, Convert, and Scale.",
+          "numberOfItems": 4,
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "Product",
+                "name": "Smart Website: Launch",
+                "description": "A beautiful, fast website that establishes credibility and trust. 5 pages, SEO, SSL, responsive design.",
+                "url": "https://everintent.com/smart-websites/launch",
+                "offers": { "@type": "Offer", "price": "249", "priceCurrency": "USD", "availability": "https://schema.org/InStock" }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "Product",
+                "name": "Smart Website: Capture",
+                "description": "AI chat widget, missed call text-back, CRM integration, and lead notifications.",
+                "url": "https://everintent.com/smart-websites/capture",
+                "offers": { "@type": "Offer", "price": "97", "priceCurrency": "USD", "unitPriceSpecification": { "@type": "UnitPriceSpecification", "billingDuration": "P1M" }, "availability": "https://schema.org/InStock" }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "Product",
+                "name": "Smart Website: Convert",
+                "description": "Full CRM, pipeline management, appointment booking, and automated follow-ups.",
+                "url": "https://everintent.com/smart-websites/convert",
+                "offers": { "@type": "Offer", "price": "197", "priceCurrency": "USD", "unitPriceSpecification": { "@type": "UnitPriceSpecification", "billingDuration": "P1M" }, "availability": "https://schema.org/InStock" }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "Product",
+                "name": "Smart Website: Scale",
+                "description": "Complete business automation with AI, unified inbox, advanced workflows, and dedicated success manager.",
+                "url": "https://everintent.com/smart-websites/scale",
+                "offers": { "@type": "Offer", "price": "297", "priceCurrency": "USD", "unitPriceSpecification": { "@type": "UnitPriceSpecification", "billingDuration": "P1M" }, "availability": "https://schema.org/InStock" }
+              }
+            }
+          ]
+        }}
       />
       
       <main className="min-h-screen bg-background">
