@@ -1,31 +1,18 @@
 /**
- * @fileoverview ADA Accessibility Floating Widget — Batches 1 & 2
- * 24 modules modeled after WPOneTap feature set.
+ * @fileoverview ADA Accessibility Floating Widget — Full Implementation
+ * 24 modules + 5 preset profiles modeled after WPOneTap feature set.
  *
- * Batch 1 – Content Modules (10):
- *  1. Text Size (3 levels)        6. Dyslexia Font (OpenDyslexic)
- *  2. Line Height (3 levels)      7. Text Align (left/center/right)
- *  3. Letter Spacing (3 levels)   8. Highlight Links
- *  4. Font Weight (bold toggle)   9. Text Magnifier (tooltip on hover)
- *  5. Readable Font (system sans) 10. Big Cursor
- *
- * Batch 2 – Color Modules (5):
- *  11. Dark Contrast              14. Monochrome
- *  12. Light Contrast             15. High Saturation
- *  13. High Contrast (WCAG AAA)
- *
- * Batch 2 – Orientation Modules (9):
- *  16. Reading Line               21. Mute Sounds
- *  17. Reading Mask               22. Highlight Titles
- *  18. Keyboard Navigation        23. Highlight Content
- *  19. Hide Images                24. Focus Highlight
- *  20. Stop Animations
+ * Batch 1 – Content Modules (10)
+ * Batch 2 – Color Modules (5) + Orientation Modules (9)
+ * Batch 3 – Preset Profiles (5): Vision Impaired, Blind Mode, ADHD, Dyslexia, Motor Impaired
+ * Batch 4 – Reset All polish + Accessibility Statement link
  *
  * Architecture:
  * - Each module stores its state in localStorage under `ada-<key>`
  * - CSS classes applied to <html> element; rules in index.css
  * - Multi-level controls cycle through levels on each click
  * - SSG-safe: all DOM access guarded by typeof window checks
+ * - Preset profiles activate a combination of modules in one click
  */
 
 import { useState, useEffect, useRef, useCallback } from 'react';
@@ -36,7 +23,8 @@ import {
   CaseSensitive, MoveVertical, MoveHorizontal,
   Moon, Sun, Contrast, Palette, Droplets,
   ScanLine, Focus, Keyboard, ImageOff, Pause,
-  VolumeX, Heading, FileText, Eye
+  VolumeX, Heading, FileText, Eye,
+  UserRound, EyeOff, Brain, BookOpen, Hand, Sparkles, FileQuestion
 } from 'lucide-react';
 
 // ─── Admin Config ───────────────────────────────────────────
@@ -86,7 +74,6 @@ interface AdaModule {
   levels?: string[];
   levelLabels?: string[];
   cssClass?: string;
-  /** IDs of modules that are mutually exclusive with this one */
   exclusiveWith?: string[];
 }
 
@@ -222,6 +209,95 @@ const orientationModules: AdaModule[] = [
 /** All modules flattened for state management */
 const allModules: AdaModule[] = [...contentModules, ...colorModules, ...orientationModules];
 
+// ─── Batch 3: Preset Profiles ───────────────────────────────
+
+interface PresetProfile {
+  id: string;
+  label: string;
+  description: string;
+  icon: React.ElementType;
+  /** Module ID → value to set */
+  modules: Record<string, number>;
+}
+
+const presetProfiles: PresetProfile[] = [
+  {
+    id: 'visionImpaired',
+    label: 'Vision Impaired',
+    description: 'Larger text, high contrast, bold, highlight links',
+    icon: Eye,
+    modules: {
+      textSize: 2,        // X-Large
+      fontWeight: 1,      // Bold
+      highContrast: 1,    // WCAG AAA
+      highlightLinks: 1,  // Underline + highlight
+      highlightTitles: 1, // Outline headings
+      lineHeight: 1,      // Comfortable spacing
+    },
+  },
+  {
+    id: 'blindMode',
+    label: 'Blind Mode',
+    description: 'Maximum text size, high contrast, screen reader optimized',
+    icon: EyeOff,
+    modules: {
+      textSize: 3,         // XX-Large
+      fontWeight: 1,       // Bold
+      highContrast: 1,     // WCAG AAA
+      lineHeight: 2,       // 1.75×
+      letterSpacing: 1,    // Wide
+      highlightLinks: 1,
+      highlightTitles: 1,
+      highlightContent: 1,
+      focusHighlight: 1,
+      keyboardNav: 1,
+      hideImages: 1,
+    },
+  },
+  {
+    id: 'adhdFriendly',
+    label: 'ADHD Friendly',
+    description: 'Reading mask, reduced motion, muted distractions',
+    icon: Brain,
+    modules: {
+      readingMask: 1,      // Spotlight focus
+      stopAnimations: 1,   // No distracting motion
+      muteSounds: 1,       // No unexpected audio
+      highlightTitles: 1,  // Content structure
+      lineHeight: 1,       // Comfortable reading
+    },
+  },
+  {
+    id: 'dyslexiaFriendly',
+    label: 'Dyslexia Friendly',
+    description: 'OpenDyslexic font, wider spacing, reading line',
+    icon: BookOpen,
+    modules: {
+      dyslexiaFont: 1,     // OpenDyslexic
+      lineHeight: 2,       // 1.75×
+      letterSpacing: 2,    // Wider
+      textSize: 1,         // Large
+      readingLine: 1,      // Track reading position
+      highlightLinks: 1,
+    },
+  },
+  {
+    id: 'motorImpaired',
+    label: 'Motor Impaired',
+    description: 'Big cursor, large targets, keyboard navigation',
+    icon: Hand,
+    modules: {
+      bigCursor: 1,
+      textSize: 1,         // Large for bigger click targets
+      keyboardNav: 1,      // Enhanced focus rings
+      focusHighlight: 1,   // Extra focus visibility
+      highlightLinks: 1,   // Identify clickable elements
+    },
+  },
+];
+
+const ACTIVE_PROFILE_KEY = 'ada-active-profile';
+
 // ─── Position Helpers ───────────────────────────────────────
 
 const POSITION_KEY = 'ada-widget-position';
@@ -324,15 +400,10 @@ function teardownReadingMask() {
 }
 
 function handleRuntimeEffects(state: Record<string, number>) {
-  // Reading Line
   if (state.readingLine) setupReadingLine();
   else teardownReadingLine();
-
-  // Reading Mask
   if (state.readingMask) setupReadingMask();
   else teardownReadingMask();
-
-  // Mute Sounds
   document.querySelectorAll('audio, video').forEach((el) => {
     (el as HTMLMediaElement).muted = !!(state.muteSounds);
   });
@@ -390,11 +461,60 @@ function ModuleSection({ title, modules, state, onToggle }: ModuleSectionProps) 
   );
 }
 
+// ─── Profiles Section ───────────────────────────────────────
+
+interface ProfilesSectionProps {
+  activeProfile: string | null;
+  onActivate: (profile: PresetProfile) => void;
+}
+
+function ProfilesSection({ activeProfile, onActivate }: ProfilesSectionProps) {
+  return (
+    <div className="px-3 pb-2">
+      <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold px-3 pb-2 pt-3">
+        <Sparkles className="inline h-3 w-3 mr-1 -mt-0.5" />
+        Preset Profiles
+      </p>
+      <div className="space-y-1">
+        {presetProfiles.map(profile => {
+          const isActive = activeProfile === profile.id;
+          const Icon = profile.icon;
+          return (
+            <button
+              key={profile.id}
+              onClick={() => onActivate(profile)}
+              className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all ${
+                isActive
+                  ? 'bg-accent/20 text-accent border border-accent/40 ring-1 ring-accent/20'
+                  : 'hover:bg-muted text-foreground border border-transparent'
+              }`}
+              aria-pressed={isActive}
+              aria-label={`${profile.label} profile${isActive ? ' (active)' : ''}`}
+            >
+              <Icon className="h-5 w-5 shrink-0" />
+              <div className="flex-1 min-w-0">
+                <span className="text-sm font-medium block">{profile.label}</span>
+                <span className="text-[11px] text-muted-foreground block truncate">{profile.description}</span>
+              </div>
+              {isActive && (
+                <span className="text-xs bg-accent text-accent-foreground px-2 py-0.5 rounded-full shrink-0">
+                  Active
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 // ─── Component ──────────────────────────────────────────────
 
 export function AccessibilityWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [state, setState] = useState<Record<string, number>>({});
+  const [activeProfile, setActiveProfile] = useState<string | null>(null);
   const config = getAdaConfig();
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
@@ -422,6 +542,12 @@ export function AccessibilityWidget() {
     setState(loaded);
     applyAllModules(loaded);
     handleRuntimeEffects(loaded);
+
+    // Restore active profile
+    try {
+      const savedProfile = localStorage.getItem(ACTIVE_PROFILE_KEY);
+      if (savedProfile) setActiveProfile(savedProfile);
+    } catch {}
   }, []);
 
   // Drag handlers
@@ -460,6 +586,14 @@ export function AccessibilityWidget() {
   if (config.hideOnDesktop && !isMobile) return null;
   if (config.pauseUntil && new Date(config.pauseUntil) > new Date()) return null;
 
+  function applyState(newState: Record<string, number>) {
+    allModules.forEach(m => {
+      localStorage.setItem(m.key, String(newState[m.id] ?? 0));
+    });
+    applyAllModules(newState);
+    handleRuntimeEffects(newState);
+  }
+
   function toggleModule(mod: AdaModule) {
     setState(prev => {
       const current = prev[mod.id] ?? 0;
@@ -479,14 +613,52 @@ export function AccessibilityWidget() {
         mod.exclusiveWith.forEach(exId => { updated[exId] = 0; });
       }
 
-      // Persist all
-      allModules.forEach(m => {
-        localStorage.setItem(m.key, String(updated[m.id] ?? 0));
+      // If a module was manually toggled, clear the active profile
+      setActiveProfile(null);
+      try { localStorage.removeItem(ACTIVE_PROFILE_KEY); } catch {}
+
+      applyState(updated);
+      return updated;
+    });
+  }
+
+  function activateProfile(profile: PresetProfile) {
+    setState(prev => {
+      // If this profile is already active, deactivate it (reset all its modules)
+      if (activeProfile === profile.id) {
+        const cleared: Record<string, number> = {};
+        allModules.forEach(mod => { cleared[mod.id] = 0; });
+        setActiveProfile(null);
+        try { localStorage.removeItem(ACTIVE_PROFILE_KEY); } catch {}
+        applyState(cleared);
+        return cleared;
+      }
+
+      // Clear everything first, then apply profile modules
+      const newState: Record<string, number> = {};
+      allModules.forEach(mod => { newState[mod.id] = 0; });
+      
+      // Apply profile module values
+      Object.entries(profile.modules).forEach(([modId, value]) => {
+        newState[modId] = value;
       });
 
-      applyAllModules(updated);
-      handleRuntimeEffects(updated);
-      return updated;
+      // Handle mutual exclusions within the profile
+      // (profiles are pre-validated to not conflict, but safety check)
+      allModules.forEach(mod => {
+        if (newState[mod.id] > 0 && mod.exclusiveWith) {
+          mod.exclusiveWith.forEach(exId => {
+            if (!(exId in profile.modules)) {
+              newState[exId] = 0;
+            }
+          });
+        }
+      });
+
+      setActiveProfile(profile.id);
+      try { localStorage.setItem(ACTIVE_PROFILE_KEY, profile.id); } catch {}
+      applyState(newState);
+      return newState;
     });
   }
 
@@ -497,6 +669,8 @@ export function AccessibilityWidget() {
       localStorage.removeItem(mod.key);
     });
     setState(cleared);
+    setActiveProfile(null);
+    try { localStorage.removeItem(ACTIVE_PROFILE_KEY); } catch {}
     clearAllModules();
     handleRuntimeEffects(cleared);
   }
@@ -578,7 +752,7 @@ export function AccessibilityWidget() {
                     aria-label="Reset all accessibility settings"
                   >
                     <RotateCcw className="h-3 w-3" />
-                    Reset
+                    Reset All
                   </button>
                 )}
                 <button
@@ -591,10 +765,25 @@ export function AccessibilityWidget() {
               </div>
             </div>
 
+            {/* Preset Profiles */}
+            <ProfilesSection activeProfile={activeProfile} onActivate={activateProfile} />
+
             {/* Module Sections */}
             <ModuleSection title="Content" modules={contentModules} state={state} onToggle={toggleModule} />
             <ModuleSection title="Color & Contrast" modules={colorModules} state={state} onToggle={toggleModule} />
             <ModuleSection title="Orientation" modules={orientationModules} state={state} onToggle={toggleModule} />
+
+            {/* Footer: Accessibility Statement */}
+            <div className="px-6 py-4 border-t border-border">
+              <a
+                href="/legal/accessibility-statement"
+                className="flex items-center gap-2 text-xs text-muted-foreground hover:text-accent transition-colors"
+                aria-label="Read our accessibility statement"
+              >
+                <FileQuestion className="h-3.5 w-3.5 shrink-0" />
+                Accessibility Statement
+              </a>
+            </div>
           </div>
         </>
       )}

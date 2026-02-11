@@ -746,15 +746,28 @@ A floating accessibility button opens a categorized panel modeled after the **WP
 | 23 | **Highlight Content** | Toggle | `ada-highlight-content` | ❌ Planned |
 | 24 | **Focus Highlight** | Toggle | `ada-focus-highlight` | ✅ CSS exists |
 
-#### 12.2.3 Batch 3 — Preset Profiles (5) — Planned
+#### 12.2.3 Batch 3 — Preset Profiles (5) — ✅ COMPLETE
 
-| Profile | Activates |
-|---------|-----------|
-| **Vision Impaired** | Text Size 2, Line Height 1, High Contrast |
-| **Blind Mode** | Text Size 3, Readable Font, High Contrast, Focus Highlight, Keyboard Nav |
-| **ADHD Friendly** | Reading Mask, Highlight Titles, Stop Animations, Big Cursor |
-| **Dyslexia Friendly** | Dyslexia Font, Line Height 2, Letter Spacing 2, Highlight Links |
-| **Motor Impaired** | Big Cursor, Focus Highlight, Keyboard Nav, Text Size 1 |
+| Profile | Activates | Status |
+|---------|-----------|--------|
+| **Vision Impaired** | Text Size 2, Font Weight, High Contrast, Highlight Links, Highlight Titles, Line Height 1 | ✅ |
+| **Blind Mode** | Text Size 3, Font Weight, High Contrast, Line Height 2, Letter Spacing 1, Highlight Links, Highlight Titles, Highlight Content, Focus Highlight, Keyboard Nav, Hide Images | ✅ |
+| **ADHD Friendly** | Reading Mask, Stop Animations, Mute Sounds, Highlight Titles, Line Height 1 | ✅ |
+| **Dyslexia Friendly** | Dyslexia Font, Line Height 2, Letter Spacing 2, Text Size 1, Reading Line, Highlight Links | ✅ |
+| **Motor Impaired** | Big Cursor, Text Size 1, Keyboard Nav, Focus Highlight, Highlight Links | ✅ |
+
+**Implementation details:**
+- Profiles stored in `ada-active-profile` localStorage key
+- Clicking active profile deactivates it (resets all modules)
+- Manually toggling any module clears the active profile
+- ProfilesSection component renders at top of panel with description text
+
+#### 12.2.4 Batch 4 — Reset All + Accessibility Statement — ✅ COMPLETE
+
+| Feature | Detail | Status |
+|---------|--------|--------|
+| **Reset All** | Clears all modules + active profile, removes all `ada-*` localStorage keys | ✅ |
+| **Accessibility Statement Link** | Footer link in panel pointing to `/legal/accessibility-statement` | ✅ |
 
 #### 12.2.1 Draggable Positioning (Desktop & Mobile)
 
