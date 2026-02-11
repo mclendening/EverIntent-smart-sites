@@ -555,6 +555,7 @@ export type Database = {
         Row: {
           accent_config: Json
           accent_locked_to_base: boolean | null
+          ada_widget_config: Json
           base_hue: number
           changelog_notes: string | null
           component_tokens: Json
@@ -581,6 +582,7 @@ export type Database = {
         Insert: {
           accent_config?: Json
           accent_locked_to_base?: boolean | null
+          ada_widget_config?: Json
           base_hue?: number
           changelog_notes?: string | null
           component_tokens?: Json
@@ -607,6 +609,7 @@ export type Database = {
         Update: {
           accent_config?: Json
           accent_locked_to_base?: boolean | null
+          ada_widget_config?: Json
           base_hue?: number
           changelog_notes?: string | null
           component_tokens?: Json

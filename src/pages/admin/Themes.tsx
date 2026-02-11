@@ -24,6 +24,7 @@ import { TypographyEditor, type TypographyConfig } from '@/components/admin/Typo
 import { MotionEditor, type MotionConfig } from '@/components/admin/MotionEditor';
 import { StyleModulesEditor, type StyleModule } from '@/components/admin/StyleModulesEditor';
 import { DefaultModeSelector } from '@/components/admin/DefaultModeSelector';
+import { AdaWidgetConfigEditor, type AdaWidgetConfig } from '@/components/admin/AdaWidgetConfigEditor';
 
 type Theme = Tables<'site_themes'>;
 type LogoVersion = Tables<'logo_versions'>;
@@ -192,6 +193,19 @@ export default function AdminThemes() {
   });
   const [styleModules, setStyleModules] = useState<StyleModule[]>([]);
   const [defaultMode, setDefaultMode] = useState<string>('dark');
+  const [adaWidgetConfig, setAdaWidgetConfig] = useState<AdaWidgetConfig>({
+    enabled: true,
+    position: 'bottom-right',
+    hideOnMobile: false,
+    hideOnDesktop: false,
+    pauseUntil: null,
+    hiddenIndefinitely: false,
+    iconType: 'universal',
+    iconColor: '0 0% 100%',
+    iconBgColor: '240 70% 60%',
+    iconSize: 48,
+    iconShape: 'circle',
+  });
 
   // Fetch themes and logo versions
   useEffect(() => {
@@ -295,6 +309,22 @@ export default function AdminThemes() {
 
       // Parse default mode
       setDefaultMode(selectedTheme.default_mode || 'dark');
+
+      // Parse ADA widget config
+      const adaCfg = selectedTheme.ada_widget_config as Record<string, any> || {};
+      setAdaWidgetConfig({
+        enabled: adaCfg.enabled ?? true,
+        position: adaCfg.position ?? 'bottom-right',
+        hideOnMobile: adaCfg.hideOnMobile ?? false,
+        hideOnDesktop: adaCfg.hideOnDesktop ?? false,
+        pauseUntil: adaCfg.pauseUntil ?? null,
+        hiddenIndefinitely: adaCfg.hiddenIndefinitely ?? false,
+        iconType: adaCfg.iconType ?? 'universal',
+        iconColor: adaCfg.iconColor ?? '0 0% 100%',
+        iconBgColor: adaCfg.iconBgColor ?? '240 70% 60%',
+        iconSize: adaCfg.iconSize ?? 48,
+        iconShape: adaCfg.iconShape ?? 'circle',
+      });
     }
   }, [selectedTheme]);
 
@@ -388,6 +418,7 @@ export default function AdminThemes() {
           motion_config: motionConfig as unknown as Json,
           style_modules: styleModules as unknown as Json,
           default_mode: defaultMode,
+          ada_widget_config: adaWidgetConfig as unknown as Json,
           changelog_notes: selectedTheme.changelog_notes,
         })
         .eq('id', selectedTheme.id);
@@ -1904,6 +1935,46 @@ ${styleModulesCss}  }
               <Rocket className="h-4 w-4 sm:mr-2" />
               <span className="hidden sm:inline">Publish to Prod</span>
             </Button>
+            {selectedTheme && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-xs sm:text-sm"
+                onClick={() => {
+                  const exportData = {
+                    $schema: 'https://everintent.com/schemas/theme-export-v2.0.json',
+                    version: '2.0',
+                    exportedAt: new Date().toISOString(),
+                    theme: {
+                      name: selectedTheme.name,
+                      baseHue: selectedTheme.base_hue,
+                      defaultMode: selectedTheme.default_mode,
+                      accentConfig: selectedTheme.accent_config,
+                      staticColors: selectedTheme.static_colors,
+                      gradientConfigs: selectedTheme.gradient_configs,
+                      ghlChatConfig: selectedTheme.ghl_chat_config,
+                      ecommerceColors: selectedTheme.ecommerce_colors,
+                      ctaVariants: selectedTheme.cta_variants,
+                      typographyConfig: selectedTheme.typography_config,
+                      motionConfig: selectedTheme.motion_config,
+                      styleModules: selectedTheme.style_modules,
+                      adaWidgetConfig: selectedTheme.ada_widget_config,
+                    },
+                  };
+                  const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = `${selectedTheme.name.toLowerCase().replace(/\s+/g, '-')}-theme-v2.0.json`;
+                  a.click();
+                  URL.revokeObjectURL(url);
+                  toast({ title: 'Theme exported', description: `Downloaded ${a.download}` });
+                }}
+              >
+                <Download className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Export JSON</span>
+              </Button>
+            )}
             <Link to={`/admin/theme-test${selectedTheme ? `?themeId=${selectedTheme.id}` : ''}`} target="_blank">
               <Button variant="outline" size="sm" className="text-xs sm:text-sm">
                 <Eye className="h-4 w-4 sm:mr-2" />
@@ -2613,6 +2684,12 @@ ${styleModulesCss}  }
                             <DefaultModeSelector
                               defaultMode={defaultMode}
                               onChange={setDefaultMode}
+                            />
+
+                            {/* ADA Accessibility Widget Config */}
+                            <AdaWidgetConfigEditor
+                              config={adaWidgetConfig}
+                              onChange={setAdaWidgetConfig}
                             />
                           </Accordion>
                         </ScrollArea>
