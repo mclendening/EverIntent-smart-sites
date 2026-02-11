@@ -28,6 +28,7 @@ import { DefaultModeSelector } from '@/components/admin/DefaultModeSelector';
 import { AdaWidgetConfigEditor, type AdaWidgetConfig } from '@/components/admin/AdaWidgetConfigEditor';
 import { ContrastChecker } from '@/components/admin/ContrastChecker';
 import { ThemeImporter } from '@/components/admin/ThemeImporter';
+import { DarkModeOverridesEditor, type DarkModeOverrides, DARK_MODE_DEFAULTS } from '@/components/admin/DarkModeOverridesEditor';
 
 type Theme = Tables<'site_themes'>;
 type LogoVersion = Tables<'logo_versions'>;
@@ -204,6 +205,7 @@ export default function AdminThemes() {
   });
   const [styleModules, setStyleModules] = useState<StyleModule[]>([]);
   const [defaultMode, setDefaultMode] = useState<string>('dark');
+  const [darkModeOverrides, setDarkModeOverrides] = useState<DarkModeOverrides>({ ...DARK_MODE_DEFAULTS });
   const [adaWidgetConfig, setAdaWidgetConfig] = useState<AdaWidgetConfig>({
     enabled: true,
     position: 'bottom-right',
@@ -321,6 +323,28 @@ export default function AdminThemes() {
       // Parse default mode
       setDefaultMode(selectedTheme.default_mode || 'dark');
 
+      // Parse dark mode overrides
+      const darkOverrides = selectedTheme.dark_mode_overrides as Record<string, string> || {};
+      const hasDarkOverrides = Object.keys(darkOverrides).length > 0;
+      setDarkModeOverrides(hasDarkOverrides ? {
+        background: darkOverrides.background || DARK_MODE_DEFAULTS.background,
+        foreground: darkOverrides.foreground || DARK_MODE_DEFAULTS.foreground,
+        card: darkOverrides.card || DARK_MODE_DEFAULTS.card,
+        cardForeground: darkOverrides.cardForeground || DARK_MODE_DEFAULTS.cardForeground,
+        popover: darkOverrides.popover || DARK_MODE_DEFAULTS.popover,
+        popoverForeground: darkOverrides.popoverForeground || DARK_MODE_DEFAULTS.popoverForeground,
+        primary: darkOverrides.primary || DARK_MODE_DEFAULTS.primary,
+        primaryLight: darkOverrides.primaryLight || DARK_MODE_DEFAULTS.primaryLight,
+        primaryForeground: darkOverrides.primaryForeground || DARK_MODE_DEFAULTS.primaryForeground,
+        secondary: darkOverrides.secondary || DARK_MODE_DEFAULTS.secondary,
+        secondaryForeground: darkOverrides.secondaryForeground || DARK_MODE_DEFAULTS.secondaryForeground,
+        muted: darkOverrides.muted || DARK_MODE_DEFAULTS.muted,
+        mutedForeground: darkOverrides.mutedForeground || DARK_MODE_DEFAULTS.mutedForeground,
+        border: darkOverrides.border || DARK_MODE_DEFAULTS.border,
+        input: darkOverrides.input || DARK_MODE_DEFAULTS.input,
+        ring: darkOverrides.ring || DARK_MODE_DEFAULTS.ring,
+      } : { ...DARK_MODE_DEFAULTS });
+
       // Parse ADA widget config
       const adaCfg = selectedTheme.ada_widget_config as Record<string, any> || {};
       setAdaWidgetConfig({
@@ -429,6 +453,7 @@ export default function AdminThemes() {
           motion_config: motionConfig as unknown as Json,
           style_modules: styleModules as unknown as Json,
           default_mode: defaultMode,
+          dark_mode_overrides: darkModeOverrides as unknown as Json,
           ada_widget_config: adaWidgetConfig as unknown as Json,
           changelog_notes: selectedTheme.changelog_notes,
         })
@@ -499,6 +524,7 @@ export default function AdminThemes() {
         defaultMode: selectedTheme.default_mode,
         accentConfig: selectedTheme.accent_config,
         staticColors: selectedTheme.static_colors,
+        darkModeOverrides: selectedTheme.dark_mode_overrides,
         gradientConfigs: selectedTheme.gradient_configs,
         ghlChatConfig: selectedTheme.ghl_chat_config,
         ecommerceColors: selectedTheme.ecommerce_colors,
@@ -547,6 +573,7 @@ export default function AdminThemes() {
         .update({
           accent_config: seedConfig.accentConfig as unknown as Json,
           static_colors: seedConfig.staticColors as unknown as Json,
+          dark_mode_overrides: seedConfig.darkModeOverrides as unknown as Json || {},
           gradient_configs: seedConfig.gradientConfigs as unknown as Json,
           ghl_chat_config: seedConfig.ghlChatConfig as unknown as Json,
           ecommerce_colors: seedConfig.ecommerceColors as unknown as Json,
@@ -585,6 +612,7 @@ export default function AdminThemes() {
         defaultMode: selectedTheme.default_mode,
         accentConfig: selectedTheme.accent_config,
         staticColors: selectedTheme.static_colors,
+        darkModeOverrides: selectedTheme.dark_mode_overrides,
         gradientConfigs: selectedTheme.gradient_configs,
         ghlChatConfig: selectedTheme.ghl_chat_config,
         ecommerceColors: selectedTheme.ecommerce_colors,
@@ -796,6 +824,24 @@ export interface ThemeConfig {
     tokens: Array<{ name: string; value: string }>;
   }>;
   defaultMode?: string;
+  darkModeOverrides?: {
+    background: string;
+    foreground: string;
+    card: string;
+    cardForeground: string;
+    popover: string;
+    popoverForeground: string;
+    primary: string;
+    primaryLight: string;
+    primaryForeground: string;
+    secondary: string;
+    secondaryForeground: string;
+    muted: string;
+    mutedForeground: string;
+    border: string;
+    input: string;
+    ring: string;
+  };
   logoVersionId?: string;${logoTypeSection}
 }
 
@@ -850,6 +896,7 @@ export const activeTheme: ThemeConfig = {
   motionConfig: ${JSON.stringify(activeTheme.motion_config || {}, null, 4).replace(/\n/g, '\n  ')},
   styleModules: ${JSON.stringify(activeTheme.style_modules || [], null, 4).replace(/\n/g, '\n  ')},
   defaultMode: '${activeTheme.default_mode || 'dark'}',
+  darkModeOverrides: ${JSON.stringify(activeTheme.dark_mode_overrides && Object.keys(activeTheme.dark_mode_overrides as object).length > 0 ? activeTheme.dark_mode_overrides : null, null, 4)?.replace(/\n/g, '\n  ') || 'null'},
 };
 
 // ============================================
@@ -881,7 +928,11 @@ export function getThemeForRoute(pathname: string): ThemeConfig {
 
 export function applyThemeToRoot(theme: ThemeConfig): void {
   const root = document.documentElement;
-  Object.entries(theme.staticColors).forEach(([key, value]) => {
+  const isDark = root.classList.contains('dark');
+  
+  // Mode-aware: use darkModeOverrides for dark, staticColors for light
+  const colors = (isDark && theme.darkModeOverrides) ? theme.darkModeOverrides : theme.staticColors;
+  Object.entries(colors).forEach(([key, value]) => {
     const cssVar = key.replace(/([A-Z])/g, '-$1').toLowerCase();
     root.style.setProperty(\`--\${cssVar}\`, value);
   });
@@ -950,6 +1001,10 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
   const generateProductionCss = (theme: Theme): string => {
     const accentCfg = theme.accent_config as Record<string, any>;
     const staticCols = theme.static_colors as Record<string, string>;
+    const darkOverrides = theme.dark_mode_overrides as Record<string, string> || {};
+    const hasDarkOverrides = Object.keys(darkOverrides).length > 0;
+    // Use dark_mode_overrides for .dark block if populated, else fall back to static_colors
+    const darkCols = hasDarkOverrides ? darkOverrides : staticCols;
     const gradientCfg = theme.gradient_configs as Record<string, string>;
     const ecomCols = theme.ecommerce_colors as Record<string, string> || {};
     const ctaCfg = theme.cta_variants as Record<string, string> || {};
@@ -1101,24 +1156,24 @@ ${styleModulesCss}  }
 
   /* ========== DARK MODE — Overrides ========== */
   .dark {
-    --background: ${staticCols.background || '222 47% 7%'};
-    --foreground: ${staticCols.foreground || '60 9% 98%'};
+    --background: ${darkCols.background || '222 47% 7%'};
+    --foreground: ${darkCols.foreground || '60 9% 98%'};
 
-    --card: ${staticCols.card || '222 47% 10%'};
-    --card-foreground: ${staticCols.cardForeground || '60 9% 98%'};
+    --card: ${darkCols.card || '222 47% 10%'};
+    --card-foreground: ${darkCols.cardForeground || '60 9% 98%'};
 
-    --popover: ${staticCols.popover || '222 47% 10%'};
-    --popover-foreground: ${staticCols.popoverForeground || '60 9% 98%'};
+    --popover: ${darkCols.popover || '222 47% 10%'};
+    --popover-foreground: ${darkCols.popoverForeground || '60 9% 98%'};
 
-    --primary: ${staticCols.primary || '215 25% 27%'};
-    --primary-light: ${staticCols.primaryLight || '215 20% 40%'};
-    --primary-foreground: ${staticCols.primaryForeground || '0 0% 100%'};
+    --primary: ${darkCols.primary || '215 25% 27%'};
+    --primary-light: ${darkCols.primaryLight || '215 20% 40%'};
+    --primary-foreground: ${darkCols.primaryForeground || '0 0% 100%'};
 
-    --secondary: ${staticCols.secondary || '222 47% 12%'};
-    --secondary-foreground: ${staticCols.secondaryForeground || '60 9% 98%'};
+    --secondary: ${darkCols.secondary || '222 47% 12%'};
+    --secondary-foreground: ${darkCols.secondaryForeground || '60 9% 98%'};
 
-    --muted: ${staticCols.muted || '222 47% 15%'};
-    --muted-foreground: ${staticCols.mutedForeground || '215 16% 65%'};
+    --muted: ${darkCols.muted || '222 47% 15%'};
+    --muted-foreground: ${darkCols.mutedForeground || '215 16% 65%'};
 
     --accent: ${accentCfg.accent || '240 70% 60%'};
     --accent-hover: ${accentCfg.accentHover || `${h} ${s}% ${Math.max(l - 10, 20)}%`};
@@ -1133,9 +1188,9 @@ ${styleModulesCss}  }
     --destructive: 0 62% 30%;
     --destructive-foreground: 60 9% 98%;
 
-    --border: ${staticCols.border || '215 25% 20%'};
-    --input: ${staticCols.input || '215 25% 20%'};
-    --ring: ${staticCols.ring || accentCfg.accent || '240 70% 60%'};
+    --border: ${darkCols.border || '215 25% 20%'};
+    --input: ${darkCols.input || '215 25% 20%'};
+    --ring: ${darkCols.ring || accentCfg.accent || '240 70% 60%'};
 
     /* Gradients - Dark Mode */
     --gradient-hero: ${gradientCfg.hero || `linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(${h} 30% 18%) 50%, hsl(222 47% 11%) 100%)`};
@@ -1165,9 +1220,9 @@ ${styleModulesCss}  }
     --sidebar-ring: ${accentCfg.accent || '240 70% 60%'};
 
     /* GHL Chat Widget - Dark */
-    --ghl-textarea-bg: ${ghlCfg.textareaBg || staticCols.background || '222 47% 7%'};
-    --ghl-textarea-text: ${ghlCfg.textareaText || staticCols.foreground || '60 9% 98%'};
-    --ghl-textarea-border: ${ghlCfg.textareaBorder || staticCols.border || '215 25% 20%'};
+    --ghl-textarea-bg: ${ghlCfg.textareaBg || darkCols.background || '222 47% 7%'};
+    --ghl-textarea-text: ${ghlCfg.textareaText || darkCols.foreground || '60 9% 98%'};
+    --ghl-textarea-border: ${ghlCfg.textareaBorder || darkCols.border || '215 25% 20%'};
     --ghl-textarea-focus-border: ${ghlCfg.textareaFocusBorder || accentCfg.accent || '240 70% 60%'};
     --ghl-textarea-focus-glow: ${ghlCfg.textareaFocusGlow || accentCfg.accent || '240 70% 60%'};
     --ghl-send-button-bg: ${ghlCfg.sendButtonBg || accentCfg.accent || '240 70% 60%'};
@@ -1563,6 +1618,7 @@ ${styleModulesCss}  }
           config_json: {
             accentConfig: activeTheme.accent_config,
             staticColors: activeTheme.static_colors,
+            darkModeOverrides: activeTheme.dark_mode_overrides,
             gradientConfigs: activeTheme.gradient_configs,
           },
           is_active: true,
@@ -2916,6 +2972,13 @@ ${styleModulesCss}  }
                                 </div>
                               </AccordionContent>
                             </AccordionItem>
+
+                            {/* Dark Mode Overrides */}
+                            <DarkModeOverridesEditor
+                              overrides={darkModeOverrides}
+                              onChange={setDarkModeOverrides}
+                              baseColors={staticColors}
+                            />
 
                             {/* E-commerce & Gold Colors */}
                             <EcommerceColorEditor

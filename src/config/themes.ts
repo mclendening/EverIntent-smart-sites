@@ -82,6 +82,24 @@ export interface ThemeConfig {
     input: string;
     ring: string;
   };
+  darkModeOverrides?: {
+    background: string;
+    foreground: string;
+    card: string;
+    cardForeground: string;
+    popover: string;
+    popoverForeground: string;
+    primary: string;
+    primaryLight: string;
+    primaryForeground: string;
+    secondary: string;
+    secondaryForeground: string;
+    muted: string;
+    mutedForeground: string;
+    border: string;
+    input: string;
+    ring: string;
+  } | null;
   gradientConfigs: {
     hero: string;
     cta: string;
@@ -246,6 +264,7 @@ export const activeTheme: ThemeConfig = {
   },
   styleModules: [],
   defaultMode: 'dark',
+  darkModeOverrides: null,
 };
 
 // ============================================
@@ -277,7 +296,11 @@ export function getThemeForRoute(pathname: string): ThemeConfig {
 
 export function applyThemeToRoot(theme: ThemeConfig): void {
   const root = document.documentElement;
-  Object.entries(theme.staticColors).forEach(([key, value]) => {
+  const isDark = root.classList.contains('dark');
+  
+  // Mode-aware: use darkModeOverrides for dark, staticColors for light
+  const colors = (isDark && theme.darkModeOverrides) ? theme.darkModeOverrides : theme.staticColors;
+  Object.entries(colors).forEach(([key, value]) => {
     const cssVar = key.replace(/([A-Z])/g, '-$1').toLowerCase();
     root.style.setProperty(`--${cssVar}`, value);
   });
