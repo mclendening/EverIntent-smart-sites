@@ -561,9 +561,14 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 
 | ID | Task | Status | Deps | Notes |
 |----|------|--------|------|-------|
-| 7.21 | Refactor `index.css` — replace all hardcoded HSL with tokens | `todo` | 7.7 | See hardcoded audit in BRD §23 |
-| 7.22 | Refactor `.tsx` components — replace hardcoded colors/transitions | `todo` | 7.21 | Systematic audit of all components |
-| 7.23 | Migrate demo elements (SMSDemo, etc.) to theme tokens / Style Modules | `todo` | 7.13, 7.22 | iOS-style colors → accent/card/highlight tokens (§17) |
+| 7.21 | Refactor `index.css` — replace all hardcoded HSL with tokens | `todo` | 7.7 | `::selection` bg → `hsl(var(--accent) / 0.3)`, `.glow-text` → `hsl(var(--accent) / 0.5)`, `.text-gradient-light` first stop → `hsl(var(--foreground))`, 4× icon gradients (ocean/royal/sky/electric) → component tokens (BRD §4.3.6–4.3.7) |
+| 7.21a | Define `--secondary-accent` CSS variable in `index.css` | `todo` | 7.7 | Referenced in `tailwind.config.ts:70` but never defined — renders invisible. Must be emitted by publish pipeline (BRD §4.2) |
+| 7.21b | Define `--gold-foreground` CSS variable | `todo` | 7.7 | Needed for accessible text-on-gold. Default: `H 47% 11%` (BRD §4.3.1) |
+| 7.21c | Tokenize `pulse-glow` keyframe in `tailwind.config.ts` | `todo` | 7.21 | Lines 158-159 hardcode `hsl(42 76% 55% / 0.2)` and `0.4` — replace with `var(--gold)` reference (BRD §4.3.8) |
+| 7.21d | Convert typography to CSS variables (`--font-heading`, `--font-body`, `--font-mono`) | `todo` | 7.12 | Currently hardcoded in `index.css:116/120` and `tailwind.config.ts:17-20` (BRD §4.4) |
+| 7.21e | Convert motion transitions to CSS variables (`--transition-smooth`, `--transition-bounce`, `--transition-spring`) | `todo` | 7.11 | Utility classes exist in `index.css:214-216` but not as CSS variables (BRD §4.5) |
+| 7.22 | Refactor `.tsx` components — replace hardcoded colors/transitions | `todo` | 7.21 | `CaseStudyLayout.tsx` `bg-[#0D0D0D]` → `bg-background`; `AIEmployee.tsx` inline SVG gradients → component tokens; `FrontOffice.tsx` green status cards → `--status-success`; `SocialProofBar.tsx` / `Industries.tsx` SVG gradients → component tokens; `TranscriptCard.tsx` `text-green-500` → `--status-success` (BRD §4.3.9) |
+| 7.23 | Migrate demo elements (SMSDemo, etc.) to theme tokens / Style Modules | `todo` | 7.13, 7.22 | iOS-style colors → accent/card/highlight tokens (§17). **Note:** `SMSDemo.tsx`, `RealisticDashboards.tsx` are exempt per BRD §4.6 |
 | 7.24 | Implement user-facing light/dark mode toggle (header + mobile + `<head>` script) | `todo` | 7.7 | FOUC prevention via inline script (§11.3) |
 | 7.25 | Implement ADA accessibility widget (floating panel + pause/hide + icon) | `todo` | 7.7, 7.15 | 6 controls: font size, contrast, motion, dyslexia, underlines, focus (§12.2) |
 | 7.26 | Wire alert/toast/modal variants to effects tokens | `todo` | 7.6, 7.22 | Info/success/warning/error variants (§14.2) |
@@ -597,6 +602,10 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 | 2026-02-10 | **Phase 7 added**: Dynamic Theme System v2.0 — 30 tasks across 6 batches per BRD v2.0. Covers: schema expansion, 10-theme seeding, dual-mode CSS pipeline, admin CRUD (hue slider, effects editor, Style Modules, ADA widget config, icon customizer, revert-to-original), user-facing light/dark toggle, ADA accessibility widget with pause/hide scheduling, theme export/import JSON, component refactor, demo element theming, and full QA. | Lovable |
 | 2026-02-10 | **Task 7.17a added**: "Write current as new default" — overwrites theme seed snapshot with current config using same 2-layer warning + export pattern as revert (BRD §15.4). | Lovable |
 | 2026-02-11 | **Full color token audit** — comprehensive codebase scan of every page/component. See §Color Token Audit below. | Lovable |
+
+---
+
+| 2026-02-11 | **BRD §4 reconciliation**: Added 5 new sub-tasks to Batch 5: 7.21a (`--secondary-accent` definition), 7.21b (`--gold-foreground`), 7.21c (`pulse-glow` keyframe tokenization), 7.21d (typography CSS vars), 7.21e (motion CSS vars). Expanded 7.21 notes with specific file:line references from BRD §4.3.6–4.3.8. Expanded 7.22 notes with per-file fix list from BRD §4.3.9. Clarified 7.23 exemptions per BRD §4.6. | Lovable |
 
 ---
 
