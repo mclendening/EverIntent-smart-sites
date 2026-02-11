@@ -11,6 +11,7 @@ import { Menu } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { NavDropdown } from '@/components/layout/NavDropdown';
 import { LogoRenderer } from '@/components/logo/LogoRenderer';
+import { ModeToggle } from '@/components/ModeToggle';
 import { activeTheme } from '@/config/themes';
 import {
   Sheet,
@@ -143,7 +144,8 @@ export function Header() {
         </nav>
 
         {/* Desktop CTA - Native anchor */}
-        <div className="hidden lg:flex items-center">
+        <div className="hidden lg:flex items-center gap-3">
+          <ModeToggle variant="compact" />
           <a href="/pricing" className="btn-gold btn-glow">
             Get Started
           </a>
@@ -251,6 +253,11 @@ export function Header() {
                       {item.title}
                     </a>
                   ))}
+                </div>
+
+                {/* Theme Toggle */}
+                <div className="py-3 border-t border-border/30">
+                  <ModeToggle variant="expanded" />
                 </div>
 
                 {/* Mobile CTA - Native anchor */}

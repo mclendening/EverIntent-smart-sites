@@ -12,9 +12,9 @@ const GradientDefs = () => (
   <svg width="0" height="0" className="absolute">
     <defs>
       <linearGradient id="marquee-gradient-ocean" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="hsl(210, 100%, 40%)" />
-        <stop offset="50%" stopColor="hsl(200, 100%, 50%)" />
-        <stop offset="100%" stopColor="hsl(185, 100%, 45%)" />
+        <stop offset="0%" stopColor="hsl(var(--accent))" />
+        <stop offset="50%" stopColor="hsl(var(--intent-blue))" />
+        <stop offset="100%" stopColor="hsl(var(--secondary-accent))" />
       </linearGradient>
     </defs>
   </svg>

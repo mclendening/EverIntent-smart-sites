@@ -32,8 +32,9 @@
     <!-- FOUC Prevention: Apply dark/light mode before React hydrates -->
     <script>
       (function(){
-        // Default mode is 'dark' — updated by theme publish pipeline
-        var mode = 'dark';
+        // Read user preference from localStorage, fallback to 'dark'
+        var stored = localStorage.getItem('theme-mode') || 'dark';
+        var mode = stored;
         if (mode === 'system') {
           mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         }
