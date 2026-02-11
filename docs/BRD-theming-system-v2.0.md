@@ -2,7 +2,7 @@
 
 **Version:** 2.0  
 **Date:** 2026-02-10 (Updated: 2026-02-11)  
-**Status:** Active — Implementation In Progress (Batches 1–5 Complete, Batch 6 Open)  
+**Status:** Active — Implementation In Progress (Batches 1–5 Complete, ADA Batches 1–2 Complete, Batch 6 Open)
 **Supersedes:** BRD v1.0 (2025-06-19)
 
 ---

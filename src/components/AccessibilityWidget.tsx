@@ -1,13 +1,25 @@
 /**
- * @fileoverview ADA Accessibility Floating Widget — Content Modules (Batch 1)
- * 10 Content Modules modeled after WPOneTap feature set.
- * 
- * Modules:
+ * @fileoverview ADA Accessibility Floating Widget — Batches 1 & 2
+ * 24 modules modeled after WPOneTap feature set.
+ *
+ * Batch 1 – Content Modules (10):
  *  1. Text Size (3 levels)        6. Dyslexia Font (OpenDyslexic)
  *  2. Line Height (3 levels)      7. Text Align (left/center/right)
  *  3. Letter Spacing (3 levels)   8. Highlight Links
  *  4. Font Weight (bold toggle)   9. Text Magnifier (tooltip on hover)
  *  5. Readable Font (system sans) 10. Big Cursor
+ *
+ * Batch 2 – Color Modules (5):
+ *  11. Dark Contrast              14. Monochrome
+ *  12. Light Contrast             15. High Saturation
+ *  13. High Contrast (WCAG AAA)
+ *
+ * Batch 2 – Orientation Modules (9):
+ *  16. Reading Line               21. Mute Sounds
+ *  17. Reading Mask               22. Highlight Titles
+ *  18. Keyboard Navigation        23. Highlight Content
+ *  19. Hide Images                24. Focus Highlight
+ *  20. Stop Animations
  *
  * Architecture:
  * - Each module stores its state in localStorage under `ada-<key>`
@@ -21,7 +33,10 @@ import { activeTheme } from '@/config/themes';
 import {
   Accessibility, Type, AlignLeft, AlignCenter, AlignRight,
   Bold, Link2, MousePointer2, Search, X, RotateCcw,
-  CaseSensitive, MoveVertical, MoveHorizontal
+  CaseSensitive, MoveVertical, MoveHorizontal,
+  Moon, Sun, Contrast, Palette, Droplets,
+  ScanLine, Focus, Keyboard, ImageOff, Pause,
+  VolumeX, Heading, FileText, Eye
 } from 'lucide-react';
 
 // ─── Admin Config ───────────────────────────────────────────
@@ -65,104 +80,147 @@ interface AdaModule {
   id: string;
   label: string;
   icon: React.ElementType;
-  /** Secondary icon for cycle display */
   secondaryIcons?: React.ElementType[];
-  key: string; // localStorage key
+  key: string;
   type: ModuleType;
-  /** For 'multi' type: the CSS classes to cycle through (level 0 = off) */
   levels?: string[];
   levelLabels?: string[];
-  /** CSS class applied for 'toggle' type */
   cssClass?: string;
+  /** IDs of modules that are mutually exclusive with this one */
+  exclusiveWith?: string[];
 }
+
+// ── Batch 1: Content Modules ──
 
 const contentModules: AdaModule[] = [
   {
-    id: 'textSize',
-    label: 'Text Size',
-    icon: Type,
-    key: 'ada-text-size',
-    type: 'multi',
+    id: 'textSize', label: 'Text Size', icon: Type,
+    key: 'ada-text-size', type: 'multi',
     levels: ['', 'ada-text-size-1', 'ada-text-size-2', 'ada-text-size-3'],
     levelLabels: ['Off', 'Large', 'X-Large', 'XX-Large'],
   },
   {
-    id: 'lineHeight',
-    label: 'Line Height',
-    icon: MoveVertical,
-    key: 'ada-line-height',
-    type: 'multi',
+    id: 'lineHeight', label: 'Line Height', icon: MoveVertical,
+    key: 'ada-line-height', type: 'multi',
     levels: ['', 'ada-line-height-1', 'ada-line-height-2', 'ada-line-height-3'],
     levelLabels: ['Off', '1.5×', '1.75×', '2×'],
   },
   {
-    id: 'letterSpacing',
-    label: 'Letter Spacing',
-    icon: MoveHorizontal,
-    key: 'ada-letter-spacing',
-    type: 'multi',
+    id: 'letterSpacing', label: 'Letter Spacing', icon: MoveHorizontal,
+    key: 'ada-letter-spacing', type: 'multi',
     levels: ['', 'ada-letter-spacing-1', 'ada-letter-spacing-2', 'ada-letter-spacing-3'],
     levelLabels: ['Off', 'Wide', 'Wider', 'Widest'],
   },
   {
-    id: 'fontWeight',
-    label: 'Bold Text',
-    icon: Bold,
-    key: 'ada-font-weight',
-    type: 'toggle',
-    cssClass: 'ada-bold-text',
+    id: 'fontWeight', label: 'Bold Text', icon: Bold,
+    key: 'ada-font-weight', type: 'toggle', cssClass: 'ada-bold-text',
   },
   {
-    id: 'readableFont',
-    label: 'Readable Font',
-    icon: CaseSensitive,
-    key: 'ada-readable-font',
-    type: 'toggle',
-    cssClass: 'ada-readable-font',
+    id: 'readableFont', label: 'Readable Font', icon: CaseSensitive,
+    key: 'ada-readable-font', type: 'toggle', cssClass: 'ada-readable-font',
+    exclusiveWith: ['dyslexiaFont'],
   },
   {
-    id: 'dyslexiaFont',
-    label: 'Dyslexia Font',
-    icon: CaseSensitive,
-    key: 'ada-dyslexia-font',
-    type: 'toggle',
-    cssClass: 'ada-dyslexia-font',
+    id: 'dyslexiaFont', label: 'Dyslexia Font', icon: CaseSensitive,
+    key: 'ada-dyslexia-font', type: 'toggle', cssClass: 'ada-dyslexia-font',
+    exclusiveWith: ['readableFont'],
   },
   {
-    id: 'textAlign',
-    label: 'Text Align',
-    icon: AlignLeft,
-    key: 'ada-text-align',
-    type: 'cycle',
+    id: 'textAlign', label: 'Text Align', icon: AlignLeft,
+    key: 'ada-text-align', type: 'cycle',
     levels: ['', 'ada-align-left', 'ada-align-center', 'ada-align-right'],
     levelLabels: ['Default', 'Left', 'Center', 'Right'],
     secondaryIcons: [AlignLeft, AlignLeft, AlignCenter, AlignRight],
   },
   {
-    id: 'highlightLinks',
-    label: 'Highlight Links',
-    icon: Link2,
-    key: 'ada-highlight-links',
-    type: 'toggle',
-    cssClass: 'ada-highlight-links',
+    id: 'highlightLinks', label: 'Highlight Links', icon: Link2,
+    key: 'ada-highlight-links', type: 'toggle', cssClass: 'ada-highlight-links',
   },
   {
-    id: 'textMagnifier',
-    label: 'Text Magnifier',
-    icon: Search,
-    key: 'ada-text-magnifier',
-    type: 'toggle',
-    cssClass: 'ada-text-magnifier',
+    id: 'textMagnifier', label: 'Text Magnifier', icon: Search,
+    key: 'ada-text-magnifier', type: 'toggle', cssClass: 'ada-text-magnifier',
   },
   {
-    id: 'bigCursor',
-    label: 'Big Cursor',
-    icon: MousePointer2,
-    key: 'ada-big-cursor',
-    type: 'toggle',
-    cssClass: 'ada-big-cursor',
+    id: 'bigCursor', label: 'Big Cursor', icon: MousePointer2,
+    key: 'ada-big-cursor', type: 'toggle', cssClass: 'ada-big-cursor',
   },
 ];
+
+// ── Batch 2: Color Modules ──
+
+const colorModules: AdaModule[] = [
+  {
+    id: 'darkContrast', label: 'Dark Contrast', icon: Moon,
+    key: 'ada-dark-contrast', type: 'toggle', cssClass: 'ada-dark-contrast',
+    exclusiveWith: ['lightContrast', 'highContrast'],
+  },
+  {
+    id: 'lightContrast', label: 'Light Contrast', icon: Sun,
+    key: 'ada-light-contrast', type: 'toggle', cssClass: 'ada-light-contrast',
+    exclusiveWith: ['darkContrast', 'highContrast'],
+  },
+  {
+    id: 'highContrast', label: 'High Contrast', icon: Contrast,
+    key: 'ada-high-contrast', type: 'toggle', cssClass: 'ada-high-contrast',
+    exclusiveWith: ['darkContrast', 'lightContrast'],
+  },
+  {
+    id: 'monochrome', label: 'Monochrome', icon: Palette,
+    key: 'ada-monochrome', type: 'toggle', cssClass: 'ada-monochrome',
+    exclusiveWith: ['highSaturation'],
+  },
+  {
+    id: 'highSaturation', label: 'High Saturation', icon: Droplets,
+    key: 'ada-high-saturation', type: 'toggle', cssClass: 'ada-high-saturation',
+    exclusiveWith: ['monochrome'],
+  },
+];
+
+// ── Batch 2: Orientation Modules ──
+
+const orientationModules: AdaModule[] = [
+  {
+    id: 'readingLine', label: 'Reading Line', icon: ScanLine,
+    key: 'ada-reading-line', type: 'toggle', cssClass: 'ada-reading-line',
+    exclusiveWith: ['readingMask'],
+  },
+  {
+    id: 'readingMask', label: 'Reading Mask', icon: Focus,
+    key: 'ada-reading-mask', type: 'toggle', cssClass: 'ada-reading-mask',
+    exclusiveWith: ['readingLine'],
+  },
+  {
+    id: 'keyboardNav', label: 'Keyboard Navigation', icon: Keyboard,
+    key: 'ada-keyboard-nav', type: 'toggle', cssClass: 'ada-keyboard-nav',
+  },
+  {
+    id: 'hideImages', label: 'Hide Images', icon: ImageOff,
+    key: 'ada-hide-images', type: 'toggle', cssClass: 'ada-hide-images',
+  },
+  {
+    id: 'stopAnimations', label: 'Stop Animations', icon: Pause,
+    key: 'ada-stop-animations', type: 'toggle', cssClass: 'ada-reduced-motion',
+  },
+  {
+    id: 'muteSounds', label: 'Mute Sounds', icon: VolumeX,
+    key: 'ada-mute-sounds', type: 'toggle', cssClass: 'ada-mute-sounds',
+  },
+  {
+    id: 'highlightTitles', label: 'Highlight Titles', icon: Heading,
+    key: 'ada-highlight-titles', type: 'toggle', cssClass: 'ada-highlight-titles',
+  },
+  {
+    id: 'highlightContent', label: 'Highlight Content', icon: FileText,
+    key: 'ada-highlight-content', type: 'toggle', cssClass: 'ada-highlight-content',
+  },
+  {
+    id: 'focusHighlight', label: 'Focus Highlight', icon: Eye,
+    key: 'ada-focus-highlight', type: 'toggle', cssClass: 'ada-focus-highlight',
+  },
+];
+
+/** All modules flattened for state management */
+const allModules: AdaModule[] = [...contentModules, ...colorModules, ...orientationModules];
 
 // ─── Position Helpers ───────────────────────────────────────
 
@@ -206,37 +264,136 @@ function clampPosition(pos: DragPosition, size: number): DragPosition {
 
 // ─── Apply/Remove CSS classes ───────────────────────────────
 
-function applyAllModules(state: Record<string, number>) {
+function applyModule(mod: AdaModule, value: number) {
   const root = document.documentElement;
-  contentModules.forEach(mod => {
-    const value = state[mod.id] ?? 0;
-    if (mod.type === 'toggle') {
-      root.classList.toggle(mod.cssClass!, value === 1);
-    } else if (mod.type === 'multi' || mod.type === 'cycle') {
-      // Remove all levels, then add the active one
-      mod.levels?.forEach(cls => { if (cls) root.classList.remove(cls); });
-      const activeClass = mod.levels?.[value];
-      if (activeClass) root.classList.add(activeClass);
-    }
-  });
+  if (mod.type === 'toggle') {
+    root.classList.toggle(mod.cssClass!, value === 1);
+  } else if (mod.type === 'multi' || mod.type === 'cycle') {
+    mod.levels?.forEach(cls => { if (cls) root.classList.remove(cls); });
+    const activeClass = mod.levels?.[value];
+    if (activeClass) root.classList.add(activeClass);
+  }
+}
+
+function applyAllModules(state: Record<string, number>) {
+  allModules.forEach(mod => applyModule(mod, state[mod.id] ?? 0));
 }
 
 function clearAllModules() {
   const root = document.documentElement;
-  contentModules.forEach(mod => {
-    if (mod.type === 'toggle' && mod.cssClass) {
-      root.classList.remove(mod.cssClass);
-    } else if (mod.levels) {
-      mod.levels.forEach(cls => { if (cls) root.classList.remove(cls); });
-    }
+  allModules.forEach(mod => {
+    if (mod.type === 'toggle' && mod.cssClass) root.classList.remove(mod.cssClass);
+    else if (mod.levels) mod.levels.forEach(cls => { if (cls) root.classList.remove(cls); });
   });
+}
+
+// ─── Reading Line / Reading Mask runtime ────────────────────
+
+function setupReadingLine() {
+  if (document.getElementById('ada-reading-line-el')) return;
+  const el = document.createElement('div');
+  el.id = 'ada-reading-line-el';
+  el.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(el);
+  const move = (e: MouseEvent) => { el.style.top = `${e.clientY}px`; };
+  document.addEventListener('mousemove', move);
+  (el as any).__adaCleanup = () => { document.removeEventListener('mousemove', move); el.remove(); };
+}
+
+function teardownReadingLine() {
+  const el = document.getElementById('ada-reading-line-el');
+  if (el) (el as any).__adaCleanup?.();
+}
+
+function setupReadingMask() {
+  if (document.getElementById('ada-reading-mask-el')) return;
+  const el = document.createElement('div');
+  el.id = 'ada-reading-mask-el';
+  el.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(el);
+  const move = (e: MouseEvent) => {
+    el.style.setProperty('--mask-y', `${e.clientY}px`);
+  };
+  document.addEventListener('mousemove', move);
+  (el as any).__adaCleanup = () => { document.removeEventListener('mousemove', move); el.remove(); };
+}
+
+function teardownReadingMask() {
+  const el = document.getElementById('ada-reading-mask-el');
+  if (el) (el as any).__adaCleanup?.();
+}
+
+function handleRuntimeEffects(state: Record<string, number>) {
+  // Reading Line
+  if (state.readingLine) setupReadingLine();
+  else teardownReadingLine();
+
+  // Reading Mask
+  if (state.readingMask) setupReadingMask();
+  else teardownReadingMask();
+
+  // Mute Sounds
+  document.querySelectorAll('audio, video').forEach((el) => {
+    (el as HTMLMediaElement).muted = !!(state.muteSounds);
+  });
+}
+
+// ─── Section rendering helper ───────────────────────────────
+
+interface ModuleSectionProps {
+  title: string;
+  modules: AdaModule[];
+  state: Record<string, number>;
+  onToggle: (mod: AdaModule) => void;
+}
+
+function ModuleSection({ title, modules, state, onToggle }: ModuleSectionProps) {
+  return (
+    <div className="px-3 pb-2">
+      <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold px-3 pb-2 pt-3">{title}</p>
+      <div className="space-y-1">
+        {modules.map(mod => {
+          const value = state[mod.id] ?? 0;
+          const isActive = value > 0;
+          let statusLabel: string | null = null;
+          if (isActive) {
+            statusLabel = mod.type === 'toggle' ? 'ON' : (mod.levelLabels?.[value] ?? `L${value}`);
+          }
+          const Icon = (mod.secondaryIcons && value > 0)
+            ? (mod.secondaryIcons[value] ?? mod.icon)
+            : mod.icon;
+
+          return (
+            <button
+              key={mod.id}
+              onClick={() => onToggle(mod)}
+              className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all ${
+                isActive
+                  ? 'bg-accent/15 text-accent border border-accent/30'
+                  : 'hover:bg-muted text-foreground border border-transparent'
+              }`}
+              aria-pressed={isActive}
+              aria-label={`${mod.label}${statusLabel ? `: ${statusLabel}` : ''}`}
+            >
+              <Icon className="h-5 w-5 shrink-0" />
+              <span className="text-sm font-medium flex-1">{mod.label}</span>
+              {statusLabel && (
+                <span className="text-xs bg-accent text-accent-foreground px-2 py-0.5 rounded-full">
+                  {statusLabel}
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 // ─── Component ──────────────────────────────────────────────
 
 export function AccessibilityWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  // State stores level index for each module (0 = off, 1+ = active level)
   const [state, setState] = useState<Record<string, number>>({});
   const config = getAdaConfig();
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
@@ -255,15 +412,16 @@ export function AccessibilityWidget() {
   const dragStart = useRef({ mx: 0, my: 0, px: 0, py: 0 });
   const hasMoved = useRef(false);
 
-  // Load saved state
+  // Load saved state on mount
   useEffect(() => {
     const loaded: Record<string, number> = {};
-    contentModules.forEach(mod => {
+    allModules.forEach(mod => {
       const raw = localStorage.getItem(mod.key);
       loaded[mod.id] = raw ? parseInt(raw, 10) : 0;
     });
     setState(loaded);
     applyAllModules(loaded);
+    handleRuntimeEffects(loaded);
   }, []);
 
   // Drag handlers
@@ -310,34 +468,37 @@ export function AccessibilityWidget() {
       if (mod.type === 'toggle') {
         next = current === 1 ? 0 : 1;
       } else {
-        // multi / cycle: advance, wrap to 0
         const max = (mod.levels?.length ?? 1) - 1;
         next = current >= max ? 0 : current + 1;
       }
 
-      // Mutual exclusion: readableFont and dyslexiaFont
       const updated = { ...prev, [mod.id]: next };
-      if (mod.id === 'readableFont' && next > 0) updated.dyslexiaFont = 0;
-      if (mod.id === 'dyslexiaFont' && next > 0) updated.readableFont = 0;
 
-      // Persist
-      contentModules.forEach(m => {
+      // Mutual exclusion
+      if (next > 0 && mod.exclusiveWith) {
+        mod.exclusiveWith.forEach(exId => { updated[exId] = 0; });
+      }
+
+      // Persist all
+      allModules.forEach(m => {
         localStorage.setItem(m.key, String(updated[m.id] ?? 0));
       });
 
       applyAllModules(updated);
+      handleRuntimeEffects(updated);
       return updated;
     });
   }
 
   function resetAll() {
     const cleared: Record<string, number> = {};
-    contentModules.forEach(mod => {
+    allModules.forEach(mod => {
       cleared[mod.id] = 0;
       localStorage.removeItem(mod.key);
     });
     setState(cleared);
     clearAllModules();
+    handleRuntimeEffects(cleared);
   }
 
   const shapeClass = config.iconShape === 'circle' ? 'rounded-full'
@@ -356,17 +517,6 @@ export function AccessibilityWidget() {
           ? { top: pos.y + config.iconSize + 8 }
           : { bottom: window.innerHeight - pos.y + 8 }),
       };
-
-  function getModuleStatusLabel(mod: AdaModule, value: number): string | null {
-    if (value === 0) return null;
-    if (mod.type === 'toggle') return 'ON';
-    return mod.levelLabels?.[value] ?? `L${value}`;
-  }
-
-  function getModuleIcon(mod: AdaModule, value: number): React.ElementType {
-    if (mod.secondaryIcons && value > 0) return mod.secondaryIcons[value] ?? mod.icon;
-    return mod.icon;
-  }
 
   return (
     <>
@@ -441,40 +591,10 @@ export function AccessibilityWidget() {
               </div>
             </div>
 
-            {/* Content Modules */}
-            <div className="p-3">
-              <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold px-3 pb-2">Content</p>
-              <div className="space-y-1">
-                {contentModules.map(mod => {
-                  const value = state[mod.id] ?? 0;
-                  const statusLabel = getModuleStatusLabel(mod, value);
-                  const Icon = getModuleIcon(mod, value);
-                  const isActive = value > 0;
-
-                  return (
-                    <button
-                      key={mod.id}
-                      onClick={() => toggleModule(mod)}
-                      className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all ${
-                        isActive
-                          ? 'bg-accent/15 text-accent border border-accent/30'
-                          : 'hover:bg-muted text-foreground border border-transparent'
-                      }`}
-                      aria-pressed={isActive}
-                      aria-label={`${mod.label}${statusLabel ? `: ${statusLabel}` : ''}`}
-                    >
-                      <Icon className="h-5 w-5 shrink-0" />
-                      <span className="text-sm font-medium flex-1">{mod.label}</span>
-                      {statusLabel && (
-                        <span className="text-xs bg-accent text-accent-foreground px-2 py-0.5 rounded-full">
-                          {statusLabel}
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+            {/* Module Sections */}
+            <ModuleSection title="Content" modules={contentModules} state={state} onToggle={toggleModule} />
+            <ModuleSection title="Color & Contrast" modules={colorModules} state={state} onToggle={toggleModule} />
+            <ModuleSection title="Orientation" modules={orientationModules} state={state} onToggle={toggleModule} />
           </div>
         </>
       )}

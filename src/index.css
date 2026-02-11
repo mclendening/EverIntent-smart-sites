@@ -552,3 +552,246 @@
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground) / 0.7);
 }
+
+/* ========== ADA Accessibility Overrides — Content Modules (Batch 1) ========== */
+
+/* --- 1. Text Size (3 levels) --- */
+html.ada-text-size-1 { font-size: 112.5%; }
+html.ada-text-size-2 { font-size: 125%; }
+html.ada-text-size-3 { font-size: 150%; }
+
+/* --- 2. Line Height (3 levels) --- */
+html.ada-line-height-1, html.ada-line-height-1 * { line-height: 1.6 !important; }
+html.ada-line-height-2, html.ada-line-height-2 * { line-height: 1.8 !important; }
+html.ada-line-height-3, html.ada-line-height-3 * { line-height: 2.0 !important; }
+
+/* --- 3. Letter Spacing (3 levels) --- */
+html.ada-letter-spacing-1, html.ada-letter-spacing-1 * { letter-spacing: 0.05em !important; }
+html.ada-letter-spacing-2, html.ada-letter-spacing-2 * { letter-spacing: 0.1em !important; }
+html.ada-letter-spacing-3, html.ada-letter-spacing-3 * { letter-spacing: 0.15em !important; }
+
+/* --- 4. Bold Text --- */
+html.ada-bold-text, html.ada-bold-text * { font-weight: 700 !important; }
+
+/* --- 5. Readable Font --- */
+html.ada-readable-font, html.ada-readable-font * {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+}
+
+/* --- 6. Dyslexia Font (OpenDyslexic) --- */
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Regular.woff') format('woff');
+  font-weight: normal; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Bold.woff') format('woff');
+  font-weight: bold; font-style: normal; font-display: swap;
+}
+html.ada-dyslexia-font, html.ada-dyslexia-font * {
+  font-family: 'OpenDyslexic', sans-serif !important;
+}
+
+/* --- 7. Text Align overrides --- */
+html.ada-align-left * { text-align: left !important; }
+html.ada-align-center * { text-align: center !important; }
+html.ada-align-right * { text-align: right !important; }
+
+/* --- 8. Highlight Links --- */
+html.ada-highlight-links a {
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+  background-color: hsl(50 100% 50% / 0.2) !important;
+  outline: 2px solid hsl(50 100% 50% / 0.5) !important;
+  outline-offset: 1px !important;
+  border-radius: 2px;
+  padding-inline: 2px;
+}
+
+/* --- 9. Text Magnifier --- */
+html.ada-text-magnifier p:hover,
+html.ada-text-magnifier span:hover,
+html.ada-text-magnifier li:hover,
+html.ada-text-magnifier td:hover,
+html.ada-text-magnifier h1:hover,
+html.ada-text-magnifier h2:hover,
+html.ada-text-magnifier h3:hover,
+html.ada-text-magnifier h4:hover,
+html.ada-text-magnifier h5:hover,
+html.ada-text-magnifier h6:hover,
+html.ada-text-magnifier a:hover,
+html.ada-text-magnifier label:hover {
+  transform: scale(1.3) !important;
+  transform-origin: left center !important;
+  position: relative !important;
+  z-index: 100 !important;
+  background-color: hsl(var(--card)) !important;
+  box-shadow: 0 4px 20px hsl(0 0% 0% / 0.2) !important;
+  border-radius: 4px !important;
+  padding: 4px 8px !important;
+  transition: transform 0.15s ease !important;
+}
+
+/* --- 10. Big Cursor --- */
+html.ada-big-cursor, html.ada-big-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='48' viewBox='0 0 40 48'%3E%3Cpath d='M6 2L6 40L14 32L22 44L28 40L20 28L32 28Z' fill='black' stroke='white' stroke-width='2'/%3E%3C/svg%3E") 6 2, auto !important;
+}
+
+/* ========== ADA Accessibility Overrides — Color Modules (Batch 2) ========== */
+
+/* --- 11. Dark Contrast --- */
+html.ada-dark-contrast {
+  --background: 220 15% 10%;
+  --foreground: 220 10% 92%;
+  --card: 220 15% 14%;
+  --card-foreground: 220 10% 92%;
+  --popover: 220 15% 14%;
+  --popover-foreground: 220 10% 92%;
+  --muted: 220 10% 20%;
+  --muted-foreground: 220 10% 72%;
+  --border: 220 10% 25%;
+  --input: 220 10% 25%;
+}
+
+/* --- 12. Light Contrast --- */
+html.ada-light-contrast {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 5%;
+  --card: 0 0% 99%;
+  --card-foreground: 0 0% 5%;
+  --popover: 0 0% 99%;
+  --popover-foreground: 0 0% 5%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 35%;
+  --border: 0 0% 85%;
+  --input: 0 0% 85%;
+}
+
+/* --- 13. High Contrast (WCAG AAA) --- */
+html.ada-high-contrast {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --card: 0 0% 5%;
+  --card-foreground: 0 0% 100%;
+  --popover: 0 0% 5%;
+  --popover-foreground: 0 0% 100%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 85%;
+  --border: 0 0% 40%;
+  --input: 0 0% 40%;
+}
+html.ada-high-contrast * { border-color: hsl(0 0% 40%) !important; }
+
+/* --- 14. Monochrome --- */
+html.ada-monochrome { filter: grayscale(100%) !important; }
+
+/* --- 15. High Saturation --- */
+html.ada-high-saturation { filter: saturate(200%) !important; }
+
+/* ========== ADA Accessibility Overrides — Orientation Modules (Batch 2) ========== */
+
+/* --- 16. Reading Line --- */
+#ada-reading-line-el {
+  position: fixed;
+  left: 0; right: 0;
+  height: 3px;
+  background: hsl(50 100% 50%);
+  box-shadow: 0 0 8px hsl(50 100% 50% / 0.6);
+  pointer-events: none;
+  z-index: 99998;
+  top: 50%;
+  transition: top 0.05s linear;
+}
+
+/* --- 17. Reading Mask --- */
+#ada-reading-mask-el {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99997;
+  --mask-y: 50%;
+  background:
+    linear-gradient(to bottom,
+      hsl(0 0% 0% / 0.7) 0%,
+      hsl(0 0% 0% / 0.7) calc(var(--mask-y) - 40px),
+      transparent calc(var(--mask-y) - 40px),
+      transparent calc(var(--mask-y) + 40px),
+      hsl(0 0% 0% / 0.7) calc(var(--mask-y) + 40px),
+      hsl(0 0% 0% / 0.7) 100%
+    );
+}
+
+/* --- 18. Keyboard Navigation --- */
+html.ada-keyboard-nav *:focus,
+html.ada-keyboard-nav *:focus-visible {
+  outline: 3px solid hsl(210 100% 50%) !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 6px hsl(210 100% 50% / 0.25) !important;
+}
+html.ada-keyboard-nav a:focus,
+html.ada-keyboard-nav button:focus,
+html.ada-keyboard-nav input:focus,
+html.ada-keyboard-nav select:focus,
+html.ada-keyboard-nav textarea:focus {
+  position: relative;
+  z-index: 10;
+}
+
+/* --- 19. Hide Images --- */
+html.ada-hide-images img,
+html.ada-hide-images svg:not(.ada-widget-icon),
+html.ada-hide-images picture,
+html.ada-hide-images [role="img"],
+html.ada-hide-images video {
+  opacity: 0.05 !important;
+  filter: grayscale(100%) !important;
+}
+
+/* --- 20. Stop Animations --- */
+html.ada-reduced-motion,
+html.ada-reduced-motion * {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* --- 21. Mute Sounds --- */
+html.ada-mute-sounds audio,
+html.ada-mute-sounds video {
+  outline: 2px dashed hsl(0 72% 51% / 0.5) !important;
+  outline-offset: 2px !important;
+}
+
+/* --- 22. Highlight Titles --- */
+html.ada-highlight-titles h1,
+html.ada-highlight-titles h2,
+html.ada-highlight-titles h3,
+html.ada-highlight-titles h4,
+html.ada-highlight-titles h5,
+html.ada-highlight-titles h6 {
+  outline: 2px solid hsl(200 100% 50% / 0.6) !important;
+  outline-offset: 4px !important;
+  border-radius: 4px;
+}
+
+/* --- 23. Highlight Content --- */
+html.ada-highlight-content p,
+html.ada-highlight-content li,
+html.ada-highlight-content td,
+html.ada-highlight-content th,
+html.ada-highlight-content blockquote,
+html.ada-highlight-content dd {
+  outline: 1px solid hsl(120 60% 50% / 0.4) !important;
+  outline-offset: 2px !important;
+  border-radius: 2px;
+}
+
+/* --- 24. Focus Highlight --- */
+html.ada-focus-highlight *:focus,
+html.ada-focus-highlight *:focus-visible {
+  outline: 3px solid hsl(50 100% 50%) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 6px hsl(50 100% 50% / 0.3) !important;
+}
