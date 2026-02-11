@@ -545,14 +545,14 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 | 7.13 | Admin: Style Modules CRUD (create/edit/delete modules + tokens) | `done` | 7.1 | `StyleModulesEditor.tsx` — generic module/token CRUD flattened to `--module-{name}-{token}` |
 | 7.14 | Admin: Default light/dark mode selector per theme | `done` | 7.1 | `DefaultModeSelector.tsx` — dark/light/system dropdown + FOUC prevention script in index.html |
 
-#### Batch 4: Admin Advanced (7.15–7.20)
+#### Batch 4: Admin Advanced (7.15–7.20) ✅ COMPLETE
 
 | ID | Task | Status | Deps | Notes |
 |----|------|--------|------|-------|
 | 7.15 | Admin: ADA widget config (visibility, pause/hide scheduling, device toggle) | `done` | 7.6 | Hide indefinitely, pause for duration, per-device (§12.3). Implemented in `AdaWidgetConfigEditor.tsx` |
 | 7.16 | Admin: ADA icon customizer per theme (icon type, color, size, shape) | `done` | 7.15 | Configurable per base theme (§12.4). Integrated into `AdaWidgetConfigEditor.tsx` with live preview |
-| 7.17 | Admin: Theme revert to original (2-layer warning + export escape hatch) | `todo` | 7.2, 7.19 | Warning 1 → Warning 2 with "Export First" button (§15.2–15.3) |
-| 7.17a | Admin: Write current theme as new default (2-layer warning + export seed) | `todo` | 7.2, 7.19 | Overwrites seed snapshot with current config; same warning pattern as revert (§15.4) |
+| 7.17 | Admin: Theme revert to original (2-layer warning + export escape hatch) | `done` | 7.2, 7.19 | 2-layer AlertDialog with "Export First" button. Reverts theme to `published_theme_configs` seed snapshot (`is_default = true`). If no default exists, prompts to use "Save as Default" first. |
+| 7.17a | Admin: Write current theme as new default (2-layer warning + export seed) | `done` | 7.2, 7.19 | 2-layer AlertDialog with "Export First" button. Writes current config as new `published_theme_configs` row with `is_default = true`, `version = 0`. Deletes any previous default for the theme before inserting. |
 | 7.18 | Admin: Real-time contrast checker for fg/bg token pairs | `done` | 7.10 | WCAG AA/AAA pass/fail badges with computed luminance ratios. Implemented in `ContrastChecker.tsx` — checks 10 fg/bg pairs with fail count badge on accordion header |
 | 7.19 | Build theme export (JSON download — includes Style Modules) | `done` | 7.1 | Self-documenting schema v2.0 (§13). Export button in admin header downloads full theme JSON |
 | 7.20 | Build theme import (file upload + validation + create/update) | `done` | 7.19 | Schema validation with error/warning display, create new or update existing mode, 500KB limit. Implemented in `ThemeImporter.tsx` |
@@ -582,6 +582,12 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 | 7.29 | Export → edit → re-import round-trip validation test | `todo` | 7.20 | JSON schema integrity check |
 | 7.30 | Revert-to-original round-trip validation test | `todo` | 7.17 | Verify seed restored correctly |
 
+#### Phase 7 Comprehensive Testing (7.QA)
+
+| ID | Task | Status | Deps | Notes |
+|----|------|--------|------|-------|
+| 7.QA | **TEAM TESTING: Full Phase 7 Regression & Acceptance Testing** — The entire Phase 7 theme system (Batches 1–6: schema seeding, CSS pipeline, admin CRUD editors, contrast checker, theme import/export, revert-to-default, save-as-default, ADA widget with draggable positioning, Style Modules, light/dark mode toggle, component refactor, and full QA) must be thoroughly tested by the team before Phase 7 is marked complete. This includes: (1) verifying all 10 seeded themes render correctly in both light and dark modes, (2) testing every admin editor (hue slider, accent config, static colors, gradients, GHL chat config, e-commerce colors, CTA variants, typography, motion, Style Modules, ADA widget config, default mode selector), (3) confirming theme export downloads valid JSON and re-imports correctly, (4) testing revert-to-default with 2-layer warning flow and verifying seed snapshot restores, (5) testing save-as-default and confirming new snapshot overwrites old, (6) verifying contrast checker displays correct WCAG AA/AAA pass/fail badges, (7) testing ADA accessibility widget controls (font size, contrast, motion, dyslexia, underlines, focus) and draggable positioning with localStorage persistence, (8) confirming publish-to-production pipeline generates correct CSS and TypeScript config, (9) verifying no hardcoded colors remain in tokenized components. **Any failures during testing may result in reopening individual tasks from Batches 1–6 for remediation.** | `todo` | All Phase 7 tasks | This task exists because AI development sessions have limited memory context. The full list of features and expected behaviors is documented here so testers know exactly what to validate without relying on conversational history. |
+
 ---
 
 ## Changelog
@@ -610,6 +616,7 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 | 2026-02-11 | **Page-vs-component boundary clarification**: `CaseStudyLayout.tsx` and `WarmyEmailDeliverability.tsx` page layouts are tokenized; only embedded mockup/product components are exempt. `PortfolioCard.tsx` industry badges exempt. | Lovable |
 | 2026-02-11 | **Color token audit #3 (FINAL)**: Read every non-exempt page and component. Found 3 new inline gold shadow instances (`SmartLead.tsx:165`, `SmartBusiness.tsx:163`, `SmartGrowth.tsx:168`). Moved `DashboardPreview.tsx` to exemptions (dashboard simulation). Updated SmartWebsites sub-page confirmation. Resolved WarmyEmailDeliverability decision. Added Audit History table. All files now accounted for. | Lovable |
 | 2026-02-11 | **Batches 1–3 COMPLETE**: Marked Phase 7 Batches 1 (Schema & Seed), 2 (Pipeline Update), and 3 (Admin Core UI) as ✅ COMPLETE. Admin components created: `EcommerceColorEditor`, `TypographyEditor`, `MotionEditor`, `StyleModulesEditor`, `DefaultModeSelector`. Pipeline updated: `generateProductionCss` now emits `--gold`, `--gold-hover`, `--gold-glow`, `--gold-foreground`, `--pricing-highlight`, `--cta-primary/hover`, `--cta-secondary/hover`, `--font-heading/body/display`, `--transition-smooth/bounce/spring`, and style module tokens (`--module-{name}-{token}`). `ThemeConfig` interface and `applyThemeToRoot` updated to consume all new fields. FOUC prevention script added to `index.html`. Phase 7 status changed from 📋 PLANNED → 🚧 IN PROGRESS. | Lovable |
+| 2026-02-11 | **Batch 4 COMPLETE**: Tasks 7.17 (theme revert with 2-layer AlertDialog + "Export First" escape hatch) and 7.17a (save current as new default with 2-layer AlertDialog) implemented in `Themes.tsx`. Both use `published_theme_configs` table with `is_default = true` for seed snapshots. Added Phase 7 comprehensive testing task (7.QA) documenting all features to validate before Phase 7 sign-off. | Lovable |
 | 2026-02-11 | **Batch 4 progress**: Tasks 7.15 (ADA widget config), 7.16 (ADA icon customizer), 7.19 (theme export JSON), 7.25 (ADA widget with draggable positioning) marked `done`. Tasks 7.18 (contrast checker) and 7.20 (theme import) implemented and marked `done`. Components created: `ContrastChecker.tsx` (WCAG AA/AAA luminance ratio badges for 10 fg/bg pairs), `ThemeImporter.tsx` (file upload + v2.0 schema validation + create/update mode + 500KB limit). Remaining in Batch 4: 7.17 (theme revert) and 7.17a (write current as new default). | Lovable |
 
 ---
