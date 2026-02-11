@@ -271,13 +271,13 @@ export const CaseStudyLayout = ({
       <main className="min-h-screen bg-background">
         {/* Hero Section - Dark background matching brand */}
         <section 
-          className="relative py-12 sm:py-16 overflow-hidden bg-[#0D0D0D]"
+          className="relative py-12 sm:py-16 overflow-hidden bg-background"
         >
           <div className="container mx-auto px-4 sm:px-6 max-w-5xl">
             {/* Back Link */}
             <Link 
               to="/portfolio" 
-              className="inline-flex items-center gap-2 text-white/70 hover:text-white mb-8 sm:mb-10 transition-colors"
+              className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8 sm:mb-10 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               <span className="text-sm">Back to Portfolio</span>
@@ -287,23 +287,23 @@ export const CaseStudyLayout = ({
             <div className="flex items-center gap-4 mb-6 text-xs sm:text-sm tracking-[0.2em] uppercase">
               <span style={{ color: accentColor }} className="font-semibold">{industry}</span>
               <span className="w-8 h-px" style={{ backgroundColor: accentColor, opacity: 0.5 }} />
-              <span className="text-white/60">{location}</span>
+              <span className="text-muted-foreground">{location}</span>
             </div>
 
             {/* Company Name - Large editorial */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-3 tracking-tight leading-[1.1]">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-3 tracking-tight leading-[1.1]">
               {company}
             </h1>
 
             {/* Owner/Title */}
             {ownerName && (
-              <p className="text-white/60 text-sm sm:text-base tracking-wide mb-6">
+              <p className="text-muted-foreground text-sm sm:text-base tracking-wide mb-6">
                 {ownerName}
               </p>
             )}
 
             {/* Description */}
-            <p className="text-white/70 text-base sm:text-lg mb-10 max-w-2xl leading-relaxed font-light">
+            <p className="text-muted-foreground text-base sm:text-lg mb-10 max-w-2xl leading-relaxed font-light">
               {description}
             </p>
 
@@ -318,7 +318,7 @@ export const CaseStudyLayout = ({
                     >
                       {metric.value}{metric.suffix}
                     </div>
-                    <div className="text-white/50 text-xs sm:text-sm uppercase tracking-[0.15em] mt-1">
+                    <div className="text-muted-foreground text-xs sm:text-sm uppercase tracking-[0.15em] mt-1">
                       {metric.label}
                     </div>
                   </div>
@@ -329,7 +329,7 @@ export const CaseStudyLayout = ({
             {/* Services - Minimal inline with accent dots */}
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
               {services.map((service, i) => (
-                <span key={i} className="flex items-center gap-2 text-white/70 text-sm">
+                <span key={i} className="flex items-center gap-2 text-muted-foreground text-sm">
                   <span 
                     className="w-1.5 h-1.5 rounded-full" 
                     style={{ backgroundColor: accentColor }}
@@ -419,13 +419,13 @@ export const CaseStudyLayout = ({
 
         {/* CTA Section - Dark theme */}
         <section 
-          className="py-12 sm:py-16 bg-[#0D0D0D]"
+          className="py-12 sm:py-16 bg-background"
         >
           <div className="container mx-auto px-4 sm:px-6 text-center">
-            <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">
               Ready for Results Like These?
             </h2>
-            <p className="text-white/80 mb-6 max-w-xl mx-auto text-sm sm:text-base">
+            <p className="text-foreground/80 mb-6 max-w-xl mx-auto text-sm sm:text-base">
               Let's discuss how EverIntent can transform your business with a smart website and AI automation.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -438,7 +438,7 @@ export const CaseStudyLayout = ({
               </Link>
               <Link
                 to="/portfolio"
-                className="px-6 py-3 bg-white/10 text-white rounded-lg font-medium hover:bg-white/20 transition-colors text-sm sm:text-base"
+                className="px-6 py-3 bg-foreground/10 text-foreground rounded-lg font-medium hover:bg-foreground/20 transition-colors text-sm sm:text-base"
               >
                 View More Projects
               </Link>

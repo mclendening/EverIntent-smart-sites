@@ -260,11 +260,11 @@ export default function WarmyEmailDeliverability() {
       </section>
 
       {/* Problem Section - Ultra compact */}
-      <section className="py-6 md:py-8 bg-[#0a0a0a]">
+      <section className="py-6 md:py-8 bg-background">
         <div className="container">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-lg md:text-xl font-bold text-white text-center mb-4">
-              Where Are Your Emails <span className="text-red-500">Really</span> Going?
+            <h2 className="text-lg md:text-xl font-bold text-foreground text-center mb-4">
+              Where Are Your Emails <span className="text-destructive">Really</span> Going?
             </h2>
 
             {/* Compact funnel */}
@@ -279,8 +279,8 @@ export default function WarmyEmailDeliverability() {
                   <div className={`w-6 h-6 rounded-full bg-${item.color}-500/30 mx-auto mb-1 flex items-center justify-center`}>
                     <item.icon className={`w-3 h-3 text-${item.color}-500`} />
                   </div>
-                  <p className={`text-sm font-bold text-${item.color === 'orange' ? 'white' : item.color + '-500'}`}>{item.value}</p>
-                  <p className="text-[9px] text-zinc-500">{item.label}</p>
+                  <p className={`text-sm font-bold text-${item.color === 'orange' ? 'foreground' : item.color + '-500'}`}>{item.value}</p>
+                  <p className="text-[9px] text-muted-foreground">{item.label}</p>
                 </div>
               ))}
             </div>
@@ -290,9 +290,9 @@ export default function WarmyEmailDeliverability() {
               <div className="bg-red-500/5 border border-red-500/20 rounded-md p-2.5">
                 <div className="flex items-center gap-1.5 mb-1.5">
                   <X className="w-3 h-3 text-red-500" />
-                  <span className="text-xs font-medium text-white">Without</span>
+                  <span className="text-xs font-medium text-foreground">Without</span>
                 </div>
-                <div className="space-y-0.5 text-[10px] text-zinc-400">
+                <div className="space-y-0.5 text-[10px] text-muted-foreground">
                   {['Spam blocks you', 'Rep tanks', 'Lost leads'].map((t, i) => (
                     <div key={i} className="flex items-center gap-1"><X className="w-2.5 h-2.5 text-red-500" />{t}</div>
                   ))}
@@ -301,9 +301,9 @@ export default function WarmyEmailDeliverability() {
               <div className="bg-green-500/5 border border-green-500/20 rounded-md p-2.5">
                 <div className="flex items-center gap-1.5 mb-1.5">
                   <Check className="w-3 h-3 text-green-500" />
-                  <span className="text-xs font-medium text-white">With Warmy</span>
+                  <span className="text-xs font-medium text-foreground">With Warmy</span>
                 </div>
-                <div className="space-y-0.5 text-[10px] text-zinc-300">
+                <div className="space-y-0.5 text-[10px] text-foreground/80">
                   {['95%+ inbox', 'Auto warmup', 'Every lead'].map((t, i) => (
                     <div key={i} className="flex items-center gap-1"><Check className="w-2.5 h-2.5 text-green-500" />{t}</div>
                   ))}

@@ -160,7 +160,7 @@ export default function SmartBusiness() {
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {newFeatures.map((feature, index) => (
-              <Card key={index} className="border-accent/30 bg-card/50 shadow-[0_0_30px_hsl(42_60%_50%/0.1)]">
+              <Card key={index} className="border-accent/30 bg-card/50 shadow-gold-glow">
                 <CardContent className="p-8">
                   <feature.icon className="h-12 w-12 text-accent mb-6" />
                   <h3 className="text-2xl font-semibold text-foreground mb-3">{feature.title}</h3>
