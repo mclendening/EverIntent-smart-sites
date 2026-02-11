@@ -102,10 +102,15 @@ export function AccessibilityWidget() {
   const config = getAdaConfig();
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
-  // Desktop drag state
+  // Drag state (desktop + mobile)
   const [pos, setPos] = useState<DragPosition>(() => {
-    if (isMobile) return { x: 0, y: 0 };
-    return getSavedPosition() ?? getDefaultPosition(config);
+    const saved = getSavedPosition();
+    if (saved) return saved;
+    if (isMobile) {
+      const w = typeof window !== 'undefined' ? window.innerWidth : 390;
+      return { x: w - config.iconSize - 16, y: (typeof window !== 'undefined' ? window.innerHeight : 800) - config.iconSize - 80 };
+    }
+    return getDefaultPosition(config);
   });
   const dragging = useRef(false);
   const dragStart = useRef<{ mx: number; my: number; px: number; py: number }>({ mx: 0, my: 0, px: 0, py: 0 });
@@ -121,15 +126,14 @@ export function AccessibilityWidget() {
     applySettings(saved);
   }, []);
 
-  // Drag handlers (desktop only)
+  // Drag handlers (desktop + mobile)
   const onPointerDown = useCallback((e: React.PointerEvent) => {
-    if (isMobile) return;
     dragging.current = true;
     hasMoved.current = false;
     dragStart.current = { mx: e.clientX, my: e.clientY, px: pos.x, py: pos.y };
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
     e.preventDefault();
-  }, [isMobile, pos]);
+  }, [pos]);
 
   const onPointerMove = useCallback((e: React.PointerEvent) => {
     if (!dragging.current) return;
@@ -219,26 +223,15 @@ export function AccessibilityWidget() {
         onPointerUp={onPointerUp}
         onClick={handleClick}
         className={`fixed z-[9999] ${shapeClass} shadow-lg hover:shadow-xl transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent flex items-center justify-center touch-none select-none`}
-        style={
-          isMobile
-            ? {
-                bottom: '5rem',
-                right: '1rem',
-                width: config.iconSize,
-                height: config.iconSize,
-                backgroundColor: `hsl(${config.iconBgColor})`,
-                color: `hsl(${config.iconColor})`,
-              }
-            : {
-                left: pos.x,
-                top: pos.y,
-                width: config.iconSize,
-                height: config.iconSize,
-                backgroundColor: `hsl(${config.iconBgColor})`,
-                color: `hsl(${config.iconColor})`,
-                cursor: dragging.current ? 'grabbing' : 'grab',
-              }
-        }
+        style={{
+          left: pos.x,
+          top: pos.y,
+          width: config.iconSize,
+          height: config.iconSize,
+          backgroundColor: `hsl(${config.iconBgColor})`,
+          color: `hsl(${config.iconColor})`,
+          cursor: dragging.current ? 'grabbing' : 'grab',
+        }}
         aria-label={`Accessibility options${activeCount > 0 ? ` (${activeCount} active)` : ''}`}
         aria-expanded={isOpen}
       >
