@@ -10,6 +10,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Sun, Moon, Monitor } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { getThemeForRoute, applyThemeToRoot } from '@/config/themes';
 
 type Mode = 'light' | 'dark' | 'system';
 
@@ -55,6 +56,10 @@ export function ModeToggle({ className, variant = 'compact' }: ModeToggleProps) 
     }
     applyMode(mode);
     localStorage.setItem('theme-mode', mode);
+    // Re-apply theme colors for the new mode (mode-aware)
+    const theme = getThemeForRoute(window.location.pathname);
+    // Small delay to ensure .dark class is toggled before applyThemeToRoot reads it
+    requestAnimationFrame(() => applyThemeToRoot(theme));
   }, [mode]);
 
   // Listen for system preference changes when in 'system' mode
