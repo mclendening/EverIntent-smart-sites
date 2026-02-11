@@ -72,6 +72,7 @@ export default {
           DEFAULT: "hsl(var(--gold))",
           hover: "hsl(var(--gold-hover))",
           glow: "hsl(var(--gold-glow))",
+          foreground: "hsl(var(--gold-foreground))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -109,6 +110,7 @@ export default {
         "glow": "var(--shadow-glow)",
         "glow-lg": "var(--shadow-glow-lg)",
         "button": "var(--shadow-button)",
+        "gold-glow": "var(--shadow-gold-glow)",
       },
       backgroundImage: {
         "gradient-hero": "var(--gradient-hero)",
