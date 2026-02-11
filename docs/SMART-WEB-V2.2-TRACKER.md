@@ -549,13 +549,13 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 
 | ID | Task | Status | Deps | Notes |
 |----|------|--------|------|-------|
-| 7.15 | Admin: ADA widget config (visibility, pause/hide scheduling, device toggle) | `todo` | 7.6 | Hide indefinitely, pause for duration, per-device (§12.3) |
-| 7.16 | Admin: ADA icon customizer per theme (icon type, color, size, shape) | `todo` | 7.15 | Configurable per base theme (§12.4) |
+| 7.15 | Admin: ADA widget config (visibility, pause/hide scheduling, device toggle) | `done` | 7.6 | Hide indefinitely, pause for duration, per-device (§12.3). Implemented in `AdaWidgetConfigEditor.tsx` |
+| 7.16 | Admin: ADA icon customizer per theme (icon type, color, size, shape) | `done` | 7.15 | Configurable per base theme (§12.4). Integrated into `AdaWidgetConfigEditor.tsx` with live preview |
 | 7.17 | Admin: Theme revert to original (2-layer warning + export escape hatch) | `todo` | 7.2, 7.19 | Warning 1 → Warning 2 with "Export First" button (§15.2–15.3) |
 | 7.17a | Admin: Write current theme as new default (2-layer warning + export seed) | `todo` | 7.2, 7.19 | Overwrites seed snapshot with current config; same warning pattern as revert (§15.4) |
-| 7.18 | Admin: Real-time contrast checker for fg/bg token pairs | `todo` | 7.10 | WCAG AA/AAA pass/fail badge (§12.6) |
-| 7.19 | Build theme export (JSON download — includes Style Modules) | `todo` | 7.1 | Self-documenting schema v2.0 (§13) |
-| 7.20 | Build theme import (file upload + validation + create/update) | `todo` | 7.19 | Schema validation with clear error messages (§13.3) |
+| 7.18 | Admin: Real-time contrast checker for fg/bg token pairs | `done` | 7.10 | WCAG AA/AAA pass/fail badges with computed luminance ratios. Implemented in `ContrastChecker.tsx` — checks 10 fg/bg pairs with fail count badge on accordion header |
+| 7.19 | Build theme export (JSON download — includes Style Modules) | `done` | 7.1 | Self-documenting schema v2.0 (§13). Export button in admin header downloads full theme JSON |
+| 7.20 | Build theme import (file upload + validation + create/update) | `done` | 7.19 | Schema validation with error/warning display, create new or update existing mode, 500KB limit. Implemented in `ThemeImporter.tsx` |
 
 #### Batch 5: Component Refactor & User-Facing (7.21–7.26)
 
@@ -570,7 +570,7 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 | 7.22 | Refactor `.tsx` components — replace hardcoded colors/transitions | `todo` | 7.21 | `CaseStudyLayout.tsx` `bg-[#0D0D0D]` → `bg-background` (page wrapper — tokenize); `WarmyEmailDeliverability.tsx` page-level layout colors (section backgrounds, headings, CTAs) → theme tokens (embedded Warmy product SVGs/components remain exempt); `AIEmployee.tsx` `text-blue-400`/`text-green-400`/`text-purple-400` (howItWorksSteps icons) → semantic icon tokens; `FrontOffice.tsx` `bg-green-500/10`/`text-green-500` (status cards) → `--status-success`; `SocialProofBar.tsx` / `Industries.tsx` SVG gradients → component tokens; `TranscriptCard.tsx` `text-green-500` → `--status-success`; `IndustryShowcaseTemplate.tsx` `bg-green-500` active dot → `--status-active` token (browser chrome dots exempt); `SmartWebsites.tsx:318`, `SmartLead.tsx:165`, `SmartBusiness.tsx:163`, `SmartGrowth.tsx:168` inline gold shadows → `shadow-glow` token. **EXEMPT (do not tokenize):** `PortfolioCard.tsx` industry badges, `DashboardPreview.tsx` (simulation) — see Exemptions list. |
 | 7.23 | Migrate demo elements (SMSDemo, etc.) to theme tokens / Style Modules | `todo` | 7.13, 7.22 | iOS-style colors → accent/card/highlight tokens (§17). **Note:** `SMSDemo.tsx`, `RealisticDashboards.tsx` are exempt per BRD §4.6 |
 | 7.24 | Implement user-facing light/dark mode toggle (header + mobile + `<head>` script) | `todo` | 7.7 | FOUC prevention via inline script (§11.3) |
-| 7.25 | Implement ADA accessibility widget (floating panel + pause/hide + icon) | `todo` | 7.7, 7.15 | 6 controls: font size, contrast, motion, dyslexia, underlines, focus (§12.2) |
+| 7.25 | Implement ADA accessibility widget (floating panel + pause/hide + icon + draggable) | `done` | 7.7, 7.15 | 6 controls: font size, contrast, motion, dyslexia, underlines, focus (§12.2). Draggable on desktop + mobile with localStorage position persistence (§12.2.1) |
 | 7.26 | Wire alert/toast/modal variants to effects tokens | `todo` | 7.6, 7.22 | Info/success/warning/error variants (§14.2) |
 
 #### Batch 6: Seed & QA (7.27–7.30)
@@ -610,6 +610,7 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 | 2026-02-11 | **Page-vs-component boundary clarification**: `CaseStudyLayout.tsx` and `WarmyEmailDeliverability.tsx` page layouts are tokenized; only embedded mockup/product components are exempt. `PortfolioCard.tsx` industry badges exempt. | Lovable |
 | 2026-02-11 | **Color token audit #3 (FINAL)**: Read every non-exempt page and component. Found 3 new inline gold shadow instances (`SmartLead.tsx:165`, `SmartBusiness.tsx:163`, `SmartGrowth.tsx:168`). Moved `DashboardPreview.tsx` to exemptions (dashboard simulation). Updated SmartWebsites sub-page confirmation. Resolved WarmyEmailDeliverability decision. Added Audit History table. All files now accounted for. | Lovable |
 | 2026-02-11 | **Batches 1–3 COMPLETE**: Marked Phase 7 Batches 1 (Schema & Seed), 2 (Pipeline Update), and 3 (Admin Core UI) as ✅ COMPLETE. Admin components created: `EcommerceColorEditor`, `TypographyEditor`, `MotionEditor`, `StyleModulesEditor`, `DefaultModeSelector`. Pipeline updated: `generateProductionCss` now emits `--gold`, `--gold-hover`, `--gold-glow`, `--gold-foreground`, `--pricing-highlight`, `--cta-primary/hover`, `--cta-secondary/hover`, `--font-heading/body/display`, `--transition-smooth/bounce/spring`, and style module tokens (`--module-{name}-{token}`). `ThemeConfig` interface and `applyThemeToRoot` updated to consume all new fields. FOUC prevention script added to `index.html`. Phase 7 status changed from 📋 PLANNED → 🚧 IN PROGRESS. | Lovable |
+| 2026-02-11 | **Batch 4 progress**: Tasks 7.15 (ADA widget config), 7.16 (ADA icon customizer), 7.19 (theme export JSON), 7.25 (ADA widget with draggable positioning) marked `done`. Tasks 7.18 (contrast checker) and 7.20 (theme import) implemented and marked `done`. Components created: `ContrastChecker.tsx` (WCAG AA/AAA luminance ratio badges for 10 fg/bg pairs), `ThemeImporter.tsx` (file upload + v2.0 schema validation + create/update mode + 500KB limit). Remaining in Batch 4: 7.17 (theme revert) and 7.17a (write current as new default). | Lovable |
 
 ---
 
