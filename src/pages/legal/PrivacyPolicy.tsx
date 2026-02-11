@@ -251,6 +251,18 @@ export default function PrivacyPolicy() {
                   </p>
                 </div>
               </div>
+              {/* Related Legal Documents */}
+              <div className="space-y-4">
+                <h2 className="text-2xl font-display font-bold text-foreground border-b border-border pb-2">
+                  Related Legal Documents
+                </h2>
+                <ul className="list-disc list-inside text-muted-foreground space-y-1">
+                  <li><a href="/legal/terms" className="text-accent hover:underline">Terms of Service</a></li>
+                  <li><a href="/legal/cookies" className="text-accent hover:underline">Cookie Policy</a></li>
+                  <li><a href="/legal/data-request" className="text-accent hover:underline">Data Rights Request</a></li>
+                  <li><a href="/legal/accessibility-statement" className="text-accent hover:underline">Accessibility Statement</a></li>
+                </ul>
+              </div>
 
             </div>
           </div>
