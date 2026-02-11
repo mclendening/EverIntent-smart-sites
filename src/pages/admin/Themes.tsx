@@ -1915,12 +1915,12 @@ ${styleModulesCss}  }
         </div>
       </header>
 
-      <main className="container py-8">
-        <div className="grid gap-8 lg:grid-cols-[300px_1fr]">
+      <main className="container py-4 lg:py-8 px-3 lg:px-4">
+        <div className="grid gap-4 lg:gap-8 lg:grid-cols-[300px_1fr]">
           {/* Theme List */}
           <div className="space-y-4">
             <h2 className="text-lg font-semibold">Themes ({themes.length})</h2>
-            <ScrollArea className="h-[calc(100vh-12rem)]">
+            <ScrollArea className="h-48 lg:h-[calc(100vh-12rem)]">
               <div className="space-y-2 pr-4">
                 {themes.map((theme) => {
                   const accentColor = getAccentColor(theme);
@@ -1970,33 +1970,33 @@ ${styleModulesCss}  }
           <div className="space-y-4">
             {selectedTheme ? (
               <Card>
-                <CardHeader className="pb-4">
-                  <div className="flex items-center justify-between">
+                <CardHeader className="p-3 lg:pb-4 lg:p-6">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                      <CardTitle className="flex items-center gap-2">
-                        <Palette className="h-5 w-5" />
+                      <CardTitle className="flex items-center gap-2 text-base lg:text-lg">
+                        <Palette className="h-4 w-4 lg:h-5 lg:w-5" />
                         {isEditing ? 'Edit Theme' : selectedTheme.name}
                       </CardTitle>
-                      <CardDescription>
+                      <CardDescription className="text-xs">
                         {isEditing ? 'Adjust colors and settings' : 'Click Edit to modify'}
                       </CardDescription>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
                       {!selectedTheme.is_active && (
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() => handleSetActive(selectedTheme)}
                         >
-                          <Check className="mr-2 h-4 w-4" />
-                          Set Active
+                          <Check className="h-4 w-4 sm:mr-2" />
+                          <span className="hidden sm:inline">Set Active</span>
                         </Button>
                       )}
                       <Dialog>
                         <DialogTrigger asChild>
                           <Button variant="outline" size="sm">
-                            <Eye className="mr-2 h-4 w-4" />
-                            Preview
+                            <Eye className="h-4 w-4 sm:mr-2" />
+                            <span className="hidden sm:inline">Preview</span>
                           </Button>
                         </DialogTrigger>
                         <DialogContent className="max-w-lg">
@@ -2056,8 +2056,8 @@ ${styleModulesCss}  }
                           size="sm"
                           onClick={() => setIsEditing(true)}
                         >
-                          <Edit className="mr-2 h-4 w-4" />
-                          Edit
+                          <Edit className="h-4 w-4 sm:mr-2" />
+                          <span className="hidden sm:inline">Edit</span>
                         </Button>
                       )}
                     </div>
@@ -2065,7 +2065,7 @@ ${styleModulesCss}  }
                 </CardHeader>
                 <CardContent>
                   {isEditing ? (
-                    <div className="grid gap-6 lg:grid-cols-2">
+                    <div className="grid gap-4 lg:gap-6 grid-cols-1 lg:grid-cols-2">
                       {/* Left Column - Basic Settings */}
                       <div className="space-y-4">
                         <div className="space-y-2">
@@ -2213,7 +2213,7 @@ ${styleModulesCss}  }
                         {/* Color Controls */}
                         <div className="space-y-2">
                           <Label className="text-base font-semibold">Color Controls</Label>
-                          <ScrollArea className="h-[calc(100vh-20rem)] pr-4">
+                          <ScrollArea className="h-[60vh] lg:h-[calc(100vh-20rem)] pr-2 lg:pr-4">
                           <Accordion type="multiple" defaultValue={['accent-color']} className="w-full">
                             {/* Accent Color - Main CTA color */}
                             <ColorSliderControls
@@ -2631,7 +2631,7 @@ ${styleModulesCss}  }
                     </div>
                   ) : (
                     /* View Mode */
-                    <div className="grid gap-6 lg:grid-cols-2">
+                    <div className="grid gap-4 lg:gap-6 grid-cols-1 lg:grid-cols-2">
                       <div className="space-y-4">
                         <div>
                           <Label className="text-muted-foreground text-xs">Base Hue</Label>
