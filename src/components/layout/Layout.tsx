@@ -12,6 +12,7 @@ import { GHLChatWidget } from '@/components/GHLChatWidget';
 import { DesktopChatButton } from '@/components/DesktopChatButton';
 import { ClientOnly } from '@/components/ClientOnly';
 import { AffiliateTracker } from '@/components/AffiliateTracker';
+import { AccessibilityWidget } from '@/components/AccessibilityWidget';
 
 /**
  * Props for the Layout component.
@@ -57,6 +58,7 @@ export function Layout({ children }: LayoutProps) {
         <MobileBottomBar />
         <DesktopChatButton />
         <GHLChatWidget />
+        <AccessibilityWidget />
         <CookieConsent />
       </ClientOnly>
     </div>

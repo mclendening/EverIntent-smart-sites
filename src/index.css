@@ -464,3 +464,33 @@
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground) / 0.7);
 }
+
+/* ADA Accessibility Widget Overrides */
+html.ada-large-text {
+  font-size: 120%;
+}
+
+html.ada-high-contrast {
+  --foreground: 0 0% 100%;
+  --background: 0 0% 0%;
+  --card: 0 0% 5%;
+  --card-foreground: 0 0% 100%;
+  --muted-foreground: 0 0% 85%;
+}
+
+html.ada-reduced-motion *,
+html.ada-reduced-motion *::before,
+html.ada-reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+html.ada-underlines a {
+  text-decoration: underline !important;
+}
+
+html.ada-focus-highlight *:focus {
+  outline: 3px solid hsl(var(--accent)) !important;
+  outline-offset: 2px !important;
+}
