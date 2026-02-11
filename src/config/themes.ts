@@ -87,6 +87,34 @@ export interface ThemeConfig {
     cta: string;
     text: string;
   };
+  ecommerceColors?: {
+    gold: string;
+    goldHover: string;
+    goldGlow: string;
+    goldForeground: string;
+    pricingHighlight: string;
+  };
+  ctaVariants?: {
+    primary: string;
+    primaryHover: string;
+    secondary: string;
+    secondaryHover: string;
+  };
+  typographyConfig?: {
+    fontHeading: string;
+    fontBody: string;
+    fontDisplay: string;
+  };
+  motionConfig?: {
+    transitionSmooth: string;
+    transitionBounce: string;
+    transitionSpring: string;
+  };
+  styleModules?: Array<{
+    name: string;
+    tokens: Array<{ name: string; value: string }>;
+  }>;
+  defaultMode?: string;
   logoVersionId?: string;
   logoConfig?: {
     taglineText: string;
@@ -193,6 +221,31 @@ export const activeTheme: ThemeConfig = {
         "gradientAngle": 135
     },
   },
+  ecommerceColors: {
+      "gold": "39 95% 50%",
+      "goldGlow": "39 95% 60%",
+      "goldHover": "35 95% 44%",
+      "goldForeground": "0 0% 100%",
+      "pricingHighlight": "39 95% 50%"
+  },
+  ctaVariants: {
+      "primary": "240 70% 60%",
+      "secondary": "39 95% 50%",
+      "primaryHover": "240 70% 50%",
+      "secondaryHover": "35 95% 44%"
+  },
+  typographyConfig: {
+      "fontBody": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontDisplay": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontHeading": "Space Grotesk, -apple-system, BlinkMacSystemFont, sans-serif"
+  },
+  motionConfig: {
+      "transitionBounce": "all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)",
+      "transitionSmooth": "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+      "transitionSpring": "all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)"
+  },
+  styleModules: [],
+  defaultMode: 'dark',
 };
 
 // ============================================
@@ -235,4 +288,45 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
   root.style.setProperty('--gradient-hero', theme.gradientConfigs.hero);
   root.style.setProperty('--gradient-cta', theme.gradientConfigs.cta);
   root.style.setProperty('--gradient-text', theme.gradientConfigs.text);
+
+  // E-Commerce tokens
+  if (theme.ecommerceColors) {
+    Object.entries(theme.ecommerceColors).forEach(([key, value]) => {
+      const cssVar = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+      root.style.setProperty(`--${cssVar}`, value);
+    });
+  }
+
+  // CTA variant tokens
+  if (theme.ctaVariants) {
+    Object.entries(theme.ctaVariants).forEach(([key, value]) => {
+      const cssVar = 'cta-' + key.replace(/([A-Z])/g, '-$1').toLowerCase();
+      root.style.setProperty(`--${cssVar}`, value);
+    });
+  }
+
+  // Typography tokens
+  if (theme.typographyConfig) {
+    Object.entries(theme.typographyConfig).forEach(([key, value]) => {
+      const cssVar = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+      root.style.setProperty(`--${cssVar}`, value);
+    });
+  }
+
+  // Motion tokens
+  if (theme.motionConfig) {
+    Object.entries(theme.motionConfig).forEach(([key, value]) => {
+      const cssVar = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+      root.style.setProperty(`--${cssVar}`, value);
+    });
+  }
+
+  // Style module tokens
+  if (theme.styleModules) {
+    theme.styleModules.forEach(mod => {
+      mod.tokens.forEach(tok => {
+        root.style.setProperty(`--module-${mod.name}-${tok.name}`, tok.value);
+      });
+    });
+  }
 }
