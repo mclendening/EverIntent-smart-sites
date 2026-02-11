@@ -127,6 +127,60 @@
   .dark {
     /* Inherits from :root - already dark theme */
   }
+
+  /* Light mode overrides — applied when .dark class is removed */
+  :root:not(.dark) {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 98%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 98%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 215 25% 27%;
+    --primary-light: 215 20% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 240 70% 55%;
+    --accent-hover: 240 70% 45%;
+    --accent-glow: 240 70% 65%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 240 70% 55%;
+    --highlight: 82 84% 40%;
+    --highlight-foreground: 0 0% 100%;
+
+    /* Gradients - Light mode */
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(240 30% 96%) 50%, hsl(0 0% 100%) 100%);
+    --gradient-text: linear-gradient(135deg, hsl(240 70% 55%) 0%, hsl(250 70% 65%) 50%, hsl(240 70% 55%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(240 70% 55%) 0%, hsl(250 70% 45%) 100%);
+    --gradient-glow: radial-gradient(ellipse at center, hsl(240 70% 55% / 0.1) 0%, transparent 70%);
+    --gradient-mesh: radial-gradient(at 40% 20%, hsl(240 70% 55% / 0.06) 0px, transparent 50%), radial-gradient(at 80% 0%, hsl(215 25% 27% / 0.05) 0px, transparent 50%), radial-gradient(at 0% 50%, hsl(240 70% 55% / 0.04) 0px, transparent 50%);
+
+    /* Shadows - Light mode */
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.08), 0 2px 4px -2px hsl(0 0% 0% / 0.05);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.08), 0 4px 6px -4px hsl(0 0% 0% / 0.05);
+    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.08), 0 8px 10px -6px hsl(0 0% 0% / 0.05);
+    --shadow-glow: 0 0 40px hsl(240 70% 55% / 0.15);
+    --shadow-glow-lg: 0 0 60px hsl(240 70% 55% / 0.2);
+    --shadow-button: 0 4px 14px 0 hsl(240 70% 55% / 0.15);
+
+    /* Sidebar - Light */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 240 70% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14% 96%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 240 70% 55%;
+  }
 }
 
 @layer base {

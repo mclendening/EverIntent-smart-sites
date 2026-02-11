@@ -93,10 +93,10 @@ const transcriptProofs = [
 ];
 
 const howItWorksSteps = [
-  { icon: Phone, label: 'Customer calls or texts', color: 'text-blue-400' },
+  { icon: Phone, label: 'Customer calls or texts', color: 'text-intent-blue' },
   { icon: Bot, label: 'AI responds instantly', color: 'text-accent' },
-  { icon: Calendar, label: 'Qualifies and books', color: 'text-green-400' },
-  { icon: Bell, label: 'You get notified', color: 'text-purple-400' },
+  { icon: Calendar, label: 'Qualifies and books', color: 'text-highlight' },
+  { icon: Bell, label: 'You get notified', color: 'text-accent' },
 ];
 
 // ============================================

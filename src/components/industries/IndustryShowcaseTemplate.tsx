@@ -133,7 +133,7 @@ function AnimatedTranscript({ messages }: { messages: TranscriptMessage[] }) {
           <p className="text-xs text-muted-foreground">Live call simulation</p>
         </div>
         <div className="ml-auto flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+          <div className="w-2 h-2 rounded-full bg-highlight animate-pulse" />
           <span className="text-xs text-muted-foreground">Active</span>
         </div>
       </div>

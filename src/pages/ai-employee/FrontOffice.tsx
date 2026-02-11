@@ -197,8 +197,8 @@ export default function FrontOffice() {
 
             {/* Call Flow Outcomes */}
             <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-16">
-              <div className="p-6 rounded-2xl bg-green-500/10 border border-green-500/30 text-center">
-                <UserCheck className="w-10 h-10 text-green-500 mx-auto mb-4" />
+              <div className="p-6 rounded-2xl bg-highlight/10 border border-highlight/30 text-center">
+                <UserCheck className="w-10 h-10 text-highlight mx-auto mb-4" />
                 <h3 className="text-lg font-semibold text-foreground mb-2">Hot Lead</h3>
                 <p className="text-sm text-muted-foreground">Transferred live to you in under 10 seconds</p>
               </div>
