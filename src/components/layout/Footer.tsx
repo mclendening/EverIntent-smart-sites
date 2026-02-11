@@ -58,6 +58,7 @@ const legalLinks = [
   { title: 'Cookies', path: '/legal/cookies' },
   { title: 'Terms', path: '/legal/terms' },
   { title: 'Data Rights', path: '/legal/data-request' },
+  { title: 'Accessibility', path: '/legal/accessibility-statement' },
 ];
 
 /**

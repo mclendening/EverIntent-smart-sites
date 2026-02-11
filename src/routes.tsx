@@ -82,6 +82,7 @@ import PrivacyPolicy from './pages/legal/PrivacyPolicy';
 import TermsOfService from './pages/legal/TermsOfService';
 import CookiePolicy from './pages/legal/CookiePolicy';
 import DataRightsRequest from './pages/legal/DataRightsRequest';
+import AccessibilityStatement from './pages/legal/AccessibilityStatement';
 
 // Checkout page
 import CheckoutPage from './pages/checkout/CheckoutPage';
@@ -346,7 +347,7 @@ const checkoutPaths = [
 ];
 
 // Legal and compliance pages
-const legalPaths = ['/legal/privacy', '/legal/cookies', '/legal/terms', '/legal/data-request'];
+const legalPaths = ['/legal/privacy', '/legal/cookies', '/legal/terms', '/legal/data-request', '/legal/accessibility-statement'];
 
 // Help and support pages
 const resourcePaths = ['/help', '/faq', '/support'];
@@ -592,6 +593,7 @@ export const routes: RouteRecord[] = [
       { path: 'legal/terms', Component: TermsOfService },
       { path: 'legal/cookies', Component: CookiePolicy },
       { path: 'legal/data-request', Component: DataRightsRequest },
+      { path: 'legal/accessibility-statement', Component: AccessibilityStatement },
       // Resources
       ...resourcePaths.map(createPlaceholderChild),
       // Upgrade
