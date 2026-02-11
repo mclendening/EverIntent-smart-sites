@@ -53,12 +53,12 @@ const includedFromSite = [
  */
 const faqs = [
   {
-    question: 'Why is Smart Lead the most popular?',
+    question: 'Why is Capture the most popular?',
     answer: 'Because most businesses running ads or any paid traffic need lead capture. Without missed-call text-back and AI chat, you\'re paying for leads and losing them.',
   },
   {
-    question: 'What\'s the difference from Smart Site?',
-    answer: 'Smart Site is a basic website. Smart Lead adds the tools that actually capture leads: AI chat, missed-call text-back, CRM, and automation.',
+    question: 'What\'s the difference from Launch?',
+    answer: 'Launch is a basic website. Capture adds the tools that actually capture leads: AI chat, missed-call text-back, CRM, and automation.',
   },
   {
     question: 'Is there a contract?',
@@ -79,7 +79,7 @@ export default function SmartLead() {
       <SEO 
         title="Capture: Lead Capture Website $97/mo"
         description="Never miss a lead. Capture includes AI chat, missed-call text-back, CRM, and automation for $97/mo + $249 setup. Built in 5 days."
-        canonical="/smart-websites/smart-lead"
+        canonical="/smart-websites/capture"
       />
 
       {/* Hero Section */}
@@ -273,7 +273,7 @@ export default function SmartLead() {
               </a>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/smart-websites/smart-business">See Convert →</Link>
+              <Link to="/smart-websites/convert">See Convert →</Link>
             </Button>
           </div>
         </div>

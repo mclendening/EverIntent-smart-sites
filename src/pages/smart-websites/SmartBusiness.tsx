@@ -52,8 +52,8 @@ const includedFromLead = [
  */
 const faqs = [
   {
-    question: 'What\'s the difference from Smart Lead?',
-    answer: 'Smart Business adds online booking and review automation. If customers need to schedule with you, or if Google reviews matter to your business, this is the tier.',
+    question: 'What\'s the difference from Capture?',
+    answer: 'Convert adds online booking and review automation. If customers need to schedule with you, or if Google reviews matter to your business, this is the tier.',
   },
   {
     question: 'How does the booking system work?',
@@ -64,8 +64,8 @@ const faqs = [
     answer: 'No. We send a simple, professional request after each job. Happy customers leave reviews. Unhappy ones reach you privately first.',
   },
   {
-    question: 'Can I upgrade from Smart Lead?',
-    answer: 'Yes. If you\'re on Smart Lead and want booking + reviews, we migrate you seamlessly. Pay the difference in setup, new monthly rate kicks in.',
+    question: 'Can I upgrade from Capture?',
+    answer: 'Yes. If you\'re on Capture and want booking + reviews, we migrate you seamlessly. Pay the difference in setup, new monthly rate kicks in.',
   },
 ];
 
@@ -78,7 +78,7 @@ export default function SmartBusiness() {
       <SEO 
         title="Convert: Booking and Reviews Website $197/mo"
         description="Turn visitors into customers. Convert includes online booking + review automation for $197/mo. Let customers book 24/7 and build your Google reputation automatically."
-        canonical="/smart-websites/smart-business"
+        canonical="/smart-websites/convert"
       />
 
       {/* Hero Section */}
@@ -271,7 +271,7 @@ export default function SmartBusiness() {
               </a>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/smart-websites/smart-growth">See Scale →</Link>
+              <Link to="/smart-websites/scale">See Scale →</Link>
             </Button>
           </div>
         </div>

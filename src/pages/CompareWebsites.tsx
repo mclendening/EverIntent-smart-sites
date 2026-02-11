@@ -104,7 +104,7 @@ const tiers = [
     period: ' one-time',
     description: 'A beautiful, fast website that establishes credibility and trust.',
     icon: Globe,
-    href: '/smart-websites/smart-site',
+    href: '/smart-websites/launch',
     checkoutHref: '/checkout/launch',
     bgVariant: 'launch' as const,
     recommendedAddons: [
@@ -118,7 +118,7 @@ const tiers = [
     period: '/mo',
     description: 'Turn every visitor into a potential customer with AI-powered engagement.',
     icon: MessageSquare,
-    href: '/smart-websites/smart-lead',
+    href: '/smart-websites/capture',
     checkoutHref: '/checkout/capture',
     bgVariant: 'capture' as const,
     recommendedAddons: [
@@ -133,7 +133,7 @@ const tiers = [
     period: '/mo',
     description: 'Full CRM and booking automation for growing service businesses.',
     icon: Zap,
-    href: '/smart-websites/smart-business',
+    href: '/smart-websites/convert',
     checkoutHref: '/checkout/convert',
     bgVariant: 'convert' as const,
     recommendedAddons: [
@@ -148,7 +148,7 @@ const tiers = [
     period: '/mo',
     description: 'Complete business automation from first visit to booked appointment.',
     icon: TrendingUp,
-    href: '/smart-websites/smart-growth',
+    href: '/smart-websites/scale',
     checkoutHref: '/checkout/scale',
     bgVariant: 'scale' as const,
     recommendedAddons: [

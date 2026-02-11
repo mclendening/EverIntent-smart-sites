@@ -127,12 +127,12 @@ export default function HealthWellnessShowcase() {
         painPoints={painPoints}
         transcript={transcript}
         websiteMockups={websiteMockups}
-        recommendedTier="Smart Business"
+        recommendedTier="Convert"
         tierPrice="$197/mo"
         tierSetup="$497"
         faqItems={faqItems}
-        ctaText="Get Smart Business"
-        ctaLink="/checkout/smart-business"
+        ctaText="Get Convert"
+        ctaLink="/checkout/convert"
       />
     </>
   );

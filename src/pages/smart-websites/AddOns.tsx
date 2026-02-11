@@ -85,7 +85,7 @@ const addOnPacks: AddOnPack[] = [
       'Domain health monitoring',
       'Reputation scoring',
     ],
-    recommended: ['smart-site'],
+    recommended: ['launch'],
     details: {
       headline: 'Stop losing leads to the spam folder',
       description: 'Your emails are useless if they never get seen. Email Authority uses Warmy\'s AI-powered warmup technology to build your sender reputation, monitor domain health, and ensure your messages land in the inbox—not spam.',
@@ -113,7 +113,7 @@ const addOnPacks: AddOnPack[] = [
       'Automated reminders',
       'Payment tracking dashboard',
     ],
-    recommended: ['smart-lead'],
+    recommended: ['capture'],
     details: {
       headline: 'Stop chasing payments. Start collecting.',
       description: 'Late payments kill cash flow. Get Paid Now lets you send professional invoices, accept payments online, and automate follow-ups—so you spend less time chasing and more time growing.',
@@ -141,7 +141,7 @@ const addOnPacks: AddOnPack[] = [
       'Multi-platform posting',
       'Engagement analytics',
     ],
-    recommended: ['smart-business'],
+    recommended: ['convert'],
     details: {
       headline: 'Your social presence on autopilot',
       description: 'Consistency wins on social media, but who has the time? Social Autopilot lets you schedule posts across platforms, plan your content calendar, and track engagement—without spending hours online.',
@@ -169,7 +169,7 @@ const addOnPacks: AddOnPack[] = [
       'Conversation history',
       'Team collaboration',
     ],
-    recommended: ['smart-business', 'smart-growth'],
+    recommended: ['convert', 'scale'],
     details: {
       headline: 'Every conversation. One place.',
       description: 'Your customers reach out everywhere—SMS, email, Facebook, Instagram. Omnichannel Inbox pulls it all into one unified view so you never miss a message, and your team can respond faster.',
@@ -197,7 +197,7 @@ const addOnPacks: AddOnPack[] = [
       '24/7 lead qualification',
       'Smart handoff to you',
     ],
-    recommended: ['smart-lead'],
+    recommended: ['capture'],
     details: {
       headline: 'Your 24/7 AI receptionist—on your website',
       description: 'When visitors land on your site, AI Voice Chat engages them instantly. It answers questions, qualifies leads, and hands off warm prospects to you—even while you sleep.',

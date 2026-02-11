@@ -49,7 +49,7 @@ const faqs = [
     answer: 'Yes, 100%. Your domain, your content, your site. We don\'t do lock-in contracts. If you ever want to leave, we\'ll help you migrate everything.',
   },
   {
-    question: 'Can I upgrade to Smart Lead later?',
+    question: 'Can I upgrade to Capture later?',
     answer: 'Absolutely. Every Smart Website is built upgrade-ready. When you\'re ready for lead capture and automation, upgrading is seamless.',
   },
   {
@@ -67,7 +67,7 @@ export default function SmartSite() {
       <SEO 
         title="Launch: Professional Website for $249 One-Time"
         description="Get a professional 5-page website for just $249 one-time. Includes mobile design, SSL, SEO setup, and Google Maps. Built in 5 days. You own everything."
-        canonical="/smart-websites/smart-site"
+        canonical="/smart-websites/launch"
       />
 
       {/* Hero Section */}
@@ -241,7 +241,7 @@ export default function SmartSite() {
               </a>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/smart-websites/smart-lead">See Capture →</Link>
+              <Link to="/smart-websites/capture">See Capture →</Link>
             </Button>
           </div>
         </div>

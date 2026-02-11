@@ -132,12 +132,14 @@ export const industryHubRoutes: RouteConfig[] = [
  * Direct conversion paths from pricing page.
  */
 export const checkoutRoutes: RouteConfig[] = [
-  { path: '/checkout/smart-site', title: 'Smart Site Checkout', description: 'Get your Smart Site' },
-  { path: '/checkout/smart-lead', title: 'Smart Lead Checkout', description: 'Get Smart Lead' },
-  { path: '/checkout/smart-business', title: 'Smart Business Checkout', description: 'Get Smart Business' },
-  { path: '/checkout/smart-growth', title: 'Smart Growth Checkout', description: 'Get Smart Growth' },
-  { path: '/checkout/smart-launch', title: 'Smart Launch Checkout', description: 'Get Smart Launch' },
-  { path: '/checkout/success', title: 'Checkout Success', description: 'Thank you for your purchase' },
+  { path: '/checkout/launch', title: 'Launch Checkout', description: 'Get your Launch website' },
+  { path: '/checkout/capture', title: 'Capture Checkout', description: 'Get Capture' },
+  { path: '/checkout/convert', title: 'Convert Checkout', description: 'Get Convert' },
+  { path: '/checkout/scale', title: 'Scale Checkout', description: 'Get Scale' },
+  { path: '/checkout/after-hours', title: 'After-Hours Checkout', description: 'Get After-Hours AI' },
+  { path: '/checkout/front-office', title: 'Front Office Checkout', description: 'Get Front Office AI' },
+  { path: '/checkout/full-ai', title: 'Full AI Employee Checkout', description: 'Get Full AI Employee' },
+  { path: '/checkout/web-chat', title: 'Web Chat Checkout', description: 'Get Web Chat' },
 ];
 
 // ============================================

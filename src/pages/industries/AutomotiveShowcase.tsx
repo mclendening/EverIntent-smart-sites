@@ -132,7 +132,7 @@ export default function AutomotiveShowcase() {
         tierSetup="$249"
         faqItems={faqItems}
         ctaText="Get Capture"
-        ctaLink="/checkout/smart-lead"
+        ctaLink="/checkout/capture"
       />
     </>
   );
