@@ -551,7 +551,8 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 |----|------|--------|------|-------|
 | 7.15 | Admin: ADA widget config (visibility, pause/hide scheduling, device toggle) | `todo` | 7.6 | Hide indefinitely, pause for duration, per-device (§12.3) |
 | 7.16 | Admin: ADA icon customizer per theme (icon type, color, size, shape) | `todo` | 7.15 | Configurable per base theme (§12.4) |
-| 7.17 | Admin: Theme revert to original (2-layer warning + export escape hatch) | `todo` | 7.2, 7.19 | Warning 1 → Warning 2 with "Export First" button (§15) |
+| 7.17 | Admin: Theme revert to original (2-layer warning + export escape hatch) | `todo` | 7.2, 7.19 | Warning 1 → Warning 2 with "Export First" button (§15.2–15.3) |
+| 7.17a | Admin: Write current theme as new default (2-layer warning + export seed) | `todo` | 7.2, 7.19 | Overwrites seed snapshot with current config; same warning pattern as revert (§15.4) |
 | 7.18 | Admin: Real-time contrast checker for fg/bg token pairs | `todo` | 7.10 | WCAG AA/AAA pass/fail badge (§12.6) |
 | 7.19 | Build theme export (JSON download — includes Style Modules) | `todo` | 7.1 | Self-documenting schema v2.0 (§13) |
 | 7.20 | Build theme import (file upload + validation + create/update) | `todo` | 7.19 | Schema validation with clear error messages (§13.3) |
@@ -594,3 +595,4 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 | 2026-02-10 | **ChatGPT review integration**: Updated 6.24 reference from Matrix v1.2 → v1.3. Expanded 6.24.1 remaining items (Affiliate ID field, Chat – High Intent tag, SaaS checkout page verification). Added ghlClient.ts tag reconciliation as explicit prerequisite in 6.24.5. Expanded 6.24.7 from 3 → 5 E2E scenarios (added cart expiry + Stripe→onboarding). | Lovable |
 | 2026-02-10 | **Post-mortem: Feb 9 color regression.** Hand-coded `--gold` CSS variable and checkout color overrides were correctly wiped by admin theme republish. Updated 6.16 with critical rule: **all color/styling changes must flow through admin CRUD → DB → publish pipeline, never directly in code.** Gold accents must be re-added via admin theme system expansion (6.16), not CSS patches. | Lovable |
 | 2026-02-10 | **Phase 7 added**: Dynamic Theme System v2.0 — 30 tasks across 6 batches per BRD v2.0. Covers: schema expansion, 10-theme seeding, dual-mode CSS pipeline, admin CRUD (hue slider, effects editor, Style Modules, ADA widget config, icon customizer, revert-to-original), user-facing light/dark toggle, ADA accessibility widget with pause/hide scheduling, theme export/import JSON, component refactor, demo element theming, and full QA. | Lovable |
+| 2026-02-10 | **Task 7.17a added**: "Write current as new default" — overwrites theme seed snapshot with current config using same 2-layer warning + export pattern as revert (BRD §15.4). | Lovable |
