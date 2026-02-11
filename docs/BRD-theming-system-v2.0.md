@@ -1,8 +1,8 @@
 # BRD: Dynamic Theming System
 
 **Version:** 2.0  
-**Date:** 2026-02-10  
-**Status:** Draft — Pending Owner Approval  
+**Date:** 2026-02-10 (Updated: 2026-02-11)  
+**Status:** Active — Implementation In Progress (Batches 1–5 Complete, Batch 6 Open)  
 **Supersedes:** BRD v1.0 (2025-06-19)
 
 ---
@@ -46,20 +46,20 @@ This pattern separates tokens into three layers:
 | Accent colors (4 tokens) | ✅ DB-driven |
 | GHL chat widget colors (9 tokens) | ✅ DB-driven |
 | Gradient configs (hero/cta/text) | ✅ DB-driven |
-| Static colors (16 tokens) | ⚠️ DB-driven but "static" — same values across all themes |
-| Shadows (7 tokens) | ❌ Hardcoded in CSS |
-| Sidebar tokens (7 tokens) | ❌ Hardcoded in CSS |
-| Utility classes (icon-gradients, glow-text, etc.) | ❌ Hardcoded HSL values |
-| Typography (font families, sizes) | ❌ Hardcoded in CSS |
-| Spacing/radius | ❌ Hardcoded |
-| Light mode | ❌ Not supported |
-| Multi-theme seeding | ❌ Only 1 theme (Indigo Night) |
-| Selection color | ❌ Hardcoded |
-| Scrollbar colors | ❌ Hardcoded |
-| Highlight/success token | ❌ Hardcoded |
-| Intent-blue token | ❌ Hardcoded |
-| Gold/e-commerce tokens | ❌ Hardcoded (checkout-specific) |
-| Animation/transition tokens | ❌ Hardcoded |
+| Static colors (16 tokens) | ✅ DB-driven, dual-mode (light in `static_colors`, dark in `dark_mode_overrides`) |
+| Shadows (7 tokens) | ✅ CSS defined, dual-mode |
+| Sidebar tokens (7 tokens) | ✅ CSS defined, dual-mode |
+| Utility classes (icon-gradients, glow-text, etc.) | ✅ Tokenized (`var(--accent)`, etc.) |
+| Typography (font families, sizes) | ✅ CSS vars (`--font-heading`, `--font-body`, `--font-display`) |
+| Spacing/radius | ✅ CSS var (`--radius`) |
+| Light mode | ✅ Implemented — seeded palette, `:root` = light, `.dark` = dark |
+| Multi-theme seeding | ✅ 10 themes seeded |
+| Selection color | ✅ Tokenized (`hsl(var(--accent) / 0.3)`) |
+| Scrollbar colors | ✅ Tokenized |
+| Highlight/success token | ✅ CSS defined (`--highlight`) |
+| Intent-blue token | ✅ CSS defined (`--intent-blue`) |
+| Gold/e-commerce tokens | ✅ CSS defined (`--gold`, `--gold-hover`, etc.) |
+| Animation/transition tokens | ✅ CSS vars (`--transition-smooth/bounce/spring`) |
 | Logo text words (Ever/Intent) | ✅ Configurable |
 
 ### 2.2 Key Principle Change from v1.0
@@ -106,7 +106,7 @@ The pipeline generates TWO CSS blocks:
 1. `:root { }` — Light mode semantic + component tokens
 2. `.dark { }` — Dark mode semantic + component tokens
 
-The `<html>` element defaults to `class="dark"` (dark-first site). A future toggle can switch modes.
+The `<html>` element defaults to `class="dark"` (dark-first site). A user-facing sun/moon toggle (`ModeToggle.tsx`) switches modes. ✅ Implemented.
 
 ### 3.3 Hue-Derived Primitive Generation
 
@@ -188,7 +188,7 @@ Intent-based tokens consumed by components. Each has a light-mode and dark-mode 
 | `--highlight` | Success/highlight color | ✅ CSS defined | — |
 | `--highlight-foreground` | Text on highlight | ✅ CSS defined | — |
 | `--intent-blue` | Logo Intent color (brand) | ✅ CSS defined | — |
-| `--secondary-accent` | Secondary brand accent | ❌ **Missing from CSS** | Referenced in `tailwind.config.ts:70` but no CSS var defined in `index.css`. Must be added. |
+| `--secondary-accent` | Secondary brand accent | ✅ CSS defined | — |
 
 ### 4.3 Tier 3 — Component Tokens
 
@@ -198,10 +198,10 @@ Scoped tokens that override semantic defaults for specific UI contexts. Stored i
 
 | CSS Variable | Purpose | Current Status | Audit Notes |
 |-------------|---------|----------------|-------------|
-| `--gold` | Checkout/pricing accent | ❌ **Missing from CSS** | Referenced in `tailwind.config.ts:72` but no CSS var in `index.css`. Default: `39 95% 50%` |
-| `--gold-hover` | Gold hover state | ❌ **Missing from CSS** | Referenced in `tailwind.config.ts:73`. Default: `35 95% 44%` |
-| `--gold-glow` | Gold glow effect | ❌ **Missing from CSS** | Referenced in `tailwind.config.ts:74`. Default: `39 95% 50%` |
-| `--gold-foreground` | Text on gold | ❌ **Not referenced** | Needed for accessibility. Default: `H 47% 11%` |
+| `--gold` | Checkout/pricing accent | ✅ CSS defined | Default: `39 95% 50%` |
+| `--gold-hover` | Gold hover state | ✅ CSS defined | Default: `35 95% 44%` |
+| `--gold-glow` | Gold glow effect | ✅ CSS defined | Default: `39 95% 60%` |
+| `--gold-foreground` | Text on gold | ✅ CSS defined | Default: `0 0% 100%` |
 
 #### 4.3.2 Sidebar
 
@@ -293,17 +293,17 @@ Scoped tokens that override semantic defaults for specific UI contexts. Stored i
 
 | CSS Variable | Purpose | Default | Current Status |
 |-------------|---------|---------|----------------|
-| `--font-heading` | Heading font family | `'Space Grotesk'` | ❌ Not yet a CSS var (hardcoded in `index.css:120` and `tailwind.config.ts:18-20`) |
-| `--font-body` | Body font family | `'Inter'` | ❌ Not yet a CSS var (hardcoded in `index.css:116` and `tailwind.config.ts:17`) |
+| `--font-heading` | Heading font family | `'Space Grotesk'` | ✅ CSS var defined in `:root` |
+| `--font-body` | Body font family | `'Inter'` | ✅ CSS var defined in `:root` |
 | `--font-mono` | Code font family | `'JetBrains Mono'` | ❌ Not yet a CSS var |
 
 ### 4.5 Motion Tokens
 
 | CSS Variable | Purpose | Default | Current Status |
 |-------------|---------|---------|----------------|
-| `--transition-smooth` | Standard easing | `0.3s cubic-bezier(0.4, 0, 0.2, 1)` | ⚠️ Utility class exists (`index.css:214-216`) but not a CSS variable |
-| `--transition-bounce` | Playful easing | `0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)` | ⚠️ Utility class exists but not a CSS variable |
-| `--transition-spring` | Springy easing | `0.5s cubic-bezier(0.34, 1.56, 0.64, 1)` | ⚠️ Utility class exists but not a CSS variable |
+| `--transition-smooth` | Standard easing | `0.3s cubic-bezier(0.4, 0, 0.2, 1)` | ✅ CSS variable defined in `:root` |
+| `--transition-bounce` | Playful easing | `0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)` | ✅ CSS variable defined in `:root` |
+| `--transition-spring` | Springy easing | `0.5s cubic-bezier(0.34, 1.56, 0.64, 1)` | ✅ CSS variable defined in `:root` |
 
 ### 4.6 Intentional Exemptions
 
@@ -518,9 +518,9 @@ The `sync-theme-to-github` edge function generates:
 }
 ```
 
-### 7.2 Default Mode
+### 7.2 Default Mode — ✅ IMPLEMENTED
 
-`<html class="dark">` is the default. A future mode toggle can be added without changing the token system.
+`<html class="dark">` is the default. User-facing `ModeToggle.tsx` (sun/moon icon in header + mobile menu) switches modes. FOUC prevention script in `<head>` reads `localStorage('theme-mode')`. `applyThemeToRoot()` is mode-aware and re-applies correct color set on toggle.
 
 ### 7.3 Utility Classes
 
