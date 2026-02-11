@@ -132,68 +132,193 @@ Given a base hue `H` (0–360°), primitives are algorithmically generated:
 
 ---
 
-## 4. Complete Token Inventory
+## 4. Required Token Inventory
 
-Every CSS custom property emitted by the publish pipeline. **Nothing is hardcoded.**
+> **Authoritative reference for Phase 7.** Every CSS custom property below MUST be emitted by the publish pipeline. Nothing is hardcoded. This inventory was validated against a full codebase audit on 2026-02-11 (see tracker appendix).
 
-### 4.1 Semantic Tokens (Tier 2) — Per Mode
+### 4.1 Tier 1 — Primitive Tokens (Auto-Generated)
 
-| Token | Current CSS Var | Purpose |
-|-------|----------------|---------|
-| `--background` | ✅ exists | Page background |
-| `--foreground` | ✅ exists | Default text |
-| `--card` | ✅ exists | Card surfaces |
-| `--card-foreground` | ✅ exists | Card text |
-| `--popover` | ✅ exists | Popover surfaces |
-| `--popover-foreground` | ✅ exists | Popover text |
-| `--primary` | ✅ exists | Primary surfaces |
-| `--primary-light` | ✅ exists | Lighter primary variant |
-| `--primary-foreground` | ✅ exists | Text on primary |
-| `--secondary` | ✅ exists | Secondary surfaces |
-| `--secondary-foreground` | ✅ exists | Text on secondary |
-| `--muted` | ✅ exists | Subdued backgrounds |
-| `--muted-foreground` | ✅ exists | Subdued text |
-| `--accent` | ✅ exists | Brand accent |
-| `--accent-hover` | ✅ exists | Accent hover state |
-| `--accent-glow` | ✅ exists | Accent glow/highlight |
-| `--accent-foreground` | ✅ exists | Text on accent |
-| `--destructive` | ❌ hardcoded | Error/danger |
-| `--destructive-foreground` | ❌ hardcoded | Text on destructive |
-| `--border` | ✅ exists | Default borders |
-| `--input` | ✅ exists | Form input borders |
-| `--ring` | ✅ exists | Focus rings |
-| `--radius` | ❌ hardcoded | Border radius base |
-| `--highlight` | ❌ hardcoded | Success/highlight color |
-| `--highlight-foreground` | ❌ hardcoded | Text on highlight |
-| `--intent-blue` | ❌ hardcoded | Logo Intent color (legacy) |
+Primitives are derived algorithmically from `base_hue` (§3.3). Admins rarely edit these directly. They serve as inputs to Tier 2 semantic tokens.
 
-### 4.2 Component Tokens (Tier 3)
+| Primitive Slot | Dark Mode Formula | Light Mode Formula |
+|----------------|-------------------|--------------------|
+| `bg-base` | `H 47% 7%` | `H 20% 98%` |
+| `bg-card` | `H 47% 10%` | `0 0% 100%` |
+| `bg-muted` | `H 47% 15%` | `H 20% 96%` |
+| `bg-secondary` | `H 47% 12%` | `H 20% 94%` |
+| `fg-base` | `60 9% 98%` | `H 47% 11%` |
+| `fg-muted` | `H 16% 65%` | `H 16% 47%` |
+| `border-base` | `H 25% 20%` | `H 20% 88%` |
+| `primary` | `H 25% 27%` | `H 47% 11%` |
+| `primary-light` | `H 20% 40%` | `H 25% 27%` |
+| `accent` | `H 70% 60%` | `H 70% 50%` |
+| `accent-hover` | `H 70% 50%` | `H 70% 42%` |
+| `accent-glow` | `H 70% 70%` | `H 70% 60%` |
+| `ring` | `H 92% 50%` | `H 92% 50%` |
 
-| Token Group | Tokens | Status |
-|-------------|--------|--------|
-| **Sidebar** | `--sidebar-background`, `--sidebar-foreground`, `--sidebar-primary`, `--sidebar-primary-foreground`, `--sidebar-accent`, `--sidebar-accent-foreground`, `--sidebar-border`, `--sidebar-ring` | ❌ hardcoded |
-| **GHL Chat** | `--ghl-textarea-bg`, `--ghl-textarea-text`, `--ghl-textarea-border`, `--ghl-textarea-focus-border`, `--ghl-textarea-focus-glow`, `--ghl-send-button-bg`, `--ghl-send-button-border`, `--ghl-send-button-icon`, `--ghl-selection-bg` | ✅ DB-driven |
-| **Checkout/E-commerce** | `--gold`, `--gold-hover`, `--gold-foreground`, `--gold-glow` | ❌ hardcoded |
-| **Shadows** | `--shadow-sm`, `--shadow-md`, `--shadow-lg`, `--shadow-xl`, `--shadow-glow`, `--shadow-glow-lg`, `--shadow-button` | ❌ hardcoded |
-| **Gradients** | `--gradient-hero`, `--gradient-text`, `--gradient-cta`, `--gradient-glow`, `--gradient-mesh` | ⚠️ partial (3 of 5) |
-| **Selection** | `::selection` color | ❌ hardcoded |
-| **Scrollbar** | `--scrollbar-track`, `--scrollbar-thumb`, `--scrollbar-thumb-hover` | ❌ hardcoded |
+### 4.2 Tier 2 — Semantic Tokens (Per Mode)
 
-### 4.3 Typography Tokens
+Intent-based tokens consumed by components. Each has a light-mode and dark-mode value stored in `static_colors` and `dark_mode_overrides` respectively.
 
-| Token | Purpose | Default |
-|-------|---------|---------|
-| `--font-heading` | Heading font family | `'Space Grotesk'` |
-| `--font-body` | Body font family | `'Inter'` |
-| `--font-mono` | Code font family | `'JetBrains Mono'` |
+| CSS Variable | Purpose | Current Status | Audit Notes |
+|-------------|---------|----------------|-------------|
+| `--background` | Page background | ✅ CSS defined | — |
+| `--foreground` | Default text | ✅ CSS defined | — |
+| `--card` | Card surfaces | ✅ CSS defined | — |
+| `--card-foreground` | Card text | ✅ CSS defined | — |
+| `--popover` | Popover surfaces | ✅ CSS defined | — |
+| `--popover-foreground` | Popover text | ✅ CSS defined | — |
+| `--primary` | Primary surfaces | ✅ CSS defined | — |
+| `--primary-light` | Lighter primary variant | ✅ CSS defined | — |
+| `--primary-foreground` | Text on primary | ✅ CSS defined | — |
+| `--secondary` | Secondary surfaces | ✅ CSS defined | — |
+| `--secondary-foreground` | Text on secondary | ✅ CSS defined | — |
+| `--muted` | Subdued backgrounds | ✅ CSS defined | — |
+| `--muted-foreground` | Subdued text | ✅ CSS defined | — |
+| `--accent` | Brand accent | ✅ CSS defined | — |
+| `--accent-hover` | Accent hover state | ✅ CSS defined | — |
+| `--accent-glow` | Accent glow/highlight | ✅ CSS defined | — |
+| `--accent-foreground` | Text on accent | ✅ CSS defined | — |
+| `--border` | Default borders | ✅ CSS defined | — |
+| `--input` | Form input borders | ✅ CSS defined | — |
+| `--ring` | Focus rings | ✅ CSS defined | — |
+| `--radius` | Border radius base | ✅ CSS defined | — |
+| `--destructive` | Error/danger | ✅ CSS defined | — |
+| `--destructive-foreground` | Text on destructive | ✅ CSS defined | — |
+| `--highlight` | Success/highlight color | ✅ CSS defined | — |
+| `--highlight-foreground` | Text on highlight | ✅ CSS defined | — |
+| `--intent-blue` | Logo Intent color (brand) | ✅ CSS defined | — |
+| `--secondary-accent` | Secondary brand accent | ❌ **Missing from CSS** | Referenced in `tailwind.config.ts:70` but no CSS var defined in `index.css`. Must be added. |
 
-### 4.4 Motion Tokens
+### 4.3 Tier 3 — Component Tokens
 
-| Token | Purpose | Default |
-|-------|---------|---------|
-| `--transition-smooth` | Standard easing | `0.3s cubic-bezier(0.4, 0, 0.2, 1)` |
-| `--transition-bounce` | Playful easing | `0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)` |
-| `--transition-spring` | Springy easing | `0.5s cubic-bezier(0.34, 1.56, 0.64, 1)` |
+Scoped tokens that override semantic defaults for specific UI contexts. Stored in `component_tokens` JSONB column.
+
+#### 4.3.1 Gold / E-commerce
+
+| CSS Variable | Purpose | Current Status | Audit Notes |
+|-------------|---------|----------------|-------------|
+| `--gold` | Checkout/pricing accent | ❌ **Missing from CSS** | Referenced in `tailwind.config.ts:72` but no CSS var in `index.css`. Default: `39 95% 50%` |
+| `--gold-hover` | Gold hover state | ❌ **Missing from CSS** | Referenced in `tailwind.config.ts:73`. Default: `35 95% 44%` |
+| `--gold-glow` | Gold glow effect | ❌ **Missing from CSS** | Referenced in `tailwind.config.ts:74`. Default: `39 95% 50%` |
+| `--gold-foreground` | Text on gold | ❌ **Not referenced** | Needed for accessibility. Default: `H 47% 11%` |
+
+#### 4.3.2 Sidebar
+
+| CSS Variable | Purpose | Current Status |
+|-------------|---------|----------------|
+| `--sidebar-background` | Sidebar bg | ✅ CSS defined |
+| `--sidebar-foreground` | Sidebar text | ✅ CSS defined |
+| `--sidebar-primary` | Sidebar primary | ✅ CSS defined |
+| `--sidebar-primary-foreground` | Text on sidebar primary | ✅ CSS defined |
+| `--sidebar-accent` | Sidebar accent bg | ✅ CSS defined |
+| `--sidebar-accent-foreground` | Text on sidebar accent | ✅ CSS defined |
+| `--sidebar-border` | Sidebar borders | ✅ CSS defined |
+| `--sidebar-ring` | Sidebar focus rings | ✅ CSS defined |
+
+#### 4.3.3 GHL Chat Widget
+
+| CSS Variable | Purpose | Current Status |
+|-------------|---------|----------------|
+| `--ghl-textarea-bg` | Chat input bg | ✅ CSS defined, DB-driven |
+| `--ghl-textarea-text` | Chat input text | ✅ CSS defined, DB-driven |
+| `--ghl-textarea-border` | Chat input border | ✅ CSS defined, DB-driven |
+| `--ghl-textarea-focus-border` | Chat input focus border | ✅ CSS defined, DB-driven |
+| `--ghl-textarea-focus-glow` | Chat input focus glow | ✅ CSS defined, DB-driven |
+| `--ghl-send-button-bg` | Send button bg | ✅ CSS defined, DB-driven |
+| `--ghl-send-button-border` | Send button border | ✅ CSS defined, DB-driven |
+| `--ghl-send-button-icon` | Send button icon | ✅ CSS defined, DB-driven |
+| `--ghl-selection-bg` | Chat text selection | ✅ CSS defined, DB-driven |
+
+#### 4.3.4 Shadows
+
+| CSS Variable | Purpose | Current Status |
+|-------------|---------|----------------|
+| `--shadow-sm` | Small shadow | ✅ CSS defined |
+| `--shadow-md` | Medium shadow | ✅ CSS defined |
+| `--shadow-lg` | Large shadow | ✅ CSS defined |
+| `--shadow-xl` | XL shadow | ✅ CSS defined |
+| `--shadow-glow` | Accent glow shadow | ✅ CSS defined |
+| `--shadow-glow-lg` | Large glow shadow | ✅ CSS defined |
+| `--shadow-button` | Button glow shadow | ✅ CSS defined |
+
+#### 4.3.5 Gradients
+
+| CSS Variable | Purpose | Current Status |
+|-------------|---------|----------------|
+| `--gradient-hero` | Hero section gradient | ✅ CSS defined |
+| `--gradient-text` | Text gradient | ✅ CSS defined |
+| `--gradient-cta` | CTA button gradient | ✅ CSS defined |
+| `--gradient-glow` | Radial glow overlay | ✅ CSS defined |
+| `--gradient-mesh` | Mesh background | ✅ CSS defined |
+
+#### 4.3.6 Selection & Scrollbar
+
+| CSS Variable / Pseudo | Purpose | Current Status | Audit Notes |
+|----------------------|---------|----------------|-------------|
+| `::selection` background | Text selection bg | ⚠️ Hardcoded | `index.css:423` — uses `hsl(240 70% 60% / 0.3)` instead of `hsl(var(--accent) / 0.3)` |
+| `::selection` color | Text selection fg | ✅ Tokenized | Uses `hsl(var(--foreground))` |
+| Scrollbar track | Scrollbar track bg | ✅ Tokenized | Uses `hsl(var(--muted))` |
+| Scrollbar thumb | Scrollbar thumb | ✅ Tokenized | Uses `hsl(var(--muted-foreground) / 0.5)` |
+| Scrollbar thumb hover | Scrollbar thumb:hover | ✅ Tokenized | Uses `hsl(var(--muted-foreground) / 0.7)` |
+
+#### 4.3.7 Icon Gradients (Utility Classes)
+
+| CSS Class | Purpose | Current Status | Audit Notes |
+|-----------|---------|----------------|-------------|
+| `.icon-gradient-ocean` | Industry icon styling | ⚠️ Hardcoded | `index.css:153` — `hsl(210 100% 45%)` / `hsl(195 100% 50%)`. Must derive from theme or become component token. |
+| `.icon-gradient-royal` | Industry icon styling | ⚠️ Hardcoded | `index.css:160` — `hsl(230 80% 55%)` / `hsl(200 100% 60%)` |
+| `.icon-gradient-sky` | Industry icon styling | ⚠️ Hardcoded | `index.css:167` — `hsl(200 85% 50%)` / `hsl(180 70% 55%)` |
+| `.icon-gradient-electric` | Industry icon styling | ⚠️ Hardcoded | `index.css:174` — `hsl(220 90% 55%)` / `hsl(190 95% 45%)` |
+| `.glow-text` | Text glow effect | ⚠️ Hardcoded | `index.css:189` — `hsl(240 70% 60% / 0.5)`. Should use `hsl(var(--accent) / 0.5)` |
+| `.text-gradient-light` | Light text gradient | ⚠️ Partial | `index.css:146` — first stop `hsl(60 9% 98%)` hardcoded, second stop tokenized |
+
+#### 4.3.8 Keyframe Animations
+
+| Keyframe | Current Status | Audit Notes |
+|----------|----------------|-------------|
+| `pulse-glow` | ⚠️ Hardcoded | `tailwind.config.ts:158-159` — `hsl(42 76% 55% / 0.2)` and `0.4`. Should use `var(--gold)` or `var(--accent)` |
+
+#### 4.3.9 Hardcoded Component Colors (TSX Files)
+
+| File | Hardcoded Value | Required Fix |
+|------|----------------|--------------|
+| `CaseStudyLayout.tsx` | `bg-[#0D0D0D]` | Replace with `bg-background` or `bg-card` |
+| `AIEmployee.tsx` | Inline HSL gradients in SVG defs | Extract to component tokens or Style Module |
+| `FrontOffice.tsx` | Inline HSL gradients in SVG defs | Extract to component tokens or Style Module |
+| `SocialProofBar.tsx` | SVG `<linearGradient>` with hardcoded stops | Extract to component tokens |
+| `Industries.tsx` | SVG `<linearGradient>` with hardcoded stops | Extract to component tokens |
+
+### 4.4 Typography Tokens
+
+| CSS Variable | Purpose | Default | Current Status |
+|-------------|---------|---------|----------------|
+| `--font-heading` | Heading font family | `'Space Grotesk'` | ❌ Not yet a CSS var (hardcoded in `index.css:120` and `tailwind.config.ts:18-20`) |
+| `--font-body` | Body font family | `'Inter'` | ❌ Not yet a CSS var (hardcoded in `index.css:116` and `tailwind.config.ts:17`) |
+| `--font-mono` | Code font family | `'JetBrains Mono'` | ❌ Not yet a CSS var |
+
+### 4.5 Motion Tokens
+
+| CSS Variable | Purpose | Default | Current Status |
+|-------------|---------|---------|----------------|
+| `--transition-smooth` | Standard easing | `0.3s cubic-bezier(0.4, 0, 0.2, 1)` | ⚠️ Utility class exists (`index.css:214-216`) but not a CSS variable |
+| `--transition-bounce` | Playful easing | `0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)` | ⚠️ Utility class exists but not a CSS variable |
+| `--transition-spring` | Springy easing | `0.5s cubic-bezier(0.34, 1.56, 0.64, 1)` | ⚠️ Utility class exists but not a CSS variable |
+
+### 4.6 Intentional Exemptions
+
+The following files contain hardcoded colors that are **intentionally excluded** from the token system. They simulate third-party UIs or specific client brand identities and must NOT be tokenized:
+
+| File | Reason |
+|------|--------|
+| `AlexanderTreeMockup.tsx` | Client brand mockup |
+| `ClearviewDentistryAustinMockup.tsx` | Client brand mockup |
+| `DesertCoolAirMockup.tsx` | Client brand mockup |
+| `HonestWrenchAutoMockup.tsx` | Client brand mockup |
+| `RiverstoneInteractiveMockup.tsx` | Client brand mockup |
+| `SMSDemo.tsx` | iMessage/Android native UI simulation |
+| `RealisticDashboards.tsx` | Third-party dashboard simulation |
+| `TranscriptCard.tsx` | Call transcript UI simulation |
 
 ---
 
