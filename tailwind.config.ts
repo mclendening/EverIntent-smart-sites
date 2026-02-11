@@ -111,6 +111,7 @@ export default {
         "glow-lg": "var(--shadow-glow-lg)",
         "button": "var(--shadow-button)",
         "gold-glow": "var(--shadow-gold-glow)",
+        "gold-glow-lg": "0 0 40px hsl(var(--gold) / 0.4)",
       },
       backgroundImage: {
         "gradient-hero": "var(--gradient-hero)",
@@ -157,8 +158,8 @@ export default {
           "100%": { transform: "translateX(100%)" },
         },
         "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 20px hsl(42 76% 55% / 0.2)" },
-          "50%": { boxShadow: "0 0 40px hsl(42 76% 55% / 0.4)" },
+          "0%, 100%": { boxShadow: "0 0 20px hsl(var(--gold) / 0.2)" },
+          "50%": { boxShadow: "0 0 40px hsl(var(--gold) / 0.4)" },
         },
         "shimmer": {
           "0%": { transform: "translateX(-100%)" },
