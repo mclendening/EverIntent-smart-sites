@@ -17,7 +17,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { LogoRenderer, useLogoExport } from '@/components/logo';
 import { LogoConfigEditor } from '@/components/admin/LogoConfigEditor';
-import { ArrowLeft, Palette, Edit, Trash2, Check, Loader2, Eye, Rocket, Copy, CheckCircle, Github, Image, Download, FileCode, FileImage, ChevronUp, ChevronDown } from 'lucide-react';
+import { ArrowLeft, Palette, Edit, Trash2, Check, Loader2, Eye, Rocket, Copy, CheckCircle, Github, Image, Download, FileCode, FileImage, ChevronUp, ChevronDown, RotateCcw, Save, AlertTriangle } from 'lucide-react';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import type { Tables, Json } from '@/integrations/supabase/types';
 import { EcommerceColorEditor, type EcommerceColors, type CtaVariants } from '@/components/admin/EcommerceColorEditor';
 import { TypographyEditor, type TypographyConfig } from '@/components/admin/TypographyEditor';
@@ -126,6 +127,14 @@ export default function AdminThemes() {
   const [isPublishingToGithub, setIsPublishingToGithub] = useState(false);
   const [publishedVersion, setPublishedVersion] = useState<number | null>(null);
   const [commitUrl, setCommitUrl] = useState<string | null>(null);
+
+  // 7.17 / 7.17a: Revert & Save-as-Default state
+  const [showRevertWarning1, setShowRevertWarning1] = useState(false);
+  const [showRevertWarning2, setShowRevertWarning2] = useState(false);
+  const [showSaveDefaultWarning1, setShowSaveDefaultWarning1] = useState(false);
+  const [showSaveDefaultWarning2, setShowSaveDefaultWarning2] = useState(false);
+  const [isReverting, setIsReverting] = useState(false);
+  const [isSavingDefault, setIsSavingDefault] = useState(false);
 
   // Parsed config states for editing
   const [accentConfig, setAccentConfig] = useState<AccentConfig>({
@@ -474,6 +483,146 @@ export default function AdminThemes() {
         title: 'Error',
         description: 'Failed to delete theme',
       });
+    }
+  };
+
+  // 7.17: Export current theme as JSON (reusable helper)
+  const exportCurrentThemeJson = () => {
+    if (!selectedTheme) return;
+    const exportData = {
+      $schema: 'https://everintent.com/schemas/theme-export-v2.0.json',
+      version: '2.0',
+      exportedAt: new Date().toISOString(),
+      theme: {
+        name: selectedTheme.name,
+        baseHue: selectedTheme.base_hue,
+        defaultMode: selectedTheme.default_mode,
+        accentConfig: selectedTheme.accent_config,
+        staticColors: selectedTheme.static_colors,
+        gradientConfigs: selectedTheme.gradient_configs,
+        ghlChatConfig: selectedTheme.ghl_chat_config,
+        ecommerceColors: selectedTheme.ecommerce_colors,
+        ctaVariants: selectedTheme.cta_variants,
+        typographyConfig: selectedTheme.typography_config,
+        motionConfig: selectedTheme.motion_config,
+        styleModules: selectedTheme.style_modules,
+        adaWidgetConfig: selectedTheme.ada_widget_config,
+      },
+    };
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${selectedTheme.name.toLowerCase().replace(/\s+/g, '-')}-theme-backup-v2.0.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast({ title: 'Backup exported', description: `Downloaded ${a.download}` });
+  };
+
+  // 7.17: Revert theme to its default/seed snapshot
+  const handleRevertToDefault = async () => {
+    if (!selectedTheme) return;
+    setIsReverting(true);
+    try {
+      const { data: defaultSnapshot, error: fetchErr } = await supabase
+        .from('published_theme_configs')
+        .select('config_json')
+        .eq('source_theme_id', selectedTheme.id)
+        .eq('is_default', true)
+        .single();
+
+      if (fetchErr || !defaultSnapshot) {
+        toast({
+          variant: 'destructive',
+          title: 'No default snapshot found',
+          description: 'This theme has no saved default. Use "Save as Default" first to create one.',
+        });
+        return;
+      }
+
+      const seedConfig = defaultSnapshot.config_json as Record<string, any>;
+      
+      const { error: updateErr } = await supabase
+        .from('site_themes')
+        .update({
+          accent_config: seedConfig.accentConfig as unknown as Json,
+          static_colors: seedConfig.staticColors as unknown as Json,
+          gradient_configs: seedConfig.gradientConfigs as unknown as Json,
+          ghl_chat_config: seedConfig.ghlChatConfig as unknown as Json,
+          ecommerce_colors: seedConfig.ecommerceColors as unknown as Json,
+          cta_variants: seedConfig.ctaVariants as unknown as Json,
+          typography_config: seedConfig.typographyConfig as unknown as Json,
+          motion_config: seedConfig.motionConfig as unknown as Json,
+          style_modules: seedConfig.styleModules as unknown as Json,
+          default_mode: seedConfig.defaultMode || 'dark',
+          ada_widget_config: seedConfig.adaWidgetConfig as unknown as Json,
+          base_hue: seedConfig.baseHue ?? selectedTheme.base_hue,
+        })
+        .eq('id', selectedTheme.id);
+
+      if (updateErr) throw updateErr;
+
+      toast({ title: 'Theme reverted', description: `"${selectedTheme.name}" restored to its default snapshot.` });
+      setIsEditing(false);
+      fetchData();
+    } catch (error) {
+      console.error('Error reverting theme:', error);
+      toast({ variant: 'destructive', title: 'Error', description: 'Failed to revert theme' });
+    } finally {
+      setIsReverting(false);
+      setShowRevertWarning2(false);
+    }
+  };
+
+  // 7.17a: Save current theme config as the new default snapshot
+  const handleSaveAsDefault = async () => {
+    if (!selectedTheme) return;
+    setIsSavingDefault(true);
+    try {
+      const snapshotJson = {
+        name: selectedTheme.name,
+        baseHue: selectedTheme.base_hue,
+        defaultMode: selectedTheme.default_mode,
+        accentConfig: selectedTheme.accent_config,
+        staticColors: selectedTheme.static_colors,
+        gradientConfigs: selectedTheme.gradient_configs,
+        ghlChatConfig: selectedTheme.ghl_chat_config,
+        ecommerceColors: selectedTheme.ecommerce_colors,
+        ctaVariants: selectedTheme.cta_variants,
+        typographyConfig: selectedTheme.typography_config,
+        motionConfig: selectedTheme.motion_config,
+        styleModules: selectedTheme.style_modules,
+        adaWidgetConfig: selectedTheme.ada_widget_config,
+      };
+
+      await supabase
+        .from('published_theme_configs')
+        .delete()
+        .eq('source_theme_id', selectedTheme.id)
+        .eq('is_default', true);
+
+      const { error } = await supabase
+        .from('published_theme_configs')
+        .insert({
+          source_theme_id: selectedTheme.id,
+          source_theme_name: selectedTheme.name,
+          config_json: snapshotJson as unknown as Json,
+          config_typescript: '',
+          is_default: true,
+          is_active: false,
+          notes: `Default seed snapshot saved at ${new Date().toISOString()}`,
+          version: 0,
+        });
+
+      if (error) throw error;
+
+      toast({ title: 'Default saved', description: `"${selectedTheme.name}" current config is now the default snapshot.` });
+    } catch (error) {
+      console.error('Error saving default:', error);
+      toast({ variant: 'destructive', title: 'Error', description: 'Failed to save default snapshot' });
+    } finally {
+      setIsSavingDefault(false);
+      setShowSaveDefaultWarning2(false);
     }
   };
 
@@ -2116,6 +2265,23 @@ ${styleModulesCss}  }
                             Cancel
                           </Button>
                           <Button
+                            variant="outline"
+                            size="sm"
+                            className="text-destructive hover:text-destructive"
+                            onClick={() => setShowRevertWarning1(true)}
+                          >
+                            <RotateCcw className="h-4 w-4 sm:mr-1" />
+                            <span className="hidden sm:inline">Revert</span>
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setShowSaveDefaultWarning1(true)}
+                          >
+                            <Save className="h-4 w-4 sm:mr-1" />
+                            <span className="hidden sm:inline">Set Default</span>
+                          </Button>
+                          <Button
                             size="sm"
                             onClick={handleSave}
                             disabled={isSaving}
@@ -2959,6 +3125,133 @@ ${styleModulesCss}  }
           </div>
         </DialogContent>
       </Dialog>
+      {/* 7.17: Revert to Default — Warning Layer 1 */}
+      <AlertDialog open={showRevertWarning1} onOpenChange={setShowRevertWarning1}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-destructive" />
+              Revert to Default?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This will discard all current edits and restore "{selectedTheme?.name}" to its saved default snapshot. 
+              You may want to export your current config first as a backup.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex-col sm:flex-row gap-2">
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <Button variant="outline" onClick={() => { exportCurrentThemeJson(); }}>
+              <Download className="h-4 w-4 mr-2" />
+              Export First
+            </Button>
+            <AlertDialogAction
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={() => {
+                setShowRevertWarning1(false);
+                setShowRevertWarning2(true);
+              }}
+            >
+              Continue to Revert
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* 7.17: Revert to Default — Warning Layer 2 (Final Confirmation) */}
+      <AlertDialog open={showRevertWarning2} onOpenChange={setShowRevertWarning2}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2 text-destructive">
+              <AlertTriangle className="h-5 w-5" />
+              Final Confirmation
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              <strong>This action cannot be undone.</strong> All unsaved changes to "{selectedTheme?.name}" will be permanently lost 
+              and replaced with the default seed snapshot.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={handleRevertToDefault}
+              disabled={isReverting}
+            >
+              {isReverting ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Reverting...
+                </>
+              ) : (
+                'Yes, Revert to Default'
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* 7.17a: Save Current as Default — Warning Layer 1 */}
+      <AlertDialog open={showSaveDefaultWarning1} onOpenChange={setShowSaveDefaultWarning1}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <Save className="h-5 w-5 text-accent" />
+              Save Current as Default?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This will overwrite the existing default snapshot for "{selectedTheme?.name}" with the current configuration. 
+              The previous default will be lost. You may want to export it first.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex-col sm:flex-row gap-2">
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <Button variant="outline" onClick={() => { exportCurrentThemeJson(); }}>
+              <Download className="h-4 w-4 mr-2" />
+              Export First
+            </Button>
+            <AlertDialogAction
+              onClick={() => {
+                setShowSaveDefaultWarning1(false);
+                setShowSaveDefaultWarning2(true);
+              }}
+            >
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* 7.17a: Save Current as Default — Warning Layer 2 (Final Confirmation) */}
+      <AlertDialog open={showSaveDefaultWarning2} onOpenChange={setShowSaveDefaultWarning2}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-accent" />
+              Confirm Overwrite
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              <strong>The current default snapshot will be permanently replaced.</strong> The current configuration of 
+              "{selectedTheme?.name}" will become the new baseline for future reverts.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleSaveAsDefault}
+              disabled={isSavingDefault}
+            >
+              {isSavingDefault ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                'Yes, Save as Default'
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
