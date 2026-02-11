@@ -946,6 +946,7 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
   };
 
   // Generate CSS content for index.css that matches the theme
+  // BRD §7.1: :root = light mode base, .dark = dark mode overrides
   const generateProductionCss = (theme: Theme): string => {
     const accentCfg = theme.accent_config as Record<string, any>;
     const staticCols = theme.static_colors as Record<string, string>;
@@ -954,6 +955,7 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
     const ctaCfg = theme.cta_variants as Record<string, string> || {};
     const typoCfg = theme.typography_config as Record<string, string> || {};
     const motCfg = theme.motion_config as Record<string, string> || {};
+    const ghlCfg = theme.ghl_chat_config as Record<string, string> || {};
     const modules = theme.style_modules as unknown as StyleModule[] || [];
     
     // Generate style module CSS variables
@@ -967,24 +969,138 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
     const h = parseFloat(accentParts[0]) || 240;
     const s = parseFloat(accentParts[1]) || 70;
     const l = parseFloat(accentParts[2]) || 60;
+
+    // Light-mode accent is slightly darker for readability on white
+    const lLight = Math.max(l - 10, 30);
+    const lLightHover = Math.max(l - 18, 22);
+    const lLightGlow = l;
     
     return `@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* SmartSites Design System v2.0
-   Award-Winning Agency Aesthetic
-   Inspired by SPINX, Shape, VRRB - proven converters
    All colors MUST be HSL.
    
    AUTO-GENERATED from theme: ${theme.name}
    Generated: ${new Date().toISOString().split('T')[0]}
    DO NOT edit manually - use admin theme editor and "Publish to Production".
+
+   Architecture (BRD §7.1):
+   - :root = Light mode semantic tokens (base)
+   - .dark = Dark mode semantic token overrides
+   - Shared tokens (typography, motion, radius) live in :root only
 */
 
 @layer base {
   :root {
-    /* Dark Mode Base - ${theme.name} */
+    /* ========== LIGHT MODE — Semantic Tokens ========== */
+    --background: ${h} 20% 98%;
+    --foreground: ${h} 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: ${h} 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: ${h} 47% 11%;
+
+    --primary: ${h} 47% 11%;
+    --primary-light: ${h} 25% 27%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: ${h} 20% 94%;
+    --secondary-foreground: ${h} 47% 11%;
+
+    --muted: ${h} 20% 96%;
+    --muted-foreground: ${h} 16% 47%;
+
+    --accent: ${h} ${s}% ${lLight}%;
+    --accent-hover: ${h} ${s}% ${lLightHover}%;
+    --accent-glow: ${h} ${s}% ${lLightGlow}%;
+    --accent-foreground: 0 0% 100%;
+
+    --intent-blue: 200 100% 50%;
+
+    --highlight: 82 84% 50%;
+    --highlight-foreground: ${h} 47% 11%;
+
+    --secondary-accent: 200 100% 50%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: ${h} 20% 88%;
+    --input: ${h} 20% 88%;
+    --ring: ${h} 92% 50%;
+
+    --radius: 0.75rem;
+
+    /* Gradients - Light Mode */
+    --gradient-hero: linear-gradient(135deg, hsl(${h} 20% 96%) 0%, hsl(${h} 20% 92%) 50%, hsl(${h} 20% 96%) 100%);
+    --gradient-text: linear-gradient(135deg, hsl(${h} ${s}% ${lLight}%) 0%, hsl(${h + 10} ${s}% ${lLightGlow}%) 50%, hsl(${h} ${s}% ${lLight}%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(${h} ${s}% ${lLight}%) 0%, hsl(${h + 10} ${s}% ${lLightHover}%) 100%);
+    --gradient-glow: radial-gradient(ellipse at center, hsl(${h} ${s}% ${lLight}% / 0.1) 0%, transparent 70%);
+    --gradient-mesh: radial-gradient(at 40% 20%, hsl(${h} ${s}% ${lLight}% / 0.06) 0px, transparent 50%), radial-gradient(at 80% 0%, hsl(${h} 25% 27% / 0.08) 0px, transparent 50%), radial-gradient(at 0% 50%, hsl(${h} ${s}% ${lLight}% / 0.04) 0px, transparent 50%);
+
+    /* Shadows - Light Mode (softer) */
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.08), 0 2px 4px -2px hsl(0 0% 0% / 0.05);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.08), 0 4px 6px -4px hsl(0 0% 0% / 0.05);
+    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.08), 0 8px 10px -6px hsl(0 0% 0% / 0.05);
+    --shadow-glow: 0 0 40px hsl(${h} ${s}% ${lLight}% / 0.15);
+    --shadow-glow-lg: 0 0 60px hsl(${h} ${s}% ${lLight}% / 0.2);
+    --shadow-button: 0 4px 14px 0 hsl(${h} ${s}% ${lLight}% / 0.2);
+    --shadow-gold-glow: 0 0 30px hsl(39 95% 50% / 0.2);
+
+    /* Sidebar - Light */
+    --sidebar-background: ${h} 20% 96%;
+    --sidebar-foreground: ${h} 47% 11%;
+    --sidebar-primary: ${h} ${s}% ${lLight}%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: ${h} 20% 92%;
+    --sidebar-accent-foreground: ${h} 47% 11%;
+    --sidebar-border: ${h} 20% 88%;
+    --sidebar-ring: ${h} ${s}% ${lLight}%;
+
+    /* GHL Chat Widget */
+    --ghl-textarea-bg: ${ghlCfg.textareaBg || `${h} 20% 96%`};
+    --ghl-textarea-text: ${ghlCfg.textareaText || `${h} 47% 11%`};
+    --ghl-textarea-border: ${ghlCfg.textareaBorder || `${h} 20% 88%`};
+    --ghl-textarea-focus-border: ${ghlCfg.textareaFocusBorder || `${h} ${s}% ${lLight}%`};
+    --ghl-textarea-focus-glow: ${ghlCfg.textareaFocusGlow || `${h} ${s}% ${lLight}%`};
+    --ghl-send-button-bg: ${ghlCfg.sendButtonBg || `${h} ${s}% ${lLight}%`};
+    --ghl-send-button-border: ${ghlCfg.sendButtonBorder || '0 0% 100%'};
+    --ghl-send-button-icon: ${ghlCfg.sendButtonIcon || '0 0% 100%'};
+    --ghl-selection-bg: ${ghlCfg.selectionBg || `${h} ${s}% ${lLight}%`};
+
+    /* E-Commerce / Gold Tokens */
+    --gold: ${ecomCols.gold || '39 95% 50%'};
+    --gold-hover: ${ecomCols.goldHover || '35 95% 44%'};
+    --gold-glow: ${ecomCols.goldGlow || '39 95% 60%'};
+    --gold-foreground: ${ecomCols.goldForeground || '0 0% 100%'};
+    --pricing-highlight: ${ecomCols.pricingHighlight || '39 95% 50%'};
+
+    /* CTA Variants */
+    --cta-primary: ${ctaCfg.primary || `${h} ${s}% ${lLight}%`};
+    --cta-primary-hover: ${ctaCfg.primaryHover || `${h} ${s}% ${lLightHover}%`};
+    --cta-secondary: ${ctaCfg.secondary || '39 95% 50%'};
+    --cta-secondary-hover: ${ctaCfg.secondaryHover || '35 95% 44%'};
+
+    /* ========== SHARED TOKENS (mode-independent) ========== */
+
+    /* Typography */
+    --font-heading: ${typoCfg.fontHeading || "'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif"};
+    --font-body: ${typoCfg.fontBody || "'Inter', -apple-system, BlinkMacSystemFont, sans-serif"};
+    --font-display: ${typoCfg.fontDisplay || "'Inter', -apple-system, BlinkMacSystemFont, sans-serif"};
+
+    /* Motion */
+    --transition-smooth: ${motCfg.transitionSmooth || 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'};
+    --transition-bounce: ${motCfg.transitionBounce || 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)'};
+    --transition-spring: ${motCfg.transitionSpring || 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'};
+${styleModulesCss}  }
+
+  /* ========== DARK MODE — Overrides ========== */
+  .dark {
     --background: ${staticCols.background || '222 47% 7%'};
     --foreground: ${staticCols.foreground || '60 9% 98%'};
 
@@ -994,31 +1110,25 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
     --popover: ${staticCols.popover || '222 47% 10%'};
     --popover-foreground: ${staticCols.popoverForeground || '60 9% 98%'};
 
-    /* Primary: Slate for dark theme */
     --primary: ${staticCols.primary || '215 25% 27%'};
     --primary-light: ${staticCols.primaryLight || '215 20% 40%'};
     --primary-foreground: ${staticCols.primaryForeground || '0 0% 100%'};
 
-    /* Secondary: Dark variant */
     --secondary: ${staticCols.secondary || '222 47% 12%'};
     --secondary-foreground: ${staticCols.secondaryForeground || '60 9% 98%'};
 
-    /* Muted: Dark backgrounds */
     --muted: ${staticCols.muted || '222 47% 15%'};
     --muted-foreground: ${staticCols.mutedForeground || '215 16% 65%'};
 
-    /* Accent: ${theme.name} - HIGH IMPACT (the brand color) */
     --accent: ${accentCfg.accent || '240 70% 60%'};
     --accent-hover: ${accentCfg.accentHover || `${h} ${s}% ${Math.max(l - 10, 20)}%`};
     --accent-glow: ${accentCfg.accentGlow || `${h} ${s}% ${Math.min(l + 10, 80)}%`};
     --accent-foreground: ${accentCfg.accentForeground || '0 0% 100%'};
 
-    /* Intent Blue - Brand color for "Intent" in logo */
-    --intent-blue: 200 100% 50%;
-
-    /* Success/Highlight: Electric Lime */
     --highlight: 82 84% 67%;
     --highlight-foreground: 222 47% 11%;
+
+    --secondary-accent: 200 100% 50%;
 
     --destructive: 0 62% 30%;
     --destructive-foreground: 60 9% 98%;
@@ -1027,16 +1137,14 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
     --input: ${staticCols.input || '215 25% 20%'};
     --ring: ${staticCols.ring || accentCfg.accent || '240 70% 60%'};
 
-    --radius: 0.75rem;
-
-    /* Gradients - ${theme.name} */
+    /* Gradients - Dark Mode */
     --gradient-hero: ${gradientCfg.hero || `linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(${h} 30% 18%) 50%, hsl(222 47% 11%) 100%)`};
     --gradient-text: ${gradientCfg.text || `linear-gradient(135deg, hsl(${h} ${s}% ${l}%) 0%, hsl(${h + 10} ${s}% ${Math.min(l + 10, 80)}%) 50%, hsl(${h} ${s}% ${l}%) 100%)`};
     --gradient-cta: ${gradientCfg.cta || `linear-gradient(135deg, hsl(${h} ${s}% ${l}%) 0%, hsl(${h + 10} ${s}% ${Math.max(l - 10, 30)}%) 100%)`};
     --gradient-glow: radial-gradient(ellipse at center, hsl(${h} ${s}% ${l}% / 0.2) 0%, transparent 70%);
     --gradient-mesh: radial-gradient(at 40% 20%, hsl(${h} ${s}% ${l}% / 0.12) 0px, transparent 50%), radial-gradient(at 80% 0%, hsl(215 25% 27% / 0.15) 0px, transparent 50%), radial-gradient(at 0% 50%, hsl(${h} ${s}% ${l}% / 0.08) 0px, transparent 50%);
 
-    /* Shadows - ${theme.name} */
+    /* Shadows - Dark Mode (deeper) */
     --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.3);
     --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.4), 0 2px 4px -2px hsl(0 0% 0% / 0.3);
     --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.4), 0 4px 6px -4px hsl(0 0% 0% / 0.3);
@@ -1044,6 +1152,7 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
     --shadow-glow: 0 0 40px hsl(${h} ${s}% ${l}% / 0.25);
     --shadow-glow-lg: 0 0 60px hsl(${h} ${s}% ${l}% / 0.35);
     --shadow-button: 0 4px 14px 0 hsl(${h} ${s}% ${l}% / 0.3);
+    --shadow-gold-glow: 0 0 30px hsl(39 95% 50% / 0.3);
 
     /* Sidebar - Dark */
     --sidebar-background: 222 47% 9%;
@@ -1055,43 +1164,29 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
     --sidebar-border: 215 25% 20%;
     --sidebar-ring: ${accentCfg.accent || '240 70% 60%'};
 
-    /* GHL Chat Widget Theming (injected into shadow DOM) */
-    --ghl-textarea-bg: ${(theme.ghl_chat_config as Record<string, string>)?.textareaBg || staticCols.background || '222 47% 7%'};
-    --ghl-textarea-text: ${(theme.ghl_chat_config as Record<string, string>)?.textareaText || staticCols.foreground || '60 9% 98%'};
-    --ghl-textarea-border: ${(theme.ghl_chat_config as Record<string, string>)?.textareaBorder || staticCols.border || '215 25% 20%'};
-    --ghl-textarea-focus-border: ${(theme.ghl_chat_config as Record<string, string>)?.textareaFocusBorder || accentCfg.accent || '240 70% 60%'};
-    --ghl-textarea-focus-glow: ${(theme.ghl_chat_config as Record<string, string>)?.textareaFocusGlow || accentCfg.accent || '240 70% 60%'};
-    --ghl-send-button-bg: ${(theme.ghl_chat_config as Record<string, string>)?.sendButtonBg || accentCfg.accent || '240 70% 60%'};
-    --ghl-send-button-border: ${(theme.ghl_chat_config as Record<string, string>)?.sendButtonBorder || '0 0% 100%'};
-    --ghl-send-button-icon: ${(theme.ghl_chat_config as Record<string, string>)?.sendButtonIcon || '0 0% 100%'};
-    --ghl-selection-bg: ${(theme.ghl_chat_config as Record<string, string>)?.selectionBg || accentCfg.accent || '240 70% 60%'};
+    /* GHL Chat Widget - Dark */
+    --ghl-textarea-bg: ${ghlCfg.textareaBg || staticCols.background || '222 47% 7%'};
+    --ghl-textarea-text: ${ghlCfg.textareaText || staticCols.foreground || '60 9% 98%'};
+    --ghl-textarea-border: ${ghlCfg.textareaBorder || staticCols.border || '215 25% 20%'};
+    --ghl-textarea-focus-border: ${ghlCfg.textareaFocusBorder || accentCfg.accent || '240 70% 60%'};
+    --ghl-textarea-focus-glow: ${ghlCfg.textareaFocusGlow || accentCfg.accent || '240 70% 60%'};
+    --ghl-send-button-bg: ${ghlCfg.sendButtonBg || accentCfg.accent || '240 70% 60%'};
+    --ghl-send-button-border: ${ghlCfg.sendButtonBorder || '0 0% 100%'};
+    --ghl-send-button-icon: ${ghlCfg.sendButtonIcon || '0 0% 100%'};
+    --ghl-selection-bg: ${ghlCfg.selectionBg || accentCfg.accent || '240 70% 60%'};
 
-    /* E-Commerce / Gold Tokens */
+    /* Gold stays same in dark */
     --gold: ${ecomCols.gold || '39 95% 50%'};
     --gold-hover: ${ecomCols.goldHover || '35 95% 44%'};
     --gold-glow: ${ecomCols.goldGlow || '39 95% 60%'};
     --gold-foreground: ${ecomCols.goldForeground || '0 0% 100%'};
     --pricing-highlight: ${ecomCols.pricingHighlight || '39 95% 50%'};
 
-    /* CTA Variants */
+    /* CTA Variants - Dark */
     --cta-primary: ${ctaCfg.primary || '240 70% 60%'};
     --cta-primary-hover: ${ctaCfg.primaryHover || '240 70% 50%'};
     --cta-secondary: ${ctaCfg.secondary || '39 95% 50%'};
     --cta-secondary-hover: ${ctaCfg.secondaryHover || '35 95% 44%'};
-
-    /* Typography */
-    --font-heading: ${typoCfg.fontHeading || 'Space Grotesk, -apple-system, BlinkMacSystemFont, sans-serif'};
-    --font-body: ${typoCfg.fontBody || 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'};
-    --font-display: ${typoCfg.fontDisplay || 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'};
-
-    /* Motion */
-    --transition-smooth: ${motCfg.transitionSmooth || 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'};
-    --transition-bounce: ${motCfg.transitionBounce || 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)'};
-    --transition-spring: ${motCfg.transitionSpring || 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'};
-${styleModulesCss}  }
-
-  .dark {
-    /* Inherits from :root - already dark theme */
   }
 }
 
@@ -1106,11 +1201,11 @@ ${styleModulesCss}  }
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--font-body);
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--font-heading);
     @apply font-bold tracking-tight;
   }
 
@@ -1136,7 +1231,7 @@ ${styleModulesCss}  }
   }
 
   .text-gradient-light {
-    background: linear-gradient(135deg, hsl(60 9% 98%) 0%, hsl(var(--accent)) 100%);
+    background: linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--accent)) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1179,7 +1274,7 @@ ${styleModulesCss}  }
   }
 
   .glow-text {
-    text-shadow: 0 0 40px hsl(${h} ${s}% ${l}% / 0.5);
+    text-shadow: 0 0 40px hsl(var(--accent-glow) / 0.5);
   }
 
   .bg-mesh {
@@ -1205,15 +1300,15 @@ ${styleModulesCss}  }
   }
 
   .transition-smooth {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--transition-smooth);
   }
 
   .transition-bounce {
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: var(--transition-bounce);
   }
 
   .transition-spring {
-    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: var(--transition-spring);
   }
 
   .hover-scale {
@@ -1413,7 +1508,7 @@ ${styleModulesCss}  }
 }
 
 ::selection {
-  background: hsl(${h} ${s}% ${l}% / 0.3);
+  background: hsl(var(--accent) / 0.3);
   color: hsl(var(--foreground));
 }
 
