@@ -10,11 +10,122 @@
    AUTO-GENERATED from theme: Indigo Night
    Generated: 2026-02-11
    DO NOT edit manually - use admin theme editor and "Publish to Production".
+
+   Architecture (BRD §7.1):
+   - :root = Light mode semantic tokens (base)
+   - .dark = Dark mode semantic token overrides
+   - Shared tokens (typography, motion, radius) live in :root only
 */
 
 @layer base {
   :root {
-    /* Dark Mode Base - Indigo Night */
+    /* ========== LIGHT MODE — Semantic Tokens ========== */
+    --background: 240 20% 98%;
+    --foreground: 240 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 47% 11%;
+
+    --primary: 240 47% 11%;
+    --primary-light: 240 25% 27%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 20% 94%;
+    --secondary-foreground: 240 47% 11%;
+
+    --muted: 240 20% 96%;
+    --muted-foreground: 240 16% 47%;
+
+    --accent: 240 70% 50%;
+    --accent-hover: 240 70% 42%;
+    --accent-glow: 240 70% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --intent-blue: 200 100% 50%;
+
+    --highlight: 82 84% 50%;
+    --highlight-foreground: 240 47% 11%;
+
+    --secondary-accent: 200 100% 50%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 20% 88%;
+    --input: 240 20% 88%;
+    --ring: 240 92% 50%;
+
+    --radius: 0.75rem;
+
+    /* Gradients - Light Mode */
+    --gradient-hero: linear-gradient(135deg, hsl(240 20% 96%) 0%, hsl(240 20% 92%) 50%, hsl(240 20% 96%) 100%);
+    --gradient-text: linear-gradient(135deg, hsl(240 70% 50%) 0%, hsl(250 70% 60%) 50%, hsl(240 70% 50%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(240 70% 50%) 0%, hsl(250 70% 42%) 100%);
+    --gradient-glow: radial-gradient(ellipse at center, hsl(240 70% 50% / 0.1) 0%, transparent 70%);
+    --gradient-mesh: radial-gradient(at 40% 20%, hsl(240 70% 50% / 0.06) 0px, transparent 50%), radial-gradient(at 80% 0%, hsl(240 25% 27% / 0.08) 0px, transparent 50%), radial-gradient(at 0% 50%, hsl(240 70% 50% / 0.04) 0px, transparent 50%);
+
+    /* Shadows - Light Mode (softer) */
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.08), 0 2px 4px -2px hsl(0 0% 0% / 0.05);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.08), 0 4px 6px -4px hsl(0 0% 0% / 0.05);
+    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.08), 0 8px 10px -6px hsl(0 0% 0% / 0.05);
+    --shadow-glow: 0 0 40px hsl(240 70% 50% / 0.15);
+    --shadow-glow-lg: 0 0 60px hsl(240 70% 50% / 0.2);
+    --shadow-button: 0 4px 14px 0 hsl(240 70% 50% / 0.2);
+    --shadow-gold-glow: 0 0 30px hsl(39 95% 50% / 0.2);
+
+    /* Sidebar - Light */
+    --sidebar-background: 240 20% 96%;
+    --sidebar-foreground: 240 47% 11%;
+    --sidebar-primary: 240 70% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 20% 92%;
+    --sidebar-accent-foreground: 240 47% 11%;
+    --sidebar-border: 240 20% 88%;
+    --sidebar-ring: 240 70% 50%;
+
+    /* GHL Chat Widget Theming */
+    --ghl-textarea-bg: 235 53% 86%;
+    --ghl-textarea-text: 0 0% 4%;
+    --ghl-textarea-border: 240 20% 88%;
+    --ghl-textarea-focus-border: 240 70% 50%;
+    --ghl-textarea-focus-glow: 240 70% 50%;
+    --ghl-send-button-bg: 240 70% 50%;
+    --ghl-send-button-border: 0 0% 100%;
+    --ghl-send-button-icon: 0 0% 100%;
+    --ghl-selection-bg: 240 70% 50%;
+
+    /* E-Commerce / Gold Tokens */
+    --gold: 39 95% 50%;
+    --gold-hover: 35 95% 44%;
+    --gold-glow: 39 95% 60%;
+    --gold-foreground: 0 0% 100%;
+    --pricing-highlight: 39 95% 50%;
+
+    /* CTA Variants */
+    --cta-primary: 240 70% 50%;
+    --cta-primary-hover: 240 70% 42%;
+    --cta-secondary: 39 95% 50%;
+    --cta-secondary-hover: 35 95% 44%;
+
+    /* ========== SHARED TOKENS (mode-independent) ========== */
+
+    /* Typography */
+    --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    /* Motion */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-spring: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* ========== DARK MODE — Overrides ========== */
+  .dark {
     --background: 222 47% 7%;
     --foreground: 60 9% 98%;
 
@@ -24,31 +135,25 @@
     --popover: 222 47% 10%;
     --popover-foreground: 60 9% 98%;
 
-    /* Primary: Slate for dark theme */
     --primary: 215 25% 27%;
     --primary-light: 215 20% 40%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary: Dark variant */
     --secondary: 222 47% 12%;
     --secondary-foreground: 60 9% 98%;
 
-    /* Muted: Dark backgrounds */
     --muted: 222 47% 15%;
     --muted-foreground: 215 16% 65%;
 
-    /* Accent: Indigo Night - HIGH IMPACT (the brand color) */
     --accent: 240 70% 60%;
     --accent-hover: 240 70% 50%;
     --accent-glow: 240 70% 70%;
     --accent-foreground: 0 0% 100%;
 
-    /* Intent Blue - Brand color for "Intent" in logo */
-    --intent-blue: 200 100% 50%;
-
-    /* Success/Highlight: Electric Lime */
     --highlight: 82 84% 67%;
     --highlight-foreground: 222 47% 11%;
+
+    --secondary-accent: 200 100% 50%;
 
     --destructive: 0 62% 30%;
     --destructive-foreground: 60 9% 98%;
@@ -57,16 +162,14 @@
     --input: 215 25% 20%;
     --ring: 247 92% 50%;
 
-    --radius: 0.75rem;
-
-    /* Gradients - Indigo Night */
+    /* Gradients - Dark Mode */
     --gradient-hero: linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(240 30% 18%) 50%, hsl(222 47% 11%) 100%);
     --gradient-text: linear-gradient(135deg, hsl(240 70% 60%) 0%, hsl(250 70% 70%) 50%, hsl(240 70% 60%) 100%);
     --gradient-cta: linear-gradient(135deg, hsl(240 70% 60%) 0%, hsl(250 70% 50%) 100%);
     --gradient-glow: radial-gradient(ellipse at center, hsl(240 70% 60% / 0.2) 0%, transparent 70%);
     --gradient-mesh: radial-gradient(at 40% 20%, hsl(240 70% 60% / 0.12) 0px, transparent 50%), radial-gradient(at 80% 0%, hsl(215 25% 27% / 0.15) 0px, transparent 50%), radial-gradient(at 0% 50%, hsl(240 70% 60% / 0.08) 0px, transparent 50%);
 
-    /* Shadows - Indigo Night */
+    /* Shadows - Dark Mode (deeper) */
     --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.3);
     --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.4), 0 2px 4px -2px hsl(0 0% 0% / 0.3);
     --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.4), 0 4px 6px -4px hsl(0 0% 0% / 0.3);
@@ -74,6 +177,7 @@
     --shadow-glow: 0 0 40px hsl(240 70% 60% / 0.25);
     --shadow-glow-lg: 0 0 60px hsl(240 70% 60% / 0.35);
     --shadow-button: 0 4px 14px 0 hsl(240 70% 60% / 0.3);
+    --shadow-gold-glow: 0 0 30px hsl(39 95% 50% / 0.3);
 
     /* Sidebar - Dark */
     --sidebar-background: 222 47% 9%;
@@ -85,7 +189,7 @@
     --sidebar-border: 215 25% 20%;
     --sidebar-ring: 240 70% 60%;
 
-    /* GHL Chat Widget Theming (injected into shadow DOM) */
+    /* GHL Chat Widget - Dark */
     --ghl-textarea-bg: 235 53% 86%;
     --ghl-textarea-text: 0 0% 4%;
     --ghl-textarea-border: 215 25% 20%;
@@ -96,32 +200,18 @@
     --ghl-send-button-icon: 0 0% 100%;
     --ghl-selection-bg: 240 70% 60%;
 
-    /* E-Commerce / Gold Tokens */
+    /* Gold stays same in dark */
     --gold: 39 95% 50%;
     --gold-hover: 35 95% 44%;
     --gold-glow: 39 95% 60%;
     --gold-foreground: 0 0% 100%;
     --pricing-highlight: 39 95% 50%;
 
-    /* CTA Variants */
+    /* CTA Variants - Dark */
     --cta-primary: 240 70% 60%;
     --cta-primary-hover: 240 70% 50%;
     --cta-secondary: 39 95% 50%;
     --cta-secondary-hover: 35 95% 44%;
-
-    /* Typography */
-    --font-heading: Space Grotesk, -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-body: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-display: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
-
-    /* Motion */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    --transition-spring: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-
-  .dark {
-    /* Inherits from :root - already dark theme */
   }
 }
 
@@ -136,11 +226,11 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--font-body);
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--font-heading);
     @apply font-bold tracking-tight;
   }
 
@@ -166,7 +256,7 @@
   }
 
   .text-gradient-light {
-    background: linear-gradient(135deg, hsl(60 9% 98%) 0%, hsl(var(--accent)) 100%);
+    background: linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--accent)) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -209,7 +299,7 @@
   }
 
   .glow-text {
-    text-shadow: 0 0 40px hsl(240 70% 60% / 0.5);
+    text-shadow: 0 0 40px hsl(var(--accent-glow) / 0.5);
   }
 
   .bg-mesh {
@@ -235,15 +325,15 @@
   }
 
   .transition-smooth {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--transition-smooth);
   }
 
   .transition-bounce {
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: var(--transition-bounce);
   }
 
   .transition-spring {
-    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: var(--transition-spring);
   }
 
   .hover-scale {
@@ -443,7 +533,7 @@
 }
 
 ::selection {
-  background: hsl(240 70% 60% / 0.3);
+  background: hsl(var(--accent) / 0.3);
   color: hsl(var(--foreground));
 }
 
