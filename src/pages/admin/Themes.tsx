@@ -25,6 +25,8 @@ import { MotionEditor, type MotionConfig } from '@/components/admin/MotionEditor
 import { StyleModulesEditor, type StyleModule } from '@/components/admin/StyleModulesEditor';
 import { DefaultModeSelector } from '@/components/admin/DefaultModeSelector';
 import { AdaWidgetConfigEditor, type AdaWidgetConfig } from '@/components/admin/AdaWidgetConfigEditor';
+import { ContrastChecker } from '@/components/admin/ContrastChecker';
+import { ThemeImporter } from '@/components/admin/ThemeImporter';
 
 type Theme = Tables<'site_themes'>;
 type LogoVersion = Tables<'logo_versions'>;
@@ -2690,6 +2692,18 @@ ${styleModulesCss}  }
                             <AdaWidgetConfigEditor
                               config={adaWidgetConfig}
                               onChange={setAdaWidgetConfig}
+                            />
+
+                            {/* Contrast Checker */}
+                            <ContrastChecker
+                              staticColors={staticColors}
+                              accentHsl={`${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`}
+                            />
+
+                            {/* Theme Import */}
+                            <ThemeImporter
+                              existingThemeNames={themes.map(t => t.name)}
+                              onImportComplete={fetchData}
                             />
                           </Accordion>
                         </ScrollArea>
