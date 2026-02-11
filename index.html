@@ -26,8 +26,24 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Google Fonts: Inter only (luxury sans-serif brand standard) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Inter + Space Grotesk -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FOUC Prevention: Apply dark/light mode before React hydrates -->
+    <script>
+      (function(){
+        // Default mode is 'dark' — updated by theme publish pipeline
+        var mode = 'dark';
+        if (mode === 'system') {
+          mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        if (mode === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
   </head>
 
   <body>
