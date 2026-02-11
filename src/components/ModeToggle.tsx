@@ -7,7 +7,7 @@
  * Does NOT use next-themes — all styling flows through CSS custom properties.
  */
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Sun, Moon, Monitor } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -45,13 +45,14 @@ interface ModeToggleProps {
 }
 
 export function ModeToggle({ className, variant = 'compact' }: ModeToggleProps) {
-  const [mode, setMode] = useState<Mode>('dark');
+  const [mode, setMode] = useState<Mode>(getStoredMode);
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
-    setMode(getStoredMode());
-  }, []);
-
-  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
     applyMode(mode);
     localStorage.setItem('theme-mode', mode);
   }, [mode]);
