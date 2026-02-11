@@ -133,27 +133,34 @@ export function AccessibilityWidget() {
     dragStart.current = { mx: e.clientX, my: e.clientY, px: pos.x, py: pos.y };
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
     e.preventDefault();
+    e.stopPropagation();
   }, [pos]);
 
   const onPointerMove = useCallback((e: React.PointerEvent) => {
     if (!dragging.current) return;
+    e.preventDefault();
     const dx = e.clientX - dragStart.current.mx;
     const dy = e.clientY - dragStart.current.my;
     if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasMoved.current = true;
-    const newPos = clampPosition(
-      { x: dragStart.current.px + dx, y: dragStart.current.py + dy },
-      config.iconSize
-    );
-    setPos(newPos);
+    setPos(() => {
+      const newPos = clampPosition(
+        { x: dragStart.current.px + dx, y: dragStart.current.py + dy },
+        config.iconSize
+      );
+      return newPos;
+    });
   }, [config.iconSize]);
 
   const onPointerUp = useCallback(() => {
     if (!dragging.current) return;
     dragging.current = false;
     if (hasMoved.current) {
-      savePosition(pos);
+      setPos(prev => {
+        savePosition(prev);
+        return prev;
+      });
     }
-  }, [pos]);
+  }, []);
 
   const handleClick = useCallback(() => {
     // Only toggle if user didn't drag
