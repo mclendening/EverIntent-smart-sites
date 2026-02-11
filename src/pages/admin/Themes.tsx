@@ -586,6 +586,34 @@ export interface ThemeConfig {
     cta: string;
     text: string;
   };
+  ecommerceColors?: {
+    gold: string;
+    goldHover: string;
+    goldGlow: string;
+    goldForeground: string;
+    pricingHighlight: string;
+  };
+  ctaVariants?: {
+    primary: string;
+    primaryHover: string;
+    secondary: string;
+    secondaryHover: string;
+  };
+  typographyConfig?: {
+    fontHeading: string;
+    fontBody: string;
+    fontDisplay: string;
+  };
+  motionConfig?: {
+    transitionSmooth: string;
+    transitionBounce: string;
+    transitionSpring: string;
+  };
+  styleModules?: Array<{
+    name: string;
+    tokens: Array<{ name: string; value: string }>;
+  }>;
+  defaultMode?: string;
   logoVersionId?: string;${logoTypeSection}
 }
 
@@ -634,6 +662,12 @@ export const activeTheme: ThemeConfig = {
     text: '${gradientCfg.text || "linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(45 93% 58%) 50%, hsl(38 92% 50%) 100%)"}',
   },${activeTheme.logo_version_id ? `
   logoVersionId: '${activeTheme.logo_version_id}',` : ''}${logoConfigSection}
+  ecommerceColors: ${JSON.stringify(activeTheme.ecommerce_colors || {}, null, 4).replace(/\n/g, '\n  ')},
+  ctaVariants: ${JSON.stringify(activeTheme.cta_variants || {}, null, 4).replace(/\n/g, '\n  ')},
+  typographyConfig: ${JSON.stringify(activeTheme.typography_config || {}, null, 4).replace(/\n/g, '\n  ')},
+  motionConfig: ${JSON.stringify(activeTheme.motion_config || {}, null, 4).replace(/\n/g, '\n  ')},
+  styleModules: ${JSON.stringify(activeTheme.style_modules || [], null, 4).replace(/\n/g, '\n  ')},
+  defaultMode: '${activeTheme.default_mode || 'dark'}',
 };
 
 // ============================================
@@ -676,6 +710,47 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
   root.style.setProperty('--gradient-hero', theme.gradientConfigs.hero);
   root.style.setProperty('--gradient-cta', theme.gradientConfigs.cta);
   root.style.setProperty('--gradient-text', theme.gradientConfigs.text);
+
+  // E-Commerce tokens
+  if (theme.ecommerceColors) {
+    Object.entries(theme.ecommerceColors).forEach(([key, value]) => {
+      const cssVar = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+      root.style.setProperty(\`--\${cssVar}\`, value);
+    });
+  }
+
+  // CTA variant tokens
+  if (theme.ctaVariants) {
+    Object.entries(theme.ctaVariants).forEach(([key, value]) => {
+      const cssVar = 'cta-' + key.replace(/([A-Z])/g, '-$1').toLowerCase();
+      root.style.setProperty(\`--\${cssVar}\`, value);
+    });
+  }
+
+  // Typography tokens
+  if (theme.typographyConfig) {
+    Object.entries(theme.typographyConfig).forEach(([key, value]) => {
+      const cssVar = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+      root.style.setProperty(\`--\${cssVar}\`, value);
+    });
+  }
+
+  // Motion tokens
+  if (theme.motionConfig) {
+    Object.entries(theme.motionConfig).forEach(([key, value]) => {
+      const cssVar = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+      root.style.setProperty(\`--\${cssVar}\`, value);
+    });
+  }
+
+  // Style module tokens
+  if (theme.styleModules) {
+    theme.styleModules.forEach(mod => {
+      mod.tokens.forEach(tok => {
+        root.style.setProperty(\`--module-\${mod.name}-\${tok.name}\`, tok.value);
+      });
+    });
+  }
 }
 `;
 
@@ -693,6 +768,17 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
     const accentCfg = theme.accent_config as Record<string, any>;
     const staticCols = theme.static_colors as Record<string, string>;
     const gradientCfg = theme.gradient_configs as Record<string, string>;
+    const ecomCols = theme.ecommerce_colors as Record<string, string> || {};
+    const ctaCfg = theme.cta_variants as Record<string, string> || {};
+    const typoCfg = theme.typography_config as Record<string, string> || {};
+    const motCfg = theme.motion_config as Record<string, string> || {};
+    const modules = theme.style_modules as unknown as StyleModule[] || [];
+    
+    // Generate style module CSS variables
+    const styleModulesCss = (Array.isArray(modules) ? modules : [])
+      .map(mod => mod.tokens.map(tok => `    --module-${mod.name}-${tok.name}: ${tok.value};`).join('\n'))
+      .filter(Boolean)
+      .join('\n');
     
     // Parse accent HSL for gradient generation
     const accentParts = (accentCfg.accent || '240 70% 60%').split(' ');
@@ -797,7 +883,30 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
     --ghl-send-button-border: ${(theme.ghl_chat_config as Record<string, string>)?.sendButtonBorder || '0 0% 100%'};
     --ghl-send-button-icon: ${(theme.ghl_chat_config as Record<string, string>)?.sendButtonIcon || '0 0% 100%'};
     --ghl-selection-bg: ${(theme.ghl_chat_config as Record<string, string>)?.selectionBg || accentCfg.accent || '240 70% 60%'};
-  }
+
+    /* E-Commerce / Gold Tokens */
+    --gold: ${ecomCols.gold || '39 95% 50%'};
+    --gold-hover: ${ecomCols.goldHover || '35 95% 44%'};
+    --gold-glow: ${ecomCols.goldGlow || '39 95% 60%'};
+    --gold-foreground: ${ecomCols.goldForeground || '0 0% 100%'};
+    --pricing-highlight: ${ecomCols.pricingHighlight || '39 95% 50%'};
+
+    /* CTA Variants */
+    --cta-primary: ${ctaCfg.primary || '240 70% 60%'};
+    --cta-primary-hover: ${ctaCfg.primaryHover || '240 70% 50%'};
+    --cta-secondary: ${ctaCfg.secondary || '39 95% 50%'};
+    --cta-secondary-hover: ${ctaCfg.secondaryHover || '35 95% 44%'};
+
+    /* Typography */
+    --font-heading: ${typoCfg.fontHeading || 'Space Grotesk, -apple-system, BlinkMacSystemFont, sans-serif'};
+    --font-body: ${typoCfg.fontBody || 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'};
+    --font-display: ${typoCfg.fontDisplay || 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'};
+
+    /* Motion */
+    --transition-smooth: ${motCfg.transitionSmooth || 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'};
+    --transition-bounce: ${motCfg.transitionBounce || 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)'};
+    --transition-spring: ${motCfg.transitionSpring || 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'};
+${styleModulesCss}  }
 
   .dark {
     /* Inherits from :root - already dark theme */
