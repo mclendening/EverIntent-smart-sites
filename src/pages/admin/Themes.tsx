@@ -19,6 +19,11 @@ import { LogoRenderer, useLogoExport } from '@/components/logo';
 import { LogoConfigEditor } from '@/components/admin/LogoConfigEditor';
 import { ArrowLeft, Palette, Edit, Trash2, Check, Loader2, Eye, Rocket, Copy, CheckCircle, Github, Image, Download, FileCode, FileImage, ChevronUp, ChevronDown } from 'lucide-react';
 import type { Tables, Json } from '@/integrations/supabase/types';
+import { EcommerceColorEditor, type EcommerceColors, type CtaVariants } from '@/components/admin/EcommerceColorEditor';
+import { TypographyEditor, type TypographyConfig } from '@/components/admin/TypographyEditor';
+import { MotionEditor, type MotionConfig } from '@/components/admin/MotionEditor';
+import { StyleModulesEditor, type StyleModule } from '@/components/admin/StyleModulesEditor';
+import { DefaultModeSelector } from '@/components/admin/DefaultModeSelector';
 
 type Theme = Tables<'site_themes'>;
 type LogoVersion = Tables<'logo_versions'>;
@@ -161,6 +166,33 @@ export default function AdminThemes() {
     selectionBg: '240 70% 60%',
   });
 
+  // New Batch 3 states
+  const [ecommerceColors, setEcommerceColors] = useState<EcommerceColors>({
+    gold: '39 95% 50%',
+    goldHover: '35 95% 44%',
+    goldGlow: '39 95% 60%',
+    goldForeground: '0 0% 100%',
+    pricingHighlight: '39 95% 50%',
+  });
+  const [ctaVariants, setCtaVariants] = useState<CtaVariants>({
+    primary: '240 70% 60%',
+    primaryHover: '240 70% 50%',
+    secondary: '39 95% 50%',
+    secondaryHover: '35 95% 44%',
+  });
+  const [typographyConfig, setTypographyConfig] = useState<TypographyConfig>({
+    fontHeading: 'Space Grotesk, -apple-system, BlinkMacSystemFont, sans-serif',
+    fontBody: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+    fontDisplay: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+  });
+  const [motionConfig, setMotionConfig] = useState<MotionConfig>({
+    transitionSmooth: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    transitionBounce: 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+    transitionSpring: 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
+  });
+  const [styleModules, setStyleModules] = useState<StyleModule[]>([]);
+  const [defaultMode, setDefaultMode] = useState<string>('dark');
+
   // Fetch themes and logo versions
   useEffect(() => {
     fetchData();
@@ -221,6 +253,48 @@ export default function AdminThemes() {
         sendButtonIcon: ghlConfig.sendButtonIcon || '0 0% 100%',
         selectionBg: ghlConfig.selectionBg || '240 70% 60%',
       });
+
+      // Parse e-commerce colors
+      const ecomCfg = selectedTheme.ecommerce_colors as Record<string, string> || {};
+      setEcommerceColors({
+        gold: ecomCfg.gold || '39 95% 50%',
+        goldHover: ecomCfg.goldHover || '35 95% 44%',
+        goldGlow: ecomCfg.goldGlow || '39 95% 60%',
+        goldForeground: ecomCfg.goldForeground || '0 0% 100%',
+        pricingHighlight: ecomCfg.pricingHighlight || '39 95% 50%',
+      });
+
+      // Parse CTA variants
+      const ctaCfg = selectedTheme.cta_variants as Record<string, string> || {};
+      setCtaVariants({
+        primary: ctaCfg.primary || '240 70% 60%',
+        primaryHover: ctaCfg.primaryHover || '240 70% 50%',
+        secondary: ctaCfg.secondary || '39 95% 50%',
+        secondaryHover: ctaCfg.secondaryHover || '35 95% 44%',
+      });
+
+      // Parse typography config
+      const typoCfg = selectedTheme.typography_config as Record<string, string> || {};
+      setTypographyConfig({
+        fontHeading: typoCfg.fontHeading || 'Space Grotesk, -apple-system, BlinkMacSystemFont, sans-serif',
+        fontBody: typoCfg.fontBody || 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+        fontDisplay: typoCfg.fontDisplay || 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+      });
+
+      // Parse motion config
+      const motCfg = selectedTheme.motion_config as Record<string, string> || {};
+      setMotionConfig({
+        transitionSmooth: motCfg.transitionSmooth || 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        transitionBounce: motCfg.transitionBounce || 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+        transitionSpring: motCfg.transitionSpring || 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
+      });
+
+      // Parse style modules
+      const modules = selectedTheme.style_modules as unknown as StyleModule[] || [];
+      setStyleModules(Array.isArray(modules) ? modules : []);
+
+      // Parse default mode
+      setDefaultMode(selectedTheme.default_mode || 'dark');
     }
   }, [selectedTheme]);
 
@@ -308,6 +382,12 @@ export default function AdminThemes() {
           static_colors: staticColors as unknown as Json,
           gradient_configs: gradientConfigs as unknown as Json,
           ghl_chat_config: ghlChatConfig as unknown as Json,
+          ecommerce_colors: ecommerceColors as unknown as Json,
+          cta_variants: ctaVariants as unknown as Json,
+          typography_config: typographyConfig as unknown as Json,
+          motion_config: motionConfig as unknown as Json,
+          style_modules: styleModules as unknown as Json,
+          default_mode: defaultMode,
           changelog_notes: selectedTheme.changelog_notes,
         })
         .eq('id', selectedTheme.id);
@@ -2393,6 +2473,38 @@ export function applyThemeToRoot(theme: ThemeConfig): void {
                                 </div>
                               </AccordionContent>
                             </AccordionItem>
+
+                            {/* E-commerce & Gold Colors */}
+                            <EcommerceColorEditor
+                              ecommerceColors={ecommerceColors}
+                              onEcommerceChange={setEcommerceColors}
+                              ctaVariants={ctaVariants}
+                              onCtaChange={setCtaVariants}
+                            />
+
+                            {/* Typography */}
+                            <TypographyEditor
+                              typography={typographyConfig}
+                              onChange={setTypographyConfig}
+                            />
+
+                            {/* Motion */}
+                            <MotionEditor
+                              motion={motionConfig}
+                              onChange={setMotionConfig}
+                            />
+
+                            {/* Style Modules */}
+                            <StyleModulesEditor
+                              modules={styleModules}
+                              onChange={setStyleModules}
+                            />
+
+                            {/* Default Mode */}
+                            <DefaultModeSelector
+                              defaultMode={defaultMode}
+                              onChange={setDefaultMode}
+                            />
                           </Accordion>
                         </ScrollArea>
                         </div>
