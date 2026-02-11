@@ -596,3 +596,82 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 | 2026-02-10 | **Post-mortem: Feb 9 color regression.** Hand-coded `--gold` CSS variable and checkout color overrides were correctly wiped by admin theme republish. Updated 6.16 with critical rule: **all color/styling changes must flow through admin CRUD → DB → publish pipeline, never directly in code.** Gold accents must be re-added via admin theme system expansion (6.16), not CSS patches. | Lovable |
 | 2026-02-10 | **Phase 7 added**: Dynamic Theme System v2.0 — 30 tasks across 6 batches per BRD v2.0. Covers: schema expansion, 10-theme seeding, dual-mode CSS pipeline, admin CRUD (hue slider, effects editor, Style Modules, ADA widget config, icon customizer, revert-to-original), user-facing light/dark toggle, ADA accessibility widget with pause/hide scheduling, theme export/import JSON, component refactor, demo element theming, and full QA. | Lovable |
 | 2026-02-10 | **Task 7.17a added**: "Write current as new default" — overwrites theme seed snapshot with current config using same 2-layer warning + export pattern as revert (BRD §15.4). | Lovable |
+| 2026-02-11 | **Full color token audit** — comprehensive codebase scan of every page/component. See §Color Token Audit below. | Lovable |
+
+---
+
+## Color Token Audit (2026-02-11)
+
+### 🔴 Critical: Missing CSS Variable Definitions
+
+These tokens are referenced in `tailwind.config.ts` but **never defined** in `index.css`:
+
+| Token | Tailwind Class | Impact |
+|-------|---------------|--------|
+| `--gold` | `text-gold`, `bg-gold`, `border-gold` | Checkout pricing renders transparent/invisible |
+| `--gold-hover` | `gold-hover` | Gold hover states broken |
+| `--gold-glow` | `gold-glow` | Gold glow effects broken |
+| `--secondary-accent` | `text-secondary-accent`, `bg-secondary-accent` | Any usage renders invisible |
+
+**Resolution**: Task 6.16 (admin CRUD for gold/e-commerce colors) must define these in the publish pipeline. Until then, they are non-functional placeholders.
+
+### ⚠️ Hardcoded Colors Requiring Phase 7 Tokenization
+
+| Location | Hardcoded Values | Phase 7 Task |
+|----------|-----------------|--------------|
+| `CaseStudyLayout.tsx` | `bg-[#0D0D0D]` (×2 sections) | 7.23 — replace with `bg-background` or new `--case-study-bg` token |
+| `AIEmployee.tsx` | `text-blue-400`, `text-green-400`, `text-purple-400` (how-it-works icons) | 7.23 — replace with semantic icon color tokens |
+| `FrontOffice.tsx` | `bg-green-500/10`, `text-green-500`, `border-green-500/30` (status cards) | 7.23 — replace with `--status-success` semantic token |
+| `SocialProofBar.tsx` | SVG gradient `hsl(210, 100%, 40%)` / `hsl(200, 100%, 50%)` / `hsl(185, 100%, 45%)` | 7.23 — derive from icon-gradient Style Module |
+| `Industries.tsx` | SVG gradient `hsl(210, 100%, 40%)` / `hsl(200, 100%, 50%)` / `hsl(185, 100%, 45%)` | 7.23 — same as SocialProofBar |
+| `index.css` | 4× icon gradients (ocean/royal/sky/electric) with hardcoded HSL | 7.9 — convert to Style Modules |
+| `index.css` | `::selection` color `hsl(240 70% 60% / 0.3)` | 7.23 — replace with `hsl(var(--accent) / 0.3)` |
+| `index.css` | `.glow-text` shadow `hsl(240 70% 60% / 0.5)` | 7.23 — replace with `hsl(var(--accent) / 0.5)` |
+| `tailwind.config.ts` | `pulse-glow` keyframe `hsl(42 76% 55%)` | 7.23 — replace with gold token reference |
+| `TranscriptCard.tsx` | `text-green-500` (checkmark) | 7.23 — replace with `--status-success` token |
+
+### ✅ Intentionally Hardcoded (Exempt from Tokenization)
+
+These simulate third-party UIs and must retain their exact brand colors:
+
+| Component | Reason |
+|-----------|--------|
+| `AlexanderTreeMockup.tsx` | Client website simulation (green `#166534` brand) |
+| `ClearviewDentistryAustinMockup.tsx` | Client website simulation (teal `#0D9488` brand) |
+| `DesertCoolAirMockup.tsx` | Client website simulation (HVAC brand colors) |
+| `HonestWrenchAutoMockup.tsx` | Client website simulation (navy `#1E3A5F` brand) |
+| `RiverstoneInteractiveMockup.tsx` | Client website simulation (plumbing brand colors) |
+| `SMSDemo.tsx` | iOS Messages UI simulation (`#007AFF`, `#1c1c1e`, `#3a3a3c`) |
+| `RealisticDashboards.tsx` | Warmy.io SaaS dashboard simulation |
+| `LogoConfigEditor.tsx` | Admin color picker presets (functional, not themed) |
+| `portfolioData.ts` | Client brand color metadata for portfolio cards |
+
+### ✅ Admin Pages (Acceptable — Low Priority)
+
+| Component | Colors | Notes |
+|-----------|--------|-------|
+| `Submissions.tsx` | `bg-green-600`, `text-red-600`, `bg-orange-600`, `text-orange-600` | Status indicators — admin-only, not public-facing |
+| `Themes.tsx` | `bg-green-500/10`, `text-green-500` | Success feedback — admin-only |
+| `ResetPassword.tsx` | `bg-green-500/10`, `text-green-500` | Success state — admin-only |
+
+**Admin pages can be tokenized in Phase 7 Batch 5 (7.23) but are lowest priority since they are not public-facing.**
+
+### ✅ Fully Tokenized (No Issues)
+
+| Area | Status |
+|------|--------|
+| `src/components/home/*` | ✅ Clean — all semantic tokens |
+| `src/components/checkout/*` | ✅ Clean — all semantic tokens |
+| `src/components/layout/*` (Header, Footer, Layout) | ✅ Clean — all semantic tokens |
+| `src/pages/SmartWebsites.tsx` + sub-pages | ✅ Clean |
+| `src/pages/Pricing.tsx` | ✅ Clean |
+| `src/pages/Contact.tsx` | ✅ Clean |
+| `src/pages/About.tsx` | ✅ Clean |
+| `src/pages/CompareWebsites.tsx` | ✅ Clean |
+| `src/pages/CompareAIEmployee.tsx` | ✅ Clean |
+| `src/pages/legal/*` | ✅ Clean |
+| `src/components/ui/*` (shadcn) | ✅ Clean — all design system tokens |
+| `src/components/CookieConsent.tsx` | ✅ Clean |
+| `src/components/GHLChatWidget.tsx` | ✅ Clean (uses `--ghl-*` tokens) |
+| `src/components/MobileBottomBar.tsx` | ✅ Clean |
+| `src/components/CTAButton.tsx` | ✅ Clean |
