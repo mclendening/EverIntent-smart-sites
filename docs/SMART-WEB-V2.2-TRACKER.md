@@ -567,7 +567,7 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 | 7.21c | Tokenize `pulse-glow` keyframe in `tailwind.config.ts` | `todo` | 7.21 | Lines 158-159 hardcode `hsl(42 76% 55% / 0.2)` and `0.4` — replace with `var(--gold)` reference (BRD §4.3.8) |
 | 7.21d | Convert typography to CSS variables (`--font-heading`, `--font-body`, `--font-mono`) | `todo` | 7.12 | Currently hardcoded in `index.css:116/120` and `tailwind.config.ts:17-20` (BRD §4.4) |
 | 7.21e | Convert motion transitions to CSS variables (`--transition-smooth`, `--transition-bounce`, `--transition-spring`) | `todo` | 7.11 | Utility classes exist in `index.css:214-216` but not as CSS variables (BRD §4.5) |
-| 7.22 | Refactor `.tsx` components — replace hardcoded colors/transitions | `todo` | 7.21 | `CaseStudyLayout.tsx` `bg-[#0D0D0D]` → `bg-background`; `AIEmployee.tsx` `text-blue-400`/`text-green-400`/`text-purple-400` (howItWorksSteps icons) → semantic icon tokens; `FrontOffice.tsx` `bg-green-500/10`/`text-green-500` (status cards) → `--status-success`; `SocialProofBar.tsx` / `Industries.tsx` SVG gradients → component tokens; `TranscriptCard.tsx` `text-green-500` → `--status-success`; `DashboardPreview.tsx` `text-blue-400`/`text-green-400`/`text-purple-400` + status badges (`bg-green-500/20`, `bg-blue-500/20`, `bg-gray-500/20`) → semantic status tokens; `PortfolioCard.tsx` `bg-orange-500/20 text-orange-400`/`bg-teal-500/20`/`bg-violet-500/20`/`bg-cyan-500/20` (industry badges) → `--industry-{category}` tokens; `IndustryShowcaseTemplate.tsx` `bg-green-500` active dot + browser chrome dots → `--status-active` token; `SmartWebsites.tsx:318` inline `shadow-[0_0_30px_hsl(42_60%_50%/0.15)]` → `shadow-glow` or gold shadow token (BRD §4.3.9) |
+| 7.22 | Refactor `.tsx` components — replace hardcoded colors/transitions | `todo` | 7.21 | `AIEmployee.tsx` `text-blue-400`/`text-green-400`/`text-purple-400` (howItWorksSteps icons) → semantic icon tokens; `FrontOffice.tsx` `bg-green-500/10`/`text-green-500` (status cards) → `--status-success`; `SocialProofBar.tsx` / `Industries.tsx` SVG gradients → component tokens; `TranscriptCard.tsx` `text-green-500` → `--status-success`; `DashboardPreview.tsx` status badges → semantic status tokens; `IndustryShowcaseTemplate.tsx` `bg-green-500` active dot → `--status-active` token (browser chrome dots exempt); `SmartWebsites.tsx:318` inline gold shadow → `shadow-glow` token. **EXEMPT (do not tokenize):** `CaseStudyLayout.tsx`, `PortfolioCard.tsx` industry badges, `WarmyEmailDeliverability.tsx` — see Exemptions list. |
 | 7.23 | Migrate demo elements (SMSDemo, etc.) to theme tokens / Style Modules | `todo` | 7.13, 7.22 | iOS-style colors → accent/card/highlight tokens (§17). **Note:** `SMSDemo.tsx`, `RealisticDashboards.tsx` are exempt per BRD §4.6 |
 | 7.24 | Implement user-facing light/dark mode toggle (header + mobile + `<head>` script) | `todo` | 7.7 | FOUC prevention via inline script (§11.3) |
 | 7.25 | Implement ADA accessibility widget (floating panel + pause/hide + icon) | `todo` | 7.7, 7.15 | 6 controls: font size, contrast, motion, dyslexia, underlines, focus (§12.2) |
@@ -643,24 +643,41 @@ These tokens are referenced in `tailwind.config.ts` but **never defined** in `in
 | `index.css` | `::selection` color `hsl(240 70% 60% / 0.3)` | 7.21 — replace with `hsl(var(--accent) / 0.3)` |
 | `index.css` | `.glow-text` shadow `hsl(240 70% 60% / 0.5)` | 7.21 — replace with `hsl(var(--accent) / 0.5)` |
 | `tailwind.config.ts` | `pulse-glow` keyframe `hsl(42 76% 55%)` | 7.21c — replace with gold token reference |
-| `WarmyEmailDeliverability.tsx` | `text-red-500`, `bg-red-500/5`, `text-green-500`, `bg-green-500/5`, `text-zinc-*`, `bg-[#0a0a0a]`, `text-white`, `bg-white/10`, etc. — extensive hardcoded colors throughout | 7.22 — full page tokenization OR add to exemptions if treated as Warmy brand simulation |
+| ~~`WarmyEmailDeliverability.tsx`~~ | ~~Moved to Exemptions~~ | **EXEMPT** — Warmy partner brand simulation page (see below) |
 
 ### ✅ Intentionally Hardcoded (Exempt from Tokenization)
 
-These simulate third-party UIs and must retain their exact brand colors:
+These components simulate third-party UIs, client websites, or resold partner products and **must** retain their exact brand colors. They are NOT part of the EverIntent theme system.
+
+#### Portfolio "Website-Within-Website" Mockups
+These are interactive React components that simulate real client websites inside macOS browser frames. Each uses the client's actual brand palette — tokenizing them would break the simulation.
 
 | Component | Reason |
 |-----------|--------|
 | `AlexanderTreeMockup.tsx` | Client website simulation (green `#166534` brand) |
 | `ClearviewDentistryAustinMockup.tsx` | Client website simulation (teal `#0D9488` brand) |
 | `DesertCoolAirMockup.tsx` | Client website simulation (HVAC brand colors) |
-| `HonestWrenchAutoMockup.tsx` | Client website simulation (navy `#1E3A5F` brand) — also has browser chrome dots (`bg-red-400`, `bg-yellow-400`, `bg-green-400`) |
+| `HonestWrenchAutoMockup.tsx` | Client website simulation (navy `#1E3A5F` brand) — includes browser chrome dots |
 | `RiverstoneInteractiveMockup.tsx` | Client website simulation (plumbing brand colors) |
-| `SMSDemo.tsx` | iOS Messages UI simulation (`#007AFF`, `#1c1c1e`, `#3a3a3c`, `#34C759`) |
+| `MiniMockup.tsx` | Portfolio hub card — renders real hero images with simulated nav/branding overlay using per-project brand colors from `portfolioData.ts`. Browser chrome traffic lights are universal simulation chrome. |
+| `PortfolioCard.tsx` (industry badges only) | Industry color-coding (`orange`/`teal`/`violet`/`cyan`) is portfolio-system visual identity, not site theme |
+| `CaseStudyLayout.tsx` (`bg-[#0D0D0D]`) | Luxury dark background for case study presentation — portfolio system design spec |
+| `portfolioData.ts` | Client brand color metadata (`primaryColor`, `accentColor`) consumed by all mockups |
+
+#### Warmy Partner Product Page
+`WarmyEmailDeliverability.tsx` represents Warmy.io — a third-party email deliverability product EverIntent resells. The entire page uses Warmy's brand colors to accurately represent the partner product. Tokenizing it would misrepresent the product.
+
+| Component | Reason |
+|-----------|--------|
+| `WarmyEmailDeliverability.tsx` | Warmy.io partner brand simulation — uses Warmy's actual palette (`text-red-500`, `text-green-500`, `bg-[#0a0a0a]`, etc.) |
 | `RealisticDashboards.tsx` | Warmy.io SaaS dashboard simulation (`bg-[#0a0a0a]`, `bg-[#111111]`, SVG gradient colors) |
-| `MiniMockup.tsx` | Browser chrome traffic lights (`bg-red-500/80`, `bg-yellow-500/80`, `bg-green-500/80`) — universal simulation pattern |
+
+#### Other Simulations & Config Data
+
+| Component | Reason |
+|-----------|--------|
+| `SMSDemo.tsx` | iOS Messages UI simulation (`#007AFF`, `#1c1c1e`, `#3a3a3c`, `#34C759`) |
 | `LogoConfigEditor.tsx` | Admin color picker presets (functional, not themed) |
-| `portfolioData.ts` | Client brand color metadata for portfolio cards |
 | `config/themes.ts` | Theme configuration data with hex brand colors — consumed by pipeline, not rendered directly |
 
 ### ✅ Admin Pages (Acceptable — Low Priority)
