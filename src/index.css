@@ -553,12 +553,99 @@
   background: hsl(var(--muted-foreground) / 0.7);
 }
 
-/* ========== ADA Accessibility Overrides ========== */
+/* ========== ADA Accessibility Overrides — Content Modules (Batch 1) ========== */
 
-/* Larger Text: scale up base font size */
-html.ada-large-text {
-  font-size: 125%;
+/* --- 1. Text Size (3 levels) --- */
+html.ada-text-size-1 { font-size: 112.5%; }   /* 18px base */
+html.ada-text-size-2 { font-size: 125%; }      /* 20px base */
+html.ada-text-size-3 { font-size: 150%; }      /* 24px base */
+
+/* --- 2. Line Height (3 levels) --- */
+html.ada-line-height-1, html.ada-line-height-1 * { line-height: 1.6 !important; }
+html.ada-line-height-2, html.ada-line-height-2 * { line-height: 1.8 !important; }
+html.ada-line-height-3, html.ada-line-height-3 * { line-height: 2.0 !important; }
+
+/* --- 3. Letter Spacing (3 levels) --- */
+html.ada-letter-spacing-1, html.ada-letter-spacing-1 * { letter-spacing: 0.05em !important; }
+html.ada-letter-spacing-2, html.ada-letter-spacing-2 * { letter-spacing: 0.1em !important; }
+html.ada-letter-spacing-3, html.ada-letter-spacing-3 * { letter-spacing: 0.15em !important; }
+
+/* --- 4. Bold Text --- */
+html.ada-bold-text, html.ada-bold-text * {
+  font-weight: 700 !important;
 }
+
+/* --- 5. Readable Font (system sans-serif stack) --- */
+html.ada-readable-font, html.ada-readable-font * {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+}
+
+/* --- 6. Dyslexia Font (OpenDyslexic) --- */
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+html.ada-dyslexia-font, html.ada-dyslexia-font * {
+  font-family: 'OpenDyslexic', sans-serif !important;
+}
+
+/* --- 7. Text Align overrides --- */
+html.ada-align-left * { text-align: left !important; }
+html.ada-align-center * { text-align: center !important; }
+html.ada-align-right * { text-align: right !important; }
+
+/* --- 8. Highlight Links --- */
+html.ada-highlight-links a {
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+  background-color: hsl(50 100% 50% / 0.2) !important;
+  outline: 2px solid hsl(50 100% 50% / 0.5) !important;
+  outline-offset: 1px !important;
+  border-radius: 2px;
+  padding-inline: 2px;
+}
+
+/* --- 9. Text Magnifier (tooltip on hover) --- */
+html.ada-text-magnifier p:hover,
+html.ada-text-magnifier span:hover,
+html.ada-text-magnifier li:hover,
+html.ada-text-magnifier td:hover,
+html.ada-text-magnifier h1:hover,
+html.ada-text-magnifier h2:hover,
+html.ada-text-magnifier h3:hover,
+html.ada-text-magnifier h4:hover,
+html.ada-text-magnifier h5:hover,
+html.ada-text-magnifier h6:hover,
+html.ada-text-magnifier a:hover,
+html.ada-text-magnifier label:hover {
+  transform: scale(1.3) !important;
+  transform-origin: left center !important;
+  position: relative !important;
+  z-index: 100 !important;
+  background-color: hsl(var(--card)) !important;
+  box-shadow: 0 4px 20px hsl(0 0% 0% / 0.2) !important;
+  border-radius: 4px !important;
+  padding: 4px 8px !important;
+  transition: transform 0.15s ease !important;
+}
+
+/* --- 10. Big Cursor --- */
+html.ada-big-cursor,
+html.ada-big-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='48' viewBox='0 0 40 48'%3E%3Cpath d='M6 2L6 40L14 32L22 44L28 40L20 28L32 28Z' fill='black' stroke='white' stroke-width='2'/%3E%3C/svg%3E") 6 2, auto !important;
+}
+
+/* ========== ADA Accessibility Overrides — Legacy (retained for Color/Orientation batches) ========== */
 
 /* High Contrast: force WCAG AAA contrast */
 html.ada-high-contrast {
@@ -585,12 +672,6 @@ html.ada-reduced-motion * {
   animation-iteration-count: 1 !important;
   transition-duration: 0.001ms !important;
   scroll-behavior: auto !important;
-}
-
-/* Link Underlines: underline all anchor tags */
-html.ada-underlines a {
-  text-decoration: underline !important;
-  text-underline-offset: 3px;
 }
 
 /* Focus Highlight: prominent focus rings on all focusable elements */

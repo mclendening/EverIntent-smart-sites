@@ -708,16 +708,53 @@ An **admin-managed accessibility module** that ensures WCAG 2.1 AA compliance ac
 
 ### 12.2 User-Facing Accessibility Widget
 
-A floating accessibility button opens a panel with:
+A floating accessibility button opens a categorized panel modeled after the **WPOneTap** feature set. Modules are organized into three batches: Content, Color, and Orientation.
 
-| Control | Function | Persistence |
-|---------|----------|-------------|
-| **Font Size** | 3 steps: Default, Large (+25%), X-Large (+50%) | `localStorage` |
-| **High Contrast** | Increases contrast ratios to WCAG AAA (7:1 min) | `localStorage` |
-| **Reduced Motion** | Disables all animations and transitions | `localStorage` + respects `prefers-reduced-motion` |
-| **Dyslexia Font** | Switches body font to OpenDyslexic | `localStorage` |
-| **Link Underlines** | Forces underlines on all links | `localStorage` |
-| **Focus Indicators** | Enhances focus ring visibility (3px solid, high contrast) | `localStorage` |
+#### 12.2.1 Batch 1 — Content Modules (10) ✅ Implemented
+
+| # | Control | Type | CSS Classes | Persistence | Status |
+|---|---------|------|-------------|-------------|--------|
+| 1 | **Text Size** | Multi (3 levels) | `ada-text-size-1` (112.5%), `ada-text-size-2` (125%), `ada-text-size-3` (150%) | `localStorage` | ✅ |
+| 2 | **Line Height** | Multi (3 levels) | `ada-line-height-1` (1.6), `ada-line-height-2` (1.8), `ada-line-height-3` (2.0) | `localStorage` | ✅ |
+| 3 | **Letter Spacing** | Multi (3 levels) | `ada-letter-spacing-1` (0.05em), `ada-letter-spacing-2` (0.1em), `ada-letter-spacing-3` (0.15em) | `localStorage` | ✅ |
+| 4 | **Bold Text** | Toggle | `ada-bold-text` | `localStorage` | ✅ |
+| 5 | **Readable Font** | Toggle | `ada-readable-font` (system sans stack) | `localStorage` | ✅ |
+| 6 | **Dyslexia Font** | Toggle | `ada-dyslexia-font` (OpenDyslexic via CDN) | `localStorage` | ✅ |
+| 7 | **Text Align** | Cycle (L/C/R) | `ada-align-left`, `ada-align-center`, `ada-align-right` | `localStorage` | ✅ |
+| 8 | **Highlight Links** | Toggle | `ada-highlight-links` (underline + yellow bg + outline) | `localStorage` | ✅ |
+| 9 | **Text Magnifier** | Toggle | `ada-text-magnifier` (scale 1.3× on hover) | `localStorage` | ✅ |
+| 10 | **Big Cursor** | Toggle | `ada-big-cursor` (40×48 SVG cursor) | `localStorage` | ✅ |
+
+**Mutual exclusion:** Readable Font and Dyslexia Font are mutually exclusive — activating one disables the other.
+
+#### 12.2.2 Batch 2 — Color Modules (5) + Orientation Modules (9) — Planned
+
+| # | Control | Type | CSS Class | Status |
+|---|---------|------|-----------|--------|
+| 11 | **Dark Contrast** | Toggle | `ada-dark-contrast` | ❌ Planned |
+| 12 | **Light Contrast** | Toggle | `ada-light-contrast` | ❌ Planned |
+| 13 | **High Contrast** | Toggle | `ada-high-contrast` | ✅ CSS exists |
+| 14 | **Monochrome** | Toggle | `ada-monochrome` (`grayscale(100%)`) | ❌ Planned |
+| 15 | **High Saturation** | Toggle | `ada-high-saturation` (`saturate(200%)`) | ❌ Planned |
+| 16 | **Reading Line** | Toggle | `ada-reading-line` | ❌ Planned |
+| 17 | **Reading Mask** | Toggle | `ada-reading-mask` | ❌ Planned |
+| 18 | **Keyboard Navigation** | Toggle | `ada-keyboard-nav` | ❌ Planned |
+| 19 | **Hide Images** | Toggle | `ada-hide-images` | ❌ Planned |
+| 20 | **Stop Animations** | Toggle | `ada-reduced-motion` | ✅ CSS exists |
+| 21 | **Mute Sounds** | Toggle | `ada-mute-sounds` | ❌ Planned |
+| 22 | **Highlight Titles** | Toggle | `ada-highlight-titles` | ❌ Planned |
+| 23 | **Highlight Content** | Toggle | `ada-highlight-content` | ❌ Planned |
+| 24 | **Focus Highlight** | Toggle | `ada-focus-highlight` | ✅ CSS exists |
+
+#### 12.2.3 Batch 3 — Preset Profiles (5) — Planned
+
+| Profile | Activates |
+|---------|-----------|
+| **Vision Impaired** | Text Size 2, Line Height 1, High Contrast |
+| **Blind Mode** | Text Size 3, Readable Font, High Contrast, Focus Highlight, Keyboard Nav |
+| **ADHD Friendly** | Reading Mask, Highlight Titles, Stop Animations, Big Cursor |
+| **Dyslexia Friendly** | Dyslexia Font, Line Height 2, Letter Spacing 2, Highlight Links |
+| **Motor Impaired** | Big Cursor, Focus Highlight, Keyboard Nav, Text Size 1 |
 
 #### 12.2.1 Draggable Positioning (Desktop & Mobile)
 
@@ -848,7 +885,7 @@ New JSONB column or nested key in `component_tokens`:
 
 ### 12.7 SSG Compatibility
 
-The accessibility widget preferences are applied via CSS classes on `<html>` (e.g., `class="dark ada-large-text ada-reduced-motion"`), loaded from `localStorage` in the same `<head>` script as the theme mode toggle. No hydration mismatch.
+The accessibility widget preferences are applied via CSS classes on `<html>` (e.g., `class="dark ada-text-size-2 ada-bold-text ada-big-cursor"`), loaded from `localStorage` in the same `<head>` script as the theme mode toggle. Multi-level modules store integer values (0–3) and map to specific CSS classes. No hydration mismatch.
 
 ---
 
