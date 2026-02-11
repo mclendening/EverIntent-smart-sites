@@ -8,7 +8,7 @@
  * 
  * SSG Compatible: Imported statically, zero runtime DB calls.
  * 
- * @generated 2026-02-10
+ * @generated 2026-02-11
  */
 
 // Logo element types for embedded config
