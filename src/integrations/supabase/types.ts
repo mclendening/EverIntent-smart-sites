@@ -557,15 +557,24 @@ export type Database = {
           accent_locked_to_base: boolean | null
           base_hue: number
           changelog_notes: string | null
+          component_tokens: Json
           created_at: string
+          cta_variants: Json
           dark_mode_overrides: Json | null
+          default_mode: string
+          ecommerce_colors: Json
           ghl_chat_config: Json
           gradient_configs: Json
           id: string
           is_active: boolean | null
           logo_version_id: string | null
+          motion_config: Json
           name: string
+          primitive_tokens: Json
+          semantic_tokens: Json
           static_colors: Json
+          style_modules: Json
+          typography_config: Json
           updated_at: string
           version: number
         }
@@ -574,15 +583,24 @@ export type Database = {
           accent_locked_to_base?: boolean | null
           base_hue?: number
           changelog_notes?: string | null
+          component_tokens?: Json
           created_at?: string
+          cta_variants?: Json
           dark_mode_overrides?: Json | null
+          default_mode?: string
+          ecommerce_colors?: Json
           ghl_chat_config?: Json
           gradient_configs?: Json
           id?: string
           is_active?: boolean | null
           logo_version_id?: string | null
+          motion_config?: Json
           name: string
+          primitive_tokens?: Json
+          semantic_tokens?: Json
           static_colors?: Json
+          style_modules?: Json
+          typography_config?: Json
           updated_at?: string
           version?: number
         }
@@ -591,15 +609,24 @@ export type Database = {
           accent_locked_to_base?: boolean | null
           base_hue?: number
           changelog_notes?: string | null
+          component_tokens?: Json
           created_at?: string
+          cta_variants?: Json
           dark_mode_overrides?: Json | null
+          default_mode?: string
+          ecommerce_colors?: Json
           ghl_chat_config?: Json
           gradient_configs?: Json
           id?: string
           is_active?: boolean | null
           logo_version_id?: string | null
+          motion_config?: Json
           name?: string
+          primitive_tokens?: Json
+          semantic_tokens?: Json
           static_colors?: Json
+          style_modules?: Json
+          typography_config?: Json
           updated_at?: string
           version?: number
         }
