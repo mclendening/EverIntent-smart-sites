@@ -82,24 +82,6 @@ export interface ThemeConfig {
     input: string;
     ring: string;
   };
-  darkModeOverrides?: {
-    background: string;
-    foreground: string;
-    card: string;
-    cardForeground: string;
-    popover: string;
-    popoverForeground: string;
-    primary: string;
-    primaryLight: string;
-    primaryForeground: string;
-    secondary: string;
-    secondaryForeground: string;
-    muted: string;
-    mutedForeground: string;
-    border: string;
-    input: string;
-    ring: string;
-  } | null;
   gradientConfigs: {
     hero: string;
     cta: string;
@@ -133,6 +115,24 @@ export interface ThemeConfig {
     tokens: Array<{ name: string; value: string }>;
   }>;
   defaultMode?: string;
+  darkModeOverrides?: {
+    background: string;
+    foreground: string;
+    card: string;
+    cardForeground: string;
+    popover: string;
+    popoverForeground: string;
+    primary: string;
+    primaryLight: string;
+    primaryForeground: string;
+    secondary: string;
+    secondaryForeground: string;
+    muted: string;
+    mutedForeground: string;
+    border: string;
+    input: string;
+    ring: string;
+  };
   logoVersionId?: string;
   logoConfig?: {
     taglineText: string;
@@ -264,7 +264,24 @@ export const activeTheme: ThemeConfig = {
   },
   styleModules: [],
   defaultMode: 'dark',
-  darkModeOverrides: null,
+  darkModeOverrides: {
+      "card": "222 47% 10%",
+      "ring": "247 92% 50%",
+      "input": "215 25% 20%",
+      "muted": "222 47% 15%",
+      "border": "215 25% 20%",
+      "popover": "222 47% 10%",
+      "primary": "215 25% 27%",
+      "secondary": "222 47% 12%",
+      "background": "222 47% 7%",
+      "foreground": "60 9% 98%",
+      "primaryLight": "215 20% 40%",
+      "cardForeground": "60 9% 98%",
+      "mutedForeground": "215 16% 65%",
+      "popoverForeground": "60 9% 98%",
+      "primaryForeground": "0 0% 100%",
+      "secondaryForeground": "60 9% 98%"
+  },
 };
 
 // ============================================
