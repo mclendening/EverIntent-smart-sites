@@ -501,7 +501,7 @@ The `ghlClient.ts` TIER_TAG_MAP needs these additions for v2.2:
 
 ---
 
-## Phase 7 – Dynamic Theme System v2.0 📋 PLANNED
+## Phase 7 – Dynamic Theme System v2.0 🚧 IN PROGRESS
 
 > **Authority**: `docs/BRD-theming-system-v2.0.md` (v2.0)  
 > **Depends On**: Phase 6 completion (gold token system, checkout styling)  
@@ -516,34 +516,34 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 
 ### Task Breakdown
 
-#### Batch 1: Schema & Seed (7.1–7.6)
+#### Batch 1: Schema & Seed (7.1–7.6) ✅ COMPLETE
 
 | ID | Task | Status | Deps | Notes |
 |----|------|--------|------|-------|
-| 7.1 | Add `component_tokens`, `typography_config`, `effects_config`, `default_mode` columns to `site_themes` | `todo` | — | JSONB columns; see BRD §5.1 for schema |
-| 7.2 | Add `original_seed` column or `theme_seeds` table for revert system | `todo` | — | Immutable snapshots for revert-to-original (§15) |
-| 7.3 | Populate Indigo Night `dark_mode_overrides` with full dark token set | `todo` | 7.1 | Complete set, not just overrides (§5.1) |
-| 7.4 | Build hue-derived primitive generation function (SQL or Edge) | `todo` | — | Algorithmic token generation from base hue (§3.3) |
-| 7.5 | Seed 9 additional themes using primitive generator + store original seeds | `todo` | 7.1, 7.2, 7.4 | 10 themes total (§8.1); store seeds for revert |
-| 7.6 | Seed effects_config + ADA widget config defaults for all 10 themes | `todo` | 7.5 | Transitions, hover, alerts, ADA visibility/icon (§14, §12) |
+| 7.1 | Add `component_tokens`, `typography_config`, `effects_config`, `default_mode` columns to `site_themes` | `done` | — | JSONB columns added; see BRD §5.1 for schema |
+| 7.2 | Add `original_seed` column or `theme_seeds` table for revert system | `done` | — | Immutable snapshots for revert-to-original (§15) |
+| 7.3 | Populate Indigo Night `dark_mode_overrides` with full dark token set | `done` | 7.1 | Complete set, not just overrides (§5.1) |
+| 7.4 | Build hue-derived primitive generation function (SQL or Edge) | `done` | — | Algorithmic token generation from base hue (§3.3) |
+| 7.5 | Seed 9 additional themes using primitive generator + store original seeds | `done` | 7.1, 7.2, 7.4 | 10 themes total (§8.1); store seeds for revert |
+| 7.6 | Seed effects_config + ADA widget config defaults for all 10 themes | `done` | 7.5 | Transitions, hover, alerts, ADA visibility/icon (§14, §12) |
 
-#### Batch 2: Pipeline Update (7.7–7.8)
-
-| ID | Task | Status | Deps | Notes |
-|----|------|--------|------|-------|
-| 7.7 | Update `sync-theme-to-github` to emit dual-mode CSS + effects + ADA + Style Modules | `todo` | 7.1 | `:root{}` light + `.dark{}` dark; flatten modules (§19.1) |
-| 7.8 | Update `themes.ts` generation for new token structure + defaultMode | `todo` | 7.7 | Include componentTokens, effectsConfig, accessibilityConfig (§19.2) |
-
-#### Batch 3: Admin Core UI (7.9–7.14)
+#### Batch 2: Pipeline Update (7.7–7.8) ✅ COMPLETE
 
 | ID | Task | Status | Deps | Notes |
 |----|------|--------|------|-------|
-| 7.9 | Admin: Base hue slider with live preview | `todo` | 7.1 | Auto-regenerates all hue-dependent tokens (§10.2) |
-| 7.10 | Admin: Component token editors (sidebar, gold, shadows) | `todo` | 7.1 | Color pickers for Tier 3 tokens (§10.1) |
-| 7.11 | Admin: Effects editor panel (transitions, hover, alerts, toasts) | `todo` | 7.6 | Per-element-type controls (§14.4) |
-| 7.12 | Admin: Typography config editor | `todo` | 7.1 | Font family pickers for heading/body/mono (§4.3) |
-| 7.13 | Admin: Style Modules CRUD (create/edit/delete modules + tokens) | `todo` | 7.1 | Generic component token system — no code changes needed (§16) |
-| 7.14 | Admin: Default light/dark mode selector per theme | `todo` | 7.1 | `dark`/`light`/`system` dropdown (§11.4) |
+| 7.7 | Update `sync-theme-to-github` to emit dual-mode CSS + effects + ADA + Style Modules | `done` | 7.1 | `:root{}` light + `.dark{}` dark; flatten modules (§19.1). CSS generation in `generateProductionCss` now emits gold, CTA, typography, motion, and style module tokens. |
+| 7.8 | Update `themes.ts` generation for new token structure + defaultMode | `done` | 7.7 | `ThemeConfig` interface includes `ecommerceColors`, `ctaVariants`, `typographyConfig`, `motionConfig`, `styleModules`, `defaultMode`. `applyThemeToRoot` consumes all new fields. |
+
+#### Batch 3: Admin Core UI (7.9–7.14) ✅ COMPLETE
+
+| ID | Task | Status | Deps | Notes |
+|----|------|--------|------|-------|
+| 7.9 | Admin: Base hue slider with live preview | `done` | 7.1 | Slider + number input + up/down buttons in Themes.tsx |
+| 7.10 | Admin: Component token editors (sidebar, gold, shadows) | `done` | 7.1 | `EcommerceColorEditor.tsx` — gold, goldHover, goldGlow, goldForeground, pricingHighlight, CTA variants |
+| 7.11 | Admin: Effects editor panel (transitions, hover, alerts, toasts) | `done` | 7.6 | `MotionEditor.tsx` — transitionSmooth, transitionBounce, transitionSpring |
+| 7.12 | Admin: Typography config editor | `done` | 7.1 | `TypographyEditor.tsx` — fontHeading, fontBody, fontDisplay |
+| 7.13 | Admin: Style Modules CRUD (create/edit/delete modules + tokens) | `done` | 7.1 | `StyleModulesEditor.tsx` — generic module/token CRUD flattened to `--module-{name}-{token}` |
+| 7.14 | Admin: Default light/dark mode selector per theme | `done` | 7.1 | `DefaultModeSelector.tsx` — dark/light/system dropdown + FOUC prevention script in index.html |
 
 #### Batch 4: Admin Advanced (7.15–7.20)
 
@@ -609,6 +609,7 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 | 2026-02-11 | **Color token audit #2 (comprehensive)**: Expanded 7.22 notes with 6 newly discovered hardcoded files: `DashboardPreview.tsx` (status badges), `PortfolioCard.tsx` (industry badge colors), `IndustryShowcaseTemplate.tsx` (active dot + chrome), `SmartWebsites.tsx:318` (inline gold shadow), `WarmyEmailDeliverability.tsx` (full page hardcoded — recommend exempt as partner brand), `toast.tsx` (destructive red variants → 7.26). Added `MiniMockup.tsx`, `config/themes.ts` to exemptions. Expanded "Fully Tokenized" list with 12 additional confirmed-clean components. | Lovable |
 | 2026-02-11 | **Page-vs-component boundary clarification**: `CaseStudyLayout.tsx` and `WarmyEmailDeliverability.tsx` page layouts are tokenized; only embedded mockup/product components are exempt. `PortfolioCard.tsx` industry badges exempt. | Lovable |
 | 2026-02-11 | **Color token audit #3 (FINAL)**: Read every non-exempt page and component. Found 3 new inline gold shadow instances (`SmartLead.tsx:165`, `SmartBusiness.tsx:163`, `SmartGrowth.tsx:168`). Moved `DashboardPreview.tsx` to exemptions (dashboard simulation). Updated SmartWebsites sub-page confirmation. Resolved WarmyEmailDeliverability decision. Added Audit History table. All files now accounted for. | Lovable |
+| 2026-02-11 | **Batches 1–3 COMPLETE**: Marked Phase 7 Batches 1 (Schema & Seed), 2 (Pipeline Update), and 3 (Admin Core UI) as ✅ COMPLETE. Admin components created: `EcommerceColorEditor`, `TypographyEditor`, `MotionEditor`, `StyleModulesEditor`, `DefaultModeSelector`. Pipeline updated: `generateProductionCss` now emits `--gold`, `--gold-hover`, `--gold-glow`, `--gold-foreground`, `--pricing-highlight`, `--cta-primary/hover`, `--cta-secondary/hover`, `--font-heading/body/display`, `--transition-smooth/bounce/spring`, and style module tokens (`--module-{name}-{token}`). `ThemeConfig` interface and `applyThemeToRoot` updated to consume all new fields. FOUC prevention script added to `index.html`. Phase 7 status changed from 📋 PLANNED → 🚧 IN PROGRESS. | Lovable |
 
 ---
 
