@@ -102,6 +102,10 @@
     --gold-glow: 39 95% 60%;
     --gold-foreground: 0 0% 100%;
     --pricing-highlight: 39 95% 50%;
+    --shadow-gold-glow: 0 0 20px hsl(var(--gold) / 0.3);
+
+    /* Secondary Accent */
+    --secondary-accent: 200 100% 50%;
 
     /* CTA Variants */
     --cta-primary: 240 70% 60%;
@@ -136,11 +140,11 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--font-body);
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--font-heading);
     @apply font-bold tracking-tight;
   }
 
@@ -209,7 +213,7 @@
   }
 
   .glow-text {
-    text-shadow: 0 0 40px hsl(240 70% 60% / 0.5);
+    text-shadow: 0 0 40px hsl(var(--accent) / 0.5);
   }
 
   .bg-mesh {
@@ -235,15 +239,15 @@
   }
 
   .transition-smooth {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--transition-smooth);
   }
 
   .transition-bounce {
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: var(--transition-bounce);
   }
 
   .transition-spring {
-    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: var(--transition-spring);
   }
 
   .hover-scale {
@@ -443,7 +447,7 @@
 }
 
 ::selection {
-  background: hsl(240 70% 60% / 0.3);
+  background: hsl(var(--accent) / 0.3);
   color: hsl(var(--foreground));
 }
 
