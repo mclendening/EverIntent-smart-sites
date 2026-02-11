@@ -54,10 +54,10 @@ const websiteFeatures = [
 ];
 
 const websiteTiers = [
-  { id: 'launch', name: 'Launch', key: 't1', cta: 'Get Started', ctaStyle: 'secondary', href: '/smart-websites/smart-site', checkoutHref: '/checkout/launch' },
-  { id: 'capture', name: 'Capture', key: 't2', cta: 'Get Started', ctaStyle: 'primary', href: '/smart-websites/smart-lead', checkoutHref: '/checkout/capture' },
-  { id: 'convert', name: 'Convert', key: 't3', cta: 'Get Started', ctaStyle: 'primary', href: '/smart-websites/smart-business', checkoutHref: '/checkout/convert' },
-  { id: 'scale', name: 'Scale', key: 't4', cta: 'Get Started', ctaStyle: 'secondary', href: '/smart-websites/smart-growth', checkoutHref: '/checkout/scale' },
+  { id: 'launch', name: 'Launch', key: 't1', cta: 'Get Started', ctaStyle: 'secondary', href: '/smart-websites/launch', checkoutHref: '/checkout/launch' },
+  { id: 'capture', name: 'Capture', key: 't2', cta: 'Get Started', ctaStyle: 'primary', href: '/smart-websites/capture', checkoutHref: '/checkout/capture' },
+  { id: 'convert', name: 'Convert', key: 't3', cta: 'Get Started', ctaStyle: 'primary', href: '/smart-websites/convert', checkoutHref: '/checkout/convert' },
+  { id: 'scale', name: 'Scale', key: 't4', cta: 'Get Started', ctaStyle: 'secondary', href: '/smart-websites/scale', checkoutHref: '/checkout/scale' },
 ];
 
 // ============================================
@@ -122,7 +122,7 @@ const faqItems = [
     answer: "Smart Site includes a professional 5-page website, mobile responsive design, SSL certificate, basic SEO setup, contact form, and Google Maps integration. You own the website forever. After the first year, hosting is just $149/year.",
   },
   {
-    question: "Can I upgrade from Smart Site to Smart Lead later?",
+    question: "Can I upgrade from Launch to Capture later?",
     answer: "Yes! You can upgrade to any higher tier at any time. We'll migrate everything seamlessly and prorate your billing. No rebuilds required — every tier is upgrade-ready from day one.",
   },
   {

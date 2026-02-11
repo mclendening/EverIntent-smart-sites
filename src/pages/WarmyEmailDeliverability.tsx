@@ -229,9 +229,9 @@ export default function WarmyEmailDeliverability() {
 
               <div className="flex flex-col sm:flex-row gap-2 justify-center lg:justify-start">
                 <CTAButton to="/pricing#warmy" defaultText="Get Warmy — $49/mo" hoverText="Boost Deliverability!" />
-                <a href="/pricing#smart-lead">
+                <a href="/pricing#capture">
                   <Button variant="outline" size="sm" className="gap-1.5 w-full sm:w-auto text-xs">
-                    <CheckCircle className="w-3 h-3" />Free with Smart Lead
+                    <CheckCircle className="w-3 h-3" />Free with Capture
                   </Button>
                 </a>
               </div>
@@ -409,7 +409,7 @@ export default function WarmyEmailDeliverability() {
                     <li key={i} className="flex items-center gap-1"><CheckCircle className="w-3 h-3 text-accent" />{item}</li>
                   ))}
                 </ul>
-                <CTAButton to="/pricing#smart-lead" defaultText="Get Smart Lead" hoverText="Save $49!" className="w-full text-xs" />
+                <CTAButton to="/pricing#capture" defaultText="Get Capture" hoverText="Save $49!" className="w-full text-xs" />
               </div>
             </div>
           </div>

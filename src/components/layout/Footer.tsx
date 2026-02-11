@@ -13,10 +13,10 @@ import { Button } from '@/components/ui/button';
  */
 const servicesLinks = [
   { title: 'AI Employee', path: '/let-ai-handle-it' },
-  { title: 'Launch', path: '/smart-websites/smart-site' },
-  { title: 'Capture', path: '/smart-websites/smart-lead' },
-  { title: 'Convert', path: '/smart-websites/smart-business' },
-  { title: 'Scale', path: '/smart-websites/smart-growth' },
+  { title: 'Launch', path: '/smart-websites/launch' },
+  { title: 'Capture', path: '/smart-websites/capture' },
+  { title: 'Convert', path: '/smart-websites/convert' },
+  { title: 'Scale', path: '/smart-websites/scale' },
   { title: 'Add-On Packs', path: '/smart-websites/add-ons' },
   { title: 'Warmy Email Deliverability', path: '/warmy-email-deliverability' },
 ];

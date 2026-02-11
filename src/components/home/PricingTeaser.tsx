@@ -22,7 +22,7 @@ const tiers = [
     period: 'one-time',
     description: 'Get online fast. You own it.',
     features: ['5-page website', 'Mobile responsive', 'SEO-ready', 'Ready in 5 days'],
-    href: '/checkout/launch',
+    href: '/smart-websites/launch',
   },
   {
     name: 'Capture',
@@ -30,7 +30,7 @@ const tiers = [
     period: '/month',
     description: 'Never miss a lead.',
     features: ['Missed call text-back', 'AI chat widget', 'GBP sync', 'Lead management'],
-    href: '/checkout/capture',
+    href: '/smart-websites/capture',
   },
   {
     name: 'Convert',
@@ -38,7 +38,7 @@ const tiers = [
     period: '/month',
     description: 'Turn visitors into customers.',
     features: ['Online booking', 'Review automation', 'CRM pipelines', 'SMS campaigns'],
-    href: '/checkout/convert',
+    href: '/smart-websites/convert',
   },
   {
     name: 'AI Employee',
@@ -46,7 +46,7 @@ const tiers = [
     period: '/month',
     description: 'Voice AI that answers your phone.',
     features: ['24/7 call handling', 'Books appointments', 'Qualifies leads', 'Custom training'],
-    href: '/checkout/after-hours',
+    href: '/let-ai-handle-it/after-hours',
   },
 ];
 

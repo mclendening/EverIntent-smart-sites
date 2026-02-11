@@ -56,7 +56,7 @@ const includedFromBusiness = [
  */
 const faqs = [
   {
-    question: 'What makes Smart Growth worth the extra cost?',
+    question: 'What makes Scale worth the extra cost?',
     answer: 'AI Voice Agent alone replaces a $3k+/month front desk hire. Add unified inbox and advanced automations, and you\'re running a business that scales without hiring.',
   },
   {
@@ -82,7 +82,7 @@ export default function SmartGrowth() {
       <SEO 
         title="Scale: AI-Powered Growth Engine $297/mo"
         description="AI Voice Agent + unified inbox + advanced automations for $297/mo. The website that runs your business. $997 setup, 5-day delivery, quarterly strategy calls."
-        canonical="/smart-websites/smart-growth"
+        canonical="/smart-websites/scale"
       />
 
       {/* Hero Section */}

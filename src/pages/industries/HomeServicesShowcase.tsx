@@ -130,7 +130,7 @@ export default function HomeServicesShowcase() {
         tierSetup="$249"
         faqItems={faqItems}
         ctaText="Get Capture"
-        ctaLink="/checkout/smart-lead"
+        ctaLink="/checkout/capture"
       />
     </>
   );

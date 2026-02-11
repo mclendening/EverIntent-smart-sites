@@ -193,10 +193,10 @@ const aiEmployeeModePaths = [
 
 // Smart Websites tier paths
 const smartWebsitesTierPaths = [
-  '/smart-websites/smart-site',
-  '/smart-websites/smart-lead',
-  '/smart-websites/smart-business',
-  '/smart-websites/smart-growth',
+  '/smart-websites/launch',
+  '/smart-websites/capture',
+  '/smart-websites/convert',
+  '/smart-websites/scale',
   '/smart-websites/add-ons',
 ];
 
@@ -484,11 +484,6 @@ export const routes: RouteRecord[] = [
         path: 'let-ai-handle-it/full-ai-employee',
         Component: FullAIEmployee,
       },
-      // Legacy redirects for old URLs
-      {
-        path: 'let-ai-handle-it/screening',
-        Component: FrontOffice,
-      },
       // Smart Websites hub page
       {
         path: 'smart-websites',
@@ -496,19 +491,19 @@ export const routes: RouteRecord[] = [
       },
       // Smart Websites tier pages
       {
-        path: 'smart-websites/smart-site',
+        path: 'smart-websites/launch',
         Component: SmartSite,
       },
       {
-        path: 'smart-websites/smart-lead',
+        path: 'smart-websites/capture',
         Component: SmartLead,
       },
       {
-        path: 'smart-websites/smart-business',
+        path: 'smart-websites/convert',
         Component: SmartBusiness,
       },
       {
-        path: 'smart-websites/smart-growth',
+        path: 'smart-websites/scale',
         Component: SmartGrowth,
       },
       // Smart Websites Add-Ons hub
