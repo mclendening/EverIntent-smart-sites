@@ -567,7 +567,7 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 | 7.21c | Tokenize `pulse-glow` keyframe in `tailwind.config.ts` | `todo` | 7.21 | Lines 158-159 hardcode `hsl(42 76% 55% / 0.2)` and `0.4` — replace with `var(--gold)` reference (BRD §4.3.8) |
 | 7.21d | Convert typography to CSS variables (`--font-heading`, `--font-body`, `--font-mono`) | `todo` | 7.12 | Currently hardcoded in `index.css:116/120` and `tailwind.config.ts:17-20` (BRD §4.4) |
 | 7.21e | Convert motion transitions to CSS variables (`--transition-smooth`, `--transition-bounce`, `--transition-spring`) | `todo` | 7.11 | Utility classes exist in `index.css:214-216` but not as CSS variables (BRD §4.5) |
-| 7.22 | Refactor `.tsx` components — replace hardcoded colors/transitions | `todo` | 7.21 | `CaseStudyLayout.tsx` `bg-[#0D0D0D]` → `bg-background`; `AIEmployee.tsx` inline SVG gradients → component tokens; `FrontOffice.tsx` green status cards → `--status-success`; `SocialProofBar.tsx` / `Industries.tsx` SVG gradients → component tokens; `TranscriptCard.tsx` `text-green-500` → `--status-success` (BRD §4.3.9) |
+| 7.22 | Refactor `.tsx` components — replace hardcoded colors/transitions | `todo` | 7.21 | `CaseStudyLayout.tsx` `bg-[#0D0D0D]` → `bg-background`; `AIEmployee.tsx` `text-blue-400`/`text-green-400`/`text-purple-400` (howItWorksSteps icons) → semantic icon tokens; `FrontOffice.tsx` `bg-green-500/10`/`text-green-500` (status cards) → `--status-success`; `SocialProofBar.tsx` / `Industries.tsx` SVG gradients → component tokens; `TranscriptCard.tsx` `text-green-500` → `--status-success`; `DashboardPreview.tsx` `text-blue-400`/`text-green-400`/`text-purple-400` + status badges (`bg-green-500/20`, `bg-blue-500/20`, `bg-gray-500/20`) → semantic status tokens; `PortfolioCard.tsx` `bg-orange-500/20 text-orange-400`/`bg-teal-500/20`/`bg-violet-500/20`/`bg-cyan-500/20` (industry badges) → `--industry-{category}` tokens; `IndustryShowcaseTemplate.tsx` `bg-green-500` active dot + browser chrome dots → `--status-active` token; `SmartWebsites.tsx:318` inline `shadow-[0_0_30px_hsl(42_60%_50%/0.15)]` → `shadow-glow` or gold shadow token (BRD §4.3.9) |
 | 7.23 | Migrate demo elements (SMSDemo, etc.) to theme tokens / Style Modules | `todo` | 7.13, 7.22 | iOS-style colors → accent/card/highlight tokens (§17). **Note:** `SMSDemo.tsx`, `RealisticDashboards.tsx` are exempt per BRD §4.6 |
 | 7.24 | Implement user-facing light/dark mode toggle (header + mobile + `<head>` script) | `todo` | 7.7 | FOUC prevention via inline script (§11.3) |
 | 7.25 | Implement ADA accessibility widget (floating panel + pause/hide + icon) | `todo` | 7.7, 7.15 | 6 controls: font size, contrast, motion, dyslexia, underlines, focus (§12.2) |
@@ -606,6 +606,7 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 ---
 
 | 2026-02-11 | **BRD §4 reconciliation**: Added 5 new sub-tasks to Batch 5: 7.21a (`--secondary-accent` definition), 7.21b (`--gold-foreground`), 7.21c (`pulse-glow` keyframe tokenization), 7.21d (typography CSS vars), 7.21e (motion CSS vars). Expanded 7.21 notes with specific file:line references from BRD §4.3.6–4.3.8. Expanded 7.22 notes with per-file fix list from BRD §4.3.9. Clarified 7.23 exemptions per BRD §4.6. | Lovable |
+| 2026-02-11 | **Color token audit #2 (comprehensive)**: Expanded 7.22 notes with 6 newly discovered hardcoded files: `DashboardPreview.tsx` (status badges), `PortfolioCard.tsx` (industry badge colors), `IndustryShowcaseTemplate.tsx` (active dot + chrome), `SmartWebsites.tsx:318` (inline gold shadow), `WarmyEmailDeliverability.tsx` (full page hardcoded — recommend exempt as partner brand), `toast.tsx` (destructive red variants → 7.26). Added `MiniMockup.tsx`, `config/themes.ts` to exemptions. Expanded "Fully Tokenized" list with 12 additional confirmed-clean components. | Lovable |
 
 ---
 
@@ -628,16 +629,21 @@ These tokens are referenced in `tailwind.config.ts` but **never defined** in `in
 
 | Location | Hardcoded Values | Phase 7 Task |
 |----------|-----------------|--------------|
-| `CaseStudyLayout.tsx` | `bg-[#0D0D0D]` (×2 sections) | 7.23 — replace with `bg-background` or new `--case-study-bg` token |
-| `AIEmployee.tsx` | `text-blue-400`, `text-green-400`, `text-purple-400` (how-it-works icons) | 7.23 — replace with semantic icon color tokens |
-| `FrontOffice.tsx` | `bg-green-500/10`, `text-green-500`, `border-green-500/30` (status cards) | 7.23 — replace with `--status-success` semantic token |
-| `SocialProofBar.tsx` | SVG gradient `hsl(210, 100%, 40%)` / `hsl(200, 100%, 50%)` / `hsl(185, 100%, 45%)` | 7.23 — derive from icon-gradient Style Module |
-| `Industries.tsx` | SVG gradient `hsl(210, 100%, 40%)` / `hsl(200, 100%, 50%)` / `hsl(185, 100%, 45%)` | 7.23 — same as SocialProofBar |
-| `index.css` | 4× icon gradients (ocean/royal/sky/electric) with hardcoded HSL | 7.9 — convert to Style Modules |
-| `index.css` | `::selection` color `hsl(240 70% 60% / 0.3)` | 7.23 — replace with `hsl(var(--accent) / 0.3)` |
-| `index.css` | `.glow-text` shadow `hsl(240 70% 60% / 0.5)` | 7.23 — replace with `hsl(var(--accent) / 0.5)` |
-| `tailwind.config.ts` | `pulse-glow` keyframe `hsl(42 76% 55%)` | 7.23 — replace with gold token reference |
-| `TranscriptCard.tsx` | `text-green-500` (checkmark) | 7.23 — replace with `--status-success` token |
+| `CaseStudyLayout.tsx` | `bg-[#0D0D0D]` (×2 sections) | 7.22 — replace with `bg-background` or new `--case-study-bg` token |
+| `AIEmployee.tsx` | `text-blue-400`, `text-green-400`, `text-purple-400` (how-it-works icons) | 7.22 — replace with semantic icon color tokens |
+| `FrontOffice.tsx` | `bg-green-500/10`, `text-green-500`, `border-green-500/30` (status cards) | 7.22 — replace with `--status-success` semantic token |
+| `SocialProofBar.tsx` | SVG gradient `hsl(210, 100%, 40%)` / `hsl(200, 100%, 50%)` / `hsl(185, 100%, 45%)` | 7.22 — derive from icon-gradient Style Module |
+| `Industries.tsx` | SVG gradient `hsl(210, 100%, 40%)` / `hsl(200, 100%, 50%)` / `hsl(185, 100%, 45%)` | 7.22 — same as SocialProofBar |
+| `DashboardPreview.tsx` | `text-blue-400`, `text-green-400`, `text-purple-400` (channel icons); `bg-green-500/20 text-green-400`, `bg-blue-500/20 text-blue-400`, `bg-gray-500/20 text-gray-400` (status badges) | 7.22 — replace with `--status-{type}` semantic tokens |
+| `PortfolioCard.tsx` | `bg-orange-500/20 text-orange-400` (home-services), `bg-teal-500/20 text-teal-400` (healthcare), `bg-violet-500/20 text-violet-400` (professional), `bg-cyan-500/20 text-cyan-400` (automotive) | 7.22 — replace with `--industry-{category}` component tokens |
+| `IndustryShowcaseTemplate.tsx` | `bg-green-500 animate-pulse` (active status dot); `bg-yellow-500/50`, `bg-green-500/50` (browser chrome dots) | 7.22 — active dot → `--status-active`; browser chrome is simulation → exempt candidate |
+| `TranscriptCard.tsx` | `text-green-500` (checkmark) | 7.22 — replace with `--status-success` token |
+| `SmartWebsites.tsx:318` | `shadow-[0_0_30px_hsl(42_60%_50%/0.15)]` (highlighted tier card) | 7.22 — replace with `shadow-glow` or gold shadow token |
+| `index.css` | 4× icon gradients (ocean/royal/sky/electric) with hardcoded HSL | 7.21 — convert to Style Modules |
+| `index.css` | `::selection` color `hsl(240 70% 60% / 0.3)` | 7.21 — replace with `hsl(var(--accent) / 0.3)` |
+| `index.css` | `.glow-text` shadow `hsl(240 70% 60% / 0.5)` | 7.21 — replace with `hsl(var(--accent) / 0.5)` |
+| `tailwind.config.ts` | `pulse-glow` keyframe `hsl(42 76% 55%)` | 7.21c — replace with gold token reference |
+| `WarmyEmailDeliverability.tsx` | `text-red-500`, `bg-red-500/5`, `text-green-500`, `bg-green-500/5`, `text-zinc-*`, `bg-[#0a0a0a]`, `text-white`, `bg-white/10`, etc. — extensive hardcoded colors throughout | 7.22 — full page tokenization OR add to exemptions if treated as Warmy brand simulation |
 
 ### ✅ Intentionally Hardcoded (Exempt from Tokenization)
 
@@ -648,39 +654,69 @@ These simulate third-party UIs and must retain their exact brand colors:
 | `AlexanderTreeMockup.tsx` | Client website simulation (green `#166534` brand) |
 | `ClearviewDentistryAustinMockup.tsx` | Client website simulation (teal `#0D9488` brand) |
 | `DesertCoolAirMockup.tsx` | Client website simulation (HVAC brand colors) |
-| `HonestWrenchAutoMockup.tsx` | Client website simulation (navy `#1E3A5F` brand) |
+| `HonestWrenchAutoMockup.tsx` | Client website simulation (navy `#1E3A5F` brand) — also has browser chrome dots (`bg-red-400`, `bg-yellow-400`, `bg-green-400`) |
 | `RiverstoneInteractiveMockup.tsx` | Client website simulation (plumbing brand colors) |
-| `SMSDemo.tsx` | iOS Messages UI simulation (`#007AFF`, `#1c1c1e`, `#3a3a3c`) |
-| `RealisticDashboards.tsx` | Warmy.io SaaS dashboard simulation |
+| `SMSDemo.tsx` | iOS Messages UI simulation (`#007AFF`, `#1c1c1e`, `#3a3a3c`, `#34C759`) |
+| `RealisticDashboards.tsx` | Warmy.io SaaS dashboard simulation (`bg-[#0a0a0a]`, `bg-[#111111]`, SVG gradient colors) |
+| `MiniMockup.tsx` | Browser chrome traffic lights (`bg-red-500/80`, `bg-yellow-500/80`, `bg-green-500/80`) — universal simulation pattern |
 | `LogoConfigEditor.tsx` | Admin color picker presets (functional, not themed) |
 | `portfolioData.ts` | Client brand color metadata for portfolio cards |
+| `config/themes.ts` | Theme configuration data with hex brand colors — consumed by pipeline, not rendered directly |
 
 ### ✅ Admin Pages (Acceptable — Low Priority)
 
 | Component | Colors | Notes |
 |-----------|--------|-------|
 | `Submissions.tsx` | `bg-green-600`, `text-red-600`, `bg-orange-600`, `text-orange-600` | Status indicators — admin-only, not public-facing |
-| `Themes.tsx` | `bg-green-500/10`, `text-green-500` | Success feedback — admin-only |
+| `Themes.tsx` | `bg-green-500/10`, `text-green-500`, preset hex colors | Success feedback + color picker — admin-only |
 | `ResetPassword.tsx` | `bg-green-500/10`, `text-green-500` | Success state — admin-only |
 
-**Admin pages can be tokenized in Phase 7 Batch 5 (7.23) but are lowest priority since they are not public-facing.**
+**Admin pages can be tokenized in Phase 7 Batch 5 (7.22) but are lowest priority since they are not public-facing.**
+
+### ⚠️ shadcn Components with Hardcoded Colors
+
+| Component | Colors | Notes |
+|-----------|--------|-------|
+| `toast.tsx` | `text-red-300`, `text-red-50`, `ring-red-400`, `ring-red-600` | Destructive variant states — shadcn default pattern. Replace with `--destructive-*` tokens in 7.26 |
 
 ### ✅ Fully Tokenized (No Issues)
 
 | Area | Status |
 |------|--------|
-| `src/components/home/*` | ✅ Clean — all semantic tokens |
+| `src/components/home/*` (HeroSection, HowWeHelpSection, TransformationSection, TestimonialsSection, FinalCTASection) | ✅ Clean — all semantic tokens |
 | `src/components/checkout/*` | ✅ Clean — all semantic tokens |
 | `src/components/layout/*` (Header, Footer, Layout) | ✅ Clean — all semantic tokens |
-| `src/pages/SmartWebsites.tsx` + sub-pages | ✅ Clean |
+| `src/pages/SmartWebsites.tsx` + sub-pages | ✅ Clean (except inline shadow on line 318 — tracked above) |
 | `src/pages/Pricing.tsx` | ✅ Clean |
 | `src/pages/Contact.tsx` | ✅ Clean |
 | `src/pages/About.tsx` | ✅ Clean |
+| `src/pages/Portfolio.tsx` | ✅ Clean |
 | `src/pages/CompareWebsites.tsx` | ✅ Clean |
 | `src/pages/CompareAIEmployee.tsx` | ✅ Clean |
+| `src/pages/ai-employee/AfterHours.tsx` | ✅ Clean |
+| `src/pages/ai-employee/FrontOffice.tsx` | ✅ Clean (except green status cards — tracked above) |
+| `src/pages/ai-employee/FullAIEmployee.tsx` | ✅ Clean |
 | `src/pages/legal/*` | ✅ Clean |
-| `src/components/ui/*` (shadcn) | ✅ Clean — all design system tokens |
+| `src/components/ui/*` (shadcn) | ✅ Clean — except `toast.tsx` destructive (tracked above) |
 | `src/components/CookieConsent.tsx` | ✅ Clean |
 | `src/components/GHLChatWidget.tsx` | ✅ Clean (uses `--ghl-*` tokens) |
 | `src/components/MobileBottomBar.tsx` | ✅ Clean |
 | `src/components/CTAButton.tsx` | ✅ Clean |
+| `src/components/ai-employee/AnimatedFlowDiagram.tsx` | ✅ Clean |
+| `src/components/ai-employee/FeatureGrid.tsx` | ✅ Clean |
+| `src/components/portfolio/PortfolioHero.tsx` | ✅ Clean |
+| `src/components/portfolio/PortfolioGrid.tsx` | ✅ Clean |
+| `src/components/portfolio/PortfolioFilters.tsx` | ✅ Clean |
+| `src/components/portfolio/case-study/CaseStudyLayout.tsx` | ✅ Clean (except `bg-[#0D0D0D]` — tracked above) |
+| `src/components/NavLink.tsx` | ✅ Clean |
+| `src/components/SEO.tsx` | ✅ Clean |
+| `src/components/ScrollToTop.tsx` | ✅ Clean |
+
+### ⚠️ Decision Needed: WarmyEmailDeliverability.tsx
+
+This page is an **affiliate/partner page** for Warmy.io with extensive hardcoded Warmy brand colors (`text-white`, `bg-[#0a0a0a]`, `text-zinc-*`, `text-red-500`, `text-green-500`, etc.). Two options:
+
+1. **Exempt** — treat as partner brand simulation (like portfolio mockups). It's rendering Warmy's brand, not EverIntent's.
+2. **Tokenize** — migrate to design tokens so it respects theme changes. Higher effort, questionable ROI.
+
+**Recommendation:** Add to exemptions list with note: "Warmy.io affiliate page — partner brand fidelity."
