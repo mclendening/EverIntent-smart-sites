@@ -26,7 +26,7 @@ const localBusinessSchema = {
   "url": "https://everintent.com",
   "logo": "https://everintent.com/favicon.svg",
   "description": "AI Employee automation and smart websites for service businesses. AI answers calls 24/7, books appointments, and captures every lead.",
-  "telephone": "+1-555-000-0000",
+  "telephone": "+1-562-685-9500",
   "priceRange": "$249 - $597/mo",
   "areaServed": {
     "@type": "Country",
