@@ -4,12 +4,12 @@
  * 
  * Mobile-first responsive design:
  * - Highest z-index (z-[9999]) on mobile to stay above bottom nav and chat widgets
- * - Configurable desktop placement (bottom-right, bottom-left, top-right, top-left)
+ * - Draggable on desktop with localStorage position persistence
  * - On mobile, always positioned above the MobileBottomBar (bottom-20)
  * - Respects admin config for visibility, device toggles, pause scheduling
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { activeTheme } from '@/config/themes';
 import { Accessibility, Eye, Type, Underline, Focus, ZapOff, X } from 'lucide-react';
 
@@ -27,9 +27,7 @@ interface AdaWidgetConfig {
   iconShape: 'circle' | 'rounded-square' | 'pill';
 }
 
-// Read config from active theme (static, SSG-safe)
 function getAdaConfig(): AdaWidgetConfig {
-  // Use theme config if available, otherwise defaults
   const themeConfig = (activeTheme as any)?.adaWidgetConfig;
   return {
     enabled: themeConfig?.enabled ?? true,
@@ -54,12 +52,66 @@ const a11yControls = [
   { id: 'focusHighlight', label: 'Focus Highlight', icon: Focus, key: 'ada-focus' },
 ];
 
+const POSITION_KEY = 'ada-widget-position';
+
+interface DragPosition {
+  x: number;
+  y: number;
+}
+
+function getSavedPosition(): DragPosition | null {
+  try {
+    const saved = localStorage.getItem(POSITION_KEY);
+    if (saved) return JSON.parse(saved);
+  } catch {}
+  return null;
+}
+
+function savePosition(pos: DragPosition) {
+  try {
+    localStorage.setItem(POSITION_KEY, JSON.stringify(pos));
+  } catch {}
+}
+
+function getDefaultPosition(config: AdaWidgetConfig): DragPosition {
+  const size = config.iconSize;
+  const margin = 24;
+  const w = typeof window !== 'undefined' ? window.innerWidth : 1200;
+  const h = typeof window !== 'undefined' ? window.innerHeight : 800;
+
+  switch (config.position) {
+    case 'bottom-left': return { x: margin, y: h - size - margin };
+    case 'top-right': return { x: w - size - margin, y: 96 };
+    case 'top-left': return { x: margin, y: 96 };
+    default: return { x: w - size - margin, y: h - size - margin };
+  }
+}
+
+function clampPosition(pos: DragPosition, size: number): DragPosition {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  return {
+    x: Math.max(4, Math.min(pos.x, w - size - 4)),
+    y: Math.max(4, Math.min(pos.y, h - size - 4)),
+  };
+}
+
 export function AccessibilityWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [settings, setSettings] = useState<Record<string, boolean>>({});
   const config = getAdaConfig();
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
-  // Load saved settings
+  // Desktop drag state
+  const [pos, setPos] = useState<DragPosition>(() => {
+    if (isMobile) return { x: 0, y: 0 };
+    return getSavedPosition() ?? getDefaultPosition(config);
+  });
+  const dragging = useRef(false);
+  const dragStart = useRef<{ mx: number; my: number; px: number; py: number }>({ mx: 0, my: 0, px: 0, py: 0 });
+  const hasMoved = useRef(false);
+
+  // Load saved a11y settings
   useEffect(() => {
     const saved: Record<string, boolean> = {};
     a11yControls.forEach(c => {
@@ -69,9 +121,45 @@ export function AccessibilityWidget() {
     applySettings(saved);
   }, []);
 
-  // Check if widget should be visible
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  
+  // Drag handlers (desktop only)
+  const onPointerDown = useCallback((e: React.PointerEvent) => {
+    if (isMobile) return;
+    dragging.current = true;
+    hasMoved.current = false;
+    dragStart.current = { mx: e.clientX, my: e.clientY, px: pos.x, py: pos.y };
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    e.preventDefault();
+  }, [isMobile, pos]);
+
+  const onPointerMove = useCallback((e: React.PointerEvent) => {
+    if (!dragging.current) return;
+    const dx = e.clientX - dragStart.current.mx;
+    const dy = e.clientY - dragStart.current.my;
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasMoved.current = true;
+    const newPos = clampPosition(
+      { x: dragStart.current.px + dx, y: dragStart.current.py + dy },
+      config.iconSize
+    );
+    setPos(newPos);
+  }, [config.iconSize]);
+
+  const onPointerUp = useCallback(() => {
+    if (!dragging.current) return;
+    dragging.current = false;
+    if (hasMoved.current) {
+      savePosition(pos);
+    }
+  }, [pos]);
+
+  const handleClick = useCallback(() => {
+    // Only toggle if user didn't drag
+    if (!hasMoved.current) {
+      setIsOpen(prev => !prev);
+    }
+    hasMoved.current = false;
+  }, []);
+
+  // Visibility checks
   if (!config.enabled || config.hiddenIndefinitely) return null;
   if (config.hideOnMobile && isMobile) return null;
   if (config.hideOnDesktop && !isMobile) return null;
@@ -104,38 +192,59 @@ export function AccessibilityWidget() {
     applySettings(cleared);
   }
 
-  // Position classes - mobile always bottom, above nav bar
-  const positionClasses = isMobile
-    ? 'bottom-20 right-4'
-    : config.position === 'bottom-right' ? 'bottom-6 right-6'
-    : config.position === 'bottom-left' ? 'bottom-6 left-6'
-    : config.position === 'top-right' ? 'top-24 right-6'
-    : 'top-24 left-6';
-
   const shapeClass = config.iconShape === 'circle' ? 'rounded-full'
     : config.iconShape === 'pill' ? 'rounded-full px-4'
     : 'rounded-xl';
 
   const activeCount = Object.values(settings).filter(Boolean).length;
 
+  // Panel position (relative to trigger)
+  const panelStyle: React.CSSProperties = isMobile
+    ? {}
+    : {
+        position: 'fixed' as const,
+        left: pos.x < window.innerWidth / 2 ? pos.x : undefined,
+        right: pos.x >= window.innerWidth / 2 ? window.innerWidth - pos.x - config.iconSize : undefined,
+        ...(pos.y < window.innerHeight / 2
+          ? { top: pos.y + config.iconSize + 8 }
+          : { bottom: window.innerHeight - pos.y + 8 }),
+      };
+
   return (
     <>
-      {/* Trigger Button - z-[9999] to be above EVERYTHING on mobile */}
+      {/* Trigger Button */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`fixed z-[9999] ${positionClasses} ${shapeClass} shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent flex items-center justify-center`}
-        style={{
-          width: config.iconSize,
-          height: config.iconSize,
-          backgroundColor: `hsl(${config.iconBgColor})`,
-          color: `hsl(${config.iconColor})`,
-        }}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onClick={handleClick}
+        className={`fixed z-[9999] ${shapeClass} shadow-lg hover:shadow-xl transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent flex items-center justify-center touch-none select-none`}
+        style={
+          isMobile
+            ? {
+                bottom: '5rem',
+                right: '1rem',
+                width: config.iconSize,
+                height: config.iconSize,
+                backgroundColor: `hsl(${config.iconBgColor})`,
+                color: `hsl(${config.iconColor})`,
+              }
+            : {
+                left: pos.x,
+                top: pos.y,
+                width: config.iconSize,
+                height: config.iconSize,
+                backgroundColor: `hsl(${config.iconBgColor})`,
+                color: `hsl(${config.iconColor})`,
+                cursor: dragging.current ? 'grabbing' : 'grab',
+              }
+        }
         aria-label={`Accessibility options${activeCount > 0 ? ` (${activeCount} active)` : ''}`}
         aria-expanded={isOpen}
       >
-        <Accessibility className="w-1/2 h-1/2" />
+        <Accessibility className="w-1/2 h-1/2 pointer-events-none" />
         {activeCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center pointer-events-none">
             {activeCount}
           </span>
         )}
@@ -144,33 +253,27 @@ export function AccessibilityWidget() {
       {/* Panel */}
       {isOpen && (
         <>
-          {/* Backdrop */}
-          <div 
+          <div
             className="fixed inset-0 z-[9998] bg-background/40 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none"
             onClick={() => setIsOpen(false)}
           />
-          
-          {/* Panel - positioned relative to trigger */}
+
           <div
             className={`fixed z-[9999] ${
-              isMobile 
-                ? 'bottom-0 left-0 right-0 rounded-t-2xl' 
-                : config.position.includes('right') ? 'right-6' : 'left-6'
-            } ${
-              !isMobile && config.position.includes('bottom') ? 'bottom-20' : ''
-            } ${
-              !isMobile && config.position.includes('top') ? 'top-24' : ''
-            } bg-card border border-border shadow-xl ${!isMobile ? 'rounded-xl w-72' : ''}`}
+              isMobile
+                ? 'bottom-0 left-0 right-0 rounded-t-2xl'
+                : 'rounded-xl w-72'
+            } bg-card border border-border shadow-xl`}
+            style={panelStyle}
             role="dialog"
             aria-label="Accessibility Settings"
           >
-            {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-border">
               <div className="flex items-center gap-2">
                 <Accessibility className="h-5 w-5 text-accent" />
                 <h2 className="text-sm font-semibold text-foreground">Accessibility</h2>
               </div>
-              <button 
+              <button
                 onClick={() => setIsOpen(false)}
                 className="p-1 rounded-md hover:bg-muted transition-colors"
                 aria-label="Close accessibility panel"
@@ -179,7 +282,6 @@ export function AccessibilityWidget() {
               </button>
             </div>
 
-            {/* Controls */}
             <div className="p-3 space-y-1">
               {a11yControls.map(control => (
                 <button
@@ -201,7 +303,6 @@ export function AccessibilityWidget() {
               ))}
             </div>
 
-            {/* Footer */}
             {activeCount > 0 && (
               <div className="p-3 pt-0">
                 <button
