@@ -2213,7 +2213,7 @@ ${styleModulesCss}  }
                         {/* Color Controls */}
                         <div className="space-y-2">
                           <Label className="text-base font-semibold">Color Controls</Label>
-                          <ScrollArea className="h-[400px] pr-4">
+                          <ScrollArea className="h-[calc(100vh-20rem)] pr-4">
                           <Accordion type="multiple" defaultValue={['accent-color']} className="w-full">
                             {/* Accent Color - Main CTA color */}
                             <ColorSliderControls
@@ -2659,6 +2659,77 @@ ${styleModulesCss}  }
                           <Label className="text-muted-foreground text-xs">Changelog Notes</Label>
                           <p className="text-sm mt-1">{selectedTheme.changelog_notes || 'No notes'}</p>
                         </div>
+
+                        {/* Color Palette Summary */}
+                        <div>
+                          <Label className="text-muted-foreground text-xs">Color Palette</Label>
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            {Object.entries(staticColors).slice(0, 8).map(([key, val]) => (
+                              <div key={key} className="text-center">
+                                <div 
+                                  className="h-6 w-6 rounded border"
+                                  style={{ backgroundColor: `hsl(${val})` }}
+                                  title={`${key}: ${val}`}
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* E-Commerce Colors */}
+                        <div>
+                          <Label className="text-muted-foreground text-xs">E-Commerce / Gold</Label>
+                          <div className="flex gap-1 mt-1">
+                            {Object.entries(ecommerceColors).map(([key, val]) => (
+                              <div key={key} title={`${key}: ${val}`}>
+                                <div className="h-6 w-6 rounded border" style={{ backgroundColor: `hsl(${val})` }} />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* CTA Variants */}
+                        <div>
+                          <Label className="text-muted-foreground text-xs">CTA Variants</Label>
+                          <div className="flex gap-1 mt-1">
+                            {Object.entries(ctaVariants).map(([key, val]) => (
+                              <div key={key} title={`${key}: ${val}`}>
+                                <div className="h-6 w-6 rounded border" style={{ backgroundColor: `hsl(${val})` }} />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Typography */}
+                        <div>
+                          <Label className="text-muted-foreground text-xs">Typography</Label>
+                          <div className="space-y-1 mt-1">
+                            <p className="text-xs font-mono truncate" title={typographyConfig.fontHeading}>
+                              <span className="text-muted-foreground">Heading:</span> {typographyConfig.fontHeading.split(',')[0]}
+                            </p>
+                            <p className="text-xs font-mono truncate" title={typographyConfig.fontBody}>
+                              <span className="text-muted-foreground">Body:</span> {typographyConfig.fontBody.split(',')[0]}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Default Mode */}
+                        <div>
+                          <Label className="text-muted-foreground text-xs">Default Mode</Label>
+                          <Badge variant="outline" className="mt-1 capitalize">{defaultMode}</Badge>
+                        </div>
+
+                        {/* Style Modules */}
+                        {styleModules.length > 0 && (
+                          <div>
+                            <Label className="text-muted-foreground text-xs">Style Modules ({styleModules.length})</Label>
+                            <div className="flex flex-wrap gap-1 mt-1">
+                              {styleModules.map(m => (
+                                <Badge key={m.name} variant="secondary" className="text-xs">{m.name}</Badge>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
 
                       <div className="space-y-2">
@@ -2672,6 +2743,29 @@ ${styleModulesCss}  }
                               config={getLogoForTheme(selectedTheme)!}
                               accentHsl={`${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`}
                             />
+                          )}
+                        </div>
+
+                        {/* Gradient Previews */}
+                        <div className="space-y-2 mt-4">
+                          <Label className="text-muted-foreground text-xs">Gradients</Label>
+                          {gradientConfigs.hero && (
+                            <div className="space-y-1">
+                              <span className="text-xs text-muted-foreground">Hero</span>
+                              <div className="h-6 rounded border" style={{ background: gradientConfigs.hero }} />
+                            </div>
+                          )}
+                          {gradientConfigs.cta && (
+                            <div className="space-y-1">
+                              <span className="text-xs text-muted-foreground">CTA</span>
+                              <div className="h-6 rounded border" style={{ background: gradientConfigs.cta }} />
+                            </div>
+                          )}
+                          {gradientConfigs.text && (
+                            <div className="space-y-1">
+                              <span className="text-xs text-muted-foreground">Text</span>
+                              <div className="h-6 rounded border" style={{ background: gradientConfigs.text }} />
+                            </div>
                           )}
                         </div>
                       </div>
