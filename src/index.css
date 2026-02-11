@@ -3,8 +3,6 @@
 @tailwind utilities;
 
 /* SmartSites Design System v2.0
-   Award-Winning Agency Aesthetic
-   Inspired by SPINX, Shape, VRRB - proven converters
    All colors MUST be HSL.
    
    AUTO-GENERATED from theme: Indigo Night
@@ -87,16 +85,16 @@
     --sidebar-border: 240 20% 88%;
     --sidebar-ring: 240 70% 50%;
 
-    /* GHL Chat Widget Theming */
+    /* GHL Chat Widget */
     --ghl-textarea-bg: 235 53% 86%;
     --ghl-textarea-text: 0 0% 4%;
-    --ghl-textarea-border: 240 20% 88%;
-    --ghl-textarea-focus-border: 240 70% 50%;
-    --ghl-textarea-focus-glow: 240 70% 50%;
-    --ghl-send-button-bg: 240 70% 50%;
+    --ghl-textarea-border: 215 25% 20%;
+    --ghl-textarea-focus-border: 240 70% 60%;
+    --ghl-textarea-focus-glow: 240 70% 60%;
+    --ghl-send-button-bg: 240 70% 60%;
     --ghl-send-button-border: 0 0% 100%;
     --ghl-send-button-icon: 0 0% 100%;
-    --ghl-selection-bg: 240 70% 50%;
+    --ghl-selection-bg: 240 70% 60%;
 
     /* E-Commerce / Gold Tokens */
     --gold: 39 95% 50%;
@@ -106,17 +104,17 @@
     --pricing-highlight: 39 95% 50%;
 
     /* CTA Variants */
-    --cta-primary: 240 70% 50%;
-    --cta-primary-hover: 240 70% 42%;
+    --cta-primary: 240 70% 60%;
+    --cta-primary-hover: 240 70% 50%;
     --cta-secondary: 39 95% 50%;
     --cta-secondary-hover: 35 95% 44%;
 
     /* ========== SHARED TOKENS (mode-independent) ========== */
 
     /* Typography */
-    --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-heading: Space Grotesk, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
 
     /* Motion */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
