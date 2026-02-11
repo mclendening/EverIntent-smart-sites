@@ -315,7 +315,7 @@ const SmartWebsites = () => {
             {tiers.map((tier, index) => {
               const tierId = tier.name.toLowerCase().replace(' ', '-');
               return (
-              <Card key={index} id={tierId} className={`border ${tier.highlight ? 'border-accent/60 shadow-[0_0_30px_hsl(42_60%_50%/0.15)]' : 'border-border/50 hover:border-accent/30'} transition-all duration-300`}>
+              <Card key={index} id={tierId} className={`border ${tier.highlight ? 'border-accent/60 shadow-gold-glow' : 'border-border/50 hover:border-accent/30'} transition-all duration-300`}>
                 <CardHeader className="text-center pb-4">
                   {tier.highlight && (
                     <Badge className="mb-2 mx-auto bg-accent text-accent-foreground">Most Popular</Badge>

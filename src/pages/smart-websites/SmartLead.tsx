@@ -162,7 +162,7 @@ export default function SmartLead() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {features.map((feature, index) => (
-              <Card key={index} className="border-accent/20 bg-card/50 shadow-[0_0_20px_hsl(42_60%_50%/0.1)]">
+              <Card key={index} className="border-accent/20 bg-card/50 shadow-gold-glow">
                 <CardContent className="p-6">
                   <feature.icon className="h-8 w-8 text-accent mb-4" />
                   <h3 className="text-lg font-semibold text-foreground mb-2">{feature.title}</h3>
