@@ -85,6 +85,28 @@
     --sidebar-border: 215 25% 20%;
     --sidebar-ring: 240 70% 60%;
 
+    /* Gold / E-commerce tokens */
+    --gold: 39 95% 50%;
+    --gold-hover: 35 95% 44%;
+    --gold-glow: 39 95% 60%;
+    --gold-foreground: 0 0% 100%;
+
+    /* Secondary accent */
+    --secondary-accent: 200 100% 50%;
+
+    /* Shadow glow (gold variant for pricing/CTA elements) */
+    --shadow-gold-glow: 0 0 40px hsl(39 95% 50% / 0.25);
+
+    /* Typography tokens */
+    --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    /* Motion tokens */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-spring: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
     /* GHL Chat Widget Theming (injected into shadow DOM) */
     --ghl-textarea-bg: 235 53% 86%;
     --ghl-textarea-text: 0 0% 4%;
