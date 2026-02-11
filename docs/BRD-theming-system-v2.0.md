@@ -719,6 +719,21 @@ A floating accessibility button opens a panel with:
 | **Link Underlines** | Forces underlines on all links | `localStorage` |
 | **Focus Indicators** | Enhances focus ring visibility (3px solid, high contrast) | `localStorage` |
 
+#### 12.2.1 Draggable Positioning (Desktop & Mobile)
+
+The widget trigger button is **draggable on all viewports** (desktop and mobile) using pointer events. Users can reposition the button anywhere on screen, and the custom position is persisted in `localStorage` (`ada-widget-position` key) so it survives page reloads and session changes.
+
+| Behavior | Detail |
+|----------|--------|
+| **Drag mechanism** | Pointer events (`onPointerDown`, `onPointerMove`, `onPointerUp`) with `setPointerCapture` for reliable tracking |
+| **Touch suppression** | `preventDefault()` + `stopPropagation()` on pointer events to prevent browser ghost images and scroll interference on mobile |
+| **Boundary clamping** | Position is clamped to viewport bounds (accounting for icon size) so the button never goes off-screen |
+| **Click vs. drag** | A 3px movement threshold distinguishes intentional drags from taps/clicks — only drags update position, clicks toggle the panel |
+| **Default position (desktop)** | Derived from admin `position` config (bottom-right, bottom-left, top-right, top-left) |
+| **Default position (mobile)** | Bottom-right, above the mobile navigation bar (`bottom-20`) |
+| **z-index** | `9999` — highest on the page, above all other floating elements including the mobile nav bar |
+| **Panel attachment** | Panel opens relative to the trigger's current dragged position on desktop; bottom-sheet on mobile |
+
 ### 12.3 Widget Visibility & Scheduling (Admin-Controlled)
 
 Inspired by Elementor Ally's device-specific visibility and the common WordPress "pause/hide widget" pattern:
@@ -1640,17 +1655,17 @@ CSS properties in `index.css` that currently use hardcoded HSL values and must b
 | 7.12 | Admin: Typography config editor | 7.1 |
 | 7.13 | Admin: Style Modules CRUD (create/edit/delete modules + tokens) | 7.1 |
 | 7.14 | Admin: Default light/dark mode selector per theme | 7.1 |
-| 7.15 | Admin: ADA widget config (visibility, pause/hide scheduling, device toggle) | 7.6 |
-| 7.16 | Admin: ADA icon customizer per theme (icon type, color, size, shape) | 7.15 |
+| 7.15 | Admin: ADA widget config (visibility, pause/hide scheduling, device toggle) | 7.6 | ✅ Done |
+| 7.16 | Admin: ADA icon customizer per theme (icon type, color, size, shape) | 7.15 | ✅ Done |
 | 7.17 | Admin: Theme revert to original (2-layer warning + export escape hatch) | 7.2, 7.19 |
 | 7.18 | Admin: Real-time contrast checker for fg/bg token pairs | 7.10 |
-| 7.19 | Build theme export (JSON download — includes Style Modules) | 7.1 |
+| 7.19 | Build theme export (JSON download — includes Style Modules) | 7.1 | ✅ Done |
 | 7.20 | Build theme import (file upload + validation + create/update) | 7.19 |
 | 7.21 | Refactor `index.css` — replace all hardcoded HSL with tokens | 7.7 |
 | 7.22 | Refactor `.tsx` components — replace hardcoded colors/transitions | 7.21 |
 | 7.23 | Migrate demo elements (SMSDemo, etc.) to theme tokens / Style Modules | 7.13, 7.22 |
 | 7.24 | Implement user-facing light/dark mode toggle (header + mobile + `<head>` script) | 7.7 |
-| 7.25 | Implement ADA accessibility widget (floating panel + pause/hide + icon) | 7.7, 7.15 |
+| 7.25 | Implement ADA accessibility widget (floating panel + pause/hide + icon + draggable positioning) | 7.7, 7.15 | ✅ Done |
 | 7.26 | Wire alert/toast/modal variants to effects tokens | 7.6, 7.22 |
 | 7.27 | Seed initial Style Modules (checkout-progress, comparison-grid, sms-demo) | 7.5, 7.13 |
 | 7.28 | Full QA: all 10 themes × both modes × ADA states × Style Modules | 7.24, 7.25, 7.27 |
