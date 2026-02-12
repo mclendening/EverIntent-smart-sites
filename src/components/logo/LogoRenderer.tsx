@@ -235,8 +235,12 @@ export const LogoRenderer: React.FC<LogoRendererProps> = ({
     <div className={`text-left ${className}`}>
       {/* Main Logo Text */}
       <div className="leading-none whitespace-nowrap">
-        <span style={getTextStyle(everConfig, false)}>Ever</span>
-        <span style={getTextStyle(intentConfig, true)}>Intent</span>
+        {everConfig.enabled !== false && (
+          <span style={getTextStyle(everConfig, false)}>{everConfig.text || 'Ever'}</span>
+        )}
+        {intentConfig.enabled !== false && (
+          <span style={getTextStyle(intentConfig, true)}>{intentConfig.text || 'Intent'}</span>
+        )}
       </div>
 
       {/* Streak */}

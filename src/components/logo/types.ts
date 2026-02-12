@@ -1,6 +1,8 @@
 // Logo element configuration types matching database schema
 
 export interface TextElementConfig {
+  text: string;
+  enabled: boolean;
   size: number;
   weight: number;
   solidColor: string;
@@ -51,6 +53,8 @@ export interface LogoVersionConfig {
 
 // Default configurations matching current brand
 export const defaultEverConfig: TextElementConfig = {
+  text: 'Ever',
+  enabled: true,
   size: 72,
   weight: 700,
   solidColor: '#FFFFFF',
@@ -64,6 +68,8 @@ export const defaultEverConfig: TextElementConfig = {
 };
 
 export const defaultIntentConfig: TextElementConfig = {
+  text: 'Intent',
+  enabled: true,
   size: 72,
   weight: 700,
   solidColor: '#A855F7',
