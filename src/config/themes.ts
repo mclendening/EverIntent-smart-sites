@@ -13,6 +13,8 @@
 
 // Logo element types for embedded config
 export interface LogoElementConfig {
+  text?: string;
+  enabled?: boolean;
   size: number;
   weight: number;
   solidColor: string;
