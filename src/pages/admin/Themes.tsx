@@ -29,6 +29,8 @@ import { AdaWidgetConfigEditor, type AdaWidgetConfig } from '@/components/admin/
 import { ContrastChecker } from '@/components/admin/ContrastChecker';
 import { ThemeImporter } from '@/components/admin/ThemeImporter';
 import { DarkModeOverridesEditor, type DarkModeOverrides, DARK_MODE_DEFAULTS } from '@/components/admin/DarkModeOverridesEditor';
+import { ThemeEditorNav, type EditorSection } from '@/components/admin/ThemeEditorNav';
+import { ThemeEditorPanels } from '@/components/admin/ThemeEditorPanels';
 
 type Theme = Tables<'site_themes'>;
 type LogoVersion = Tables<'logo_versions'>;
@@ -206,6 +208,7 @@ export default function AdminThemes() {
   const [styleModules, setStyleModules] = useState<StyleModule[]>([]);
   const [defaultMode, setDefaultMode] = useState<string>('dark');
   const [darkModeOverrides, setDarkModeOverrides] = useState<DarkModeOverrides>({ ...DARK_MODE_DEFAULTS });
+  const [editorSection, setEditorSection] = useState<EditorSection>('accent');
   const [adaWidgetConfig, setAdaWidgetConfig] = useState<AdaWidgetConfig>({
     enabled: true,
     position: 'bottom-right',
@@ -2459,593 +2462,81 @@ ${styleModulesCss}  }
                 </CardHeader>
                 <CardContent>
                   {isEditing ? (
-                    <div className="grid gap-4 lg:gap-6 grid-cols-1 lg:grid-cols-2">
-                      {/* Left Column - Basic Settings */}
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <Label>Theme Name</Label>
+                    <div className="space-y-4">
+                      {/* Basic Settings Row */}
+                      <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
+                        <div className="space-y-1">
+                          <Label className="text-xs">Theme Name</Label>
                           <Input
                             value={selectedTheme.name}
                             onChange={(e) => setSelectedTheme({ ...selectedTheme, name: e.target.value })}
+                            className="h-8 text-sm"
                           />
                         </div>
-
-                        <div className="space-y-2">
-                          <div className="flex justify-between items-center">
-                            <Label>Base Hue</Label>
-                            <div className="flex items-center gap-1">
-                              <Input
-                                type="text"
-                                value={selectedTheme.base_hue}
-                                onChange={(e) => {
-                                  const val = parseInt(e.target.value) || 0;
-                                  setSelectedTheme({ 
-                                    ...selectedTheme, 
-                                    base_hue: Math.min(360, Math.max(0, val))
-                                  });
-                                }}
-                                className="w-14 h-8 text-center text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                              />
-                              <div className="flex flex-col">
-                                <Button
-                                  variant="outline"
-                                  size="icon"
-                                  className="h-4 w-6 rounded-b-none border-b-0"
-                                  onClick={() => setSelectedTheme({ 
-                                    ...selectedTheme, 
-                                    base_hue: Math.min(360, selectedTheme.base_hue + 1) 
-                                  })}
-                                >
-                                  <ChevronUp className="h-3 w-3" />
-                                </Button>
-                                <Button
-                                  variant="outline"
-                                  size="icon"
-                                  className="h-4 w-6 rounded-t-none"
-                                  onClick={() => setSelectedTheme({ 
-                                    ...selectedTheme, 
-                                    base_hue: Math.max(0, selectedTheme.base_hue - 1) 
-                                  })}
-                                >
-                                  <ChevronDown className="h-3 w-3" />
-                                </Button>
-                              </div>
-                            </div>
+                        <div className="space-y-1">
+                          <Label className="text-xs">Base Hue</Label>
+                          <div className="flex items-center gap-2">
+                            <Slider
+                              value={[selectedTheme.base_hue]}
+                              max={360}
+                              onValueChange={(v) => setSelectedTheme({ ...selectedTheme, base_hue: v[0] })}
+                              className="flex-1"
+                            />
+                            <Input
+                              type="number" min={0} max={360}
+                              value={selectedTheme.base_hue}
+                              onChange={(e) => setSelectedTheme({ ...selectedTheme, base_hue: Math.min(360, Math.max(0, parseInt(e.target.value) || 0)) })}
+                              className="w-14 h-8 text-xs text-center"
+                            />
                           </div>
-                          <Slider
-                            value={[selectedTheme.base_hue]}
-                            max={360}
-                            onValueChange={(v) => setSelectedTheme({ 
-                              ...selectedTheme, 
-                              base_hue: v[0]
-                            })}
-                          />
-                          <div 
-                            className="h-6 rounded-lg border"
-                            style={{ 
-                              background: `linear-gradient(90deg, 
-                                hsl(0, 70%, 50%), 
-                                hsl(60, 70%, 50%), 
-                                hsl(120, 70%, 50%), 
-                                hsl(180, 70%, 50%), 
-                                hsl(240, 70%, 50%), 
-                                hsl(300, 70%, 50%), 
-                                hsl(360, 70%, 50%)
-                              )`
-                            }}
-                          />
                         </div>
-
-                        <div className="space-y-2">
-                          <Label>Changelog Notes</Label>
-                          <Textarea
+                        <div className="space-y-1">
+                          <Label className="text-xs">Changelog</Label>
+                          <Input
                             value={selectedTheme.changelog_notes || ''}
-                            onChange={(e) => setSelectedTheme({ 
-                              ...selectedTheme, 
-                              changelog_notes: e.target.value 
-                            })}
-                            placeholder="Describe changes made..."
-                            rows={3}
+                            onChange={(e) => setSelectedTheme({ ...selectedTheme, changelog_notes: e.target.value })}
+                            placeholder="Describe changes..."
+                            className="h-8 text-xs"
                           />
-                        </div>
-
-                        {/* Live Preview */}
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <Label>Live Preview</Label>
-                            <div className="flex items-center gap-2">
-                              <span className="text-xs text-muted-foreground">{exportScale}x</span>
-                              <Slider 
-                                value={[exportScale]} 
-                                min={1} 
-                                max={8} 
-                                step={1}
-                                onValueChange={(v) => setExportScale(v[0])}
-                                className="w-20"
-                              />
-                            </div>
-                          </div>
-                          <div 
-                            className="rounded-lg p-6 flex items-center justify-center border"
-                            style={{ backgroundColor: `hsl(${staticColors.primary})` }}
-                          >
-                            {getLogoForTheme(selectedTheme) && (
-                              <div ref={logoPreviewRef}>
-                                <LogoRenderer 
-                                  config={getLogoForTheme(selectedTheme)!}
-                                  accentHsl={`${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`}
-                                />
-                              </div>
-                            )}
-                          </div>
-                          {/* Export Buttons */}
-                          <div className="flex gap-2">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="flex-1"
-                              onClick={() => exportAsSvg('everintent-logo.svg')}
-                            >
-                              <FileCode className="h-3 w-3 mr-1" />
-                              SVG
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="flex-1"
-                              onClick={() => exportAsPngNative(`everintent-logo@${exportScale}x.png`, { scale: exportScale })}
-                            >
-                              <Download className="h-3 w-3 mr-1" />
-                              PNG {exportScale}x
-                            </Button>
-                          </div>
                         </div>
                       </div>
 
-                      {/* Right Column - Color Controls */}
-                      <div className="space-y-4">
-                        {/* Color Controls */}
-                        <div className="space-y-2">
-                          <Label className="text-base font-semibold">Color Controls</Label>
-                          <ScrollArea className="h-[60vh] lg:h-[calc(100vh-20rem)] pr-2 lg:pr-4">
-                          <Accordion type="multiple" defaultValue={['accent-color']} className="w-full">
-                            {/* Accent Color - Main CTA color */}
-                            <ColorSliderControls
-                              label="Accent Color"
-                              hsl={{ h: accentConfig.h, s: accentConfig.s, l: accentConfig.l }}
-                              onHslChange={(hsl) => setAccentConfig({ ...accentConfig, ...hsl })}
-                              showGradient
-                              gradient={accentConfig}
-                              onGradientChange={(g) => setAccentConfig({ ...accentConfig, ...g })}
-                            />
-
-                            {/* Hover Effects Section */}
-                            <AccordionItem value="hover-effects">
-                              <AccordionTrigger className="text-sm font-medium">
-                                Hover Effects
-                              </AccordionTrigger>
-                              <AccordionContent className="space-y-4 pt-2">
-                                <div className="space-y-2">
-                                  <div className="flex items-center justify-between">
-                                    <Label className="text-sm">Hover Brightness</Label>
-                                    <span className="text-xs text-muted-foreground">
-                                      {((accentConfig.hoverBrightness ?? 1.1) * 100).toFixed(0)}%
-                                    </span>
-                                  </div>
-                                  <Slider
-                                    value={[(accentConfig.hoverBrightness ?? 1.1) * 100]}
-                                    onValueChange={([v]) => setAccentConfig({ ...accentConfig, hoverBrightness: v / 100 })}
-                                    min={100}
-                                    max={150}
-                                    step={5}
-                                    className="w-full"
-                                  />
-                                  <p className="text-xs text-muted-foreground">
-                                    How much buttons brighten on hover (100% = no change)
-                                  </p>
-                                </div>
-
-                                <div className="space-y-2">
-                                  <div className="flex items-center justify-between">
-                                    <Label className="text-sm">Icon Glow Opacity</Label>
-                                    <span className="text-xs text-muted-foreground">
-                                      {((accentConfig.iconGlowOpacity ?? 0.3) * 100).toFixed(0)}%
-                                    </span>
-                                  </div>
-                                  <Slider
-                                    value={[(accentConfig.iconGlowOpacity ?? 0.3) * 100]}
-                                    onValueChange={([v]) => setAccentConfig({ ...accentConfig, iconGlowOpacity: v / 100 })}
-                                    min={0}
-                                    max={100}
-                                    step={5}
-                                    className="w-full"
-                                  />
-                                  <p className="text-xs text-muted-foreground">
-                                    Opacity of icon glow effect on hover (0% = none)
-                                  </p>
-                                </div>
-                              </AccordionContent>
-                            </AccordionItem>
-
-
-                            <HslEditor
-                              label="Primary"
-                              value={staticColors.primary}
-                              onChange={(v) => setStaticColors({ ...staticColors, primary: v })}
-                              description="Main dark color for headers, nav backgrounds"
-                            />
-                            <HslEditor
-                              label="Primary Light"
-                              value={staticColors.primaryLight}
-                              onChange={(v) => setStaticColors({ ...staticColors, primaryLight: v })}
-                              description="Lighter variant of primary"
-                            />
-                            <HslEditor
-                              label="Primary Foreground"
-                              value={staticColors.primaryForeground}
-                              onChange={(v) => setStaticColors({ ...staticColors, primaryForeground: v })}
-                              description="Text color on primary backgrounds"
-                            />
-
-                            {/* Background & Foreground */}
-                            <HslEditor
-                              label="Background"
-                              value={staticColors.background}
-                              onChange={(v) => setStaticColors({ ...staticColors, background: v })}
-                              description="Main page background"
-                            />
-                            <HslEditor
-                              label="Foreground"
-                              value={staticColors.foreground}
-                              onChange={(v) => setStaticColors({ ...staticColors, foreground: v })}
-                              description="Main text color"
-                            />
-
-                            {/* Secondary */}
-                            <HslEditor
-                              label="Secondary"
-                              value={staticColors.secondary}
-                              onChange={(v) => setStaticColors({ ...staticColors, secondary: v })}
-                              description="Secondary surface color"
-                            />
-                            <HslEditor
-                              label="Secondary Foreground"
-                              value={staticColors.secondaryForeground}
-                              onChange={(v) => setStaticColors({ ...staticColors, secondaryForeground: v })}
-                              description="Text on secondary surfaces"
-                            />
-
-                            {/* Card */}
-                            <HslEditor
-                              label="Card"
-                              value={staticColors.card}
-                              onChange={(v) => setStaticColors({ ...staticColors, card: v })}
-                              description="Card background color"
-                            />
-                            <HslEditor
-                              label="Card Foreground"
-                              value={staticColors.cardForeground}
-                              onChange={(v) => setStaticColors({ ...staticColors, cardForeground: v })}
-                              description="Text on cards"
-                            />
-
-                            {/* Muted */}
-                            <HslEditor
-                              label="Muted"
-                              value={staticColors.muted}
-                              onChange={(v) => setStaticColors({ ...staticColors, muted: v })}
-                              description="Muted background areas"
-                            />
-                            <HslEditor
-                              label="Muted Foreground"
-                              value={staticColors.mutedForeground}
-                              onChange={(v) => setStaticColors({ ...staticColors, mutedForeground: v })}
-                              description="Subdued text color"
-                            />
-
-                            {/* Border & Input */}
-                            <HslEditor
-                              label="Border"
-                              value={staticColors.border}
-                              onChange={(v) => setStaticColors({ ...staticColors, border: v })}
-                              description="Border color for elements"
-                            />
-                            <HslEditor
-                              label="Input"
-                              value={staticColors.input}
-                              onChange={(v) => setStaticColors({ ...staticColors, input: v })}
-                              description="Input field border color"
-                            />
-                            <HslEditor
-                              label="Ring"
-                              value={staticColors.ring}
-                              onChange={(v) => setStaticColors({ ...staticColors, ring: v })}
-                              description="Focus ring color"
-                            />
-
-                            {/* Popover */}
-                            <HslEditor
-                              label="Popover"
-                              value={staticColors.popover}
-                              onChange={(v) => setStaticColors({ ...staticColors, popover: v })}
-                              description="Popover/dropdown background"
-                            />
-                            <HslEditor
-                              label="Popover Foreground"
-                              value={staticColors.popoverForeground}
-                              onChange={(v) => setStaticColors({ ...staticColors, popoverForeground: v })}
-                              description="Popover text color"
-                            />
-
-                            {/* Gradients Section */}
-                            <AccordionItem value="gradients">
-                              <AccordionTrigger className="text-sm py-2">
-                                <div className="flex items-center gap-2">
-                                  <div className="h-4 w-4 rounded border bg-gradient-to-r from-primary to-accent shrink-0" />
-                                  Gradients
-                                </div>
-                              </AccordionTrigger>
-                              <AccordionContent className="space-y-4 pb-4">
-                                <div className="space-y-2">
-                                  <Label className="text-xs font-medium">Hero Gradient</Label>
-                                  <p className="text-xs text-muted-foreground">Dark header/hero backgrounds</p>
-                                  <Textarea
-                                    value={gradientConfigs.hero || ''}
-                                    onChange={(e) => setGradientConfigs({ 
-                                      ...gradientConfigs, 
-                                      hero: e.target.value
-                                    })} 
-                                    placeholder="linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(215 25% 27%) 100%)"
-                                    className="font-mono text-xs"
-                                    rows={2}
-                                  />
-                                  {gradientConfigs.hero && (
-                                    <div 
-                                      className="h-8 rounded-lg border"
-                                      style={{ background: gradientConfigs.hero }}
-                                    />
-                                  )}
-                                </div>
-
-                                <div className="space-y-2">
-                                  <Label className="text-xs font-medium">CTA Gradient</Label>
-                                  <p className="text-xs text-muted-foreground">Buttons and call-to-action elements</p>
-                                  <Textarea
-                                    value={gradientConfigs.cta || ''}
-                                    onChange={(e) => setGradientConfigs({ 
-                                      ...gradientConfigs, 
-                                      cta: e.target.value
-                                    })} 
-                                    placeholder="linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(32 95% 44%) 100%)"
-                                    className="font-mono text-xs"
-                                    rows={2}
-                                  />
-                                  {gradientConfigs.cta && (
-                                    <div 
-                                      className="h-8 rounded-lg border"
-                                      style={{ background: gradientConfigs.cta }}
-                                    />
-                                  )}
-                                </div>
-
-                                <div className="space-y-2">
-                                  <Label className="text-xs font-medium">Text Gradient</Label>
-                                  <p className="text-xs text-muted-foreground">Gradient text highlights</p>
-                                  <Textarea
-                                    value={gradientConfigs.text || ''}
-                                    onChange={(e) => setGradientConfigs({ 
-                                      ...gradientConfigs, 
-                                      text: e.target.value
-                                    })} 
-                                    placeholder="linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(45 93% 58%) 100%)"
-                                    className="font-mono text-xs"
-                                    rows={2}
-                                  />
-                                  {gradientConfigs.text && (
-                                    <div 
-                                      className="h-8 rounded-lg border"
-                                      style={{ background: gradientConfigs.text }}
-                                    />
-                                  )}
-                                </div>
-                              </AccordionContent>
-                            </AccordionItem>
-
-                            {/* GHL Chat Widget Section */}
-                            <AccordionItem value="ghl-chat">
-                              <AccordionTrigger className="text-sm py-2">
-                                <div className="flex items-center gap-2">
-                                  <div className="h-4 w-4 rounded border bg-accent shrink-0" />
-                                  GHL Chat Widget
-                                </div>
-                              </AccordionTrigger>
-                              <AccordionContent className="space-y-4 pb-4">
-                                <p className="text-xs text-muted-foreground">
-                                  Customize the GHL chat widget appearance. Colors are derived from base theme by default.
-                                </p>
-                                
-                                {/* Nested Accordion for GHL colors */}
-                                <Accordion type="multiple" className="w-full">
-                                  <GhlColorControl 
-                                    label="Textarea Background"
-                                    value={ghlChatConfig.textareaBg}
-                                    onChange={(v) => setGhlChatConfig({ ...ghlChatConfig, textareaBg: v })}
-                                  />
-                                  <GhlColorControl 
-                                    label="Textarea Text"
-                                    value={ghlChatConfig.textareaText}
-                                    onChange={(v) => setGhlChatConfig({ ...ghlChatConfig, textareaText: v })}
-                                  />
-                                  <GhlColorControl 
-                                    label="Textarea Border"
-                                    value={ghlChatConfig.textareaBorder}
-                                    onChange={(v) => setGhlChatConfig({ ...ghlChatConfig, textareaBorder: v })}
-                                  />
-                                  <GhlColorControl 
-                                    label="Focus Border"
-                                    value={ghlChatConfig.textareaFocusBorder}
-                                    onChange={(v) => setGhlChatConfig({ ...ghlChatConfig, textareaFocusBorder: v })}
-                                  />
-                                  <GhlColorControl 
-                                    label="Focus Glow"
-                                    value={ghlChatConfig.textareaFocusGlow}
-                                    onChange={(v) => setGhlChatConfig({ ...ghlChatConfig, textareaFocusGlow: v })}
-                                  />
-                                  <GhlColorControl 
-                                    label="Send Button Background"
-                                    value={ghlChatConfig.sendButtonBg}
-                                    onChange={(v) => setGhlChatConfig({ ...ghlChatConfig, sendButtonBg: v })}
-                                  />
-                                  <GhlColorControl 
-                                    label="Send Button Border"
-                                    value={ghlChatConfig.sendButtonBorder}
-                                    onChange={(v) => setGhlChatConfig({ ...ghlChatConfig, sendButtonBorder: v })}
-                                  />
-                                  <GhlColorControl 
-                                    label="Send Button Icon"
-                                    value={ghlChatConfig.sendButtonIcon}
-                                    onChange={(v) => setGhlChatConfig({ ...ghlChatConfig, sendButtonIcon: v })}
-                                  />
-                                  <GhlColorControl 
-                                    label="Selection Background"
-                                    value={ghlChatConfig.selectionBg}
-                                    onChange={(v) => setGhlChatConfig({ ...ghlChatConfig, selectionBg: v })}
-                                  />
-                                </Accordion>
-
-                                {/* Preview */}
-                                <div className="space-y-2 mt-4">
-                                  <Label className="text-xs font-medium">Preview</Label>
-                                  <div 
-                                    className="rounded-lg p-3 border flex items-center gap-2"
-                                    style={{ backgroundColor: `hsl(${ghlChatConfig.textareaBg})` }}
-                                  >
-                                    <div 
-                                      className="flex-1 h-10 rounded-lg border px-3 flex items-center"
-                                      style={{ 
-                                        backgroundColor: `hsl(${ghlChatConfig.textareaBg})`,
-                                        borderColor: `hsl(${ghlChatConfig.textareaBorder})`,
-                                        color: `hsl(${ghlChatConfig.textareaText})`
-                                      }}
-                                    >
-                                      <span className="text-xs opacity-60">Type a message...</span>
-                                    </div>
-                                    <div 
-                                      className="h-10 w-10 rounded-full flex items-center justify-center"
-                                      style={{ backgroundColor: `hsl(${ghlChatConfig.sendButtonBg})` }}
-                                    >
-                                      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke={`hsl(${ghlChatConfig.sendButtonIcon})`} strokeWidth="2">
-                                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
-                                      </svg>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                {/* Quick Actions */}
-                                <div className="flex gap-2">
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => setGhlChatConfig({
-                                      ...ghlChatConfig,
-                                      textareaFocusBorder: `${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`,
-                                      textareaFocusGlow: `${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`,
-                                      sendButtonBg: `${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`,
-                                      selectionBg: `${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`,
-                                    })}
-                                  >
-                                    Sync with Accent
-                                  </Button>
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => setGhlChatConfig({
-                                      textareaBg: staticColors.background,
-                                      textareaText: staticColors.foreground,
-                                      textareaBorder: staticColors.border,
-                                      textareaFocusBorder: `${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`,
-                                      textareaFocusGlow: `${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`,
-                                      sendButtonBg: `${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`,
-                                      sendButtonBorder: '0 0% 100%',
-                                      sendButtonIcon: '0 0% 100%',
-                                      selectionBg: `${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`,
-                                    })}
-                                  >
-                                    Reset to Theme Defaults
-                                  </Button>
-                                </div>
-                              </AccordionContent>
-                            </AccordionItem>
-
-                            {/* Dark Mode Overrides */}
-                            <DarkModeOverridesEditor
-                              overrides={darkModeOverrides}
-                              onChange={setDarkModeOverrides}
-                              baseColors={staticColors}
-                            />
-
-                            {/* E-commerce & Gold Colors */}
-                            <EcommerceColorEditor
-                              ecommerceColors={ecommerceColors}
-                              onEcommerceChange={setEcommerceColors}
-                              ctaVariants={ctaVariants}
-                              onCtaChange={setCtaVariants}
-                            />
-
-                            {/* Typography */}
-                            <TypographyEditor
-                              typography={typographyConfig}
-                              onChange={setTypographyConfig}
-                            />
-
-                            {/* Motion */}
-                            <MotionEditor
-                              motion={motionConfig}
-                              onChange={setMotionConfig}
-                            />
-
-                            {/* Style Modules */}
-                            <StyleModulesEditor
-                              modules={styleModules}
-                              onChange={setStyleModules}
-                            />
-
-                            {/* Default Mode */}
-                            <DefaultModeSelector
-                              defaultMode={defaultMode}
-                              onChange={setDefaultMode}
-                            />
-
-                            {/* ADA Accessibility Widget Config */}
-                            <AdaWidgetConfigEditor
-                              config={adaWidgetConfig}
-                              onChange={setAdaWidgetConfig}
-                            />
-
-                            {/* Contrast Checker */}
-                            <ContrastChecker
-                              staticColors={staticColors}
-                              accentHsl={`${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`}
-                            />
-
-                            {/* Theme Import */}
-                            <ThemeImporter
-                              existingThemeNames={themes.map(t => t.name)}
-                              onImportComplete={fetchData}
-                            />
-                          </Accordion>
-                        </ScrollArea>
+                      {/* Nav + Editor Panels */}
+                      <div className="flex flex-col lg:flex-row gap-4">
+                        <ThemeEditorNav active={editorSection} onChange={setEditorSection} />
+                        <div className="flex-1 min-w-0">
+                          <ThemeEditorPanels
+                            active={editorSection}
+                            accentConfig={accentConfig}
+                            setAccentConfig={setAccentConfig}
+                            staticColors={staticColors}
+                            setStaticColors={setStaticColors}
+                            gradientConfigs={gradientConfigs}
+                            setGradientConfigs={setGradientConfigs}
+                            ghlChatConfig={ghlChatConfig}
+                            setGhlChatConfig={setGhlChatConfig}
+                            darkModeOverrides={darkModeOverrides}
+                            setDarkModeOverrides={setDarkModeOverrides}
+                            ecommerceColors={ecommerceColors}
+                            setEcommerceColors={setEcommerceColors}
+                            ctaVariants={ctaVariants}
+                            setCtaVariants={setCtaVariants}
+                            typographyConfig={typographyConfig}
+                            setTypographyConfig={setTypographyConfig}
+                            motionConfig={motionConfig}
+                            setMotionConfig={setMotionConfig}
+                            styleModules={styleModules}
+                            setStyleModules={setStyleModules}
+                            defaultMode={defaultMode}
+                            setDefaultMode={setDefaultMode}
+                            adaWidgetConfig={adaWidgetConfig}
+                            setAdaWidgetConfig={setAdaWidgetConfig}
+                            selectedTheme={selectedTheme}
+                            setSelectedTheme={setSelectedTheme}
+                            themes={themes}
+                            fetchData={fetchData}
+                          />
                         </div>
-                        
-                        {/* Logo Configuration */}
-                        <LogoConfigEditor
-                          selectedLogoId={selectedTheme.logo_version_id}
-                          onLogoChange={(logoId) => {
-                            setSelectedTheme({ ...selectedTheme, logo_version_id: logoId });
-                          }}
-                          accentHsl={`${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`}
-                          previewBgColor={`hsl(${staticColors.background})`}
-                        />
                       </div>
                     </div>
                   ) : (
