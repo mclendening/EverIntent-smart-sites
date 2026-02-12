@@ -554,13 +554,15 @@ export function AccessibilityWidget() {
   const config = getAdaConfig();
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
-  // Drag state
+  // Drag state — on mobile, offset above the MobileBottomBar (h-16 = 64px)
   const [pos, setPos] = useState<DragPosition>(() => {
     const saved = getSavedPosition();
     if (saved) return saved;
     if (isMobile) {
       const w = typeof window !== 'undefined' ? window.innerWidth : 390;
-      return { x: w - config.iconSize - 16, y: (typeof window !== 'undefined' ? window.innerHeight : 800) - config.iconSize - 80 };
+      const h = typeof window !== 'undefined' ? window.innerHeight : 800;
+      // Place above the 64px bottom nav bar + 16px breathing room
+      return { x: w - config.iconSize - 16, y: h - config.iconSize - 64 - 16 };
     }
     return getDefaultPosition(config);
   });
