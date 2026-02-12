@@ -64,27 +64,29 @@ interface SectionDef {
 }
 
 export const EDITOR_SECTIONS: SectionDef[] = [
-  // Colors
-  { id: 'accent', label: 'Accent Color', shortLabel: 'Accent', icon: Palette, group: 'Colors' },
-  { id: 'light-colors', label: 'Light Mode Colors', shortLabel: 'Light', icon: Sun, group: 'Colors' },
-  { id: 'dark-colors', label: 'Dark Mode Colors', shortLabel: 'Dark', icon: Moon, group: 'Colors' },
-  { id: 'gradients', label: 'Gradients', shortLabel: 'Gradients', icon: Palette, group: 'Colors' },
-  { id: 'ecommerce', label: 'E-Commerce & CTA', shortLabel: 'E-Comm', icon: ShoppingBag, group: 'Colors' },
-  // Design
-  { id: 'typography', label: 'Typography', shortLabel: 'Type', icon: Type, group: 'Design' },
-  { id: 'motion', label: 'Motion & Transitions', shortLabel: 'Motion', icon: Zap, group: 'Design' },
-  { id: 'style-modules', label: 'Style Modules', shortLabel: 'Modules', icon: Layers, group: 'Design' },
-  // Widgets
-  { id: 'ghl-chat', label: 'GHL Chat Widget', shortLabel: 'Chat', icon: MessageSquare, group: 'Widgets' },
-  { id: 'ada-widget', label: 'ADA Accessibility', shortLabel: 'ADA', icon: Accessibility, group: 'Widgets' },
-  // System
-  { id: 'logo', label: 'Logo Config', shortLabel: 'Logo', icon: Image, group: 'System' },
+  // Brand Identity — "who you are": accent, logo, typography
+  { id: 'accent', label: 'Accent Color', shortLabel: 'Accent', icon: Palette, group: 'Brand Identity' },
+  { id: 'logo', label: 'Logo Config', shortLabel: 'Logo', icon: Image, group: 'Brand Identity' },
+  { id: 'typography', label: 'Typography', shortLabel: 'Type', icon: Type, group: 'Brand Identity' },
+  // Appearance — surface colors and gradients
+  { id: 'light-colors', label: 'Light Mode Colors', shortLabel: 'Light', icon: Sun, group: 'Appearance' },
+  { id: 'dark-colors', label: 'Dark Mode Colors', shortLabel: 'Dark', icon: Moon, group: 'Appearance' },
+  { id: 'gradients', label: 'Gradients', shortLabel: 'Gradients', icon: Palette, group: 'Appearance' },
+  // Interaction — motion and per-component token modules
+  { id: 'motion', label: 'Motion & Transitions', shortLabel: 'Motion', icon: Zap, group: 'Interaction' },
+  { id: 'style-modules', label: 'Style Modules', shortLabel: 'Modules', icon: Layers, group: 'Interaction' },
+  // Commerce & Conversion — isolated from brand accent for stable conversion elements
+  { id: 'ecommerce', label: 'E-Commerce & CTA', shortLabel: 'E-Comm', icon: ShoppingBag, group: 'Commerce' },
+  // Integrations — third-party widget styling
+  { id: 'ghl-chat', label: 'GHL Chat Widget', shortLabel: 'Chat', icon: MessageSquare, group: 'Integrations' },
+  { id: 'ada-widget', label: 'ADA Accessibility', shortLabel: 'ADA', icon: Accessibility, group: 'Integrations' },
+  // System — utilities and meta-tools
   { id: 'settings', label: 'Default Mode', shortLabel: 'Mode', icon: Settings, group: 'System' },
   { id: 'contrast', label: 'Contrast Checker', shortLabel: 'WCAG', icon: Eye, group: 'System' },
   { id: 'import', label: 'Import Theme', shortLabel: 'Import', icon: Upload, group: 'System' },
 ];
 
-const GROUPS = ['Colors', 'Design', 'Widgets', 'System'];
+const GROUPS = ['Brand Identity', 'Appearance', 'Interaction', 'Commerce', 'Integrations', 'System'];
 
 interface ThemeEditorNavProps {
   active: EditorSection;
