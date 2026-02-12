@@ -4,12 +4,13 @@
  * All styles use theme design tokens exclusively with hover + two-tone + gradient support.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Check, ShoppingCart, User, FileText, CreditCard, Rocket, Palette, Code, Globe } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { motion, AnimatePresence, useSpring, useTransform } from 'framer-motion';
 
 // ─── SHARED TYPES ─────────────────────────────────────────────
 
@@ -486,6 +487,584 @@ function GradientUnderlineTimeline({ steps, activeStep }: { steps: StepData[]; a
   );
 }
 
+// ─── STYLE 9: Morphing Shape Timeline (Framer Motion) ───────
+
+function MorphingShapeTimeline({ steps, activeStep }: { steps: StepData[]; activeStep: number }) {
+  return (
+    <div className="flex items-center w-full">
+      {steps.map((step, i) => {
+        const Icon = step.icon;
+        const isActive = i === activeStep;
+        const isComplete = i < activeStep;
+
+        return (
+          <React.Fragment key={i}>
+            <motion.div
+              className="flex flex-col items-center gap-2 cursor-pointer"
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+            >
+              <motion.div
+                className="relative w-12 h-12 flex items-center justify-center"
+                animate={{
+                  borderRadius: isActive ? '28%' : isComplete ? '50%' : '16%',
+                  rotate: isActive ? 0 : isComplete ? 0 : 45,
+                }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                style={{
+                  background: isComplete || isActive ? 'var(--gradient-text)' : undefined,
+                }}
+              >
+                {/* Inner glow ring on active */}
+                {isActive && (
+                  <motion.div
+                    className="absolute inset-0"
+                    style={{ borderRadius: 'inherit' }}
+                    animate={{
+                      boxShadow: [
+                        '0 0 0 0px hsl(var(--accent) / 0.3)',
+                        '0 0 0 8px hsl(var(--accent) / 0)',
+                      ],
+                    }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  />
+                )}
+
+                <motion.div
+                  animate={{ rotate: isComplete ? 0 : isActive ? 0 : -45 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  className={cn(
+                    !isComplete && !isActive && 'text-muted-foreground',
+                    (isComplete || isActive) && 'text-accent-foreground',
+                  )}
+                >
+                  {isComplete ? <Check className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
+                </motion.div>
+              </motion.div>
+
+              <motion.span
+                className="text-xs font-medium"
+                animate={{
+                  color: isActive
+                    ? 'hsl(var(--accent))'
+                    : isComplete
+                    ? 'hsl(var(--foreground))'
+                    : 'hsl(var(--muted-foreground))',
+                  fontWeight: isActive ? 700 : 500,
+                }}
+              >
+                {step.label}
+              </motion.span>
+            </motion.div>
+
+            {i < steps.length - 1 && (
+              <div className="flex-1 h-[2px] mx-2 bg-border relative overflow-hidden rounded-full">
+                <motion.div
+                  className="absolute inset-y-0 left-0 rounded-full"
+                  style={{ background: 'var(--gradient-text)' }}
+                  initial={false}
+                  animate={{ width: isComplete ? '100%' : '0%' }}
+                  transition={{ type: 'spring', stiffness: 100, damping: 20, mass: 0.8 }}
+                />
+              </div>
+            )}
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── STYLE 10: Elastic Accordion (Vertical, Spring Physics) ──
+
+function ElasticAccordionTimeline({ steps, activeStep }: { steps: StepData[]; activeStep: number }) {
+  return (
+    <div className="space-y-2">
+      {steps.map((step, i) => {
+        const Icon = step.icon;
+        const isActive = i === activeStep;
+        const isComplete = i < activeStep;
+
+        return (
+          <motion.div
+            key={i}
+            layout
+            className={cn(
+              'relative rounded-lg border cursor-pointer overflow-hidden',
+              isActive ? 'border-accent/40' : isComplete ? 'border-accent/20' : 'border-border',
+            )}
+            whileHover={{ x: 4 }}
+            transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+          >
+            {/* Gradient side rail */}
+            <motion.div
+              className="absolute left-0 top-0 bottom-0 w-1 rounded-l-lg"
+              animate={{
+                opacity: isComplete || isActive ? 1 : 0.15,
+              }}
+              style={{ background: 'var(--gradient-text)' }}
+            />
+
+            <div className="flex items-center gap-3 px-5 py-3">
+              <motion.div
+                className={cn(
+                  'w-9 h-9 rounded-lg flex items-center justify-center shrink-0',
+                  isComplete && 'bg-accent/15 text-accent',
+                  !isComplete && !isActive && 'bg-muted text-muted-foreground',
+                )}
+                style={isActive ? { background: 'var(--gradient-cta)' } : undefined}
+                animate={{ scale: isActive ? 1.1 : 1 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+              >
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={isComplete ? 'check' : 'icon'}
+                    initial={{ scale: 0, rotate: -90 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    exit={{ scale: 0, rotate: 90 }}
+                    transition={{ type: 'spring', stiffness: 500, damping: 25 }}
+                    className={isActive ? 'text-accent-foreground' : undefined}
+                  >
+                    {isComplete ? <Check className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
+                  </motion.div>
+                </AnimatePresence>
+              </motion.div>
+
+              <div className="flex-1 min-w-0">
+                <p className={cn(
+                  'text-sm font-semibold',
+                  isActive ? 'text-accent' : isComplete ? 'text-foreground' : 'text-muted-foreground',
+                )}>
+                  {step.label}
+                </p>
+              </div>
+
+              <motion.span
+                className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground"
+                animate={{ opacity: isActive ? 1 : 0.5 }}
+              >
+                {isComplete ? 'Done' : isActive ? 'Now' : `Step ${i + 1}`}
+              </motion.span>
+            </div>
+
+            {/* Expandable detail area for active step */}
+            <AnimatePresence>
+              {isActive && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-5 pb-3 pt-0">
+                    <div className="h-1.5 rounded-sm overflow-hidden bg-accent/10">
+                      <motion.div
+                        className="h-full rounded-sm"
+                        style={{ background: 'var(--gradient-text)' }}
+                        initial={{ width: '0%' }}
+                        animate={{ width: '60%' }}
+                        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-2">Currently in progress…</p>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── STYLE 11: Staggered Reveal Cards ────────────────────────
+
+function StaggeredRevealTimeline({ steps, activeStep }: { steps: StepData[]; activeStep: number }) {
+  const container = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.08 } },
+  };
+  const item = {
+    hidden: { opacity: 0, y: 20, scale: 0.95 },
+    show: { opacity: 1, y: 0, scale: 1 },
+  };
+
+  return (
+    <motion.div
+      className="grid grid-cols-2 sm:grid-cols-4 gap-3"
+      variants={container}
+      initial="hidden"
+      animate="show"
+      key={activeStep} // re-trigger stagger on step change
+    >
+      {steps.map((step, i) => {
+        const Icon = step.icon;
+        const isActive = i === activeStep;
+        const isComplete = i < activeStep;
+
+        return (
+          <motion.div
+            key={i}
+            variants={item}
+            transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+            whileHover={{
+              y: -6,
+              transition: { type: 'spring', stiffness: 400, damping: 15 },
+            }}
+            className={cn(
+              'relative p-5 rounded-lg border cursor-pointer text-center',
+              isActive ? 'border-transparent shadow-2xl' : isComplete ? 'border-accent/25 bg-accent/5' : 'border-border bg-card',
+            )}
+            style={isActive ? { background: 'var(--gradient-cta)' } : undefined}
+          >
+            {/* Floating number */}
+            <motion.span
+              className={cn(
+                'absolute top-2 right-3 text-[40px] font-black leading-none',
+                isActive ? 'text-accent-foreground/10' : 'text-muted-foreground/5',
+              )}
+              animate={{ scale: isActive ? 1.1 : 1 }}
+            >
+              {i + 1}
+            </motion.span>
+
+            <motion.div
+              className={cn(
+                'w-12 h-12 mx-auto mb-3 rounded-xl flex items-center justify-center relative z-10',
+                isComplete && 'bg-accent/15 text-accent',
+                isActive && 'bg-accent-foreground/20 text-accent-foreground',
+                !isComplete && !isActive && 'bg-muted text-muted-foreground',
+              )}
+              animate={{ rotate: isActive ? [0, -5, 5, 0] : 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              {isComplete ? <Check className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
+            </motion.div>
+
+            <p className={cn(
+              'text-xs font-bold relative z-10',
+              isActive ? 'text-accent-foreground' : isComplete ? 'text-foreground' : 'text-muted-foreground',
+            )}>
+              {step.label}
+            </p>
+          </motion.div>
+        );
+      })}
+    </motion.div>
+  );
+}
+
+// ─── STYLE 12: Liquid Fill Timeline ──────────────────────────
+
+function LiquidFillTimeline({ steps, activeStep }: { steps: StepData[]; activeStep: number }) {
+  return (
+    <div className="flex items-center w-full">
+      {steps.map((step, i) => {
+        const Icon = step.icon;
+        const isActive = i === activeStep;
+        const isComplete = i < activeStep;
+
+        return (
+          <React.Fragment key={i}>
+            <motion.div
+              className="flex flex-col items-center gap-2 cursor-pointer"
+              whileHover={{ scale: 1.08 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+            >
+              <div className="relative w-14 h-14">
+                {/* Outer ring */}
+                <motion.div
+                  className="absolute inset-0 rounded-xl border-2"
+                  animate={{
+                    borderColor: isComplete || isActive
+                      ? 'hsl(var(--accent))'
+                      : 'hsl(var(--border))',
+                  }}
+                  transition={{ duration: 0.3 }}
+                />
+
+                {/* Liquid fill from bottom */}
+                <div className="absolute inset-[2px] rounded-[10px] overflow-hidden">
+                  <motion.div
+                    className="absolute bottom-0 left-0 right-0"
+                    style={{ background: 'var(--gradient-text)' }}
+                    initial={false}
+                    animate={{
+                      height: isComplete ? '100%' : isActive ? '50%' : '0%',
+                    }}
+                    transition={{
+                      type: 'spring',
+                      stiffness: 120,
+                      damping: 14,
+                      mass: 0.8,
+                    }}
+                  />
+                </div>
+
+                {/* Icon */}
+                <div className="absolute inset-0 flex items-center justify-center z-10">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={isComplete ? 'check' : step.label}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      transition={{ type: 'spring', stiffness: 500, damping: 25 }}
+                      className={cn(
+                        isComplete ? 'text-accent-foreground' : isActive ? 'text-accent-foreground' : 'text-muted-foreground',
+                      )}
+                    >
+                      {isComplete ? <Check className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </div>
+
+              <motion.span
+                className="text-xs font-medium"
+                animate={{
+                  color: isActive ? 'hsl(var(--accent))' : isComplete ? 'hsl(var(--foreground))' : 'hsl(var(--muted-foreground))',
+                }}
+              >
+                {step.label}
+              </motion.span>
+            </motion.div>
+
+            {i < steps.length - 1 && (
+              <div className="flex-1 mx-1 relative h-[2px]">
+                <div className="absolute inset-0 bg-border rounded-full" />
+                <motion.div
+                  className="absolute inset-y-0 left-0 rounded-full"
+                  style={{ background: 'var(--gradient-text)' }}
+                  initial={false}
+                  animate={{ width: isComplete ? '100%' : '0%' }}
+                  transition={{ type: 'spring', stiffness: 80, damping: 18 }}
+                />
+              </div>
+            )}
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── STYLE 13: Ambient Pulse Dots (Minimal, Meditative) ─────
+
+function AmbientPulseTimeline({ steps, activeStep }: { steps: StepData[]; activeStep: number }) {
+  return (
+    <div className="flex items-center justify-between w-full py-4">
+      {steps.map((step, i) => {
+        const Icon = step.icon;
+        const isActive = i === activeStep;
+        const isComplete = i < activeStep;
+
+        return (
+          <React.Fragment key={i}>
+            <motion.div
+              className="flex flex-col items-center gap-3 cursor-pointer"
+              whileHover={{ y: -4 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            >
+              <div className="relative">
+                {/* Ambient pulse rings */}
+                {isActive && (
+                  <>
+                    <motion.div
+                      className="absolute inset-0 rounded-full bg-accent/20"
+                      animate={{ scale: [1, 2.2], opacity: [0.4, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
+                    />
+                    <motion.div
+                      className="absolute inset-0 rounded-full bg-accent/15"
+                      animate={{ scale: [1, 1.8], opacity: [0.3, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: 'easeOut', delay: 0.4 }}
+                    />
+                  </>
+                )}
+
+                <motion.div
+                  className={cn(
+                    'relative w-10 h-10 rounded-full flex items-center justify-center z-10',
+                    isComplete && 'bg-accent text-accent-foreground',
+                    !isComplete && !isActive && 'bg-muted text-muted-foreground',
+                  )}
+                  style={isActive ? { background: 'var(--gradient-text)' } : undefined}
+                  animate={{
+                    scale: isActive ? [1, 1.05, 1] : 1,
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: isActive ? Infinity : 0,
+                    ease: 'easeInOut',
+                  }}
+                >
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={isComplete ? 'done' : step.label}
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.5 }}
+                      className={isActive ? 'text-accent-foreground' : undefined}
+                    >
+                      {isComplete ? <Check className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
+                    </motion.div>
+                  </AnimatePresence>
+                </motion.div>
+              </div>
+
+              <div className="text-center">
+                <motion.p
+                  className="text-xs font-semibold"
+                  animate={{
+                    color: isActive ? 'hsl(var(--accent))' : isComplete ? 'hsl(var(--foreground))' : 'hsl(var(--muted-foreground))',
+                  }}
+                >
+                  {step.label}
+                </motion.p>
+                <motion.p
+                  className="text-[10px] text-muted-foreground/50 font-mono mt-0.5"
+                  animate={{ opacity: isActive || isComplete ? 1 : 0.4 }}
+                >
+                  {isComplete ? '✓ Complete' : isActive ? 'Active' : `Step ${i + 1}`}
+                </motion.p>
+              </div>
+            </motion.div>
+
+            {i < steps.length - 1 && (
+              <div className="flex-1 flex items-center mx-1">
+                {/* Dotted connector with animated fill */}
+                <div className="flex-1 flex items-center gap-1">
+                  {[...Array(5)].map((_, d) => (
+                    <motion.div
+                      key={d}
+                      className="flex-1 h-[2px] rounded-full"
+                      animate={{
+                        backgroundColor: isComplete
+                          ? 'hsl(var(--accent))'
+                          : 'hsl(var(--border))',
+                      }}
+                      transition={{ delay: isComplete ? d * 0.05 : 0 }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── STYLE 14: Layered Depth Cards (Parallax hover) ─────────
+
+function LayeredDepthTimeline({ steps, activeStep }: { steps: StepData[]; activeStep: number }) {
+  return (
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      {steps.map((step, i) => {
+        const Icon = step.icon;
+        const isActive = i === activeStep;
+        const isComplete = i < activeStep;
+
+        return (
+          <motion.div
+            key={i}
+            className="relative cursor-pointer perspective-[600px]"
+            whileHover="hover"
+            initial="rest"
+          >
+            {/* Shadow layer */}
+            <motion.div
+              className="absolute inset-0 rounded-xl bg-accent/10 blur-xl"
+              variants={{
+                rest: { opacity: 0, y: 0 },
+                hover: { opacity: isActive ? 0.6 : 0.3, y: 8 },
+              }}
+              transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+            />
+
+            {/* Card */}
+            <motion.div
+              className={cn(
+                'relative rounded-xl border p-5 text-center overflow-hidden',
+                isActive ? 'border-accent/40' : isComplete ? 'border-accent/20 bg-accent/5' : 'border-border bg-card',
+              )}
+              variants={{
+                rest: { rotateX: 0, y: 0 },
+                hover: { rotateX: -3, y: -4 },
+              }}
+              transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+            >
+              {/* Gradient shimmer on active */}
+              {isActive && (
+                <motion.div
+                  className="absolute inset-0 opacity-20"
+                  style={{ background: 'var(--gradient-text)' }}
+                  animate={{ opacity: [0.1, 0.2, 0.1] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                />
+              )}
+
+              <motion.div
+                className="relative z-10 flex flex-col items-center gap-3"
+                variants={{
+                  rest: { y: 0 },
+                  hover: { y: -2 },
+                }}
+              >
+                {/* Step number floating behind */}
+                <span className={cn(
+                  'absolute -top-2 text-[48px] font-black leading-none select-none',
+                  isActive ? 'text-accent/10' : 'text-muted-foreground/5',
+                )}>
+                  {i + 1}
+                </span>
+
+                <motion.div
+                  className={cn(
+                    'relative w-12 h-12 rounded-xl flex items-center justify-center',
+                    isComplete && 'bg-accent/15 text-accent',
+                    isActive && 'text-accent-foreground',
+                    !isComplete && !isActive && 'bg-muted text-muted-foreground',
+                  )}
+                  style={isActive ? { background: 'var(--gradient-cta)' } : undefined}
+                  variants={{
+                    rest: { scale: 1 },
+                    hover: { scale: 1.1 },
+                  }}
+                >
+                  {isComplete ? <Check className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
+                </motion.div>
+
+                <p className={cn(
+                  'text-xs font-bold relative z-10',
+                  isActive ? 'text-accent' : isComplete ? 'text-foreground' : 'text-muted-foreground',
+                )}>
+                  {step.label}
+                </p>
+
+                {/* Micro progress bar */}
+                <div className="w-full h-1 bg-muted/50 rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full rounded-full"
+                    style={{ background: 'var(--gradient-text)' }}
+                    initial={false}
+                    animate={{ width: isComplete ? '100%' : isActive ? '45%' : '0%' }}
+                    transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+                  />
+                </div>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
+
 // ─── SHOWCASE CARD ────────────────────────────────────────────
 
 function TimelineShowcaseCard({
@@ -566,9 +1145,9 @@ export default function PlaygroundTimelines() {
           <div className="mb-10">
             <h2 className="text-3xl font-bold text-foreground mb-2">Timeline & Stage Indicators</h2>
             <p className="text-muted-foreground max-w-2xl">
-              8 premium timeline/progress styles for checkout flows and delivery processes.
-              All support hover states, two-tone color schemes, and gradient accents.
-              Click the step buttons to preview different states.
+              14 premium timeline/progress styles for checkout flows and delivery processes.
+              Styles 9–14 use Framer Motion for spring physics, morphing shapes, liquid fills,
+              ambient pulses, and parallax depth. Click step buttons to preview states.
             </p>
           </div>
 
@@ -680,6 +1259,98 @@ export default function PlaygroundTimelines() {
               <StepControl steps={checkoutSteps} activeStep={checkoutStep} onChange={setCheckoutStep} />
               <div className="bg-card border border-border rounded-lg overflow-hidden">
                 <GradientUnderlineTimeline steps={checkoutSteps} activeStep={checkoutStep} />
+              </div>
+            </TimelineShowcaseCard>
+
+            {/* ═══════ MOTION-RICH SECTION ═══════ */}
+            <div className="pt-6 border-t border-border/50">
+              <h3 className="text-xl font-bold text-foreground mb-1">Motion-Rich Variants</h3>
+              <p className="text-sm text-muted-foreground mb-6">
+                Framer Motion powered — spring physics, morphing shapes, and ambient effects.
+              </p>
+            </div>
+
+            {/* Style 9 */}
+            <TimelineShowcaseCard
+              number={9}
+              name="Morphing Shape"
+              description="Steps morph between square → diamond → circle as they progress. Pulsing ring on active. Spring physics throughout."
+              inspiration="Lottie animations, Stripe Identity, Vercel AI"
+            >
+              <StepControl steps={checkoutSteps} activeStep={checkoutStep} onChange={setCheckoutStep} />
+              <div className="bg-card border border-border rounded-lg p-6">
+                <MorphingShapeTimeline steps={checkoutSteps} activeStep={checkoutStep} />
+              </div>
+              <div className="bg-background border border-border/30 rounded-lg p-6">
+                <MorphingShapeTimeline steps={deliverySteps} activeStep={deliveryStep} />
+              </div>
+            </TimelineShowcaseCard>
+
+            {/* Style 10 */}
+            <TimelineShowcaseCard
+              number={10}
+              name="Elastic Accordion"
+              description="Vertical stack where the active step expands with a spring-animated progress bar. Side rail with gradient. Icons swap with rotation."
+              inspiration="Apple Music Now Playing, Spotify queue, Linear issues"
+            >
+              <StepControl steps={checkoutSteps} activeStep={checkoutStep} onChange={setCheckoutStep} />
+              <div className="bg-card border border-border rounded-lg p-6">
+                <ElasticAccordionTimeline steps={checkoutSteps} activeStep={checkoutStep} />
+              </div>
+            </TimelineShowcaseCard>
+
+            {/* Style 11 */}
+            <TimelineShowcaseCard
+              number={11}
+              name="Staggered Reveal Cards"
+              description="Cards cascade in with staggered spring animations. Giant watermark numbers. Active icon does a playful wobble."
+              inspiration="Dribbble shot cards, Awwwards SOTD, Refokus"
+            >
+              <StepControl steps={deliverySteps} activeStep={deliveryStep} onChange={setDeliveryStep} />
+              <div className="bg-card border border-border rounded-lg p-6">
+                <StaggeredRevealTimeline steps={deliverySteps} activeStep={deliveryStep} />
+              </div>
+            </TimelineShowcaseCard>
+
+            {/* Style 12 */}
+            <TimelineShowcaseCard
+              number={12}
+              name="Liquid Fill"
+              description="Steps fill from bottom up like liquid pouring in. Active at 50%, complete at 100%. Spring-based fluid physics."
+              inspiration="Battery indicators, water tracking apps, Headspace"
+            >
+              <StepControl steps={checkoutSteps} activeStep={checkoutStep} onChange={setCheckoutStep} />
+              <div className="bg-card border border-border rounded-lg p-6">
+                <LiquidFillTimeline steps={checkoutSteps} activeStep={checkoutStep} />
+              </div>
+            </TimelineShowcaseCard>
+
+            {/* Style 13 */}
+            <TimelineShowcaseCard
+              number={13}
+              name="Ambient Pulse"
+              description="Meditative double-ring pulse radiates from the active step. Dotted connectors fill segment by segment. Breathing scale animation."
+              inspiration="Calm app, Apple Watch activity rings, meditation UIs"
+            >
+              <StepControl steps={checkoutSteps} activeStep={checkoutStep} onChange={setCheckoutStep} />
+              <div className="bg-card border border-border rounded-lg p-6">
+                <AmbientPulseTimeline steps={checkoutSteps} activeStep={checkoutStep} />
+              </div>
+              <div className="bg-background border border-border/30 rounded-lg p-6">
+                <AmbientPulseTimeline steps={deliverySteps} activeStep={deliveryStep} />
+              </div>
+            </TimelineShowcaseCard>
+
+            {/* Style 14 */}
+            <TimelineShowcaseCard
+              number={14}
+              name="Layered Depth Cards"
+              description="Cards with 3D parallax tilt on hover. Dynamic shadow layer drops below. Shimmer overlay on active. Micro progress bars per card."
+              inspiration="Apple Vision Pro UI, Nike SNKRS, Nothing OS widgets"
+            >
+              <StepControl steps={deliverySteps} activeStep={deliveryStep} onChange={setDeliveryStep} />
+              <div className="bg-card border border-border rounded-lg p-6">
+                <LayeredDepthTimeline steps={deliverySteps} activeStep={deliveryStep} />
               </div>
             </TimelineShowcaseCard>
           </div>
