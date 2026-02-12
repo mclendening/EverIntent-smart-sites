@@ -725,18 +725,18 @@ html.ada-high-saturation {
     );
 }
 
-/* ── Drag Handle for Reading Line & Mask ── */
+/* ── Drag Handle for Reading Line & Mask (horizontal slide) ── */
 .ada-reading-handle {
   position: absolute;
-  right: 12px;
   top: 50%;
-  transform: translateY(-50%);
-  width: 32px;
-  height: 32px;
+  left: var(--handle-x, 50%);
+  transform: translate(-50%, -50%);
+  width: var(--handle-size, 28px);
+  height: var(--handle-size, 28px);
   border-radius: 9999px;
   background: hsl(var(--accent));
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 2px;
@@ -749,13 +749,13 @@ html.ada-high-saturation {
 }
 .ada-reading-handle:active {
   cursor: grabbing;
-  transform: translateY(-50%) scale(1.15);
+  transform: translate(-50%, -50%) scale(1.15);
   box-shadow: 0 4px 16px rgba(0,0,0,0.4);
 }
 .ada-reading-handle span {
   display: block;
-  width: 14px;
-  height: 2px;
+  width: 2px;
+  height: 10px;
   border-radius: 1px;
   background: hsl(var(--accent-foreground));
   opacity: 0.8;
@@ -763,18 +763,6 @@ html.ada-high-saturation {
 
 #ada-reading-mask-el .ada-reading-handle {
   top: var(--mask-y, 50%);
-}
-
-@media (max-width: 767px) {
-  .ada-reading-handle {
-    width: 40px;
-    height: 40px;
-    right: 16px;
-  }
-  .ada-reading-handle span {
-    width: 18px;
-    height: 2.5px;
-  }
 }
 
 /* ── Keyboard Navigation ── */

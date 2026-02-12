@@ -218,6 +218,7 @@ export default function AdminThemes() {
     iconBgColor: '240 70% 60%',
     iconSize: 48,
     iconShape: 'circle',
+    readingHandleSize: 28,
   });
 
   // Fetch themes and logo versions
@@ -359,6 +360,7 @@ export default function AdminThemes() {
         iconBgColor: adaCfg.iconBgColor ?? '240 70% 60%',
         iconSize: adaCfg.iconSize ?? 48,
         iconShape: adaCfg.iconShape ?? 'circle',
+        readingHandleSize: adaCfg.readingHandleSize ?? 28,
       });
     }
   }, [selectedTheme]);

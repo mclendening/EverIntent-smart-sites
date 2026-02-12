@@ -42,6 +42,7 @@ interface AdaWidgetConfig {
   iconBgColor: string;
   iconSize: number;
   iconShape: 'circle' | 'rounded-square' | 'pill';
+  readingHandleSize: number;
 }
 
 function getAdaConfig(): AdaWidgetConfig {
@@ -58,6 +59,7 @@ function getAdaConfig(): AdaWidgetConfig {
     iconBgColor: themeConfig?.iconBgColor ?? '',
     iconSize: themeConfig?.iconSize ?? 48,
     iconShape: themeConfig?.iconShape ?? 'circle',
+    readingHandleSize: themeConfig?.readingHandleSize ?? 28,
   };
 }
 
@@ -409,27 +411,33 @@ function createDraggableReadingAid(
 ) {
   if (document.getElementById(id)) return;
 
+  const config = getAdaConfig();
+  const handleSize = config.readingHandleSize;
+
   const el = document.createElement('div');
   el.id = id;
   el.setAttribute('aria-hidden', 'true');
   document.body.appendChild(el);
 
-  // Drag handle
+  // Drag handle — horizontal slide
   const handle = document.createElement('div');
   handle.className = 'ada-reading-handle';
   handle.setAttribute('aria-label', 'Drag to reposition');
   handle.innerHTML = '<span></span><span></span><span></span>';
+  handle.style.setProperty('--handle-size', `${handleSize}px`);
   el.appendChild(handle);
 
   let currentY = window.innerHeight * 0.4;
+  let currentX = window.innerWidth * 0.5;
   let isDragging = false;
   applyY(el, currentY);
+  handle.style.setProperty('--handle-x', `${currentX}px`);
 
-  // Mouse-follow on desktop (non-touch)
+  // Mouse-follow on desktop (non-touch) — vertical only
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
   const onMouseMove = (e: MouseEvent) => {
-    if (isDragging) return; // handle takes over during drag
+    if (isDragging) return;
     currentY = e.clientY;
     applyY(el, currentY);
   };
@@ -437,7 +445,7 @@ function createDraggableReadingAid(
     document.addEventListener('mousemove', onMouseMove);
   }
 
-  // Pointer-based drag (works on both touch and mouse via handle)
+  // Pointer-based drag — horizontal slide for handle position
   const onPointerDown = (e: PointerEvent) => {
     isDragging = true;
     handle.setPointerCapture(e.pointerId);
@@ -446,7 +454,9 @@ function createDraggableReadingAid(
   };
   const onPointerMove = (e: PointerEvent) => {
     if (!isDragging) return;
+    currentX = Math.max(handleSize / 2, Math.min(e.clientX, window.innerWidth - handleSize / 2));
     currentY = Math.max(0, Math.min(e.clientY, window.innerHeight));
+    handle.style.setProperty('--handle-x', `${currentX}px`);
     applyY(el, currentY);
     e.preventDefault();
   };
