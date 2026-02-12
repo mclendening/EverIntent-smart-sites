@@ -660,7 +660,7 @@ function ContextualPreview() {
 
 export default function PlaygroundBadges() {
   useAdminAuth();
-  const { accent, setAccent, flipped, toggleFlip } = useAccentState();
+  const { accent, setAccent, flipped, toggleFlip, gradient, setGradient } = useAccentState();
 
   return (
     <div className="min-h-screen bg-background">
@@ -684,10 +684,10 @@ export default function PlaygroundBadges() {
               34 premium callout styles to replace pill-shaped badges. Each uses the theme's design tokens
               and gradient system. Preview any accent color and flip placement using the controls below.
             </p>
-            <AccentPickerBar selected={accent} onChange={setAccent} flipped={flipped} onFlip={toggleFlip} />
+            <AccentPickerBar selected={accent} onChange={setAccent} flipped={flipped} onFlip={toggleFlip} gradient={gradient} onGradientChange={setGradient} />
           </div>
 
-          <AccentWrapper accent={accent} flipped={flipped}>
+          <AccentWrapper accent={accent} flipped={flipped} gradient={gradient}>
             <div className="grid gap-6 lg:grid-cols-2">
               <StyleCard number={1} name="Gradient Text" description="No container at all. The gradient IS the decoration. Ultra-minimal." inspiration="Apple product pages, Stripe headers">
                 <GradientTextCallout icon={Clock} text="5-Day Delivery" />
