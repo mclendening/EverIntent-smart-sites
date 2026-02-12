@@ -1,21 +1,19 @@
 /**
  * @fileoverview Admin Dashboard — dynamically renders module cards from the registry.
  *
- * This is the admin shell's home page. Instead of hardcoding cards for each feature,
- * it reads registered modules from the platform registry and renders navigation cards
- * for each module's navItems.
+ * Reads registered modules via `getModules()` and renders navigation cards
+ * for each module's navItems. Cards are filtered by the user's role if
+ * the navItem specifies a `requiredRole`.
  *
- * ## Architecture
- * - Reads modules via `getModules()` from the registry
- * - Renders cards grouped by ModuleCategory
- * - Each card links to the module's admin route
- * - Auth/sign-out handled via useAdminAuth hook
- *
- * ## Portability
- * - Adding a new module automatically adds its card here — zero changes needed.
+ * ## Permission Filtering
+ * - NavItems without `requiredRole` are shown to all authenticated admins
+ * - NavItems with `requiredRole` are only shown if the user has that role
+ * - Currently all admin users have the 'admin' role, but the system supports
+ *   'moderator' and 'user' roles for future granular access control
  */
 
 import { useAdminAuth } from '@/hooks/useAdminAuth';
+import { useHasRole } from '@/hooks/useHasRole';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
@@ -24,10 +22,22 @@ import { getModules } from '@/modules';
 
 export default function AdminDashboard() {
   const { user, signOut } = useAdminAuth();
+  const { hasRole: isAdmin } = useHasRole('admin');
+  const { hasRole: isModerator } = useHasRole('moderator');
   const modules = getModules();
 
   const handleSignOut = async () => {
     await signOut();
+  };
+
+  /**
+   * Checks if a nav item should be shown based on the user's roles.
+   */
+  const canAccess = (requiredRole?: 'admin' | 'moderator' | 'user') => {
+    if (!requiredRole) return true;
+    if (requiredRole === 'admin') return isAdmin;
+    if (requiredRole === 'moderator') return isAdmin || isModerator;
+    return true; // 'user' role — any authenticated user
   };
 
   return (
@@ -48,25 +58,27 @@ export default function AdminDashboard() {
       <main className="container py-4 sm:py-8 px-4">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {modules.flatMap((mod) =>
-            mod.navItems.map((nav) => {
-              const Icon = nav.icon;
-              return (
-                <Link key={`${mod.id}-${nav.path}`} to={`/admin/${nav.path}`}>
-                  <Card className="transition-colors hover:border-primary">
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        {Icon && <Icon className="h-5 w-5" />}
-                        {nav.label}
-                      </CardTitle>
-                      <CardDescription>{nav.description}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground">{nav.detail}</p>
-                    </CardContent>
-                  </Card>
-                </Link>
-              );
-            })
+            mod.navItems
+              .filter((nav) => canAccess(nav.requiredRole))
+              .map((nav) => {
+                const Icon = nav.icon;
+                return (
+                  <Link key={`${mod.id}-${nav.path}`} to={`/admin/${nav.path}`}>
+                    <Card className="transition-colors hover:border-primary">
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                          {Icon && <Icon className="h-5 w-5" />}
+                          {nav.label}
+                        </CardTitle>
+                        <CardDescription>{nav.description}</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-muted-foreground">{nav.detail}</p>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                );
+              })
           )}
         </div>
       </main>
