@@ -19,7 +19,7 @@
 
 import type { RouteRecord } from 'vite-react-ssg';
 import React, { Suspense, useState, useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, Navigate } from 'react-router-dom';
 
 // Providers
 import { Toaster } from '@/components/ui/toaster';
@@ -692,6 +692,11 @@ export const routes: RouteRecord[] = [
             <AdminPlaygroundTimelines />
           </AdminGuard>
         ),
+      },
+      // Catch-all: redirect unknown admin routes to home
+      {
+        path: '*',
+        element: <Navigate to="/" replace />,
       },
     ],
   },
