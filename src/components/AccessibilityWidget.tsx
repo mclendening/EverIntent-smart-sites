@@ -399,15 +399,81 @@ function clearAllModules() {
 
 // ─── Reading Line / Reading Mask runtime ────────────────────
 
-function setupReadingLine() {
-  if (document.getElementById('ada-reading-line-el')) return;
+/** Create a draggable reading-aid element (line or mask).
+ *  On desktop the element follows the mouse by default; on mobile it starts at 40%
+ *  viewport height. A small drag handle lets users reposition it on any device.
+ */
+function createDraggableReadingAid(
+  id: string,
+  applyY: (el: HTMLElement, y: number) => void,
+) {
+  if (document.getElementById(id)) return;
+
   const el = document.createElement('div');
-  el.id = 'ada-reading-line-el';
+  el.id = id;
   el.setAttribute('aria-hidden', 'true');
   document.body.appendChild(el);
-  const move = (e: MouseEvent) => { el.style.top = `${e.clientY}px`; };
-  document.addEventListener('mousemove', move);
-  (el as any).__adaCleanup = () => { document.removeEventListener('mousemove', move); el.remove(); };
+
+  // Drag handle
+  const handle = document.createElement('div');
+  handle.className = 'ada-reading-handle';
+  handle.setAttribute('aria-label', 'Drag to reposition');
+  handle.innerHTML = '<span></span><span></span><span></span>';
+  el.appendChild(handle);
+
+  let currentY = window.innerHeight * 0.4;
+  let isDragging = false;
+  applyY(el, currentY);
+
+  // Mouse-follow on desktop (non-touch)
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+  const onMouseMove = (e: MouseEvent) => {
+    if (isDragging) return; // handle takes over during drag
+    currentY = e.clientY;
+    applyY(el, currentY);
+  };
+  if (!isTouchDevice) {
+    document.addEventListener('mousemove', onMouseMove);
+  }
+
+  // Pointer-based drag (works on both touch and mouse via handle)
+  const onPointerDown = (e: PointerEvent) => {
+    isDragging = true;
+    handle.setPointerCapture(e.pointerId);
+    handle.style.cursor = 'grabbing';
+    e.preventDefault();
+  };
+  const onPointerMove = (e: PointerEvent) => {
+    if (!isDragging) return;
+    currentY = Math.max(0, Math.min(e.clientY, window.innerHeight));
+    applyY(el, currentY);
+    e.preventDefault();
+  };
+  const onPointerUp = () => {
+    isDragging = false;
+    handle.style.cursor = '';
+  };
+
+  handle.addEventListener('pointerdown', onPointerDown);
+  handle.addEventListener('pointermove', onPointerMove);
+  handle.addEventListener('pointerup', onPointerUp);
+  handle.addEventListener('pointercancel', onPointerUp);
+
+  (el as any).__adaCleanup = () => {
+    document.removeEventListener('mousemove', onMouseMove);
+    handle.removeEventListener('pointerdown', onPointerDown);
+    handle.removeEventListener('pointermove', onPointerMove);
+    handle.removeEventListener('pointerup', onPointerUp);
+    handle.removeEventListener('pointercancel', onPointerUp);
+    el.remove();
+  };
+}
+
+function setupReadingLine() {
+  createDraggableReadingAid('ada-reading-line-el', (el, y) => {
+    el.style.top = `${y}px`;
+  });
 }
 
 function teardownReadingLine() {
@@ -416,16 +482,9 @@ function teardownReadingLine() {
 }
 
 function setupReadingMask() {
-  if (document.getElementById('ada-reading-mask-el')) return;
-  const el = document.createElement('div');
-  el.id = 'ada-reading-mask-el';
-  el.setAttribute('aria-hidden', 'true');
-  document.body.appendChild(el);
-  const move = (e: MouseEvent) => {
-    el.style.setProperty('--mask-y', `${e.clientY}px`);
-  };
-  document.addEventListener('mousemove', move);
-  (el as any).__adaCleanup = () => { document.removeEventListener('mousemove', move); el.remove(); };
+  createDraggableReadingAid('ada-reading-mask-el', (el, y) => {
+    el.style.setProperty('--mask-y', `${y}px`);
+  });
 }
 
 function teardownReadingMask() {
