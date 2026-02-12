@@ -5,10 +5,9 @@
  */
 
 import { useAdminAuth } from '@/hooks/useAdminAuth';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Clock, Zap, TrendingUp, HelpCircle, Star, Sparkles } from 'lucide-react';
+import { ArrowLeft, Clock, Zap, TrendingUp, HelpCircle, Star, Sparkles, Diamond, Hexagon, Award, Crown, Shield, Flame, Target, Triangle } from 'lucide-react';
 
 
 // ─── STYLE VARIANTS ───────────────────────────────────────────
@@ -174,6 +173,109 @@ function BottomGlowBarCallout({ icon: Icon, text }: { icon: React.ElementType; t
   );
 }
 
+/**
+ * Style 11: Corner Ribbon — Diagonal ribbon anchored to a corner.
+ * Classic e-commerce hero pattern, elevated with gradient.
+ * Inspired by: Creative Tim ribbons, Shopify themes
+ */
+function CornerRibbonCallout({ text }: { text: string }) {
+  return (
+    <div className="relative w-32 h-32 bg-card border border-border rounded-lg overflow-hidden">
+      <div className="absolute top-0 right-0 w-24 h-24 overflow-hidden">
+        <div
+          className="absolute top-[12px] right-[-32px] w-[140px] text-center rotate-45 py-1 text-xs font-bold uppercase tracking-wider text-accent-foreground shadow-md"
+          style={{ background: 'var(--gradient-text)' }}
+        >
+          {text}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Style 12: Diamond Stage — Icon inside a rotated diamond shape.
+ * Geometric and bold. Conference/award-stage energy.
+ * Inspired by: AWS re:Invent badges, conference lanyards
+ */
+function DiamondStageCallout({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+  return (
+    <div className="inline-flex items-center gap-3">
+      <div className="relative">
+        <div
+          className="w-10 h-10 rotate-45 rounded-sm flex items-center justify-center"
+          style={{ background: 'var(--gradient-text)' }}
+        >
+          <Icon className="w-5 h-5 text-accent-foreground -rotate-45" />
+        </div>
+      </div>
+      <span className="text-sm font-semibold tracking-wide uppercase text-foreground/80">{text}</span>
+    </div>
+  );
+}
+
+/**
+ * Style 13: Hexagon Badge — Icon in a hex-shaped container with label.
+ * Gaming/achievement unlock feel. Aspirational.
+ * Inspired by: Xbox achievements, Duolingo, HackerRank
+ */
+function HexBadgeCallout({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+  return (
+    <div className="inline-flex items-center gap-3">
+      <div className="relative flex items-center justify-center">
+        <Hexagon className="w-10 h-10 text-accent fill-accent/15" strokeWidth={1.5} />
+        <Icon className="w-4 h-4 text-accent absolute" />
+      </div>
+      <span className="text-sm font-semibold text-foreground/80">{text}</span>
+    </div>
+  );
+}
+
+/**
+ * Style 14: Shimmer Slide — Animated light sweep across the label.
+ * Premium product launch energy. Eye-catching without being loud.
+ * Inspired by: Apple Store "New" labels, Stripe announcements
+ */
+function ShimmerSlideCallout({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+  return (
+    <div className="relative inline-flex items-center gap-2 px-4 py-2 bg-accent/10 text-accent text-sm font-semibold rounded-lg overflow-hidden">
+      <Icon className="w-4 h-4 relative z-10" />
+      <span className="relative z-10">{text}</span>
+      <span
+        className="absolute inset-0 -translate-x-full animate-[shimmer_2.5s_ease-in-out_infinite]"
+        style={{
+          background: 'linear-gradient(90deg, transparent 0%, hsl(var(--accent) / 0.15) 50%, transparent 100%)',
+        }}
+      />
+      <style>{`
+        @keyframes shimmer {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+/**
+ * Style 15: Notch Tab — Tab-shaped callout that looks attached to a surface.
+ * Architectural, like a physical label or file tab.
+ * Inspired by: Material Design chips, physical product tags
+ */
+function NotchTabCallout({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+  return (
+    <div className="inline-flex items-center gap-2 text-sm font-medium">
+      <div
+        className="inline-flex items-center gap-2 px-4 py-1.5 text-accent-foreground rounded-t-lg border-b-2 border-accent"
+        style={{ background: 'var(--gradient-text)' }}
+      >
+        <Icon className="w-3.5 h-3.5" />
+        {text}
+      </div>
+    </div>
+  );
+}
+
 // ─── SHOWCASE CARD ────────────────────────────────────────────
 
 function StyleCard({
@@ -248,7 +350,7 @@ export default function PlaygroundBadges() {
           <div className="mb-10">
             <h2 className="text-3xl font-bold text-foreground mb-2">Badge Replacements</h2>
             <p className="text-muted-foreground max-w-2xl">
-              10 premium callout styles to replace pill-shaped badges. Each uses the theme's design tokens
+              15 premium callout styles to replace pill-shaped badges. Each uses the theme's design tokens
               and gradient system. Pick one or mix styles by context.
             </p>
           </div>
@@ -353,6 +455,58 @@ export default function PlaygroundBadges() {
             >
               <BottomGlowBarCallout icon={Clock} text="5-Day Delivery" />
               <BottomGlowBarCallout icon={Zap} text="Add AI When Ready" />
+            </StyleCard>
+
+            <StyleCard
+              number={11}
+              name="Corner Ribbon"
+              description="Diagonal gradient ribbon anchored to a card corner. Classic e-commerce elevated."
+              inspiration="Shopify themes, Creative Tim, SaaS pricing cards"
+            >
+              <div className="flex gap-4">
+                <CornerRibbonCallout text="Popular" />
+                <CornerRibbonCallout text="New" />
+              </div>
+            </StyleCard>
+
+            <StyleCard
+              number={12}
+              name="Diamond Stage"
+              description="Icon inside a rotated diamond with gradient fill. Conference award energy."
+              inspiration="AWS re:Invent, TEDx, conference stage badges"
+            >
+              <DiamondStageCallout icon={Crown} text="Premium Tier" />
+              <DiamondStageCallout icon={Flame} text="5-Day Delivery" />
+            </StyleCard>
+
+            <StyleCard
+              number={13}
+              name="Hexagon Badge"
+              description="Icon centered in a hex outline. Achievement-unlock, aspirational feel."
+              inspiration="Xbox achievements, Duolingo, HackerRank"
+            >
+              <HexBadgeCallout icon={Award} text="Most Popular" />
+              <HexBadgeCallout icon={Shield} text="Enterprise Ready" />
+            </StyleCard>
+
+            <StyleCard
+              number={14}
+              name="Shimmer Slide"
+              description="Animated light sweep across a tinted label. Eye-catching launch energy."
+              inspiration="Apple Store 'New' labels, Stripe product launches"
+            >
+              <ShimmerSlideCallout icon={Sparkles} text="Just Launched" />
+              <ShimmerSlideCallout icon={Target} text="5-Day Delivery" />
+            </StyleCard>
+
+            <StyleCard
+              number={15}
+              name="Notch Tab"
+              description="Physical tab shape with gradient fill. Feels attached to the surface."
+              inspiration="Material Design chips, physical product tags, file tabs"
+            >
+              <NotchTabCallout icon={Clock} text="5-Day Delivery" />
+              <NotchTabCallout icon={Star} text="Recommended" />
             </StyleCard>
           </div>
         </div>
