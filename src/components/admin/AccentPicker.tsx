@@ -5,7 +5,7 @@
 
 import React, { useState, createContext, useContext, useCallback } from 'react';
 import { cn } from '@/lib/utils';
-import { ArrowLeftRight, Pipette, Blend } from 'lucide-react';
+import { ArrowLeftRight, Pipette, Blend, Sun, Moon } from 'lucide-react';
 
 // ─── PRESET ACCENTS ──────────────────────────────────────────
 
@@ -148,6 +148,8 @@ export function AccentPickerBar({
   onFlip,
   gradient,
   onGradientChange,
+  mode,
+  onModeChange,
 }: {
   selected: AccentPreset;
   onChange: (preset: AccentPreset) => void;
@@ -155,6 +157,8 @@ export function AccentPickerBar({
   onFlip?: () => void;
   gradient?: string;
   onGradientChange?: (gradient: string) => void;
+  mode?: 'light' | 'dark';
+  onModeChange?: (mode: 'light' | 'dark') => void;
 }) {
   const [showCustom, setShowCustom] = useState(false);
   const [showGradients, setShowGradients] = useState(false);
@@ -239,6 +243,26 @@ export function AccentPickerBar({
             >
               <ArrowLeftRight className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Flip</span>
+            </button>
+          </>
+        )}
+
+        {/* Day/Night toggle */}
+        {onModeChange && (
+          <>
+            <div className="w-px h-6 bg-border mx-1" />
+            <button
+              onClick={() => onModeChange(mode === 'dark' ? 'light' : 'dark')}
+              className={cn(
+                'flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium transition-all',
+                mode === 'light'
+                  ? 'bg-amber-500/15 text-amber-500 ring-1 ring-amber-500/30'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted',
+              )}
+              title={`Switch to ${mode === 'dark' ? 'light' : 'dark'} mode preview`}
+            >
+              {mode === 'dark' ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+              <span className="hidden sm:inline">{mode === 'dark' ? 'Light' : 'Dark'}</span>
             </button>
           </>
         )}
@@ -333,5 +357,19 @@ export function useAccentState() {
   const [flipped, setFlipped] = useState(false);
   const [gradient, setGradient] = useState('');
   const toggleFlip = () => setFlipped((f) => !f);
-  return { accent, setAccent, flipped, toggleFlip, gradient, setGradient };
+
+  // Mode toggle — applies/removes .dark on <html> for local preview
+  const [mode, setMode] = useState<'light' | 'dark'>(() =>
+    document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+  );
+  const handleModeChange = useCallback((m: 'light' | 'dark') => {
+    setMode(m);
+    if (m === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  return { accent, setAccent, flipped, toggleFlip, gradient, setGradient, mode, setMode: handleModeChange };
 }
