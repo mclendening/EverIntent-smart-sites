@@ -476,6 +476,17 @@
 }
 
 @layer components {
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold transition-all duration-300;
+    background: hsl(var(--gold));
+    color: hsl(var(--gold-foreground));
+  }
+
+  .btn-gold:hover {
+    background: hsl(var(--gold-hover));
+    box-shadow: var(--shadow-gold-glow);
+  }
+
   .btn-glow {
     @apply relative overflow-hidden;
     box-shadow: var(--shadow-button);
