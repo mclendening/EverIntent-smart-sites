@@ -182,7 +182,7 @@ export function Footer() {
                 <span className="text-accent">✦</span> Ever<span className="text-gradient">Intent</span>
               </a>
               <p className="text-sm text-muted-foreground max-w-xs">
-                AI-powered business solutions. Never miss a call. Never lose a lead. <span className="text-accent font-medium">Smart Websites from $249.</span>
+                AI-powered business solutions. Never miss a call. Never lose a lead. <a href="/smart-websites" className="text-accent font-medium hover:underline transition-colors">Smart Websites from $249.</a>
               </p>
             </div>
             
