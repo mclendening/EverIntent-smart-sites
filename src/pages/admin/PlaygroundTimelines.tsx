@@ -1428,7 +1428,7 @@ export default function PlaygroundTimelines() {
   useAdminAuth();
   const [checkoutStep, setCheckoutStep] = useState(1);
   const [deliveryStep, setDeliveryStep] = useState(2);
-  const { accent, setAccent, flipped, toggleFlip } = useAccentState();
+  const { accent, setAccent, flipped, toggleFlip, gradient, setGradient } = useAccentState();
 
   return (
     <div className="min-h-screen bg-background">
@@ -1454,10 +1454,10 @@ export default function PlaygroundTimelines() {
               ambient pulses, and parallax depth. Styles 15–20 add minimal dots, zig-zag paths,
               orbit rings, and terminal aesthetics. Click step buttons to preview states.
             </p>
-            <AccentPickerBar selected={accent} onChange={setAccent} flipped={flipped} onFlip={toggleFlip} />
+            <AccentPickerBar selected={accent} onChange={setAccent} flipped={flipped} onFlip={toggleFlip} gradient={gradient} onGradientChange={setGradient} />
           </div>
 
-          <AccentWrapper accent={accent} flipped={flipped}>
+          <AccentWrapper accent={accent} flipped={flipped} gradient={gradient}>
           <div className="grid gap-8">
             {/* Style 1 */}
             <TimelineShowcaseCard
