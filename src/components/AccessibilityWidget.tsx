@@ -24,7 +24,8 @@ import {
   Moon, Sun, Contrast, Palette, Droplets,
   ScanLine, Focus, Keyboard, ImageOff, Pause,
   VolumeX, Heading, FileText, Eye,
-  UserRound, EyeOff, Brain, BookOpen, Hand, Sparkles, FileQuestion
+  UserRound, EyeOff, Brain, BookOpen, Hand, Sparkles, FileQuestion,
+  EyeOff as HideIcon, Clock, Ban, Timer
 } from 'lucide-react';
 
 // ─── Admin Config ───────────────────────────────────────────
@@ -301,6 +302,39 @@ const ACTIVE_PROFILE_KEY = 'ada-active-profile';
 // ─── Position Helpers ───────────────────────────────────────
 
 const POSITION_KEY = 'ada-widget-position';
+const HIDE_KEY = 'ada-hide-until';
+
+/** Check if the widget should be hidden based on user preference */
+function isUserHidden(): boolean {
+  try {
+    const raw = localStorage.getItem(HIDE_KEY);
+    if (!raw) return false;
+    if (raw === 'permanent') return true;
+    if (raw === 'session') return true; // session-based, cleared on page refresh via sessionStorage
+    const until = parseInt(raw, 10);
+    if (!isNaN(until) && Date.now() < until) return true;
+    // Expired — clean up
+    localStorage.removeItem(HIDE_KEY);
+    return false;
+  } catch { return false; }
+}
+
+/** Session-based hiding uses sessionStorage to survive SPA navigation but not tab close */
+function isSessionHidden(): boolean {
+  try { return sessionStorage.getItem(HIDE_KEY) === 'session'; } catch { return false; }
+}
+
+function hideWidget(mode: 'session' | '24h' | 'permanent') {
+  try {
+    if (mode === 'session') {
+      sessionStorage.setItem(HIDE_KEY, 'session');
+    } else if (mode === '24h') {
+      localStorage.setItem(HIDE_KEY, String(Date.now() + 24 * 60 * 60 * 1000));
+    } else {
+      localStorage.setItem(HIDE_KEY, 'permanent');
+    }
+  } catch {}
+}
 
 interface DragPosition { x: number; y: number; }
 
@@ -515,6 +549,8 @@ export function AccessibilityWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [state, setState] = useState<Record<string, number>>({});
   const [activeProfile, setActiveProfile] = useState<string | null>(null);
+  const [userHidden, setUserHidden] = useState(() => typeof window !== 'undefined' && (isUserHidden() || isSessionHidden()));
+  const [showHideOptions, setShowHideOptions] = useState(false);
   const config = getAdaConfig();
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
@@ -585,6 +621,13 @@ export function AccessibilityWidget() {
   if (config.hideOnMobile && isMobile) return null;
   if (config.hideOnDesktop && !isMobile) return null;
   if (config.pauseUntil && new Date(config.pauseUntil) > new Date()) return null;
+  if (userHidden) return null;
+
+  function handleHideWidget(mode: 'session' | '24h' | 'permanent') {
+    hideWidget(mode);
+    setUserHidden(true);
+    setIsOpen(false);
+  }
 
   function applyState(newState: Record<string, number>) {
     allModules.forEach(m => {
@@ -773,8 +816,49 @@ export function AccessibilityWidget() {
             <ModuleSection title="Color & Contrast" modules={colorModules} state={state} onToggle={toggleModule} />
             <ModuleSection title="Orientation" modules={orientationModules} state={state} onToggle={toggleModule} />
 
-            {/* Footer: Accessibility Statement */}
-            <div className="px-6 py-4 border-t border-border">
+            {/* Footer: Hide Widget + Accessibility Statement */}
+            <div className="px-6 py-4 border-t border-border space-y-3">
+              {/* Hide Widget Toggle */}
+              <div>
+                <button
+                  onClick={() => setShowHideOptions(prev => !prev)}
+                  className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors w-full"
+                  aria-expanded={showHideOptions}
+                >
+                  <EyeOff className="h-3.5 w-3.5 shrink-0" />
+                  <span>Hide Widget</span>
+                </button>
+                {showHideOptions && (
+                  <div className="mt-2 ml-5 space-y-1">
+                    <button
+                      onClick={() => handleHideWidget('session')}
+                      className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors w-full py-1"
+                    >
+                      <Timer className="h-3 w-3 shrink-0" />
+                      Hide for this session
+                    </button>
+                    <button
+                      onClick={() => handleHideWidget('24h')}
+                      className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors w-full py-1"
+                    >
+                      <Clock className="h-3 w-3 shrink-0" />
+                      Hide for 24 hours
+                    </button>
+                    <button
+                      onClick={() => handleHideWidget('permanent')}
+                      className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors w-full py-1"
+                    >
+                      <Ban className="h-3 w-3 shrink-0" />
+                      Hide permanently
+                    </button>
+                    <p className="text-[10px] text-muted-foreground/70 pt-1">
+                      Clear browser cache to restore
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Accessibility Statement */}
               <a
                 href="/legal/accessibility-statement"
                 className="flex items-center gap-2 text-xs text-muted-foreground hover:text-accent transition-colors"
