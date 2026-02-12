@@ -73,13 +73,10 @@ import CompareAIEmployee from './pages/CompareAIEmployee';
 import AdminLogin from './pages/admin/Login';
 import AdminResetPassword from './pages/admin/ResetPassword';
 import AdminDashboard from './pages/admin/Dashboard';
-import AdminThemes from './pages/admin/Themes';
-import AdminSubmissions from './pages/admin/Submissions';
 import ThemeTestPage from './pages/admin/ThemeTestPage';
-import AdminPlayground from './pages/admin/Playground';
-import AdminPlaygroundBadges from './pages/admin/PlaygroundBadges';
-import AdminPlaygroundTimelines from './pages/admin/PlaygroundTimelines';
-import AdminPlaygroundSeparators from './pages/admin/PlaygroundSeparators';
+
+// Module registry — triggers self-registration of all modules
+import { getModules } from './modules';
 
 // Legal pages
 import PrivacyPolicy from './pages/legal/PrivacyPolicy';
@@ -630,75 +627,26 @@ export const routes: RouteRecord[] = [
           </AdminGuard>
         ),
       },
-      {
-        path: 'themes',
-        element: (
-          <AdminGuard>
-            <AdminThemes />
-          </AdminGuard>
-        ),
-      },
-      {
-        path: 'submissions',
-        element: (
-          <AdminGuard>
-            <AdminSubmissions />
-          </AdminGuard>
-        ),
-      },
-      {
-        path: 'portfolio',
-        element: (
-          <AdminGuard>
-            <PlaceholderPage />
-          </AdminGuard>
-        ),
-      },
-      {
-        path: 'testimonials',
-        element: (
-          <AdminGuard>
-            <PlaceholderPage />
-          </AdminGuard>
-        ),
-      },
+      // Dynamic module routes from registry
+      ...getModules().flatMap((mod) =>
+        mod.routes.map((route) => ({
+          ...route,
+          element: route.Component ? (
+            <AdminGuard>
+              <route.Component />
+            </AdminGuard>
+          ) : route.element ? (
+            <AdminGuard>{route.element}</AdminGuard>
+          ) : undefined,
+          Component: undefined,
+        }))
+      ),
+      // Legacy routes not yet migrated to modules
       {
         path: 'theme-test',
         element: (
           <AdminGuard>
             <ThemeTestPage />
-          </AdminGuard>
-        ),
-      },
-      {
-        path: 'playground',
-        element: (
-          <AdminGuard>
-            <AdminPlayground />
-          </AdminGuard>
-        ),
-      },
-      {
-        path: 'playground/badges',
-        element: (
-          <AdminGuard>
-            <AdminPlaygroundBadges />
-          </AdminGuard>
-        ),
-      },
-      {
-        path: 'playground/timelines',
-        element: (
-          <AdminGuard>
-            <AdminPlaygroundTimelines />
-          </AdminGuard>
-        ),
-      },
-      {
-        path: 'playground/separators',
-        element: (
-          <AdminGuard>
-            <AdminPlaygroundSeparators />
           </AdminGuard>
         ),
       },

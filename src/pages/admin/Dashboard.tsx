@@ -1,11 +1,30 @@
+/**
+ * @fileoverview Admin Dashboard — dynamically renders module cards from the registry.
+ *
+ * This is the admin shell's home page. Instead of hardcoding cards for each feature,
+ * it reads registered modules from the platform registry and renders navigation cards
+ * for each module's navItems.
+ *
+ * ## Architecture
+ * - Reads modules via `getModules()` from the registry
+ * - Renders cards grouped by ModuleCategory
+ * - Each card links to the module's admin route
+ * - Auth/sign-out handled via useAdminAuth hook
+ *
+ * ## Portability
+ * - Adding a new module automatically adds its card here — zero changes needed.
+ */
+
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
-import { FileText, Image, MessageSquare, LogOut, Palette, FlaskConical } from 'lucide-react';
+import { LogOut } from 'lucide-react';
+import { getModules } from '@/modules';
 
 export default function AdminDashboard() {
   const { user, signOut } = useAdminAuth();
+  const modules = getModules();
 
   const handleSignOut = async () => {
     await signOut();
@@ -28,100 +47,27 @@ export default function AdminDashboard() {
 
       <main className="container py-4 sm:py-8 px-4">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <Link to="/admin/themes">
-            <Card className="transition-colors hover:border-primary">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Palette className="h-5 w-5" />
-                  Themes
-                </CardTitle>
-                <CardDescription>
-                  Manage site themes and colors
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Create, edit, and activate visual themes
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link to="/admin/submissions">
-            <Card className="transition-colors hover:border-primary">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="h-5 w-5" />
-                  Submissions
-                </CardTitle>
-                <CardDescription>
-                  View and manage checkout submissions
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Review customer submissions and track orders
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link to="/admin/portfolio">
-            <Card className="transition-colors hover:border-primary">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Image className="h-5 w-5" />
-                  Portfolio
-                </CardTitle>
-                <CardDescription>
-                  Manage portfolio items
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Add, edit, or remove portfolio showcase items
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link to="/admin/testimonials">
-            <Card className="transition-colors hover:border-primary">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MessageSquare className="h-5 w-5" />
-                  Testimonials
-                </CardTitle>
-                <CardDescription>
-                  Manage customer testimonials
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Add, edit, or remove customer testimonials
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link to="/admin/playground">
-            <Card className="transition-colors hover:border-primary">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FlaskConical className="h-5 w-5" />
-                  Playground
-                </CardTitle>
-                <CardDescription>
-                  Style experiments and callout alternatives
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Preview premium badge replacement styles
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
+          {modules.flatMap((mod) =>
+            mod.navItems.map((nav) => {
+              const Icon = nav.icon;
+              return (
+                <Link key={`${mod.id}-${nav.path}`} to={`/admin/${nav.path}`}>
+                  <Card className="transition-colors hover:border-primary">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        {Icon && <Icon className="h-5 w-5" />}
+                        {nav.label}
+                      </CardTitle>
+                      <CardDescription>{nav.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">{nav.detail}</p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              );
+            })
+          )}
         </div>
       </main>
     </div>
