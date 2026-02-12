@@ -31,6 +31,7 @@ import { ThemeImporter } from '@/components/admin/ThemeImporter';
 import { DarkModeOverridesEditor, type DarkModeOverrides, DARK_MODE_DEFAULTS } from '@/components/admin/DarkModeOverridesEditor';
 import { ThemeEditorNav, type EditorSection } from '@/components/admin/ThemeEditorNav';
 import { ThemeEditorPanels } from '@/components/admin/ThemeEditorPanels';
+import { ThemeSummaryDashboard } from '@/components/admin/ThemeSummaryDashboard';
 
 type Theme = Tables<'site_themes'>;
 type LogoVersion = Tables<'logo_versions'>;
@@ -2540,146 +2541,24 @@ ${styleModulesCss}  }
                       </div>
                     </div>
                   ) : (
-                    /* View Mode */
-                    <div className="grid gap-4 lg:gap-6 grid-cols-1 lg:grid-cols-2">
-                      <div className="space-y-4">
-                        <div>
-                          <Label className="text-muted-foreground text-xs">Base Hue</Label>
-                          <div className="flex items-center gap-2 mt-1">
-                            <span className="font-medium">{selectedTheme.base_hue}°</span>
-                            <div 
-                              className="h-6 w-12 rounded border"
-                              style={{ backgroundColor: `hsl(${selectedTheme.base_hue}, 70%, 50%)` }}
-                            />
-                          </div>
-                        </div>
-
-                        <div>
-                          <Label className="text-muted-foreground text-xs">Accent Color</Label>
-                          <div className="flex items-center gap-2 mt-1">
-                            <div 
-                              className="h-8 w-8 rounded-lg border"
-                              style={{ backgroundColor: `hsl(${accentConfig.h}, ${accentConfig.s}%, ${accentConfig.l}%)` }}
-                            />
-                            <span className="font-mono text-sm">{accentConfig.h}° {accentConfig.s}% {accentConfig.l}%</span>
-                          </div>
-                        </div>
-
-                        <div>
-                          <Label className="text-muted-foreground text-xs">Changelog Notes</Label>
-                          <p className="text-sm mt-1">{selectedTheme.changelog_notes || 'No notes'}</p>
-                        </div>
-
-                        {/* Color Palette Summary */}
-                        <div>
-                          <Label className="text-muted-foreground text-xs">Color Palette</Label>
-                          <div className="flex flex-wrap gap-1 mt-1">
-                            {Object.entries(staticColors).slice(0, 8).map(([key, val]) => (
-                              <div key={key} className="text-center">
-                                <div 
-                                  className="h-6 w-6 rounded border"
-                                  style={{ backgroundColor: `hsl(${val})` }}
-                                  title={`${key}: ${val}`}
-                                />
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* E-Commerce Colors */}
-                        <div>
-                          <Label className="text-muted-foreground text-xs">E-Commerce / Gold</Label>
-                          <div className="flex gap-1 mt-1">
-                            {Object.entries(ecommerceColors).map(([key, val]) => (
-                              <div key={key} title={`${key}: ${val}`}>
-                                <div className="h-6 w-6 rounded border" style={{ backgroundColor: `hsl(${val})` }} />
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* CTA Variants */}
-                        <div>
-                          <Label className="text-muted-foreground text-xs">CTA Variants</Label>
-                          <div className="flex gap-1 mt-1">
-                            {Object.entries(ctaVariants).map(([key, val]) => (
-                              <div key={key} title={`${key}: ${val}`}>
-                                <div className="h-6 w-6 rounded border" style={{ backgroundColor: `hsl(${val})` }} />
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Typography */}
-                        <div>
-                          <Label className="text-muted-foreground text-xs">Typography</Label>
-                          <div className="space-y-1 mt-1">
-                            <p className="text-xs font-mono truncate" title={typographyConfig.fontHeading}>
-                              <span className="text-muted-foreground">Heading:</span> {typographyConfig.fontHeading.split(',')[0]}
-                            </p>
-                            <p className="text-xs font-mono truncate" title={typographyConfig.fontBody}>
-                              <span className="text-muted-foreground">Body:</span> {typographyConfig.fontBody.split(',')[0]}
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Default Mode */}
-                        <div>
-                          <Label className="text-muted-foreground text-xs">Default Mode</Label>
-                          <Badge variant="outline" className="mt-1 capitalize">{defaultMode}</Badge>
-                        </div>
-
-                        {/* Style Modules */}
-                        {styleModules.length > 0 && (
-                          <div>
-                            <Label className="text-muted-foreground text-xs">Style Modules ({styleModules.length})</Label>
-                            <div className="flex flex-wrap gap-1 mt-1">
-                              {styleModules.map(m => (
-                                <Badge key={m.name} variant="secondary" className="text-xs">{m.name}</Badge>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label className="text-muted-foreground text-xs">Logo Preview</Label>
-                        <div 
-                          className="rounded-lg p-6 flex items-center justify-center border"
-                          style={{ backgroundColor: `hsl(${staticColors.primary})` }}
-                        >
-                          {getLogoForTheme(selectedTheme) && (
-                            <LogoRenderer 
-                              config={getLogoForTheme(selectedTheme)!}
-                              accentHsl={`${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`}
-                            />
-                          )}
-                        </div>
-
-                        {/* Gradient Previews */}
-                        <div className="space-y-2 mt-4">
-                          <Label className="text-muted-foreground text-xs">Gradients</Label>
-                          {gradientConfigs.hero && (
-                            <div className="space-y-1">
-                              <span className="text-xs text-muted-foreground">Hero</span>
-                              <div className="h-6 rounded border" style={{ background: gradientConfigs.hero }} />
-                            </div>
-                          )}
-                          {gradientConfigs.cta && (
-                            <div className="space-y-1">
-                              <span className="text-xs text-muted-foreground">CTA</span>
-                              <div className="h-6 rounded border" style={{ background: gradientConfigs.cta }} />
-                            </div>
-                          )}
-                          {gradientConfigs.text && (
-                            <div className="space-y-1">
-                              <span className="text-xs text-muted-foreground">Text</span>
-                              <div className="h-6 rounded border" style={{ background: gradientConfigs.text }} />
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
+                    /* View Mode — Theme Summary Dashboard */
+                    <ThemeSummaryDashboard
+                      themeName={selectedTheme.name}
+                      isActive={!!selectedTheme.is_active}
+                      defaultMode={defaultMode}
+                      accentConfig={accentConfig}
+                      staticColors={staticColors}
+                      darkModeOverrides={darkModeOverrides}
+                      gradientConfigs={gradientConfigs}
+                      typographyConfig={typographyConfig}
+                      motionConfig={motionConfig}
+                      ecommerceColors={ecommerceColors}
+                      ctaVariants={ctaVariants}
+                      styleModules={styleModules}
+                      adaWidgetConfig={adaWidgetConfig}
+                      ghlChatConfig={ghlChatConfig}
+                      logoVersion={getLogoForTheme(selectedTheme)}
+                    />
                   )}
                 </CardContent>
               </Card>
