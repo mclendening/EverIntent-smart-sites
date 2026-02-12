@@ -1,3 +1,38 @@
+/**
+ * @fileoverview Logo Configuration Editor — Brand wordmark element styling.
+ *
+ * Full CRUD editor for the EverIntent brand logo, which is a composed wordmark
+ * consisting of four configurable elements: "Ever" text, "Intent" text, a
+ * decorative streak (underline), and a tagline. Each element has independent
+ * size, weight, color (solid or gradient), margins, and vertical offset controls.
+ *
+ * ## Business Purpose
+ * The logo is a multi-element SVG/CSS composition rendered by LogoRenderer.
+ * This editor gives admins pixel-level control over each element's appearance
+ * without designer intervention — critical for theme-specific logo variants
+ * (e.g., light backgrounds need dark text, dark backgrounds need white/gradient text).
+ *
+ * ## Data Contract
+ * - **Database**: Reads/writes `logo_versions` table via Supabase client.
+ *   Columns: ever_config, intent_config, streak_config, tagline_config (all JSONB),
+ *   tagline_text (text).
+ * - **Props**: `selectedLogoId` (FK to logo_versions.id, stored on site_themes.logo_version_id),
+ *   `onLogoChange` (updates parent's FK), `accentHsl` (for accent-aware preview),
+ *   `previewBgColor` (preview panel background).
+ * - **Config shapes**: TextElementConfig, StreakConfig, TaglineConfig (from logo/types.ts).
+ *
+ * ## Security
+ * - Admin-only (behind AdminGuard). Authenticated Supabase client.
+ * - RLS on `logo_versions`: only admin role can write.
+ *
+ * ## SSG Compatibility
+ * - Admin-only, not SSG-rendered. Logo config is baked into `themes.ts` at publish time.
+ *
+ * ## Portability
+ * - Copy this file + logo/types.ts + LogoRenderer. Adjust the wordmark elements
+ *   (Ever/Intent) to match your brand's wordmark composition.
+ */
+
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';

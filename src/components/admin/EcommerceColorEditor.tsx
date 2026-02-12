@@ -1,3 +1,41 @@
+/**
+ * @fileoverview E-Commerce & CTA Color Editor
+ *
+ * Manages two independent color groups that drive the conversion layer:
+ * 1. **Gold Colors** — premium accent palette for pricing badges, checkout
+ *    highlights, and trust-building gold accents. Intentionally decoupled
+ *    from the theme accent so pricing visuals remain stable across accent changes.
+ * 2. **CTA Variants** — primary and secondary call-to-action button colors
+ *    with hover states, used by CTAButton and checkout components.
+ *
+ * ## Business Purpose
+ * Separating commerce colors from the brand accent ensures that conversion-critical
+ * elements (pricing, CTAs) maintain tested visual impact regardless of brand
+ * accent experiments.
+ *
+ * ## Data Contract
+ * - **Gold Input**: `EcommerceColors` from `site_themes.ecommerce_colors` JSONB.
+ *   Keys: gold, goldHover, goldGlow, goldForeground, pricingHighlight.
+ * - **CTA Input**: `CtaVariants` from `site_themes.cta_variants` JSONB.
+ *   Keys: primary, primaryHover, secondary, secondaryHover.
+ * - All values are HSL triplets (e.g., "39 95% 50%").
+ * - **Output**: Two callbacks — `onEcommerceChange` and `onCtaChange`.
+ *
+ * ## CSS Variables Emitted (via publish pipeline)
+ * --gold, --gold-hover, --gold-glow, --gold-foreground, --pricing-highlight,
+ * --cta-primary, --cta-primary-hover, --cta-secondary, --cta-secondary-hover.
+ *
+ * ## Security
+ * - Admin-only editor. No direct DB access.
+ *
+ * ## SSG Compatibility
+ * - No browser APIs. Values are baked into static CSS at publish time.
+ *
+ * ## Portability
+ * - Copy this file + EcommerceColors/CtaVariants interfaces. Consumer must
+ *   wire the output CSS variables to button/pricing components.
+ */
+
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';

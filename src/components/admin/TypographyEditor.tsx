@@ -1,3 +1,41 @@
+/**
+ * @fileoverview Typography Configuration Editor
+ *
+ * Admin controls for the three font-family slots used across the site:
+ * - **Heading**: h1–h6 elements (--font-heading CSS variable).
+ * - **Body**: Paragraphs and general text (--font-body).
+ * - **Display**: Hero headlines and large display text (--font-display).
+ *
+ * ## Business Purpose
+ * Typography is the most impactful brand signal after color. This editor
+ * lets admins swap font stacks per theme from a curated list of web-safe
+ * Google Fonts, with live preview — no code changes required.
+ *
+ * ## Data Contract
+ * - **Input**: `TypographyConfig` from `site_themes.typography_config` JSONB.
+ *   Keys: fontHeading, fontBody, fontDisplay.
+ *   Values: CSS font-family stacks with system fallbacks
+ *   (e.g., "Space Grotesk, -apple-system, BlinkMacSystemFont, sans-serif").
+ * - **Output**: `onChange(config)` — parent persists to DB.
+ *
+ * ## Font Loading
+ * - Selected fonts must be loaded via Google Fonts `<link>` in index.html
+ *   or dynamically injected. The curated list (10 fonts) is pre-loaded.
+ *
+ * ## CSS Variables Emitted
+ * --font-heading, --font-body, --font-display.
+ *
+ * ## Security
+ * - Admin-only. No direct DB access.
+ *
+ * ## SSG Compatibility
+ * - Values are baked into static CSS. Font loading happens via HTML `<link>`.
+ *
+ * ## Portability
+ * - Copy this file + TypographyConfig interface. Add/remove fonts from
+ *   `fontOptions` array to match your project's font licensing.
+ */
+
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';

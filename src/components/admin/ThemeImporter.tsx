@@ -1,7 +1,40 @@
 /**
- * Theme Import component for the admin panel.
- * Allows uploading a v2.0 JSON theme file, validates the schema,
- * and creates a new theme or updates an existing one in the database.
+ * @fileoverview Theme Importer — JSON file upload with schema validation.
+ *
+ * Allows admins to upload a v2.0 theme JSON file exported from another
+ * instance (or hand-crafted) and either create a new theme or update an
+ * existing one in the `site_themes` table.
+ *
+ * ## Business Purpose
+ * Enables theme portability between environments (dev → staging → prod)
+ * and cross-project theme sharing. A designer can export a theme from
+ * one Lovable project and import it into another.
+ *
+ * ## Validation
+ * - File must be .json, ≤ 500KB.
+ * - Required fields: `version` ("2.0"), `theme.name` (string), `theme.baseHue` (0–360).
+ * - Optional typed fields: accentConfig, staticColors, styleModules, etc.
+ * - Warnings for version mismatch or unexpected types (non-blocking).
+ *
+ * ## Import Modes
+ * - **Create**: Inserts a new row in `site_themes` (with `is_active: false`).
+ * - **Update**: Overwrites an existing theme matched by name.
+ *
+ * ## Data Contract
+ * - **Input Props**: `existingThemeNames` (for conflict detection), `onImportComplete` callback.
+ * - **DB Write**: Direct insert/update to `site_themes` via Supabase client.
+ * - **Schema**: `ThemeImportData` interface mirrors the export format.
+ *
+ * ## Security
+ * - Admin-only (behind AdminGuard). Uses authenticated Supabase client.
+ * - RLS policies on `site_themes` restrict writes to admin role.
+ *
+ * ## SSG Compatibility
+ * - Admin-only component, not rendered during SSG.
+ *
+ * ## Portability
+ * - Copy this file. Adjust the `site_themes` table name and column mappings
+ *   to match your project's schema.
  */
 
 import { useState, useRef } from 'react';

@@ -1,7 +1,35 @@
 /**
- * Real-time WCAG contrast checker for foreground/background token pairs.
- * Displays AA/AAA pass/fail badges based on computed luminance ratios.
- * Checks normal text (4.5:1 AA, 7:1 AAA) and large text (3:1 AA, 4.5:1 AAA).
+ * @fileoverview WCAG 2.1 Contrast Ratio Checker
+ *
+ * Real-time accessibility audit tool that validates foreground/background
+ * color token pairs against WCAG 2.1 contrast requirements. Displays
+ * AA/AAA pass/fail badges so admins can catch inaccessible combinations
+ * before publishing a theme.
+ *
+ * ## Business Purpose
+ * Prevents publishing themes with unreadable text, reducing ADA liability
+ * and ensuring all client sites meet minimum accessibility standards.
+ *
+ * ## Thresholds
+ * - Normal text:  AA ≥ 4.5:1, AAA ≥ 7:1
+ * - Large text:   AA ≥ 3:1,   AAA ≥ 4.5:1
+ *
+ * ## Data Contract
+ * - **Input**: `staticColors` (light-mode semantic tokens from `site_themes.static_colors`)
+ *   and `accentHsl` (computed from `accent_config`).
+ * - Pairs checked: foreground/background, card, primary, secondary, muted, popover,
+ *   and accent against both background and card surfaces.
+ * - Pure computation — no database calls, no side effects.
+ *
+ * ## Security
+ * - Read-only audit tool; no writes. Admin-only via parent guard.
+ *
+ * ## SSG Compatibility
+ * - Stateless, no browser APIs — safe for SSR/SSG if needed.
+ *
+ * ## Portability
+ * - Self-contained HSL→RGB→luminance pipeline. Copy this file into any project
+ *   that uses HSL-format design tokens (format: "H S% L%").
  */
 
 import { useMemo } from 'react';

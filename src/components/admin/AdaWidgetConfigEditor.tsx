@@ -1,7 +1,32 @@
 /**
- * @fileoverview ADA Widget Configuration Editor
- * Admin panel for controlling accessibility widget visibility, placement, and icon styling.
- * Task 7.15 - ADA widget config (visibility, pause/hide scheduling, device toggle)
+ * @fileoverview ADA Accessibility Widget Configuration Editor
+ *
+ * Admin panel that controls the floating accessibility button rendered by
+ * AccessibilityWidget.tsx on the public site. Governs visibility, position,
+ * device targeting, scheduling, and icon appearance.
+ *
+ * ## Business Purpose
+ * Provides per-theme, admin-controlled ADA compliance tooling so each client
+ * site can meet WCAG requirements with a branded, non-intrusive widget —
+ * without touching code.
+ *
+ * ## Data Contract
+ * - **Input**: `AdaWidgetConfig` object (from `site_themes.ada_widget_config` JSONB column).
+ * - **Output**: Calls `onChange(config)` with the updated config; parent persists to DB.
+ * - Shape: { enabled, position, hideOnMobile, hideOnDesktop, pauseUntil, hiddenIndefinitely,
+ *   iconType, iconColor (HSL), iconBgColor (HSL), iconSize (px), iconShape, readingHandleSize }.
+ *
+ * ## Security
+ * - Rendered inside AdminGuard; only authenticated admins can modify.
+ * - Config is read-only on the public site (consumed via published theme CSS/JSON).
+ *
+ * ## SSG Compatibility
+ * - The editor itself is admin-only (not SSG-rendered).
+ * - The consumer (AccessibilityWidget) uses ClientOnly to avoid hydration mismatch.
+ *
+ * ## Portability
+ * - To use in another project: copy this file + AdaWidgetConfig interface.
+ *   Ensure the consuming widget reads the same config shape from your theme system.
  */
 
 import { AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';

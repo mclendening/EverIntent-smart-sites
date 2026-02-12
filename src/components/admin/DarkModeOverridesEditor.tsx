@@ -1,3 +1,40 @@
+/**
+ * @fileoverview Dark Mode Color Overrides Editor
+ *
+ * Provides explicit per-token dark mode color overrides that populate the
+ * `.dark` CSS class block. The theme system follows a "Light-as-Base"
+ * architecture: `:root` holds light-mode tokens, and `.dark` overrides
+ * only the tokens that differ for dark mode.
+ *
+ * ## Business Purpose
+ * Allows admins to independently tune dark mode aesthetics per theme —
+ * critical for clients whose brand looks good in light but needs manual
+ * dark adjustments (e.g., card surfaces, muted text legibility).
+ *
+ * ## Data Contract
+ * - **Input**: `DarkModeOverrides` object (from `site_themes.dark_mode_overrides` JSONB).
+ *   Also receives `baseColors` (light-mode `staticColors`) for the "Copy from Base" action.
+ * - **Output**: `onChange(overrides)` — parent persists to DB.
+ * - Each key maps 1:1 to a CSS custom property (e.g., `background` → `--background`).
+ * - All values are HSL triplets without the `hsl()` wrapper (e.g., "222 47% 7%").
+ *
+ * ## Controls
+ * - 16 semantic color tokens with individual HSL sliders (H/S/L).
+ * - "Copy from Base Colors" — seeds dark overrides from light-mode values.
+ * - "Reset to Defaults" — applies DARK_MODE_DEFAULTS constant.
+ * - Inline dark-mode preview card.
+ *
+ * ## Security
+ * - Admin-only (behind AdminGuard). No direct DB access.
+ *
+ * ## SSG Compatibility
+ * - No browser APIs; safe for SSR. Published CSS is generated server-side.
+ *
+ * ## Portability
+ * - Copy this file + export `DarkModeOverrides` and `DARK_MODE_DEFAULTS`.
+ *   Consumer must apply overrides inside a `.dark` CSS scope.
+ */
+
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';

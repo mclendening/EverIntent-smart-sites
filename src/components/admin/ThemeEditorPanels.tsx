@@ -1,7 +1,38 @@
 /**
- * @fileoverview Theme Editor Panels — renders the active editor section.
- * Each panel is a focused, single-purpose editor for one aspect of the theme.
- * Replaces the monolithic Accordion with clean, scrollable panels.
+ * @fileoverview Theme Editor Panels — Panel router that renders the active editor section.
+ *
+ * Acts as the "content area" counterpart to ThemeEditorNav. Receives the full
+ * theme state from Themes.tsx (the page-level orchestrator) and delegates to
+ * individual editor components based on the active section.
+ *
+ * ## Architecture
+ * - **PanelWrapper**: Consistent layout shell (title + description + children).
+ * - **Section panels**: AccentPanel, LightColorsPanel, GradientsPanel, GhlChatPanel
+ *   are defined inline; others delegate to dedicated editor components.
+ * - Wrapped in a ScrollArea for fixed-height scrolling.
+ *
+ * ## Data Flow (top-down)
+ * Themes.tsx (page) → ThemeEditorPanels (router) → Individual Editor (leaf)
+ * Each editor receives its config slice + onChange callback. Changes bubble up
+ * to Themes.tsx, which persists to `site_themes` via Supabase.
+ *
+ * ## Props Contract
+ * - `active`: EditorSection — determines which panel renders.
+ * - State props: accentConfig, staticColors, darkModeOverrides, gradientConfigs,
+ *   ghlChatConfig, ecommerceColors, ctaVariants, typographyConfig, motionConfig,
+ *   styleModules, defaultMode, adaWidgetConfig, selectedTheme — plus their setters.
+ * - `themes` + `fetchData`: For ThemeImporter's create/update + refresh flow.
+ *
+ * ## Security
+ * - Admin-only (behind AdminGuard in Themes.tsx). All DB writes go through
+ *   the parent orchestrator, not this component.
+ *
+ * ## SSG Compatibility
+ * - Admin-only, not SSG-rendered.
+ *
+ * ## Portability
+ * - This file + ThemeEditorNav + all editor components form the admin theme
+ *   editing system. The parent page must provide the state management layer.
  */
 
 import { ScrollArea } from '@/components/ui/scroll-area';

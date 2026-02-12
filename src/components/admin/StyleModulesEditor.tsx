@@ -1,3 +1,45 @@
+/**
+ * @fileoverview Style Modules Editor — Generic CRUD for component-level CSS token groups.
+ *
+ * Style Modules are named collections of CSS custom properties scoped to specific
+ * UI components (e.g., checkout-progress, comparison-grid, sms-demo). Each module
+ * contains tokens that are emitted as `--module-{module-name}-{token-name}` CSS variables.
+ *
+ * ## Business Purpose
+ * Enables per-component visual control without touching component source code.
+ * Admins can create modules for any UI feature and define tokens that the component
+ * reads via CSS variables with semantic fallbacks. This supports the "tokenize
+ * everything" philosophy where all visual decisions flow through the admin pipeline.
+ *
+ * ## Data Contract
+ * - **Input**: `StyleModule[]` from `site_themes.style_modules` JSONB column.
+ *   Each module: { id, name, description?, tokens: [{ name, value, description? }] }.
+ * - **Output**: `onChange(modules)` — parent persists the full array to DB.
+ * - Token values are typically HSL triplets but can be any valid CSS value.
+ *
+ * ## CSS Variable Convention
+ * A module named "checkout-progress" with token "active-bg" emits:
+ * `--module-checkout-progress-active-bg: <value>`
+ *
+ * Components consume via: `var(--module-checkout-progress-active-bg, <fallback>)`
+ *
+ * ## Hue-Adaptive Tokens
+ * Some module tokens are "hue-adaptive" — their values are dynamically derived
+ * from the theme's accent_config at seed time. When the accent changes, the
+ * seed script recalculates these tokens automatically.
+ *
+ * ## Security
+ * - Admin-only (behind AdminGuard). No direct DB writes.
+ *
+ * ## SSG Compatibility
+ * - Modules are flattened into static CSS at publish time via generateProductionCss().
+ *   No runtime resolution needed.
+ *
+ * ## Portability
+ * - Copy this file + StyleModule/StyleModuleToken interfaces. Consumer components
+ *   must read `--module-*` CSS variables with appropriate fallbacks.
+ */
+
 import { useState } from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
