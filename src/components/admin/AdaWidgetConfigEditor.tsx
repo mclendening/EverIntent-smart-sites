@@ -25,6 +25,7 @@ export interface AdaWidgetConfig {
   iconBgColor: string;
   iconSize: number;
   iconShape: 'circle' | 'rounded-square' | 'pill';
+  readingHandleSize: number;
 }
 
 interface AdaWidgetConfigEditorProps {
@@ -209,6 +210,25 @@ export function AdaWidgetConfigEditor({ config, onChange }: AdaWidgetConfigEdito
                 <p>{config.iconShape} • {config.iconSize}px</p>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Reading Handle Size */}
+        <div className="space-y-3">
+          <Label className="text-xs font-medium">Reading Aids</Label>
+          <div className="space-y-1">
+            <div className="flex justify-between items-center">
+              <Label className="text-xs">Handle Size</Label>
+              <span className="text-xs text-muted-foreground">{config.readingHandleSize ?? 28}px</span>
+            </div>
+            <Slider
+              value={[config.readingHandleSize ?? 28]}
+              min={20}
+              max={48}
+              step={2}
+              onValueChange={([v]) => update({ readingHandleSize: v })}
+            />
+            <p className="text-[10px] text-muted-foreground">Controls the drag handle on Reading Line &amp; Reading Mask</p>
           </div>
         </div>
       </AccordionContent>
