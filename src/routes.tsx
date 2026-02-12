@@ -79,6 +79,7 @@ import ThemeTestPage from './pages/admin/ThemeTestPage';
 import AdminPlayground from './pages/admin/Playground';
 import AdminPlaygroundBadges from './pages/admin/PlaygroundBadges';
 import AdminPlaygroundTimelines from './pages/admin/PlaygroundTimelines';
+import AdminPlaygroundSeparators from './pages/admin/PlaygroundSeparators';
 
 // Legal pages
 import PrivacyPolicy from './pages/legal/PrivacyPolicy';
@@ -690,6 +691,14 @@ export const routes: RouteRecord[] = [
         element: (
           <AdminGuard>
             <AdminPlaygroundTimelines />
+          </AdminGuard>
+        ),
+      },
+      {
+        path: 'playground/separators',
+        element: (
+          <AdminGuard>
+            <AdminPlaygroundSeparators />
           </AdminGuard>
         ),
       },

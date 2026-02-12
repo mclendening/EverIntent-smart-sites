@@ -6,7 +6,7 @@
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Sparkles, GitBranch } from 'lucide-react';
+import { ArrowLeft, Sparkles, GitBranch, SeparatorHorizontal } from 'lucide-react';
 
 export default function Playground() {
   useAdminAuth();
@@ -61,6 +61,25 @@ export default function Playground() {
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
                     8 interactive timeline styles with hover, two-tone, and gradient
+                  </p>
+                </CardContent>
+              </Card>
+            </Link>
+
+            <Link to="/admin/playground/separators">
+              <Card className="transition-colors hover:border-accent/40">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <SeparatorHorizontal className="h-5 w-5 text-accent" />
+                    Section Separators
+                  </CardTitle>
+                  <CardDescription>
+                    Dividers and ornamental breaks between content sections
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    18 award-winning separator styles with gradients, SVG, and motion
                   </p>
                 </CardContent>
               </Card>
