@@ -41,7 +41,7 @@ export default function Playground() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    15 award-winning callout alternatives using theme gradients
+                    34 award-winning callout alternatives using theme gradients
                   </p>
                 </CardContent>
               </Card>
@@ -60,7 +60,7 @@ export default function Playground() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    8 interactive timeline styles with hover, two-tone, and gradient
+                    20 interactive timeline styles with hover, two-tone, and gradient
                   </p>
                 </CardContent>
               </Card>
@@ -79,7 +79,7 @@ export default function Playground() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    18 award-winning separator styles with gradients, SVG, and motion
+                    30 award-winning separator styles with gradients, SVG, and motion
                   </p>
                 </CardContent>
               </Card>

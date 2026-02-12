@@ -432,11 +432,128 @@ function ConstellationSeparator() {
   );
 }
 
+// ─── NEW STYLES 25-30 ─────────────────────────────────────────
+
+/** Style 25: Waveform — Audio waveform pattern */
+function WaveformSeparator() {
+  const heights = [4, 8, 14, 20, 12, 18, 6, 16, 10, 22, 8, 14, 20, 6, 16, 12, 8, 18, 10, 14, 22, 6, 12, 18, 8, 14, 10, 20, 6, 16];
+  return (
+    <div className="flex items-center justify-center gap-[2px] py-4">
+      {heights.map((h, i) => (
+        <div
+          key={i}
+          className="w-[2px] rounded-full"
+          style={{
+            height: `${h}px`,
+            background: `hsl(var(--accent) / ${0.15 + (h / 22) * 0.35})`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/** Style 26: Gradient Mesh — Overlapping soft radial gradients */
+function GradientMeshSeparator() {
+  return (
+    <div className="relative py-4 h-8 overflow-hidden">
+      <div
+        className="absolute left-[20%] top-1/2 -translate-y-1/2 w-24 h-8 rounded-full opacity-30"
+        style={{ background: 'radial-gradient(ellipse, hsl(var(--accent) / 0.6), transparent 70%)' }}
+      />
+      <div
+        className="absolute left-[50%] top-1/2 -translate-y-1/2 w-32 h-8 rounded-full opacity-20"
+        style={{ background: 'radial-gradient(ellipse, hsl(var(--accent) / 0.5), transparent 70%)' }}
+      />
+      <div
+        className="absolute left-[75%] top-1/2 -translate-y-1/2 w-20 h-8 rounded-full opacity-25"
+        style={{ background: 'radial-gradient(ellipse, hsl(var(--accent-glow) / 0.5), transparent 70%)' }}
+      />
+      <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-accent/10" />
+    </div>
+  );
+}
+
+/** Style 27: Step Notches — Evenly spaced tick marks like a ruler */
+function StepNotchesSeparator() {
+  return (
+    <div className="relative py-4">
+      <div className="h-[1px] w-full bg-accent/15" />
+      <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex justify-between px-8">
+        {[...Array(11)].map((_, i) => (
+          <div
+            key={i}
+            className="w-[1px] bg-accent/30"
+            style={{ height: i % 5 === 0 ? '12px' : '6px' }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** Style 28: Folded Paper — CSS-only origami fold illusion */
+function FoldedPaperSeparator() {
+  return (
+    <div className="relative h-6 -mx-8 overflow-hidden">
+      <div
+        className="absolute inset-0"
+        style={{
+          background: 'linear-gradient(135deg, transparent 48%, hsl(var(--accent) / 0.08) 48%, hsl(var(--accent) / 0.04) 52%, transparent 52%)',
+        }}
+      />
+      <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-accent/10" />
+    </div>
+  );
+}
+
+/** Style 29: Scattered Stars — Random star/sparkle points */
+function ScatteredStarsSeparator() {
+  const stars = [
+    { x: 8, y: 40, s: 0.6 }, { x: 18, y: 20, s: 0.8 }, { x: 32, y: 55, s: 0.5 },
+    { x: 45, y: 30, s: 1 }, { x: 58, y: 50, s: 0.7 }, { x: 72, y: 25, s: 0.9 },
+    { x: 85, y: 45, s: 0.6 }, { x: 92, y: 35, s: 0.8 },
+  ];
+  return (
+    <div className="relative py-2 h-10">
+      {stars.map((star, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 rounded-full bg-accent"
+          style={{ left: `${star.x}%`, top: `${star.y}%`, opacity: star.s * 0.5 }}
+          animate={{ opacity: [star.s * 0.3, star.s * 0.7, star.s * 0.3], scale: [0.8, 1.2, 0.8] }}
+          transition={{ duration: 2 + i * 0.3, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      ))}
+      <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-accent/5" />
+    </div>
+  );
+}
+
+/** Style 30: Pendulum — Swinging element in the center */
+function PendulumSeparator() {
+  return (
+    <div className="relative py-6 flex items-center justify-center">
+      <div className="h-[1px] flex-1 bg-border" />
+      <div className="mx-4 relative">
+        <div className="w-[1px] h-6 bg-accent/30 mx-auto" />
+        <motion.div
+          className="w-3 h-3 rounded-full bg-accent/50 mx-auto"
+          animate={{ x: [-8, 8, -8] }}
+          transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ boxShadow: '0 0 8px hsl(var(--accent-glow) / 0.3)' }}
+        />
+      </div>
+      <div className="h-[1px] flex-1 bg-border" />
+    </div>
+  );
+}
+
 // ─── MAIN PAGE ────────────────────────────────────────────────
 
 export default function PlaygroundSeparators() {
   useAdminAuth();
-  const { accent, setAccent } = useAccentState();
+  const { accent, setAccent, flipped, toggleFlip } = useAccentState();
 
   return (
     <div className="min-h-screen bg-background">
@@ -457,13 +574,13 @@ export default function PlaygroundSeparators() {
           <div className="mb-6">
             <h2 className="text-3xl font-bold text-foreground mb-2">Section Separators</h2>
             <p className="text-muted-foreground max-w-2xl mb-4">
-              24 award-winning section divider styles. From minimal gradient fades to animated particle
-              trails. Each uses the theme's accent and works in both light and dark modes.
+              30 award-winning section divider styles. From minimal gradient fades to animated particle
+              trails and pendulum swings. Each uses the theme's accent and works in both light and dark modes.
             </p>
-            <AccentPickerBar selected={accent} onChange={setAccent} />
+            <AccentPickerBar selected={accent} onChange={setAccent} flipped={flipped} onFlip={toggleFlip} />
           </div>
 
-          <AccentWrapper accent={accent}>
+          <AccentWrapper accent={accent} flipped={flipped}>
             <div className="grid gap-6 lg:grid-cols-2">
               <SeparatorShowcaseCard number={1} name="Gradient Fade Line" description="Horizontal line that fades from transparent through accent and back." inspiration="Apple.com section breaks, Stripe docs">
                 <GradientFadeSeparator />
@@ -567,6 +684,38 @@ export default function PlaygroundSeparators() {
 
               <SeparatorShowcaseCard number={24} name="Constellation" description="Dots connected by faint lines like a star chart." inspiration="Star maps, D3 force graphs, network topology">
                 <ConstellationSeparator />
+              </SeparatorShowcaseCard>
+
+              {/* ═══════ NEW STYLES 25-30 ═══════ */}
+              <div className="lg:col-span-2 pt-6 border-t border-border/50">
+                <h3 className="text-xl font-bold text-foreground mb-1">Playful & Physical Variants</h3>
+                <p className="text-sm text-muted-foreground mb-6">
+                  Audio waveforms, gradient meshes, ruler notches, origami folds, and pendulums.
+                </p>
+              </div>
+
+              <SeparatorShowcaseCard number={25} name="Waveform" description="Audio waveform-style vertical bars at varying heights." inspiration="Podcast players, Spotify waveform, voice memo UIs">
+                <WaveformSeparator />
+              </SeparatorShowcaseCard>
+
+              <SeparatorShowcaseCard number={26} name="Gradient Mesh" description="Overlapping soft radial gradients creating an ambient mesh." inspiration="Apple mesh gradients, iOS wallpapers, Figma">
+                <GradientMeshSeparator />
+              </SeparatorShowcaseCard>
+
+              <SeparatorShowcaseCard number={27} name="Step Notches" description="Ruler-style tick marks at regular intervals along a hairline." inspiration="Measurement UIs, scientific instruments, Dieter Rams">
+                <StepNotchesSeparator />
+              </SeparatorShowcaseCard>
+
+              <SeparatorShowcaseCard number={28} name="Folded Paper" description="CSS origami fold illusion creating depth across the page." inspiration="Paper craft UIs, Material Design, greeting cards">
+                <FoldedPaperSeparator />
+              </SeparatorShowcaseCard>
+
+              <SeparatorShowcaseCard number={29} name="Scattered Stars" description="Random twinkling star points with animated opacity." inspiration="Space themes, constellation maps, night sky apps">
+                <ScatteredStarsSeparator />
+              </SeparatorShowcaseCard>
+
+              <SeparatorShowcaseCard number={30} name="Pendulum" description="Swinging element hanging from a vertical line. Kinetic energy." inspiration="Physics simulations, Newton's cradle, clock pendulums">
+                <PendulumSeparator />
               </SeparatorShowcaseCard>
             </div>
           </AccentWrapper>
