@@ -7,7 +7,8 @@
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Clock, Zap, TrendingUp, HelpCircle, Star, Sparkles, Diamond, Hexagon, Award, Crown, Shield, Flame, Target, Triangle } from 'lucide-react';
+import { ArrowLeft, Clock, Zap, TrendingUp, HelpCircle, Star, Sparkles, Diamond, Hexagon, Award, Crown, Shield, Flame, Target, Triangle, Bookmark, CircleDot, ArrowRight, Layers } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 
 // ─── STYLE VARIANTS ───────────────────────────────────────────
@@ -276,6 +277,165 @@ function NotchTabCallout({ icon: Icon, text }: { icon: React.ElementType; text: 
   );
 }
 
+/**
+ * Style 16: Animated Gradient Border — Rotating gradient border animation.
+ * Inspired by: GitHub Copilot badge, Vercel AI SDK
+ */
+function AnimatedGradientBorderCallout({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+  return (
+    <div className="relative inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-foreground/80 rounded-lg">
+      <motion.span
+        className="absolute inset-0 rounded-lg pointer-events-none"
+        style={{
+          padding: '1.5px',
+          background: 'conic-gradient(from var(--angle, 0deg), hsl(var(--accent)), transparent 40%, hsl(var(--accent)))',
+          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'xor',
+          maskComposite: 'exclude',
+        }}
+        animate={{ '--angle': ['0deg', '360deg'] } as any}
+        transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+      />
+      <Icon className="w-4 h-4 text-accent" />
+      {text}
+    </div>
+  );
+}
+
+/**
+ * Style 17: Stamp Seal — Circular emblem with icon + text arc feel.
+ * Inspired by: Dribbble certifications, Michelin stars, product seals
+ */
+function StampSealCallout({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+  return (
+    <div className="inline-flex items-center gap-3">
+      <div className="relative w-11 h-11">
+        <div
+          className="absolute inset-0 rounded-full border-2 border-dashed border-accent/30"
+        />
+        <div
+          className="absolute inset-1 rounded-full flex items-center justify-center"
+          style={{ background: 'var(--gradient-text)' }}
+        >
+          <Icon className="w-4 h-4 text-accent-foreground" />
+        </div>
+      </div>
+      <span className="text-sm font-semibold text-foreground/80">{text}</span>
+    </div>
+  );
+}
+
+/**
+ * Style 18: Neon Outline — Glowing neon-sign aesthetic with double shadow.
+ * Inspired by: Cyberpunk 2077 UI, neon sign design, retro-futurism
+ */
+function NeonOutlineCallout({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+  return (
+    <div
+      className="inline-flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-lg border border-accent/60 text-accent"
+      style={{
+        boxShadow: '0 0 8px hsl(var(--accent-glow) / 0.3), inset 0 0 8px hsl(var(--accent-glow) / 0.1)',
+        textShadow: '0 0 10px hsl(var(--accent-glow) / 0.5)',
+      }}
+    >
+      <Icon className="w-4 h-4" />
+      {text}
+    </div>
+  );
+}
+
+/**
+ * Style 19: Folded Corner — Card-like label with a folded triangle corner.
+ * Inspired by: physical price tags, paper-craft UI, Figma community
+ */
+function FoldedCornerCallout({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+  return (
+    <div className="relative inline-flex items-center gap-2 px-4 py-2 bg-accent/10 text-accent text-sm font-semibold rounded-md overflow-hidden">
+      <Icon className="w-4 h-4" />
+      {text}
+      <div
+        className="absolute top-0 right-0 w-0 h-0"
+        style={{
+          borderTop: '12px solid hsl(var(--accent) / 0.3)',
+          borderLeft: '12px solid transparent',
+        }}
+      />
+    </div>
+  );
+}
+
+/**
+ * Style 20: Layered Shadow — Stacked card illusion with offset shadow layers.
+ * Inspired by: Dribbble card stacks, Material Design elevation, Awwwards SOTD
+ */
+function LayeredShadowCallout({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+  return (
+    <div className="relative inline-flex">
+      <div className="absolute inset-0 translate-x-1 translate-y-1 bg-accent/10 rounded-md" />
+      <div className="absolute inset-0 translate-x-0.5 translate-y-0.5 bg-accent/5 rounded-md" />
+      <div className="relative inline-flex items-center gap-2 px-4 py-2 bg-card border border-accent/20 text-sm font-semibold text-foreground/80 rounded-md">
+        <Icon className="w-4 h-4 text-accent" />
+        {text}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Style 21: Progress Indicator — Tiny progress ring next to label.
+ * Inspired by: Duolingo XP, fitness apps, achievement progress
+ */
+function ProgressIndicatorCallout({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+  return (
+    <div className="inline-flex items-center gap-3">
+      <div className="relative w-9 h-9">
+        <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+          <circle cx="18" cy="18" r="15" fill="none" stroke="hsl(var(--accent) / 0.1)" strokeWidth="3" />
+          <motion.circle
+            cx="18" cy="18" r="15" fill="none"
+            stroke="hsl(var(--accent))"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeDasharray="94.25"
+            initial={{ strokeDashoffset: 94.25 }}
+            animate={{ strokeDashoffset: 23.56 }}
+            transition={{ duration: 1.5, ease: 'easeOut' }}
+          />
+        </svg>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Icon className="w-3.5 h-3.5 text-accent" />
+        </div>
+      </div>
+      <span className="text-sm font-semibold text-foreground/80">{text}</span>
+    </div>
+  );
+}
+
+/**
+ * Style 22: Typewriter Reveal — Text types in with cursor blink.
+ * Inspired by: Terminal UIs, VS Code, developer marketing sites
+ */
+function TypewriterCallout({ text }: { text: string }) {
+  return (
+    <div className="inline-flex items-center gap-2 font-mono text-sm text-accent">
+      <span className="text-accent/40">$</span>
+      <motion.span
+        initial={{ width: 0 }}
+        animate={{ width: 'auto' }}
+        transition={{ duration: 1, ease: 'easeOut' }}
+        className="overflow-hidden whitespace-nowrap inline-block"
+      >
+        {text}
+      </motion.span>
+      <motion.span
+        className="inline-block w-[2px] h-4 bg-accent"
+        animate={{ opacity: [1, 0, 1] }}
+        transition={{ duration: 1, repeat: Infinity }}
+      />
+    </div>
+  );
+}
+
 // ─── SHOWCASE CARD ────────────────────────────────────────────
 
 function StyleCard({
@@ -350,8 +510,8 @@ export default function PlaygroundBadges() {
           <div className="mb-10">
             <h2 className="text-3xl font-bold text-foreground mb-2">Badge Replacements</h2>
             <p className="text-muted-foreground max-w-2xl">
-              15 premium callout styles to replace pill-shaped badges. Each uses the theme's design tokens
-              and gradient system. Pick one or mix styles by context.
+              22 premium callout styles to replace pill-shaped badges. Each uses the theme's design tokens
+              and gradient system. Styles 16–22 feature motion, SVG animations, and layered depth.
             </p>
           </div>
 
@@ -507,6 +667,84 @@ export default function PlaygroundBadges() {
             >
               <NotchTabCallout icon={Clock} text="5-Day Delivery" />
               <NotchTabCallout icon={Star} text="Recommended" />
+            </StyleCard>
+
+            {/* ═══════ MOTION-RICH SECTION ═══════ */}
+            <div className="lg:col-span-2 pt-6 border-t border-border/50">
+              <h3 className="text-xl font-bold text-foreground mb-1">Motion-Rich & Layered Variants</h3>
+              <p className="text-sm text-muted-foreground mb-6">
+                Framer Motion powered — animated borders, progress rings, and layered depth.
+              </p>
+            </div>
+
+            <StyleCard
+              number={16}
+              name="Animated Gradient Border"
+              description="Continuously rotating conic gradient border. Mesmerizing and premium."
+              inspiration="GitHub Copilot, Vercel AI SDK, OpenAI"
+            >
+              <AnimatedGradientBorderCallout icon={Sparkles} text="AI-Powered" />
+              <AnimatedGradientBorderCallout icon={Zap} text="5-Day Delivery" />
+            </StyleCard>
+
+            <StyleCard
+              number={17}
+              name="Stamp Seal"
+              description="Circular emblem with dashed outer ring. Certification/approval energy."
+              inspiration="Michelin stars, Dribbble certifications, product seals"
+            >
+              <StampSealCallout icon={Award} text="Certified Partner" />
+              <StampSealCallout icon={Crown} text="Premium Tier" />
+            </StyleCard>
+
+            <StyleCard
+              number={18}
+              name="Neon Outline"
+              description="Glowing neon-sign border with double shadow. Retro-futuristic energy."
+              inspiration="Cyberpunk 2077, neon signs, Tron: Legacy"
+            >
+              <NeonOutlineCallout icon={Zap} text="Live Now" />
+              <NeonOutlineCallout icon={Flame} text="Hot Feature" />
+            </StyleCard>
+
+            <StyleCard
+              number={19}
+              name="Folded Corner"
+              description="Label with a paper-fold triangle corner. Physical craft aesthetic."
+              inspiration="Paper price tags, Figma community, craft UIs"
+            >
+              <FoldedCornerCallout icon={Bookmark} text="Saved Plan" />
+              <FoldedCornerCallout icon={Star} text="Recommended" />
+            </StyleCard>
+
+            <StyleCard
+              number={20}
+              name="Layered Shadow"
+              description="Stacked card shadows creating depth illusion. Material elevation."
+              inspiration="Dribbble shots, Material Design 3, CSS.Design Awards"
+            >
+              <LayeredShadowCallout icon={Layers} text="Multi-Layer" />
+              <LayeredShadowCallout icon={Clock} text="5-Day Delivery" />
+            </StyleCard>
+
+            <StyleCard
+              number={21}
+              name="Progress Indicator"
+              description="SVG ring progress animation with center icon. Achievement-unlock feel."
+              inspiration="Duolingo XP, Apple Fitness rings, Strava"
+            >
+              <ProgressIndicatorCallout icon={TrendingUp} text="75% Complete" />
+              <ProgressIndicatorCallout icon={Target} text="Goal Reached" />
+            </StyleCard>
+
+            <StyleCard
+              number={22}
+              name="Typewriter Reveal"
+              description="Terminal-style text reveal with blinking cursor. Developer aesthetic."
+              inspiration="VS Code, Vercel CLI, Warp terminal"
+            >
+              <TypewriterCallout text="5-day-delivery" />
+              <TypewriterCallout text="ai-ready" />
             </StyleCard>
           </div>
         </div>
