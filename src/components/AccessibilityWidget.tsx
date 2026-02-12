@@ -55,7 +55,7 @@ function getAdaConfig(): AdaWidgetConfig {
     hiddenIndefinitely: themeConfig?.hiddenIndefinitely ?? false,
     iconType: themeConfig?.iconType ?? 'universal',
     iconColor: themeConfig?.iconColor ?? '0 0% 100%',
-    iconBgColor: themeConfig?.iconBgColor ?? '240 70% 60%',
+    iconBgColor: themeConfig?.iconBgColor ?? '',
     iconSize: themeConfig?.iconSize ?? 48,
     iconShape: themeConfig?.iconShape ?? 'circle',
   };
@@ -749,8 +749,8 @@ export function AccessibilityWidget() {
           top: pos.y,
           width: config.iconSize,
           height: config.iconSize,
-          backgroundColor: `hsl(${config.iconBgColor})`,
-          color: `hsl(${config.iconColor})`,
+          backgroundColor: config.iconBgColor ? `hsl(${config.iconBgColor})` : 'hsl(var(--accent))',
+          color: config.iconColor ? `hsl(${config.iconColor})` : 'hsl(var(--accent-foreground))',
           cursor: dragging.current ? 'grabbing' : 'grab',
         }}
         aria-label={`Accessibility options${activeCount > 0 ? ` (${activeCount} active)` : ''}`}
