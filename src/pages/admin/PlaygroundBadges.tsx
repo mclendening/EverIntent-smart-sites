@@ -660,7 +660,7 @@ function ContextualPreview() {
 
 export default function PlaygroundBadges() {
   useAdminAuth();
-  const { accent, setAccent, flipped, toggleFlip, gradient, setGradient } = useAccentState();
+  const { accent, setAccent, flipped, toggleFlip, gradient, setGradient, mode, setMode } = useAccentState();
 
   return (
     <div className="min-h-screen bg-background">
@@ -684,7 +684,7 @@ export default function PlaygroundBadges() {
               34 premium callout styles to replace pill-shaped badges. Each uses the theme's design tokens
               and gradient system. Preview any accent color and flip placement using the controls below.
             </p>
-            <AccentPickerBar selected={accent} onChange={setAccent} flipped={flipped} onFlip={toggleFlip} gradient={gradient} onGradientChange={setGradient} />
+            <AccentPickerBar selected={accent} onChange={setAccent} flipped={flipped} onFlip={toggleFlip} gradient={gradient} onGradientChange={setGradient} mode={mode} onModeChange={setMode} />
           </div>
 
           <AccentWrapper accent={accent} flipped={flipped} gradient={gradient}>

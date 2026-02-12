@@ -553,7 +553,7 @@ function PendulumSeparator() {
 
 export default function PlaygroundSeparators() {
   useAdminAuth();
-  const { accent, setAccent, flipped, toggleFlip, gradient, setGradient } = useAccentState();
+  const { accent, setAccent, flipped, toggleFlip, gradient, setGradient, mode, setMode } = useAccentState();
 
   return (
     <div className="min-h-screen bg-background">
@@ -577,7 +577,7 @@ export default function PlaygroundSeparators() {
               30 award-winning section divider styles. From minimal gradient fades to animated particle
               trails and pendulum swings. Each uses the theme's accent and works in both light and dark modes.
             </p>
-            <AccentPickerBar selected={accent} onChange={setAccent} flipped={flipped} onFlip={toggleFlip} gradient={gradient} onGradientChange={setGradient} />
+            <AccentPickerBar selected={accent} onChange={setAccent} flipped={flipped} onFlip={toggleFlip} gradient={gradient} onGradientChange={setGradient} mode={mode} onModeChange={setMode} />
           </div>
 
           <AccentWrapper accent={accent} flipped={flipped} gradient={gradient}>
