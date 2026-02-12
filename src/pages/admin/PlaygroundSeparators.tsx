@@ -2,29 +2,23 @@
  * @fileoverview Admin Playground — Section Separator Showcase
  * Award-winning section divider patterns for premium page layouts.
  * All styles use theme design tokens exclusively.
+ * Now with accent color picker for previewing different accent palettes.
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { AccentPickerBar, AccentWrapper, useAccentState } from '@/components/admin/AccentPicker';
 
 // ─── SHOWCASE CARD ────────────────────────────────────────────
 
 function SeparatorShowcaseCard({
-  number,
-  name,
-  description,
-  inspiration,
-  children,
+  number, name, description, inspiration, children,
 }: {
-  number: number;
-  name: string;
-  description: string;
-  inspiration: string;
-  children: React.ReactNode;
+  number: number; name: string; description: string; inspiration: string; children: React.ReactNode;
 }) {
   return (
     <Card className="border-border/50 hover:border-accent/30 transition-colors">
@@ -49,37 +43,25 @@ function SeparatorShowcaseCard({
   );
 }
 
-// ─── STYLE 1: Gradient Fade Line ─────────────────────────────
+// ─── STYLES 1-18 (existing) ──────────────────────────────────
 
 function GradientFadeSeparator() {
   return (
     <div className="relative py-4">
-      <div
-        className="h-[1px] w-full"
-        style={{
-          background: 'linear-gradient(90deg, transparent, hsl(var(--accent) / 0.6), transparent)',
-        }}
-      />
+      <div className="h-[1px] w-full" style={{ background: 'linear-gradient(90deg, transparent, hsl(var(--accent) / 0.6), transparent)' }} />
     </div>
   );
 }
-
-// ─── STYLE 2: Center Diamond ─────────────────────────────────
 
 function CenterDiamondSeparator() {
   return (
     <div className="flex items-center gap-4 py-4">
       <div className="flex-1 h-[1px] bg-border" />
-      <div
-        className="w-3 h-3 rotate-45 shrink-0"
-        style={{ background: 'var(--gradient-text)' }}
-      />
+      <div className="w-3 h-3 rotate-45 shrink-0 bg-accent/60" />
       <div className="flex-1 h-[1px] bg-border" />
     </div>
   );
 }
-
-// ─── STYLE 3: Triple Dot ─────────────────────────────────────
 
 function TripleDotSeparator() {
   return (
@@ -96,15 +78,13 @@ function TripleDotSeparator() {
   );
 }
 
-// ─── STYLE 4: Gradient Glow Bar ──────────────────────────────
-
 function GradientGlowBarSeparator() {
   return (
     <div className="relative py-6">
       <div
         className="h-[2px] w-3/4 mx-auto rounded-full"
         style={{
-          background: 'var(--gradient-text)',
+          background: 'linear-gradient(90deg, hsl(var(--accent)), hsl(var(--accent) / 0.3))',
           boxShadow: '0 0 20px hsl(var(--accent-glow) / 0.3), 0 0 60px hsl(var(--accent-glow) / 0.1)',
         }}
       />
@@ -112,36 +92,25 @@ function GradientGlowBarSeparator() {
   );
 }
 
-// ─── STYLE 5: Wave SVG ───────────────────────────────────────
-
 function WaveSVGSeparator() {
   return (
     <div className="relative -mx-8 overflow-hidden">
       <svg viewBox="0 0 1200 60" preserveAspectRatio="none" className="w-full h-10">
-        <path
-          d="M0,30 C200,60 400,0 600,30 C800,60 1000,0 1200,30"
-          fill="none"
-          stroke="hsl(var(--accent) / 0.25)"
-          strokeWidth="1.5"
-        />
+        <path d="M0,30 C200,60 400,0 600,30 C800,60 1000,0 1200,30" fill="none" stroke="hsl(var(--accent) / 0.25)" strokeWidth="1.5" />
       </svg>
     </div>
   );
 }
 
-// ─── STYLE 6: Stacked Lines ──────────────────────────────────
-
 function StackedLinesSeparator() {
   return (
     <div className="flex flex-col items-center gap-1.5 py-4">
       <div className="h-[1px] w-1/2 bg-accent/10" />
-      <div className="h-[1px] w-1/3" style={{ background: 'var(--gradient-text)' }} />
+      <div className="h-[1px] w-1/3" style={{ background: 'linear-gradient(90deg, hsl(var(--accent)), hsl(var(--accent) / 0.3))' }} />
       <div className="h-[1px] w-1/2 bg-accent/10" />
     </div>
   );
 }
-
-// ─── STYLE 7: Animated Shimmer Line ──────────────────────────
 
 function ShimmerLineSeparator() {
   return (
@@ -149,9 +118,7 @@ function ShimmerLineSeparator() {
       <div className="h-[1px] w-full bg-border" />
       <motion.div
         className="absolute top-4 left-0 h-[1px] w-1/4"
-        style={{
-          background: 'linear-gradient(90deg, transparent, hsl(var(--accent) / 0.8), transparent)',
-        }}
+        style={{ background: 'linear-gradient(90deg, transparent, hsl(var(--accent) / 0.8), transparent)' }}
         animate={{ x: ['-25%', '125%'] }}
         transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
       />
@@ -159,27 +126,17 @@ function ShimmerLineSeparator() {
   );
 }
 
-// ─── STYLE 8: Bracket Ornament ───────────────────────────────
-
 function BracketOrnamentSeparator() {
   return (
     <div className="flex items-center justify-center gap-4 py-6">
       <span className="text-2xl text-accent/30 font-light select-none">⟨</span>
-      <div
-        className="h-[1px] w-16"
-        style={{ background: 'var(--gradient-text)' }}
-      />
+      <div className="h-[1px] w-16" style={{ background: 'linear-gradient(90deg, hsl(var(--accent)), hsl(var(--accent) / 0.3))' }} />
       <div className="w-2 h-2 rounded-full bg-accent/40" />
-      <div
-        className="h-[1px] w-16"
-        style={{ background: 'var(--gradient-text)' }}
-      />
+      <div className="h-[1px] w-16" style={{ background: 'linear-gradient(90deg, hsl(var(--accent) / 0.3), hsl(var(--accent)))' }} />
       <span className="text-2xl text-accent/30 font-light select-none">⟩</span>
     </div>
   );
 }
-
-// ─── STYLE 9: Dash Pattern ───────────────────────────────────
 
 function DashPatternSeparator() {
   return (
@@ -198,15 +155,12 @@ function DashPatternSeparator() {
   );
 }
 
-// ─── STYLE 10: Breathing Pulse ───────────────────────────────
-
 function BreathingPulseSeparator() {
   return (
     <div className="relative py-6 flex items-center justify-center">
       <div className="h-[1px] flex-1 bg-border" />
       <motion.div
-        className="mx-4 w-3 h-3 rounded-full"
-        style={{ background: 'var(--gradient-text)' }}
+        className="mx-4 w-3 h-3 rounded-full bg-accent"
         animate={{
           scale: [1, 1.4, 1],
           opacity: [0.6, 1, 0.6],
@@ -223,48 +177,24 @@ function BreathingPulseSeparator() {
   );
 }
 
-// ─── STYLE 11: Angled Cut ────────────────────────────────────
-
 function AngledCutSeparator() {
   return (
     <div className="relative h-12 -mx-8 overflow-hidden">
-      <div
-        className="absolute inset-0"
-        style={{
-          clipPath: 'polygon(0 0, 100% 40%, 100% 60%, 0 100%)',
-          background: 'hsl(var(--accent) / 0.06)',
-        }}
-      />
-      <div
-        className="absolute top-1/2 left-0 right-0 h-[1px]"
-        style={{
-          background: 'linear-gradient(90deg, transparent, hsl(var(--accent) / 0.3), transparent)',
-          transform: 'rotate(-1deg)',
-        }}
-      />
+      <div className="absolute inset-0" style={{ clipPath: 'polygon(0 0, 100% 40%, 100% 60%, 0 100%)', background: 'hsl(var(--accent) / 0.06)' }} />
+      <div className="absolute top-1/2 left-0 right-0 h-[1px]" style={{ background: 'linear-gradient(90deg, transparent, hsl(var(--accent) / 0.3), transparent)', transform: 'rotate(-1deg)' }} />
     </div>
   );
 }
-
-// ─── STYLE 12: Text Divider ──────────────────────────────────
 
 function TextDividerSeparator({ text = '§' }: { text?: string }) {
   return (
     <div className="flex items-center gap-4 py-4">
-      <div
-        className="flex-1 h-[1px]"
-        style={{ background: 'linear-gradient(90deg, transparent, hsl(var(--border)))' }}
-      />
+      <div className="flex-1 h-[1px]" style={{ background: 'linear-gradient(90deg, transparent, hsl(var(--border)))' }} />
       <span className="text-sm font-mono text-accent/40 select-none">{text}</span>
-      <div
-        className="flex-1 h-[1px]"
-        style={{ background: 'linear-gradient(90deg, hsl(var(--border)), transparent)' }}
-      />
+      <div className="flex-1 h-[1px]" style={{ background: 'linear-gradient(90deg, hsl(var(--border)), transparent)' }} />
     </div>
   );
 }
-
-// ─── STYLE 13: Particle Trail ────────────────────────────────
 
 function ParticleTrailSeparator() {
   return (
@@ -275,16 +205,8 @@ function ParticleTrailSeparator() {
           <motion.div
             key={i}
             className="w-1 h-1 rounded-full bg-accent/50"
-            animate={{
-              y: [-2, 2, -2],
-              opacity: [0.3, 0.8, 0.3],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              delay: i * 0.3,
-              ease: 'easeInOut',
-            }}
+            animate={{ y: [-2, 2, -2], opacity: [0.3, 0.8, 0.3] }}
+            transition={{ duration: 2, repeat: Infinity, delay: i * 0.3, ease: 'easeInOut' }}
           />
         ))}
       </div>
@@ -292,24 +214,14 @@ function ParticleTrailSeparator() {
   );
 }
 
-// ─── STYLE 14: Double Gradient ───────────────────────────────
-
 function DoubleGradientSeparator() {
   return (
     <div className="space-y-1 py-4">
-      <div
-        className="h-[1px] w-full"
-        style={{ background: 'linear-gradient(90deg, hsl(var(--accent) / 0.4), transparent)' }}
-      />
-      <div
-        className="h-[1px] w-full"
-        style={{ background: 'linear-gradient(90deg, transparent, hsl(var(--accent) / 0.4))' }}
-      />
+      <div className="h-[1px] w-full" style={{ background: 'linear-gradient(90deg, hsl(var(--accent) / 0.4), transparent)' }} />
+      <div className="h-[1px] w-full" style={{ background: 'linear-gradient(90deg, transparent, hsl(var(--accent) / 0.4))' }} />
     </div>
   );
 }
-
-// ─── STYLE 15: Zigzag Pattern ────────────────────────────────
 
 function ZigzagSeparator() {
   return (
@@ -317,33 +229,26 @@ function ZigzagSeparator() {
       <svg viewBox="0 0 1200 20" preserveAspectRatio="none" className="w-full h-4">
         <path
           d="M0,10 L30,0 L60,10 L90,0 L120,10 L150,0 L180,10 L210,0 L240,10 L270,0 L300,10 L330,0 L360,10 L390,0 L420,10 L450,0 L480,10 L510,0 L540,10 L570,0 L600,10 L630,0 L660,10 L690,0 L720,10 L750,0 L780,10 L810,0 L840,10 L870,0 L900,10 L930,0 L960,10 L990,0 L1020,10 L1050,0 L1080,10 L1110,0 L1140,10 L1170,0 L1200,10"
-          fill="none"
-          stroke="hsl(var(--accent) / 0.15)"
-          strokeWidth="1"
+          fill="none" stroke="hsl(var(--accent) / 0.15)" strokeWidth="1"
         />
       </svg>
     </div>
   );
 }
 
-// ─── STYLE 16: Radiant Burst ─────────────────────────────────
-
 function RadiantBurstSeparator() {
   return (
     <div className="relative py-8 flex items-center justify-center">
       <motion.div
         className="absolute w-24 h-24 rounded-full opacity-20"
-        style={{
-          background: 'radial-gradient(circle, hsl(var(--accent-glow) / 0.4), transparent 70%)',
-        }}
+        style={{ background: 'radial-gradient(circle, hsl(var(--accent-glow) / 0.4), transparent 70%)' }}
         animate={{ scale: [0.8, 1.2, 0.8] }}
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
       />
       <div className="h-[1px] flex-1 bg-border" />
       <div className="relative mx-6">
         <motion.div
-          className="w-2 h-2 rounded-full"
-          style={{ background: 'var(--gradient-text)' }}
+          className="w-2 h-2 rounded-full bg-accent"
           animate={{ rotate: 360 }}
           transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
         />
@@ -352,8 +257,6 @@ function RadiantBurstSeparator() {
     </div>
   );
 }
-
-// ─── STYLE 17: Ink Bleed ─────────────────────────────────────
 
 function InkBleedSeparator() {
   return (
@@ -368,8 +271,6 @@ function InkBleedSeparator() {
     </div>
   );
 }
-
-// ─── STYLE 18: Morse Code ────────────────────────────────────
 
 function MorseCodeSeparator() {
   const pattern = [3, 1, 1, 3, 1, 3, 1, 1, 3, 1, 1, 1, 3, 1, 3];
@@ -389,10 +290,153 @@ function MorseCodeSeparator() {
   );
 }
 
+// ─── NEW STYLES 19-24 ─────────────────────────────────────────
+
+/**
+ * Style 19: Helix DNA — Two sinusoidal paths intertwining.
+ * Inspired by: Biotech branding, scientific journals, Nature magazine
+ */
+function HelixDNASeparator() {
+  return (
+    <div className="relative -mx-8 overflow-hidden">
+      <svg viewBox="0 0 1200 40" preserveAspectRatio="none" className="w-full h-8">
+        <path d="M0,20 C100,0 200,40 300,20 C400,0 500,40 600,20 C700,0 800,40 900,20 C1000,0 1100,40 1200,20" fill="none" stroke="hsl(var(--accent) / 0.3)" strokeWidth="1.5" />
+        <path d="M0,20 C100,40 200,0 300,20 C400,40 500,0 600,20 C700,40 800,0 900,20 C1000,40 1100,0 1200,20" fill="none" stroke="hsl(var(--accent) / 0.15)" strokeWidth="1.5" />
+      </svg>
+    </div>
+  );
+}
+
+/**
+ * Style 20: Equalizer Bars — Animated vertical bars like an audio equalizer.
+ * Inspired by: Spotify, SoundCloud, music apps, audio visualizers
+ */
+function EqualizerSeparator() {
+  return (
+    <div className="flex items-end justify-center gap-[3px] py-4 h-12">
+      {[...Array(24)].map((_, i) => {
+        const height = 4 + Math.sin(i * 0.7) * 12;
+        return (
+          <motion.div
+            key={i}
+            className="w-[3px] rounded-full bg-accent/30"
+            animate={{
+              height: [height, height + 8, height],
+              opacity: [0.3, 0.6, 0.3],
+            }}
+            transition={{
+              duration: 1.5 + Math.random() * 0.5,
+              repeat: Infinity,
+              delay: i * 0.05,
+              ease: 'easeInOut',
+            }}
+            style={{ height }}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+/**
+ * Style 21: Horizon Glow — Simulated sunset/horizon glow band.
+ * Inspired by: Apple gradient wallpapers, ambient light strips, aurora effects
+ */
+function HorizonGlowSeparator() {
+  return (
+    <div className="relative py-6">
+      <div
+        className="h-[6px] w-full rounded-full"
+        style={{
+          background: 'linear-gradient(90deg, transparent 0%, hsl(var(--accent) / 0.15) 15%, hsl(var(--accent) / 0.5) 50%, hsl(var(--accent) / 0.15) 85%, transparent 100%)',
+          boxShadow: '0 0 30px hsl(var(--accent-glow) / 0.2), 0 0 80px hsl(var(--accent-glow) / 0.1)',
+          filter: 'blur(1px)',
+        }}
+      />
+    </div>
+  );
+}
+
+/**
+ * Style 22: Barcode — Series of varying-width vertical lines.
+ * Inspired by: Product packaging, UPC codes, industrial design
+ */
+function BarcodeSeparator() {
+  const bars = [2, 1, 3, 1, 2, 1, 1, 3, 2, 1, 3, 1, 1, 2, 3, 1, 2, 1, 1, 3, 1, 2, 1, 3, 2];
+  return (
+    <div className="flex items-center justify-center gap-[1px] py-4">
+      {bars.map((w, i) => (
+        <div
+          key={i}
+          className="h-5 rounded-[0.5px]"
+          style={{
+            width: `${w}px`,
+            background: `hsl(var(--accent) / ${w === 3 ? 0.35 : w === 2 ? 0.25 : 0.12})`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Style 23: Crosshair — Center crosshair target with extending lines.
+ * Inspired by: Camera viewfinders, FPS games, precision instruments
+ */
+function CrosshairSeparator() {
+  return (
+    <div className="relative py-6 flex items-center justify-center">
+      <div className="h-[1px] flex-1" style={{ background: 'linear-gradient(90deg, transparent, hsl(var(--accent) / 0.3))' }} />
+      <div className="relative mx-3 w-6 h-6">
+        <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-accent/40" />
+        <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-accent/40" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full border border-accent/50" />
+      </div>
+      <div className="h-[1px] flex-1" style={{ background: 'linear-gradient(90deg, hsl(var(--accent) / 0.3), transparent)' }} />
+    </div>
+  );
+}
+
+/**
+ * Style 24: Constellation — Dots connected by faint lines like star maps.
+ * Inspired by: Star charts, network topology diagrams, D3 force graphs
+ */
+function ConstellationSeparator() {
+  const points = [
+    { x: 10, y: 15 }, { x: 25, y: 5 }, { x: 40, y: 18 }, { x: 55, y: 8 },
+    { x: 70, y: 20 }, { x: 85, y: 10 }, { x: 95, y: 16 },
+  ];
+  return (
+    <div className="relative py-2 overflow-hidden">
+      <svg viewBox="0 0 100 25" preserveAspectRatio="none" className="w-full h-8">
+        {points.slice(0, -1).map((p, i) => (
+          <line
+            key={i}
+            x1={p.x} y1={p.y}
+            x2={points[i + 1].x} y2={points[i + 1].y}
+            stroke="hsl(var(--accent) / 0.15)"
+            strokeWidth="0.3"
+          />
+        ))}
+        {points.map((p, i) => (
+          <motion.circle
+            key={i}
+            cx={p.x} cy={p.y} r="0.8"
+            fill="hsl(var(--accent) / 0.5)"
+            animate={{ opacity: [0.3, 0.8, 0.3] }}
+            transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
+          />
+        ))}
+      </svg>
+    </div>
+  );
+}
+
 // ─── MAIN PAGE ────────────────────────────────────────────────
 
 export default function PlaygroundSeparators() {
   useAdminAuth();
+  const { accent, setAccent } = useAccentState();
 
   return (
     <div className="min-h-screen bg-background">
@@ -410,87 +454,122 @@ export default function PlaygroundSeparators() {
 
       <main className="container py-6 sm:py-10 px-4">
         <div className="max-w-5xl mx-auto">
-          <div className="mb-10">
+          <div className="mb-6">
             <h2 className="text-3xl font-bold text-foreground mb-2">Section Separators</h2>
-            <p className="text-muted-foreground max-w-2xl">
-              18 award-winning section divider styles. From minimal gradient fades to animated particle
-              trails. Each uses the theme's design tokens and works in both light and dark modes.
+            <p className="text-muted-foreground max-w-2xl mb-4">
+              24 award-winning section divider styles. From minimal gradient fades to animated particle
+              trails. Each uses the theme's accent and works in both light and dark modes.
             </p>
+            <AccentPickerBar selected={accent} onChange={setAccent} />
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-2">
-            <SeparatorShowcaseCard number={1} name="Gradient Fade Line" description="Horizontal line that fades from transparent through accent and back. Ultra-minimal." inspiration="Apple.com section breaks, Stripe docs">
-              <GradientFadeSeparator />
-            </SeparatorShowcaseCard>
+          <AccentWrapper accent={accent}>
+            <div className="grid gap-6 lg:grid-cols-2">
+              <SeparatorShowcaseCard number={1} name="Gradient Fade Line" description="Horizontal line that fades from transparent through accent and back." inspiration="Apple.com section breaks, Stripe docs">
+                <GradientFadeSeparator />
+              </SeparatorShowcaseCard>
 
-            <SeparatorShowcaseCard number={2} name="Center Diamond" description="Centered rotated square ornament flanked by hairlines. Editorial elegance." inspiration="Medium articles, Substack, The Verge">
-              <CenterDiamondSeparator />
-            </SeparatorShowcaseCard>
+              <SeparatorShowcaseCard number={2} name="Center Diamond" description="Centered rotated square ornament flanked by hairlines." inspiration="Medium articles, Substack, The Verge">
+                <CenterDiamondSeparator />
+              </SeparatorShowcaseCard>
 
-            <SeparatorShowcaseCard number={3} name="Triple Dot" description="Three dots with spring hover. Classic typographic section break (⁂ asterism)." inspiration="Literary manuscripts, New Yorker, Kindle">
-              <TripleDotSeparator />
-            </SeparatorShowcaseCard>
+              <SeparatorShowcaseCard number={3} name="Triple Dot" description="Three dots with spring hover. Classic typographic asterism." inspiration="Literary manuscripts, New Yorker, Kindle">
+                <TripleDotSeparator />
+              </SeparatorShowcaseCard>
 
-            <SeparatorShowcaseCard number={4} name="Gradient Glow Bar" description="Luminous gradient bar with ambient glow shadow. Dramatic emphasis." inspiration="Luma AI, Nothing Phone, Arc browser">
-              <GradientGlowBarSeparator />
-            </SeparatorShowcaseCard>
+              <SeparatorShowcaseCard number={4} name="Gradient Glow Bar" description="Luminous gradient bar with ambient glow shadow." inspiration="Luma AI, Nothing Phone, Arc browser">
+                <GradientGlowBarSeparator />
+              </SeparatorShowcaseCard>
 
-            <SeparatorShowcaseCard number={5} name="Wave SVG" description="Sinusoidal wave path in accent color. Organic flow between sections." inspiration="Awwwards SOTD wave transitions, Webflow templates">
-              <WaveSVGSeparator />
-            </SeparatorShowcaseCard>
+              <SeparatorShowcaseCard number={5} name="Wave SVG" description="Sinusoidal wave path in accent color." inspiration="Awwwards SOTD wave transitions, Webflow templates">
+                <WaveSVGSeparator />
+              </SeparatorShowcaseCard>
 
-            <SeparatorShowcaseCard number={6} name="Stacked Lines" description="Three lines at different widths creating depth hierarchy." inspiration="Pentagram, Swiss typography, Bauhaus posters">
-              <StackedLinesSeparator />
-            </SeparatorShowcaseCard>
+              <SeparatorShowcaseCard number={6} name="Stacked Lines" description="Three lines at different widths creating depth hierarchy." inspiration="Pentagram, Swiss typography, Bauhaus posters">
+                <StackedLinesSeparator />
+              </SeparatorShowcaseCard>
 
-            <SeparatorShowcaseCard number={7} name="Animated Shimmer" description="Traveling light beam across a hairline. Subtle but alive." inspiration="Stripe dashboard loading states, Linear">
-              <ShimmerLineSeparator />
-            </SeparatorShowcaseCard>
+              <SeparatorShowcaseCard number={7} name="Animated Shimmer" description="Traveling light beam across a hairline." inspiration="Stripe dashboard loading states, Linear">
+                <ShimmerLineSeparator />
+              </SeparatorShowcaseCard>
 
-            <SeparatorShowcaseCard number={8} name="Bracket Ornament" description="Typographic angle brackets with gradient connectors and center dot." inspiration="LaTeX documents, academic papers, Notion">
-              <BracketOrnamentSeparator />
-            </SeparatorShowcaseCard>
+              <SeparatorShowcaseCard number={8} name="Bracket Ornament" description="Typographic angle brackets with gradient connectors." inspiration="LaTeX documents, academic papers, Notion">
+                <BracketOrnamentSeparator />
+              </SeparatorShowcaseCard>
 
-            <SeparatorShowcaseCard number={9} name="Dash Pattern" description="Mixed-length dashes creating a rhythmic pattern." inspiration="Figma canvas guides, blueprint aesthetics">
-              <DashPatternSeparator />
-            </SeparatorShowcaseCard>
+              <SeparatorShowcaseCard number={9} name="Dash Pattern" description="Mixed-length dashes creating a rhythmic pattern." inspiration="Figma canvas guides, blueprint aesthetics">
+                <DashPatternSeparator />
+              </SeparatorShowcaseCard>
 
-            <SeparatorShowcaseCard number={10} name="Breathing Pulse" description="Center dot with meditative scale + glow animation. Alive and ambient." inspiration="Apple Watch breathing app, meditation UIs">
-              <BreathingPulseSeparator />
-            </SeparatorShowcaseCard>
+              <SeparatorShowcaseCard number={10} name="Breathing Pulse" description="Center dot with meditative scale + glow animation." inspiration="Apple Watch breathing app, meditation UIs">
+                <BreathingPulseSeparator />
+              </SeparatorShowcaseCard>
 
-            <SeparatorShowcaseCard number={11} name="Angled Cut" description="Diagonal slice with subtle tint. Creates visual momentum between sections." inspiration="Awwwards annual sites, Locomotive scroll sites">
-              <AngledCutSeparator />
-            </SeparatorShowcaseCard>
+              <SeparatorShowcaseCard number={11} name="Angled Cut" description="Diagonal slice with subtle tint. Visual momentum." inspiration="Awwwards annual sites, Locomotive scroll sites">
+                <AngledCutSeparator />
+              </SeparatorShowcaseCard>
 
-            <SeparatorShowcaseCard number={12} name="Text Divider" description="Symbol ornament centered between fading hairlines. Customizable." inspiration="Wikipedia, classic book typography">
-              <TextDividerSeparator />
-            </SeparatorShowcaseCard>
+              <SeparatorShowcaseCard number={12} name="Text Divider" description="Symbol ornament centered between fading hairlines." inspiration="Wikipedia, classic book typography">
+                <TextDividerSeparator />
+              </SeparatorShowcaseCard>
 
-            <SeparatorShowcaseCard number={13} name="Particle Trail" description="Floating dots along a hairline with staggered vertical bounce." inspiration="Framer Awards 2024 sites, WebGL particle effects">
-              <ParticleTrailSeparator />
-            </SeparatorShowcaseCard>
+              <SeparatorShowcaseCard number={13} name="Particle Trail" description="Floating dots with staggered vertical bounce." inspiration="Framer Awards 2024, WebGL particle effects">
+                <ParticleTrailSeparator />
+              </SeparatorShowcaseCard>
 
-            <SeparatorShowcaseCard number={14} name="Double Gradient" description="Two parallel lines with opposing gradient directions. Creates visual tension." inspiration="Vercel dashboard, GitHub Copilot UI">
-              <DoubleGradientSeparator />
-            </SeparatorShowcaseCard>
+              <SeparatorShowcaseCard number={14} name="Double Gradient" description="Two parallel lines with opposing gradient directions." inspiration="Vercel dashboard, GitHub Copilot UI">
+                <DoubleGradientSeparator />
+              </SeparatorShowcaseCard>
 
-            <SeparatorShowcaseCard number={15} name="Zigzag Pattern" description="Continuous zigzag SVG path. Playful geometric pattern." inspiration="Mailchimp, Duolingo, creative agency sites">
-              <ZigzagSeparator />
-            </SeparatorShowcaseCard>
+              <SeparatorShowcaseCard number={15} name="Zigzag Pattern" description="Continuous zigzag SVG path. Playful geometric." inspiration="Mailchimp, Duolingo, creative agency sites">
+                <ZigzagSeparator />
+              </SeparatorShowcaseCard>
 
-            <SeparatorShowcaseCard number={16} name="Radiant Burst" description="Pulsing radial glow behind a center point. Ethereal and dramatic." inspiration="Luma AI, Nothing OS, sci-fi interfaces">
-              <RadiantBurstSeparator />
-            </SeparatorShowcaseCard>
+              <SeparatorShowcaseCard number={16} name="Radiant Burst" description="Pulsing radial glow behind a center point." inspiration="Luma AI, Nothing OS, sci-fi interfaces">
+                <RadiantBurstSeparator />
+              </SeparatorShowcaseCard>
 
-            <SeparatorShowcaseCard number={17} name="Ink Bleed" description="Thick soft-focused gradient bar evoking watercolor or ink on paper." inspiration="Aesop packaging, Byredo, luxury editorial">
-              <InkBleedSeparator />
-            </SeparatorShowcaseCard>
+              <SeparatorShowcaseCard number={17} name="Ink Bleed" description="Thick soft-focused gradient bar evoking watercolor." inspiration="Aesop packaging, Byredo, luxury editorial">
+                <InkBleedSeparator />
+              </SeparatorShowcaseCard>
 
-            <SeparatorShowcaseCard number={18} name="Morse Code" description="Dashes and dots encoding rhythm. Technical, precise aesthetic." inspiration="IBM Design Language, developer tools, terminal UIs">
-              <MorseCodeSeparator />
-            </SeparatorShowcaseCard>
-          </div>
+              <SeparatorShowcaseCard number={18} name="Morse Code" description="Dashes and dots encoding rhythm." inspiration="IBM Design Language, developer tools, terminal UIs">
+                <MorseCodeSeparator />
+              </SeparatorShowcaseCard>
+
+              {/* ═══════ NEW STYLES ═══════ */}
+              <div className="lg:col-span-2 pt-6 border-t border-border/50">
+                <h3 className="text-xl font-bold text-foreground mb-1">Organic & Technical Variants</h3>
+                <p className="text-sm text-muted-foreground mb-6">
+                  DNA helices, audio equalizers, star charts, and precision crosshairs.
+                </p>
+              </div>
+
+              <SeparatorShowcaseCard number={19} name="Helix DNA" description="Two sinusoidal paths intertwining like a DNA strand." inspiration="Biotech branding, Nature magazine, scientific journals">
+                <HelixDNASeparator />
+              </SeparatorShowcaseCard>
+
+              <SeparatorShowcaseCard number={20} name="Equalizer Bars" description="Animated vertical bars like an audio spectrum visualizer." inspiration="Spotify, SoundCloud, music production tools">
+                <EqualizerSeparator />
+              </SeparatorShowcaseCard>
+
+              <SeparatorShowcaseCard number={21} name="Horizon Glow" description="Soft ambient glow band simulating a light horizon." inspiration="Apple gradient wallpapers, ambient lighting, aurora effects">
+                <HorizonGlowSeparator />
+              </SeparatorShowcaseCard>
+
+              <SeparatorShowcaseCard number={22} name="Barcode" description="Varying-width vertical lines encoding industrial rhythm." inspiration="Product packaging, UPC codes, Dieter Rams">
+                <BarcodeSeparator />
+              </SeparatorShowcaseCard>
+
+              <SeparatorShowcaseCard number={23} name="Crosshair" description="Center crosshair target with extending guide lines." inspiration="Camera viewfinders, precision instruments, FPS HUDs">
+                <CrosshairSeparator />
+              </SeparatorShowcaseCard>
+
+              <SeparatorShowcaseCard number={24} name="Constellation" description="Dots connected by faint lines like a star chart." inspiration="Star maps, D3 force graphs, network topology">
+                <ConstellationSeparator />
+              </SeparatorShowcaseCard>
+            </div>
+          </AccentWrapper>
         </div>
       </main>
     </div>

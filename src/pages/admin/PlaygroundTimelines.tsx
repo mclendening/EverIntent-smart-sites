@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, Check, ShoppingCart, User, FileText, CreditCard, Rocket, Palette, Code, Globe } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence, useSpring, useTransform } from 'framer-motion';
+import { AccentPickerBar, AccentWrapper, useAccentState } from '@/components/admin/AccentPicker';
 
 // ─── SHARED TYPES ─────────────────────────────────────────────
 
@@ -1125,6 +1126,7 @@ export default function PlaygroundTimelines() {
   useAdminAuth();
   const [checkoutStep, setCheckoutStep] = useState(1);
   const [deliveryStep, setDeliveryStep] = useState(2);
+  const { accent, setAccent } = useAccentState();
 
   return (
     <div className="min-h-screen bg-background">
@@ -1142,15 +1144,17 @@ export default function PlaygroundTimelines() {
 
       <main className="container py-6 sm:py-10 px-4">
         <div className="max-w-5xl mx-auto">
-          <div className="mb-10">
+          <div className="mb-6">
             <h2 className="text-3xl font-bold text-foreground mb-2">Timeline & Stage Indicators</h2>
-            <p className="text-muted-foreground max-w-2xl">
+            <p className="text-muted-foreground max-w-2xl mb-4">
               14 premium timeline/progress styles for checkout flows and delivery processes.
               Styles 9–14 use Framer Motion for spring physics, morphing shapes, liquid fills,
               ambient pulses, and parallax depth. Click step buttons to preview states.
             </p>
+            <AccentPickerBar selected={accent} onChange={setAccent} />
           </div>
 
+          <AccentWrapper accent={accent}>
           <div className="grid gap-8">
             {/* Style 1 */}
             <TimelineShowcaseCard
@@ -1354,6 +1358,7 @@ export default function PlaygroundTimelines() {
               </div>
             </TimelineShowcaseCard>
           </div>
+          </AccentWrapper>
         </div>
       </main>
     </div>
