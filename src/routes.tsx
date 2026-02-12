@@ -76,6 +76,7 @@ import AdminDashboard from './pages/admin/Dashboard';
 import AdminThemes from './pages/admin/Themes';
 import AdminSubmissions from './pages/admin/Submissions';
 import ThemeTestPage from './pages/admin/ThemeTestPage';
+import AdminPlayground from './pages/admin/Playground';
 
 // Legal pages
 import PrivacyPolicy from './pages/legal/PrivacyPolicy';
@@ -663,6 +664,14 @@ export const routes: RouteRecord[] = [
         element: (
           <AdminGuard>
             <ThemeTestPage />
+          </AdminGuard>
+        ),
+      },
+      {
+        path: 'playground',
+        element: (
+          <AdminGuard>
+            <AdminPlayground />
           </AdminGuard>
         ),
       },
