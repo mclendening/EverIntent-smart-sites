@@ -6,7 +6,7 @@
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Sparkles } from 'lucide-react';
+import { ArrowLeft, Sparkles, GitBranch } from 'lucide-react';
 
 export default function Playground() {
   useAdminAuth();
@@ -41,7 +41,26 @@ export default function Playground() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    10 award-winning callout alternatives using theme gradients
+                    15 award-winning callout alternatives using theme gradients
+                  </p>
+                </CardContent>
+              </Card>
+            </Link>
+
+            <Link to="/admin/playground/timelines">
+              <Card className="transition-colors hover:border-accent/40">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <GitBranch className="h-5 w-5 text-accent" />
+                    Timelines & Stages
+                  </CardTitle>
+                  <CardDescription>
+                    Progress indicators for checkout and delivery flows
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    8 interactive timeline styles with hover, two-tone, and gradient
                   </p>
                 </CardContent>
               </Card>
