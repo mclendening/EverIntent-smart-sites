@@ -153,10 +153,30 @@ export function LogoConfigEditor({
       <AccordionTrigger className="text-sm py-2">
         <div className="flex items-center gap-2">
           {icon}
-          {label}
+          {config.text || label}
+          {config.enabled === false && <span className="text-xs text-muted-foreground">(disabled)</span>}
         </div>
       </AccordionTrigger>
       <AccordionContent className="space-y-4 pb-4">
+        {/* Text & Enabled */}
+        <div className="grid grid-cols-[1fr_auto] gap-3 items-end">
+          <div className="space-y-1">
+            <Label className="text-xs">Display Text</Label>
+            <Input
+              value={config.text || ''}
+              onChange={(e) => onChange({ ...config, text: e.target.value })}
+              placeholder={label}
+              className="h-7 text-xs"
+            />
+          </div>
+          <div className="flex items-center gap-2 pb-0.5">
+            <Switch
+              checked={config.enabled !== false}
+              onCheckedChange={(v) => onChange({ ...config, enabled: v })}
+            />
+            <Label className="text-xs">Visible</Label>
+          </div>
+        </div>
         {/* Size & Weight */}
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1">
