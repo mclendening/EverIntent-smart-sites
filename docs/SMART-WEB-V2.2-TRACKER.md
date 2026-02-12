@@ -599,6 +599,88 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 
 ---
 
+## Phase 8 – Platform Module Architecture 📋 PLANNED
+
+> **Authority**: This tracker section (sole source of truth)
+> **Depends On**: Phase 7 Batch 6 completion (theme system is first conforming module)
+> **Scope**: Modular, plugin-based admin architecture where features self-register via a central registry
+
+### Design Intent
+
+Transform the admin shell from a hardcoded monolith into a dynamic host that discovers features at runtime via a plugin registry. Each feature (Themes, Submissions, Portfolio, Testimonials, Playground) becomes a self-contained module with its own routes, navigation items, and data layer. The admin dashboard, sidebar, and routing are generated entirely from registered modules — adding a new feature requires zero changes to the host shell.
+
+This architecture is designed for **portability**: the registry (`src/modules/registry.ts`) and type contract (`src/modules/types.ts`) can be copied into any React Router + Supabase project to bootstrap the same plugin system.
+
+### Architecture Summary
+
+```
+src/modules/
+├── types.ts              # ModuleDefinition interface + ModuleCategory enum
+├── registry.ts           # registerModule() + getModules() + getModule()
+├── index.ts              # Barrel — imports all modules to trigger self-registration
+├── themes/index.ts       # Theme module (first conforming module)
+├── submissions/index.ts  # Submissions module
+├── portfolio/index.ts    # Portfolio module
+├── testimonials/index.ts # Testimonials module
+└── playground/index.ts   # Playground module
+```
+
+**Plugin Contract (`ModuleDefinition`):**
+```typescript
+interface ModuleDefinition {
+  id: string;                    // Unique identifier (e.g., "themes")
+  name: string;                  // Human-readable display name
+  description: string;           // Purpose description
+  version: string;               // Semantic version
+  navItems: ModuleNavItem[];     // Admin navigation entries (label, path, icon, category)
+  routes: RouteObject[];         // React Router routes (relative to /admin/)
+  enabled?: boolean;             // Toggle module on/off
+}
+```
+
+**Module Categories:** Content, Appearance, Commerce, Settings, Tools
+
+**Admin Shell Consumption:**
+- `Dashboard.tsx` calls `getModules()` and renders cards from `navItems`
+- `routes.tsx` calls `getModules()` and flattens `routes` into admin route tree, wrapped in `AdminGuard`
+- Adding a module: create `src/modules/<name>/index.ts` → call `registerModule()` → add import to `src/modules/index.ts`
+
+### Feature Breakdown
+
+| Feature | Description | Status |
+|---------|-------------|--------|
+| Plugin contract types | `ModuleDefinition`, `ModuleNavItem`, `ModuleCategory` enum | ✅ Implemented |
+| Central registry | `registerModule()`, `getModules()`, `getModule()` with duplicate-ID detection | ✅ Implemented |
+| Dynamic dashboard | Admin dashboard renders module cards from registry (no hardcoded nav) | ✅ Implemented |
+| Dynamic routing | Admin routes generated from module registry, wrapped in AdminGuard | ✅ Implemented |
+| Theme module migration | Theme system registered as first conforming module | ✅ Implemented |
+| Submissions module | Registered with Content category, routes to existing Submissions page | ✅ Implemented |
+| Portfolio module | Registered with Content category, routes to Placeholder (admin CRUD pending) | ✅ Implemented |
+| Testimonials module | Registered with Content category, routes to Placeholder (admin CRUD pending) | ✅ Implemented |
+| Playground module | Registered with Tools category, routes to existing Playground pages | ✅ Implemented |
+
+### Task Breakdown
+
+| ID | Task | Status | Deps | Notes |
+|----|------|--------|------|-------|
+| 8.1 | Define `ModuleDefinition` interface and `ModuleCategory` enum | `done` | — | `src/modules/types.ts`. Includes navItems with icon, category, description, detail. Routes use `RouteObject` from react-router-dom. |
+| 8.2 | Build central registry with `registerModule()` / `getModules()` / `getModule()` | `done` | 8.1 | `src/modules/registry.ts`. Fail-fast on duplicate IDs. `getModules(enabledOnly)` filter. |
+| 8.3 | Create barrel import for module self-registration | `done` | 8.1 | `src/modules/index.ts`. Re-exports registry utilities. |
+| 8.4 | Migrate Theme system as first conforming module | `done` | 8.2 | `src/modules/themes/index.ts`. Category: Appearance. Routes to existing `AdminThemes`. |
+| 8.5 | Register Submissions, Portfolio, Testimonials, Playground modules | `done` | 8.2 | Each in `src/modules/<name>/index.ts`. Portfolio + Testimonials route to Placeholder (admin CRUD not yet built). |
+| 8.6 | Refactor Dashboard.tsx to consume registry | `done` | 8.3, 8.5 | Cards rendered via `getModules().flatMap(mod => mod.navItems)`. Zero hardcoded links. |
+| 8.7 | Refactor routes.tsx to generate admin routes from registry | `done` | 8.3, 8.5 | `getModules().flatMap(mod => mod.routes)` wrapped in `AdminGuard`. Legacy `theme-test` route preserved outside registry. |
+| 8.8 | JSDoc all module files per project discipline | `done` | 8.4, 8.5 | Self-contained docs: data contracts, business purpose, portability instructions. No BRD references. |
+| 8.9 | Update BRD delta report with §29 Platform Architecture | `done` | 8.7 | Documents what changed, files affected, and architectural decisions. |
+| 8.10 | Generic `CrudService<T>` data layer with Zod validation | `todo` | 8.7 | Modules use generic service instead of raw Supabase calls. |
+| 8.11 | Shared admin UI patterns: `ListLayout<T>`, `DetailLayout`, `FormEditor<T>` | `todo` | 8.10 | Generic CRUD components all modules inherit. |
+| 8.12 | Portfolio admin CRUD (replace Placeholder) | `todo` | 8.11 | DB: `portfolio` table. Full CRUD with image upload. |
+| 8.13 | Testimonials admin CRUD (replace Placeholder) | `todo` | 8.11 | DB: `testimonials` table. Full CRUD with rating. |
+| 8.14 | Module permission system (`requiredRole` enforcement) | `todo` | 8.7 | Currently declared in types but not enforced. Wire into AdminGuard. |
+| 8.15 | Full QA: verify all 5 modules render, navigate, and save correctly | `todo` | 8.12, 8.13 | Cross-module test: dashboard cards → drill-down → CRUD operations. |
+
+---
+
 ## Changelog
 
 | Date | Change | Author |
@@ -631,7 +713,7 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 | 2026-02-11 | **ADA Batch 1 COMPLETE (10 Content Modules)**: Text Size (3 levels), Line Height (3 levels), Letter Spacing (3 levels), Bold Text, Readable Font, Dyslexia Font (OpenDyslexic CDN), Text Align (cycle), Highlight Links, Text Magnifier, Big Cursor. All tested and verified by user. | Lovable |
 | 2026-02-11 | **ADA Batch 2 COMPLETE (5 Color + 9 Orientation Modules)**: Color: Dark Contrast, Light Contrast, High Contrast (WCAG AAA), Monochrome (grayscale filter), High Saturation (saturate filter). Orientation: Reading Line (JS cursor-following bar), Reading Mask (JS spotlight mask), Keyboard Navigation (enhanced tab focus), Hide Images, Stop Animations, Mute Sounds (JS audio muting), Highlight Titles, Highlight Content, Focus Highlight. Mutual exclusion implemented for conflicting modules. Widget now has 3 sections: Content, Color & Contrast, Orientation. | Lovable |
 | 2026-02-11 | **ADA Batch 3 COMPLETE (5 Preset Profiles)**: Vision Impaired (text size 2 + bold + high contrast + highlight links/titles + line height), Blind Mode (max text + bold + high contrast + all highlights + keyboard nav + hide images), ADHD Friendly (reading mask + stop animations + mute sounds + highlight titles), Dyslexia Friendly (OpenDyslexic + wide spacing + reading line), Motor Impaired (big cursor + keyboard nav + focus highlight). Profiles activate/deactivate with one click. Manual module toggle clears active profile. State persisted in `ada-active-profile` localStorage key. | Lovable |
-| 2026-02-11 | **ADA Batch 4 COMPLETE (Reset All + Statement)**: Reset All button clears all modules + active profile + all `ada-*` localStorage keys. Accessibility Statement link added to panel footer pointing to `/legal/accessibility-statement`. Full ADA module now has 24 modules + 5 profiles matching WPOneTap feature parity. | Lovable |
+| 2026-02-12 | **Phase 8 added**: Platform Module Architecture — 15 tasks. Foundation implemented (8.1–8.9): ModuleDefinition contract, central registry, 5 module registrations, dynamic dashboard/routing, JSDoc discipline, BRD §29 delta entry. Remaining: CrudService<T> (8.10), shared UI patterns (8.11), Portfolio/Testimonials admin CRUD (8.12–8.13), permission enforcement (8.14), full QA (8.15). | Lovable |
 
 ## Color Token Audit (2026-02-11)
 

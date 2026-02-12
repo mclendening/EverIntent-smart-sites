@@ -2659,6 +2659,54 @@ Query parameters pre-fill GHL form: `first_name`, `last_name`, `email`, `phone`,
 
 ---
 
+---
+
+## 29. Platform Module Architecture (Phase 8)
+
+**Date Added:** 2026-02-12
+**Status:** Implemented (foundation), In Progress (CRUD layers)
+
+### 29.1 Architectural Change Summary
+
+The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-based platform. Features self-register via a central module registry, and the admin dashboard and routing are generated entirely from registered modules at runtime.
+
+### 29.2 Files Created
+
+| File | Purpose |
+|------|---------|
+| `src/modules/types.ts` | `ModuleDefinition` interface, `ModuleNavItem`, `ModuleCategory` enum |
+| `src/modules/registry.ts` | `registerModule()`, `getModules()`, `getModule()` — central catalog |
+| `src/modules/index.ts` | Barrel import — triggers self-registration of all modules |
+| `src/modules/themes/index.ts` | Theme module registration (first conforming module) |
+| `src/modules/submissions/index.ts` | Submissions module registration |
+| `src/modules/portfolio/index.ts` | Portfolio module registration (Placeholder admin) |
+| `src/modules/testimonials/index.ts` | Testimonials module registration (Placeholder admin) |
+| `src/modules/playground/index.ts` | Playground module registration |
+
+### 29.3 Files Modified
+
+| File | Change |
+|------|--------|
+| `src/pages/admin/Dashboard.tsx` | Refactored from hardcoded cards to `getModules().flatMap(mod => mod.navItems)` |
+| `src/routes.tsx` | Admin routes generated from `getModules().flatMap(mod => mod.routes)` wrapped in `AdminGuard` |
+
+### 29.4 Design Decisions
+
+1. **Self-registration pattern**: Modules call `registerModule()` from their barrel export. The barrel `src/modules/index.ts` is imported in `routes.tsx` before the route tree is built.
+2. **Fail-fast on duplicates**: `registerModule()` throws if a module with the same ID already exists.
+3. **Category grouping**: `ModuleCategory` enum (Content, Appearance, Commerce, Settings, Tools) for future sidebar grouping.
+4. **Portability**: `types.ts` + `registry.ts` have zero project-specific dependencies. Copy into any React Router project.
+5. **Legacy compatibility**: `theme-test` admin route preserved outside the registry as it's a development tool, not a feature module.
+
+### 29.5 Remaining Work
+
+- Generic `CrudService<T>` data layer with Zod validation (8.10)
+- Shared admin UI patterns: `ListLayout<T>`, `DetailLayout`, `FormEditor<T>` (8.11)
+- Portfolio and Testimonials admin CRUD to replace Placeholder pages (8.12, 8.13)
+- Module permission enforcement via `requiredRole` (8.14)
+
+---
+
 **END OF REPORT**
 
 *This document serves as the comprehensive baseline comparison and progression analysis. The current codebase structure, navigation, and pricing represents the verified offering baseline for EverIntent.*
@@ -2668,3 +2716,4 @@ Query parameters pre-fill GHL form: `first_name`, `last_name`, `email`, `phone`,
 *Updated: 2026-02-06 | Post-baseline fixes applied (§26) + GHL fix (§26.6) + Summary (§27)*  
 *Updated: 2026-02-06 | Homepage confirmed at pre-delta luxury minimal state*  
 *Updated: 2026-02-08 | Added §28 Checkout Design Specification v5.2*
+*Updated: 2026-02-12 | Added §29 Platform Module Architecture (Phase 8)*

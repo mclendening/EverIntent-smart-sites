@@ -10,6 +10,20 @@
  * - Admin UI: Theme list → detail → editor (3-level drill-down)
  * - Publish pipeline: CSS/TS generation, GitHub sync
  * - CSS emission: Runtime theme variables via applyThemeToRoot()
+ *
+ * ## Data Contract
+ * - `site_themes` table: JSONB columns for primitive_tokens, semantic_tokens,
+ *   component_tokens, static_colors, dark_mode_overrides, style_modules,
+ *   typography_config, motion_config, ecommerce_colors, cta_variants,
+ *   ada_widget_config, ghl_chat_config, gradient_configs, accent_config.
+ * - `published_theme_configs` table: Versioned snapshots of published themes
+ *   with CSS output, JSON config, and TypeScript config.
+ * - `page_theme_assignments` table: Per-route theme overrides.
+ *
+ * ## Portability
+ * - Depends on: registry.ts, types.ts, AdminThemes page component.
+ * - To use in another project: copy this file + registry + types,
+ *   provide an AdminThemes component, and import in the module barrel.
  */
 
 import { registerModule } from '../registry';
