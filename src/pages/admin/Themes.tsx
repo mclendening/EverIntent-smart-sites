@@ -2296,12 +2296,12 @@ ${styleModulesCss}  }
         </div>
       </header>
 
-      <main className="container py-4 lg:py-8 px-3 lg:px-4">
-        <div className="grid gap-4 lg:gap-8 lg:grid-cols-[300px_1fr]">
+      <main className="container py-3 lg:py-8 px-2 sm:px-3 lg:px-4">
+        <div className="grid gap-3 lg:gap-8 lg:grid-cols-[300px_1fr]">
           {/* Theme List */}
-          <div className="space-y-4">
-            <h2 className="text-lg font-semibold">Themes ({themes.length})</h2>
-            <ScrollArea className="h-48 lg:h-[calc(100vh-12rem)]">
+          <div className="space-y-2 lg:space-y-4">
+            <h2 className="text-sm lg:text-lg font-semibold">Themes ({themes.length})</h2>
+            <ScrollArea className="h-32 sm:h-40 lg:h-[calc(100vh-12rem)]">
               <div className="space-y-2 pr-4">
                 {themes.map((theme) => {
                   const accentColor = getAccentColor(theme);
@@ -2351,14 +2351,14 @@ ${styleModulesCss}  }
           <div className="space-y-4">
             {selectedTheme ? (
               <Card>
-                <CardHeader className="p-3 lg:pb-4 lg:p-6">
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                      <CardTitle className="flex items-center gap-2 text-base lg:text-lg">
-                        <Palette className="h-4 w-4 lg:h-5 lg:w-5" />
+                <CardHeader className="p-2 sm:p-3 lg:p-6 lg:pb-4">
+                  <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="min-w-0">
+                      <CardTitle className="flex items-center gap-1.5 text-sm lg:text-lg truncate">
+                        <Palette className="h-4 w-4 shrink-0" />
                         {isEditing ? 'Edit Theme' : selectedTheme.name}
                       </CardTitle>
-                      <CardDescription className="text-xs">
+                      <CardDescription className="text-[11px] sm:text-xs">
                         {isEditing ? 'Adjust colors and settings' : 'Click Edit to modify'}
                       </CardDescription>
                     </div>
