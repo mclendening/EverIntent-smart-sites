@@ -2737,6 +2737,43 @@ The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-
 4. **Consistent loading states**: `AdminListView` shows 8 skeleton rows; `AdminDetailView` shows 6 field-shaped skeletons. Both match the actual content layout.
 5. **No custom colors**: All components use semantic tokens (`bg-background`, `text-muted-foreground`, `border-border`, `text-destructive`).
 
+### 29.8 Portfolio & Testimonials Admin CRUD (Tasks 8.12–8.13)
+
+**Files Created:**
+| File | Purpose |
+|------|---------|
+| `src/modules/portfolio/service.ts` | Zod schemas (row/insert/update) + CrudService + TanStack Query hooks |
+| `src/modules/portfolio/PortfolioListPage.tsx` | AdminListView with 5 columns (title, client, industry, published, order) |
+| `src/modules/portfolio/PortfolioEditPage.tsx` | AdminFormEditor with 13 fields, create/edit/delete modes |
+| `src/modules/testimonials/service.ts` | Zod schemas + CrudService + hooks for testimonials table |
+| `src/modules/testimonials/TestimonialsListPage.tsx` | AdminListView with 5 columns incl. star rating display |
+| `src/modules/testimonials/TestimonialsEditPage.tsx` | AdminFormEditor with 11 fields, create/edit/delete modes |
+
+**Files Modified:**
+| File | Change |
+|------|--------|
+| `src/modules/portfolio/index.ts` | Replaced Placeholder with real CRUD routes, version → 2.0.0 |
+| `src/modules/testimonials/index.ts` | Replaced Placeholder with real CRUD routes, version → 2.0.0 |
+
+### 29.9 Permission Enforcement (Task 8.14)
+
+**Files Created:**
+| File | Purpose |
+|------|---------|
+| `src/hooks/useHasRole.ts` | TanStack Query hook wrapping `has_role()` RPC with 5-minute cache |
+
+**Files Modified:**
+| File | Change |
+|------|--------|
+| `src/pages/admin/Dashboard.tsx` | Added `canAccess()` filter on navItems using `useHasRole` for admin/moderator/user hierarchy |
+
+### 29.10 Theme Detail View Enhancement
+
+**Files Modified:**
+| File | Change |
+|------|--------|
+| `src/components/admin/ThemeSummaryDashboard.tsx` | Added Motion & Transitions card (smooth/bounce/spring values), expanded Integrations with ADA detail (position, icon, size), added Style Modules detail card (token counts + names), added Logo Version card |
+
 ---
 
 **END OF REPORT**
@@ -2749,5 +2786,4 @@ The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-
 *Updated: 2026-02-06 | Homepage confirmed at pre-delta luxury minimal state*  
 *Updated: 2026-02-08 | Added §28 Checkout Design Specification v5.2*
 *Updated: 2026-02-12 | Added §29 Platform Module Architecture (Phase 8)*
-*Updated: 2026-02-12 | Added §29.6 CrudService<T> Data Layer (Task 8.10)*
-*Updated: 2026-02-12 | Added §29.7 Shared Admin UI Patterns (Task 8.11)*
+*Updated: 2026-02-12 | Added §29.6–29.10 (CrudService, UI Patterns, Portfolio/Testimonials CRUD, Permissions, Theme Detail)*

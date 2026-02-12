@@ -354,27 +354,102 @@ export function ThemeSummaryDashboard(props: ThemeSummaryDashboardProps) {
           </div>
         </SectionCard>
 
-        {/* Integrations & Modules */}
-        <SectionCard icon={Layers} title="Integrations">
+        {/* Motion & Transitions */}
+        <SectionCard icon={Layers} title="Motion & Transitions">
           <div className="space-y-2">
-            <StatusPill enabled={!!ghlChatConfig?.sendButtonBg} label="GHL Chat" />
-            <StatusPill enabled={adaWidgetConfig?.enabled ?? false} label="ADA Widget" />
-            <div className="border-t border-border pt-2 mt-2">
-              <span className="text-[10px] text-muted-foreground block mb-1">Style Modules</span>
-              {safeModules.length > 0 ? (
-                <div className="flex flex-wrap gap-1">
-                  {safeModules.map((m) => (
-                    <Badge key={m?.name || 'unknown'} variant="secondary" className="text-[10px] h-5">
-                      {m?.name || '?'}
-                    </Badge>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-xs text-muted-foreground italic">None</p>
-              )}
+            <div>
+              <span className="text-[10px] text-muted-foreground block">Smooth</span>
+              <code className="text-[9px] text-foreground/80 block truncate">
+                {props.motionConfig?.transitionSmooth || 'all 0.3s ease'}
+              </code>
+            </div>
+            <div>
+              <span className="text-[10px] text-muted-foreground block">Bounce</span>
+              <code className="text-[9px] text-foreground/80 block truncate">
+                {props.motionConfig?.transitionBounce || 'all 0.4s cubic-bezier(...)'}
+              </code>
+            </div>
+            <div>
+              <span className="text-[10px] text-muted-foreground block">Spring</span>
+              <code className="text-[9px] text-foreground/80 block truncate">
+                {props.motionConfig?.transitionSpring || 'all 0.5s cubic-bezier(...)'}
+              </code>
             </div>
           </div>
         </SectionCard>
+
+        {/* Integrations & Modules */}
+        <SectionCard icon={MessageSquare} title="Integrations">
+          <div className="space-y-2">
+            <StatusPill enabled={!!ghlChatConfig?.sendButtonBg} label="GHL Chat Widget" />
+            <StatusPill enabled={adaWidgetConfig?.enabled ?? false} label="ADA Accessibility Widget" />
+            {adaWidgetConfig?.enabled && (
+              <div className="pl-5 space-y-1">
+                <span className="text-[9px] text-muted-foreground block">
+                  Position: {adaWidgetConfig?.position || 'bottom-right'}
+                </span>
+                <span className="text-[9px] text-muted-foreground block">
+                  Icon: {adaWidgetConfig?.iconType || 'universal'} ({adaWidgetConfig?.iconShape || 'circle'})
+                </span>
+                <span className="text-[9px] text-muted-foreground block">
+                  Size: {adaWidgetConfig?.iconSize || 48}px
+                </span>
+              </div>
+            )}
+          </div>
+        </SectionCard>
+
+        {/* Style Modules */}
+        <SectionCard icon={Layers} title="Style Modules">
+          {safeModules.length > 0 ? (
+            <div className="space-y-2">
+              {safeModules.map((m) => (
+                <div key={m?.name || 'unknown'} className="border border-border rounded p-2">
+                  <div className="flex items-center justify-between mb-1">
+                    <Badge variant="secondary" className="text-[10px] h-5">
+                      {m?.name || '?'}
+                    </Badge>
+                    <span className="text-[9px] text-muted-foreground">
+                      {Object.keys(m?.tokens || {}).length} tokens
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {Object.entries(m?.tokens || {}).slice(0, 4).map(([key]) => (
+                      <span key={key} className="text-[8px] text-muted-foreground bg-muted px-1 rounded">
+                        {key}
+                      </span>
+                    ))}
+                    {Object.keys(m?.tokens || {}).length > 4 && (
+                      <span className="text-[8px] text-muted-foreground">
+                        +{Object.keys(m?.tokens || {}).length - 4} more
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-xs text-muted-foreground italic">No style modules configured</p>
+          )}
+        </SectionCard>
+
+        {/* Logo Version */}
+        {props.logoVersion && (
+          <SectionCard icon={Accessibility} title="Logo Version">
+            <div className="space-y-1">
+              <span className="text-xs font-medium block">{props.logoVersion.name || 'Unnamed'}</span>
+              <span className="text-[10px] text-muted-foreground block">
+                Version {props.logoVersion.version || 1}
+              </span>
+              {props.logoVersion.tagline_text && (
+                <span className="text-[10px] text-muted-foreground block italic">
+                  "{props.logoVersion.tagline_text}"
+                </span>
+              )}
+              <StatusPill enabled={!!props.logoVersion.is_active} label={props.logoVersion.is_active ? 'Active' : 'Inactive'} />
+            </div>
+          </SectionCard>
+        )}
       </div>
     </div>
   );

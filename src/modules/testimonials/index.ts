@@ -2,35 +2,34 @@
  * @fileoverview Testimonials module — self-registers with the platform module registry.
  *
  * Manages customer testimonials displayed across the marketing site.
- * Currently routes to a placeholder admin page — full CRUD is pending
- * the shared ListLayout/FormEditor pattern system (Phase 8.11–8.13).
+ * Provides full admin CRUD via the shared AdminListView + AdminFormEditor patterns.
  *
  * ## What This Module Owns
- * - Database: testimonials table
- * - Admin UI: Testimonials CRUD (pending implementation)
- * - Public UI: Testimonials sections on homepage and industry pages (existing)
- *
- * ## Data Contract
- * - `testimonials` table: client_name, quote, rating (1-5), client_title,
+ * - Database: `testimonials` table (client_name, quote, rating, client_title,
  *   client_company, client_photo_url, industry, service_type, is_featured,
- *   is_published, display_order.
+ *   is_published, display_order)
+ * - Admin UI: List view (/admin/testimonials) + Create/Edit view (/admin/testimonials/:id)
+ * - Public UI: Testimonials sections on homepage and industry pages (existing)
+ * - Data layer: `testimonialService` (CrudService) + `testimonialHooks` (TanStack Query)
+ * - Validation: Zod schemas for INSERT/UPDATE with rating range (1-5) and length constraints
  *
  * ## Portability
- * - Depends on: registry.ts, types.ts, a page component for the admin route.
- * - To use in another project: provide matching Supabase table and admin component.
+ * - Depends on: registry.ts, types.ts, shared/ (CrudService + UI patterns)
+ * - To use in another project: provide matching Supabase `testimonials` table with RLS
  */
 
 import { registerModule } from '../registry';
 import type { ModuleDefinition } from '../types';
 import { ModuleCategory } from '../types';
 import { MessageSquare } from 'lucide-react';
-import PlaceholderPage from '@/pages/Placeholder';
+import TestimonialsListPage from './TestimonialsListPage';
+import TestimonialsEditPage from './TestimonialsEditPage';
 
 export const testimonialsModule: ModuleDefinition = {
   id: 'testimonials',
   name: 'Testimonials',
   description: 'Manage customer testimonials.',
-  version: '1.0.0',
+  version: '2.0.0',
   navItems: [
     {
       label: 'Testimonials',
@@ -38,13 +37,17 @@ export const testimonialsModule: ModuleDefinition = {
       icon: MessageSquare,
       category: ModuleCategory.Content,
       description: 'Manage customer testimonials',
-      detail: 'Add, edit, or remove customer testimonials',
+      detail: 'Add, edit, or remove customer testimonials with ratings and publish controls',
     },
   ],
   routes: [
     {
       path: 'testimonials',
-      Component: PlaceholderPage,
+      Component: TestimonialsListPage,
+    },
+    {
+      path: 'testimonials/:id',
+      Component: TestimonialsEditPage,
     },
   ],
 };
