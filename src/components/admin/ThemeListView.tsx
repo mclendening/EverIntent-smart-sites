@@ -1,18 +1,21 @@
 /**
- * @fileoverview ThemeListView — Premium visual grid for browsing themes.
+ * @fileoverview ThemeListView — Professional theme administration hub.
  *
- * Renders themes as rich visual cards in a responsive grid layout with
- * accent-colored hero banners, palette previews, and status indicators.
- * Designed for an award-winning admin experience that surfaces visual
- * identity at a glance before drilling into detail.
+ * Renders a high-density, Shopify-inspired table view of themes with inline
+ * color chips, status indicators, and quick actions. Designed for rapid
+ * scanning and selection — prioritizes information density over decoration.
+ *
+ * ## Design Philosophy (informed by Shopify, Webflow, Figma admin patterns)
+ * - **Table layout** with semantic rows, not cards with giant decorative banners.
+ * - **Inline color chips** (small circles/squares) show palette at a glance.
+ * - **Quick actions** (activate, delete) accessible without drilling down.
+ * - **Search + filter** for fast theme lookup in large libraries.
+ * - **Subtle row hover** with accent border — no heavy animations.
  *
  * ## Architecture
- * - Responsive grid: 1 col mobile, 2 col tablet, 3 col desktop.
- * - Each card shows: gradient/accent hero banner, palette swatches,
- *   theme name, version, module count, mode, and active status.
- * - Search bar filters themes by name in real-time.
- * - Cards use framer-motion for subtle hover lift and staggered entrance.
- * - Full-viewport height (100dvh minus header).
+ * - Full-viewport height (100dvh minus global header).
+ * - Responsive: table on desktop, compact list on mobile.
+ * - Each row: accent chip, name, version, module count, mode, palette, status, actions.
  *
  * ## Data Contract
  * - `themes`: Array of site_themes rows from Supabase.
@@ -32,11 +35,11 @@
 
 import { useState, useMemo } from 'react';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Search, Moon, Sun, Monitor, Check, Layers } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Search, Moon, Sun, Monitor, Check, Trash2, ChevronRight } from 'lucide-react';
 import type { Theme } from '@/hooks/useThemeAdmin';
-import { getAccentColor, parseHsl, hslToHex } from '@/hooks/useThemeAdmin';
+import { getAccentColor, parseHsl } from '@/hooks/useThemeAdmin';
 
 // ─── TYPES ───────────────────────────────────────────────────
 
@@ -49,41 +52,24 @@ interface ThemeListViewProps {
 
 // ─── HELPERS ─────────────────────────────────────────────────
 
-/** Build a CSS gradient string from accent config for the card hero banner */
-function getCardGradient(theme: Theme): string {
-  const accent = theme.accent_config as Record<string, any> || {};
+/** Extract 5 key palette colors as HSL strings */
+function getPalette(theme: Theme): string[] {
   const accentHsl = getAccentColor(theme);
-  const { h, s, l } = parseHsl(accentHsl);
-
-  if (accent.useGradient && accent.gradientFrom && accent.gradientTo) {
-    return `linear-gradient(${accent.gradientAngle ?? 135}deg, ${accent.gradientFrom}, ${accent.gradientTo})`;
-  }
-
-  // Generate a rich gradient from the accent hue
-  const fromH = (h - 15 + 360) % 360;
-  const toH = (h + 15) % 360;
-  return `linear-gradient(135deg, hsl(${fromH} ${Math.min(s + 10, 100)}% ${Math.min(l + 5, 60)}%), hsl(${h} ${s}% ${l}%), hsl(${toH} ${Math.min(s + 10, 100)}% ${Math.max(l - 10, 25)}%))`;
-}
-
-/** Extract palette swatches from a theme */
-function getPaletteSwatches(theme: Theme): string[] {
-  const accentHsl = getAccentColor(theme);
-  const staticCols = theme.static_colors as Record<string, string> || {};
-  const darkCols = theme.dark_mode_overrides as Record<string, string> || {};
-  const ecomCols = theme.ecommerce_colors as Record<string, string> || {};
-
+  const sc = theme.static_colors as Record<string, string> || {};
+  const dc = theme.dark_mode_overrides as Record<string, string> || {};
+  const ec = theme.ecommerce_colors as Record<string, string> || {};
   return [
     accentHsl,
-    staticCols.primary || '222 47% 11%',
-    staticCols.background || '0 0% 100%',
-    darkCols.background || '222 47% 7%',
-    ecomCols.gold || '39 95% 50%',
+    sc.background || '0 0% 100%',
+    sc.foreground || '222 47% 11%',
+    dc.background || '222 47% 7%',
+    ec.gold || '39 95% 50%',
   ];
 }
 
 // ─── COMPONENT ───────────────────────────────────────────────
 
-export function ThemeListView({ themes, onSelect }: ThemeListViewProps) {
+export function ThemeListView({ themes, onSelect, onSetActive, onDelete }: ThemeListViewProps) {
   const [search, setSearch] = useState('');
 
   const filtered = useMemo(() => {
@@ -94,117 +80,153 @@ export function ThemeListView({ themes, onSelect }: ThemeListViewProps) {
 
   return (
     <div className="flex flex-col h-[calc(100dvh-4rem)]">
-      {/* Search header */}
-      <div className="px-4 py-3 border-b border-border bg-card/50">
-        <div className="flex items-center justify-between mb-3">
+      {/* Header bar */}
+      <div className="px-4 sm:px-6 py-4 border-b border-border">
+        <div className="flex items-center justify-between gap-4">
           <div>
-            <h2 className="text-base font-bold text-foreground">Theme Library</h2>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              {themes.length} theme{themes.length !== 1 ? 's' : ''} · Select to inspect
-            </p>
+            <h2 className="text-sm font-semibold text-foreground">Themes</h2>
+            <p className="text-xs text-muted-foreground">{themes.length} theme{themes.length !== 1 ? 's' : ''}</p>
           </div>
-        </div>
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
-          <Input
-            placeholder="Search themes…"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-9 h-9 text-sm bg-background"
-          />
+          <div className="relative w-56 sm:w-72">
+            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+            <Input
+              placeholder="Search…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-8 h-8 text-xs"
+            />
+          </div>
         </div>
       </div>
 
-      {/* Grid */}
+      {/* Table */}
       <ScrollArea className="flex-1">
-        <div className="p-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filtered.map((theme, i) => {
-              const accentHsl = getAccentColor(theme);
-              const { h, s, l } = parseHsl(accentHsl);
-              const mode = theme.default_mode || 'dark';
-              const ModeIcon = mode === 'dark' ? Moon : mode === 'light' ? Sun : Monitor;
-              const modules = theme.style_modules as unknown as any[] || [];
-              const moduleCount = Array.isArray(modules) ? modules.length : 0;
-              const swatches = getPaletteSwatches(theme);
-              const gradient = getCardGradient(theme);
-
-              return (
-                <motion.button
-                  key={theme.id}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.03, duration: 0.3 }}
-                  whileHover={{ y: -2 }}
-                  onClick={() => onSelect(theme)}
-                  className="group relative rounded-xl border border-border bg-card overflow-hidden text-left transition-shadow hover:shadow-lg hover:shadow-accent/5 hover:border-accent/30 focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none"
-                >
-                  {/* Accent hero banner */}
-                  <div
-                    className="h-24 sm:h-28 w-full relative"
-                    style={{ background: gradient }}
-                  >
-                    {/* Subtle mesh overlay */}
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(255,255,255,0.15),transparent_60%)]" />
-
-                    {/* Active indicator */}
-                    {theme.is_active && (
-                      <div className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-black/40 backdrop-blur-sm text-white text-[10px] font-semibold px-2 py-0.5 rounded-md">
-                        <Check className="h-3 w-3" />
-                        Active
-                      </div>
-                    )}
-
-                    {/* HSL readout */}
-                    <div className="absolute bottom-2.5 left-2.5 font-mono text-[10px] text-white/70 bg-black/20 backdrop-blur-sm px-1.5 py-0.5 rounded">
-                      {Math.round(h)}° {Math.round(s)}% {Math.round(l)}%
-                    </div>
-                  </div>
-
-                  {/* Card body */}
-                  <div className="p-3.5">
-                    {/* Name row */}
-                    <div className="flex items-start justify-between gap-2 mb-2.5">
-                      <div className="min-w-0">
-                        <h3 className="text-sm font-semibold text-foreground truncate group-hover:text-accent transition-colors">
-                          {theme.name}
-                        </h3>
-                        <p className="text-[11px] text-muted-foreground mt-0.5">
-                          v{theme.version} · {moduleCount} module{moduleCount !== 1 ? 's' : ''}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-1 text-muted-foreground shrink-0">
-                        <ModeIcon className="h-3.5 w-3.5" />
-                        <span className="text-[10px] capitalize">{mode}</span>
-                      </div>
-                    </div>
-
-                    {/* Palette preview */}
-                    <div className="flex gap-1">
-                      {swatches.map((swatch, j) => (
-                        <div
-                          key={j}
-                          className="h-5 flex-1 rounded-sm border border-border/50 first:rounded-l-md last:rounded-r-md"
-                          style={{ backgroundColor: `hsl(${swatch})` }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </motion.button>
-              );
-            })}
-          </div>
-
-          {filtered.length === 0 && (
-            <div className="text-center py-16 text-muted-foreground">
-              <Layers className="h-8 w-8 mx-auto mb-3 opacity-40" />
-              <p className="text-sm font-medium">No themes found</p>
-              <p className="text-xs mt-1">
-                {search ? 'Try a different search term' : 'Create a theme to get started'}
-              </p>
-            </div>
-          )}
+        {/* Desktop table header */}
+        <div className="hidden sm:grid grid-cols-[auto_1fr_auto_auto_auto_auto_auto] gap-x-4 px-6 py-2 border-b border-border text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+          <span className="w-3" />
+          <span>Name</span>
+          <span>Version</span>
+          <span>Modules</span>
+          <span>Mode</span>
+          <span>Palette</span>
+          <span className="text-right">Actions</span>
         </div>
+
+        <div className="divide-y divide-border">
+          {filtered.map((theme) => {
+            const accentHsl = getAccentColor(theme);
+            const { h, s, l } = parseHsl(accentHsl);
+            const mode = theme.default_mode || 'dark';
+            const ModeIcon = mode === 'dark' ? Moon : mode === 'light' ? Sun : Monitor;
+            const modules = theme.style_modules as unknown as any[] || [];
+            const moduleCount = Array.isArray(modules) ? modules.length : 0;
+            const palette = getPalette(theme);
+
+            return (
+              <button
+                key={theme.id}
+                onClick={() => onSelect(theme)}
+                className="w-full text-left group transition-colors hover:bg-muted/30 focus-visible:bg-muted/30 focus-visible:outline-none"
+              >
+                {/* Mobile row */}
+                <div className="sm:hidden px-4 py-3 flex items-center gap-3">
+                  {/* Accent dot */}
+                  <div
+                    className="w-3 h-3 rounded-full shrink-0 ring-1 ring-border"
+                    style={{ backgroundColor: `hsl(${accentHsl})` }}
+                  />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium truncate">{theme.name}</span>
+                      {theme.is_active && (
+                        <span className="text-[9px] font-semibold text-accent bg-accent/10 px-1.5 py-0.5 rounded">Active</span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2 mt-0.5 text-[10px] text-muted-foreground">
+                      <span>v{theme.version}</span>
+                      <span>·</span>
+                      <span>{moduleCount} modules</span>
+                      <span>·</span>
+                      <ModeIcon className="h-2.5 w-2.5 inline" />
+                      <span className="capitalize">{mode}</span>
+                    </div>
+                  </div>
+                  {/* Mini palette */}
+                  <div className="flex gap-0.5 shrink-0">
+                    {palette.map((c, i) => (
+                      <div key={i} className="w-4 h-4 rounded-sm ring-1 ring-border/50" style={{ backgroundColor: `hsl(${c})` }} />
+                    ))}
+                  </div>
+                  <ChevronRight className="h-4 w-4 text-muted-foreground/40 shrink-0" />
+                </div>
+
+                {/* Desktop row */}
+                <div className="hidden sm:grid grid-cols-[auto_1fr_auto_auto_auto_auto_auto] gap-x-4 items-center px-6 py-2.5">
+                  {/* Accent indicator */}
+                  <div
+                    className="w-3 h-3 rounded-full ring-1 ring-border"
+                    style={{ backgroundColor: `hsl(${accentHsl})` }}
+                  />
+                  {/* Name + active badge */}
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="text-sm font-medium truncate group-hover:text-accent transition-colors">
+                      {theme.name}
+                    </span>
+                    {theme.is_active && (
+                      <span className="text-[9px] font-semibold text-accent bg-accent/10 px-1.5 py-0.5 rounded flex items-center gap-0.5">
+                        <Check className="h-2.5 w-2.5" /> Active
+                      </span>
+                    )}
+                  </div>
+                  {/* Version */}
+                  <span className="text-xs text-muted-foreground tabular-nums">v{theme.version}</span>
+                  {/* Modules */}
+                  <span className="text-xs text-muted-foreground tabular-nums">{moduleCount}</span>
+                  {/* Mode */}
+                  <span className="flex items-center gap-1 text-xs text-muted-foreground capitalize">
+                    <ModeIcon className="h-3 w-3" /> {mode}
+                  </span>
+                  {/* Palette chips */}
+                  <div className="flex gap-0.5">
+                    {palette.map((c, i) => (
+                      <div key={i} className="w-5 h-5 rounded-sm ring-1 ring-border/50" style={{ backgroundColor: `hsl(${c})` }} />
+                    ))}
+                  </div>
+                  {/* Actions */}
+                  <div className="flex gap-1 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                    {!theme.is_active && (
+                      <>
+                        <Button
+                          variant="ghost" size="sm"
+                          className="h-6 w-6 p-0 text-muted-foreground hover:text-accent"
+                          onClick={(e) => { e.stopPropagation(); onSetActive(theme); }}
+                          title="Set as active"
+                        >
+                          <Check className="h-3 w-3" />
+                        </Button>
+                        <Button
+                          variant="ghost" size="sm"
+                          className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive"
+                          onClick={(e) => { e.stopPropagation(); onDelete(theme); }}
+                          title="Delete theme"
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
+                      </>
+                    )}
+                    <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/40" />
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {filtered.length === 0 && (
+          <div className="text-center py-16 text-muted-foreground">
+            <p className="text-sm">{search ? 'No themes match your search.' : 'No themes found.'}</p>
+          </div>
+        )}
       </ScrollArea>
     </div>
   );
