@@ -9,9 +9,11 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { architecture_spec } = await req.json();
+    const { architecture_spec, system_prompt } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+
+    const defaultSystem = "You are a senior software architect specializing in modular platform design. Provide concrete TypeScript interfaces, file structures, and architecture decisions. Be brutally honest. Use concise bullet points and code blocks.";
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -22,15 +24,10 @@ serve(async (req) => {
       body: JSON.stringify({
         model: "google/gemini-2.5-flash",
         messages: [
-          {
-            role: "system",
-            content: "You are a senior software architect. Review the architecture spec for a portable theme system package. Score it 1-10, list strengths, critical gaps, portability issues, DI review, schema issues, security concerns, recommended changes, optimal task order, and WordPress comparison. Be brutally honest. Concise bullet points."
-          },
-          {
-            role: "user",
-            content: architecture_spec
-          }
+          { role: "system", content: system_prompt || defaultSystem },
+          { role: "user", content: architecture_spec }
         ],
+        max_completion_tokens: 4000,
       }),
     });
 
@@ -53,7 +50,6 @@ serve(async (req) => {
     }
 
     const data = await response.json();
-    console.log("AI response structure:", JSON.stringify(data).substring(0, 500));
     const review = data.choices?.[0]?.message?.content || data.choices?.[0]?.text || JSON.stringify(data);
 
     return new Response(JSON.stringify({ review }), {
