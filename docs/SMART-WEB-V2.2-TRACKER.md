@@ -583,8 +583,11 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 
 | ID | Task | Status | Deps | Notes |
 |----|------|--------|------|-------|
-| 7.27 | Seed initial Style Modules (checkout-progress, comparison-grid, sms-demo) | `todo` | 7.5, 7.13 | Pre-built modules for key components (§16.2) |
-| 7.28 | Full QA: all 10 themes × both modes × ADA states × Style Modules | `todo` | 7.24, 7.25, 7.27 | Light + dark mode across all themes |
+| 7.27 | Seed initial Style Modules (checkout-progress, comparison-grid, sms-demo) | `done` | 7.5, 7.13 | Pre-built modules for key components (§16.2). Seeded all 10 themes with hue-adaptive tokens. |
+| 7.27a | Pipeline emission: generateProductionCss + applyThemeToRoot emit --module-* vars | `done` | 7.27 | Already wired in Themes.tsx (lines 1018-1024) and themes.ts (lines 367-374). No changes needed. |
+| 7.27b | Wire CheckoutProgress.tsx to consume --module-checkout-progress-* vars | `todo` | 7.27a | Replace semantic tokens with module vars + fallbacks |
+| 7.27c | Wire CompareWebsites.tsx to consume --module-comparison-grid-* vars | `todo` | 7.27a | Replace semantic tokens with module vars + fallbacks |
+| 7.28 | Full QA: all 10 themes × both modes × ADA states × Style Modules | `todo` | 7.24, 7.25, 7.27c | Light + dark mode across all themes |
 | 7.29 | Export → edit → re-import round-trip validation test | `todo` | 7.20 | JSON schema integrity check |
 | 7.30 | Revert-to-original round-trip validation test | `todo` | 7.17 | Verify seed restored correctly |
 
