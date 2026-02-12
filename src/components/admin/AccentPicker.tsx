@@ -1,6 +1,34 @@
 /**
- * @fileoverview Shared Accent Color Picker + Flip Toggle + Custom HSL + Gradient for Playground pages.
- * Overrides --accent, --accent-hover, --accent-glow, and --accent-gradient CSS vars on a wrapper div.
+ * @fileoverview Accent Color Picker — Playground-scoped accent override system.
+ *
+ * Allows admins and playground visitors to preview alternate accent colors without
+ * modifying the persisted theme. Overrides --accent, --accent-hover, --accent-glow,
+ * and --accent-gradient CSS custom properties on a wrapper <div>, scoping the change
+ * to descendant components only.
+ *
+ * ## Architecture
+ * - **AccentPickerBar**: Toolbar UI with preset swatches, custom HSL picker, gradient
+ *   presets, flip toggle (swaps accent placement), and light/dark mode preview toggle.
+ * - **AccentWrapper**: Context provider + CSS-variable-injecting <div>. Wraps children
+ *   so they inherit the overridden accent tokens.
+ * - **useAccent / useAccentState**: React context consumer and convenience state hook.
+ *
+ * ## Data Contract
+ * - Reads nothing from the database; operates entirely in client memory.
+ * - Accent presets are hardcoded HSL triplets (no `hsl()` wrapper).
+ * - Gradient presets are full CSS `linear-gradient(...)` strings.
+ *
+ * ## Security
+ * - No authentication required; playground is a public preview surface.
+ *
+ * ## SSG Compatibility
+ * - `useAccentState` reads `document.documentElement.classList` for initial mode
+ *   detection, so it must be used inside a ClientOnly boundary in SSG routes.
+ *
+ * ## Portability
+ * - Self-contained; depends only on Tailwind utilities and lucide-react icons.
+ * - To use in another Lovable project: copy this file + ensure --accent, --accent-hover,
+ *   --accent-glow CSS variables are defined in your design system.
  */
 
 import React, { useState, createContext, useContext, useCallback } from 'react';

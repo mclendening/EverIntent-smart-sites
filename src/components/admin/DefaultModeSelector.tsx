@@ -1,3 +1,37 @@
+/**
+ * @fileoverview Default Color Mode Selector
+ *
+ * Controls which color mode (dark / light / system) is applied before
+ * React hydrates. An inline `<head>` script reads this value and immediately
+ * applies the correct class to `<html>`, preventing FOUC (Flash of Unstyled Content).
+ *
+ * ## Business Purpose
+ * Lets admins choose the initial experience per theme — e.g., a luxury brand
+ * defaults to dark, while a medical practice defaults to light.
+ *
+ * ## Data Contract
+ * - **Input**: `defaultMode` string ("dark" | "light" | "system") from
+ *   `site_themes.default_mode` column.
+ * - **Output**: `onChange(mode)` — parent persists to DB.
+ *
+ * ## Options
+ * - **dark**: Always dark mode (current system default).
+ * - **light**: Always light mode.
+ * - **system**: Respects `prefers-color-scheme` media query.
+ *
+ * ## Security
+ * - Admin-only. Value is baked into published static config.
+ *
+ * ## SSG Compatibility
+ * - Critical for SSG: the head script must match the published `defaultMode`
+ *   to avoid hydration mismatch. The publish pipeline writes this value
+ *   into the static `themes.ts` config.
+ *
+ * ## Portability
+ * - Copy this file. Consumer must implement the head-script that reads
+ *   the mode and toggles `.dark` on `<html>` before paint.
+ */
+
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';

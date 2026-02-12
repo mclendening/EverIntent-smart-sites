@@ -1,6 +1,35 @@
 /**
- * @fileoverview Vertical tabs sidebar for Theme Editor sections.
- * VS Code-style navigation — sidebar on desktop, horizontal scrollable tabs on mobile.
+ * @fileoverview Theme Editor Navigation — VS Code-style vertical sidebar + mobile dropdown.
+ *
+ * Defines the complete section registry (`EDITOR_SECTIONS`) and group hierarchy
+ * that drives the theme editor UI. Each section maps to a panel rendered by
+ * ThemeEditorPanels.tsx.
+ *
+ * ## Architecture
+ * - **Desktop**: Vertical sidebar with grouped sections (Colors, Design, Widgets, System).
+ * - **Mobile**: Dropdown `<Select>` for compact navigation.
+ * - Section IDs are typed as `EditorSection` union — used by ThemeEditorPanels
+ *   to conditionally render the active panel.
+ *
+ * ## Current Groups (property-first, pending feature-first reorganization)
+ * - **Colors**: Accent, Light Mode, Dark Mode, Gradients, E-Commerce & CTA.
+ * - **Design**: Typography, Motion, Style Modules.
+ * - **Widgets**: GHL Chat, ADA Accessibility.
+ * - **System**: Logo, Default Mode, Contrast Checker, Import Theme.
+ *
+ * ## Data Contract
+ * - **Input**: `active` (EditorSection), `onChange` callback.
+ * - No database interaction — pure presentation.
+ *
+ * ## Security
+ * - Rendered inside AdminGuard. No auth logic here.
+ *
+ * ## SSG Compatibility
+ * - Admin-only, not SSG-rendered.
+ *
+ * ## Portability
+ * - Copy this file + ThemeEditorPanels.tsx as a pair. The EDITOR_SECTIONS
+ *   array is the single source of truth for available panels.
  */
 
 import { cn } from '@/lib/utils';

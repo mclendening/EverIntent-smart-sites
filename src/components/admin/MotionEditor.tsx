@@ -1,3 +1,38 @@
+/**
+ * @fileoverview Motion & Transitions Editor
+ *
+ * Admin controls for CSS transition timing functions applied to all interactive
+ * elements site-wide. Three named transition curves cover the full motion palette:
+ * - **Smooth**: Default easing for hover, focus, color transitions.
+ * - **Bounce**: Playful overshoot for toggles, dropdowns, popovers.
+ * - **Spring**: Snappy spring-like feel for modals, page transitions.
+ *
+ * ## Business Purpose
+ * Motion consistency is a brand signal. This editor lets admins tune the "feel"
+ * of interactions per theme without touching component code. A luxury brand may
+ * use slower, smoother curves; a gaming brand may prefer aggressive springs.
+ *
+ * ## Data Contract
+ * - **Input**: `MotionConfig` from `site_themes.motion_config` JSONB.
+ *   Keys: transitionSmooth, transitionBounce, transitionSpring.
+ *   Values: full CSS transition shorthand (e.g., "all 0.3s cubic-bezier(...)").
+ * - **Output**: `onChange(config)` — parent persists to DB.
+ *
+ * ## CSS Variables Emitted
+ * --transition-smooth, --transition-bounce, --transition-spring.
+ * Consumed via Tailwind utilities: .transition-smooth, .transition-bounce, .transition-spring.
+ *
+ * ## Security
+ * - Admin-only. No direct DB access.
+ *
+ * ## SSG Compatibility
+ * - Values are baked into static CSS at publish time. No runtime dependency.
+ *
+ * ## Portability
+ * - Copy this file + MotionConfig interface. Consumer must define matching
+ *   Tailwind utilities that reference the CSS variables.
+ */
+
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';

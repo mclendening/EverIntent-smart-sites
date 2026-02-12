@@ -1,6 +1,36 @@
 /**
- * @fileoverview Shared HSL Color Picker with popover, sliders, hex input, and presets.
- * Used across all theme admin editors for consistent color selection UX.
+ * @fileoverview Unified HSL Color Picker — shared primitive for all theme editors.
+ *
+ * Provides a consistent color selection UX used by every color-editing surface
+ * in the admin panel (light colors, dark overrides, e-commerce, GHL chat, etc.).
+ *
+ * ## Business Purpose
+ * Centralizes color input to enforce the HSL-only color format used by the
+ * design token pipeline. Prevents admins from entering incompatible formats
+ * by offering sliders, hex input (auto-converted), native OS picker, and
+ * preset swatches — all resolving to the canonical "H S% L%" string.
+ *
+ * ## Exports
+ * - **HslColorPicker**: Popover (default) or inline color picker with H/S/L
+ *   sliders, hex input, native `<input type="color">`, and swatch presets.
+ * - **ColorRow**: Labeled row variant for use in editor lists (label + swatch + popover).
+ * - **parseHsl / formatHsl / hslToHex / hexToHsl**: Pure utility functions for
+ *   color format conversion. Used by ContrastChecker and CSS generation.
+ *
+ * ## Data Contract
+ * - **value**: HSL string without `hsl()` wrapper, e.g. "38 92% 50%".
+ * - **onChange(value)**: Emits updated HSL string.
+ * - **mode**: "popover" (compact swatch trigger) or "inline" (full editor).
+ *
+ * ## Security
+ * - No auth requirements; used inside admin-guarded parent.
+ *
+ * ## SSG Compatibility
+ * - No browser APIs beyond standard DOM. Safe for SSR if needed.
+ *
+ * ## Portability
+ * - Fully self-contained. Copy this file into any Lovable project using
+ *   HSL "H S% L%" format tokens. No external dependencies beyond shadcn/ui.
  */
 
 import { useState, useCallback, useMemo } from 'react';
