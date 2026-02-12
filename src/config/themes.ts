@@ -192,6 +192,7 @@ export const activeTheme: ThemeConfig = {
     taglineText: 'Web Design & Practical AI',
     everConfig: {
         "size": 72,
+        "text": "Ever",
         "weight": 700,
         "gradientTo": "#A855F7",
         "marginLeft": 0,
