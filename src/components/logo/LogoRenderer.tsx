@@ -94,6 +94,15 @@ export const LogoRenderer: React.FC<LogoRendererProps> = ({
   const normalizedConfig = useMemo(() => normalizeConfig(config), [config]);
   const { everConfig, intentConfig, streakConfig, taglineConfig, taglineText } = normalizedConfig;
 
+  // Detect light mode to swap white colors → foreground
+  const isDark = typeof document !== 'undefined' && document.documentElement.classList.contains('dark');
+  const resolveColor = (color: string): string => {
+    if (!isDark && (color === '#FFFFFF' || color === '#ffffff' || color === '#FFF' || color === '#fff' || color === 'white')) {
+      return 'hsl(var(--foreground))';
+    }
+    return color;
+  };
+
   // Generate unique gradient IDs to avoid SVG conflicts when multiple logos are rendered
   const gradientId = useMemo(() => `streak-gradient-${Math.random().toString(36).substr(2, 9)}`, []);
 
@@ -156,7 +165,7 @@ export const LogoRenderer: React.FC<LogoRendererProps> = ({
       };
     }
 
-    return { ...base, color: cfg.solidColor };
+    return { ...base, color: resolveColor(cfg.solidColor) };
   };
 
   const getTaglineStyle = (cfg: TaglineConfig): React.CSSProperties => {
@@ -180,7 +189,7 @@ export const LogoRenderer: React.FC<LogoRendererProps> = ({
       };
     }
 
-    return { ...base, color: cfg.solidColor };
+    return { ...base, color: resolveColor(cfg.solidColor) };
   };
 
   const renderStreak = (cfg: StreakConfig) => {
