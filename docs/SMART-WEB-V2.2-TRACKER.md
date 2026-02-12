@@ -599,7 +599,7 @@ Admin DB → sync-theme-to-github Edge Function → Git commit → Vercel build 
 
 ---
 
-## Phase 8 – Platform Module Architecture 📋 PLANNED
+## Phase 8 – Platform Module Architecture 🚧 IN PROGRESS
 
 > **Authority**: This tracker section (sole source of truth)
 > **Depends On**: Phase 7 Batch 6 completion (theme system is first conforming module)
@@ -672,7 +672,7 @@ interface ModuleDefinition {
 | 8.7 | Refactor routes.tsx to generate admin routes from registry | `done` | 8.3, 8.5 | `getModules().flatMap(mod => mod.routes)` wrapped in `AdminGuard`. Legacy `theme-test` route preserved outside registry. |
 | 8.8 | JSDoc all module files per project discipline | `done` | 8.4, 8.5 | Self-contained docs: data contracts, business purpose, portability instructions. No BRD references. |
 | 8.9 | Update BRD delta report with §29 Platform Architecture | `done` | 8.7 | Documents what changed, files affected, and architectural decisions. |
-| 8.10 | Generic `CrudService<T>` data layer with Zod validation | `todo` | 8.7 | Modules use generic service instead of raw Supabase calls. |
+| 8.10 | Generic `CrudService<T>` data layer with Zod validation | `done` | 8.7 | `src/modules/shared/crudService.ts` + `createCrudHooks.ts`. Factory pattern: `createCrudService(config)` → typed CRUD ops with Zod parse gates. `createCrudHooks(key, service)` → 5 TanStack Query hooks (useList, useGetById, useCreate, useUpdate, useRemove) with optimistic updates + rollback. CrudServiceError for structured Supabase errors. |
 | 8.11 | Shared admin UI patterns: `ListLayout<T>`, `DetailLayout`, `FormEditor<T>` | `todo` | 8.10 | Generic CRUD components all modules inherit. |
 | 8.12 | Portfolio admin CRUD (replace Placeholder) | `todo` | 8.11 | DB: `portfolio` table. Full CRUD with image upload. |
 | 8.13 | Testimonials admin CRUD (replace Placeholder) | `todo` | 8.11 | DB: `testimonials` table. Full CRUD with rating. |
@@ -714,6 +714,7 @@ interface ModuleDefinition {
 | 2026-02-11 | **ADA Batch 2 COMPLETE (5 Color + 9 Orientation Modules)**: Color: Dark Contrast, Light Contrast, High Contrast (WCAG AAA), Monochrome (grayscale filter), High Saturation (saturate filter). Orientation: Reading Line (JS cursor-following bar), Reading Mask (JS spotlight mask), Keyboard Navigation (enhanced tab focus), Hide Images, Stop Animations, Mute Sounds (JS audio muting), Highlight Titles, Highlight Content, Focus Highlight. Mutual exclusion implemented for conflicting modules. Widget now has 3 sections: Content, Color & Contrast, Orientation. | Lovable |
 | 2026-02-11 | **ADA Batch 3 COMPLETE (5 Preset Profiles)**: Vision Impaired (text size 2 + bold + high contrast + highlight links/titles + line height), Blind Mode (max text + bold + high contrast + all highlights + keyboard nav + hide images), ADHD Friendly (reading mask + stop animations + mute sounds + highlight titles), Dyslexia Friendly (OpenDyslexic + wide spacing + reading line), Motor Impaired (big cursor + keyboard nav + focus highlight). Profiles activate/deactivate with one click. Manual module toggle clears active profile. State persisted in `ada-active-profile` localStorage key. | Lovable |
 | 2026-02-12 | **Phase 8 added**: Platform Module Architecture — 15 tasks. Foundation implemented (8.1–8.9): ModuleDefinition contract, central registry, 5 module registrations, dynamic dashboard/routing, JSDoc discipline, BRD §29 delta entry. Remaining: CrudService<T> (8.10), shared UI patterns (8.11), Portfolio/Testimonials admin CRUD (8.12–8.13), permission enforcement (8.14), full QA (8.15). | Lovable |
+| 2026-02-12 | **Task 8.10 COMPLETE**: `CrudService<T>` generic data layer. Created `src/modules/shared/crudService.ts` (factory: `createCrudService(config)` → `list/getById/create/update/remove` with Zod validation gates + `CrudServiceError`), `src/modules/shared/createCrudHooks.ts` (factory: `createCrudHooks(key, service)` → 5 TanStack Query hooks with optimistic update/removal + rollback), `src/modules/shared/index.ts` (barrel export). | Lovable |
 
 ## Color Token Audit (2026-02-11)
 

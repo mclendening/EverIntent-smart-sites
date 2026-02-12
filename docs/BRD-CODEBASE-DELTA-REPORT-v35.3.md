@@ -2700,10 +2700,25 @@ The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-
 
 ### 29.5 Remaining Work
 
-- Generic `CrudService<T>` data layer with Zod validation (8.10)
-- Shared admin UI patterns: `ListLayout<T>`, `DetailLayout`, `FormEditor<T>` (8.11)
+- ~~Generic `CrudService<T>` data layer with Zod validation (8.10)~~ ✅ Implemented
+- Shared admin UI patterns: `AdminListView<T>`, `AdminDetailView`, `AdminFormEditor<T>` (8.11)
 - Portfolio and Testimonials admin CRUD to replace Placeholder pages (8.12, 8.13)
 - Module permission enforcement via `requiredRole` (8.14)
+
+### 29.6 CrudService<T> Data Layer (Task 8.10)
+
+**Files Created:**
+| File | Purpose |
+|------|---------|
+| `src/modules/shared/crudService.ts` | Generic CRUD factory with Zod validation gates |
+| `src/modules/shared/createCrudHooks.ts` | TanStack Query hooks factory (5 hooks per service) |
+| `src/modules/shared/index.ts` | Barrel export for shared module utilities |
+
+**Design Decisions:**
+1. **`as any` for table name**: Supabase's generated `Database` type doesn't accept arbitrary string table names. Type safety is enforced by Zod schemas at runtime, not by the Supabase SDK's static types.
+2. **Optimistic updates**: `useUpdate` and `useRemove` hooks patch/remove items from the TanStack Query list cache immediately, rolling back on error. `onSettled` always invalidates to ensure server truth.
+3. **CrudServiceError**: Structured error class wrapping Supabase `PostgrestError` fields (`code`, `message`, `details`) for consistent error handling across modules.
+4. **Zod parse on response**: Row data returned from Supabase is validated through `rowSchema.parse()` to catch schema drift between DB and client expectations.
 
 ---
 
@@ -2717,3 +2732,4 @@ The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-
 *Updated: 2026-02-06 | Homepage confirmed at pre-delta luxury minimal state*  
 *Updated: 2026-02-08 | Added §28 Checkout Design Specification v5.2*
 *Updated: 2026-02-12 | Added §29 Platform Module Architecture (Phase 8)*
+*Updated: 2026-02-12 | Added §29.6 CrudService<T> Data Layer (Task 8.10)*
