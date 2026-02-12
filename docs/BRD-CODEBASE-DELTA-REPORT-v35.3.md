@@ -2720,6 +2720,23 @@ The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-
 3. **CrudServiceError**: Structured error class wrapping Supabase `PostgrestError` fields (`code`, `message`, `details`) for consistent error handling across modules.
 4. **Zod parse on response**: Row data returned from Supabase is validated through `rowSchema.parse()` to catch schema drift between DB and client expectations.
 
+### 29.7 Shared Admin UI Patterns (Task 8.11)
+
+**Files Created:**
+| File | Purpose |
+|------|---------|
+| `src/modules/shared/types.ts` | `FieldDef` (7 field types) + `ColumnDef<T>` (table column descriptor) contracts |
+| `src/modules/shared/AdminListView.tsx` | Generic data table with loading skeleton, empty state, create button, row click |
+| `src/modules/shared/AdminDetailView.tsx` | Detail/edit page shell with back nav, title, subtitle, action bar, content slot |
+| `src/modules/shared/AdminFormEditor.tsx` | Dynamic form: react-hook-form + Zod resolver, 7 field type renderers, char counter, image preview |
+
+**Design Decisions:**
+1. **Declarative field rendering**: `FieldDef[]` array drives form controls. Modules declare fields; `AdminFormEditor` renders them. No per-module form JSX required.
+2. **7 field types**: `text`, `textarea` (with `maxLength` char counter), `number`, `boolean` (Switch), `select` (dropdown), `tags` (comma-split to `string[]`), `image-url` (URL input + `<img>` preview with error hiding).
+3. **Composition over inheritance**: `AdminDetailView` provides the shell; `AdminFormEditor` provides the form. They compose together but are independently usable.
+4. **Consistent loading states**: `AdminListView` shows 8 skeleton rows; `AdminDetailView` shows 6 field-shaped skeletons. Both match the actual content layout.
+5. **No custom colors**: All components use semantic tokens (`bg-background`, `text-muted-foreground`, `border-border`, `text-destructive`).
+
 ---
 
 **END OF REPORT**
@@ -2733,3 +2750,4 @@ The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-
 *Updated: 2026-02-08 | Added §28 Checkout Design Specification v5.2*
 *Updated: 2026-02-12 | Added §29 Platform Module Architecture (Phase 8)*
 *Updated: 2026-02-12 | Added §29.6 CrudService<T> Data Layer (Task 8.10)*
+*Updated: 2026-02-12 | Added §29.7 Shared Admin UI Patterns (Task 8.11)*
