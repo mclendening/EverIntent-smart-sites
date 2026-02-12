@@ -571,3 +571,213 @@
   --accent: var(--_accent-fg-swap);
   --accent-foreground: var(--_accent-swap);
 }
+
+/* ═══════════════════════════════════════════════════════════
+   ADA ACCESSIBILITY MODULE CSS RULES
+   Applied via <html> class toggles from AccessibilityWidget
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Text Size ── */
+html.ada-text-size-1 { font-size: 112.5% !important; }
+html.ada-text-size-2 { font-size: 125% !important; }
+html.ada-text-size-3 { font-size: 150% !important; }
+
+/* ── Line Height ── */
+html.ada-line-height-1 * { line-height: 1.5 !important; }
+html.ada-line-height-2 * { line-height: 1.75 !important; }
+html.ada-line-height-3 * { line-height: 2 !important; }
+
+/* ── Letter Spacing ── */
+html.ada-letter-spacing-1 * { letter-spacing: 0.05em !important; }
+html.ada-letter-spacing-2 * { letter-spacing: 0.1em !important; }
+html.ada-letter-spacing-3 * { letter-spacing: 0.15em !important; }
+
+/* ── Bold Text ── */
+html.ada-bold-text * { font-weight: bold !important; }
+
+/* ── Readable Font (system sans-serif) ── */
+html.ada-readable-font * { font-family: Arial, Helvetica, sans-serif !important; }
+
+/* ── Dyslexia Font ── */
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+html.ada-dyslexia-font * { font-family: 'OpenDyslexic', Arial, sans-serif !important; }
+
+/* ── Text Alignment ── */
+html.ada-align-left * { text-align: left !important; }
+html.ada-align-center * { text-align: center !important; }
+html.ada-align-right * { text-align: right !important; }
+
+/* ── Highlight Links ── */
+html.ada-highlight-links a {
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 3px !important;
+  outline: 2px solid hsl(var(--accent) / 0.5) !important;
+  outline-offset: 2px !important;
+  border-radius: 2px !important;
+}
+
+/* ── Text Magnifier (tooltip on hover) ── */
+html.ada-text-magnifier *:hover {
+  position: relative;
+}
+html.ada-text-magnifier p:hover,
+html.ada-text-magnifier span:hover,
+html.ada-text-magnifier li:hover,
+html.ada-text-magnifier td:hover,
+html.ada-text-magnifier a:hover {
+  transform: scale(1.15);
+  transform-origin: left center;
+  transition: transform 0.15s ease;
+  z-index: 10;
+}
+
+/* ── Big Cursor ── */
+html.ada-big-cursor,
+html.ada-big-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M4 4l20 8-8 4-4 8z' fill='black' stroke='white' stroke-width='2'/%3E%3C/svg%3E") 4 4, auto !important;
+}
+
+/* ── Dark Contrast ── */
+html.ada-dark-contrast {
+  --background: 0 0% 0% !important;
+  --foreground: 0 0% 100% !important;
+  --card: 0 0% 5% !important;
+  --card-foreground: 0 0% 100% !important;
+  --popover: 0 0% 5% !important;
+  --popover-foreground: 0 0% 100% !important;
+  --muted: 0 0% 10% !important;
+  --muted-foreground: 0 0% 75% !important;
+  --border: 0 0% 20% !important;
+}
+
+/* ── Light Contrast ── */
+html.ada-light-contrast {
+  --background: 0 0% 100% !important;
+  --foreground: 0 0% 0% !important;
+  --card: 0 0% 98% !important;
+  --card-foreground: 0 0% 0% !important;
+  --popover: 0 0% 98% !important;
+  --popover-foreground: 0 0% 0% !important;
+  --muted: 0 0% 95% !important;
+  --muted-foreground: 0 0% 30% !important;
+  --border: 0 0% 80% !important;
+}
+
+/* ── High Contrast (WCAG AAA) ── */
+html.ada-high-contrast {
+  --background: 0 0% 0% !important;
+  --foreground: 60 100% 50% !important;
+  --card: 0 0% 3% !important;
+  --card-foreground: 60 100% 50% !important;
+  --popover: 0 0% 3% !important;
+  --popover-foreground: 60 100% 50% !important;
+  --muted: 0 0% 8% !important;
+  --muted-foreground: 60 80% 60% !important;
+  --border: 60 100% 50% !important;
+  --accent: 60 100% 50% !important;
+  --accent-foreground: 0 0% 0% !important;
+}
+
+/* ── Monochrome ── */
+html.ada-monochrome {
+  filter: grayscale(100%) !important;
+}
+
+/* ── High Saturation ── */
+html.ada-high-saturation {
+  filter: saturate(200%) !important;
+}
+
+/* ── Reading Line ── */
+#ada-reading-line-el {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: hsl(var(--accent));
+  z-index: 99999;
+  pointer-events: none;
+  top: 50%;
+  box-shadow: 0 0 8px hsl(var(--accent) / 0.5);
+}
+
+/* ── Reading Mask ── */
+#ada-reading-mask-el {
+  position: fixed;
+  inset: 0;
+  z-index: 99998;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom,
+      rgba(0,0,0,0.7) 0%,
+      rgba(0,0,0,0.7) calc(var(--mask-y, 50%) - 40px),
+      transparent calc(var(--mask-y, 50%) - 40px),
+      transparent calc(var(--mask-y, 50%) + 40px),
+      rgba(0,0,0,0.7) calc(var(--mask-y, 50%) + 40px),
+      rgba(0,0,0,0.7) 100%
+    );
+}
+
+/* ── Keyboard Navigation ── */
+html.ada-keyboard-nav *:focus {
+  outline: 3px solid hsl(var(--accent)) !important;
+  outline-offset: 3px !important;
+}
+
+/* ── Hide Images ── */
+html.ada-hide-images img,
+html.ada-hide-images svg:not([class*="lucide"]),
+html.ada-hide-images picture,
+html.ada-hide-images video,
+html.ada-hide-images [role="img"] {
+  opacity: 0.05 !important;
+}
+
+/* ── Stop Animations / Reduced Motion ── */
+html.ada-reduced-motion *,
+html.ada-reduced-motion *::before,
+html.ada-reduced-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* ── Mute Sounds ── */
+/* Handled via JS — mutes all <audio>/<video> */
+
+/* ── Highlight Titles ── */
+html.ada-highlight-titles h1,
+html.ada-highlight-titles h2,
+html.ada-highlight-titles h3,
+html.ada-highlight-titles h4,
+html.ada-highlight-titles h5,
+html.ada-highlight-titles h6 {
+  outline: 2px solid hsl(var(--accent) / 0.6) !important;
+  outline-offset: 4px !important;
+  border-radius: 4px !important;
+}
+
+/* ── Highlight Content ── */
+html.ada-highlight-content p,
+html.ada-highlight-content li,
+html.ada-highlight-content td,
+html.ada-highlight-content th,
+html.ada-highlight-content blockquote {
+  outline: 1px dashed hsl(var(--accent) / 0.3) !important;
+  outline-offset: 2px !important;
+}
+
+/* ── Focus Highlight ── */
+html.ada-focus-highlight *:focus-visible {
+  outline: 4px solid hsl(var(--accent)) !important;
+  outline-offset: 4px !important;
+  box-shadow: 0 0 12px hsl(var(--accent) / 0.4) !important;
+}
