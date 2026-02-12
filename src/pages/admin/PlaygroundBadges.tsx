@@ -8,7 +8,7 @@
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Clock, Zap, TrendingUp, HelpCircle, Star, Sparkles, Diamond, Hexagon, Award, Crown, Shield, Flame, Target, Triangle, Bookmark, CircleDot, ArrowRight, Layers, Eye, Fingerprint, Radio, Aperture, Gem, Scan, Wifi, Activity } from 'lucide-react';
+import { ArrowLeft, Clock, Zap, TrendingUp, HelpCircle, Star, Sparkles, Diamond, Hexagon, Award, Crown, Shield, Flame, Target, Triangle, Bookmark, CircleDot, ArrowRight, Layers, Eye, Fingerprint, Radio, Aperture, Gem, Scan, Wifi, Activity, Mountain, Cpu, Thermometer, CircuitBoard, Box, Disc } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { AccentPickerBar, AccentWrapper, useAccentState } from '@/components/admin/AccentPicker';
 
@@ -461,6 +461,124 @@ function DualToneCallout({ icon: Icon, text }: { icon: React.ElementType; text: 
   );
 }
 
+// ─── NEW STYLES 29-34 ─────────────────────────────────────────
+
+/**
+ * Style 29: Prism Refraction — Rainbow edge refraction effect.
+ * Inspired by: Dark Side of the Moon album art, prism photography
+ */
+function PrismRefractionCallout({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+  return (
+    <div className="relative inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-foreground/80 rounded-lg border border-accent/15 overflow-hidden">
+      <div
+        className="absolute inset-0 opacity-[0.07]"
+        style={{
+          background: 'linear-gradient(135deg, hsl(0 80% 60%), hsl(60 80% 60%), hsl(120 80% 60%), hsl(200 80% 60%), hsl(280 80% 60%))',
+        }}
+      />
+      <Icon className="w-4 h-4 text-accent relative z-10" />
+      <span className="relative z-10">{text}</span>
+    </div>
+  );
+}
+
+/**
+ * Style 30: Topographic — Contour line pattern background.
+ * Inspired by: Outdoor/adventure branding, AllTrails, Strava, USGS maps
+ */
+function TopographicCallout({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+  return (
+    <div
+      className="inline-flex items-center gap-2 px-4 py-2 text-sm font-bold text-accent rounded-md border border-accent/15"
+      style={{
+        backgroundImage: `
+          radial-gradient(ellipse at 30% 50%, transparent 40%, hsl(var(--accent) / 0.04) 41%, transparent 42%),
+          radial-gradient(ellipse at 70% 30%, transparent 50%, hsl(var(--accent) / 0.04) 51%, transparent 52%),
+          radial-gradient(ellipse at 50% 70%, transparent 30%, hsl(var(--accent) / 0.04) 31%, transparent 32%)
+        `,
+      }}
+    >
+      <Icon className="w-4 h-4" />
+      {text}
+    </div>
+  );
+}
+
+/**
+ * Style 31: Thermal Camera — Warm glow gradient simulating IR view.
+ * Inspired by: FLIR thermal imaging, sci-fi HUDs, night vision
+ */
+function ThermalCallout({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+  return (
+    <div
+      className="inline-flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-lg text-accent-foreground"
+      style={{
+        background: `radial-gradient(ellipse at 30% 50%, hsl(var(--accent)), hsl(var(--accent-hover)) 60%, hsl(var(--accent-glow) / 0.4))`,
+      }}
+    >
+      <Icon className="w-4 h-4" />
+      {text}
+    </div>
+  );
+}
+
+/**
+ * Style 32: Circuit Board — Connected trace lines pattern.
+ * Inspired by: PCB designs, tech hardware branding, Arduino
+ */
+function CircuitBoardCallout({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+  return (
+    <div className="inline-flex items-center gap-2 px-4 py-2 text-sm font-mono font-semibold text-accent rounded-md border border-accent/20 relative overflow-hidden">
+      <div className="absolute top-1 left-3 w-px h-2 bg-accent/20" />
+      <div className="absolute bottom-1 right-5 w-px h-2 bg-accent/20" />
+      <div className="absolute top-1 left-3 w-2 h-px bg-accent/20" />
+      <div className="absolute bottom-1 right-5 w-2 h-px bg-accent/20" />
+      <Icon className="w-4 h-4 relative z-10" />
+      <span className="relative z-10">{text}</span>
+    </div>
+  );
+}
+
+/**
+ * Style 33: Embossed — Raised 3D embossed effect with inner shadow.
+ * Inspired by: iOS buttons, neumorphism, premium card UIs
+ */
+function EmbossedCallout({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+  return (
+    <div
+      className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-foreground/80 rounded-lg"
+      style={{
+        background: 'hsl(var(--accent) / 0.08)',
+        boxShadow: 'inset 0 1px 0 hsl(var(--accent) / 0.15), inset 0 -1px 0 hsl(var(--accent) / 0.05), 0 1px 3px hsl(var(--accent) / 0.1)',
+      }}
+    >
+      <Icon className="w-4 h-4 text-accent" />
+      {text}
+    </div>
+  );
+}
+
+/**
+ * Style 34: Blinking Beacon — Small pulsing dot indicator next to text.
+ * Inspired by: Status pages (Instatus, Statuspage), live indicators
+ */
+function BlinkingBeaconCallout({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+  return (
+    <div className="inline-flex items-center gap-2.5 text-sm font-semibold text-foreground/80">
+      <div className="relative flex items-center justify-center w-3 h-3">
+        <motion.span
+          className="absolute inset-0 rounded-full bg-accent/40"
+          animate={{ scale: [1, 2], opacity: [0.5, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+        />
+        <span className="relative w-2 h-2 rounded-full bg-accent" />
+      </div>
+      <Icon className="w-4 h-4 text-accent" />
+      {text}
+    </div>
+  );
+}
+
 // ─── SHOWCASE CARD ────────────────────────────────────────────
 
 function StyleCard({
@@ -542,7 +660,7 @@ function ContextualPreview() {
 
 export default function PlaygroundBadges() {
   useAdminAuth();
-  const { accent, setAccent } = useAccentState();
+  const { accent, setAccent, flipped, toggleFlip } = useAccentState();
 
   return (
     <div className="min-h-screen bg-background">
@@ -563,13 +681,13 @@ export default function PlaygroundBadges() {
           <div className="mb-6">
             <h2 className="text-3xl font-bold text-foreground mb-2">Badge Replacements</h2>
             <p className="text-muted-foreground max-w-2xl mb-4">
-              28 premium callout styles to replace pill-shaped badges. Each uses the theme's design tokens
-              and gradient system. Preview any accent color using the picker below.
+              34 premium callout styles to replace pill-shaped badges. Each uses the theme's design tokens
+              and gradient system. Preview any accent color and flip placement using the controls below.
             </p>
-            <AccentPickerBar selected={accent} onChange={setAccent} />
+            <AccentPickerBar selected={accent} onChange={setAccent} flipped={flipped} onFlip={toggleFlip} />
           </div>
 
-          <AccentWrapper accent={accent}>
+          <AccentWrapper accent={accent} flipped={flipped}>
             <div className="grid gap-6 lg:grid-cols-2">
               <StyleCard number={1} name="Gradient Text" description="No container at all. The gradient IS the decoration. Ultra-minimal." inspiration="Apple product pages, Stripe headers">
                 <GradientTextCallout icon={Clock} text="5-Day Delivery" />
@@ -727,6 +845,44 @@ export default function PlaygroundBadges() {
               <StyleCard number={28} name="Dual Tone Gradient" description="Solid accent gradient fill with two-tone blend. Bold and confident." inspiration="Instagram icons, Spotify Wrapped, Figma chips">
                 <DualToneCallout icon={Flame} text="Hot Feature" />
                 <DualToneCallout icon={Zap} text="Instant Setup" />
+              </StyleCard>
+
+              {/* ═══════ NEW STYLES 29-34 ═══════ */}
+              <div className="lg:col-span-2 pt-6 border-t border-border/50">
+                <h3 className="text-xl font-bold text-foreground mb-1">Physical & Scientific Variants</h3>
+                <p className="text-sm text-muted-foreground mb-6">
+                  Prism refraction, topographic maps, thermal imaging, and circuit boards.
+                </p>
+              </div>
+
+              <StyleCard number={29} name="Prism Refraction" description="Rainbow-edge refraction effect on a subtle container." inspiration="Dark Side of the Moon, prism photography, spectrum art">
+                <PrismRefractionCallout icon={Sparkles} text="Full Spectrum" />
+                <PrismRefractionCallout icon={Eye} text="Visible" />
+              </StyleCard>
+
+              <StyleCard number={30} name="Topographic" description="Contour line background pattern. Outdoor adventure energy." inspiration="AllTrails, Strava, USGS maps, outdoor gear brands">
+                <TopographicCallout icon={Mountain} text="Explorer" />
+                <TopographicCallout icon={Target} text="Mapped" />
+              </StyleCard>
+
+              <StyleCard number={31} name="Thermal Camera" description="Radial warm glow gradient simulating infrared view." inspiration="FLIR thermal imaging, sci-fi HUDs, night vision tech">
+                <ThermalCallout icon={Thermometer} text="Hot Zone" />
+                <ThermalCallout icon={Flame} text="Trending" />
+              </StyleCard>
+
+              <StyleCard number={32} name="Circuit Board" description="Connected trace lines pattern. Hardware-tech aesthetic." inspiration="PCB designs, Arduino branding, tech hardware sites">
+                <CircuitBoardCallout icon={Cpu} text="Processing" />
+                <CircuitBoardCallout icon={CircuitBoard} text="Connected" />
+              </StyleCard>
+
+              <StyleCard number={33} name="Embossed" description="Raised 3D embossed effect with inner shadow. Tactile premium feel." inspiration="iOS buttons, neumorphism trend, premium card UIs">
+                <EmbossedCallout icon={Box} text="Premium" />
+                <EmbossedCallout icon={Shield} text="Protected" />
+              </StyleCard>
+
+              <StyleCard number={34} name="Blinking Beacon" description="Live status indicator dot with pulsing halo. Always-on energy." inspiration="Status pages, Instatus, Vercel deployment status">
+                <BlinkingBeaconCallout icon={Disc} text="Online" />
+                <BlinkingBeaconCallout icon={Activity} text="Healthy" />
               </StyleCard>
 
               {/* Contextual */}

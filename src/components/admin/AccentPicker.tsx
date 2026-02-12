@@ -1,11 +1,13 @@
 /**
- * @fileoverview Shared Accent Color Picker for Playground pages.
+ * @fileoverview Shared Accent Color Picker + Flip Toggle for Playground pages.
  * Overrides --accent, --accent-hover, --accent-glow CSS vars on a wrapper div
  * so all children render with the selected accent color.
+ * The "flip" toggle swaps accent between foreground (icon/text) and background elements.
  */
 
 import React, { useState, createContext, useContext } from 'react';
 import { cn } from '@/lib/utils';
+import { ArrowLeftRight } from 'lucide-react';
 
 // ─── PRESET ACCENTS ──────────────────────────────────────────
 
@@ -31,7 +33,15 @@ export const ACCENT_PRESETS: AccentPreset[] = [
 
 // ─── CONTEXT ─────────────────────────────────────────────────
 
-const AccentContext = createContext<AccentPreset>(ACCENT_PRESETS[0]);
+interface AccentContextValue {
+  preset: AccentPreset;
+  flipped: boolean;
+}
+
+const AccentContext = createContext<AccentContextValue>({
+  preset: ACCENT_PRESETS[0],
+  flipped: false,
+});
 
 export function useAccent() {
   return useContext(AccentContext);
@@ -42,9 +52,13 @@ export function useAccent() {
 export function AccentPickerBar({
   selected,
   onChange,
+  flipped,
+  onFlip,
 }: {
   selected: AccentPreset;
   onChange: (preset: AccentPreset) => void;
+  flipped?: boolean;
+  onFlip?: () => void;
 }) {
   return (
     <div className="flex flex-wrap items-center gap-2 p-3 bg-card border border-border rounded-lg">
@@ -75,6 +89,26 @@ export function AccentPickerBar({
           </button>
         );
       })}
+
+      {/* Flip toggle */}
+      {onFlip && (
+        <>
+          <div className="w-px h-6 bg-border mx-1" />
+          <button
+            onClick={onFlip}
+            className={cn(
+              'flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium transition-all',
+              flipped
+                ? 'bg-accent/15 text-accent ring-1 ring-accent/30'
+                : 'text-muted-foreground hover:text-foreground hover:bg-muted',
+            )}
+            title="Flip accent placement — swap which element (icon vs background) gets the accent color"
+          >
+            <ArrowLeftRight className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Flip</span>
+          </button>
+        </>
+      )}
     </div>
   );
 }
@@ -84,12 +118,15 @@ export function AccentPickerBar({
 /**
  * Wraps children with CSS variable overrides for the selected accent.
  * When "Theme Default" is selected (empty hue), no overrides are applied.
+ * When flipped, swaps accent ↔ accent-foreground colors.
  */
 export function AccentWrapper({
   accent,
+  flipped = false,
   children,
 }: {
   accent: AccentPreset;
+  flipped?: boolean;
   children: React.ReactNode;
 }) {
   const style = accent.hue
@@ -101,8 +138,10 @@ export function AccentWrapper({
     : undefined;
 
   return (
-    <AccentContext.Provider value={accent}>
-      <div style={style}>{children}</div>
+    <AccentContext.Provider value={{ preset: accent, flipped }}>
+      <div style={style} className={flipped ? 'accent-flipped' : undefined}>
+        {children}
+      </div>
     </AccentContext.Provider>
   );
 }
@@ -111,5 +150,7 @@ export function AccentWrapper({
 
 export function useAccentState() {
   const [accent, setAccent] = useState<AccentPreset>(ACCENT_PRESETS[0]);
-  return { accent, setAccent };
+  const [flipped, setFlipped] = useState(false);
+  const toggleFlip = () => setFlipped((f) => !f);
+  return { accent, setAccent, flipped, toggleFlip };
 }

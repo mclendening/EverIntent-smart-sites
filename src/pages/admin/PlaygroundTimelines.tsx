@@ -1066,6 +1066,308 @@ function LayeredDepthTimeline({ steps, activeStep }: { steps: StepData[]; active
   );
 }
 
+// ─── STYLE 15: Minimal Dot Track ─────────────────────────────
+
+function MinimalDotTrackTimeline({ steps, activeStep }: { steps: StepData[]; activeStep: number }) {
+  return (
+    <div className="flex items-center w-full">
+      {steps.map((step, i) => {
+        const isActive = i === activeStep;
+        const isComplete = i < activeStep;
+
+        return (
+          <React.Fragment key={i}>
+            <div className="flex flex-col items-center gap-2">
+              <motion.div
+                className={cn(
+                  'w-4 h-4 rounded-full border-2 transition-all cursor-pointer',
+                  isComplete && 'border-accent bg-accent',
+                  isActive && 'border-accent bg-transparent',
+                  !isComplete && !isActive && 'border-border bg-transparent',
+                )}
+                whileHover={{ scale: 1.3 }}
+                animate={isActive ? { boxShadow: ['0 0 0 0px hsl(var(--accent) / 0.3)', '0 0 0 6px hsl(var(--accent) / 0)', '0 0 0 0px hsl(var(--accent) / 0.3)'] } : {}}
+                transition={isActive ? { duration: 2, repeat: Infinity } : { type: 'spring' }}
+              >
+                {isComplete && <Check className="w-2.5 h-2.5 text-accent-foreground mx-auto mt-[1px]" />}
+              </motion.div>
+              <span className={cn(
+                'text-[10px] font-medium',
+                isActive ? 'text-accent' : isComplete ? 'text-foreground/70' : 'text-muted-foreground',
+              )}>
+                {step.label}
+              </span>
+            </div>
+            {i < steps.length - 1 && (
+              <div className="flex-1 h-[1px] mx-2">
+                <motion.div
+                  className="h-full rounded-full"
+                  style={{ background: isComplete ? 'hsl(var(--accent))' : 'hsl(var(--border))' }}
+                  initial={false}
+                  animate={{ scaleX: isComplete ? 1 : 0.3, opacity: isComplete ? 1 : 0.3 }}
+                  transition={{ type: 'spring', stiffness: 120, damping: 20 }}
+                />
+              </div>
+            )}
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── STYLE 16: Zig-Zag Path ─────────────────────────────────
+
+function ZigZagPathTimeline({ steps, activeStep }: { steps: StepData[]; activeStep: number }) {
+  return (
+    <div className="space-y-4">
+      {steps.map((step, i) => {
+        const Icon = step.icon;
+        const isActive = i === activeStep;
+        const isComplete = i < activeStep;
+        const isEven = i % 2 === 0;
+
+        return (
+          <motion.div
+            key={i}
+            className={cn(
+              'flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all',
+              isEven ? 'flex-row' : 'flex-row-reverse',
+              isActive ? 'border-accent/40 bg-accent/5' : isComplete ? 'border-accent/20' : 'border-border',
+            )}
+            whileHover={{ x: isEven ? 4 : -4 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+          >
+            <div
+              className={cn(
+                'w-10 h-10 rounded-lg flex items-center justify-center shrink-0',
+                isComplete && 'bg-accent text-accent-foreground',
+                isActive && 'text-accent-foreground',
+                !isComplete && !isActive && 'bg-muted text-muted-foreground',
+              )}
+              style={isActive ? { background: 'var(--gradient-cta)' } : undefined}
+            >
+              {isComplete ? <Check className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
+            </div>
+            <div className={isEven ? 'text-left' : 'text-right'}>
+              <p className={cn(
+                'text-sm font-semibold',
+                isActive ? 'text-accent' : isComplete ? 'text-foreground' : 'text-muted-foreground',
+              )}>
+                {step.label}
+              </p>
+              <p className="text-[10px] text-muted-foreground">Step {i + 1}</p>
+            </div>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── STYLE 17: Orbit Ring ────────────────────────────────────
+
+function OrbitRingTimeline({ steps, activeStep }: { steps: StepData[]; activeStep: number }) {
+  return (
+    <div className="relative flex items-center justify-center py-6">
+      <div className="relative w-48 h-48">
+        {/* Orbit track */}
+        <div className="absolute inset-0 rounded-full border border-border" />
+        <motion.div
+          className="absolute inset-0 rounded-full border border-accent/30"
+          style={{
+            clipPath: `polygon(0 0, ${((activeStep + 1) / steps.length) * 100}% 0, ${((activeStep + 1) / steps.length) * 100}% 100%, 0 100%)`,
+          }}
+        />
+
+        {steps.map((step, i) => {
+          const Icon = step.icon;
+          const isActive = i === activeStep;
+          const isComplete = i < activeStep;
+          const angle = (i / steps.length) * 360 - 90;
+          const rad = (angle * Math.PI) / 180;
+          const x = 50 + 42 * Math.cos(rad);
+          const y = 50 + 42 * Math.sin(rad);
+
+          return (
+            <motion.div
+              key={i}
+              className="absolute"
+              style={{ left: `${x}%`, top: `${y}%`, transform: 'translate(-50%, -50%)' }}
+              whileHover={{ scale: 1.2 }}
+            >
+              <div
+                className={cn(
+                  'w-10 h-10 rounded-lg flex items-center justify-center',
+                  isComplete && 'bg-accent text-accent-foreground',
+                  isActive && 'text-accent-foreground',
+                  !isComplete && !isActive && 'bg-card border border-border text-muted-foreground',
+                )}
+                style={isActive ? { background: 'var(--gradient-cta)' } : undefined}
+              >
+                {isComplete ? <Check className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
+              </div>
+              <p className={cn(
+                'text-[10px] font-medium text-center mt-1 whitespace-nowrap',
+                isActive ? 'text-accent' : 'text-muted-foreground',
+              )}>
+                {step.label}
+              </p>
+            </motion.div>
+          );
+        })}
+
+        {/* Center label */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center">
+            <p className="text-2xl font-bold text-accent">{activeStep + 1}</p>
+            <p className="text-[10px] text-muted-foreground">of {steps.length}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── STYLE 18: Split Panel ───────────────────────────────────
+
+function SplitPanelTimeline({ steps, activeStep }: { steps: StepData[]; activeStep: number }) {
+  return (
+    <div className="grid grid-cols-2 gap-px bg-border rounded-lg overflow-hidden">
+      {steps.map((step, i) => {
+        const Icon = step.icon;
+        const isActive = i === activeStep;
+        const isComplete = i < activeStep;
+
+        return (
+          <motion.div
+            key={i}
+            className={cn(
+              'relative p-4 cursor-pointer',
+              isActive ? 'bg-accent/10' : 'bg-card',
+            )}
+            whileHover={{ backgroundColor: 'hsl(var(--accent) / 0.05)' }}
+          >
+            {isActive && (
+              <motion.div
+                className="absolute top-0 left-0 right-0 h-[2px]"
+                style={{ background: 'var(--gradient-text)' }}
+                layoutId="splitPanelIndicator"
+              />
+            )}
+            <div className="flex items-center gap-3">
+              <div className={cn(
+                'w-8 h-8 rounded-md flex items-center justify-center',
+                isComplete && 'bg-accent/15 text-accent',
+                isActive && 'text-accent-foreground',
+                !isComplete && !isActive && 'bg-muted text-muted-foreground',
+              )} style={isActive ? { background: 'var(--gradient-cta)' } : undefined}>
+                {isComplete ? <Check className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
+              </div>
+              <div>
+                <p className={cn(
+                  'text-xs font-bold',
+                  isActive ? 'text-accent' : isComplete ? 'text-foreground' : 'text-muted-foreground',
+                )}>
+                  {step.label}
+                </p>
+                <p className="text-[10px] text-muted-foreground">{isComplete ? 'Done' : isActive ? 'Current' : 'Pending'}</p>
+              </div>
+            </div>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── STYLE 19: Ribbon Flow ───────────────────────────────────
+
+function RibbonFlowTimeline({ steps, activeStep }: { steps: StepData[]; activeStep: number }) {
+  return (
+    <div className="flex items-stretch">
+      {steps.map((step, i) => {
+        const Icon = step.icon;
+        const isActive = i === activeStep;
+        const isComplete = i < activeStep;
+
+        return (
+          <div key={i} className="flex-1 relative">
+            <div
+              className={cn(
+                'relative z-10 flex flex-col items-center gap-2 py-4 px-2',
+              )}
+            >
+              <div
+                className={cn(
+                  'w-10 h-10 rounded-lg flex items-center justify-center',
+                  isComplete && 'bg-accent text-accent-foreground',
+                  isActive && 'text-accent-foreground shadow-lg',
+                  !isComplete && !isActive && 'bg-muted text-muted-foreground',
+                )}
+                style={isActive ? { background: 'var(--gradient-cta)' } : undefined}
+              >
+                {isComplete ? <Check className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
+              </div>
+              <span className={cn(
+                'text-[10px] font-semibold',
+                isActive ? 'text-accent' : isComplete ? 'text-foreground/70' : 'text-muted-foreground',
+              )}>
+                {step.label}
+              </span>
+            </div>
+            {/* Ribbon background */}
+            <div
+              className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-1"
+              style={{
+                background: isComplete ? 'hsl(var(--accent) / 0.3)' : isActive ? 'var(--gradient-text)' : 'hsl(var(--border))',
+              }}
+            />
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── STYLE 20: Typewriter Terminal ───────────────────────────
+
+function TypewriterTerminalTimeline({ steps, activeStep }: { steps: StepData[]; activeStep: number }) {
+  return (
+    <div className="font-mono text-xs space-y-1 bg-card border border-border rounded-lg p-4">
+      {steps.map((step, i) => {
+        const isActive = i === activeStep;
+        const isComplete = i < activeStep;
+
+        return (
+          <div key={i} className="flex items-center gap-2">
+            <span className="text-muted-foreground/40 w-4 text-right">{i + 1}</span>
+            <span className={cn(
+              'w-2',
+              isComplete ? 'text-accent' : isActive ? 'text-accent' : 'text-muted-foreground/30',
+            )}>
+              {isComplete ? '✓' : isActive ? '›' : '·'}
+            </span>
+            <span className={cn(
+              isActive ? 'text-accent font-bold' : isComplete ? 'text-foreground/60' : 'text-muted-foreground/40',
+            )}>
+              {step.label}
+            </span>
+            {isActive && (
+              <motion.span
+                className="inline-block w-[6px] h-3 bg-accent"
+                animate={{ opacity: [1, 0, 1] }}
+                transition={{ duration: 1, repeat: Infinity }}
+              />
+            )}
+            {isComplete && <span className="text-muted-foreground/30">— done</span>}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 // ─── SHOWCASE CARD ────────────────────────────────────────────
 
 function TimelineShowcaseCard({
@@ -1126,7 +1428,7 @@ export default function PlaygroundTimelines() {
   useAdminAuth();
   const [checkoutStep, setCheckoutStep] = useState(1);
   const [deliveryStep, setDeliveryStep] = useState(2);
-  const { accent, setAccent } = useAccentState();
+  const { accent, setAccent, flipped, toggleFlip } = useAccentState();
 
   return (
     <div className="min-h-screen bg-background">
@@ -1147,14 +1449,15 @@ export default function PlaygroundTimelines() {
           <div className="mb-6">
             <h2 className="text-3xl font-bold text-foreground mb-2">Timeline & Stage Indicators</h2>
             <p className="text-muted-foreground max-w-2xl mb-4">
-              14 premium timeline/progress styles for checkout flows and delivery processes.
+              20 premium timeline/progress styles for checkout flows and delivery processes.
               Styles 9–14 use Framer Motion for spring physics, morphing shapes, liquid fills,
-              ambient pulses, and parallax depth. Click step buttons to preview states.
+              ambient pulses, and parallax depth. Styles 15–20 add minimal dots, zig-zag paths,
+              orbit rings, and terminal aesthetics. Click step buttons to preview states.
             </p>
-            <AccentPickerBar selected={accent} onChange={setAccent} />
+            <AccentPickerBar selected={accent} onChange={setAccent} flipped={flipped} onFlip={toggleFlip} />
           </div>
 
-          <AccentWrapper accent={accent}>
+          <AccentWrapper accent={accent} flipped={flipped}>
           <div className="grid gap-8">
             {/* Style 1 */}
             <TimelineShowcaseCard
@@ -1356,6 +1659,90 @@ export default function PlaygroundTimelines() {
               <div className="bg-card border border-border rounded-lg p-6">
                 <LayeredDepthTimeline steps={deliverySteps} activeStep={deliveryStep} />
               </div>
+            </TimelineShowcaseCard>
+
+            {/* ═══════ LAYOUT & EXPERIMENTAL ═══════ */}
+            <div className="pt-6 border-t border-border/50">
+              <h3 className="text-xl font-bold text-foreground mb-1">Layout & Experimental Variants</h3>
+              <p className="text-sm text-muted-foreground mb-6">
+                Minimal dots, alternating paths, orbital layouts, split panels, and terminal aesthetics.
+              </p>
+            </div>
+
+            {/* Style 15 */}
+            <TimelineShowcaseCard
+              number={15}
+              name="Minimal Dot Track"
+              description="Ultra-minimal dots with pulsing ring on active. Connectors scale in with spring physics."
+              inspiration="Notion onboarding, Figma tutorials, Ghost CMS"
+            >
+              <StepControl steps={checkoutSteps} activeStep={checkoutStep} onChange={setCheckoutStep} />
+              <div className="bg-card border border-border rounded-lg p-6">
+                <MinimalDotTrackTimeline steps={checkoutSteps} activeStep={checkoutStep} />
+              </div>
+            </TimelineShowcaseCard>
+
+            {/* Style 16 */}
+            <TimelineShowcaseCard
+              number={16}
+              name="Zig-Zag Path"
+              description="Steps alternate left-right alignment creating a winding path. Slides on hover."
+              inspiration="Roadmap visualizations, product timelines, Notion roadmaps"
+            >
+              <StepControl steps={deliverySteps} activeStep={deliveryStep} onChange={setDeliveryStep} />
+              <div className="bg-card border border-border rounded-lg p-6">
+                <ZigZagPathTimeline steps={deliverySteps} activeStep={deliveryStep} />
+              </div>
+            </TimelineShowcaseCard>
+
+            {/* Style 17 */}
+            <TimelineShowcaseCard
+              number={17}
+              name="Orbit Ring"
+              description="Steps arranged in a circular orbit with center counter. Gradient arc fills as progress advances."
+              inspiration="Loading indicators, fitness rings, smartwatch UIs"
+            >
+              <StepControl steps={checkoutSteps} activeStep={checkoutStep} onChange={setCheckoutStep} />
+              <div className="bg-card border border-border rounded-lg p-6">
+                <OrbitRingTimeline steps={checkoutSteps} activeStep={checkoutStep} />
+              </div>
+            </TimelineShowcaseCard>
+
+            {/* Style 18 */}
+            <TimelineShowcaseCard
+              number={18}
+              name="Split Panel"
+              description="2×2 grid panels with animated gradient indicator bar. Clean dashboard aesthetic."
+              inspiration="Vercel dashboard, Supabase UI, admin panels"
+            >
+              <StepControl steps={checkoutSteps} activeStep={checkoutStep} onChange={setCheckoutStep} />
+              <div className="bg-card border border-border rounded-lg p-6">
+                <SplitPanelTimeline steps={checkoutSteps} activeStep={checkoutStep} />
+              </div>
+            </TimelineShowcaseCard>
+
+            {/* Style 19 */}
+            <TimelineShowcaseCard
+              number={19}
+              name="Ribbon Flow"
+              description="Continuous ribbon running through all steps. Active step elevated with shadow."
+              inspiration="Award ceremonies, finish-line ribbons, Nike campaigns"
+            >
+              <StepControl steps={deliverySteps} activeStep={deliveryStep} onChange={setDeliveryStep} />
+              <div className="bg-card border border-border rounded-lg p-6">
+                <RibbonFlowTimeline steps={deliverySteps} activeStep={deliveryStep} />
+              </div>
+            </TimelineShowcaseCard>
+
+            {/* Style 20 */}
+            <TimelineShowcaseCard
+              number={20}
+              name="Typewriter Terminal"
+              description="Monospace terminal output style with line numbers and blinking cursor. Developer aesthetic."
+              inspiration="VS Code, Warp terminal, Vercel CLI deploy logs"
+            >
+              <StepControl steps={checkoutSteps} activeStep={checkoutStep} onChange={setCheckoutStep} />
+              <TypewriterTerminalTimeline steps={checkoutSteps} activeStep={checkoutStep} />
             </TimelineShowcaseCard>
           </div>
           </AccentWrapper>

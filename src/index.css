@@ -552,3 +552,11 @@
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground) / 0.7);
 }
+
+/* ═══ Accent Flip — swaps accent onto backgrounds, foreground onto icons/text ═══ */
+.accent-flipped {
+  --_accent-swap: var(--accent);
+  --_accent-fg-swap: var(--accent-foreground);
+  --accent: var(--_accent-fg-swap);
+  --accent-foreground: var(--_accent-swap);
+}
