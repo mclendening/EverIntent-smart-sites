@@ -2,7 +2,7 @@ import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
-import { FileText, Image, MessageSquare, LogOut, Palette } from 'lucide-react';
+import { FileText, Image, MessageSquare, LogOut, Palette, FlaskConical } from 'lucide-react';
 
 export default function AdminDashboard() {
   const { user, signOut } = useAdminAuth();
@@ -99,6 +99,25 @@ export default function AdminDashboard() {
               <CardContent>
                 <p className="text-sm text-muted-foreground">
                   Add, edit, or remove customer testimonials
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link to="/admin/playground">
+            <Card className="transition-colors hover:border-primary">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FlaskConical className="h-5 w-5" />
+                  Playground
+                </CardTitle>
+                <CardDescription>
+                  Style experiments and callout alternatives
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Preview premium badge replacement styles
                 </p>
               </CardContent>
             </Card>
