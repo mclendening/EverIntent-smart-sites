@@ -157,12 +157,12 @@ export const activeTheme: ThemeConfig = {
   baseHue: 210,
   accentConfig: {
     accent: '210 91% 65%',
-    accentHover: '210 91% 55%',
-    accentGlow: '210 91% 75%',
-    accentForeground: '0 0% 100%',
-    h: 38,
-    s: 92,
-    l: 50,
+    accentHover: '32 95% 44%',
+    accentGlow: '210 91% 65%',
+    accentForeground: '222 47% 11%',
+    h: 210,
+    s: 91,
+    l: 65,
   },
   staticColors: {
     background: '222 47% 7%',
@@ -264,7 +264,24 @@ export const activeTheme: ThemeConfig = {
   },
   styleModules: [],
   defaultMode: 'dark',
-  darkModeOverrides: null,
+  darkModeOverrides: {
+      "card": "222 47% 10%",
+      "ring": "247 92% 50%",
+      "input": "215 25% 20%",
+      "muted": "222 47% 15%",
+      "border": "215 25% 20%",
+      "popover": "222 47% 10%",
+      "primary": "215 25% 27%",
+      "secondary": "222 47% 12%",
+      "background": "222 47% 7%",
+      "foreground": "60 9% 98%",
+      "primaryLight": "215 20% 40%",
+      "cardForeground": "60 9% 98%",
+      "mutedForeground": "215 16% 65%",
+      "popoverForeground": "60 9% 98%",
+      "primaryForeground": "0 0% 100%",
+      "secondaryForeground": "60 9% 98%"
+  },
 };
 
 // ============================================
