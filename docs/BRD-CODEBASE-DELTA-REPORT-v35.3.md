@@ -3412,8 +3412,13 @@ All public pages confirmed to have `canonical` props. Compare pages already had 
 ### Gap 10: Keyword Localization — ✅ FIXED
 Added "Long Beach, Orange County, and LA" location modifiers to meta descriptions across 12 pages: Index, About, Contact, Pricing, SmartWebsites, Industries, AIEmployee, AfterHours, FrontOffice, FullAIEmployee, and all 4 Smart Website tiers.
 
-### Gap 8: Location Landing Pages — 🟠 DEFERRED
-Requires new page components and routes. Tracked for future phase.
+### Gap 8: Location Landing Pages — ✅ CLOSED
+Created 3 location-specific landing pages with full LocalBusiness JSON-LD, geo coordinates, service grids, local testimonials, industry lists, Google Maps embeds, and nearby-city tags:
+- `/locations/long-beach` — Long Beach, CA (lat 33.77, lng -118.19)
+- `/locations/orange-county` — Orange County, CA (lat 33.72, lng -117.83)
+- `/locations/los-angeles` — Los Angeles, CA (lat 34.05, lng -118.24)
+
+Architecture: Reusable `LocationPageTemplate` component (`src/components/locations/LocationPageTemplate.tsx`) with typed props. Each page passes location-specific content. Added to `routes.tsx` (imports + route entries + prerender paths), `config/routes.ts` (locationRoutes export), `sitemap.xml`, and footer Resources column.
 
 ### Gap 9: GBP/Citation Alignment — 🟢 INFO
 Not a code issue. Footer NAP matches JSON-LD. Operational task.

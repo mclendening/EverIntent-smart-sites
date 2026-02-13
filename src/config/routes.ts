@@ -119,6 +119,15 @@ export const industryHubRoutes: RouteConfig[] = [
   { path: '/industries/automotive-services', title: 'Automotive Services', description: 'Websites for automotive businesses' },
 ];
 
+/**
+ * Location-specific landing pages for local SEO (Gap 8).
+ */
+export const locationRoutes: RouteConfig[] = [
+  { path: '/locations/long-beach', title: 'Long Beach', description: 'Smart websites and AI automation for Long Beach businesses' },
+  { path: '/locations/orange-county', title: 'Orange County', description: 'Smart websites and AI automation for Orange County businesses' },
+  { path: '/locations/los-angeles', title: 'Los Angeles', description: 'Smart websites and AI automation for Los Angeles businesses' },
+];
+
 // NOTE: Individual vertical pages (65+) have been deferred to post-MVP.
 // The 4 hub pages above serve as the primary industry entry points.
 // Vertical-specific pages can be added when SEO content strategy is finalized.
@@ -213,6 +222,7 @@ export const prerenderRoutes: string[] = [
   ...checkoutRoutes.map(r => r.path),
   ...legalRoutes.map(r => r.path),
   ...resourceRoutes.map(r => r.path),
+  ...locationRoutes.map(r => r.path),
   upgradeRoute.path,
 ];
 
@@ -230,6 +240,7 @@ export const allRoutes: RouteConfig[] = [
   ...checkoutRoutes,
   ...legalRoutes,
   ...resourceRoutes,
+  ...locationRoutes,
   upgradeRoute,
   ...adminRoutes,
 ];
