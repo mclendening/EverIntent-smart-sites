@@ -219,7 +219,7 @@ const SmartWebsites = () => {
     <>
       <SEO 
         title="Smart Websites | Professional Sites from $249 to $297/mo"
-        description="Get a professional website built in 5 days. Choose from Launch ($249), Capture ($97/mo), Convert ($197/mo), or Scale ($297/mo). You own everything."
+        description="Professional web design in Long Beach, Orange County, and LA. Built in 5 days from $249. AI chat, missed-call text-back, booking automation included."
         canonical="/smart-websites"
       />
 

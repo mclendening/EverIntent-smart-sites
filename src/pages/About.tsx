@@ -54,7 +54,7 @@ const About = () => {
     <>
       <SEO
         title="About Us"
-        description="25+ years of enterprise automation experience, now serving local businesses. We build systems that pay for themselves."
+        description="25+ years of enterprise automation experience serving Long Beach, Orange County, and LA businesses. We build systems that pay for themselves."
         canonical="/about"
       />
 

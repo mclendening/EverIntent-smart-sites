@@ -180,13 +180,9 @@ const Pricing = () => {
     <>
       <SEO
         title="Pricing: Smart Websites and AI Employee"
-        description="Professional websites from $249. AI automation from $197/month. Simple pricing with no contracts. See all plans and choose the right fit for your business."
+        description="Professional websites from $249 in Long Beach, Orange County, and Los Angeles. AI automation from $197/month. Simple pricing, no contracts."
         canonical="/pricing"
-      />
-      
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        structuredData={faqSchema}
       />
 
       {/* Hero Section */}

@@ -59,22 +59,33 @@ export default function SmartBusiness() {
     <>
       <SEO 
         title="Convert: Booking and Reviews Website $197/mo"
-        description="Turn visitors into customers. Convert includes online booking + review automation for $197/mo. Let customers book 24/7 and build your Google reputation automatically."
+        description="Turn visitors into customers in Long Beach, Orange County, and LA. Online booking + review automation for $197/mo. Customers book 24/7."
         canonical="/smart-websites/convert"
-        structuredData={{
-          '@context': 'https://schema.org',
-          '@type': 'Product',
-          name: 'Convert Smart Website',
-          description: 'Website with online booking and review automation for appointment-based businesses.',
-          brand: { '@type': 'Brand', name: 'EverIntent' },
-          offers: {
-            '@type': 'Offer',
-            price: '197',
-            priceCurrency: 'USD',
-            priceSpecification: { '@type': 'UnitPriceSpecification', price: '197', priceCurrency: 'USD', billingDuration: 'P1M' },
-            availability: 'https://schema.org/InStock',
+        structuredData={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name: 'Convert Smart Website',
+            description: 'Website with online booking and review automation for appointment-based businesses.',
+            brand: { '@type': 'Brand', name: 'EverIntent' },
+            offers: {
+              '@type': 'Offer',
+              price: '197',
+              priceCurrency: 'USD',
+              priceSpecification: { '@type': 'UnitPriceSpecification', price: '197', priceCurrency: 'USD', billingDuration: 'P1M' },
+              availability: 'https://schema.org/InStock',
+            },
           },
-        }}
+          {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faqs.map(faq => ({
+              '@type': 'Question',
+              name: faq.question,
+              acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+            })),
+          },
+        ]}
       />
 
       {/* Hero Section */}

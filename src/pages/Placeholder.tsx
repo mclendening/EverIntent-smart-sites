@@ -29,6 +29,7 @@ const Placeholder = () => {
       <SEO 
         title={pageTitle}
         description={`${pageTitle} - Professional websites for local businesses`}
+        noIndex
       />
       <div className="min-h-[60vh] flex flex-col items-center justify-center px-4">
         <h1 className="text-4xl font-bold text-foreground mb-4">{pageTitle}</h1>

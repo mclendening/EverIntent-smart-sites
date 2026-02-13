@@ -32,8 +32,8 @@ interface SEOProps {
   ogType?: 'website' | 'article';
   /** Whether to add noindex meta tag (for admin/preview pages) */
   noIndex?: boolean;
-  /** JSON-LD structured data for SEO/AEO */
-  structuredData?: Record<string, unknown>;
+  /** JSON-LD structured data for SEO/AEO. Single object or array of objects. */
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 /**
@@ -131,12 +131,12 @@ export function SEO({
       {/* Robots */}
       {noIndex && <meta name="robots" content="noindex, nofollow" />}
       
-      {/* JSON-LD Structured Data */}
-      {structuredData && (
-        <script type="application/ld+json">
-          {JSON.stringify(structuredData)}
+      {/* JSON-LD Structured Data — supports single object or array */}
+      {structuredData && (Array.isArray(structuredData) ? structuredData : [structuredData]).map((schema, i) => (
+        <script key={i} type="application/ld+json">
+          {JSON.stringify(schema)}
         </script>
-      )}
+      ))}
     </Head>
   );
 }
