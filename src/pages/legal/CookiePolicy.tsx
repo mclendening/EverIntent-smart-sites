@@ -30,6 +30,7 @@ export default function CookiePolicy() {
       <SEO
         title="Cookie Policy"
         description="EverIntent Cookie Policy: Learn about the cookies we use and how to manage your preferences."
+        canonical="/legal/cookies"
       />
 
       <div className="min-h-screen bg-background">

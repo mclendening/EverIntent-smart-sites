@@ -107,6 +107,7 @@ export default function FullAIEmployee() {
       <SEO 
         title="Full AI Employee: Complete Business Automation"
         description="Complete AI Employee: voice, SMS, web chat, booking, screening, and live transfers. Your entire phone operation, automated. $597/mo."
+        canonical="/let-ai-handle-it/full-ai-employee"
       />
       
       <main className="min-h-screen">

@@ -3004,3 +3004,40 @@ The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-
 *Updated: 2026-02-13 | Added §29.14 Editor UX Polish (Batch 3)*
 *Updated: 2026-02-13 | Added §29.15 Architecture — ThemePublisher & CSS Generation (Batch 4)*
 *Updated: 2026-02-13 | Added §29.16 Color Token Cleanup — Phase 7 Batch 5*
+*Updated: 2026-02-13 | Added §29.17 Critical SEO Fixes — Sitemap, Domain, Canonicals*
+
+---
+
+### §29.17 Critical SEO Fixes — Sitemap, Domain, Canonicals
+
+**Date:** 2026-02-13  
+**Scope:** SEO infrastructure, meta tags, sitemap generation  
+**Status:** ✅ Complete
+
+**Issues Resolved:**
+
+1. **Sitemap.xml missing** — `robots.txt` referenced a non-existent `sitemap.xml`. Created `public/sitemap.xml` with 40 marketing routes organized by priority (core 1.0, services 0.8-0.9, legal 0.3). Checkout pages excluded (noindex).
+
+2. **Domain mismatch** — `index.html` OG tags used `everintent.com`, `SEO.tsx` SITE_URL used `everintentsmartsites.com`. Unified to `everintent.com` as the canonical domain.
+
+3. **Placeholder double-branding** — `Placeholder.tsx` manually appended `| EverIntent` to the title, but the SEO component also appends it automatically. Resulted in "Page | EverIntent | EverIntent". Removed manual suffix.
+
+4. **13 pages missing canonical tags** — Added `canonical` prop to: About, Contact, Pricing, AIEmployee, AfterHours, FrontOffice, FullAIEmployee, PrivacyPolicy, TermsOfService, CookiePolicy, DataRightsRequest, AccessibilityStatement. All Smart Websites tier pages and industry pages already had canonicals.
+
+**Files Modified:**
+- `src/components/SEO.tsx` — SITE_URL → `everintent.com`
+- `public/robots.txt` — Sitemap URL → `everintent.com`
+- `public/sitemap.xml` — New file, 40 URLs
+- `src/pages/Placeholder.tsx` — Remove double-brand suffix
+- `src/pages/About.tsx` — Add canonical `/about`
+- `src/pages/Contact.tsx` — Add canonical `/contact`
+- `src/pages/Pricing.tsx` — Add canonical `/pricing`
+- `src/pages/AIEmployee.tsx` — Add canonical `/let-ai-handle-it`
+- `src/pages/ai-employee/AfterHours.tsx` — Add canonical
+- `src/pages/ai-employee/FrontOffice.tsx` — Add canonical
+- `src/pages/ai-employee/FullAIEmployee.tsx` — Add canonical
+- `src/pages/legal/PrivacyPolicy.tsx` — Add canonical `/legal/privacy`
+- `src/pages/legal/TermsOfService.tsx` — Add canonical `/legal/terms`
+- `src/pages/legal/CookiePolicy.tsx` — Add canonical `/legal/cookies`
+- `src/pages/legal/DataRightsRequest.tsx` — Add canonical `/legal/data-request`
+- `src/pages/legal/AccessibilityStatement.tsx` — Add canonical

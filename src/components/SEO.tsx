@@ -58,7 +58,7 @@ const DEFAULT_OG_IMAGE = '/og-image.jpg';
  * Production site URL for canonical/OG URLs
  * @constant {string}
  */
-const SITE_URL = 'https://everintentsmartsites.com';
+const SITE_URL = 'https://everintent.com';
 
 /**
  * SEO - Page-level SEO meta tag component

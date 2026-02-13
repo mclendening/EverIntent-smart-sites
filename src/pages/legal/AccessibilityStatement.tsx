@@ -31,6 +31,7 @@ export default function AccessibilityStatement() {
       <SEO
         title="Accessibility Statement"
         description="EverIntent Accessibility Statement: Our commitment to digital accessibility and WCAG 2.1 AA compliance for all users."
+        canonical="/legal/accessibility-statement"
       />
 
       <div className="min-h-screen bg-background">

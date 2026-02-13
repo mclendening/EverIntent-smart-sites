@@ -33,6 +33,7 @@ export default function TermsOfService() {
       <SEO
         title="Terms of Service"
         description="EverIntent Terms of Service: Service agreement, payment terms, refund policy, and legal terms for web design services."
+        canonical="/legal/terms"
       />
 
       <div className="min-h-screen bg-background">
