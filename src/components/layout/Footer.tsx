@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
  * Services column links
  */
 const servicesLinks = [
+  { title: 'All Services', path: '/services' },
   { title: 'AI Employee', path: '/let-ai-handle-it' },
   { title: 'Launch', path: '/smart-websites/launch' },
   { title: 'Capture', path: '/smart-websites/capture' },
