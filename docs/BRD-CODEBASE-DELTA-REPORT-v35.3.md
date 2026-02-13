@@ -2890,6 +2890,33 @@ The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-
 
 ---
 
+### §29.14 Editor UX Polish (Phase 8 Batch 3)
+
+**Date:** 2026-02-13  
+**Type:** UX Enhancement  
+**Status:** ✅ Complete
+
+**Summary:** Three UX improvements to the theme editor: dirty-state tracking with visual indicator, Cmd/Ctrl+S keyboard shortcut for save, and a dark/light preview toggle on the live canvas. Also fixes 8× `as any` casts in ThemeLiveCanvas.
+
+**Changes:**
+
+| Item | Action | Rationale |
+|------|--------|-----------|
+| `useThemeAdmin.ts` → dirty-state | **Added** `savedSnapshot` ref + `isDirty` computed flag | Compares current config state against last-saved snapshot to detect unsaved changes |
+| `ThemeEditorView.tsx` → Cmd+S | **Added** `useEffect` keyboard listener | Prevents default browser save, triggers `onSave` when Cmd/Ctrl+S pressed |
+| `ThemeEditorView.tsx` → dirty badge | **Added** "Unsaved" badge in toolbar | Visual indicator when `isDirty` is true; save button highlights |
+| `ThemeLiveCanvas.tsx` → mode toggle | **Added** `previewMode` state + toggle button | Allows switching between light/dark preview independent of theme's `defaultMode` |
+| `ThemeLiveCanvas.tsx` → type cleanup | **Removed** 8× `as any` casts | `darkModeOverrides` and `typographyConfig` now accessed via typed props |
+
+**Files Modified:**
+| File | Change |
+|------|--------|
+| `src/hooks/useThemeAdmin.ts` | Added `savedSnapshot` ref, `isDirty` computed, snapshot update on save |
+| `src/components/admin/ThemeEditorView.tsx` | Added Cmd+S handler, isDirty prop, "Unsaved" badge |
+| `src/components/admin/ThemeLiveCanvas.tsx` | Added preview mode toggle, removed `as any` casts |
+
+---
+
 **END OF REPORT**
 
 *This document serves as the comprehensive baseline comparison and progression analysis. The current codebase structure, navigation, and pricing represents the verified offering baseline for EverIntent.*
@@ -2904,3 +2931,4 @@ The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-
 *Updated: 2026-02-12 | Added §29.11 Theme Hub Premium Redesign*
 *Updated: 2026-02-13 | Added §29.12 Shopify+Shadcn Migration Cleanup (Batch 1)*
 *Updated: 2026-02-13 | Added §29.13 Type Safety — ThemeEditorPanels (Batch 2)*
+*Updated: 2026-02-13 | Added §29.14 Editor UX Polish (Batch 3)*

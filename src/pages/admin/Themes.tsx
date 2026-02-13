@@ -243,6 +243,7 @@ export default function AdminThemes() {
             adaWidgetConfig={admin.adaWidgetConfig}
             setAdaWidgetConfig={admin.setAdaWidgetConfig}
             isSaving={admin.isSaving}
+            isDirty={admin.isDirty}
             onSave={admin.handleSave}
             onCancel={admin.goToList}
             onRevert={() => admin.setShowRevertWarning1(true)}

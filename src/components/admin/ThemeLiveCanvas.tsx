@@ -10,14 +10,21 @@
  * - Receives resolved color/typography/motion values as props.
  * - Wraps everything in a scoped container with CSS variable overrides.
  * - Components shown are representative of production UI patterns.
+ * - Includes a floating dark/light toggle to preview both modes without
+ *   changing the theme's `defaultMode` setting.
+ *
+ * ## Dirty-State Integration
+ * - This component is read-only — no mutations. All token changes flow
+ *   from the parent editor via props.
  */
 
-import type { AccentConfig, StaticColors, GradientConfig, GHLChatConfig } from '@/hooks/useThemeAdmin';
+import { useState } from 'react';
+import type { AccentConfig, StaticColors, GradientConfig } from '@/hooks/useThemeAdmin';
 import type { EcommerceColors } from '@/components/admin/EcommerceColorEditor';
 import type { TypographyConfig } from '@/components/admin/TypographyEditor';
 import type { MotionConfig } from '@/components/admin/MotionEditor';
 import type { DarkModeOverrides } from '@/components/admin/DarkModeOverridesEditor';
-import { Phone, Mail, Star, ArrowRight, Check, Shield, Clock } from 'lucide-react';
+import { Phone, Mail, Star, ArrowRight, Check, Shield, Clock, Sun, Moon } from 'lucide-react';
 
 interface ThemeLiveCanvasProps {
   accentConfig: AccentConfig;
@@ -34,35 +41,56 @@ interface ThemeLiveCanvasProps {
 function hsl(val: string) { return `hsl(${val})`; }
 
 export function ThemeLiveCanvas({
-  accentConfig, staticColors: sc, gradientConfigs, darkModeOverrides,
+  accentConfig, staticColors: sc, gradientConfigs, darkModeOverrides: dm,
   ecommerceColors, typographyConfig, motionConfig, defaultMode, themeName,
 }: ThemeLiveCanvasProps) {
+  /** Local preview mode toggle — does NOT change the theme's defaultMode */
+  const [previewMode, setPreviewMode] = useState<'light' | 'dark' | null>(null);
+
   const accent = accentConfig.accent || '38 92% 50%';
-  const gold = (ecommerceColors as any)?.gold || '43 96% 56%';
-  const fontHeading = (typographyConfig as any)?.headingFont || 'Inter';
-  const fontBody = (typographyConfig as any)?.bodyFont || 'Inter';
-  const isDark = defaultMode === 'dark';
+  const gold = ecommerceColors.gold || '43 96% 56%';
+  const fontHeading = typographyConfig.fontHeading || 'Inter';
+  const fontBody = typographyConfig.fontBody || 'Inter';
+
+  // Resolve which mode to show: local toggle overrides theme default
+  const effectiveMode = previewMode ?? (defaultMode === 'dark' ? 'dark' : 'light');
+  const isDark = effectiveMode === 'dark';
 
   // Resolve colors based on mode
-  const bg = isDark ? (darkModeOverrides as any)?.background || sc.background : sc.background;
-  const fg = isDark ? (darkModeOverrides as any)?.foreground || sc.foreground : sc.foreground;
-  const card = isDark ? (darkModeOverrides as any)?.card || sc.card : sc.card;
-  const cardFg = isDark ? (darkModeOverrides as any)?.cardForeground || sc.cardForeground : sc.cardForeground;
-  const muted = isDark ? (darkModeOverrides as any)?.muted || sc.muted : sc.muted;
-  const mutedFg = isDark ? (darkModeOverrides as any)?.mutedForeground || sc.mutedForeground : sc.mutedForeground;
-  const border = isDark ? (darkModeOverrides as any)?.border || sc.border : sc.border;
-  const primary = isDark ? (darkModeOverrides as any)?.primary || sc.primary : sc.primary;
-  const primaryFg = isDark ? (darkModeOverrides as any)?.primaryForeground || sc.primaryForeground : sc.primaryForeground;
+  const bg = isDark ? (dm.background || sc.background) : sc.background;
+  const fg = isDark ? (dm.foreground || sc.foreground) : sc.foreground;
+  const card = isDark ? (dm.card || sc.card) : sc.card;
+  const cardFg = isDark ? (dm.cardForeground || sc.cardForeground) : sc.cardForeground;
+  const muted = isDark ? (dm.muted || sc.muted) : sc.muted;
+  const mutedFg = isDark ? (dm.mutedForeground || sc.mutedForeground) : sc.mutedForeground;
+  const border = isDark ? (dm.border || sc.border) : sc.border;
+  const primary = isDark ? (dm.primary || sc.primary) : sc.primary;
+  const primaryFg = isDark ? (dm.primaryForeground || sc.primaryForeground) : sc.primaryForeground;
 
   return (
     <div
-      className="h-full overflow-auto"
+      className="h-full overflow-auto relative"
       style={{
         backgroundColor: hsl(bg),
         color: hsl(fg),
         fontFamily: `${fontBody}, system-ui, sans-serif`,
       }}
     >
+      {/* ── Dark/Light Preview Toggle ── */}
+      <button
+        onClick={() => setPreviewMode(isDark ? 'light' : 'dark')}
+        className="absolute top-3 right-3 z-10 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] font-medium border backdrop-blur-sm transition-colors"
+        style={{
+          backgroundColor: `${hsl(card)}cc`,
+          borderColor: hsl(border),
+          color: hsl(cardFg),
+        }}
+        title={`Previewing ${effectiveMode} mode — click to toggle`}
+      >
+        {isDark ? <Moon className="h-3 w-3" /> : <Sun className="h-3 w-3" />}
+        {effectiveMode === 'light' ? 'Light' : 'Dark'}
+      </button>
+
       {/* ── Simulated Navigation ── */}
       <nav
         className="flex items-center justify-between px-6 py-3 border-b"
@@ -138,7 +166,7 @@ export function ThemeLiveCanvas({
           Our Services
         </h2>
         <div className="grid grid-cols-3 gap-3">
-          {['Repair', 'Install', 'Maintain'].map((svc, i) => (
+          {['Repair', 'Install', 'Maintain'].map((svc) => (
             <div
               key={svc}
               className="rounded-lg p-4 border transition-shadow hover:shadow-md"

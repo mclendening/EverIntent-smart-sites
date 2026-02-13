@@ -17,7 +17,7 @@
  * - Metadata (Name, Base Hue, Changelog) collapsed by default.
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -70,6 +70,7 @@ interface ThemeEditorViewProps {
   adaWidgetConfig: AdaWidgetConfig;
   setAdaWidgetConfig: (c: AdaWidgetConfig) => void;
   isSaving: boolean;
+  isDirty: boolean;
   onSave: () => void;
   onCancel: () => void;
   onRevert: () => void;
@@ -85,10 +86,22 @@ export function ThemeEditorView({
   typographyConfig, setTypographyConfig, motionConfig, setMotionConfig,
   styleModules, setStyleModules, darkModeOverrides, setDarkModeOverrides,
   defaultMode, setDefaultMode, adaWidgetConfig, setAdaWidgetConfig,
-  isSaving, onSave, onCancel, onRevert, onSaveDefault,
+  isSaving, isDirty, onSave, onCancel, onRevert, onSaveDefault,
 }: ThemeEditorViewProps) {
   const [metaOpen, setMetaOpen] = useState(false);
   const [mobileView, setMobileView] = useState<'controls' | 'preview'>('controls');
+
+  /** Cmd/Ctrl+S keyboard shortcut for save */
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+        e.preventDefault();
+        if (!isSaving) onSave();
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [isSaving, onSave]);
 
   return (
     <div className="h-full flex flex-col">
@@ -114,9 +127,14 @@ export function ThemeEditorView({
         <Button variant="outline" size="sm" className="h-8 text-xs" onClick={onRevert}>
           <RotateCcw className="h-3.5 w-3.5 mr-1" />Revert
         </Button>
-        <Button size="sm" className="h-8 text-xs" onClick={onSave} disabled={isSaving}>
+        {isDirty && (
+          <Badge variant="outline" className="text-[10px] border-destructive/50 text-destructive animate-pulse">
+            Unsaved
+          </Badge>
+        )}
+        <Button size="sm" className={`h-8 text-xs ${isDirty ? 'ring-2 ring-destructive/30' : ''}`} onClick={onSave} disabled={isSaving}>
           {isSaving ? <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" /> : <Save className="h-3.5 w-3.5 mr-1" />}
-          Save
+          Save{isDirty ? '' : 'd'}
         </Button>
       </div>
 

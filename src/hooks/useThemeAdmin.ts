@@ -375,6 +375,26 @@ export function useThemeAdmin() {
   const [adaWidgetConfig, setAdaWidgetConfig] = useState<AdaWidgetConfig>(DEFAULT_ADA);
   const [exportScale, setExportScale] = useState(2);
 
+  /**
+   * Dirty-state tracking — snapshot of config state at last save/load.
+   * Compared against current state to determine if unsaved changes exist.
+   */
+  const savedSnapshotRef = useRef<string>('');
+
+  /** Serialise current config state into a comparable string */
+  const getCurrentSnapshot = useCallback(() => {
+    return JSON.stringify({
+      accentConfig, staticColors, gradientConfigs, ghlChatConfig,
+      ecommerceColors, ctaVariants, typographyConfig, motionConfig,
+      styleModules, defaultMode, darkModeOverrides, adaWidgetConfig,
+    });
+  }, [accentConfig, staticColors, gradientConfigs, ghlChatConfig,
+    ecommerceColors, ctaVariants, typographyConfig, motionConfig,
+    styleModules, defaultMode, darkModeOverrides, adaWidgetConfig]);
+
+  /** True when any config value differs from the last-saved state */
+  const isDirty = savedSnapshotRef.current !== '' && savedSnapshotRef.current !== getCurrentSnapshot();
+
   // ── Fetch data ──
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -413,6 +433,17 @@ export function useThemeAdmin() {
       setDefaultMode(parsed.defaultMode);
       setDarkModeOverrides(parsed.darkModeOverrides);
       setAdaWidgetConfig(parsed.adaWidgetConfig);
+      // Capture snapshot for dirty-state comparison after state settles
+      setTimeout(() => {
+        savedSnapshotRef.current = JSON.stringify({
+          accentConfig: parsed.accentConfig, staticColors: parsed.staticColors,
+          gradientConfigs: parsed.gradientConfigs, ghlChatConfig: parsed.ghlChatConfig,
+          ecommerceColors: parsed.ecommerceColors, ctaVariants: parsed.ctaVariants,
+          typographyConfig: parsed.typographyConfig, motionConfig: parsed.motionConfig,
+          styleModules: parsed.styleModules, defaultMode: parsed.defaultMode,
+          darkModeOverrides: parsed.darkModeOverrides, adaWidgetConfig: parsed.adaWidgetConfig,
+        });
+      }, 0);
     }
   }, [selectedTheme]);
 
@@ -483,9 +514,9 @@ export function useThemeAdmin() {
         changelog_notes: selectedTheme.changelog_notes,
       }).eq('id', selectedTheme.id);
       if (error) throw error;
+      // Update snapshot so isDirty resets
+      savedSnapshotRef.current = getCurrentSnapshot();
       toast({ title: 'Theme saved', description: `"${selectedTheme.name}" has been updated.` });
-      setIsEditing(false);
-      setView('list');
       fetchData();
     } catch (error) {
       console.error('Error saving theme:', error);
@@ -495,7 +526,7 @@ export function useThemeAdmin() {
     }
   }, [selectedTheme, accentConfig, staticColors, gradientConfigs, ghlChatConfig, ecommerceColors,
     ctaVariants, typographyConfig, motionConfig, styleModules, defaultMode, darkModeOverrides,
-    adaWidgetConfig, toast, fetchData]);
+    adaWidgetConfig, toast, fetchData, getCurrentSnapshot]);
 
   // ── Delete ──
   const handleDelete = useCallback(async (theme: Theme) => {
@@ -622,7 +653,7 @@ export function useThemeAdmin() {
     view, setView, selectTheme, enterEditor, goToList,
     // Data
     themes, logoVersions, loading, selectedTheme, setSelectedTheme,
-    isEditing, setIsEditing, isSaving,
+    isEditing, setIsEditing, isSaving, isDirty,
     // Config states
     accentConfig, setAccentConfig, staticColors, setStaticColors,
     gradientConfigs, setGradientConfigs, ghlChatConfig, setGhlChatConfig,
