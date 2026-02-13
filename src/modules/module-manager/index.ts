@@ -5,7 +5,7 @@
  * This is a meta-module — it manages other modules rather than domain data.
  *
  * ## What This Module Owns
- * - Admin UI: Module Manager page (/admin/modules) with Export, Import, Baseline tabs
+ * - Admin UI: Module Manager hub (/admin/modules) with Export, Import, Baseline tabs
  * - No database tables — operates on the module registry and file system
  * - Export engine: Generates portable module bundles with manifests
  * - Import engine: Validates bundles and generates declarative install plans
@@ -19,7 +19,7 @@ import { registerModule } from '../registry';
 import type { ModuleDefinition } from '../types';
 import { ModuleCategory } from '../types';
 import { Package } from 'lucide-react';
-import ModuleManagerPage from '../ModuleManagerPage';
+import { ModuleManagerHub } from './components';
 
 export const moduleManagerModule: ModuleDefinition = {
   id: 'module-manager',
@@ -33,13 +33,13 @@ export const moduleManagerModule: ModuleDefinition = {
       icon: Package,
       category: ModuleCategory.Settings,
       description: 'Export and import modules',
-      detail: 'Manage portable module packages',
+      detail: 'Manage portable module packages with the EverIntent Module Standard',
     },
   ],
   routes: [
     {
       path: 'modules',
-      Component: ModuleManagerPage,
+      Component: ModuleManagerHub,
     },
   ],
 };
