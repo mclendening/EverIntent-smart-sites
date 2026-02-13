@@ -43,7 +43,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { ArrowLeft, Rocket, Eye, Download, Loader2, Copy, CheckCircle, Github, AlertTriangle, Save } from 'lucide-react';
 import { ThemeListView } from '@/components/admin/ThemeListView';
-import { ThemeDetailView } from '@/components/admin/ThemeDetailView';
+// ThemeDetailView eliminated — Hub → Editor directly (Shopify pattern)
 import { ThemeEditorView } from '@/components/admin/ThemeEditorView';
 import type { StyleModule } from '@/components/admin/StyleModulesEditor';
 import type { Json } from '@/integrations/supabase/types';
@@ -202,29 +202,7 @@ export default function AdminThemes() {
           />
         )}
 
-        {admin.view === 'detail' && admin.selectedTheme && (
-          <ThemeDetailView
-            theme={admin.selectedTheme}
-            logoVersion={admin.getLogoForTheme(admin.selectedTheme)}
-            accentConfig={admin.accentConfig}
-            staticColors={admin.staticColors}
-            gradientConfigs={admin.gradientConfigs}
-            ghlChatConfig={admin.ghlChatConfig}
-            darkModeOverrides={admin.darkModeOverrides}
-            ecommerceColors={admin.ecommerceColors}
-            ctaVariants={admin.ctaVariants}
-            typographyConfig={admin.typographyConfig}
-            motionConfig={admin.motionConfig}
-            styleModules={admin.styleModules}
-            adaWidgetConfig={admin.adaWidgetConfig}
-            defaultMode={admin.defaultMode}
-            onBack={admin.goToList}
-            onEdit={admin.enterEditor}
-            onSetActive={admin.handleSetActive}
-            onDelete={admin.handleDelete}
-            onExportJson={admin.exportCurrentThemeJson}
-          />
-        )}
+        {/* Detail view eliminated — Hub goes directly to Editor (Shopify pattern) */}
 
         {admin.view === 'editor' && admin.selectedTheme && (
           <ThemeEditorView
