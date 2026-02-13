@@ -2837,6 +2837,33 @@ The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-
 
 ---
 
+### §29.12 Shopify+Shadcn Migration Cleanup (Phase 8 Batch 1)
+
+**Date:** 2026-02-13  
+**Type:** Cleanup & Compliance  
+**Status:** ✅ Complete
+
+**Summary:** The Theme Admin was migrated from a 3-level (Hub → Detail → Editor) to a 2-level (Hub → Editor) Shopify+Shadcn pattern in §29.11. This cleanup batch resolves residual technical debt from that migration.
+
+**Changes:**
+
+| Item | Action | Rationale |
+|------|--------|-----------|
+| `ThemeDetailView.tsx` | **Deleted** | Orphaned — no longer imported after 2-level migration |
+| `ThemeSummaryDashboard.tsx` | **Deleted** | Orphaned — was only used by the eliminated Detail view |
+| `useThemeAdmin.ts` → `goToDetail` | **Removed** | Stale method — Detail view no longer exists; `goToList` is the correct back-navigation |
+| `Themes.tsx` → `onCancel={admin.goToDetail}` | **Fixed** → `onCancel={admin.goToList}` | Was calling non-existent view; now correctly returns to Hub |
+
+**Files Modified:**
+| File | Change |
+|------|--------|
+| `src/components/admin/ThemeDetailView.tsx` | Deleted |
+| `src/components/admin/ThemeSummaryDashboard.tsx` | Deleted |
+| `src/hooks/useThemeAdmin.ts` | Removed `goToDetail` method and its export |
+| `src/pages/admin/Themes.tsx` | Changed `onCancel` from `goToDetail` to `goToList` |
+
+---
+
 **END OF REPORT**
 
 *This document serves as the comprehensive baseline comparison and progression analysis. The current codebase structure, navigation, and pricing represents the verified offering baseline for EverIntent.*
@@ -2849,3 +2876,4 @@ The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-
 *Updated: 2026-02-12 | Added §29 Platform Module Architecture (Phase 8)*
 *Updated: 2026-02-12 | Added §29.6–29.10 (CrudService, UI Patterns, Portfolio/Testimonials CRUD, Permissions, Theme Detail)*
 *Updated: 2026-02-12 | Added §29.11 Theme Hub Premium Redesign*
+*Updated: 2026-02-13 | Added §29.12 Shopify+Shadcn Migration Cleanup (Batch 1)*
