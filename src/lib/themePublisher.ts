@@ -404,7 +404,7 @@ ${styleModulesCss}  }
 @layer utilities {
   .text-gradient { background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
   .text-gradient-light { background: linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--accent)) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .icon-gradient-ocean { background: linear-gradient(135deg, hsl(210 100% 45%) 0%, hsl(195 100% 50%) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .icon-gradient-ocean { background: linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(var(--secondary-accent)) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
   .bg-mesh { background: var(--gradient-mesh); }
   .bg-glow { background: var(--gradient-glow); }
   .bg-cta-gradient { background: var(--gradient-cta); }
