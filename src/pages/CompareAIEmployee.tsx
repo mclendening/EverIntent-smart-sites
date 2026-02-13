@@ -381,6 +381,48 @@ export default function CompareAIEmployee() {
         title="Compare AI Employee Plans"
         description="Compare AI Employee plans side-by-side. After-Hours at $197/mo, Front Office at $297/mo, or full automation at $597/mo. Find the perfect AI solution."
         canonical="/compare-ai-employee"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "name": "AI Employee Plans Comparison",
+          "description": "Compare EverIntent AI Employee plans: After-Hours, Front Office, and Full AI Employee.",
+          "numberOfItems": 3,
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "Product",
+                "name": "AI Employee: After-Hours",
+                "description": "AI answers after hours, books appointments, texts back missed calls. 500 voice minutes/mo.",
+                "url": "https://everintent.com/let-ai-handle-it/after-hours",
+                "offers": { "@type": "Offer", "price": "197", "priceCurrency": "USD", "unitPriceSpecification": { "@type": "UnitPriceSpecification", "billingDuration": "P1M" }, "availability": "https://schema.org/InStock" }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "Product",
+                "name": "AI Employee: Front Office",
+                "description": "AI screens all calls, qualifies leads, recovers missed calls, and transfers hot opportunities live. 1,000 voice minutes/mo.",
+                "url": "https://everintent.com/let-ai-handle-it/front-office",
+                "offers": { "@type": "Offer", "price": "297", "priceCurrency": "USD", "unitPriceSpecification": { "@type": "UnitPriceSpecification", "billingDuration": "P1M" }, "availability": "https://schema.org/InStock" }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "Product",
+                "name": "Full AI Employee",
+                "description": "Voice, SMS, web chat, booking, screening, and Unlimited AI for reviews, content, and marketing. 2,500 voice minutes/mo.",
+                "url": "https://everintent.com/let-ai-handle-it/full-ai-employee",
+                "offers": { "@type": "Offer", "price": "597", "priceCurrency": "USD", "unitPriceSpecification": { "@type": "UnitPriceSpecification", "billingDuration": "P1M" }, "availability": "https://schema.org/InStock" }
+              }
+            }
+          ]
+        }}
       />
       
       <main className="min-h-screen bg-background">
