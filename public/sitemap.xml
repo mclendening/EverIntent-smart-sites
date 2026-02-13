@@ -44,6 +44,11 @@
   <!-- Standalone Services -->
   <url><loc>https://everintent.com/warmy-email-deliverability</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 
+  <!-- Location Landing Pages -->
+  <url><loc>https://everintent.com/locations/long-beach</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everintent.com/locations/orange-county</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everintent.com/locations/los-angeles</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
   <!-- Legal -->
   <url><loc>https://everintent.com/legal/privacy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://everintent.com/legal/terms</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>

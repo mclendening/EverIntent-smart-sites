@@ -38,6 +38,9 @@ const resourcesLinks = [
   { title: 'Portfolio', path: '/portfolio' },
   { title: 'FAQ', path: '/pricing#faq' },
   { title: 'Industries', path: '/industries' },
+  { title: 'Long Beach', path: '/locations/long-beach' },
+  { title: 'Orange County', path: '/locations/orange-county' },
+  { title: 'Los Angeles', path: '/locations/los-angeles' },
 ];
 
 /**

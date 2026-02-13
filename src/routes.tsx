@@ -88,6 +88,11 @@ import AccessibilityStatement from './pages/legal/AccessibilityStatement';
 // Checkout page
 import CheckoutPage from './pages/checkout/CheckoutPage';
 
+// Location landing pages (Gap 8)
+import LongBeach from './pages/locations/LongBeach';
+import OrangeCounty from './pages/locations/OrangeCounty';
+import LosAngeles from './pages/locations/LosAngeles';
+
 // ============================================
 // LAYOUT COMPONENTS
 // ============================================
@@ -347,6 +352,13 @@ const checkoutPaths = [
   '/checkout/web-chat',
 ];
 
+// Location landing pages (Gap 8: local SEO)
+const locationPaths = [
+  '/locations/long-beach',
+  '/locations/orange-county',
+  '/locations/los-angeles',
+];
+
 // Legal and compliance pages
 const legalPaths = ['/legal/privacy', '/legal/cookies', '/legal/terms', '/legal/data-request', '/legal/accessibility-statement'];
 
@@ -394,6 +406,7 @@ export const prerenderRoutes: string[] = [
   ...resourcePaths,
   upgradePath,
   '/warmy-email-deliverability', // Warmy full service page
+  ...locationPaths, // Location landing pages (Gap 8)
 ];
 
 /**
@@ -597,6 +610,10 @@ export const routes: RouteRecord[] = [
       { path: 'legal/accessibility-statement', Component: AccessibilityStatement },
       // Resources
       ...resourcePaths.map(createPlaceholderChild),
+      // Location landing pages (Gap 8)
+      { path: 'locations/long-beach', Component: LongBeach },
+      { path: 'locations/orange-county', Component: OrangeCounty },
+      { path: 'locations/los-angeles', Component: LosAngeles },
       // Upgrade
       createPlaceholderChild(upgradePath),
       // Catch-all 404
