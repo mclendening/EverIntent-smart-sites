@@ -1,20 +1,19 @@
 /**
- * @fileoverview Smart Site Product Page - Entry-level website tier
+ * @fileoverview Smart Site Product Page - Entry-level website tier ($249 one-time)
  * @module pages/smart-websites/SmartSite
- * 
- * Dedicated product page for the $249 one-time Smart Site tier.
- * Includes breadcrumbs, full SEO/AEO optimization, and purchase CTA.
- * 
- * @brd-reference BRD v35.3 Section 10.1 - Smart Website Tiers
+ *
+ * Features expandable feature cards with rich SEO/AEO content,
+ * Product structured data, and SSG-safe rendering.
  */
 
 import { Link } from 'react-router-dom';
-import { Check, ArrowRight, Globe, Shield, MapPin, BarChart3, FileText, Smartphone } from 'lucide-react';
+import { Check, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { SEO } from '@/components/SEO';
 import { RecommendedAddOns } from '@/components/smart-websites/RecommendedAddOns';
+import { ExpandableFeatureGrid } from '@/components/ai-employee';
+import { smartSiteFeatures } from '@/data/features';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,21 +23,6 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 
-/**
- * Features included in Smart Site tier
- */
-const features = [
-  { icon: FileText, title: 'Professional 5-page website', description: 'Home, About, Services, Contact, and one custom page' },
-  { icon: Smartphone, title: 'Mobile responsive design', description: 'Looks perfect on phones, tablets, and desktops' },
-  { icon: Shield, title: 'SSL certificate included', description: 'Secure HTTPS connection builds customer trust' },
-  { icon: Globe, title: 'Basic SEO setup', description: 'Meta tags, site structure, and Google indexing' },
-  { icon: MapPin, title: 'Google Maps integration', description: 'Show your location to local customers' },
-  { icon: BarChart3, title: 'GA4 analytics (view only)', description: 'Track visitors and page performance' },
-];
-
-/**
- * FAQs specific to Smart Site tier
- */
 const faqs = [
   {
     question: 'What happens after the first year?',
@@ -58,9 +42,6 @@ const faqs = [
   },
 ];
 
-/**
- * Smart Site product page component
- */
 export default function SmartSite() {
   return (
     <>
@@ -68,6 +49,19 @@ export default function SmartSite() {
         title="Launch: Professional Website for $249 One-Time"
         description="Get a professional 5-page website for just $249 one-time. Includes mobile design, SSL, SEO setup, and Google Maps. Built in 5 days. You own everything."
         canonical="/smart-websites/launch"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: 'Launch Smart Website',
+          description: 'Professional 5-page website with mobile design, SSL, SEO setup, and Google Maps.',
+          brand: { '@type': 'Brand', name: 'EverIntent' },
+          offers: {
+            '@type': 'Offer',
+            price: '249',
+            priceCurrency: 'USD',
+            availability: 'https://schema.org/InStock',
+          },
+        }}
       />
 
       {/* Hero Section */}
@@ -75,7 +69,6 @@ export default function SmartSite() {
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-card/30" />
         
         <div className="relative z-10 container mx-auto px-6">
-          {/* Breadcrumb */}
           <Breadcrumb className="mb-8">
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -97,7 +90,6 @@ export default function SmartSite() {
           </Breadcrumb>
 
           <div className="max-w-4xl">
-            {/* Tier badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-6">
               Entry Level • Perfect for Getting Online
             </div>
@@ -111,7 +103,6 @@ export default function SmartSite() {
               One payment. No monthly fees. You own everything.
             </p>
 
-            {/* Pricing */}
             <div className="flex items-baseline gap-2 mb-8">
               <span className="text-5xl md:text-6xl font-bold text-accent">$249</span>
               <span className="text-xl text-muted-foreground">one-time</span>
@@ -135,7 +126,7 @@ export default function SmartSite() {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Features Section - Expandable */}
       <section className="py-16 lg:py-24 bg-card/30">
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center mb-12">
@@ -147,16 +138,8 @@ export default function SmartSite() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {features.map((feature, index) => (
-              <Card key={index} className="border-border/50 bg-card/50">
-                <CardContent className="p-6">
-                  <feature.icon className="h-8 w-8 text-accent mb-4" />
-                  <h3 className="text-lg font-semibold text-foreground mb-2">{feature.title}</h3>
-                  <p className="text-muted-foreground text-sm">{feature.description}</p>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="max-w-4xl mx-auto">
+            <ExpandableFeatureGrid features={smartSiteFeatures} columns={2} />
           </div>
         </div>
       </section>
@@ -221,7 +204,6 @@ export default function SmartSite() {
         </div>
       </section>
 
-      {/* Recommended Add-Ons */}
       <RecommendedAddOns tier="launch" />
 
       {/* CTA Section */}

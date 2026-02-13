@@ -18,24 +18,15 @@ import {
   AnimatedFlowDiagram, 
   DashboardPreview, 
   TranscriptCard, 
-  FeatureGrid 
+  ExpandableFeatureGrid 
 } from '@/components/ai-employee';
+import { afterHoursFeatures } from '@/data/features';
 import { ArrowRight, Clock, DollarSign, TrendingUp, Zap } from 'lucide-react';
 
 // ============================================
 // DATA
 // ============================================
 
-const features = [
-  'Natural voice AI answers calls after hours',
-  'Takes detailed messages from callers',
-  'Books appointments directly into your calendar',
-  'Missed call text-back in under 60 seconds',
-  'Sends SMS summaries to your phone',
-  'Full call transcripts available',
-  'Custom greeting with your business name',
-  'Handles FAQs about hours and location',
-];
 
 const unlimitedFeatures = [
   { name: 'SMS/Text conversations', description: 'Unlimited AI-powered texting' },
@@ -103,6 +94,20 @@ export default function AfterHours() {
         title="After-Hours AI: Complete Night Coverage"
         description="AI answers calls, books appointments, and texts back missed calls while you're closed. Wake up to booked jobs. $197/mo."
         canonical="/let-ai-handle-it/after-hours"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: 'After-Hours AI Employee',
+          description: 'AI answers calls, books appointments, and texts back missed calls while you\'re closed.',
+          brand: { '@type': 'Brand', name: 'EverIntent' },
+          offers: {
+            '@type': 'Offer',
+            price: '197',
+            priceCurrency: 'USD',
+            priceSpecification: { '@type': 'UnitPriceSpecification', price: '197', priceCurrency: 'USD', billingDuration: 'P1M' },
+            availability: 'https://schema.org/InStock',
+          },
+        }}
       />
       
       <main className="min-h-screen">
@@ -272,9 +277,7 @@ export default function AfterHours() {
                 </p>
               </div>
 
-              <ClientOnly>
-                <FeatureGrid features={features} columns={2} />
-              </ClientOnly>
+              <ExpandableFeatureGrid features={afterHoursFeatures} columns={2} />
             </div>
           </div>
         </section>

@@ -1,20 +1,19 @@
 /**
- * @fileoverview Smart Growth Product Page - Full AI power tier
+ * @fileoverview Smart Growth (Scale) Product Page ($297/mo)
  * @module pages/smart-websites/SmartGrowth
- * 
- * Dedicated product page for the $297/mo Smart Growth tier (top tier).
- * Includes breadcrumbs, full SEO/AEO optimization, and purchase CTA.
- * 
- * @brd-reference BRD v35.3 Section 10.1 - Smart Website Tiers
+ *
+ * Features expandable feature cards for new Scale features,
+ * Product structured data, and SSG-safe rendering.
  */
 
 import { Link } from 'react-router-dom';
-import { Check, ArrowRight, Bot, Inbox, Settings, PhoneCall, Calendar, Star } from 'lucide-react';
+import { Check, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { SEO } from '@/components/SEO';
 import { RecommendedAddOns } from '@/components/smart-websites/RecommendedAddOns';
+import { ExpandableFeatureGrid } from '@/components/ai-employee';
+import { smartGrowthFeatures } from '@/data/features';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,19 +23,6 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 
-/**
- * New features in Smart Growth (beyond Smart Business)
- */
-const newFeatures = [
-  { icon: Bot, title: 'AI Voice Agent', description: 'AI answers calls, qualifies leads, and books appointments—like having a full-time assistant' },
-  { icon: Inbox, title: 'Unified inbox', description: 'SMS, email, chat, and social messages in one place' },
-  { icon: Settings, title: 'Advanced automations', description: 'Custom workflows that run your business on autopilot' },
-  { icon: PhoneCall, title: 'Quarterly strategy calls', description: 'Regular check-ins to optimize your system and results' },
-];
-
-/**
- * Everything from Smart Business (included)
- */
 const includedFromBusiness = [
   'Professional 5-page website',
   'Mobile responsive design',
@@ -51,9 +37,6 @@ const includedFromBusiness = [
   'Response automation',
 ];
 
-/**
- * FAQs specific to Smart Growth tier
- */
 const faqs = [
   {
     question: 'What makes Scale worth the extra cost?',
@@ -73,9 +56,6 @@ const faqs = [
   },
 ];
 
-/**
- * Smart Growth product page component
- */
 export default function SmartGrowth() {
   return (
     <>
@@ -83,6 +63,20 @@ export default function SmartGrowth() {
         title="Scale: AI-Powered Growth Engine $297/mo"
         description="AI Voice Agent + unified inbox + advanced automations for $297/mo. The website that runs your business. $997 setup, 5-day delivery, quarterly strategy calls."
         canonical="/smart-websites/scale"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: 'Scale Smart Website',
+          description: 'AI-powered growth engine with Voice Agent, unified inbox, and advanced automations.',
+          brand: { '@type': 'Brand', name: 'EverIntent' },
+          offers: {
+            '@type': 'Offer',
+            price: '297',
+            priceCurrency: 'USD',
+            priceSpecification: { '@type': 'UnitPriceSpecification', price: '297', priceCurrency: 'USD', billingDuration: 'P1M' },
+            availability: 'https://schema.org/InStock',
+          },
+        }}
       />
 
       {/* Hero Section */}
@@ -91,7 +85,6 @@ export default function SmartGrowth() {
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-3xl" />
         
         <div className="relative z-10 container mx-auto px-6">
-          {/* Breadcrumb */}
           <Breadcrumb className="mb-8">
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -113,7 +106,6 @@ export default function SmartGrowth() {
           </Breadcrumb>
 
           <div className="max-w-4xl">
-            {/* Tier badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-6">
               AI-Powered Growth Engine • Full AI Power
             </div>
@@ -127,7 +119,6 @@ export default function SmartGrowth() {
               This isn't just a website—it's a business that runs itself.
             </p>
 
-            {/* Pricing */}
             <div className="flex items-baseline gap-2 mb-4">
               <span className="text-5xl md:text-6xl font-bold text-accent">$297</span>
               <span className="text-xl text-muted-foreground">/month</span>
@@ -151,7 +142,7 @@ export default function SmartGrowth() {
         </div>
       </section>
 
-      {/* New Features */}
+      {/* New Features - Expandable */}
       <section className="py-16 lg:py-24 bg-card/30">
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center mb-12">
@@ -163,16 +154,8 @@ export default function SmartGrowth() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {newFeatures.map((feature, index) => (
-              <Card key={index} className="border-accent/30 bg-card/50 shadow-gold-glow">
-                <CardContent className="p-8">
-                  <feature.icon className="h-12 w-12 text-accent mb-6" />
-                  <h3 className="text-xl font-semibold text-foreground mb-3">{feature.title}</h3>
-                  <p className="text-muted-foreground">{feature.description}</p>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="max-w-4xl mx-auto">
+            <ExpandableFeatureGrid features={smartGrowthFeatures} columns={2} />
           </div>
         </div>
       </section>
@@ -256,7 +239,6 @@ export default function SmartGrowth() {
         </div>
       </section>
 
-      {/* Recommended Add-Ons */}
       <RecommendedAddOns tier="scale" />
 
       {/* CTA Section */}

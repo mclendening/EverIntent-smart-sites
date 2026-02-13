@@ -16,8 +16,9 @@ import {
   AnimatedFlowDiagram, 
   DashboardPreview, 
   TranscriptCard, 
-  FeatureGrid 
+  ExpandableFeatureGrid 
 } from '@/components/ai-employee';
+import { frontOfficeFeatures } from '@/data/features';
 import { 
   ArrowRight, 
   Filter, 
@@ -33,16 +34,6 @@ import {
 // DATA
 // ============================================
 
-const features = [
-  'AI answers every incoming call instantly',
-  'Asks your custom qualifying questions',
-  'Scores leads based on your criteria',
-  'Hot leads transferred to you live',
-  'Missed call text-back in under 60 seconds',
-  'Spam and solicitors filtered automatically',
-  'Only talk to leads worth your time',
-  'Full transcripts and recordings available',
-];
 
 const unlimitedFeatures = [
   { name: 'SMS/Text conversations', description: 'Unlimited AI-powered texting' },
@@ -111,6 +102,20 @@ export default function FrontOffice() {
         title="Front Office AI: Screen, Qualify and Transfer Calls"
         description="AI screens every call, qualifies leads, and only transfers hot prospects. Stop wasting time on tire-kickers. $297/mo."
         canonical="/let-ai-handle-it/front-office"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: 'Front Office AI Employee',
+          description: 'AI screens every call, qualifies leads, and only transfers hot prospects.',
+          brand: { '@type': 'Brand', name: 'EverIntent' },
+          offers: {
+            '@type': 'Offer',
+            price: '297',
+            priceCurrency: 'USD',
+            priceSpecification: { '@type': 'UnitPriceSpecification', price: '297', priceCurrency: 'USD', billingDuration: 'P1M' },
+            availability: 'https://schema.org/InStock',
+          },
+        }}
       />
       
       <main className="min-h-screen">
@@ -302,9 +307,7 @@ export default function FrontOffice() {
                 </p>
               </div>
 
-              <ClientOnly>
-                <FeatureGrid features={features} columns={2} />
-              </ClientOnly>
+              <ExpandableFeatureGrid features={frontOfficeFeatures} columns={2} />
             </div>
           </div>
         </section>
