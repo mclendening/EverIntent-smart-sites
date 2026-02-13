@@ -2942,6 +2942,51 @@ The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-
 
 ---
 
+### §29.16 Color Token Cleanup — Phase 7 Batch 5
+
+**Date:** 2026-02-13  
+**Type:** Design System Compliance  
+**Status:** ✅ Complete
+
+**Summary:** Final pass on the Color Token Audit (2026-02-11). Re-audited all 12 flagged files and found most were already tokenized in earlier batches. Two files had remaining hardcoded colors.
+
+**Audit Reconciliation:**
+
+| File | Original Finding | Current Status |
+|------|-----------------|----------------|
+| `CaseStudyLayout.tsx` | `bg-[#0D0D0D]` | ✅ Already uses `bg-background` — false positive |
+| `AIEmployee.tsx` | `text-blue-400` etc. | ✅ Already uses `text-intent-blue`, `text-accent`, `text-highlight` |
+| `FrontOffice.tsx` | `bg-green-500/10` etc. | ✅ Already uses `bg-highlight/10`, `text-highlight` |
+| `TranscriptCard.tsx` | `text-green-500` | ✅ Already uses `text-highlight`, `text-accent` |
+| `SmartWebsites.tsx` | Inline gold shadow | ✅ Already uses `shadow-gold-glow` token |
+| `SmartLead.tsx` | Inline gold shadow | ✅ Already uses `shadow-gold-glow` token |
+| `SmartBusiness.tsx` | Inline gold shadow | ✅ Already uses `shadow-gold-glow` token |
+| `SmartGrowth.tsx` | Inline gold shadow | ✅ Already uses `shadow-gold-glow` token |
+| `index.css` `::selection` | Hardcoded HSL | ✅ Already uses `hsl(var(--accent) / 0.3)` |
+| `index.css` `.glow-text` | Hardcoded HSL | ✅ Already uses `hsl(var(--accent-glow) / 0.5)` |
+| `tailwind.config.ts` `pulse-glow` | Hardcoded HSL | ✅ Already uses `hsl(var(--gold) / 0.2)` |
+| `WarmyEmailDeliverability.tsx` | `bg-red-500/*`, `bg-green-500/*`, dynamic colors | 🔧 **Fixed** — see below |
+| `index.css` icon gradients | 4× hardcoded HSL | 🔧 **Fixed** — see below |
+| `IndustryShowcaseTemplate.tsx` | `bg-yellow-500/50`, `bg-green-500/50` | ✅ **Exempt** — browser chrome simulation dots |
+
+**Changes Made:**
+
+| Item | Action | Rationale |
+|------|--------|-----------|
+| `WarmyEmailDeliverability.tsx` funnel section | **Replaced** dynamic `bg-${color}-500/*` with static cards using `bg-accent`, `bg-destructive`, `bg-gold`, `bg-highlight` tokens | Dynamic Tailwind classes don't compile; tokenized to semantic palette |
+| `WarmyEmailDeliverability.tsx` comparison section | **Replaced** `bg-red-500/*`, `text-red-500` → `bg-destructive/*`, `text-destructive`; `bg-green-500/*`, `text-green-500` → `bg-highlight/*`, `text-highlight` | Maps to existing semantic tokens |
+| `index.css` icon gradients (×4) | **Replaced** hardcoded HSL with CSS variable references (`--accent`, `--secondary-accent`, `--ring`, `--highlight`, `--intent-blue`) | Gradients now adapt to theme changes |
+| `themePublisher.ts` icon-gradient-ocean | **Updated** to match new variable-based pattern | Publish pipeline stays in sync |
+
+**Files Modified:**
+| File | Change |
+|------|--------|
+| `src/pages/WarmyEmailDeliverability.tsx` | Tokenized funnel + comparison sections |
+| `src/index.css` | Tokenized 4 icon gradient utilities |
+| `src/lib/themePublisher.ts` | Updated icon-gradient-ocean to use CSS vars |
+
+---
+
 **END OF REPORT**
 
 *This document serves as the comprehensive baseline comparison and progression analysis. The current codebase structure, navigation, and pricing represents the verified offering baseline for EverIntent.*
@@ -2958,3 +3003,4 @@ The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-
 *Updated: 2026-02-13 | Added §29.13 Type Safety — ThemeEditorPanels (Batch 2)*
 *Updated: 2026-02-13 | Added §29.14 Editor UX Polish (Batch 3)*
 *Updated: 2026-02-13 | Added §29.15 Architecture — ThemePublisher & CSS Generation (Batch 4)*
+*Updated: 2026-02-13 | Added §29.16 Color Token Cleanup — Phase 7 Batch 5*
