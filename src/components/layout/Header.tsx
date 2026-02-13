@@ -56,6 +56,7 @@ const industriesItems = [
  * Flat navigation links
  */
 const flatNavLinks = [
+  { title: 'Services', path: '/services' },
   { title: 'Portfolio', path: '/portfolio' },
   { title: 'Pricing', path: '/pricing' },
   { title: 'Contact', path: '/contact' },

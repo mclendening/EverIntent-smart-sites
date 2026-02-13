@@ -58,6 +58,7 @@ import HealthWellnessShowcase from './pages/industries/HealthWellnessShowcase';
 import AutomotiveShowcase from './pages/industries/AutomotiveShowcase';
 // Standalone service pages
 import WarmyEmailDeliverability from './pages/WarmyEmailDeliverability';
+import Services from './pages/Services';
 // AI Employee mode pages - Consolidated (After-Hours includes booking + missed call)
 import AfterHours from './pages/ai-employee/AfterHours';
 import FrontOffice from './pages/ai-employee/FrontOffice';
@@ -542,8 +543,13 @@ export const routes: RouteRecord[] = [
       },
       // Primary service
       createPlaceholderChild(primaryServicePath),
+      // Services hub page (dedicated component)
+      {
+        path: 'services',
+        Component: Services,
+      },
       // Services (excluding pages with dedicated components)
-      ...servicePaths.filter(p => p !== '/let-ai-handle-it').map(createPlaceholderChild),
+      ...servicePaths.filter(p => p !== '/let-ai-handle-it' && p !== '/services').map(createPlaceholderChild),
       // Product category pages (SEO)
       ...productCategoryPaths.map(createPlaceholderChild),
       // Features
