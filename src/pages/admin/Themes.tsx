@@ -49,7 +49,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { ArrowLeft, Rocket, Eye, Download, Loader2, Copy, CheckCircle, Github, AlertTriangle, Save } from 'lucide-react';
 import { ThemeListView } from '@/components/admin/ThemeListView';
-// ThemeDetailView eliminated — Hub → Editor directly (Shopify pattern)
+
 import { ThemeEditorView } from '@/components/admin/ThemeEditorView';
 import type { StyleModule } from '@/components/admin/StyleModulesEditor';
 import type { Json } from '@/integrations/supabase/types';
@@ -244,7 +244,7 @@ export default function AdminThemes() {
             setAdaWidgetConfig={admin.setAdaWidgetConfig}
             isSaving={admin.isSaving}
             onSave={admin.handleSave}
-            onCancel={admin.goToDetail}
+            onCancel={admin.goToList}
             onRevert={() => admin.setShowRevertWarning1(true)}
             onSaveDefault={() => admin.setShowSaveDefaultWarning1(true)}
           />

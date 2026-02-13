@@ -436,15 +436,6 @@ export function useThemeAdmin() {
     setIsEditing(false);
   }, []);
 
-  const goToDetail = useCallback(() => {
-    setIsEditing(false);
-    setView('list');
-    // Re-parse from original
-    if (selectedTheme) {
-      const original = themes.find(t => t.id === selectedTheme.id);
-      if (original) setSelectedTheme(original);
-    }
-  }, [selectedTheme, themes]);
 
   // ── Set active ──
   const handleSetActive = useCallback(async (theme: Theme) => {
@@ -628,7 +619,7 @@ export function useThemeAdmin() {
 
   return {
     // Navigation
-    view, setView, selectTheme, enterEditor, goToList, goToDetail,
+    view, setView, selectTheme, enterEditor, goToList,
     // Data
     themes, logoVersions, loading, selectedTheme, setSelectedTheme,
     isEditing, setIsEditing, isSaving,
