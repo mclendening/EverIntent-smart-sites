@@ -3005,6 +3005,7 @@ The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-
 *Updated: 2026-02-13 | Added §29.15 Architecture — ThemePublisher & CSS Generation (Batch 4)*
 *Updated: 2026-02-13 | Added §29.16 Color Token Cleanup — Phase 7 Batch 5*
 *Updated: 2026-02-13 | Added §29.17 Critical SEO Fixes — Sitemap, Domain, Canonicals*
+*Updated: 2026-02-13 | Added §30 Platform Architecture & Module Registry*
 
 ---
 
@@ -3041,3 +3042,165 @@ The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-
 - `src/pages/legal/CookiePolicy.tsx` — Add canonical `/legal/cookies`
 - `src/pages/legal/DataRightsRequest.tsx` — Add canonical `/legal/data-request`
 - `src/pages/legal/AccessibilityStatement.tsx` — Add canonical
+
+---
+
+### §30 Platform Architecture & Module Registry
+
+**Date:** 2026-02-13  
+**Scope:** Base platform install contract, registry API, module portability  
+**Status:** ✅ Base Complete | 🟡 Theme Package Extraction Pending
+
+---
+
+#### §30.1 Overview
+
+The admin system follows a **WordPress-style plugin registry** architecture. Features are self-contained modules that register themselves with a central registry at app startup. The admin shell (Dashboard, routing, navigation) is dynamically generated from the registry — no hardcoded feature references.
+
+This architecture ensures:
+1. **Portability** — The base platform (3 files) bootstraps in any React Router + Supabase project
+2. **Modularity** — Features are added/removed by importing/deleting a single barrel file
+3. **AI-Friendliness** — Strict contracts enable AI tools to inject features via well-defined interfaces
+
+---
+
+#### §30.2 Base Platform Install (Minimum Viable Registry)
+
+To bootstrap the plugin system in a new project, copy these 3 files:
+
+| File | Purpose | Dependencies |
+|------|---------|--------------|
+| `src/modules/types.ts` | `ModuleDefinition`, `ModuleNavItem`, `ModuleCategory` contracts | `react-router-dom` (RouteObject type only) |
+| `src/modules/registry.ts` | `registerModule()`, `getModules()`, `getModule()` | `./types.ts` |
+| `src/modules/index.ts` | Barrel — imports all modules to trigger registration; re-exports registry API | `./registry.ts`, `./types.ts` |
+
+**Integration points in the host app:**
+- `routes.tsx` or `main.tsx` must `import './modules'` before rendering admin routes
+- Admin Dashboard calls `getModules()` to build navigation cards
+- Admin route config maps `module.routes` into React Router children under `/admin/`
+
+---
+
+#### §30.3 ModuleDefinition Contract
+
+```typescript
+interface ModuleDefinition {
+  id: string;           // Unique key (e.g., "themes", "portfolio")
+  name: string;         // Display name
+  description: string;  // Purpose description
+  version: string;      // Semver
+  navItems: ModuleNavItem[];  // Admin sidebar/dashboard entries
+  routes: RouteObject[];      // React Router routes (relative to /admin/)
+  enabled?: boolean;          // Opt-out flag (default: true)
+}
+
+interface ModuleNavItem {
+  label: string;
+  path: string;               // Relative to /admin/ (e.g., "themes")
+  icon?: React.ComponentType;  // Lucide icon
+  category?: ModuleCategory;   // Content | Appearance | Commerce | Settings | Tools
+  description?: string;
+  detail?: string;
+  requiredRole?: 'admin' | 'moderator' | 'user';  // Future RBAC
+}
+```
+
+---
+
+#### §30.4 Registry API
+
+| Function | Signature | Behavior |
+|----------|-----------|----------|
+| `registerModule` | `(module: ModuleDefinition) => void` | Adds module to registry. Throws on duplicate ID (fail-fast). |
+| `getModules` | `(enabledOnly?: boolean) => readonly ModuleDefinition[]` | Returns registered modules. Default filters to `enabled !== false`. |
+| `getModule` | `(id: string) => ModuleDefinition \| undefined` | Lookup by ID. |
+
+**Registration pattern:** Each module calls `registerModule()` in its barrel export (`src/modules/<name>/index.ts`). The barrel import in `src/modules/index.ts` triggers registration at app startup.
+
+---
+
+#### §30.5 Shared CRUD Framework (Optional Layer)
+
+For data-driven admin modules, the platform provides a generic CRUD stack:
+
+| File | Purpose |
+|------|---------|
+| `src/modules/shared/crudService.ts` | `CrudService<TRow, TInsert, TUpdate>` — Zod-validated Supabase abstraction |
+| `src/modules/shared/createCrudHooks.ts` | TanStack Query hook factory — `useList`, `useGetById`, `useCreate`, `useUpdate`, `useRemove` with optimistic updates |
+| `src/modules/shared/types.ts` | `FieldDef` (form fields) + `ColumnDef<T>` (table columns) |
+| `src/modules/shared/AdminListView.tsx` | Declarative data table driven by `ColumnDef<T>[]` |
+| `src/modules/shared/AdminDetailView.tsx` | Layout shell for detail/edit views |
+| `src/modules/shared/AdminFormEditor.tsx` | Dynamic form renderer driven by `FieldDef[]` |
+
+**Dependencies:** `@supabase/supabase-js`, `@tanstack/react-query`, `zod`, `shadcn/ui`
+
+---
+
+#### §30.6 Registered Modules (Current State)
+
+| Module ID | Category | DB Tables | Status |
+|-----------|----------|-----------|--------|
+| `themes` | Appearance | `site_themes`, `published_theme_configs`, `page_theme_assignments` | ✅ Full admin + publish pipeline |
+| `submissions` | Content | `form_submissions`, `checkout_submissions`, `job_applications` | ✅ Read-only list views |
+| `portfolio` | Content | `portfolio` | ✅ Full CRUD |
+| `testimonials` | Content | `testimonials` | ✅ Full CRUD |
+| `playground` | Tools | — | ✅ Component sandbox |
+
+---
+
+#### §30.7 Adding a New Module (Checklist)
+
+1. Create `src/modules/<name>/index.ts`
+2. Define a `ModuleDefinition` constant with ID, name, routes, nav items
+3. Call `registerModule(myModule)` at the bottom of the file
+4. Add `import './<name>';` to `src/modules/index.ts`
+5. (Optional) Create Supabase table + Zod schemas + CrudService instance
+6. (Optional) Use `createCrudHooks()` for TanStack Query integration
+
+**That's it.** The admin shell picks up routes and navigation automatically.
+
+---
+
+#### §30.8 Theme Module Portability Status
+
+The Theme module (`src/modules/themes/`) is the most complex registered module. Its portability gaps:
+
+| Requirement | Status | Notes |
+|-------------|--------|-------|
+| Self-registration via registry | ✅ Done | `themes/index.ts` |
+| Standalone package (`src/theme-system/`) | ❌ Not extracted | Theme logic lives in scattered files across `components/admin/`, `config/`, `hooks/`, `lib/` |
+| Zod validation for all config inputs | ❌ Not implemented | CrudService uses Zod, but theme JSONB configs lack schemas |
+| DI / strict generics (ThemeDbClient) | ❌ Not implemented | Hard-coded Supabase imports |
+| Generic ThemePublisher interface | 🟡 Partial | `themePublisher.ts` exists but is EverIntent-specific |
+
+**Target state:** A copyable `src/theme-system/` directory containing all theme logic, DB client abstraction, Zod schemas, and publish pipeline — injectable into any Supabase project via the module registry.
+
+---
+
+#### §30.9 Architecture Diagram
+
+```
+src/modules/
+├── index.ts              ← Barrel: imports all modules, triggers registration
+├── registry.ts           ← registerModule(), getModules(), getModule()
+├── types.ts              ← ModuleDefinition, ModuleNavItem, ModuleCategory
+├── shared/               ← Generic CRUD framework (optional)
+│   ├── crudService.ts
+│   ├── createCrudHooks.ts
+│   ├── types.ts
+│   ├── AdminListView.tsx
+│   ├── AdminDetailView.tsx
+│   └── AdminFormEditor.tsx
+├── themes/index.ts       ← registerModule(themesModule)
+├── portfolio/index.ts    ← registerModule(portfolioModule)
+├── testimonials/index.ts ← registerModule(testimonialsModule)
+├── submissions/index.ts  ← registerModule(submissionsModule)
+└── playground/index.ts   ← registerModule(playgroundModule)
+```
+
+**Host app integration:**
+```
+routes.tsx ──imports──> src/modules/index.ts ──triggers──> all registerModule() calls
+Dashboard.tsx ──calls──> getModules() ──renders──> nav cards + sidebar items
+Admin routes ──maps──> module.routes[] ──wraps──> AdminGuard HOC
+```
