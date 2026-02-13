@@ -3006,6 +3006,7 @@ The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-
 *Updated: 2026-02-13 | Added §29.16 Color Token Cleanup — Phase 7 Batch 5*
 *Updated: 2026-02-13 | Added §29.17 Critical SEO Fixes — Sitemap, Domain, Canonicals*
 *Updated: 2026-02-13 | Added §30 Platform Architecture & Module Registry*
+*Updated: 2026-02-13 | Expanded §30.8–30.11 End-State Module Architecture — file consolidation map, DI contract, Zod validation layer, theme module target structure, export/import workflow*
 
 ---
 
@@ -3161,41 +3162,209 @@ For data-driven admin modules, the platform provides a generic CRUD stack:
 
 ---
 
-#### §30.8 Theme Module Portability Status
+#### §30.8 End-State: Portable Module Architecture
 
-The Theme module (`src/modules/themes/`) is the most complex registered module. Its portability gaps:
+**Vision:** Any module (themes, portfolio, testimonials, etc.) is a self-contained directory under `src/modules/<name>/` that can be **copied into any React + Supabase project** with the base platform files and work immediately. No scattered files across `components/`, `hooks/`, `lib/`, `config/`, `pages/`.
 
-| Requirement | Status | Notes |
-|-------------|--------|-------|
-| Self-registration via registry | ✅ Done | `themes/index.ts` |
-| Standalone package (`src/theme-system/`) | ❌ Not extracted | Theme logic lives in scattered files across `components/admin/`, `config/`, `hooks/`, `lib/` |
-| Zod validation for all config inputs | ❌ Not implemented | CrudService uses Zod, but theme JSONB configs lack schemas |
-| DI / strict generics (ThemeDbClient) | ❌ Not implemented | Hard-coded Supabase imports |
-| Generic ThemePublisher interface | 🟡 Partial | `themePublisher.ts` exists but is EverIntent-specific |
+**Base Platform Install (3 files — the "kernel"):**
+```
+src/modules/types.ts          ← ModuleDefinition contract
+src/modules/registry.ts       ← registerModule() / getModules()
+src/modules/index.ts           ← Barrel that imports all modules
+```
 
-**Target state:** A copyable `src/theme-system/` directory containing all theme logic, DB client abstraction, Zod schemas, and publish pipeline — injectable into any Supabase project via the module registry.
+**Shared CRUD Layer (optional, for data-driven modules):**
+```
+src/modules/shared/            ← CrudService, createCrudHooks, AdminListView, etc.
+```
+
+**Module Structure Contract — every module MUST follow this layout:**
+```
+src/modules/<name>/
+├── index.ts                   ← ModuleDefinition + registerModule() call
+├── README.md                  ← Install instructions, DB schema, dependencies
+├── schemas.ts                 ← Zod schemas for all DB table columns
+├── types.ts                   ← Module-specific TypeScript interfaces
+├── service.ts                 ← CrudService instance + hooks (or custom DB layer)
+├── components/                ← All UI components owned by this module
+│   ├── AdminPage.tsx          ← Top-level admin page (orchestrator)
+│   └── ...                    ← Sub-components (editors, lists, etc.)
+├── hooks/                     ← Module-specific React hooks
+│   └── ...
+└── lib/                       ← Pure functions (generators, validators, etc.)
+    └── ...
+```
+
+**Dependency Injection Contract:**
+
+Modules that touch the database MUST NOT import `supabase` directly. Instead, they accept a DB client via their service layer:
+
+```typescript
+// Module defines its own DB client interface
+interface ThemeDbClient {
+  listThemes(): Promise<Theme[]>;
+  getTheme(id: string): Promise<Theme>;
+  updateTheme(id: string, data: Partial<Theme>): Promise<Theme>;
+  publishConfig(config: PublishedConfig): Promise<void>;
+  // ... all DB operations the module needs
+}
+
+// Module provides a default Supabase implementation
+export function createSupabaseThemeClient(client: SupabaseClient): ThemeDbClient { ... }
+
+// Host project wires it up
+const dbClient = createSupabaseThemeClient(supabase);
+```
+
+This enables:
+1. Testing with mock clients
+2. Swapping Supabase for another backend
+3. No import path coupling between module and host project
 
 ---
 
-#### §30.9 Architecture Diagram
+#### §30.9 Theme Module — Target File Structure
+
+The theme module is the largest and most complex. Its end-state layout:
+
+```
+src/modules/themes/
+├── index.ts                       ← registerModule(themesModule)
+├── README.md                      ← Install guide: DB tables, secrets, dependencies
+├── schemas.ts                     ← Zod schemas for all 14 JSONB columns
+├── types.ts                       ← AccentConfig, StaticColors, GradientConfig, etc.
+├── service.ts                     ← ThemeDbClient interface + Supabase implementation
+├── components/
+│   ├── ThemesPage.tsx             ← Admin orchestrator (currently pages/admin/Themes.tsx)
+│   ├── ThemeListView.tsx          ← Hub grid with mockup cards
+│   ├── ThemeEditorView.tsx        ← Split-screen editor shell
+│   ├── ThemeEditorNav.tsx         ← Feature-first navigation sidebar
+│   ├── ThemeEditorPanels.tsx      ← All config editor panels
+│   ├── ThemeLiveCanvas.tsx        ← Real-time website preview
+│   ├── AccentPicker.tsx           ← HSL accent color picker
+│   ├── HslColorPicker.tsx         ← Generic HSL input control
+│   ├── ContrastChecker.tsx        ← WCAG AA/AAA contrast badges
+│   ├── DarkModeOverridesEditor.tsx
+│   ├── DefaultModeSelector.tsx
+│   ├── EcommerceColorEditor.tsx
+│   ├── LogoConfigEditor.tsx
+│   ├── MotionEditor.tsx
+│   ├── StyleModulesEditor.tsx
+│   ├── AdaWidgetConfigEditor.tsx
+│   ├── ThemeImporter.tsx
+│   └── TypographyEditor.tsx
+├── hooks/
+│   ├── useThemeAdmin.ts           ← Admin state management hook
+│   └── useTheme.ts                ← Runtime theme resolution (public site)
+├── lib/
+│   ├── themePublisher.ts          ← CSS/TS generation + ThemePublisher interface
+│   └── themeConfig.ts             ← Generated static config (currently config/themes.ts)
+└── sql/
+    └── schema.sql                 ← CREATE TABLE statements for all 4 theme tables
+```
+
+**Migration map (current → target):**
+
+| Current Location | Target Location |
+|-----------------|-----------------|
+| `src/modules/themes/index.ts` | `src/modules/themes/index.ts` (keep) |
+| `src/hooks/useThemeAdmin.ts` | `src/modules/themes/hooks/useThemeAdmin.ts` |
+| `src/hooks/useTheme.ts` | `src/modules/themes/hooks/useTheme.ts` |
+| `src/lib/themePublisher.ts` | `src/modules/themes/lib/themePublisher.ts` |
+| `src/config/themes.ts` | `src/modules/themes/lib/themeConfig.ts` |
+| `src/pages/admin/Themes.tsx` | `src/modules/themes/components/ThemesPage.tsx` |
+| `src/components/admin/ThemeListView.tsx` | `src/modules/themes/components/ThemeListView.tsx` |
+| `src/components/admin/ThemeEditorView.tsx` | `src/modules/themes/components/ThemeEditorView.tsx` |
+| `src/components/admin/ThemeEditorNav.tsx` | `src/modules/themes/components/ThemeEditorNav.tsx` |
+| `src/components/admin/ThemeEditorPanels.tsx` | `src/modules/themes/components/ThemeEditorPanels.tsx` |
+| `src/components/admin/ThemeLiveCanvas.tsx` | `src/modules/themes/components/ThemeLiveCanvas.tsx` |
+| `src/components/admin/AccentPicker.tsx` | `src/modules/themes/components/AccentPicker.tsx` |
+| `src/components/admin/HslColorPicker.tsx` | `src/modules/themes/components/HslColorPicker.tsx` |
+| `src/components/admin/ContrastChecker.tsx` | `src/modules/themes/components/ContrastChecker.tsx` |
+| `src/components/admin/DarkModeOverridesEditor.tsx` | `src/modules/themes/components/DarkModeOverridesEditor.tsx` |
+| `src/components/admin/DefaultModeSelector.tsx` | `src/modules/themes/components/DefaultModeSelector.tsx` |
+| `src/components/admin/EcommerceColorEditor.tsx` | `src/modules/themes/components/EcommerceColorEditor.tsx` |
+| `src/components/admin/LogoConfigEditor.tsx` | `src/modules/themes/components/LogoConfigEditor.tsx` |
+| `src/components/admin/MotionEditor.tsx` | `src/modules/themes/components/MotionEditor.tsx` |
+| `src/components/admin/StyleModulesEditor.tsx` | `src/modules/themes/components/StyleModulesEditor.tsx` |
+| `src/components/admin/AdaWidgetConfigEditor.tsx` | `src/modules/themes/components/AdaWidgetConfigEditor.tsx` |
+| `src/components/admin/ThemeImporter.tsx` | `src/modules/themes/components/ThemeImporter.tsx` |
+| `src/components/admin/TypographyEditor.tsx` | `src/modules/themes/components/TypographyEditor.tsx` |
+| `src/pages/admin/ThemeTestPage.tsx` | `src/modules/themes/components/ThemeTestPage.tsx` |
+
+**Files that stay in place (NOT theme-owned):**
+- `src/components/admin/AdminGuard.tsx` — platform concern, not theme-specific
+- `src/components/ModeToggle.tsx` — public site UI, consumes theme but isn't part of admin module
+- `src/components/AccessibilityWidget.tsx` — public site UI, same rationale
+
+---
+
+#### §30.10 Validation Layer (Zod Schemas)
+
+Every JSONB column in `site_themes` gets a Zod schema in `schemas.ts`:
+
+| Column | Zod Schema Name | Key Fields |
+|--------|----------------|------------|
+| `accent_config` | `AccentConfigSchema` | h, s, l, accent, useGradient?, gradientFrom?, gradientTo? |
+| `static_colors` | `StaticColorsSchema` | primary, background, foreground, card, muted, border, + foreground variants |
+| `dark_mode_overrides` | `DarkModeOverridesSchema` | Same shape as StaticColors, all optional |
+| `gradient_configs` | `GradientConfigSchema` | hero, cta, text (CSS gradient strings) |
+| `ghl_chat_config` | `GHLChatConfigSchema` | textareaBg, selectionBg, sendButtonBg, etc. |
+| `ecommerce_colors` | `EcommerceColorsSchema` | gold, goldHover, goldGlow, goldForeground, pricingHighlight |
+| `cta_variants` | `CtaVariantsSchema` | primary, secondary, primaryHover, secondaryHover |
+| `typography_config` | `TypographyConfigSchema` | fontHeading, fontBody, fontDisplay |
+| `motion_config` | `MotionConfigSchema` | transitionSmooth, transitionBounce, transitionSpring |
+| `style_modules` | `StyleModulesSchema` | Array of { name, tokens: Record<string, string> } |
+| `ada_widget_config` | `AdaWidgetConfigSchema` | enabled, position, iconType, iconColor, etc. |
+| `primitive_tokens` | `PrimitiveTokensSchema` | Generic Record<string, string> |
+| `semantic_tokens` | `SemanticTokensSchema` | Generic Record<string, string> |
+| `component_tokens` | `ComponentTokensSchema` | Generic Record<string, string> |
+
+These schemas serve triple duty:
+1. **Admin form validation** — Parse before save
+2. **Runtime null safety** — `.safeParse()` with defaults for missing JSONB fields
+3. **Import validation** — Verify JSON imports match expected shapes
+
+---
+
+#### §30.11 Architecture Diagram (End-State)
 
 ```
 src/modules/
 ├── index.ts              ← Barrel: imports all modules, triggers registration
 ├── registry.ts           ← registerModule(), getModules(), getModule()
 ├── types.ts              ← ModuleDefinition, ModuleNavItem, ModuleCategory
-├── shared/               ← Generic CRUD framework (optional)
+├── shared/               ← Generic CRUD framework
 │   ├── crudService.ts
 │   ├── createCrudHooks.ts
 │   ├── types.ts
 │   ├── AdminListView.tsx
 │   ├── AdminDetailView.tsx
 │   └── AdminFormEditor.tsx
-├── themes/index.ts       ← registerModule(themesModule)
-├── portfolio/index.ts    ← registerModule(portfolioModule)
-├── testimonials/index.ts ← registerModule(testimonialsModule)
-├── submissions/index.ts  ← registerModule(submissionsModule)
-└── playground/index.ts   ← registerModule(playgroundModule)
+├── themes/               ← SELF-CONTAINED: copy this folder + shared/ + types.ts + registry.ts
+│   ├── index.ts
+│   ├── README.md
+│   ├── schemas.ts
+│   ├── types.ts
+│   ├── service.ts
+│   ├── components/       ← 18 admin UI components
+│   ├── hooks/            ← useThemeAdmin, useTheme
+│   ├── lib/              ← themePublisher, themeConfig
+│   └── sql/              ← DB schema for reference
+├── portfolio/            ← Already conforming (service.ts + Zod + CrudService)
+│   ├── index.ts
+│   ├── service.ts
+│   ├── PortfolioListPage.tsx
+│   └── PortfolioEditPage.tsx
+├── testimonials/         ← Already conforming
+│   ├── index.ts
+│   ├── service.ts
+│   ├── TestimonialsListPage.tsx
+│   └── TestimonialsEditPage.tsx
+├── submissions/          ← Already conforming
+│   └── index.ts
+└── playground/           ← Already conforming
+    └── index.ts
 ```
 
 **Host app integration:**
@@ -3203,4 +3372,14 @@ src/modules/
 routes.tsx ──imports──> src/modules/index.ts ──triggers──> all registerModule() calls
 Dashboard.tsx ──calls──> getModules() ──renders──> nav cards + sidebar items
 Admin routes ──maps──> module.routes[] ──wraps──> AdminGuard HOC
+```
+
+**Export/Import workflow:**
+```
+1. Copy src/modules/themes/ into new project
+2. Copy src/modules/shared/ (if using CrudService)
+3. Copy src/modules/types.ts + registry.ts
+4. Run sql/schema.sql against Supabase
+5. Add import './themes' to src/modules/index.ts
+6. Admin shell auto-discovers theme routes + navigation
 ```

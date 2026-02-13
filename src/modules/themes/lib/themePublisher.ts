@@ -27,7 +27,7 @@
  * - Consumers provide raw theme data; this module handles all formatting.
  */
 
-import type { StyleModule } from '@/components/admin/StyleModulesEditor';
+import type { StyleModule } from '../components/StyleModulesEditor';
 
 // ─── THEME PUBLISHER INTERFACE ───────────────────────────────
 

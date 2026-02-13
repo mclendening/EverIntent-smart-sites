@@ -41,7 +41,7 @@ import {
   activeTheme, 
   getThemeForRoute, 
   type ThemeConfig 
-} from '@/config/themes';
+} from '../lib/themeConfig';
 
 /**
  * Return type for useTheme hook

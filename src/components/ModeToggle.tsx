@@ -12,7 +12,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Sun, Moon } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { getThemeForRoute, applyThemeToRoot } from '@/config/themes';
+import { getThemeForRoute, applyThemeToRoot } from '@/modules/themes/lib/themeConfig';
 
 type Mode = 'light' | 'dark';
 

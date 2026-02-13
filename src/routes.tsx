@@ -30,7 +30,7 @@ import { Layout } from '@/components/layout/Layout';
 import { AdminGuard } from '@/components/admin/AdminGuard';
 import { ClientOnly } from '@/components/ClientOnly';
 import { ScrollToTop } from '@/components/ScrollToTop';
-import { getThemeForRoute, applyThemeToRoot } from '@/config/themes';
+import { getThemeForRoute, applyThemeToRoot } from '@/modules/themes/lib/themeConfig';
 
 // Direct page imports for SSG compatibility
 import Index from './pages/Index';
@@ -73,7 +73,7 @@ import CompareAIEmployee from './pages/CompareAIEmployee';
 import AdminLogin from './pages/admin/Login';
 import AdminResetPassword from './pages/admin/ResetPassword';
 import AdminDashboard from './pages/admin/Dashboard';
-import ThemeTestPage from './pages/admin/ThemeTestPage';
+import ThemeTestPage from '@/modules/themes/components/ThemeTestPage';
 
 // Module registry — triggers self-registration of all modules
 import { getModules } from './modules';
