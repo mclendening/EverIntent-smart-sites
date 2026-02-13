@@ -1,20 +1,19 @@
 /**
- * @fileoverview Smart Lead Product Page - Lead capture tier
+ * @fileoverview Smart Lead (Capture) Product Page ($97/mo)
  * @module pages/smart-websites/SmartLead
- * 
- * Dedicated product page for the $97/mo Smart Lead tier (flagship).
- * Includes breadcrumbs, full SEO/AEO optimization, and purchase CTA.
- * 
- * @brd-reference BRD v35.3 Section 10.1 - Smart Website Tiers
+ *
+ * Features expandable feature cards with rich SEO/AEO content,
+ * Product structured data, and SSG-safe rendering.
  */
 
 import { Link } from 'react-router-dom';
-import { Check, ArrowRight, MessageSquare, Phone, Users, Zap, Clock, BarChart3 } from 'lucide-react';
+import { Check, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { SEO } from '@/components/SEO';
 import { RecommendedAddOns } from '@/components/smart-websites/RecommendedAddOns';
+import { ExpandableFeatureGrid } from '@/components/ai-employee';
+import { smartLeadFeatures } from '@/data/features';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,21 +23,6 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 
-/**
- * Features included in Smart Lead tier
- */
-const features = [
-  { icon: Phone, title: 'Missed-call text-back', description: 'Automatically text leads when you miss their call' },
-  { icon: MessageSquare, title: 'AI chat widget', description: '24/7 intelligent chat captures leads while you sleep' },
-  { icon: Users, title: 'CRM & mobile app', description: 'Manage all leads from your phone or desktop' },
-  { icon: BarChart3, title: 'Full GA4 analytics', description: 'Complete insights into your traffic and conversions' },
-  { icon: Zap, title: 'Lead notifications', description: 'Instant alerts when new leads come in' },
-  { icon: Clock, title: 'Response automation', description: 'Automated follow-ups so no lead goes cold' },
-];
-
-/**
- * Everything from Smart Site (included)
- */
 const includedFromSite = [
   'Professional 5-page website',
   'Mobile responsive design',
@@ -48,9 +32,6 @@ const includedFromSite = [
   'Contact form',
 ];
 
-/**
- * FAQs specific to Smart Lead tier
- */
 const faqs = [
   {
     question: 'Why is Capture the most popular?',
@@ -70,9 +51,6 @@ const faqs = [
   },
 ];
 
-/**
- * Smart Lead product page component
- */
 export default function SmartLead() {
   return (
     <>
@@ -80,6 +58,20 @@ export default function SmartLead() {
         title="Capture: Lead Capture Website $97/mo"
         description="Never miss a lead. Capture includes AI chat, missed-call text-back, CRM, and automation for $97/mo + $249 setup. Built in 5 days."
         canonical="/smart-websites/capture"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: 'Capture Smart Website',
+          description: 'Lead capture website with AI chat, missed-call text-back, CRM, and automation.',
+          brand: { '@type': 'Brand', name: 'EverIntent' },
+          offers: {
+            '@type': 'Offer',
+            price: '97',
+            priceCurrency: 'USD',
+            priceSpecification: { '@type': 'UnitPriceSpecification', price: '97', priceCurrency: 'USD', billingDuration: 'P1M' },
+            availability: 'https://schema.org/InStock',
+          },
+        }}
       />
 
       {/* Hero Section */}
@@ -88,7 +80,6 @@ export default function SmartLead() {
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/5 rounded-full blur-3xl" />
         
         <div className="relative z-10 container mx-auto px-6">
-          {/* Breadcrumb */}
           <Breadcrumb className="mb-8">
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -110,7 +101,6 @@ export default function SmartLead() {
           </Breadcrumb>
 
           <div className="max-w-4xl">
-            {/* Tier badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-6">
               Never Miss a Lead • Best for Ad Buyers
             </div>
@@ -124,7 +114,6 @@ export default function SmartLead() {
               CRM. Everything you need to turn traffic into customers.
             </p>
 
-            {/* Pricing */}
             <div className="flex items-baseline gap-2 mb-4">
               <span className="text-5xl md:text-6xl font-bold text-accent">$97</span>
               <span className="text-xl text-muted-foreground">/month</span>
@@ -148,7 +137,7 @@ export default function SmartLead() {
         </div>
       </section>
 
-      {/* Lead Capture Features */}
+      {/* Lead Capture Features - Expandable */}
       <section className="py-16 lg:py-24 bg-card/30">
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center mb-12">
@@ -160,16 +149,8 @@ export default function SmartLead() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {features.map((feature, index) => (
-              <Card key={index} className="border-accent/20 bg-card/50 shadow-gold-glow">
-                <CardContent className="p-6">
-                  <feature.icon className="h-8 w-8 text-accent mb-4" />
-                  <h3 className="text-lg font-semibold text-foreground mb-2">{feature.title}</h3>
-                  <p className="text-muted-foreground text-sm">{feature.description}</p>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="max-w-4xl mx-auto">
+            <ExpandableFeatureGrid features={smartLeadFeatures} columns={2} />
           </div>
         </div>
       </section>
@@ -253,7 +234,6 @@ export default function SmartLead() {
         </div>
       </section>
 
-      {/* Recommended Add-Ons */}
       <RecommendedAddOns tier="capture" />
 
       {/* CTA Section */}

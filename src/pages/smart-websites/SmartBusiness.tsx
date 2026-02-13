@@ -1,20 +1,19 @@
 /**
- * @fileoverview Smart Business Product Page - Full automation tier
+ * @fileoverview Smart Business (Convert) Product Page ($197/mo)
  * @module pages/smart-websites/SmartBusiness
- * 
- * Dedicated product page for the $197/mo Smart Business tier.
- * Includes breadcrumbs, full SEO/AEO optimization, and purchase CTA.
- * 
- * @brd-reference BRD v35.3 Section 10.1 - Smart Website Tiers
+ *
+ * Features expandable feature cards for new Convert features,
+ * Product structured data, and SSG-safe rendering.
  */
 
 import { Link } from 'react-router-dom';
-import { Check, ArrowRight, Calendar, Star, MessageSquare, Phone, Users, Clock } from 'lucide-react';
+import { Check, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { SEO } from '@/components/SEO';
 import { RecommendedAddOns } from '@/components/smart-websites/RecommendedAddOns';
+import { ExpandableFeatureGrid } from '@/components/ai-employee';
+import { smartBusinessFeatures } from '@/data/features';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,17 +23,6 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 
-/**
- * New features in Smart Business (beyond Smart Lead)
- */
-const newFeatures = [
-  { icon: Calendar, title: 'Online booking system', description: 'Let customers book appointments 24/7 without calling' },
-  { icon: Star, title: 'Review automation', description: 'Automatically request and manage Google reviews' },
-];
-
-/**
- * Everything from Smart Lead (included)
- */
 const includedFromLead = [
   'Professional 5-page website',
   'Mobile responsive design',
@@ -47,9 +35,6 @@ const includedFromLead = [
   'Response automation',
 ];
 
-/**
- * FAQs specific to Smart Business tier
- */
 const faqs = [
   {
     question: 'What\'s the difference from Capture?',
@@ -69,9 +54,6 @@ const faqs = [
   },
 ];
 
-/**
- * Smart Business product page component
- */
 export default function SmartBusiness() {
   return (
     <>
@@ -79,6 +61,20 @@ export default function SmartBusiness() {
         title="Convert: Booking and Reviews Website $197/mo"
         description="Turn visitors into customers. Convert includes online booking + review automation for $197/mo. Let customers book 24/7 and build your Google reputation automatically."
         canonical="/smart-websites/convert"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: 'Convert Smart Website',
+          description: 'Website with online booking and review automation for appointment-based businesses.',
+          brand: { '@type': 'Brand', name: 'EverIntent' },
+          offers: {
+            '@type': 'Offer',
+            price: '197',
+            priceCurrency: 'USD',
+            priceSpecification: { '@type': 'UnitPriceSpecification', price: '197', priceCurrency: 'USD', billingDuration: 'P1M' },
+            availability: 'https://schema.org/InStock',
+          },
+        }}
       />
 
       {/* Hero Section */}
@@ -86,7 +82,6 @@ export default function SmartBusiness() {
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-card/30" />
         
         <div className="relative z-10 container mx-auto px-6">
-          {/* Breadcrumb */}
           <Breadcrumb className="mb-8">
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -108,7 +103,6 @@ export default function SmartBusiness() {
           </Breadcrumb>
 
           <div className="max-w-4xl">
-            {/* Tier badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-6">
               Turn Visitors into Customers • Booking + Reviews
             </div>
@@ -122,7 +116,6 @@ export default function SmartBusiness() {
               Let customers schedule themselves. Build your reputation on autopilot.
             </p>
 
-            {/* Pricing */}
             <div className="flex items-baseline gap-2 mb-4">
               <span className="text-5xl md:text-6xl font-bold text-accent">$197</span>
               <span className="text-xl text-muted-foreground">/month</span>
@@ -146,7 +139,7 @@ export default function SmartBusiness() {
         </div>
       </section>
 
-      {/* New Features */}
+      {/* New Features - Expandable */}
       <section className="py-16 lg:py-24 bg-card/30">
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center mb-12">
@@ -158,16 +151,8 @@ export default function SmartBusiness() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {newFeatures.map((feature, index) => (
-              <Card key={index} className="border-accent/30 bg-card/50 shadow-gold-glow">
-                <CardContent className="p-8">
-                  <feature.icon className="h-12 w-12 text-accent mb-6" />
-                  <h3 className="text-2xl font-semibold text-foreground mb-3">{feature.title}</h3>
-                  <p className="text-muted-foreground text-lg">{feature.description}</p>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="max-w-4xl mx-auto">
+            <ExpandableFeatureGrid features={smartBusinessFeatures} columns={2} />
           </div>
         </div>
       </section>
@@ -251,7 +236,6 @@ export default function SmartBusiness() {
         </div>
       </section>
 
-      {/* Recommended Add-Ons */}
       <RecommendedAddOns tier="convert" />
 
       {/* CTA Section */}

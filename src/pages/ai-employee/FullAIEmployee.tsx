@@ -18,8 +18,9 @@ import {
   SMSDemo,
   AnimatedFlowDiagram, 
   DashboardPreview, 
-  FeatureGrid 
+  ExpandableFeatureGrid 
 } from '@/components/ai-employee';
+import { fullAiFeatures } from '@/data/features';
 import { 
   ArrowRight, 
   Phone, 
@@ -47,18 +48,6 @@ const channels = [
   { icon: Zap, name: 'Live Transfer', description: 'Hot leads to you instantly' },
 ];
 
-const features = [
-  'Everything from After-Hours mode',
-  'Everything from Front Office mode',
-  'Voice AI for phone calls 24/7',
-  'SMS follow-up and conversations',
-  'Web chat widget for your website',
-  'Appointment booking integration',
-  'Call screening and qualification',
-  'Live transfer of hot leads',
-  'Multi-channel lead management',
-  'Priority support and onboarding',
-];
 
 const unlimitedFeatures = [
   { name: 'SMS/Text conversations', description: 'Unlimited AI-powered texting' },
@@ -108,6 +97,20 @@ export default function FullAIEmployee() {
         title="Full AI Employee: Complete Business Automation"
         description="Complete AI Employee: voice, SMS, web chat, booking, screening, and live transfers. Your entire phone operation, automated. $597/mo."
         canonical="/let-ai-handle-it/full-ai-employee"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: 'Full AI Employee',
+          description: 'Complete AI Employee: voice, SMS, web chat, booking, screening, and live transfers.',
+          brand: { '@type': 'Brand', name: 'EverIntent' },
+          offers: {
+            '@type': 'Offer',
+            price: '597',
+            priceCurrency: 'USD',
+            priceSpecification: { '@type': 'UnitPriceSpecification', price: '597', priceCurrency: 'USD', billingDuration: 'P1M' },
+            availability: 'https://schema.org/InStock',
+          },
+        }}
       />
       
       <main className="min-h-screen">
@@ -311,9 +314,7 @@ export default function FullAIEmployee() {
                 </p>
               </div>
 
-              <ClientOnly>
-                <FeatureGrid features={features} columns={2} />
-              </ClientOnly>
+              <ExpandableFeatureGrid features={fullAiFeatures} columns={2} />
             </div>
           </div>
         </section>
