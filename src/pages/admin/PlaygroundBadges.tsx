@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Clock, Zap, TrendingUp, HelpCircle, Star, Sparkles, Diamond, Hexagon, Award, Crown, Shield, Flame, Target, Triangle, Bookmark, CircleDot, ArrowRight, Layers, Eye, Fingerprint, Radio, Aperture, Gem, Scan, Wifi, Activity, Mountain, Cpu, Thermometer, CircuitBoard, Box, Disc } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { AccentPickerBar, AccentWrapper, useAccentState } from '@/components/admin/AccentPicker';
+import { AccentPickerBar, AccentWrapper, useAccentState } from '@/modules/themes/components/AccentPicker';
 
 
 // ─── STYLE VARIANTS ───────────────────────────────────────────

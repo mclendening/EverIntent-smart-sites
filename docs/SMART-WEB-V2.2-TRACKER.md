@@ -681,6 +681,56 @@ interface ModuleDefinition {
 
 ---
 
+## Phase 9 – Module Conformance & Package Extraction 📋 PLANNED
+
+> **Authority**: BRD §30.8–§30.11 (End-State Portable Module Architecture)
+> **Depends On**: Phase 8 complete (base registry operational)
+> **Scope**: Make the theme module fully self-contained and portable; establish the pattern all future modules follow
+
+### Design Intent
+
+Transform the theme module from scattered files across 5+ directories into a single self-contained `src/modules/themes/` package. Establish Zod validation for all JSONB configs, dependency injection for DB access, and a README-driven install process. The result: copy the folder into any Supabase project, run the SQL, import the barrel — done.
+
+### Task Breakdown
+
+#### Batch 1: File Consolidation (9.1–9.3)
+
+| ID | Task | Status | Deps | Notes |
+|----|------|--------|------|-------|
+| 9.1 | Move 18 theme admin components from `src/components/admin/` to `src/modules/themes/components/` | `todo` | — | Rename files, update all import paths across codebase. AdminGuard.tsx stays (platform concern). |
+| 9.2 | Move hooks (`useThemeAdmin.ts`, `useTheme.ts`) to `src/modules/themes/hooks/` | `todo` | — | Update all consumer imports. |
+| 9.3 | Move `themePublisher.ts` to `src/modules/themes/lib/` and `themes.ts` to `src/modules/themes/lib/themeConfig.ts` | `todo` | — | Update all consumer imports. `ThemesPage.tsx` moves to `src/modules/themes/components/`. |
+
+#### Batch 2: Type Safety & Validation (9.4–9.5)
+
+| ID | Task | Status | Deps | Notes |
+|----|------|--------|------|-------|
+| 9.4 | Create `src/modules/themes/schemas.ts` with Zod schemas for all 14 JSONB columns | `todo` | 9.1 | AccentConfig, StaticColors, DarkModeOverrides, GradientConfig, GHLChatConfig, EcommerceColors, CtaVariants, TypographyConfig, MotionConfig, StyleModules, AdaWidgetConfig, PrimitiveTokens, SemanticTokens, ComponentTokens |
+| 9.5 | Create `src/modules/themes/types.ts` consolidating all theme type interfaces | `todo` | 9.1 | Extract AccentConfig, StaticColors, GradientConfig, GHLChatConfig, EcommerceColors, CtaVariants, TypographyConfig, MotionConfig, StyleModule, AdaWidgetConfig, DarkModeOverrides from individual component files into single types.ts. Components import from `../types` instead of defining locally. |
+
+#### Batch 3: DI & Service Layer (9.6–9.7)
+
+| ID | Task | Status | Deps | Notes |
+|----|------|--------|------|-------|
+| 9.6 | Create `ThemeDbClient` interface + `createSupabaseThemeClient()` default implementation in `src/modules/themes/service.ts` | `todo` | 9.4, 9.5 | All DB operations go through interface. `useThemeAdmin.ts` consumes the client instead of importing `supabase` directly. |
+| 9.7 | Wire `useThemeAdmin.ts` to use `ThemeDbClient` via React context or hook parameter | `todo` | 9.6 | Remove all `import { supabase }` from theme module files. The host project provides the client. |
+
+#### Batch 4: Documentation & SQL (9.8–9.9)
+
+| ID | Task | Status | Deps | Notes |
+|----|------|--------|------|-------|
+| 9.8 | Create `src/modules/themes/README.md` — install guide with DB setup, secrets, dependencies | `todo` | 9.7 | Lists: npm deps, Supabase tables, edge functions, env vars, step-by-step integration. |
+| 9.9 | Create `src/modules/themes/sql/schema.sql` — complete CREATE TABLE + RLS + triggers for all 4 theme tables | `todo` | — | `site_themes`, `published_theme_configs`, `page_theme_assignments`, `logo_versions`. Copy of current Supabase schema. |
+
+#### Batch 5: Integration & QA (9.10–9.11)
+
+| ID | Task | Status | Deps | Notes |
+|----|------|--------|------|-------|
+| 9.10 | Update `src/modules/themes/index.ts` — re-export all public API (types, schemas, service, hooks, components) | `todo` | 9.7 | Module barrel becomes the single import point for consumers. |
+| 9.11 | Full QA: verify theme admin hub, editor, publish, export/import, revert all still work after refactor | `todo` | 9.10 | Regression test against Phase 7 feature set. |
+
+---
+
 ## Changelog
 
 | Date | Change | Author |

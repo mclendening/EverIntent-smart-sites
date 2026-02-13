@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, Check, ShoppingCart, User, FileText, CreditCard, Rocket, Palette, Code, Globe } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence, useSpring, useTransform } from 'framer-motion';
-import { AccentPickerBar, AccentWrapper, useAccentState } from '@/components/admin/AccentPicker';
+import { AccentPickerBar, AccentWrapper, useAccentState } from '@/modules/themes/components/AccentPicker';
 
 // ─── SHARED TYPES ─────────────────────────────────────────────
 

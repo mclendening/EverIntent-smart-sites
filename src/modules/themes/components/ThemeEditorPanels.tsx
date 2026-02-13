@@ -56,7 +56,7 @@ import { ThemeImporter } from './ThemeImporter';
 import { DarkModeOverridesEditor, type DarkModeOverrides, DARK_MODE_DEFAULTS } from './DarkModeOverridesEditor';
 import { LogoConfigEditor } from './LogoConfigEditor';
 import type { EditorSection } from './ThemeEditorNav';
-import type { AccentConfig, StaticColors, GradientConfig, GHLChatConfig, Theme } from '@/hooks/useThemeAdmin';
+import type { AccentConfig, StaticColors, GradientConfig, GHLChatConfig, Theme } from '../hooks/useThemeAdmin';
 
 // ─── PANEL WRAPPER ───────────────────────────────────────────
 

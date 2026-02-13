@@ -19,11 +19,11 @@
  */
 
 import { useState } from 'react';
-import type { AccentConfig, StaticColors, GradientConfig } from '@/hooks/useThemeAdmin';
-import type { EcommerceColors } from '@/components/admin/EcommerceColorEditor';
-import type { TypographyConfig } from '@/components/admin/TypographyEditor';
-import type { MotionConfig } from '@/components/admin/MotionEditor';
-import type { DarkModeOverrides } from '@/components/admin/DarkModeOverridesEditor';
+import type { AccentConfig, StaticColors, GradientConfig } from '../hooks/useThemeAdmin';
+import type { EcommerceColors } from './EcommerceColorEditor';
+import type { TypographyConfig } from './TypographyEditor';
+import type { MotionConfig } from './MotionEditor';
+import type { DarkModeOverrides } from './DarkModeOverridesEditor';
 import { Phone, Mail, Star, ArrowRight, Check, Shield, Clock, Sun, Moon } from 'lucide-react';
 
 interface ThemeLiveCanvasProps {

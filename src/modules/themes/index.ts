@@ -30,7 +30,7 @@ import { registerModule } from '../registry';
 import type { ModuleDefinition } from '../types';
 import { ModuleCategory } from '../types';
 import { Palette } from 'lucide-react';
-import AdminThemes from '@/pages/admin/Themes';
+import AdminThemes from './components/ThemesPage';
 
 export const themesModule: ModuleDefinition = {
   id: 'themes',

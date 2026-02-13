@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { AccentPickerBar, AccentWrapper, useAccentState } from '@/components/admin/AccentPicker';
+import { AccentPickerBar, AccentWrapper, useAccentState } from '@/modules/themes/components/AccentPicker';
 
 // ─── SHOWCASE CARD ────────────────────────────────────────────
 

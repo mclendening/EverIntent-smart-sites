@@ -16,7 +16,7 @@
  */
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { activeTheme } from '@/config/themes';
+import { activeTheme } from '@/modules/themes/lib/themeConfig';
 import {
   Accessibility, Type, AlignLeft, AlignCenter, AlignRight,
   Bold, Link2, MousePointer2, Search, X, RotateCcw,

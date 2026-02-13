@@ -30,7 +30,7 @@ import { ArrowLeft, Loader2, RotateCcw, Save, Settings2, Eye, SlidersHorizontal 
 import { ThemeEditorNav, type EditorSection } from './ThemeEditorNav';
 import { ThemeEditorPanels } from './ThemeEditorPanels';
 import { ThemeLiveCanvas } from './ThemeLiveCanvas';
-import type { Theme, AccentConfig, StaticColors, GradientConfig, GHLChatConfig } from '@/hooks/useThemeAdmin';
+import type { Theme, AccentConfig, StaticColors, GradientConfig, GHLChatConfig } from '../hooks/useThemeAdmin';
 import type { EcommerceColors, CtaVariants } from './EcommerceColorEditor';
 import type { TypographyConfig } from './TypographyEditor';
 import type { MotionConfig } from './MotionEditor';

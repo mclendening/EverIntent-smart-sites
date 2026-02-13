@@ -12,7 +12,7 @@ import { NavLink } from '@/components/NavLink';
 import { NavDropdown } from '@/components/layout/NavDropdown';
 import { LogoRenderer } from '@/components/logo/LogoRenderer';
 import { ModeToggle } from '@/components/ModeToggle';
-import { activeTheme } from '@/config/themes';
+import { activeTheme } from '@/modules/themes/lib/themeConfig';
 import {
   Sheet,
   SheetContent,

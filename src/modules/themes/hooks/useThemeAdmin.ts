@@ -36,13 +36,13 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useLogoExport } from '@/components/logo';
 import type { Tables, Json } from '@/integrations/supabase/types';
-import type { EcommerceColors, CtaVariants } from '@/components/admin/EcommerceColorEditor';
-import type { TypographyConfig } from '@/components/admin/TypographyEditor';
-import type { MotionConfig } from '@/components/admin/MotionEditor';
-import type { StyleModule } from '@/components/admin/StyleModulesEditor';
-import type { AdaWidgetConfig } from '@/components/admin/AdaWidgetConfigEditor';
-import { DARK_MODE_DEFAULTS, type DarkModeOverrides } from '@/components/admin/DarkModeOverridesEditor';
-import type { EditorSection } from '@/components/admin/ThemeEditorNav';
+import type { EcommerceColors, CtaVariants } from '../components/EcommerceColorEditor';
+import type { TypographyConfig } from '../components/TypographyEditor';
+import type { MotionConfig } from '../components/MotionEditor';
+import type { StyleModule } from '../components/StyleModulesEditor';
+import type { AdaWidgetConfig } from '../components/AdaWidgetConfigEditor';
+import { DARK_MODE_DEFAULTS, type DarkModeOverrides } from '../components/DarkModeOverridesEditor';
+import type { EditorSection } from '../components/ThemeEditorNav';
 
 // ─── TYPES ───────────────────────────────────────────────────
 

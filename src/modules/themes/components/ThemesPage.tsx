@@ -41,19 +41,19 @@
 
 import { Link } from 'react-router-dom';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
-import { useThemeAdmin } from '@/hooks/useThemeAdmin';
+import { useThemeAdmin } from '../hooks/useThemeAdmin';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { ArrowLeft, Rocket, Eye, Download, Loader2, Copy, CheckCircle, Github, AlertTriangle, Save } from 'lucide-react';
-import { ThemeListView } from '@/components/admin/ThemeListView';
+import { ThemeListView } from './ThemeListView';
 
-import { ThemeEditorView } from '@/components/admin/ThemeEditorView';
-import type { StyleModule } from '@/components/admin/StyleModulesEditor';
+import { ThemeEditorView } from './ThemeEditorView';
+import type { StyleModule } from './StyleModulesEditor';
 import type { Json } from '@/integrations/supabase/types';
-import { generateThemesTs, generateProductionCss, type ThemeGeneratorParams } from '@/lib/themePublisher';
+import { generateThemesTs, generateProductionCss, type ThemeGeneratorParams } from '../lib/themePublisher';
 
 export default function AdminThemes() {
   const { user } = useAdminAuth();
