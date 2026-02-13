@@ -2917,6 +2917,31 @@ The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-
 
 ---
 
+### §29.15 Architecture — ThemePublisher & CSS Generation Module (Phase 8 Batch 4)
+
+**Date:** 2026-02-13  
+**Type:** Architecture Extraction  
+**Status:** ✅ Complete
+
+**Summary:** Extracted the ~350-line `generateThemesTs()` and `generateProductionCss()` functions from `Themes.tsx` into a standalone, portable module at `src/lib/themePublisher.ts`. Introduces a `ThemePublisher` interface to decouple the publish pipeline from environment-specific concerns (GitHub, Vercel, clipboard).
+
+**Changes:**
+
+| Item | Action | Rationale |
+|------|--------|-----------|
+| `src/lib/themePublisher.ts` | **Created** | Standalone module containing `ThemePublisher` interface, `generateThemesTs()`, `generateProductionCss()`, and typed input contracts |
+| `Themes.tsx` → inline generators | **Removed** | Functions moved to `themePublisher.ts`; page now imports them |
+| `ThemePublisher` interface | **Defined** | Generic `{ generateConfig, generateCss, publish }` contract for environment-agnostic publishing |
+| Type safety | **Improved** | Generator function params changed from `any` to typed `Record<string, string>` contracts |
+
+**Files Modified:**
+| File | Change |
+|------|--------|
+| `src/lib/themePublisher.ts` | New file — ThemePublisher interface + extracted generators |
+| `src/pages/admin/Themes.tsx` | Removed ~350 lines of inline generators; imports from new module |
+
+---
+
 **END OF REPORT**
 
 *This document serves as the comprehensive baseline comparison and progression analysis. The current codebase structure, navigation, and pricing represents the verified offering baseline for EverIntent.*
@@ -2932,3 +2957,4 @@ The admin shell was refactored from a hardcoded monolith into a dynamic, plugin-
 *Updated: 2026-02-13 | Added §29.12 Shopify+Shadcn Migration Cleanup (Batch 1)*
 *Updated: 2026-02-13 | Added §29.13 Type Safety — ThemeEditorPanels (Batch 2)*
 *Updated: 2026-02-13 | Added §29.14 Editor UX Polish (Batch 3)*
+*Updated: 2026-02-13 | Added §29.15 Architecture — ThemePublisher & CSS Generation (Batch 4)*
