@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://everintentsmartsites.com/sitemap.xml
+Sitemap: https://everintent.com/sitemap.xml

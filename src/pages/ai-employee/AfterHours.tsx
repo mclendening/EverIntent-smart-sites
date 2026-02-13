@@ -102,6 +102,7 @@ export default function AfterHours() {
       <SEO 
         title="After-Hours AI: Complete Night Coverage"
         description="AI answers calls, books appointments, and texts back missed calls while you're closed. Wake up to booked jobs. $197/mo."
+        canonical="/let-ai-handle-it/after-hours"
       />
       
       <main className="min-h-screen">

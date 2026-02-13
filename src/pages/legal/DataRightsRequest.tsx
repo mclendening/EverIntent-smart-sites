@@ -135,6 +135,7 @@ export default function DataRightsRequest() {
       <SEO
         title="Data Rights Request"
         description="Submit a data rights request to EverIntent. Exercise your CCPA rights to know, delete, or correct your personal data."
+        canonical="/legal/data-request"
       />
 
       <div className="min-h-screen bg-background">
