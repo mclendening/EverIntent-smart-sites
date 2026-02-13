@@ -17,6 +17,7 @@ import './submissions';
 import './portfolio';
 import './testimonials';
 import './playground';
+import './module-manager';
 
 // Re-export registry utilities for convenience
 export { getModules, getModule, registerModule } from './registry';
