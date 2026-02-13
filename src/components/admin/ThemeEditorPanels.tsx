@@ -56,6 +56,7 @@ import { ThemeImporter } from './ThemeImporter';
 import { DarkModeOverridesEditor, type DarkModeOverrides, DARK_MODE_DEFAULTS } from './DarkModeOverridesEditor';
 import { LogoConfigEditor } from './LogoConfigEditor';
 import type { EditorSection } from './ThemeEditorNav';
+import type { AccentConfig, StaticColors, GradientConfig, GHLChatConfig, Theme } from '@/hooks/useThemeAdmin';
 
 // ─── PANEL WRAPPER ───────────────────────────────────────────
 
@@ -77,8 +78,8 @@ function AccentPanel({
   accentConfig,
   setAccentConfig,
 }: {
-  accentConfig: any;
-  setAccentConfig: (c: any) => void;
+  accentConfig: AccentConfig;
+  setAccentConfig: (c: AccentConfig) => void;
 }) {
   return (
     <PanelWrapper title="Accent Color" description="Primary brand/CTA color used for buttons, links, and highlights.">
@@ -152,10 +153,10 @@ function LightColorsPanel({
   staticColors,
   setStaticColors,
 }: {
-  staticColors: any;
-  setStaticColors: (c: any) => void;
+  staticColors: StaticColors;
+  setStaticColors: (c: StaticColors) => void;
 }) {
-  const colors: { key: string; label: string; desc?: string }[] = [
+  const colors: { key: keyof StaticColors; label: string; desc?: string }[] = [
     { key: 'background', label: 'Background', desc: 'Main page background' },
     { key: 'foreground', label: 'Foreground', desc: 'Main text color' },
     { key: 'primary', label: 'Primary', desc: 'Nav / header backgrounds' },
@@ -197,17 +198,17 @@ function GradientsPanel({
   gradientConfigs,
   setGradientConfigs,
 }: {
-  gradientConfigs: any;
-  setGradientConfigs: (c: any) => void;
+  gradientConfigs: GradientConfig;
+  setGradientConfigs: (c: GradientConfig) => void;
 }) {
   return (
     <PanelWrapper title="Gradients" description="CSS gradient values for hero, CTA, and text effects.">
       <div className="space-y-4">
-        {[
-          { key: 'hero', label: 'Hero Gradient', desc: 'Full-width hero backgrounds' },
-          { key: 'cta', label: 'CTA Gradient', desc: 'Call-to-action button backgrounds' },
-          { key: 'text', label: 'Text Gradient', desc: 'Applied via .text-gradient utility' },
-        ].map(({ key, label, desc }) => (
+        {([
+          { key: 'hero' as const, label: 'Hero Gradient', desc: 'Full-width hero backgrounds' },
+          { key: 'cta' as const, label: 'CTA Gradient', desc: 'Call-to-action button backgrounds' },
+          { key: 'text' as const, label: 'Text Gradient', desc: 'Applied via .text-gradient utility' },
+        ]).map(({ key, label, desc }) => (
           <div key={key} className="space-y-2">
             <Label className="text-xs font-medium">{label}</Label>
             {desc && <p className="text-[10px] text-muted-foreground">{desc}</p>}
@@ -235,13 +236,13 @@ function GhlChatPanel({
   accentConfig,
   staticColors,
 }: {
-  ghlChatConfig: any;
-  setGhlChatConfig: (c: any) => void;
-  accentConfig: any;
-  staticColors: any;
+  ghlChatConfig: GHLChatConfig;
+  setGhlChatConfig: (c: GHLChatConfig) => void;
+  accentConfig: AccentConfig;
+  staticColors: StaticColors;
 }) {
   const accentStr = `${accentConfig.h} ${accentConfig.s}% ${accentConfig.l}%`;
-  const fields: { key: string; label: string }[] = [
+  const fields: { key: keyof GHLChatConfig; label: string }[] = [
     { key: 'textareaBg', label: 'Textarea Background' },
     { key: 'textareaText', label: 'Textarea Text' },
     { key: 'textareaBorder', label: 'Textarea Border' },
@@ -315,14 +316,14 @@ function GhlChatPanel({
 interface ThemeEditorPanelsProps {
   active: EditorSection;
   // State & setters — passed through from Themes.tsx
-  accentConfig: any;
-  setAccentConfig: (c: any) => void;
-  staticColors: any;
-  setStaticColors: (c: any) => void;
-  gradientConfigs: any;
-  setGradientConfigs: (c: any) => void;
-  ghlChatConfig: any;
-  setGhlChatConfig: (c: any) => void;
+  accentConfig: AccentConfig;
+  setAccentConfig: (c: AccentConfig) => void;
+  staticColors: StaticColors;
+  setStaticColors: (c: StaticColors) => void;
+  gradientConfigs: GradientConfig;
+  setGradientConfigs: (c: GradientConfig) => void;
+  ghlChatConfig: GHLChatConfig;
+  setGhlChatConfig: (c: GHLChatConfig) => void;
   darkModeOverrides: DarkModeOverrides;
   setDarkModeOverrides: (c: DarkModeOverrides) => void;
   ecommerceColors: EcommerceColors;
@@ -340,10 +341,10 @@ interface ThemeEditorPanelsProps {
   adaWidgetConfig: AdaWidgetConfig;
   setAdaWidgetConfig: (c: AdaWidgetConfig) => void;
   // Logo
-  selectedTheme: any;
-  setSelectedTheme: (t: any) => void;
+  selectedTheme: Theme | null;
+  setSelectedTheme: (t: Theme | null) => void;
   // Import/export
-  themes: any[];
+  themes: Theme[];
   fetchData: () => void;
 }
 
@@ -491,7 +492,7 @@ export function ThemeEditorPanels(props: ThemeEditorPanelsProps) {
       {active === 'import' && (
         <PanelWrapper title="Import Theme" description="Upload a v2.0 JSON theme file to create or update a theme.">
           <Accordion type="multiple" className="w-full">
-            <ThemeImporter existingThemeNames={themes.map((t: any) => t.name)} onImportComplete={fetchData} />
+            <ThemeImporter existingThemeNames={themes.map((t) => t.name)} onImportComplete={fetchData} />
           </Accordion>
         </PanelWrapper>
       )}
@@ -500,7 +501,7 @@ export function ThemeEditorPanels(props: ThemeEditorPanelsProps) {
         <PanelWrapper title="Logo Configuration" description="Brand logo element styling and export.">
           <LogoConfigEditor
             selectedLogoId={selectedTheme?.logo_version_id}
-            onLogoChange={(logoId: string) => setSelectedTheme({ ...selectedTheme, logo_version_id: logoId })}
+            onLogoChange={(logoId: string) => selectedTheme && setSelectedTheme({ ...selectedTheme, logo_version_id: logoId })}
             accentHsl={accentHsl}
             previewBgColor={`hsl(${staticColors.background})`}
           />
