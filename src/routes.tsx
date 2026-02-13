@@ -548,10 +548,10 @@ export const routes: RouteRecord[] = [
         path: 'services',
         Component: Services,
       },
-      // Redirect /service (singular) → /services (plural) to prevent 404s
+      // Alias: /service (singular) also serves the Services hub
       {
         path: 'service',
-        element: React.createElement(Navigate, { to: '/services', replace: true }),
+        Component: Services,
       },
       // Services (excluding pages with dedicated components)
       ...servicePaths.filter(p => p !== '/let-ai-handle-it' && p !== '/services').map(createPlaceholderChild),
