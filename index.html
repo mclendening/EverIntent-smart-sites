@@ -33,11 +33,9 @@
     <script>
       (function(){
         // Read user preference from localStorage, fallback to 'dark'
-        var stored = localStorage.getItem('theme-mode') || 'dark';
-        var mode = stored;
-        if (mode === 'system') {
-          mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
+        // 'system' mode removed — legacy values migrate to 'dark'
+        var stored = localStorage.getItem('theme-mode');
+        var mode = (stored === 'light') ? 'light' : 'dark';
         if (mode === 'dark') {
           document.documentElement.classList.add('dark');
         } else {

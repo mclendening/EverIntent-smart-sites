@@ -2,26 +2,22 @@
  * @fileoverview Light/Dark/System mode toggle
  * @module components/ModeToggle
  * 
- * Reads/writes mode preference to localStorage and applies .dark class to <html>.
+ * Reads/writes mode preference (light | dark) to localStorage and applies
+ * .dark class to <html>. System/OS-preference mode is intentionally omitted
+ * to keep the UX simple — users pick light or dark explicitly.
  * Integrates with the FOUC prevention script in index.html.
  * Does NOT use next-themes — all styling flows through CSS custom properties.
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Sun, Moon, Monitor } from 'lucide-react';
+import { Sun, Moon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getThemeForRoute, applyThemeToRoot } from '@/config/themes';
 
-type Mode = 'light' | 'dark' | 'system';
-
-function getSystemPreference(): 'light' | 'dark' {
-  if (typeof window === 'undefined') return 'dark';
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
+type Mode = 'light' | 'dark';
 
 function applyMode(mode: Mode) {
-  const resolved = mode === 'system' ? getSystemPreference() : mode;
-  if (resolved === 'dark') {
+  if (mode === 'dark') {
     document.documentElement.classList.add('dark');
   } else {
     document.documentElement.classList.remove('dark');
@@ -30,13 +26,15 @@ function applyMode(mode: Mode) {
 
 function getStoredMode(): Mode {
   if (typeof window === 'undefined') return 'dark';
-  return (localStorage.getItem('theme-mode') as Mode) || 'dark';
+  const stored = localStorage.getItem('theme-mode');
+  // Migrate any legacy 'system' value to 'dark'
+  if (!stored || stored === 'system') return 'dark';
+  return stored as Mode;
 }
 
 const modes: { value: Mode; icon: typeof Sun; label: string }[] = [
   { value: 'light', icon: Sun, label: 'Light' },
   { value: 'dark', icon: Moon, label: 'Dark' },
-  { value: 'system', icon: Monitor, label: 'System' },
 ];
 
 interface ModeToggleProps {
@@ -62,14 +60,6 @@ export function ModeToggle({ className, variant = 'compact' }: ModeToggleProps) 
     requestAnimationFrame(() => applyThemeToRoot(theme));
   }, [mode]);
 
-  // Listen for system preference changes when in 'system' mode
-  useEffect(() => {
-    if (mode !== 'system') return;
-    const mql = window.matchMedia('(prefers-color-scheme: dark)');
-    const handler = () => applyMode('system');
-    mql.addEventListener('change', handler);
-    return () => mql.removeEventListener('change', handler);
-  }, [mode]);
 
   if (variant === 'expanded') {
     return (

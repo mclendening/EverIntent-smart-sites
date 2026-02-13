@@ -17,7 +17,6 @@
  * ## Options
  * - **dark**: Always dark mode (current system default).
  * - **light**: Always light mode.
- * - **system**: Respects `prefers-color-scheme` media query.
  *
  * ## Security
  * - Admin-only. Value is baked into published static config.
@@ -35,7 +34,7 @@
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
-import { Moon, Sun, Monitor } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
 
 interface Props {
   defaultMode: string;
@@ -46,7 +45,6 @@ export function DefaultModeSelector({ defaultMode, onChange }: Props) {
   const icons: Record<string, React.ReactNode> = {
     dark: <Moon className="h-4 w-4" />,
     light: <Sun className="h-4 w-4" />,
-    system: <Monitor className="h-4 w-4" />,
   };
 
   return (
@@ -79,11 +77,6 @@ export function DefaultModeSelector({ defaultMode, onChange }: Props) {
                   <Sun className="h-3 w-3" /> Light
                 </div>
               </SelectItem>
-              <SelectItem value="system" className="text-xs">
-                <div className="flex items-center gap-2">
-                  <Monitor className="h-3 w-3" /> System (OS preference)
-                </div>
-              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -91,8 +84,7 @@ export function DefaultModeSelector({ defaultMode, onChange }: Props) {
         <div className="rounded-lg border p-3 bg-muted/30">
           <p className="text-[10px] text-muted-foreground">
             <strong>dark</strong> — Always dark mode (current default)<br />
-            <strong>light</strong> — Always light mode<br />
-            <strong>system</strong> — Follows user's OS preference via <code>prefers-color-scheme</code>
+            <strong>light</strong> — Always light mode
           </p>
         </div>
       </AccordionContent>
