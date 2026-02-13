@@ -1,17 +1,23 @@
 /**
  * @fileoverview AdminThemes — Thin orchestrator shell for the theme administration system.
  *
- * Implements a mobile-first drill-down navigation pattern:
- * 1. **ThemeListView**: Full-viewport list of themes with dense cards.
- * 2. **ThemeDetailView**: Full-viewport read-only dashboard with actions.
- * 3. **ThemeEditorView**: Full-viewport editor with pill-bar navigation.
+ * Implements a Shopify + Shadcn hybrid 2-level navigation pattern:
+ * 1. **ThemeListView (Hub)**: Visual card grid with ThemeMockup previews using actual theme tokens.
+ * 2. **ThemeEditorView (Editor)**: Split-screen — compact control sidebar (left) + live component
+ *    canvas (right) showing actual themed UI that updates in real-time.
+ *
+ * The Detail view was eliminated (2026-02-13) to match Shopify/Shadcn patterns where clicking
+ * a theme card goes directly to the editor. All actions (save, revert, publish, export) live
+ * in the editor toolbar.
  *
  * All state management, CRUD operations, and business logic are encapsulated
  * in the useThemeAdmin hook. This file is purely a routing shell + dialogs.
  *
  * ## Architecture
- * - No split panels — each view occupies 100% of the viewport.
- * - Mobile-first (390px+ optimized), scales gracefully to desktop.
+ * - Hub: Visual preview cards → click → Editor (2-level, no intermediate detail view).
+ * - Editor: Left sidebar (~360px) with ThemeEditorNav + ThemeEditorPanels.
+ *   Right panel: ThemeLiveCanvas rendering nav, hero, trust bar, cards, testimonial, CTA form.
+ * - Mobile: Controls/Preview toggle replaces split-screen on <lg viewports.
  * - Dialogs (Publish, Revert, Save Default) live here since they're
  *   cross-cutting concerns shared across views.
  *
@@ -28,8 +34,8 @@
  * - Admin-only route, not SSG-rendered.
  *
  * ## Portability
- * - Copy this file + useThemeAdmin.ts + ThemeListView + ThemeDetailView +
- *   ThemeEditorView + ThemeSummaryDashboard + ThemeEditorNav + ThemeEditorPanels.
+ * - Copy this file + useThemeAdmin.ts + ThemeListView + ThemeLiveCanvas +
+ *   ThemeEditorView + ThemeEditorNav + ThemeEditorPanels.
  *   Requires site_themes, published_theme_configs, logo_versions tables.
  */
 

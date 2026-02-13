@@ -2622,6 +2622,37 @@ Query parameters pre-fill GHL form: `first_name`, `last_name`, `email`, `phone`,
 | Total mismatch | Client-side verification before submit; reject if mismatch |
 | Network timeout | Retry logic with exponential backoff (3 attempts) |
 
+---
+
+## 29. Theme Admin Architecture Migration (2026-02-13)
+
+### 29.1 Shopify + Shadcn Hybrid Migration
+
+**Change Type:** Intentional architectural redesign  
+**Date:** 2026-02-13  
+**Scope:** Theme admin UI (Hub, Editor, navigation flow)
+
+**Previous Architecture (3-level drill-down):**
+- ThemeListView (data table/cards) → ThemeDetailView (read-only dashboard) → ThemeEditorView (full-viewport editor)
+- `ThemeAdminView = 'list' | 'detail' | 'editor'`
+
+**New Architecture (2-level, Shopify pattern):**
+- ThemeListView (visual ThemeMockup cards) → ThemeEditorView (split-screen: controls + live canvas)
+- `ThemeAdminView = 'list' | 'editor'`
+- ThemeDetailView **eliminated** — clicking a card goes directly to the editor
+
+**Files Changed:**
+| File | Change |
+|------|--------|
+| `src/components/admin/ThemeListView.tsx` | Rebuilt with ThemeMockup components rendering actual theme tokens (nav, hero, CTA, cards, gold accent bar). Color dot palette. Hover actions (Activate, Delete). |
+| `src/components/admin/ThemeEditorView.tsx` | Rebuilt as split-screen: ~360px control sidebar (left) + ThemeLiveCanvas (right). Mobile: Controls/Preview toggle. Collapsible metadata. Compact 40px toolbar. |
+| `src/components/admin/ThemeLiveCanvas.tsx` | **New file.** Full website mockup (nav, hero, trust bar, service cards, testimonial, CTA form, footer) styled with resolved theme tokens. |
+| `src/hooks/useThemeAdmin.ts` | `ThemeAdminView` reduced to `'list' \| 'editor'`. `selectTheme` → `'editor'` (was `'detail'`). Save/revert → `'list'` (was `'detail'`). |
+| `src/pages/admin/Themes.tsx` | ThemeDetailView import removed. Detail rendering block replaced with comment. JSDoc updated. |
+
+**Rationale:** Professional theme systems (Shopify, Shadcn Studio, Webflow) use a 2-level pattern where the hub shows visual previews and clicking enters the editor directly. The intermediate detail view added friction without value — all actions (save, revert, publish, export) belong in the editor toolbar.
+
+**Status:** ✅ INTENTIONAL CHANGE
 ### 28.11 Abandon & Resume
 
 - Submission ID stored in `sessionStorage`

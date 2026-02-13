@@ -3,7 +3,7 @@
  *
  * Encapsulates all CRUD operations, config parsing, publish/revert/export workflows,
  * and local state for the theme admin UI. Decoupled from any specific layout or view
- * so the same hook powers list, detail, and editor views.
+ * so the same hook powers the Hub (list) and Editor (split-screen) views.
  *
  * ## Data Contract
  * - Reads/writes `site_themes` table (JSONB columns: accent_config, static_colors,
