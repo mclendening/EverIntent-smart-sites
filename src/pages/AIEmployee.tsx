@@ -108,7 +108,7 @@ export default function AIEmployee() {
     <>
       <SEO 
         title="AI Employee: 24/7 AI Phone Answering"
-        description="Your phone answered 24/7. Missed calls recovered. Appointments booked automatically. AI Employee starts at $197/mo."
+        description="AI receptionist for Long Beach, Orange County, and LA businesses. Answers calls 24/7, books appointments, recovers missed leads. From $197/mo."
         canonical="/let-ai-handle-it"
       />
       

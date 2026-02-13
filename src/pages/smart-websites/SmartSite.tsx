@@ -47,21 +47,32 @@ export default function SmartSite() {
     <>
       <SEO 
         title="Launch: Professional Website for $249 One-Time"
-        description="Get a professional 5-page website for just $249 one-time. Includes mobile design, SSL, SEO setup, and Google Maps. Built in 5 days. You own everything."
+        description="Get a professional 5-page website for just $249 one-time in Long Beach, Orange County, and LA. Mobile design, SSL, SEO setup. Built in 5 days."
         canonical="/smart-websites/launch"
-        structuredData={{
-          '@context': 'https://schema.org',
-          '@type': 'Product',
-          name: 'Launch Smart Website',
-          description: 'Professional 5-page website with mobile design, SSL, SEO setup, and Google Maps.',
-          brand: { '@type': 'Brand', name: 'EverIntent' },
-          offers: {
-            '@type': 'Offer',
-            price: '249',
-            priceCurrency: 'USD',
-            availability: 'https://schema.org/InStock',
+        structuredData={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name: 'Launch Smart Website',
+            description: 'Professional 5-page website with mobile design, SSL, SEO setup, and Google Maps.',
+            brand: { '@type': 'Brand', name: 'EverIntent' },
+            offers: {
+              '@type': 'Offer',
+              price: '249',
+              priceCurrency: 'USD',
+              availability: 'https://schema.org/InStock',
+            },
           },
-        }}
+          {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faqs.map(faq => ({
+              '@type': 'Question',
+              name: faq.question,
+              acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+            })),
+          },
+        ]}
       />
 
       {/* Hero Section */}

@@ -100,7 +100,7 @@ export default function FrontOffice() {
     <>
       <SEO 
         title="Front Office AI: Screen, Qualify and Transfer Calls"
-        description="AI screens every call, qualifies leads, and only transfers hot prospects. Stop wasting time on tire-kickers. $297/mo."
+        description="AI screens every call, qualifies leads, and transfers hot prospects for Long Beach, Orange County, and LA businesses. $297/mo."
         canonical="/let-ai-handle-it/front-office"
         structuredData={{
           '@context': 'https://schema.org',

@@ -3383,3 +3383,40 @@ Admin routes ──maps──> module.routes[] ──wraps──> AdminGuard HOC
 5. Add import './themes' to src/modules/index.ts
 6. Admin shell auto-discovers theme routes + navigation
 ```
+
+---
+
+## 14. SEO/AEO Gap Remediation — ✅ CLOSED 2026-02-13
+
+### Gap 1: Duplicate Meta Tags — ✅ FIXED
+Removed hardcoded `<title>`, `<meta description>`, OG, and Twitter tags from `index.html`. The `<SEO>` component is now the sole manager of all head metadata.
+
+### Gap 2: Missing postalAddress — ✅ FIXED
+Added `postalAddress` (Long Beach, CA 90815), `geo` coordinates, and granular `areaServed` (Long Beach, Los Angeles, Orange County) to the homepage `LocalBusiness` JSON-LD in `Index.tsx`.
+
+### Gap 3: Placeholder/NotFound noIndex — ✅ FIXED
+Added `noIndex` to `Placeholder.tsx` and `NotFound.tsx` to prevent soft-404 indexing.
+
+### Gap 4: FAQPage Schema — ✅ FIXED
+Added `FAQPage` structured data to all 4 Smart Website tier pages (Launch, Capture, Convert, Scale) via the `<SEO>` component's `structuredData` array prop. Migrated `Pricing.tsx` from `dangerouslySetInnerHTML` to the `<SEO>` component for consistency.
+
+### Gap 5: Product Schema — ✅ FIXED (v50)
+Product schema was added to all 7 tier pages during the ExpandableFeatureCard build cycle.
+
+### Gap 6: Missing Canonicals — ✅ VERIFIED
+All public pages confirmed to have `canonical` props. Compare pages already had canonicals.
+
+### Gap 7: noIndex Coverage — ✅ FIXED
+`Placeholder.tsx`, `NotFound.tsx` now have `noIndex`. Admin pages are CSR-only (not SSG-rendered).
+
+### Gap 10: Keyword Localization — ✅ FIXED
+Added "Long Beach, Orange County, and LA" location modifiers to meta descriptions across 12 pages: Index, About, Contact, Pricing, SmartWebsites, Industries, AIEmployee, AfterHours, FrontOffice, FullAIEmployee, and all 4 Smart Website tiers.
+
+### Gap 8: Location Landing Pages — 🟠 DEFERRED
+Requires new page components and routes. Tracked for future phase.
+
+### Gap 9: GBP/Citation Alignment — 🟢 INFO
+Not a code issue. Footer NAP matches JSON-LD. Operational task.
+
+### SEO Component Enhancement
+Updated `SEO.tsx` to accept `structuredData` as either a single object or an array of objects, enabling pages to combine `Product` + `FAQPage` schemas without workaround patterns.

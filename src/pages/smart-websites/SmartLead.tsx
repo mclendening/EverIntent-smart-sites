@@ -56,22 +56,33 @@ export default function SmartLead() {
     <>
       <SEO 
         title="Capture: Lead Capture Website $97/mo"
-        description="Never miss a lead. Capture includes AI chat, missed-call text-back, CRM, and automation for $97/mo + $249 setup. Built in 5 days."
+        description="Never miss a lead in Long Beach, Orange County, or LA. AI chat, missed-call text-back, CRM for $97/mo. Built in 5 days."
         canonical="/smart-websites/capture"
-        structuredData={{
-          '@context': 'https://schema.org',
-          '@type': 'Product',
-          name: 'Capture Smart Website',
-          description: 'Lead capture website with AI chat, missed-call text-back, CRM, and automation.',
-          brand: { '@type': 'Brand', name: 'EverIntent' },
-          offers: {
-            '@type': 'Offer',
-            price: '97',
-            priceCurrency: 'USD',
-            priceSpecification: { '@type': 'UnitPriceSpecification', price: '97', priceCurrency: 'USD', billingDuration: 'P1M' },
-            availability: 'https://schema.org/InStock',
+        structuredData={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name: 'Capture Smart Website',
+            description: 'Lead capture website with AI chat, missed-call text-back, CRM, and automation.',
+            brand: { '@type': 'Brand', name: 'EverIntent' },
+            offers: {
+              '@type': 'Offer',
+              price: '97',
+              priceCurrency: 'USD',
+              priceSpecification: { '@type': 'UnitPriceSpecification', price: '97', priceCurrency: 'USD', billingDuration: 'P1M' },
+              availability: 'https://schema.org/InStock',
+            },
           },
-        }}
+          {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faqs.map(faq => ({
+              '@type': 'Question',
+              name: faq.question,
+              acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+            })),
+          },
+        ]}
       />
 
       {/* Hero Section */}

@@ -61,22 +61,33 @@ export default function SmartGrowth() {
     <>
       <SEO 
         title="Scale: AI-Powered Growth Engine $297/mo"
-        description="AI Voice Agent + unified inbox + advanced automations for $297/mo. The website that runs your business. $997 setup, 5-day delivery, quarterly strategy calls."
+        description="AI Voice Agent + unified inbox + automations for Long Beach, Orange County, and LA businesses. $297/mo, 5-day delivery, quarterly strategy calls."
         canonical="/smart-websites/scale"
-        structuredData={{
-          '@context': 'https://schema.org',
-          '@type': 'Product',
-          name: 'Scale Smart Website',
-          description: 'AI-powered growth engine with Voice Agent, unified inbox, and advanced automations.',
-          brand: { '@type': 'Brand', name: 'EverIntent' },
-          offers: {
-            '@type': 'Offer',
-            price: '297',
-            priceCurrency: 'USD',
-            priceSpecification: { '@type': 'UnitPriceSpecification', price: '297', priceCurrency: 'USD', billingDuration: 'P1M' },
-            availability: 'https://schema.org/InStock',
+        structuredData={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name: 'Scale Smart Website',
+            description: 'AI-powered growth engine with Voice Agent, unified inbox, and advanced automations.',
+            brand: { '@type': 'Brand', name: 'EverIntent' },
+            offers: {
+              '@type': 'Offer',
+              price: '297',
+              priceCurrency: 'USD',
+              priceSpecification: { '@type': 'UnitPriceSpecification', price: '297', priceCurrency: 'USD', billingDuration: 'P1M' },
+              availability: 'https://schema.org/InStock',
+            },
           },
-        }}
+          {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faqs.map(faq => ({
+              '@type': 'Question',
+              name: faq.question,
+              acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+            })),
+          },
+        ]}
       />
 
       {/* Hero Section */}

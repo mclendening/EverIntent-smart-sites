@@ -92,7 +92,7 @@ export default function AfterHours() {
     <>
       <SEO 
         title="After-Hours AI: Complete Night Coverage"
-        description="AI answers calls, books appointments, and texts back missed calls while you're closed. Wake up to booked jobs. $197/mo."
+        description="AI receptionist answers calls, books appointments, and texts back missed calls while you're closed. Serving Long Beach, Orange County, and LA. $197/mo."
         canonical="/let-ai-handle-it/after-hours"
         structuredData={{
           '@context': 'https://schema.org',

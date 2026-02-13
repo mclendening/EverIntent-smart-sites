@@ -28,10 +28,24 @@ const localBusinessSchema = {
   "description": "AI Employee automation and smart websites for service businesses. AI answers calls 24/7, books appointments, and captures every lead.",
   "telephone": "+1-562-685-9500",
   "priceRange": "$249 - $597/mo",
-  "areaServed": {
-    "@type": "Country",
-    "name": "United States"
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "2892 N Bellflower Blvd, PMB 1018",
+    "addressLocality": "Long Beach",
+    "addressRegion": "CA",
+    "postalCode": "90815",
+    "addressCountry": "US"
   },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 33.8127,
+    "longitude": -118.1568
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Long Beach" },
+    { "@type": "City", "name": "Los Angeles" },
+    { "@type": "AdministrativeArea", "name": "Orange County" }
+  ],
   "knowsAbout": [
     "AI automation for businesses",
     "Smart website design",
