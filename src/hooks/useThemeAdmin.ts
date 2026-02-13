@@ -49,8 +49,8 @@ import type { EditorSection } from '@/components/admin/ThemeEditorNav';
 export type Theme = Tables<'site_themes'>;
 export type LogoVersion = Tables<'logo_versions'>;
 
-/** Drill-down navigation views */
-export type ThemeAdminView = 'list' | 'detail' | 'editor';
+/** Navigation views — 2-level: Hub → Editor (Shopify pattern, no detail view) */
+export type ThemeAdminView = 'list' | 'editor';
 
 export interface AccentConfig {
   accent: string;
@@ -416,11 +416,11 @@ export function useThemeAdmin() {
     }
   }, [selectedTheme]);
 
-  // ── Select theme (drill-down to detail) ──
+  // ── Select theme (go directly to editor — Shopify pattern) ──
   const selectTheme = useCallback((theme: Theme) => {
     setSelectedTheme(theme);
-    setIsEditing(false);
-    setView('detail');
+    setIsEditing(true);
+    setView('editor');
   }, []);
 
   // ── Enter editor mode ──
@@ -438,7 +438,7 @@ export function useThemeAdmin() {
 
   const goToDetail = useCallback(() => {
     setIsEditing(false);
-    setView('detail');
+    setView('list');
     // Re-parse from original
     if (selectedTheme) {
       const original = themes.find(t => t.id === selectedTheme.id);
@@ -494,7 +494,7 @@ export function useThemeAdmin() {
       if (error) throw error;
       toast({ title: 'Theme saved', description: `"${selectedTheme.name}" has been updated.` });
       setIsEditing(false);
-      setView('detail');
+      setView('list');
       fetchData();
     } catch (error) {
       console.error('Error saving theme:', error);
@@ -577,7 +577,7 @@ export function useThemeAdmin() {
       if (updateErr) throw updateErr;
       toast({ title: 'Theme reverted', description: `"${selectedTheme.name}" restored to default.` });
       setIsEditing(false);
-      setView('detail');
+      setView('list');
       fetchData();
     } catch (error) {
       console.error('Error reverting theme:', error);
