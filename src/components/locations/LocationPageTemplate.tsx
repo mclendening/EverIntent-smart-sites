@@ -17,7 +17,7 @@
  */
 
 import { SEO } from '@/components/SEO';
-import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 import {
   MapPin,
   Phone,
@@ -30,7 +30,6 @@ import {
   MessageSquare,
   CalendarCheck,
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 /** Service highlight for the location page grid */
 interface ServiceHighlight {
@@ -213,13 +212,13 @@ export function LocationPageTemplate({
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button asChild size="lg">
-                <Link to="/pricing">See Plans for {locationName}</Link>
+                <a href="/pricing">See Plans for {locationName}</a>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link to="/contact">
+                <a href="/contact">
                   <Phone className="w-4 h-4 mr-2" />
                   Talk to a Local Expert
-                </Link>
+                </a>
               </Button>
             </div>
           </div>
@@ -240,9 +239,9 @@ export function LocationPageTemplate({
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {services.map((service) => (
-              <Link
+              <a
                 key={service.title}
-                to={service.href}
+                href={service.href}
                 className="group bg-card rounded-xl p-6 border border-border/30 hover:border-accent/40 transition-all duration-300"
               >
                 <service.icon className="w-8 h-8 text-accent mb-4" />
@@ -253,7 +252,7 @@ export function LocationPageTemplate({
                 <span className="inline-flex items-center gap-1 mt-3 text-xs text-accent font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                   Learn more <ArrowRight className="w-3 h-3" />
                 </span>
-              </Link>
+              </a>
             ))}
           </div>
         </div>
@@ -305,14 +304,14 @@ export function LocationPageTemplate({
 
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-w-5xl mx-auto">
             {industries.map((ind) => (
-              <Link
+              <a
                 key={ind.name}
-                to={ind.href}
+                href={ind.href}
                 className="flex items-center gap-2 px-4 py-3 bg-card rounded-lg border border-border/30 hover:border-accent/40 transition-colors"
               >
                 <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
                 <span className="text-sm text-foreground">{ind.name}</span>
-              </Link>
+              </a>
             ))}
           </div>
         </div>
@@ -391,13 +390,13 @@ export function LocationPageTemplate({
               <a href="/checkout/launch" className="btn-gold btn-glow w-full sm:w-auto">
                 Get Started — $249
               </a>
-              <Link
-                to="/contact"
+              <a
+                href="/contact"
                 className="group inline-flex items-center justify-center gap-2 px-6 py-3 text-foreground hover:text-accent transition-all duration-300 w-full sm:w-auto"
               >
                 <span className="story-link">Book a Free Call</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
+              </a>
             </div>
             <div className="inline-flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
               <span>✓ No contracts</span>
