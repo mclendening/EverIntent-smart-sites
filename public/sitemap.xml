@@ -7,6 +7,9 @@
   <url><loc>https://everintent.com/about</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://everintent.com/contact</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
+  <!-- Services Hub -->
+  <url><loc>https://everintent.com/services</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+
   <!-- AI Employee -->
   <url><loc>https://everintent.com/let-ai-handle-it</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://everintent.com/let-ai-handle-it/after-hours</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -40,9 +43,6 @@
   <url><loc>https://everintent.com/portfolio/clearview-dentistry-austin</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://everintent.com/portfolio/alexander-tree</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://everintent.com/portfolio/honest-wrench-auto</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-
-  <!-- Services Hub -->
-  <url><loc>https://everintent.com/services</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
 
   <!-- Standalone Services -->
   <url><loc>https://everintent.com/warmy-email-deliverability</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>

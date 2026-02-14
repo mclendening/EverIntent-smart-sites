@@ -186,7 +186,7 @@ function AdminLayout() {
 // ============================================
 
 // Core marketing pages
-const coreRoutePaths = ['/', '/pricing', '/our-work', '/about', '/contact', '/book-call', '/strategy-session', '/careers'];
+const coreRoutePaths = ['/', '/book-call', '/strategy-session', '/careers'];
 
 // Primary service landing page
 const primaryServicePath = '/beautiful-websites';
@@ -479,6 +479,11 @@ export const routes: RouteRecord[] = [
       {
         path: 'portfolio/honest-wrench-auto',
         Component: HonestWrenchAuto,
+      },
+      // Redirect /our-work to /portfolio for legacy links
+      {
+        path: 'our-work',
+        element: <Navigate to="/portfolio" replace />,
       },
       // Core pages (placeholder for now)
       ...coreRoutePaths.slice(1).map(createPlaceholderChild),
