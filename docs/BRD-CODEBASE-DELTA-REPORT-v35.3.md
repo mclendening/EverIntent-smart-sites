@@ -3425,3 +3425,36 @@ Not a code issue. Footer NAP matches JSON-LD. Operational task.
 
 ### SEO Component Enhancement
 Updated `SEO.tsx` to accept `structuredData` as either a single object or an array of objects, enabling pages to combine `Product` + `FAQPage` schemas without workaround patterns.
+
+---
+
+### Resource Pages Build (2026-02-14) — FAQ, Help, Support
+
+**Change Type:** New Pages + Route Cleanup  
+**RDBTB Cycle:** Full (Research → Design → BRD → Tasks → Build)
+
+#### New Pages Created
+| Page | Route | Component | Content Source |
+|------|-------|-----------|---------------|
+| FAQ | `/faq` | `src/pages/FAQ.tsx` | BRD §5-6 (tiers), §25 (support), §4 (billing) |
+| Help Center | `/help` | `src/pages/Help.tsx` | Hub linking to FAQ, Support, Legal, Pricing |
+| Support | `/support` | `src/pages/Support.tsx` | BRD §25 (support channels by tier, SLAs) |
+
+- All three pages use semantic design tokens, accordion components, and native `<a>` tags
+- Added to `public/sitemap.xml` with priority 0.6
+- Added to Footer Resources column (FAQ, Help Center, Support)
+- Footer FAQ link changed from `/pricing#faq` → `/faq` (standalone page)
+
+#### Stale Routes Removed
+| Route | Was | Now | Reason |
+|-------|-----|-----|--------|
+| `/beautiful-websites` | Placeholder | Redirect → `/smart-websites` | BRD v34.0 brand pivot renamed service |
+| `/book-call` | Placeholder | Redirect → `/contact` | BRD §17 CTA Strategy: "No `/book-call` route" |
+| `/strategy-session` | Placeholder | Redirect → `/contact` | Not in BRD sitemap; consolidate to /contact |
+| `/our-work` | Redirect → `/portfolio` | Unchanged | Already correct |
+
+#### Route Architecture Change
+- `primaryServicePath` variable removed from `routes.tsx` (was `/beautiful-websites`)
+- `coreRoutePaths` reduced from `['/', '/book-call', '/strategy-session', '/careers']` to `['/', '/careers']`
+- New `legacyRedirects` array handles deprecated paths centrally
+- `resourcePaths` array retained but FAQ/Help/Support now render dedicated components instead of Placeholder

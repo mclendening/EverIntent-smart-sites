@@ -58,7 +58,8 @@ export const portfolioCaseStudyRoutes: RouteConfig[] = [
 // ============================================
 
 /**
- * Primary service landing page for web design.
+ * Primary service landing page (legacy — redirects to /smart-websites).
+ * @deprecated Use /smart-websites instead.
  */
 export const primaryServiceRoute: RouteConfig = {
   path: '/beautiful-websites',

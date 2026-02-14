@@ -36,6 +36,9 @@ import { getThemeForRoute, applyThemeToRoot } from '@/modules/themes/lib/themeCo
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import PlaceholderPage from './pages/Placeholder';
+import FAQ from './pages/FAQ';
+import Help from './pages/Help';
+import Support from './pages/Support';
 import AIEmployee from './pages/AIEmployee';
 import SmartWebsites from './pages/SmartWebsites';
 import Pricing from './pages/Pricing';
@@ -186,10 +189,15 @@ function AdminLayout() {
 // ============================================
 
 // Core marketing pages
-const coreRoutePaths = ['/', '/book-call', '/strategy-session', '/careers'];
+const coreRoutePaths = ['/', '/careers'];
 
-// Primary service landing page
-const primaryServicePath = '/beautiful-websites'; // redirects to /smart-websites
+// Legacy paths — redirect to current equivalents
+const legacyRedirects = [
+  { from: 'beautiful-websites', to: '/smart-websites' },
+  { from: 'our-work', to: '/portfolio' },
+  { from: 'book-call', to: '/contact' },
+  { from: 'strategy-session', to: '/contact' },
+];
 
 // Benefit-oriented service pages
 // AI Employee mode paths - Consolidated
@@ -389,7 +397,6 @@ const adminPaths = [
  */
 export const prerenderRoutes: string[] = [
   ...coreRoutePaths,
-  primaryServicePath,
   ...servicePaths,
   ...aiEmployeeModePaths, // AI Employee mode pages
   ...smartWebsitesTierPaths, // Smart Websites tier pages
@@ -480,11 +487,11 @@ export const routes: RouteRecord[] = [
         path: 'portfolio/honest-wrench-auto',
         Component: HonestWrenchAuto,
       },
-      // Redirect /our-work to /portfolio for legacy links
-      {
-        path: 'our-work',
-        element: <Navigate to="/portfolio" replace />,
-      },
+      // Legacy redirects (deprecated brand names / old paths)
+      ...legacyRedirects.map(r => ({
+        path: r.from,
+        element: <Navigate to={r.to} replace />,
+      })),
       // Core pages (placeholder for now)
       ...coreRoutePaths.slice(1).map(createPlaceholderChild),
       // AI Employee hub page
@@ -546,8 +553,7 @@ export const routes: RouteRecord[] = [
         path: 'warmy-email-deliverability',
         Component: WarmyEmailDeliverability,
       },
-      // Primary service (placeholder)
-      createPlaceholderChild(primaryServicePath),
+      // /beautiful-websites handled by legacyRedirects above
       // Services hub page (dedicated component)
       {
         path: 'services',
@@ -624,8 +630,10 @@ export const routes: RouteRecord[] = [
       { path: 'legal/cookies', Component: CookiePolicy },
       { path: 'legal/data-request', Component: DataRightsRequest },
       { path: 'legal/accessibility-statement', Component: AccessibilityStatement },
-      // Resources (placeholder — noIndex, valid static response)
-      ...resourcePaths.map(createPlaceholderChild),
+      // Resource pages (dedicated components)
+      { path: 'faq', Component: FAQ },
+      { path: 'help', Component: Help },
+      { path: 'support', Component: Support },
       // Location landing pages (Gap 8)
       { path: 'locations/long-beach', Component: LongBeach },
       { path: 'locations/orange-county', Component: OrangeCounty },
