@@ -389,7 +389,7 @@ const adminPaths = [
  */
 export const prerenderRoutes: string[] = [
   ...coreRoutePaths,
-  // primaryServicePath excluded — it's a redirect, not a page
+  primaryServicePath,
   ...servicePaths,
   ...aiEmployeeModePaths, // AI Employee mode pages
   ...smartWebsitesTierPaths, // Smart Websites tier pages
@@ -404,7 +404,7 @@ export const prerenderRoutes: string[] = [
   ...automotiveServicesPaths,
   ...checkoutPaths,
   ...legalPaths,
-  // resourcePaths excluded from prerender — placeholder pages must not be indexed
+  ...resourcePaths, // Placeholder pages with noIndex — valid static responses
   upgradePath,
   '/warmy-email-deliverability', // Warmy full service page
   ...locationPaths, // Location landing pages (Gap 8)
@@ -546,8 +546,8 @@ export const routes: RouteRecord[] = [
         path: 'warmy-email-deliverability',
         Component: WarmyEmailDeliverability,
       },
-      // Primary service — redirect to smart-websites hub
-      { path: primaryServicePath.substring(1), element: <Navigate to="/smart-websites" replace /> },
+      // Primary service (placeholder)
+      createPlaceholderChild(primaryServicePath),
       // Services hub page (dedicated component)
       {
         path: 'services',
@@ -624,8 +624,8 @@ export const routes: RouteRecord[] = [
       { path: 'legal/cookies', Component: CookiePolicy },
       { path: 'legal/data-request', Component: DataRightsRequest },
       { path: 'legal/accessibility-statement', Component: AccessibilityStatement },
-      // Resources — redirect to home (no placeholder pages for SEO cleanliness)
-      ...resourcePaths.map(p => ({ path: p.substring(1), element: <Navigate to="/" replace /> })),
+      // Resources (placeholder — noIndex, valid static response)
+      ...resourcePaths.map(createPlaceholderChild),
       // Location landing pages (Gap 8)
       { path: 'locations/long-beach', Component: LongBeach },
       { path: 'locations/orange-county', Component: OrangeCounty },
