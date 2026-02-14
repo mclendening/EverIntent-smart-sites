@@ -379,7 +379,7 @@ export default function CompareAIEmployee() {
     <>
       <SEO
         title="Compare AI Employee Plans"
-        description="Compare AI Employee plans side-by-side. After-Hours at $197/mo, Front Office at $297/mo, or full automation at $597/mo. Find the perfect AI solution."
+        description="Compare AI Employee plans: After-Hours $197/mo, Front Office $297/mo, Full AI $597/mo. Find the right fit."
         canonical="/compare-ai-employee"
         structuredData={{
           "@context": "https://schema.org",

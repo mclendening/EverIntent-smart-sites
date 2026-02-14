@@ -152,7 +152,7 @@ const Contact = () => {
     <>
       <SEO
         title="Contact Us"
-        description="Questions about AI Employee or Smart Websites? Long Beach, Orange County, and LA businesses: we respond within 24 hours."
+        description="Get in touch about AI Employee or Smart Websites. We respond within 24 hours. Long Beach, LA & Orange County."
         canonical="/contact"
       />
 

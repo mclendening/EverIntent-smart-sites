@@ -6,7 +6,6 @@
  */
 
 import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 /**
  * Full-width CTA section at bottom of homepage.
@@ -35,18 +34,18 @@ export function FinalCTASection() {
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
             <a 
-              href="/checkout/launch" 
+              href="/pricing" 
               className="btn-gold btn-glow w-full sm:w-auto"
             >
-              Get Started — $249
+              See Pricing
             </a>
-            <Link 
-              to="/contact" 
+            <a 
+              href="/contact" 
               className="group inline-flex items-center justify-center gap-2 px-6 py-3 text-foreground hover:text-accent transition-all duration-300 w-full sm:w-auto"
             >
               <span className="story-link">Book a Free Call</span>
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
+            </a>
           </div>
           
           {/* Trust signals */}
