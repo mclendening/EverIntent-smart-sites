@@ -218,8 +218,8 @@ const SmartWebsites = () => {
   return (
     <>
       <SEO 
-        title="Smart Websites | Professional Sites from $249 to $297/mo"
-        description="Professional web design in Long Beach, Orange County, and LA. Built in 5 days from $249. AI chat, missed-call text-back, booking automation included."
+        title="Smart Websites from $249"
+        description="Professional websites built in 5 days. AI chat, missed-call text-back, and booking included. Serving Long Beach, LA & Orange County."
         canonical="/smart-websites"
       />
 

@@ -175,8 +175,8 @@ export default function WarmyEmailDeliverability() {
   return (
     <Layout>
       <SEO 
-        title="Email Deliverability Service | AI Email Warm-Up & Inbox Testing"
-        description="Stop landing in spam. AI-powered email warm-up with inbox placement testing across 35+ providers and domain health monitoring. $49/mo or free with Smart Lead."
+        title="Email Deliverability: AI Warm-Up"
+        description="Stop landing in spam. AI warm-up, inbox testing across 35+ providers, and domain monitoring. $49/mo or free with Capture."
         canonical="/warmy-email-deliverability"
       />
 

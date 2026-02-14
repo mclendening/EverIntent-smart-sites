@@ -402,7 +402,7 @@ export default function CompareWebsites() {
     <TooltipProvider>
       <SEO
         title="Compare Smart Websites"
-        description="Compare Smart Website tiers side-by-side. From $249 one-time to full automation at $297/mo. Find the perfect plan for your business."
+        description="Compare Smart Website tiers side-by-side. From $249 to $297/mo. Find the right plan for your business."
         canonical="/compare-websites"
         structuredData={{
           "@context": "https://schema.org",

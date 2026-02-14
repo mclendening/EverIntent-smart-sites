@@ -150,7 +150,7 @@ export default function Industries() {
     <>
       <SEO 
         title="Industries We Serve"
-        description="Smart websites and AI automation for Long Beach, Orange County, and LA service businesses. HVAC, plumbing, dental, legal, automotive, and 60+ verticals."
+        description="AI automation and websites for 65+ local business verticals. HVAC, plumbing, dental, legal, automotive, and more."
         canonical="/industries"
       />
       

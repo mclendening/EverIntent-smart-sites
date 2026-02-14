@@ -126,7 +126,7 @@ const Index = () => {
     <main>
       <SEO
         title="AI Employee and Smart Websites"
-        description="Stop losing money to missed calls. AI Employee answers 24/7, books appointments, and captures every lead. Smart Websites starting at $249."
+        description="AI Employee answers calls 24/7, books appointments, and captures every lead. Smart Websites from $249. Serving Long Beach, LA & OC."
         canonical="/"
         structuredData={localBusinessSchema}
       />

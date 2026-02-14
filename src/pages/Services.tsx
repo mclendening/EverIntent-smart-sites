@@ -256,8 +256,8 @@ export default function Services() {
   return (
     <Layout>
       <SEO
-        title="Services: Smart Websites, AI Employee & Automation"
-        description="Smart websites from $249, AI receptionist from $197/mo, email deliverability, review automation, and lead capture for local businesses in Long Beach, LA & Orange County."
+        title="Services for Local Businesses"
+        description="Websites from $249, AI receptionist from $197/mo, lead capture, and review automation. Serving Long Beach, LA & Orange County."
         canonical="/services"
         structuredData={structuredData}
       />

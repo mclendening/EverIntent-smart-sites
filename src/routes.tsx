@@ -404,7 +404,7 @@ export const prerenderRoutes: string[] = [
   ...automotiveServicesPaths,
   ...checkoutPaths,
   ...legalPaths,
-  ...resourcePaths,
+  // resourcePaths excluded from prerender — placeholder pages must not be indexed
   upgradePath,
   '/warmy-email-deliverability', // Warmy full service page
   ...locationPaths, // Location landing pages (Gap 8)
