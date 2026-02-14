@@ -189,7 +189,7 @@ function AdminLayout() {
 const coreRoutePaths = ['/', '/book-call', '/strategy-session', '/careers'];
 
 // Primary service landing page
-const primaryServicePath = '/beautiful-websites';
+const primaryServicePath = '/beautiful-websites'; // redirects to /smart-websites
 
 // Benefit-oriented service pages
 // AI Employee mode paths - Consolidated
@@ -389,7 +389,7 @@ const adminPaths = [
  */
 export const prerenderRoutes: string[] = [
   ...coreRoutePaths,
-  primaryServicePath,
+  // primaryServicePath excluded — it's a redirect, not a page
   ...servicePaths,
   ...aiEmployeeModePaths, // AI Employee mode pages
   ...smartWebsitesTierPaths, // Smart Websites tier pages
@@ -546,8 +546,8 @@ export const routes: RouteRecord[] = [
         path: 'warmy-email-deliverability',
         Component: WarmyEmailDeliverability,
       },
-      // Primary service
-      createPlaceholderChild(primaryServicePath),
+      // Primary service — redirect to smart-websites hub
+      { path: primaryServicePath.substring(1), element: <Navigate to="/smart-websites" replace /> },
       // Services hub page (dedicated component)
       {
         path: 'services',
@@ -624,8 +624,8 @@ export const routes: RouteRecord[] = [
       { path: 'legal/cookies', Component: CookiePolicy },
       { path: 'legal/data-request', Component: DataRightsRequest },
       { path: 'legal/accessibility-statement', Component: AccessibilityStatement },
-      // Resources
-      ...resourcePaths.map(createPlaceholderChild),
+      // Resources — redirect to home (no placeholder pages for SEO cleanliness)
+      ...resourcePaths.map(p => ({ path: p.substring(1), element: <Navigate to="/" replace /> })),
       // Location landing pages (Gap 8)
       { path: 'locations/long-beach', Component: LongBeach },
       { path: 'locations/orange-county', Component: OrangeCounty },
