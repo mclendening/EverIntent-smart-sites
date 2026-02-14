@@ -39,7 +39,9 @@ const aiModesLinks = [
 const resourcesLinks = [
   { title: 'Pricing', path: '/pricing' },
   { title: 'Portfolio', path: '/portfolio' },
-  { title: 'FAQ', path: '/pricing#faq' },
+  { title: 'FAQ', path: '/faq' },
+  { title: 'Help Center', path: '/help' },
+  { title: 'Support', path: '/support' },
   { title: 'Industries', path: '/industries' },
   { title: 'Long Beach', path: '/locations/long-beach' },
   { title: 'Orange County', path: '/locations/orange-county' },
