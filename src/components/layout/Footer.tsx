@@ -18,6 +18,7 @@ const servicesLinks = [
   { title: 'Capture', path: '/smart-websites/capture' },
   { title: 'Convert', path: '/smart-websites/convert' },
   { title: 'Scale', path: '/smart-websites/scale' },
+  { title: 'Compare Plans', path: '/compare-websites' },
   { title: 'Add-On Packs', path: '/smart-websites/add-ons' },
   { title: 'Warmy Email Deliverability', path: '/warmy-email-deliverability' },
 ];
