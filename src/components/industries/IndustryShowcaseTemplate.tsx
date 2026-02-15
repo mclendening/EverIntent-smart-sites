@@ -363,10 +363,10 @@ function StickyCTA({ tierName, tierPrice, ctaText, ctaLink }: {
         </div>
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <Button asChild variant="outline" size="sm" className="flex-1 sm:flex-none">
-            <Link to="/contact">Talk to Sales</Link>
+            <a href="/contact">Talk to Sales</a>
           </Button>
           <Button asChild size="sm" className="flex-1 sm:flex-none">
-            <Link to={ctaLink}>{ctaText}</Link>
+            <a href={ctaLink}>{ctaText}</a>
           </Button>
         </div>
       </div>
@@ -451,13 +451,13 @@ export function IndustryShowcaseTemplate({
             {/* CTA Buttons */}
             <div className="flex flex-wrap justify-center gap-4">
               <Button asChild size="lg" className="min-w-[200px]">
-                <Link to={ctaLink}>
+                <a href={ctaLink}>
                   {ctaText}
                   <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
+                </a>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link to="/let-ai-handle-it">See AI Demo</Link>
+                <a href="/let-ai-handle-it">See AI Demo</a>
               </Button>
             </div>
 
@@ -628,13 +628,13 @@ export function IndustryShowcaseTemplate({
 
             <div className="flex flex-wrap justify-center gap-4">
               <Button asChild size="lg" className="min-w-[180px]">
-                <Link to={ctaLink}>
+                <a href={ctaLink}>
                   {ctaText}
                   <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
+                </a>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link to="/contact">Talk to Sales</Link>
+                <a href="/contact">Talk to Sales</a>
               </Button>
             </div>
           </div>

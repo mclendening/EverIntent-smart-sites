@@ -130,7 +130,7 @@ export default function SmartSite() {
                 </a>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <Link to="/smart-websites">Compare All Tiers</Link>
+                <a href="/smart-websites">Compare All Tiers</a>
               </Button>
             </div>
           </div>
@@ -234,7 +234,7 @@ export default function SmartSite() {
               </a>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/smart-websites/capture">See Capture →</Link>
+              <a href="/smart-websites/capture">See Capture →</a>
             </Button>
           </div>
         </div>

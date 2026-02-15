@@ -129,10 +129,10 @@ export default function ProfessionalServices() {
 
             <div className="flex flex-wrap justify-center gap-4">
               <Button asChild size="lg">
-                <Link to="/pricing">View Plans for Professionals</Link>
+                <a href="/pricing">View Plans for Professionals</a>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link to="/let-ai-handle-it">See AI Employee Demo</Link>
+                <a href="/let-ai-handle-it">See AI Employee Demo</a>
               </Button>
             </div>
           </div>
@@ -236,10 +236,10 @@ export default function ProfessionalServices() {
 
               <div className="flex flex-wrap justify-center gap-4">
                 <Button asChild size="lg">
-                  <Link to="/pricing">Get Convert</Link>
+                  <a href="/pricing">Get Convert</a>
                 </Button>
                 <Button asChild variant="outline" size="lg">
-                  <Link to="/contact">Talk to Sales</Link>
+                  <a href="/contact">Talk to Sales</a>
                 </Button>
               </div>
             </div>

@@ -26,7 +26,7 @@ import {
   Inbox,
   Sparkles
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+
 import { SEO } from '@/components/SEO';
 import { cn } from '@/lib/utils';
 import {
@@ -307,15 +307,15 @@ function MobileTierCard({ tier, tierIndex }: { tier: typeof tiers[0]; tierIndex:
                     {tier.recommendedAddons.map((addon) => {
                       const AddonIcon = addon.icon;
                       return (
-                        <Link
+                        <a
                           key={addon.id}
-                          to="/smart-websites/add-ons"
+                          href="/smart-websites/add-ons"
                           className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-accent transition-colors group"
                         >
                           <AddonIcon className="w-3 h-3 text-accent/70 group-hover:text-accent" />
                           <span className="underline underline-offset-2 decoration-border/50 group-hover:decoration-accent/50">{addon.name}</span>
                           <span className="text-foreground/40">{addon.price}</span>
-                        </Link>
+                        </a>
                       );
                     })}
             </div>
@@ -326,13 +326,13 @@ function MobileTierCard({ tier, tierIndex }: { tier: typeof tiers[0]; tierIndex:
         {tier.aiEmployeeUpsell && (
           <div className="mt-4 p-3 rounded-xl bg-accent/5 border border-accent/20">
             <p className="text-xs text-accent font-medium mb-1">Need AI Voice Handling?</p>
-            <Link
-              to="/let-ai-handle-it/after-hours"
+            <a
+              href="/let-ai-handle-it/after-hours"
               className="text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
             >
               Explore AI Employee plans
               <ArrowRight className="w-3 h-3" />
-            </Link>
+            </a>
           </div>
         )}
       </div>
@@ -551,15 +551,15 @@ export default function CompareWebsites() {
                             {tier.recommendedAddons.map((addon) => {
                               const AddonIcon = addon.icon;
                               return (
-                                <Link
+                                <a
                                   key={addon.id}
-                                  to="/smart-websites/add-ons"
+                                  href="/smart-websites/add-ons"
                                   className="flex items-center gap-2 py-1.5 text-xs group"
                                 >
                                   <AddonIcon className="w-3.5 h-3.5 text-accent/70 group-hover:text-accent transition-colors" />
                                   <span className="text-muted-foreground group-hover:text-foreground underline underline-offset-2 decoration-border/50 group-hover:decoration-accent/50 transition-colors">{addon.name}</span>
                                   <span className="ml-auto text-foreground/40">{addon.price}</span>
-                                </Link>
+                                </a>
                               );
                             })}
                           </div>
@@ -570,13 +570,13 @@ export default function CompareWebsites() {
                       {tier.aiEmployeeUpsell && (
                         <div className="w-full mt-4 p-3 rounded-xl bg-accent/5 border border-accent/20 text-left">
                           <p className="text-xs text-accent font-medium mb-1">Need AI Voice Handling?</p>
-                          <Link
-                            to="/let-ai-handle-it/after-hours"
+                          <a
+                            href="/let-ai-handle-it/after-hours"
                             className="text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
                           >
                             Explore AI Employee plans
                             <ArrowRight className="w-3 h-3" />
-                          </Link>
+                          </a>
                         </div>
                       )}
                     </div>
@@ -677,13 +677,13 @@ export default function CompareWebsites() {
               <p className="text-muted-foreground text-sm mb-4">
                 Extend any plan with powerful add-ons: Email Authority, Get Paid Now, Social Autopilot, and more.
               </p>
-              <Link
-                to="/smart-websites/add-ons"
+              <a
+                href="/smart-websites/add-ons"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors text-sm"
               >
                 View All Add-Ons
                 <ArrowRight className="w-4 h-4" />
-              </Link>
+              </a>
             </div>
           </div>
         </section>
@@ -706,12 +706,12 @@ export default function CompareWebsites() {
                   Get started with Capture
                   <ArrowRight className="w-4 h-4" />
                 </a>
-                <Link
-                  to="/contact"
+                <a
+                  href="/contact"
                   className="px-5 py-2.5 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors text-sm"
                 >
                   Ask a question
-                </Link>
+                </a>
               </div>
             </div>
           </div>
