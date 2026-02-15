@@ -36,13 +36,13 @@ const CASE_STUDY_SLUGS = new Set([
 const getBadgeStyles = (category: string): string => {
   switch (category) {
     case 'home-services':
-      return 'bg-orange-500/20 text-orange-400 border-orange-500/30';
+      return 'bg-accent/20 text-accent border-accent/30';
     case 'healthcare':
-      return 'bg-teal-500/20 text-teal-400 border-teal-500/30';
+      return 'bg-primary/20 text-primary border-primary/30';
     case 'professional':
-      return 'bg-violet-500/20 text-violet-400 border-violet-500/30';
+      return 'bg-accent/15 text-accent/80 border-accent/20';
     case 'automotive':
-      return 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30';
+      return 'bg-primary/15 text-primary/80 border-primary/20';
     default:
       return 'bg-accent/20 text-accent border-accent/30';
   }
