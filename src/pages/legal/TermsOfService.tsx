@@ -75,11 +75,10 @@ export default function TermsOfService() {
                   EverIntent provides web design, development, hosting, and automation services for local service businesses. Our services are offered in tiers:
                 </p>
                 <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                  <li><strong>Smart Site (T1):</strong> One-time website build with essential features</li>
-                  <li><strong>Smart Lead (T2):</strong> Website with lead capture and CRM integration</li>
-                  <li><strong>Smart Business (T3):</strong> Full business management suite with automation</li>
-                  <li><strong>Smart Growth (T4):</strong> Advanced features with AI automation and priority support</li>
-                  <li><strong>Smart Launch:</strong> Rush delivery option for faster project completion</li>
+                  <li><strong>Launch:</strong> One-time website build with essential features ($249)</li>
+                  <li><strong>Capture:</strong> Website with lead capture and CRM integration ($97/mo)</li>
+                  <li><strong>Convert:</strong> Full business management suite with automation ($197/mo)</li>
+                  <li><strong>Scale:</strong> AI-powered growth engine with priority support ($297/mo)</li>
                 </ul>
                 <p className="text-muted-foreground">
                   Each tier includes specific features as described on our pricing page at the time of purchase.
