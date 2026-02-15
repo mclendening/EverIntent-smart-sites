@@ -13,11 +13,11 @@ import { IndustryShowcaseTemplate } from '@/components/industries/IndustryShowca
 const transcript = [
   { role: 'ai' as const, text: "Thanks for calling Metro Auto Repair. This is the AI assistant. How can I help you today?", delay: 1000 },
   { role: 'caller' as const, text: "Yeah, my check engine light came on this morning. Can I get it looked at?", delay: 2000 },
-  { role: 'ai' as const, text: "Absolutely. Check engine lights can mean several things—we'll run a diagnostic to pinpoint the issue. We have availability this afternoon at 2 PM or tomorrow morning at 9 AM. Which works better for you?", delay: 2200 },
+  { role: 'ai' as const, text: "Absolutely. Check engine lights can mean several things. We'll run a diagnostic to pinpoint the issue. We have availability this afternoon at 2 PM or tomorrow morning at 9 AM. Which works better for you?", delay: 2200 },
   { role: 'caller' as const, text: "Tomorrow at 9 would be great. How much is the diagnostic?", delay: 1800 },
-  { role: 'ai' as const, text: "Our diagnostic is $49, which gets applied to any repair you approve. Most check engine issues we see—O2 sensors, catalytic converters, ignition coils—run between $150-$600 for parts and labor. What's the year, make, and model of your vehicle?", delay: 2500 },
+  { role: 'ai' as const, text: "Our diagnostic is $49, which gets applied to any repair you approve. Most check engine issues we see (O2 sensors, catalytic converters, ignition coils) run between $150-$600 for parts and labor. What's the year, make, and model of your vehicle?", delay: 2500 },
   { role: 'caller' as const, text: "It's a 2019 Honda Accord.", delay: 1200 },
-  { role: 'ai' as const, text: "Great choice—those are reliable! I've booked you for tomorrow at 9 AM. We'll text you a reminder tonight. Plan for about 30-45 minutes for the diagnostic. Anything else I can help with?", delay: 2000 },
+  { role: 'ai' as const, text: "Great choice, those are reliable! I've booked you for tomorrow at 9 AM. We'll text you a reminder tonight. Plan for about 30-45 minutes for the diagnostic. Anything else I can help with?", delay: 2000 },
   { role: 'caller' as const, text: "Nope, that's it. Thanks!", delay: 1200 },
   { role: 'ai' as const, text: "You're welcome! See you tomorrow at 9. Drive safe!", delay: 1500 },
 ];
@@ -92,7 +92,7 @@ const faqItems = [
   },
   {
     question: 'How do customers get updates on their vehicle?',
-    answer: 'The AI can send automated status updates via text—when the diagnostic is complete, when the car is ready, and follow-up satisfaction checks.',
+    answer: 'The AI can send automated status updates via text: when the diagnostic is complete, when the car is ready, and follow-up satisfaction checks.',
   },
 ];
 

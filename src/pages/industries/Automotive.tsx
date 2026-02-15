@@ -205,7 +205,7 @@ export default function Automotive() {
               <h2 className="text-2xl sm:text-3xl font-bold mb-4">Capture</h2>
               <p className="text-muted-foreground mb-6">
                 Built for busy shops. Conversion-focused website, appointment booking, 
-                automated reminders, and review requests — all for{' '}
+                automated reminders, and review requests, all for{' '}
                 <strong className="text-foreground">$97/month</strong>.
               </p>
 

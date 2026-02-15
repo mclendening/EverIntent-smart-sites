@@ -228,7 +228,7 @@ export default function WarmyEmailDeliverability() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-2 justify-center lg:justify-start">
-                <CTAButton to="/pricing#warmy" defaultText="Get Warmy — $49/mo" hoverText="Boost Deliverability!" />
+                <CTAButton to="/pricing#warmy" defaultText="Get Warmy: $49/mo" hoverText="Boost Deliverability!" />
                 <a href="/pricing#scale">
                   <Button variant="outline" size="sm" className="gap-1.5 w-full sm:w-auto text-xs">
                     <CheckCircle className="w-3 h-3" />Free with Smart Websites: Scale
@@ -335,7 +335,7 @@ export default function WarmyEmailDeliverability() {
             <h2 className="text-lg md:text-xl font-bold mb-1">
               AI-Powered <span className="text-accent">Protection</span>
             </h2>
-            <p className="text-xs text-muted-foreground">Warm, test, monitor — automatically.</p>
+            <p className="text-xs text-muted-foreground">Warm, test, monitor. Automatically.</p>
           </div>
 
           <div className="space-y-6">

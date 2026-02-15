@@ -211,7 +211,7 @@ export default function ProfessionalServices() {
               <h2 className="text-2xl sm:text-3xl font-bold mb-4">Convert</h2>
               <p className="text-muted-foreground mb-6">
                 Built for client-focused professionals. Premium website, CRM integration, 
-                appointment scheduling, and reputation management — all for{' '}
+                appointment scheduling, and reputation management, all for{' '}
                 <strong className="text-foreground">$197/month</strong>.
               </p>
 

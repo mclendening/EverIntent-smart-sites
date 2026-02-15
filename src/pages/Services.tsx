@@ -193,7 +193,7 @@ const addOnServices = [
 const faqItems = [
   {
     question: 'What services does EverIntent offer for local businesses?',
-    answer: 'EverIntent provides smart websites starting at $249, AI Employee call answering from $197/month, email deliverability services, review automation, online booking, lead capture, and SEO — all designed specifically for local service businesses in Long Beach, Orange County, and Los Angeles.',
+    answer: 'EverIntent provides smart websites starting at $249, AI Employee call answering from $197/month, email deliverability services, review automation, online booking, lead capture, and SEO. All designed specifically for local service businesses in Long Beach, Orange County, and Los Angeles.',
   },
   {
     question: 'How much does a website cost with EverIntent?',
@@ -209,7 +209,7 @@ const faqItems = [
   },
   {
     question: 'Can I start with just a website and add AI later?',
-    answer: 'Absolutely. Every smart website ships upgrade-ready with automation and AI built into the architecture. You can start with our $249 Launch plan and add AI Employee, review automation, or any add-on when you are ready — no rebuilds required.',
+    answer: 'Absolutely. Every smart website ships upgrade-ready with automation and AI built into the architecture. You can start with our $249 Launch plan and add AI Employee, review automation, or any add-on when you are ready. No rebuilds required.',
   },
   {
     question: 'What industries do you specialize in?',
@@ -306,7 +306,7 @@ export default function Services() {
 
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
             From your first website to a full AI-powered office. Smart websites, AI call answering, 
-            lead capture, review automation, and email deliverability — all under one roof.
+            lead capture, review automation, and email deliverability, all under one roof.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -483,7 +483,7 @@ export default function Services() {
               65+ Industries <span className="text-accent">Served</span>
             </h2>
             <p className="text-sm text-muted-foreground max-w-md mx-auto">
-              From HVAC to dental to auto repair — we know your industry.
+              From HVAC to dental to auto repair: we know your industry.
             </p>
           </div>
 
@@ -567,7 +567,7 @@ export default function Services() {
             Ready to Stop Losing <span className="text-accent">Customers</span>?
           </h2>
           <p className="text-sm text-muted-foreground max-w-lg mx-auto mb-6">
-            Whether you need a professional website, an AI receptionist, or a complete growth system — 
+            Whether you need a professional website, an AI receptionist, or a complete growth system, 
             we have the plan for you. Most businesses launch in 5 days.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">

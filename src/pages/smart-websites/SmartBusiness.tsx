@@ -197,12 +197,12 @@ export default function SmartBusiness() {
               <div className="p-6 rounded-xl bg-background border border-border/50">
                 <Check className="h-6 w-6 text-accent mb-3" />
                 <h3 className="text-lg font-semibold text-foreground mb-2">Service providers</h3>
-                <p className="text-muted-foreground">HVAC, plumbing, electrical—anyone who books jobs.</p>
+                <p className="text-muted-foreground">HVAC, plumbing, electrical: anyone who books jobs.</p>
               </div>
               <div className="p-6 rounded-xl bg-background border border-border/50">
                 <Check className="h-6 w-6 text-accent mb-3" />
                 <h3 className="text-lg font-semibold text-foreground mb-2">Health & wellness</h3>
-                <p className="text-muted-foreground">Dentists, chiropractors, medspas—anyone with appointments.</p>
+                <p className="text-muted-foreground">Dentists, chiropractors, medspas: anyone with appointments.</p>
               </div>
               <div className="p-6 rounded-xl bg-background border border-border/50">
                 <Check className="h-6 w-6 text-accent mb-3" />

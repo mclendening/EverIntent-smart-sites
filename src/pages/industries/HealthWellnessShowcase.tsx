@@ -19,7 +19,7 @@ const transcript = [
   { role: 'caller' as const, text: "Saturday would be perfect.", delay: 1200 },
   { role: 'ai' as const, text: "Wonderful! I've booked your complimentary consultation with Dr. Chen for Saturday at 11 AM. You'll receive a text confirmation with our address and a brief health questionnaire. Is there anything specific you'd like Dr. Chen to address during your visit?", delay: 2200 },
   { role: 'caller' as const, text: "Just pricing and how long results last.", delay: 1500 },
-  { role: 'ai' as const, text: "Dr. Chen will cover all of that—we're very transparent about pricing. For reference, forehead and glabellar lines typically range from $300-$400, with results lasting 3-4 months. See you Saturday!", delay: 2000 },
+  { role: 'ai' as const, text: "Dr. Chen will cover all of that. We're very transparent about pricing. For reference, forehead and glabellar lines typically range from $300-$400, with results lasting 3-4 months. See you Saturday!", delay: 2000 },
 ];
 
 const painPoints = [
@@ -31,7 +31,7 @@ const painPoints = [
   {
     problem: 'New patient inquiries go to voicemail',
     solution: 'AI answers every call and books immediately',
-    stat: '62% of callers won\'t leave a voicemail—they call competitors',
+    stat: '62% of callers won\'t leave a voicemail. They call competitors',
   },
   {
     problem: 'Appointment no-shows hurt revenue',
@@ -76,7 +76,7 @@ const websiteMockups = [
 const faqItems = [
   {
     question: 'Is the AI HIPAA compliant?',
-    answer: 'Yes. Our platform is built with HIPAA compliance in mind. The AI doesn\'t access patient records—it only handles scheduling and general inquiries. All call logs are encrypted and access-controlled.',
+    answer: 'Yes. Our platform is built with HIPAA compliance in mind. The AI doesn\'t access patient records. It only handles scheduling and general inquiries. All call logs are encrypted and access-controlled.',
   },
   {
     question: 'Can it integrate with my EMR/practice management system?',
@@ -84,7 +84,7 @@ const faqItems = [
   },
   {
     question: 'How does it handle medical questions?',
-    answer: 'The AI is trained to recognize medical questions and appropriately redirect to qualified staff. It never provides medical advice—only scheduling assistance and general service information that you approve.',
+    answer: 'The AI is trained to recognize medical questions and appropriately redirect to qualified staff. It never provides medical advice, only scheduling assistance and general service information that you approve.',
   },
   {
     question: 'Can patients book specific providers?',

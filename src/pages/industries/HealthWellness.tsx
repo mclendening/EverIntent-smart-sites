@@ -211,7 +211,7 @@ export default function HealthWellness() {
               <h2 className="text-2xl sm:text-3xl font-bold mb-4">Convert</h2>
               <p className="text-muted-foreground mb-6">
                 Built for patient-focused practices. Online booking, automated reminders, 
-                review management, and HIPAA-aware forms — all for{' '}
+                review management, and HIPAA-aware forms, all for{' '}
                 <strong className="text-foreground">$197/month</strong>.
               </p>
 

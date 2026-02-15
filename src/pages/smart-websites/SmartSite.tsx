@@ -170,7 +170,7 @@ export default function SmartSite() {
               <div className="p-6 rounded-xl bg-card/50 border border-border/50">
                 <Check className="h-6 w-6 text-accent mb-3" />
                 <h3 className="text-lg font-semibold text-foreground mb-2">Word-of-mouth businesses</h3>
-                <p className="text-muted-foreground">Most of your leads come from referrals—you just need somewhere to send them.</p>
+                <p className="text-muted-foreground">Most of your leads come from referrals. You just need somewhere to send them.</p>
               </div>
               <div className="p-6 rounded-xl bg-card/50 border border-border/50">
                 <Check className="h-6 w-6 text-accent mb-3" />
