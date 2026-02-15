@@ -415,7 +415,7 @@ export default function WarmyEmailDeliverability() {
               </div>
 
               <div className="bg-card border-2 border-accent rounded-md p-3 relative">
-                <span className="absolute -top-2 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground px-2 py-0.5 rounded-full text-[9px] font-medium">Best Value</span>
+                <span className="absolute -top-2 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground px-2 py-0.5 rounded-lg text-[9px] font-medium">Best Value</span>
                 <p className="text-[10px] uppercase text-muted-foreground mb-0.5">Smart Websites: Scale</p>
                 <p className="text-2xl font-bold text-accent mb-2">FREE</p>
                 <ul className="space-y-1 text-[11px] mb-3">

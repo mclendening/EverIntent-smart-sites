@@ -1,11 +1,33 @@
 # EverIntent — Complete Business Requirements Document v36.0
 
 **Last Updated:** February 15, 2026  
-**Version:** 36.1 (Warmy Tier Reassignment + Cross-Reference Naming Convention)
+**Version:** 36.2 (P0 Audit Fixes: Content Dedup + Pill Purge + FAQPage Schema + SSG Nav)
 **Status:** BUILD-READY
 **Owner:** EverIntent LLC  
 **Tagline:** Web Design AI & Automation
 **GitHub Path:** /docs/everintent-brd-v35.0.md
+
+---
+
+## v36.2 Amendment — P0 Site-Wide Audit Fixes
+
+> This section documents changes from v36.1 → v36.2.
+
+### C1. Full AI Employee Content Deduplication
+
+The Full AI Employee page (`/let-ai-handle-it/full-ai-employee`) previously had **three redundant feature sections**: (1) Channels Grid, (2) "What's Unlimited" grid, and (3) ExpandableFeatureGrid. These have been consolidated into a **single "What's Included" section** using the ExpandableFeatureGrid component. A standalone Voice Minutes callout remains as a separate section. This pattern is now the standard: **one feature section per product page, no duplicated content blocks.**
+
+### C2. No-Pill Styling Enforcement (rounded-full Purge)
+
+All `rounded-full` badge/tag/pill violations on public-facing pages have been replaced with `rounded-lg`. **Affected pages:** Industries hub, all 4 industry sub-pages (Home Services, Professional Services, Health & Wellness, Automotive), IndustryShowcaseTemplate, Services hero, Warmy Email Deliverability, and Full AI Employee comparison section. **Exemptions:** Decorative background orbs (blur-3xl), avatar circles, progress bar fills, and tiny indicator dots (w-1.5 h-1.5) remain `rounded-full` as they are not badge/tag UI elements.
+
+### C3. FAQPage JSON-LD on /faq
+
+The FAQ page now includes `FAQPage` structured data covering all 23 questions across 5 categories. This enables rich snippet eligibility in Google SERPs and AEO visibility.
+
+### C4. SSG Navigation Compliance (Link → Native Anchor)
+
+React Router `<Link>` components have been replaced with native `<a>` tags on the AI Employee hub, Industries hub, and About page. This enforces the SSG native anchor standard for proper static site behavior, SEO crawling, and mobile browser URL updates.
 
 ---
 
