@@ -18,28 +18,11 @@ import {
   AnimatedFlowDiagram, 
   DashboardPreview, 
   TranscriptCard, 
-  ExpandableFeatureGrid 
+  ExpandableFeatureGrid,
+  WhatsUnlimited 
 } from '@/components/ai-employee';
 import { afterHoursFeatures } from '@/data/features';
 import { ArrowRight, Clock, DollarSign, TrendingUp, Zap } from 'lucide-react';
-
-// ============================================
-// DATA
-// ============================================
-
-
-const unlimitedFeatures = [
-  { name: 'SMS/Text conversations', description: 'Unlimited AI-powered texting' },
-  { name: 'Missed call text-back', description: 'Instant response, no per-message fees' },
-  { name: 'AI review responses', description: 'Automated reputation management' },
-  { name: 'CRM integration', description: 'All leads sync automatically' },
-  { name: 'Custom AI training', description: 'Trained on your business' },
-];
-
-const includedMinutes = {
-  voice: '500 voice minutes/mo',
-  overage: '$0.06/min after'
-};
 
 const stats = [
   { icon: Clock, value: '24/7', label: 'Coverage' },
@@ -226,42 +209,8 @@ export default function AfterHours() {
           </div>
         </section>
 
-        {/* What's Unlimited Section */}
-        <section className="py-20 md:py-32 bg-card">
-          <div className="container">
-            <div className="max-w-4xl mx-auto">
-              <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                  <span className="text-foreground">What's</span>{' '}
-                  <span className="text-gradient">Unlimited</span>
-                </h2>
-                <p className="text-lg text-muted-foreground">
-                  No per-message fees. No hidden costs. Just results.
-                </p>
-              </div>
-
-              {/* Unlimited Features Grid */}
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-                {unlimitedFeatures.map((feature, index) => (
-                  <div key={index} className="p-5 rounded-xl bg-accent/5 border border-accent/20">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-accent font-bold">∞</span>
-                      <h3 className="font-semibold text-foreground">{feature.name}</h3>
-                    </div>
-                    <p className="text-sm text-muted-foreground">{feature.description}</p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Voice Minutes Callout */}
-              <div className="p-6 rounded-2xl bg-accent/5 border border-accent/20 text-center">
-                <h3 className="text-lg font-semibold text-foreground mb-2">Voice AI Minutes</h3>
-                <p className="text-2xl font-bold text-accent mb-1">{includedMinutes.voice}</p>
-                <p className="text-sm text-muted-foreground">{includedMinutes.overage}</p>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* What's Unlimited — Shared Component */}
+        <WhatsUnlimited voiceMinutes="500" />
 
         {/* Features Grid */}
         <section className="py-20 md:py-32">

@@ -12,7 +12,6 @@
 
 import { useEffect, useState, useRef, ReactNode } from 'react';
 import { ArrowLeft, CheckCircle, Target, Wrench, Rocket, Quote } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
 
 
@@ -275,13 +274,13 @@ export const CaseStudyLayout = ({
         >
           <div className="container mx-auto px-4 sm:px-6 max-w-5xl">
             {/* Back Link */}
-            <Link 
-              to="/portfolio" 
+            <a 
+              href="/portfolio" 
               className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8 sm:mb-10 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               <span className="text-sm">Back to Portfolio</span>
-            </Link>
+            </a>
 
             {/* Eyebrow - Industry + Location */}
             <div className="flex items-center gap-4 mb-6 text-xs sm:text-sm tracking-[0.2em] uppercase">
@@ -429,19 +428,19 @@ export const CaseStudyLayout = ({
               Let's discuss how EverIntent can transform your business with a smart website and AI automation.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link
-                to="/contact"
-                className="px-6 py-3 rounded-lg font-medium transition-colors text-sm sm:text-base"
+              <a
+                href="/contact"
+                className="px-6 py-3 rounded-lg font-medium transition-colors text-sm sm:text-base text-center"
                 style={{ backgroundColor: accentColor, color: 'white' }}
               >
                 Get Your Free Consultation
-              </Link>
-              <Link
-                to="/portfolio"
-                className="px-6 py-3 bg-foreground/10 text-foreground rounded-lg font-medium hover:bg-foreground/20 transition-colors text-sm sm:text-base"
+              </a>
+              <a
+                href="/portfolio"
+                className="px-6 py-3 bg-foreground/10 text-foreground rounded-lg font-medium hover:bg-foreground/20 transition-colors text-sm sm:text-base text-center"
               >
                 View More Projects
-              </Link>
+              </a>
             </div>
           </div>
         </section>

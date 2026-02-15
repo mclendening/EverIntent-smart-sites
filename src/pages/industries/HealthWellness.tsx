@@ -81,7 +81,7 @@ export default function HealthWellness() {
   return (
     <>
       <SEO 
-        title="Health & Wellness"
+        title="Health & Wellness: AI for Practices"
         description="Smart websites and AI automation for dental, chiropractic, medspa, salons, fitness, and 10 more health & wellness verticals."
         canonical="/industries/health-wellness"
       />

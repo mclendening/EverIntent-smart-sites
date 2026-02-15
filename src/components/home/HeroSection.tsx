@@ -16,7 +16,7 @@ import { ArrowRight } from 'lucide-react';
  */
 export function HeroSection() {
   return (
-    <section className="relative min-h-[100svh] md:min-h-[90vh] flex items-center justify-center overflow-hidden bg-background">
+    <section className="relative min-h-[100svh] md:min-h-[90vh] flex items-center justify-center overflow-hidden bg-background" aria-label="Hero: AI Employee and Smart Websites for local businesses">
       {/* Subtle gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-card/50" />
       

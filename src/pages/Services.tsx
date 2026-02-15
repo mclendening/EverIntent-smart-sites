@@ -376,12 +376,20 @@ export default function Services() {
                   </a>
                 </div>
 
-                {/* Visual Card */}
+                {/* Visual Card — Pricing-focused, no giant icons */}
                 <Card className="bg-muted/30 border-border/30 overflow-hidden">
                   <CardContent className="p-6 md:p-8 flex flex-col items-center justify-center min-h-[200px]">
-                    <service.icon className="w-16 h-16 text-accent/20 mb-4" />
+                    <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-4">
+                      <service.icon className="w-6 h-6 text-accent" />
+                    </div>
                     <p className="text-2xl md:text-3xl font-bold text-foreground">{service.pricing}</p>
-                    <p className="text-xs text-muted-foreground mt-1">{service.title}</p>
+                    <p className="text-sm text-muted-foreground mt-2">{service.title}</p>
+                    <a 
+                      href={service.href}
+                      className="mt-4 text-xs text-accent hover:text-accent/80 transition-colors inline-flex items-center gap-1"
+                    >
+                      Learn more <ArrowRight className="w-3 h-3" />
+                    </a>
                   </CardContent>
                 </Card>
               </div>

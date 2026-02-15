@@ -221,6 +221,18 @@ const SmartWebsites = () => {
         title="Smart Websites from $249"
         description="Professional websites built in 5 days. AI chat, missed-call text-back, and booking included. Serving Long Beach, LA & Orange County."
         canonical="/smart-websites"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faqItems.map((item) => ({
+            '@type': 'Question',
+            name: item.question,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: item.answer,
+            },
+          })),
+        }}
       />
 
       {/* Hero Section - Luxury gold aesthetic matching homepage */}
@@ -603,7 +615,7 @@ const SmartWebsites = () => {
               <div className="bg-gradient-to-br from-accent/10 to-primary/10 rounded-2xl p-8 text-center">
                 <div className="text-5xl font-bold text-foreground mb-2">$49</div>
                 <div className="text-muted-foreground mb-4">/month add-on</div>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-sm text-primary font-medium">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-lg text-sm text-primary font-medium">
                   <Star className="h-4 w-4" />
                   FREE with Smart Websites: Scale
                 </div>

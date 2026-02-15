@@ -76,7 +76,7 @@ export default function Automotive() {
   return (
     <>
       <SEO 
-        title="Automotive Services"
+        title="Automotive: AI for Auto Repair Shops"
         description="Smart websites and AI automation for auto repair, detailing, tire shops, body shops, towing, and 5 more automotive service verticals."
         canonical="/industries/automotive-services"
       />
