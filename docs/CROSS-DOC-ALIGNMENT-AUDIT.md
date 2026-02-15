@@ -465,9 +465,9 @@
 
 | # | Token | Theme Spec Ref | Theme BRD Ref | Tracker Ref | Status | Notes |
 |---|-------|----------------|---------------|-------------|--------|-------|
-| Q23 | `--font-heading` (Space Grotesk) | §4.4 ✅ | §5.1 ✅ | 7.21d done | ✅ | — |
-| Q24 | `--font-body` (Inter) | §4.4 ✅ | §5.1 ✅ | 7.21d done | ✅ | — |
-| Q25 | `--font-mono` (JetBrains Mono) | §4.4 ❌ "Not yet a CSS var" | §5.1 ✅ | — | ❌ | **Fix:** Define `--font-mono` in `index.css` |
+| Q23 | `--font-heading` (Space Grotesk) | §4.4 ✅ | §5.1 ✅ | 7.21d done | ❌ | **Pipeline violation:** CSS var exists in `index.css` but is hardcoded, not emitted by the theme publish pipeline. `tailwind.config.ts` also defines heading as `Inter`, contradicting `index.css` (`Space Grotesk`). **Fix:** Ensure `generateProductionCss` emits `--font-heading` from `typography_config.fontHeading`; update `tailwind.config.ts` to reference the CSS variable |
+| Q24 | `--font-body` (Inter) | §4.4 ✅ | §5.1 ✅ | 7.21d done | ❌ | **Pipeline violation:** Same as Q23 — hardcoded in `index.css` instead of emitted by theme pipeline. **Fix:** Ensure `generateProductionCss` emits `--font-body` from `typography_config.fontBody`; `tailwind.config.ts` should reference the CSS variable |
+| Q25 | `--font-mono` (JetBrains Mono) | §4.4 ❌ "Not yet a CSS var" | §5.1 ✅ | — | ❌ | **Fix:** (1) Add `fontMono` field to `TypographyConfig` interface in `types.ts`; (2) Add to `typographyConfigSchema` in `schemas.ts` with default `'JetBrains Mono, monospace'`; (3) Add DB column default via migration; (4) Add field to `TypographyEditor.tsx`; (5) Emit `--font-mono` in `generateProductionCss`; (6) Reference in `tailwind.config.ts` via CSS variable. Do NOT hardcode in `index.css` |
 | Q26 | `--transition-smooth` | §4.5 ✅ | §14.2 ✅ | 7.21e done | ✅ | — |
 | Q27 | `--transition-bounce` | §4.5 ✅ | §14.2 ✅ | 7.21e done | ✅ | — |
 | Q28 | `--transition-spring` | §4.5 ✅ | §14.2 ✅ | 7.21e done | ✅ | — |
@@ -784,8 +784,9 @@
 
 | # | Requirement | BRD Ref | Codebase | Status | Recommended Action |
 |---|-------------|---------|----------|--------|-------------------|
-| AF1 | Space Grotesk for headings | §F.2 | `--font-heading: 'Space Grotesk'` | ✅ | None |
-| AF2 | Inter for body | §F.2 | `--font-body: 'Inter'` | ✅ | None |
+| AF1 | Space Grotesk for headings | §F.2 | `--font-heading` hardcoded in `index.css`; `tailwind.config.ts` defines heading as `Inter` (conflict) | ❌ | **Pipeline violation:** Font is hardcoded in `index.css` and `tailwind.config.ts` contradicts it. Per theme styling authority protocol, fonts must flow from theme admin DB → publish pipeline → CSS. **Fix:** (1) Remove hardcoded font from `index.css`; (2) Ensure `generateProductionCss` emits `--font-heading` from `typography_config`; (3) Update `tailwind.config.ts` to use `var(--font-heading)` |
+| AF2 | Inter for body | §F.2 | `--font-body` hardcoded in `index.css` | ❌ | **Pipeline violation:** Same as AF1 — must flow through theme admin pipeline, not be hardcoded. **Fix:** Same approach as AF1 for `--font-body` and `tailwind.config.ts` `fontFamily.body` |
+| AF2a | `--font-mono` not defined anywhere | §F.2, Theme BRD §5.1 | Missing from `index.css`, `tailwind.config.ts`, and `TypographyConfig` | ❌ | See Q25 — extend theme admin pipeline to include `fontMono` |
 | AF3 | Dark base + amber accent | §F.0 | HSL 222 47% 7% bg, 38 92% 50% accent | ✅ | None |
 | AF4 | No rounded-full pills on public pages | §C2 | Replaced with `rounded-lg` | ✅ | None |
 | AF5 | Exemptions for pills: orbs, avatars, progress bars, dots | §C2 | Documented exemptions | ✅ | None |
@@ -858,11 +859,11 @@
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Aligned | 172 | 65.4% |
-| ⚠️ Partial / Unverified | 62 | 23.6% |
-| ❌ Misaligned | 17 | 6.5% |
-| 📋 Deferred / Planned | 12 | 4.6% |
-| **Total** | **263** | **100%** |
+| ✅ Aligned | 169 | 63.5% |
+| ⚠️ Partial / Unverified | 62 | 23.3% |
+| ❌ Misaligned | 23 | 8.6% |
+| 📋 Deferred / Planned | 12 | 4.5% |
+| **Total** | **266** | **100%** |
 
 ---
 
@@ -883,7 +884,9 @@
 | **P1** | G2 | Product | Warmy not marked as included in Scale tier | Add `includedInTiers: ['scale']` |
 | **P1** | L11 | Routes | `routes.ts` missing Accessibility Statement in legalRoutes | Add route entry |
 | **P1** | U6 | Theme Mode | BRD §11.2 says `system` supported but project uses binary | Resolve conflict |
-| **P1** | Q25 | Token | `--font-mono` CSS variable not defined | Define in `index.css` |
+| **P0** | AF1 | Typography | `--font-heading` hardcoded in `index.css`; `tailwind.config.ts` contradicts with `Inter` | Remove hardcoded fonts; emit from theme publish pipeline via `typography_config`; fix `tailwind.config.ts` to use CSS var |
+| **P0** | AF2 | Typography | `--font-body` hardcoded in `index.css` instead of flowing through admin pipeline | Same pipeline fix as AF1 |
+| **P1** | Q25/AF2a | Typography | `--font-mono` missing — not in `TypographyConfig`, DB, editor, or pipeline | Extend `TypographyConfig` with `fontMono`, add to Zod schema, DB default, `TypographyEditor`, and publish pipeline |
 | **P1** | C2 | Pricing | Launch renewal $149/yr not in checkout config | Add renewal config |
 | **P2** | F4 | Pricing | Social Autopilot: $79 in code vs $97 in tracker | Clarify authoritative price |
 | **P2** | A14 | Doc Integrity | BRD §28 Document History missing v36.0-v36.2 entries | Add entries |
@@ -938,10 +941,11 @@ These are cases where two or more documents contradict each other.
 | X7 | Portfolio route | BRD §16: `/our-work/` | Code: `/portfolio` | Code is authoritative; update BRD |
 | X8 | Footer structure | BRD §17.2: Services/AI Modes/Resources/Company | Code: Solutions/AI Employee/Resources/Company/Legal | Code is authoritative; update BRD |
 | X9 | Number of legal pages | BRD §20.1: 4 pages | Code + Theme BRD: 5 pages (+ Accessibility) | Code is authoritative; update BRD §20.1 |
-| X10 | `--font-mono` existence | Theme Spec §4.4: "❌ Not yet a CSS var" | Theme BRD §5.1: included in `typography_config` | Theme BRD is authoritative; implement in code |
+| X10 | `--font-mono` existence | Theme Spec §4.4: "❌ Not yet a CSS var" | Theme BRD §5.1: included in `typography_config` | Theme BRD is authoritative; extend `TypographyConfig` interface + DB + Zod + Editor + pipeline |
+| X11 | Font pipeline authority | `index.css`: hardcodes `--font-heading` as `Space Grotesk` | `tailwind.config.ts`: defines heading as `Inter` | **Both wrong.** Per theme styling authority protocol, fonts must flow from DB `typography_config` → publish pipeline → CSS vars. Remove hardcoded values; `tailwind.config.ts` should reference `var(--font-heading)` |
 
 ---
 
-**END OF AUDIT — 263 items across 37 sections**
+**END OF AUDIT — 266 items across 37 sections**
 
-**Document lines: ~2,100**
+**Document lines: ~2,200**
