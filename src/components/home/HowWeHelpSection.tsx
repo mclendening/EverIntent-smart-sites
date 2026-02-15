@@ -6,7 +6,6 @@
  * Vertical list with line icons, no boxed icons.
  */
 
-import { Link } from "react-router-dom";
 import { PhoneMissed, Moon, Filter, ArrowRight } from "lucide-react";
 
 /**
@@ -75,13 +74,13 @@ const HowWeHelpSection = () => {
               </p>
 
               {/* Link */}
-              <Link
-                to={outcome.link}
+              <a
+                href={outcome.link}
                 className="inline-flex items-center gap-2 text-accent hover:gap-3 transition-all duration-300"
               >
                 <span className="text-sm font-medium">Learn more</span>
                 <ArrowRight className="w-4 h-4" />
-              </Link>
+              </a>
             </div>
           ))}
         </div>

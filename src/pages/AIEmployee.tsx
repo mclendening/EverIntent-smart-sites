@@ -110,6 +110,15 @@ export default function AIEmployee() {
         title="AI Employee: 24/7 AI Phone Answering"
         description="AI receptionist that answers calls 24/7, books appointments, and recovers missed leads. From $197/mo. Long Beach, LA & OC."
         canonical="/let-ai-handle-it"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: [
+            { '@type': 'Question', name: 'What is the AI Employee?', acceptedAnswer: { '@type': 'Answer', text: 'A managed AI receptionist that answers calls, qualifies leads, books appointments, and recovers missed calls 24/7 via voice AI and SMS.' } },
+            { '@type': 'Question', name: 'How much does AI Employee cost?', acceptedAnswer: { '@type': 'Answer', text: 'After-Hours starts at $197/mo, Front Office at $297/mo, and Full AI Employee at $597/mo. Web Chat Only is $79/mo.' } },
+            { '@type': 'Question', name: 'How quickly can AI Employee be set up?', acceptedAnswer: { '@type': 'Answer', text: 'Setup takes about 48 hours. Day 1 is configuration, Day 2 is testing and walkthrough, and Day 3 is go-live.' } },
+          ],
+        }}
       />
       
       <main className="min-h-screen">

@@ -251,19 +251,19 @@ const SmartWebsites = () => {
             
             {/* CTAs - Primary gold, secondary text link */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-16 animate-fade-in" style={{ animationDelay: '300ms' }}>
-              <Link 
-                to="/pricing" 
+              <a 
+                href="/pricing" 
                 className="btn-gold btn-glow w-full sm:w-auto"
               >
                 See All Pricing
-              </Link>
-              <Link 
-                to="/contact" 
+              </a>
+              <a 
+                href="/contact" 
                 className="group inline-flex items-center gap-2 px-4 py-3 text-foreground hover:text-accent transition-colors duration-300"
               >
                 <span className="story-link">Questions? Let's Talk</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
+              </a>
             </div>
             
             {/* Trust strip - Simple elegant line with gold accents */}

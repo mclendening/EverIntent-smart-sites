@@ -8,7 +8,6 @@
  */
 
 import { SEO } from '@/components/SEO';
-import { Link } from 'react-router-dom';
 import { 
   Heart, 
   ArrowRight, 
@@ -93,7 +92,7 @@ export default function HealthWellness() {
           <div className="max-w-3xl mx-auto text-center">
             {/* Breadcrumb */}
             <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground mb-6">
-              <Link to="/industries" className="hover:text-foreground transition-colors">Industries</Link>
+              <a href="/industries" className="hover:text-foreground transition-colors">Industries</a>
               <ArrowRight className="w-3 h-3" />
               <span className="text-foreground">Health & Wellness</span>
             </div>

@@ -61,6 +61,13 @@ const Help = () => {
         title="Help Center"
         description="Get help with EverIntent services. Browse FAQ, contact support, or explore our resources."
         canonical="/help"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'WebPage',
+          name: 'EverIntent Help Center',
+          description: 'Get help with EverIntent Smart Websites and AI Employee services.',
+          url: 'https://everintent.com/help',
+        }}
       />
 
       {/* Hero */}
