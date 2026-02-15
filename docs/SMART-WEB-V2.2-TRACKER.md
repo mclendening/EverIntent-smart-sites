@@ -904,6 +904,26 @@ Per user directive (2026-02-11): The **page layout** (section backgrounds, headi
 
 ---
 
+## Phase 7 – GTM Trust & Revenue Fixes (BRD v36.0) 🚧 IN PROGRESS
+
+> **Authority**: BRD v36.0 Amendments A1–A12
+> **Created**: 2026-02-15
+
+| ID | Task | Status | Verification | Notes |
+|----|------|--------|--------------|-------|
+| 7.1 | Fix portfolio dead links (5 cards → /portfolio) | `done` | Cards for Ashford Law, Summit Climate, Golden Gate Roofing, Harmony Wellness, Precision Auto link to /portfolio hub | BRD v36.0 §A8 |
+| 7.2 | Fix PortfolioCard SSG anchor (<Link> → <a>) | `done` | Native `<a>` tag, full page load | BRD v36.0 §A9 |
+| 7.3 | Fix PricingTeaser 4th card (AI Employee → Scale) | `done` | Shows Scale $297/mo instead of AI Employee | BRD v36.0 §A12 |
+| 7.4 | Fix FAQ wrong pricing ($497→$197, $547→$297, $497→$297) | `done` | FAQ AI Employee and Smart Websites sections show correct v2.2 pricing | BRD v36.0 §A2, §A3 |
+| 7.5 | Add "Book a Call" CTA to high-ticket plans (≥$297) | `done` | Front Office, Full AI, Scale cards on Pricing + Compare pages | BRD v36.0 §A5 |
+| 7.6 | Add "Need help choosing?" to comparison pages | `done` | Prompt below hero on /compare-websites and /compare-ai-employee | BRD v36.0 §A6 |
+| 7.7 | Differentiate FAQ/Help/Support headers | `done` | Pre-sale / Onboarding / Account lifecycle copy | BRD v36.0 §A7 |
+| 7.8 | Fix SSG anchor violations in Pricing, Compare, PricingTeaser | `done` | All internal nav uses native <a> tags | BRD v36.0 §A9 |
+| 7.9 | Fix Services.tsx double Layout wrapper | `done` | Remove inner <Layout>, content renders without double header/footer | BRD v36.0 §A11 |
+| 7.10 | Update BRD to v36.0 | `done` | Added amendments A1–A12 | Tier naming, pricing, CTA rules, lifecycle definitions |
+
+---
+
 ### 📋 Audit History
 
 | Audit | Date | Scope | New Findings |
@@ -915,3 +935,4 @@ Per user directive (2026-02-11): The **page layout** (section backgrounds, headi
 | 2026-02-12 | **ADA Batches 3&4 user-verified and closed**. Added 7.25b: user-side widget hiding (AccessiBe pattern — session/24h/permanent). Admin already normalized vs WPOneTap — no changes needed. | Lovable |
 | 2026-02-13 | **SEO/AEO Gap Analysis: Gaps 1-7 + 10 CLOSED.** Removed duplicate meta tags from `index.html`. Added `postalAddress`, `geo`, granular `areaServed` to homepage JSON-LD. Added `noIndex` to `Placeholder.tsx` and `NotFound.tsx`. Added `FAQPage` schema to 4 Smart Website tier pages via upgraded `SEO.tsx` (now supports array `structuredData`). Migrated `Pricing.tsx` from `dangerouslySetInnerHTML` to SEO component. Added location keywords (Long Beach/OC/LA) to 12 page descriptions. Gap 11 (ExpandableFeatureCard content depth) closed in prior cycle. Gap 8 (location landing pages) deferred. | Lovable |
 | 2026-02-13 | **SEO/AEO Gap 8: CLOSED.** Created 3 location landing pages (`/locations/long-beach`, `/locations/orange-county`, `/locations/los-angeles`) with reusable `LocationPageTemplate`. Each has LocalBusiness JSON-LD, geo coords, service grid, local testimonials, industry list, Google Maps embed, nearby-city tags. Added to routes.tsx, config/routes.ts, sitemap.xml, footer Resources column. **All 11 SEO/AEO gaps now closed.** | Lovable |
+| 2026-02-15 | **Phase 7: GTM Trust & Revenue Fixes (BRD v36.0).** Fixed 5 dead portfolio links, PricingTeaser tier naming, FAQ pricing errors, SSG anchor violations, added Book a Call CTAs, lifecycle headers, comparison page help prompts, Services double Layout bug. BRD updated to v36.0 with 12 amendments. | Lovable |

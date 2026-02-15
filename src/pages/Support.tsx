@@ -29,7 +29,7 @@ const supportTiers: SupportTier[] = [
   { name: 'Launch', price: '$249', email: true, chat: false, phone: false, strategyCall: false },
   { name: 'Capture', price: '$97/mo', email: true, chat: true, phone: false, strategyCall: false },
   { name: 'Convert', price: '$197/mo', email: true, chat: true, phone: false, strategyCall: false },
-  { name: 'Scale', price: '$497/mo', email: true, chat: true, phone: true, strategyCall: true },
+  { name: 'Scale', price: '$297/mo', email: true, chat: true, phone: true, strategyCall: true },
 ];
 
 /** SLA data from BRD §25 */
@@ -68,10 +68,10 @@ const Support = () => {
       <section className="py-16 md:py-24 bg-background">
         <div className="container max-w-3xl text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            We're Here to Help
+            Help With Your Account
           </h1>
           <p className="text-lg text-muted-foreground">
-            Every EverIntent customer gets dedicated support. Your channel options grow with your plan.
+            Submit a ticket, check SLA response times, or contact us directly.
           </p>
         </div>
       </section>

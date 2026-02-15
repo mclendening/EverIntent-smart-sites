@@ -436,9 +436,12 @@ export default function CompareAIEmployee() {
               <span className="text-gradient">AI Employee</span>
             </h1>
             
-            <p className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto">
+            <p className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto mb-6">
               From after-hours coverage to complete phone automation. Every AI Employee plan includes missed call text-back.
             </p>
+            <a href="/contact" className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors text-sm font-medium">
+              Need help choosing? Book a call →
+            </a>
           </div>
         </section>
         
@@ -502,6 +505,14 @@ export default function CompareAIEmployee() {
                         Get Started
                         <ArrowRight className="w-4 h-4" />
                       </a>
+                      {(plan.name === 'Front Office' || plan.name === 'Full AI Employee') && (
+                        <a
+                          href="/contact"
+                          className="w-full mt-2 py-2 px-4 rounded-lg text-center text-sm font-medium border border-border hover:bg-muted transition-colors"
+                        >
+                          Book a Call
+                        </a>
+                      )}
                     </div>
                   </div>
                 );

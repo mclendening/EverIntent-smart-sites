@@ -1,9 +1,13 @@
 /**
  * @fileoverview Individual portfolio project card
  * @module components/portfolio/PortfolioCard
+ * @see docs/everintent-brd-v35.0.md §A8 Portfolio Link Integrity Rule
+ * @see docs/everintent-brd-v35.0.md §A9 SSG Anchor Compliance
+ * 
+ * Uses native <a> tags per SSG standard.
+ * Cards without dedicated case study routes link to /portfolio hub.
  */
 
-import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { type PortfolioProject } from './portfolioData';
 import { MiniMockup } from './MiniMockup';
@@ -13,6 +17,18 @@ interface PortfolioCardProps {
   project: PortfolioProject;
   index: number;
 }
+
+/**
+ * Slugs that have dedicated case study route components.
+ * Cards not in this set link to /portfolio hub instead of a dead slug.
+ * @see BRD v36.0 §A8
+ */
+const CASE_STUDY_SLUGS = new Set([
+  'desert-cool-air',
+  'clearview-dentistry-austin',
+  'alexander-tree',
+  'honest-wrench-auto',
+]);
 
 /**
  * Get badge color based on industry filter category
@@ -33,12 +49,19 @@ const getBadgeStyles = (category: string): string => {
 };
 
 /**
- * Portfolio card with mockup preview, metrics, and hover effects
+ * Portfolio card with mockup preview, metrics, and hover effects.
+ * Uses native <a> for SSG compliance. Links to case study if available,
+ * otherwise links to portfolio hub per BRD v36.0 §A8.
+ *
+ * @component
  */
 export const PortfolioCard = ({ project, index }: PortfolioCardProps) => {
+  const hasCaseStudy = CASE_STUDY_SLUGS.has(project.slug);
+  const href = hasCaseStudy ? `/portfolio/${project.slug}` : '/portfolio';
+
   return (
-    <Link
-      to={`/portfolio/${project.slug}`}
+    <a
+      href={href}
       className={cn(
         'group block bg-card rounded-xl overflow-hidden border border-border/50',
         'hover:border-accent/40 hover:shadow-glow transition-all duration-500',
@@ -95,11 +118,11 @@ export const PortfolioCard = ({ project, index }: PortfolioCardProps) => {
 
         {/* View CTA */}
         <div className="flex items-center text-sm font-medium text-muted-foreground group-hover:text-accent transition-colors duration-300">
-          <span>View Case Study</span>
+          <span>{hasCaseStudy ? 'View Case Study' : 'View Portfolio'}</span>
           <ArrowRight className="ml-1 w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" />
         </div>
       </div>
-    </Link>
+    </a>
   );
 };
 

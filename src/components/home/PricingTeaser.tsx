@@ -10,7 +10,6 @@
  */
 
 import { Check, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 /**
  * Pricing tier data for homepage preview per BRD v35.1.
@@ -41,12 +40,12 @@ const tiers = [
     href: '/smart-websites/convert',
   },
   {
-    name: 'AI Employee',
-    price: 'from $197',
+    name: 'Scale',
+    price: '$297',
     period: '/month',
-    description: 'Voice AI that answers your phone.',
-    features: ['24/7 call handling', 'Books appointments', 'Qualifies leads', 'Custom training'],
-    href: '/let-ai-handle-it/after-hours',
+    description: 'AI-powered growth engine.',
+    features: ['Advanced automations', 'Unified inbox', 'Strategy calls', 'Full CRM'],
+    href: '/smart-websites/scale',
   },
 ];
 
@@ -114,13 +113,13 @@ export function PricingTeaser() {
         
         {/* See all plans link */}
         <div className="text-center">
-          <Link 
-            to="/compare-websites" 
+          <a 
+            href="/compare-websites" 
             className="inline-flex items-center gap-2 text-primary font-medium group"
           >
             <span className="story-link">Compare all plans</span>
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-          </Link>
+          </a>
         </div>
       </div>
     </section>

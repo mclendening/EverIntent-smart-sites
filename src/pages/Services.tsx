@@ -254,7 +254,7 @@ const structuredData = [
  */
 export default function Services() {
   return (
-    <Layout>
+    <>
       <SEO
         title="Services for Local Businesses"
         description="Websites from $249, AI receptionist from $197/mo, lead capture, and review automation. Serving Long Beach, LA & Orange County."
@@ -543,6 +543,6 @@ export default function Services() {
           </div>
         </div>
       </section>
-    </Layout>
+    </>
   );
 }
