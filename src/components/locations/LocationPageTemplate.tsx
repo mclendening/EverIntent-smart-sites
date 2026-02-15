@@ -30,6 +30,7 @@ import {
   MessageSquare,
   CalendarCheck,
 } from 'lucide-react';
+import localBusinessCityscape from '@/assets/lifestyle/local-business-cityscape.jpg';
 
 /** Service highlight for the location page grid */
 interface ServiceHighlight {
@@ -183,17 +184,28 @@ export function LocationPageTemplate({
       />
 
       {/* Hero Section */}
-      <section className="relative py-16 md:py-28 bg-gradient-to-b from-background to-card/50 overflow-hidden">
-        {/* Subtle radial glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-accent/5 rounded-full blur-3xl" />
+      <section className="relative py-16 md:py-28 overflow-hidden">
+        {/* Cinematic background image */}
+        <div className="absolute inset-0">
+          <img
+            src={localBusinessCityscape}
+            alt={`Aerial view of ${locationName}, California at golden hour with local storefronts and palm trees`}
+            className="w-full h-full object-cover"
+            loading="eager"
+            decoding="async"
+            width={1920}
+            height={1080}
+          />
+          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+        </div>
 
         <div className="relative container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            {/* Location badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-              <MapPin className="w-4 h-4" />
+            {/* Location label */}
+            <p className="text-sm font-medium uppercase tracking-widest text-primary mb-6 flex items-center justify-center gap-2">
+              <MapPin className="w-4 h-4" aria-hidden="true" />
               {regionLabel}
-            </div>
+            </p>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
               <span className="text-foreground">Smart Websites and AI for </span>
@@ -216,7 +228,7 @@ export function LocationPageTemplate({
               </Button>
               <Button asChild variant="outline" size="lg">
                 <a href="/contact">
-                  <Phone className="w-4 h-4 mr-2" />
+                  <Phone className="w-4 h-4 mr-2" aria-hidden="true" />
                   Talk to a Local Expert
                 </a>
               </Button>
@@ -349,7 +361,7 @@ export function LocationPageTemplate({
                   {nearbyCities.map((city) => (
                     <span
                       key={city}
-                      className="px-3 py-1.5 text-sm rounded-full bg-accent/10 text-accent-foreground"
+                      className="px-3 py-1.5 text-sm rounded-lg bg-accent/10 text-accent-foreground"
                     >
                       {city}
                     </span>
@@ -388,7 +400,7 @@ export function LocationPageTemplate({
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
               <a href="/checkout/launch" className="btn-gold btn-glow w-full sm:w-auto">
-                Get Started — $249
+                Get Started: $249
               </a>
               <a
                 href="/contact"
