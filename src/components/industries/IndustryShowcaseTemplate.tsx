@@ -28,7 +28,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+
 import { cn } from '@/lib/utils';
 
 // ============================================
@@ -435,17 +435,10 @@ export function IndustryShowcaseTemplate({
               {heroSubtext}
             </p>
 
-            {/* Token Words */}
-            <div className="flex flex-wrap justify-center gap-2 mb-10">
-              {tokenWords.map((word) => (
-                <span 
-                  key={word}
-                  className="px-3 py-1 text-sm rounded-lg bg-accent/20 text-accent-foreground border border-accent/30"
-                >
-                  {word}
-                </span>
-              ))}
-            </div>
+            {/* Token Words - inline italic typography */}
+            <p className="text-muted-foreground italic mb-10">
+              {tokenWords.join(' · ')}
+            </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-wrap justify-center gap-4">
@@ -475,7 +468,7 @@ export function IndustryShowcaseTemplate({
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <Badge variant="secondary" className="mb-4">The Problem</Badge>
+            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-4">The Problem</p>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
               <span className="text-foreground">Every missed call is </span>
               <span className="text-gradient">money lost</span>
@@ -511,7 +504,7 @@ export function IndustryShowcaseTemplate({
       <section className="py-16 md:py-24 bg-card/50">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <Badge variant="secondary" className="mb-4">The Solution</Badge>
+            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-4">The Solution</p>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
               <span className="text-foreground">Your AI Employee </span>
               <span className="text-gradient">in action</span>
@@ -554,7 +547,7 @@ export function IndustryShowcaseTemplate({
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <Badge variant="secondary" className="mb-4">Portfolio</Badge>
+            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-4">Portfolio</p>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
               <span className="text-foreground">Websites built for </span>
               <span className="text-gradient">{industryName.toLowerCase()}</span>
@@ -580,7 +573,7 @@ export function IndustryShowcaseTemplate({
       <section className="py-16 md:py-24 bg-card/50">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <Badge variant="secondary" className="mb-4">FAQ</Badge>
+            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-4">FAQ</p>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
               Common questions
             </h2>
@@ -599,9 +592,9 @@ export function IndustryShowcaseTemplate({
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto bg-gradient-to-br from-card to-muted/30 rounded-2xl p-8 md:p-12 border border-accent/30 text-center">
-            <Badge className="mb-4 bg-accent/20 text-accent border-accent/30">
+            <p className="text-xs uppercase tracking-widest text-accent mb-4">
               Recommended for {industryName}
-            </Badge>
+            </p>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
               {recommendedTier}
             </h2>
