@@ -93,7 +93,7 @@ export default function Automotive() {
               <span className="text-foreground">Automotive</span>
             </div>
 
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-primary/10 text-primary text-sm font-medium mb-4">
               <Car className="w-4 h-4" />
               10 Verticals
             </div>
@@ -114,7 +114,7 @@ export default function Automotive() {
               {tokenWords.map((word) => (
                 <span 
                   key={word}
-                  className="px-3 py-1 text-sm rounded-full bg-accent/50 text-accent-foreground"
+                  className="px-3 py-1 text-sm rounded-lg bg-accent/50 text-accent-foreground"
                 >
                   {word}
                 </span>
@@ -200,7 +200,7 @@ export default function Automotive() {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto bg-card rounded-2xl p-8 border border-primary/30">
             <div className="text-center">
-              <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+              <span className="inline-block px-3 py-1 rounded-lg bg-primary/10 text-primary text-sm font-medium mb-4">
                 Recommended for Automotive
               </span>
               <h2 className="text-2xl sm:text-3xl font-bold mb-4">Capture</h2>

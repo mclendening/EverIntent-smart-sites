@@ -271,7 +271,7 @@ export default function Services() {
         </div>
 
         <div className="container relative z-10 text-center">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-4 text-xs">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-accent/10 border border-accent/20 mb-4 text-xs">
             <Zap className="w-3 h-3 text-accent" />
             <span className="font-medium text-accent">Serving Long Beach, Orange County & Los Angeles</span>
           </div>

@@ -10,7 +10,7 @@
  */
 
 import { SEO } from '@/components/SEO';
-import { Link } from 'react-router-dom';
+
 import { SMSDemo } from '@/components/ai-employee/SMSDemo';
 import { ClientOnly } from '@/components/ClientOnly';
 import { 
@@ -147,12 +147,12 @@ export default function AIEmployee() {
               
               {/* CTAs */}
               <div className="flex flex-wrap items-center justify-center gap-4">
-                <Link 
-                  to="/pricing?tab=ai"
+                <a 
+                  href="/pricing?tab=ai"
                   className="btn-gold btn-glow"
                 >
                   See Pricing
-                </Link>
+                </a>
                 <a 
                   href="#demo" 
                   className="group inline-flex items-center gap-2 px-6 py-3 text-foreground hover:text-accent transition-colors"
@@ -249,8 +249,8 @@ export default function AIEmployee() {
                           <span className="text-muted-foreground text-sm">/mo</span>
                           <p className="text-xs text-muted-foreground">{mode.setup} setup</p>
                         </div>
-                        <Link
-                          to={mode.href}
+                        <a
+                          href={mode.href}
                           className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                             mode.featured
                               ? 'bg-accent text-accent-foreground hover:bg-accent-hover'
@@ -258,7 +258,7 @@ export default function AIEmployee() {
                           }`}
                         >
                           Learn More
-                        </Link>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -375,19 +375,19 @@ export default function AIEmployee() {
                 Join hundreds of local businesses using AI Employee to capture every call.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-4">
-                <Link 
-                  to="/pricing?tab=ai"
+                <a 
+                  href="/pricing?tab=ai"
                   className="btn-gold btn-glow"
                 >
                   See Pricing
-                </Link>
-                <Link 
-                  to="/contact"
+                </a>
+                <a 
+                  href="/contact"
                   className="group inline-flex items-center gap-2 px-6 py-3 text-foreground hover:text-accent transition-colors"
                 >
                   <span>Book a Demo</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                </a>
               </div>
             </div>
           </div>

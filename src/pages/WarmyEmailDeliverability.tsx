@@ -214,7 +214,7 @@ export default function WarmyEmailDeliverability() {
         <div className="container relative z-10">
           <div className="grid lg:grid-cols-2 gap-4 lg:gap-6 items-center">
             <div className="text-center lg:text-left order-2 lg:order-1">
-              <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-accent/10 border border-accent/20 mb-3 text-[11px]">
+              <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg bg-accent/10 border border-accent/20 mb-3 text-[11px]">
                 <Mail className="w-3 h-3 text-accent" />
                 <span className="font-medium text-accent">Warmy.io</span>
               </div>
@@ -352,7 +352,7 @@ export default function WarmyEmailDeliverability() {
                     <h3 className="text-base font-bold">{feature.title}</h3>
                   </div>
                   <p className="text-xs text-muted-foreground mb-2">{feature.description}</p>
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-muted text-[10px]">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-muted text-[10px]">
                     <Activity className="w-2.5 h-2.5 text-accent" />{feature.stats}
                   </span>
                 </div>

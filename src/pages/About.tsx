@@ -13,7 +13,7 @@
  */
 
 import { ArrowRight, Users, Shield, Clock, Heart } from 'lucide-react';
-import { Link } from 'react-router-dom';
+
 import { SEO } from '@/components/SEO';
 
 /**
@@ -138,19 +138,19 @@ const About = () => {
             AI Employee answers calls 24/7. Smart Websites convert visitors into leads. See how it works.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/let-ai-handle-it"
+            <a
+              href="/let-ai-handle-it"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-xl hover:bg-primary/90 transition-all duration-300"
             >
               See AI Employee
               <ArrowRight className="w-5 h-5" />
-            </Link>
-            <Link
-              to="/smart-websites"
+            </a>
+            <a
+              href="/smart-websites"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-secondary text-secondary-foreground font-semibold rounded-xl hover:bg-secondary/80 transition-all duration-300"
             >
               See Smart Websites
-            </Link>
+            </a>
           </div>
         </div>
       </section>
