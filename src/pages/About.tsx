@@ -1,54 +1,43 @@
 /**
  * @fileoverview About page showcasing company story and differentiators.
  * @module pages/About
- * 
- * Sections:
- * 1. Hero with company positioning
- * 2. Story section - Contact center roots and why local businesses
- * 3. What Makes Us Different - Four key differentiators
- * 4. CTA section
- * 
- * Emphasizes operator experience over vendor relationship,
- * customer ownership, and 60-90 day results timeline.
  */
 
-import { ArrowRight, Users, Shield, Clock, Heart } from 'lucide-react';
-
+import { ArrowRight } from 'lucide-react';
 import { SEO } from '@/components/SEO';
 
-/**
- * Company differentiators for the "What Makes Us Different" section.
- */
+import operatorsImg from '@/assets/lifestyle/operators-team.jpg';
+import ownershipImg from '@/assets/lifestyle/ownership-pride.jpg';
+import resultsImg from '@/assets/lifestyle/results-dashboard.jpg';
+import noContractsImg from '@/assets/lifestyle/no-contracts-handshake.jpg';
+
 const differentiators = [
   {
-    icon: Users,
+    image: operatorsImg,
+    imageAlt: 'Experienced team of business professionals in a strategy war room',
     title: 'Operators, Not Vendors',
     description: "We've built and run contact centers handling millions of calls. We understand your phone is your lifeline — because we've lived it.",
   },
   {
-    icon: Shield,
+    image: ownershipImg,
+    imageAlt: 'Proud business owner standing in front of their storefront',
     title: 'You Own Everything',
     description: "Your website, your data, your customers. No hostage situations, no hidden fees. Leave anytime and take it all with you.",
   },
   {
-    icon: Clock,
+    image: resultsImg,
+    imageAlt: 'Business owner holding tablet showing upward revenue chart',
     title: '60-90 Day Results',
     description: "We measure success in leads captured and calls answered — not vanity metrics. You'll see ROI in the first 90 days or less.",
   },
   {
-    icon: Heart,
+    image: noContractsImg,
+    imageAlt: 'Friendly handshake between consultant and business owner',
     title: 'No Contracts',
     description: "We earn your business every month. No long-term commitments, no cancellation fees. Stay because it works, not because you're locked in.",
   },
 ];
 
-/**
- * About page component.
- * 
- * @component
- * @example
- * <About />
- */
 const About = () => {
   return (
     <>
@@ -124,16 +113,19 @@ const About = () => {
             {differentiators.map((item) => (
               <div
                 key={item.title}
-                className="relative rounded-2xl p-8 border border-border/30 bg-card/50 hover:border-primary/30 transition-all duration-300"
+                className="relative rounded-2xl border border-border/30 bg-card/50 hover:border-primary/30 transition-all duration-300 overflow-hidden"
               >
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                    <item.icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2">{item.title}</h3>
-                    <p className="text-muted-foreground">{item.description}</p>
-                  </div>
+                <div className="aspect-[16/9] overflow-hidden">
+                  <img 
+                    src={item.image} 
+                    alt={item.imageAlt}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-foreground mb-2">{item.title}</h3>
+                  <p className="text-muted-foreground">{item.description}</p>
                 </div>
               </div>
             ))}

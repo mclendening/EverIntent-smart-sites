@@ -1,60 +1,26 @@
 /**
  * @fileoverview Industries Landing Page - Hub for 4 industry categories.
  * @module pages/Industries
- * 
- * Entry point showcasing 4 industry categories with tailored solutions.
- * Each category card uses industry-specific "token words" to improve
- * conversion and SEO relevance for high-value local service niches.
  */
 
 import { SEO } from '@/components/SEO';
-
-import { 
-  Home, 
-  Briefcase, 
-  Heart, 
-  Car, 
-  ArrowRight, 
-  Phone,
-  Calendar,
-  MessageSquare,
-  TrendingUp,
-  LucideIcon 
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-/**
- * SVG gradient definitions for consistent icon styling.
- */
-const GradientDefs = () => (
-  <svg width="0" height="0" className="absolute">
-    <defs>
-      <linearGradient id="gradient-ocean" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="hsl(var(--accent))" />
-        <stop offset="50%" stopColor="hsl(var(--intent-blue))" />
-        <stop offset="100%" stopColor="hsl(var(--secondary-accent))" />
-      </linearGradient>
-    </defs>
-  </svg>
-);
+import homeServicesImg from '@/assets/lifestyle/home-services-hvac.jpg';
+import professionalImg from '@/assets/lifestyle/professional-attorney.jpg';
+import healthImg from '@/assets/lifestyle/health-dental-clinic.jpg';
+import automotiveImg from '@/assets/lifestyle/automotive-mechanic.jpg';
 
-/**
- * Gradient icon wrapper for consistent styling.
- */
-const GradientIcon = ({ icon: Icon, className = "" }: { icon: LucideIcon; className?: string }) => (
-  <Icon 
-    className={className}
-    style={{ stroke: 'url(#gradient-ocean)' }}
-  />
-);
+import afterHoursImg from '@/assets/lifestyle/after-hours-call.jpg';
+import frontOfficeImg from '@/assets/lifestyle/front-office-desk.jpg';
+import webChatImg from '@/assets/lifestyle/web-chat-widget.jpg';
+import resultsImg from '@/assets/lifestyle/results-dashboard.jpg';
 
-/**
- * Industry category data with token words for conversion optimization.
- * Token words are industry-specific terms that resonate with each niche.
- */
 const industryCategories = [
   {
-    icon: Home,
+    image: homeServicesImg,
+    imageAlt: 'HVAC technician working on air conditioning unit on a rooftop',
     name: 'Home Services',
     slug: 'home-services',
     tagline: 'Never miss another service call',
@@ -66,10 +32,10 @@ const industryCategories = [
       missedCallCost: '$150/missed call',
     },
     recommendedTier: 'Capture',
-    topVerticals: ['HVAC', 'Plumbing', 'Electrical', 'Roofing', 'Landscaping'],
   },
   {
-    icon: Briefcase,
+    image: professionalImg,
+    imageAlt: 'Professional attorney at desk in a modern law office',
     name: 'Professional Services',
     slug: 'professional-services',
     tagline: 'Convert consultations into clients',
@@ -81,10 +47,10 @@ const industryCategories = [
       missedCallCost: '$300/missed inquiry',
     },
     recommendedTier: 'Convert',
-    topVerticals: ['Legal', 'Real Estate', 'Accounting', 'Insurance', 'Financial Advisor'],
   },
   {
-    icon: Heart,
+    image: healthImg,
+    imageAlt: 'Friendly dental clinic receptionist greeting a patient',
     name: 'Health & Wellness',
     slug: 'health-wellness',
     tagline: 'Fill your appointment book 24/7',
@@ -96,10 +62,10 @@ const industryCategories = [
       missedCallCost: '$125/missed booking',
     },
     recommendedTier: 'Convert',
-    topVerticals: ['Dental', 'Chiropractic', 'Medspa', 'Salon', 'Personal Training'],
   },
   {
-    icon: Car,
+    image: automotiveImg,
+    imageAlt: 'Auto mechanic working under the hood in a professional garage',
     name: 'Automotive',
     slug: 'automotive-services',
     tagline: 'Capture every repair opportunity',
@@ -111,40 +77,36 @@ const industryCategories = [
       missedCallCost: '$175/missed estimate',
     },
     recommendedTier: 'Capture',
-    topVerticals: ['Auto Repair', 'Detailing', 'Tire Shop', 'Body Shop', 'Towing'],
   },
 ];
 
-/**
- * Value props shown across all industries.
- */
 const universalBenefits = [
   {
-    icon: Phone,
+    image: afterHoursImg,
+    imageAlt: 'Contractor checking phone at night for new booking notification',
     title: 'Never Miss a Call',
     description: 'AI answers 24/7, qualifies leads, and books appointments while you work.',
   },
   {
-    icon: Calendar,
+    image: frontOfficeImg,
+    imageAlt: 'Busy front desk with receptionist answering phones',
     title: 'Book More Jobs',
     description: 'Online scheduling synced with your calendar. Customers book when ready.',
   },
   {
-    icon: MessageSquare,
+    image: webChatImg,
+    imageAlt: 'Laptop showing AI chat widget on a business website',
     title: 'Instant Follow-Up',
     description: 'Automated SMS follow-up within 60 seconds of every missed call.',
   },
   {
-    icon: TrendingUp,
+    image: resultsImg,
+    imageAlt: 'Business owner viewing growth dashboard on tablet',
     title: 'Grow Your Reputation',
     description: 'Automated review requests turn happy customers into 5-star reviews.',
   },
 ];
 
-/**
- * Industries Landing Page Component.
- * Displays all 4 industry categories with token words and recommended tiers.
- */
 export default function Industries() {
   return (
     <>
@@ -164,8 +126,6 @@ export default function Industries() {
           })),
         }}
       />
-      
-      <GradientDefs />
       
       {/* Hero Section */}
       <section className="relative py-16 md:py-24 bg-gradient-to-b from-background to-card/50">
@@ -199,57 +159,64 @@ export default function Industries() {
               <a
                 key={category.slug}
                 href={`/industries/${category.slug}`}
-                className="group relative bg-card rounded-2xl p-6 md:p-8 border border-border/30 hover:border-primary/50 transition-all duration-300 hover-lift"
+                className="group relative bg-card rounded-2xl border border-border/30 hover:border-primary/50 transition-all duration-300 hover-lift overflow-hidden"
               >
-                {/* Header */}
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="p-3 rounded-xl bg-primary/10">
-                    <GradientIcon icon={category.icon} className="w-6 h-6" />
-                  </div>
-                  <div className="flex-1">
+                {/* Image */}
+                <div className="aspect-[16/9] overflow-hidden">
+                  <img 
+                    src={category.image} 
+                    alt={category.imageAlt}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                  />
+                </div>
+
+                <div className="p-6 md:p-8">
+                  {/* Header */}
+                  <div className="mb-4">
                     <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
                       {category.name}
                       <ArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary" />
                     </h2>
                     <p className="text-sm text-primary font-medium">{category.tagline}</p>
                   </div>
-                </div>
 
-                {/* Description */}
-                <p className="text-muted-foreground mb-4">{category.description}</p>
+                  {/* Description */}
+                  <p className="text-muted-foreground mb-4">{category.description}</p>
 
-                {/* Token Words */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {category.tokenWords.map((word) => (
-                    <span 
-                      key={word}
-                      className="px-2 py-1 text-xs rounded-lg bg-accent/50 text-accent-foreground"
-                    >
-                      {word}
+                  {/* Token Words */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {category.tokenWords.map((word) => (
+                      <span 
+                        key={word}
+                        className="px-2 py-1 text-xs rounded-lg bg-accent/50 text-accent-foreground"
+                      >
+                        {word}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Stats */}
+                  <div className="grid grid-cols-2 gap-4 py-4 border-t border-border/30">
+                    <div>
+                      <p className="text-xs text-muted-foreground">Avg Lead Value</p>
+                      <p className="text-sm font-semibold text-foreground">{category.stats.avgLeadValue}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground">Missed Call Cost</p>
+                      <p className="text-sm font-semibold text-destructive">{category.stats.missedCallCost}</p>
+                    </div>
+                  </div>
+
+                  {/* Footer */}
+                  <div className="flex items-center justify-between pt-4 border-t border-border/30">
+                    <span className="text-sm text-muted-foreground">
+                      {category.verticalCount} verticals
                     </span>
-                  ))}
-                </div>
-
-                {/* Stats */}
-                <div className="grid grid-cols-2 gap-4 py-4 border-t border-border/30">
-                  <div>
-                    <p className="text-xs text-muted-foreground">Avg Lead Value</p>
-                    <p className="text-sm font-semibold text-foreground">{category.stats.avgLeadValue}</p>
+                    <span className="text-sm text-primary font-medium">
+                      Recommended: {category.recommendedTier}
+                    </span>
                   </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground">Missed Call Cost</p>
-                    <p className="text-sm font-semibold text-destructive">{category.stats.missedCallCost}</p>
-                  </div>
-                </div>
-
-                {/* Footer */}
-                <div className="flex items-center justify-between pt-4 border-t border-border/30">
-                  <span className="text-sm text-muted-foreground">
-                    {category.verticalCount} verticals
-                  </span>
-                  <span className="text-sm text-primary font-medium">
-                    Recommended: {category.recommendedTier}
-                  </span>
                 </div>
               </a>
             ))}
@@ -275,13 +242,20 @@ export default function Industries() {
             {universalBenefits.map((benefit) => (
               <div 
                 key={benefit.title}
-                className="bg-background rounded-xl p-6 border border-border/30"
+                className="bg-background rounded-xl border border-border/30 overflow-hidden"
               >
-                <div className="p-2 rounded-lg bg-primary/10 w-fit mb-4">
-                  <benefit.icon className="w-5 h-5 text-primary" />
+                <div className="aspect-[4/3] overflow-hidden">
+                  <img 
+                    src={benefit.image} 
+                    alt={benefit.imageAlt}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
                 </div>
-                <h3 className="font-semibold text-foreground mb-2">{benefit.title}</h3>
-                <p className="text-sm text-muted-foreground">{benefit.description}</p>
+                <div className="p-4">
+                  <h3 className="font-semibold text-foreground mb-2">{benefit.title}</h3>
+                  <p className="text-sm text-muted-foreground">{benefit.description}</p>
+                </div>
               </div>
             ))}
           </div>
