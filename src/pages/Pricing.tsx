@@ -431,6 +431,12 @@ const Pricing = () => {
                         >
                           Get Started
                         </a>
+                        <a
+                          href={plan.href}
+                          className="text-sm text-accent hover:text-accent/80 transition-colors whitespace-nowrap"
+                        >
+                          See Details →
+                        </a>
                         {(plan.id === 'front-office' || plan.id === 'full') && (
                           <a
                             href="/contact"
