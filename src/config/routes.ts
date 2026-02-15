@@ -41,8 +41,6 @@ export const coreRoutes: RouteConfig[] = [
   { path: '/portfolio', title: 'Portfolio', description: 'Award-winning websites for local businesses' },
   { path: '/about', title: 'About', description: 'About EverIntent' },
   { path: '/contact', title: 'Contact', description: 'Get in touch' },
-  { path: '/book-call', title: 'Book a Call', description: 'Schedule a consultation' },
-  { path: '/strategy-session', title: 'Strategy Session', description: 'Book a SmartStart Strategy Session' },
   { path: '/careers', title: 'Careers', description: 'Join the EverIntent team' },
 ];
 
@@ -57,15 +55,6 @@ export const portfolioCaseStudyRoutes: RouteConfig[] = [
 // SERVICE PAGES
 // ============================================
 
-/**
- * Primary service landing page (legacy — redirects to /smart-websites).
- * @deprecated Use /smart-websites instead.
- */
-export const primaryServiceRoute: RouteConfig = {
-  path: '/beautiful-websites',
-  title: 'Beautiful Websites',
-  description: 'Professional websites that get you customers',
-};
 
 /**
  * Benefit-oriented service pages for navigation dropdowns.
@@ -215,7 +204,6 @@ export const adminRoutes: RouteConfig[] = [
 export const prerenderRoutes: string[] = [
   ...coreRoutes.map(r => r.path),
   ...portfolioCaseStudyRoutes.map(r => r.path),
-  primaryServiceRoute.path,
   ...serviceRoutes.map(r => r.path),
   ...productCategoryRoutes.map(r => r.path),
   ...featureRoutes.map(r => r.path),
@@ -233,7 +221,6 @@ export const prerenderRoutes: string[] = [
 export const allRoutes: RouteConfig[] = [
   ...coreRoutes,
   ...portfolioCaseStudyRoutes,
-  primaryServiceRoute,
   ...serviceRoutes,
   ...productCategoryRoutes,
   ...featureRoutes,

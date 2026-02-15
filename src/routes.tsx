@@ -191,13 +191,6 @@ function AdminLayout() {
 // Core marketing pages
 const coreRoutePaths = ['/', '/careers'];
 
-// Legacy paths — redirect to current equivalents
-const legacyRedirects = [
-  { from: 'beautiful-websites', to: '/smart-websites' },
-  { from: 'our-work', to: '/portfolio' },
-  { from: 'book-call', to: '/contact' },
-  { from: 'strategy-session', to: '/contact' },
-];
 
 // Benefit-oriented service pages
 // AI Employee mode paths - Consolidated
@@ -487,11 +480,6 @@ export const routes: RouteRecord[] = [
         path: 'portfolio/honest-wrench-auto',
         Component: HonestWrenchAuto,
       },
-      // Legacy redirects (deprecated brand names / old paths)
-      ...legacyRedirects.map(r => ({
-        path: r.from,
-        element: <Navigate to={r.to} replace />,
-      })),
       // Core pages (placeholder for now)
       ...coreRoutePaths.slice(1).map(createPlaceholderChild),
       // AI Employee hub page
@@ -553,7 +541,6 @@ export const routes: RouteRecord[] = [
         path: 'warmy-email-deliverability',
         Component: WarmyEmailDeliverability,
       },
-      // /beautiful-websites handled by legacyRedirects above
       // Services hub page (dedicated component)
       {
         path: 'services',
