@@ -10,7 +10,7 @@
  * - Domain Health Monitoring (SPF/DKIM/DMARC)
  * - Real-time Deliverability Analytics
  * 
- * Pricing: $49/mo standalone OR free with Capture ($97/mo)
+ * Pricing: $49/mo standalone OR free with Smart Websites: Scale ($297/mo)
  * 
  * SEO: Optimized for "email deliverability", "email warm-up", "inbox placement"
  * AEO: FAQ schema for voice search and AI answer engines
@@ -134,8 +134,8 @@ const faqItems = [
     answer: 'Warmy can help recover damaged sender reputation. The warm-up process gradually rebuilds trust with email providers while our monitoring prevents future issues.',
   },
   {
-    question: 'Is Warmy included with Capture?',
-    answer: 'Yes! Warmy Email Deliverability is included free with our Capture tier ($97/month). Standalone pricing is $49/month for businesses with existing websites.',
+    question: 'Is Warmy included with any Smart Websites plan?',
+    answer: 'Yes! Warmy Email Deliverability is included free with our Smart Websites: Scale plan ($297/month). Standalone pricing is $49/month for businesses on other plans or with existing websites.',
   },
   {
     question: 'What email providers does inbox testing cover?',
@@ -176,7 +176,7 @@ export default function WarmyEmailDeliverability() {
     <Layout>
       <SEO 
         title="Email Deliverability: AI Warm-Up"
-        description="Stop landing in spam. AI warm-up, inbox testing across 35+ providers, and domain monitoring. $49/mo or free with Capture."
+        description="Stop landing in spam. AI warm-up, inbox testing across 35+ providers, and domain monitoring. $49/mo or free with Smart Websites: Scale."
         canonical="/warmy-email-deliverability"
       />
 
@@ -229,9 +229,9 @@ export default function WarmyEmailDeliverability() {
 
               <div className="flex flex-col sm:flex-row gap-2 justify-center lg:justify-start">
                 <CTAButton to="/pricing#warmy" defaultText="Get Warmy — $49/mo" hoverText="Boost Deliverability!" />
-                <a href="/pricing#capture">
+                <a href="/pricing#scale">
                   <Button variant="outline" size="sm" className="gap-1.5 w-full sm:w-auto text-xs">
-                    <CheckCircle className="w-3 h-3" />Free with Capture
+                    <CheckCircle className="w-3 h-3" />Free with Smart Websites: Scale
                   </Button>
                 </a>
               </div>
@@ -416,14 +416,14 @@ export default function WarmyEmailDeliverability() {
 
               <div className="bg-card border-2 border-accent rounded-md p-3 relative">
                 <span className="absolute -top-2 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground px-2 py-0.5 rounded-full text-[9px] font-medium">Best Value</span>
-                <p className="text-[10px] uppercase text-muted-foreground mb-0.5">Capture</p>
+                <p className="text-[10px] uppercase text-muted-foreground mb-0.5">Smart Websites: Scale</p>
                 <p className="text-2xl font-bold text-accent mb-2">FREE</p>
                 <ul className="space-y-1 text-[11px] mb-3">
                   {['All above', '+ Website', '+ CRM + AI'].map((item, i) => (
                     <li key={i} className="flex items-center gap-1"><CheckCircle className="w-3 h-3 text-accent" />{item}</li>
                   ))}
                 </ul>
-                <CTAButton to="/pricing#capture" defaultText="Get Capture" hoverText="Save $49!" className="w-full text-xs" />
+                <CTAButton to="/pricing#scale" defaultText="Get Scale" hoverText="Save $49!" className="w-full text-xs" />
               </div>
             </div>
           </div>
