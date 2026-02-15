@@ -81,7 +81,7 @@ export default function ProfessionalServices() {
   return (
     <>
       <SEO 
-        title="Professional Services"
+        title="Professional Services: AI for Firms"
         description="Smart websites and AI automation for legal, real estate, accounting, insurance, and 10 more professional service verticals."
         canonical="/industries/professional-services"
       />

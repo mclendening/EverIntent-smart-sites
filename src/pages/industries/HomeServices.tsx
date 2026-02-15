@@ -97,7 +97,7 @@ export default function HomeServices() {
   return (
     <>
       <SEO 
-        title="Home Services"
+        title="Home Services: AI Automation for Contractors"
         description="Smart websites and AI automation for HVAC, plumbing, electrical, roofing, landscaping, and 26 more home service verticals."
         canonical="/industries/home-services"
       />

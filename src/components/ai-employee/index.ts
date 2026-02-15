@@ -10,3 +10,4 @@ export { TranscriptCard } from './TranscriptCard';
 export { FeatureGrid } from './FeatureGrid';
 export { ExpandableFeatureGrid } from './ExpandableFeatureCard';
 export type { ExpandableFeature } from './ExpandableFeatureCard';
+export { WhatsUnlimited } from './WhatsUnlimited';
