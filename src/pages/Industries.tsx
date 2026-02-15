@@ -184,17 +184,10 @@ export default function Industries() {
                   {/* Description */}
                   <p className="text-muted-foreground mb-4">{category.description}</p>
 
-                  {/* Token Words */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {category.tokenWords.map((word) => (
-                      <span 
-                        key={word}
-                        className="px-2 py-1 text-xs rounded-lg bg-accent/50 text-accent-foreground"
-                      >
-                        {word}
-                      </span>
-                    ))}
-                  </div>
+                {/* Token Words - inline italic typography */}
+                <p className="text-sm text-muted-foreground italic mb-4">
+                  {category.tokenWords.join(' · ')}
+                </p>
 
                   {/* Stats */}
                   <div className="grid grid-cols-2 gap-4 py-4 border-t border-border/30">

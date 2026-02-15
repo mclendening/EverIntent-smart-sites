@@ -108,17 +108,10 @@ export default function Automotive() {
               <strong className="text-foreground">estimate</strong> with AI that answers, qualifies, and books.
             </p>
 
-            {/* Token Words */}
-            <div className="flex flex-wrap justify-center gap-2 mb-8">
-              {tokenWords.map((word) => (
-                <span 
-                  key={word}
-                  className="px-3 py-1 text-sm rounded-lg bg-accent/50 text-accent-foreground"
-                >
-                  {word}
-                </span>
-              ))}
-            </div>
+            {/* Token Words - inline italic typography */}
+            <p className="text-muted-foreground italic mb-8">
+              {tokenWords.join(' · ')}
+            </p>
 
             <div className="flex flex-wrap justify-center gap-4">
               <Button asChild size="lg">
