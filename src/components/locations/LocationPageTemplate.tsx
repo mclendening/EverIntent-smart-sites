@@ -357,16 +357,9 @@ export function LocationPageTemplate({
               {/* Nearby cities */}
               <div>
                 <h3 className="text-xl font-bold mb-4">Also serving</h3>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {nearbyCities.map((city) => (
-                    <span
-                      key={city}
-                      className="px-3 py-1.5 text-sm rounded-lg bg-accent/10 text-accent-foreground"
-                    >
-                      {city}
-                    </span>
-                  ))}
-                </div>
+                <p className="text-sm text-muted-foreground mb-6">
+                  {nearbyCities.join(' · ')}
+                </p>
                 <div className="space-y-3 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
                     <Clock className="w-4 h-4 text-accent" />
