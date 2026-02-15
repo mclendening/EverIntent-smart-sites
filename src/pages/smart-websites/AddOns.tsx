@@ -199,8 +199,8 @@ const addOnPacks: AddOnPack[] = [
     ],
     recommended: ['capture'],
     details: {
-      headline: 'Your 24/7 AI receptionist—on your website',
-      description: 'When visitors land on your site, AI Voice Chat engages them instantly. It answers questions, qualifies leads, and hands off warm prospects to you—even while you sleep.',
+      headline: 'Your 24/7 AI receptionist, on your website',
+      description: 'When visitors land on your site, AI Voice Chat engages them instantly. It answers questions, qualifies leads, and hands off warm prospects to you, even while you sleep.',
       benefits: [
         { icon: Clock, title: '24/7 Coverage', text: 'Never miss a lead. AI Chat works nights, weekends, and holidays.' },
         { icon: Mic, title: 'Voice Enabled', text: 'Visitors can speak to your AI. Natural conversations, not rigid scripts.' },
@@ -209,7 +209,7 @@ const addOnPacks: AddOnPack[] = [
       idealFor: ['Businesses that get after-hours traffic', 'Anyone who wants instant lead response', 'Teams without dedicated chat staff'],
       faq: [
         { q: 'How does the AI know what to say?', a: 'We train it on your business, services, and FAQs. You approve the knowledge base before it goes live.' },
-        { q: 'Can I intervene in a live chat?', a: 'Yes—take over any conversation with one click when you want to jump in.' },
+        { q: 'Can I intervene in a live chat?', a: 'Yes. Take over any conversation with one click when you want to jump in.' },
       ],
     },
   },
@@ -228,7 +228,7 @@ const addOnPacks: AddOnPack[] = [
     recommended: [],
     details: {
       headline: 'Unlimited AI for heavy users',
-      description: 'If you\'re sending high volumes of AI-powered SMS, responding to dozens of reviews, or generating content daily—Unlimited AI removes all caps. Use as much as you need with priority processing.',
+      description: 'If you\'re sending high volumes of AI-powered SMS, responding to dozens of reviews, or generating content daily, Unlimited AI removes all caps. Use as much as you need with priority processing.',
       benefits: [
         { icon: Zap, title: 'No Caps', text: 'Unlimited AI SMS conversations, review responses, and content generation.' },
         { icon: TrendingUp, title: 'Priority Queue', text: 'Your AI tasks jump to the front of the line. Faster responses, faster results.' },
@@ -553,7 +553,7 @@ export default function AddOns() {
                   <span className="text-xl font-bold text-accent">3</span>
                 </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2">Adjust Anytime</h3>
-                <p className="text-muted-foreground text-sm">Add, remove, or swap packs monthly. Your needs change—we flex with you.</p>
+                <p className="text-muted-foreground text-sm">Add, remove, or swap packs monthly. Your needs change and we flex with you.</p>
               </div>
             </div>
           </div>
