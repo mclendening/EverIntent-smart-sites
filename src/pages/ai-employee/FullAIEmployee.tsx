@@ -99,7 +99,7 @@ export default function FullAIEmployee() {
       
       <main className="min-h-screen">
         {/* Hero Section */}
-        <section className="relative min-h-[85vh] flex items-center py-20 overflow-hidden">
+        <section className="relative min-h-[85vh] flex items-center py-20 overflow-hidden" aria-label="Full AI Employee overview">
           <div className="absolute inset-0 bg-gradient-to-b from-accent/10 via-background to-background" />
           <div className="absolute inset-0 bg-mesh opacity-30" />
           

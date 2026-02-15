@@ -129,7 +129,7 @@ export default function AIEmployee() {
       
       <main className="min-h-screen">
         {/* Hero Section - Full Viewport */}
-        <section className="relative min-h-[90vh] flex items-center py-20 overflow-hidden">
+        <section className="relative min-h-[90vh] flex items-center py-20 overflow-hidden" aria-label="AI Employee overview">
           <div className="absolute inset-0 bg-gradient-to-b from-accent/5 via-background to-background" />
           <div className="absolute inset-0 bg-mesh opacity-30" />
           

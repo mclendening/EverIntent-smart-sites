@@ -61,7 +61,7 @@ const About = () => {
       />
 
       {/* Hero Section */}
-      <section className="relative py-16 md:py-24 overflow-hidden">
+      <section className="relative py-16 md:py-24 overflow-hidden" aria-label="About EverIntent">
         <div className="absolute inset-0 bg-mesh opacity-20" />
         <div className="relative container mx-auto px-4 text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
@@ -75,14 +75,14 @@ const About = () => {
       </section>
 
       {/* Story Section */}
-      <section className="py-16 md:py-24 bg-background">
+      <section className="py-16 md:py-24 bg-background" aria-label="Our story">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-8 text-center">
               Our Story
             </h2>
             
-            <div className="prose prose-lg prose-invert mx-auto space-y-6 text-muted-foreground">
+            <div className="prose prose-lg dark:prose-invert mx-auto space-y-6 text-muted-foreground">
               <p>
                 We started in enterprise contact centers, the kind that handle millions of calls for Fortune 500 companies. We built AI systems, designed automation workflows, and learned exactly what it takes to never miss a lead.
               </p>

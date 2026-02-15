@@ -128,7 +128,7 @@ export default function Industries() {
       />
       
       {/* Hero Section */}
-      <section className="relative py-16 md:py-24 bg-gradient-to-b from-background to-card/50">
+      <section className="relative py-16 md:py-24 bg-gradient-to-b from-background to-card/50" aria-label="Industries we serve">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">

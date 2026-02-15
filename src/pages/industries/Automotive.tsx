@@ -82,7 +82,7 @@ export default function Automotive() {
       />
       
       {/* Hero Section */}
-      <section className="relative py-16 md:py-24 bg-gradient-to-b from-background to-card/50">
+      <section className="relative py-16 md:py-24 bg-gradient-to-b from-background to-card/50" aria-label="Automotive AI solutions">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             {/* Breadcrumb */}

@@ -241,7 +241,7 @@ const SmartWebsites = () => {
       />
 
       {/* Hero Section - Luxury gold aesthetic matching homepage */}
-      <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-background">
+      <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-background" aria-label="Smart Websites overview">
         {/* Subtle gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-card/50" />
         
