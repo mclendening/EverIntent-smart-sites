@@ -628,8 +628,11 @@ export const routes: RouteRecord[] = [
       { path: 'locations/long-beach', Component: LongBeach },
       { path: 'locations/orange-county', Component: OrangeCounty },
       { path: 'locations/los-angeles', Component: LosAngeles },
-      // Sub-city location pages (data-driven)
-      { path: 'locations/:slug', Component: CityLocation },
+      // Sub-city location pages — explicit routes for SSG pre-rendering
+      ...allLocationSlugs.map(slug => ({
+        path: `locations/${slug}`,
+        Component: CityLocation,
+      })),
       // Upgrade
       createPlaceholderChild(upgradePath),
       // Catch-all 404
