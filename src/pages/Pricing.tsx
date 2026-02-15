@@ -16,9 +16,14 @@
  */
 
 import { useState, useEffect } from 'react';
-import { Check, Minus, ArrowRight, Moon, ShieldCheck, Bot, MessageSquare } from 'lucide-react';
+import { Check, Minus, ArrowRight } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
+
+import afterHoursImg from '@/assets/lifestyle/after-hours-call.jpg';
+import frontOfficeImg from '@/assets/lifestyle/front-office-desk.jpg';
+import fullAiImg from '@/assets/lifestyle/full-ai-command.jpg';
+import webChatImg from '@/assets/lifestyle/web-chat-widget.jpg';
 import {
   Accordion,
   AccordionContent,
@@ -68,7 +73,8 @@ const aiPlans = [
   {
     id: 'after-hours',
     name: 'After-Hours',
-    icon: Moon,
+    image: afterHoursImg,
+    imageAlt: 'Contractor checking phone at night for new appointment booking',
     bestFor: 'Complete after-hours coverage',
     price: '$197',
     setup: '$997',
@@ -79,7 +85,8 @@ const aiPlans = [
   {
     id: 'front-office',
     name: 'Front Office',
-    icon: ShieldCheck,
+    image: frontOfficeImg,
+    imageAlt: 'Busy front desk receptionist answering phones',
     bestFor: 'Screen, qualify, and transfer',
     price: '$297',
     setup: '$1,497',
@@ -90,8 +97,9 @@ const aiPlans = [
   {
     id: 'full',
     name: 'Full AI Employee',
-    icon: Bot,
-    bestFor: 'Everything included',
+    image: fullAiImg,
+    imageAlt: 'Business command center with multiple AI dashboard screens',
+    bestFor: 'Complete AI-powered front office',
     price: '$597',
     setup: '$2,500',
     description: 'All features included. Your complete AI-powered front office: voice, SMS, booking, screening, web chat, and Unlimited AI.',
@@ -102,7 +110,8 @@ const aiPlans = [
   {
     id: 'web-chat',
     name: 'Web Chat Only',
-    icon: MessageSquare,
+    image: webChatImg,
+    imageAlt: 'Laptop showing AI chat widget conversation',
     bestFor: 'Website chat without phone',
     price: '$79',
     setup: '$497',
@@ -374,9 +383,7 @@ const Pricing = () => {
           <div className="container mx-auto px-4">
             {/* Plan Cards */}
             <div className="space-y-4 max-w-4xl mx-auto">
-              {aiPlans.map((plan) => {
-                const Icon = plan.icon;
-                return (
+              {aiPlans.map((plan) => (
                   <div
                     key={plan.id}
                     id={plan.id}
@@ -387,12 +394,10 @@ const Pricing = () => {
                     }`}
                   >
                     <div className="flex flex-col md:flex-row md:items-center gap-4">
-                      {/* Icon & Name */}
+                      {/* Image & Name */}
                       <div className="flex items-center gap-4 md:w-1/4">
-                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                          plan.featured ? 'bg-accent/20' : 'bg-muted'
-                        }`}>
-                          <Icon className={`w-6 h-6 ${plan.featured ? 'text-accent' : 'text-muted-foreground'}`} />
+                        <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0">
+                          <img src={plan.image} alt={plan.imageAlt} className="w-full h-full object-cover" loading="lazy" />
                         </div>
                         <div>
                           <h3 className="font-semibold text-foreground">{plan.name}</h3>
@@ -433,8 +438,9 @@ const Pricing = () => {
                       </div>
                     </div>
                   </div>
-                );
-              })}
+              ))}
+
+
             </div>
 
             {/* Missed Call Note */}

@@ -14,17 +14,19 @@ import { SEO } from '@/components/SEO';
 import { SMSDemo } from '@/components/ai-employee/SMSDemo';
 import { ClientOnly } from '@/components/ClientOnly';
 import { 
-  Moon, 
-  ShieldCheck, 
-  Bot, 
-  MessageSquare,
   ArrowRight,
   Phone,
   Bell,
   CheckCircle2,
   FileText,
-  Calendar
+  Calendar,
+  Bot,
 } from 'lucide-react';
+
+import afterHoursImg from '@/assets/lifestyle/after-hours-call.jpg';
+import frontOfficeImg from '@/assets/lifestyle/front-office-desk.jpg';
+import fullAiImg from '@/assets/lifestyle/full-ai-command.jpg';
+import webChatImg from '@/assets/lifestyle/web-chat-widget.jpg';
 
 // ============================================
 // DATA - Consolidated to 3 modes + web chat
@@ -34,7 +36,8 @@ const aiModes = [
   {
     id: 'after-hours',
     name: 'After-Hours',
-    icon: Moon,
+    image: afterHoursImg,
+    imageAlt: 'Contractor checking phone at night for new appointment booking',
     description: 'AI answers calls when you\'re closed, books appointments, and texts back missed calls. Complete after-hours coverage.',
     bestFor: 'Businesses with set hours',
     price: '$197',
@@ -44,7 +47,8 @@ const aiModes = [
   {
     id: 'front-office',
     name: 'Front Office',
-    icon: ShieldCheck,
+    image: frontOfficeImg,
+    imageAlt: 'Busy front desk receptionist answering phones in a modern office',
     description: 'AI answers during business hours. Screens callers, qualifies leads, recovers missed calls, transfers hot opportunities live.',
     bestFor: 'Teams drowning in calls',
     price: '$297',
@@ -54,7 +58,8 @@ const aiModes = [
   {
     id: 'full',
     name: 'Full AI Employee',
-    icon: Bot,
+    image: fullAiImg,
+    imageAlt: 'Business command center with multiple AI dashboard screens',
     description: 'All modes combined. Your complete AI-powered front office: voice, SMS, booking, screening, web chat.',
     bestFor: 'Maximum automation',
     price: '$597',
@@ -65,7 +70,8 @@ const aiModes = [
   {
     id: 'web-chat',
     name: 'Web Chat Only',
-    icon: MessageSquare,
+    image: webChatImg,
+    imageAlt: 'Laptop showing AI chat widget conversation on a website',
     description: 'AI chat widget for your website. Capture leads 24/7 without voice AI.',
     bestFor: 'Website chat without phone',
     price: '$79',
@@ -219,60 +225,60 @@ export default function AIEmployee() {
 
             {/* Mode Cards */}
             <div className="space-y-4 max-w-4xl mx-auto">
-              {aiModes.map((mode) => {
-                const Icon = mode.icon;
-                return (
-                  <div
-                    key={mode.id}
-                    className={`rounded-2xl p-6 border transition-all duration-300 hover-lift ${
-                      mode.featured
-                        ? 'bg-accent/10 border-accent/50 shadow-lg shadow-accent/10'
-                        : 'bg-card/50 border-border/30 hover:border-accent/30'
-                    }`}
-                  >
-                    <div className="flex flex-col md:flex-row md:items-center gap-4">
-                      {/* Icon & Name */}
-                      <div className="flex items-center gap-4 md:w-1/4">
-                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                          mode.featured ? 'bg-accent/20' : 'bg-muted'
-                        }`}>
-                          <Icon className={`w-6 h-6 ${mode.featured ? 'text-accent' : 'text-muted-foreground'}`} />
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <h3 className="font-semibold text-foreground">{mode.name}</h3>
-                          </div>
-                          <p className="text-sm text-muted-foreground">Best for: {mode.bestFor}</p>
-                        </div>
+              {aiModes.map((mode) => (
+                <div
+                  key={mode.id}
+                  className={`rounded-2xl p-6 border transition-all duration-300 hover-lift ${
+                    mode.featured
+                      ? 'bg-accent/10 border-accent/50 shadow-lg shadow-accent/10'
+                      : 'bg-card/50 border-border/30 hover:border-accent/30'
+                  }`}
+                >
+                  <div className="flex flex-col md:flex-row md:items-center gap-4">
+                    {/* Image & Name */}
+                    <div className="flex items-center gap-4 md:w-1/4">
+                      <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0">
+                        <img 
+                          src={mode.image} 
+                          alt={mode.imageAlt}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
                       </div>
-
-                      {/* Description */}
-                      <p className="text-sm text-muted-foreground md:flex-1">
-                        {mode.description}
-                      </p>
-
-                      {/* Pricing */}
-                      <div className="flex items-center gap-6 md:w-auto">
-                        <div className="text-right">
-                          <span className="text-2xl font-bold text-foreground">{mode.price}</span>
-                          <span className="text-muted-foreground text-sm">/mo</span>
-                          <p className="text-xs text-muted-foreground">{mode.setup} setup</p>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-semibold text-foreground">{mode.name}</h3>
                         </div>
-                        <a
-                          href={mode.href}
-                          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 whitespace-nowrap ${
-                            mode.featured
-                              ? 'bg-accent text-accent-foreground hover:bg-accent-hover'
-                              : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                          }`}
-                        >
-                          Learn More
-                        </a>
+                        <p className="text-sm text-muted-foreground">Best for: {mode.bestFor}</p>
                       </div>
                     </div>
+
+                    {/* Description */}
+                    <p className="text-sm text-muted-foreground md:flex-1">
+                      {mode.description}
+                    </p>
+
+                    {/* Pricing */}
+                    <div className="flex items-center gap-6 md:w-auto">
+                      <div className="text-right">
+                        <span className="text-2xl font-bold text-foreground">{mode.price}</span>
+                        <span className="text-muted-foreground text-sm">/mo</span>
+                        <p className="text-xs text-muted-foreground">{mode.setup} setup</p>
+                      </div>
+                      <a
+                        href={mode.href}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+                          mode.featured
+                            ? 'bg-accent text-accent-foreground hover:bg-accent-hover'
+                            : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                        }`}
+                      >
+                        Learn More
+                      </a>
+                    </div>
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
           </div>
         </section>
