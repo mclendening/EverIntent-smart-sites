@@ -98,7 +98,7 @@ export default function HealthWellness() {
               <span className="text-foreground">Health & Wellness</span>
             </div>
 
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-primary/10 text-primary text-sm font-medium mb-4">
               <Heart className="w-4 h-4" />
               15 Verticals
             </div>
@@ -120,7 +120,7 @@ export default function HealthWellness() {
               {tokenWords.map((word) => (
                 <span 
                   key={word}
-                  className="px-3 py-1 text-sm rounded-full bg-accent/50 text-accent-foreground"
+                  className="px-3 py-1 text-sm rounded-lg bg-accent/50 text-accent-foreground"
                 >
                   {word}
                 </span>
@@ -206,7 +206,7 @@ export default function HealthWellness() {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto bg-card rounded-2xl p-8 border border-primary/30">
             <div className="text-center">
-              <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+              <span className="inline-block px-3 py-1 rounded-lg bg-primary/10 text-primary text-sm font-medium mb-4">
                 Recommended for Health & Wellness
               </span>
               <h2 className="text-2xl sm:text-3xl font-bold mb-4">Convert</h2>

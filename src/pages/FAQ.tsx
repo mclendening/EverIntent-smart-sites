@@ -170,6 +170,20 @@ const FAQ = () => {
         title="Frequently Asked Questions"
         description="Common questions about EverIntent Smart Websites, AI Employee, pricing, setup, and support. Get answers fast."
         canonical="/faq"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faqCategories.flatMap((cat) =>
+            cat.questions.map((item) => ({
+              '@type': 'Question',
+              name: item.q,
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: item.a,
+              },
+            }))
+          ),
+        }}
       />
 
       {/* Hero */}

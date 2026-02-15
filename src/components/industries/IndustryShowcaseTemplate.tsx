@@ -421,7 +421,7 @@ export function IndustryShowcaseTemplate({
             </div>
 
             {/* Industry Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 text-primary text-sm font-medium mb-6">
               {industryIcon}
               {verticalCount} Verticals
             </div>
@@ -441,7 +441,7 @@ export function IndustryShowcaseTemplate({
               {tokenWords.map((word) => (
                 <span 
                   key={word}
-                  className="px-3 py-1 text-sm rounded-full bg-accent/20 text-accent-foreground border border-accent/30"
+                  className="px-3 py-1 text-sm rounded-lg bg-accent/20 text-accent-foreground border border-accent/30"
                 >
                   {word}
                 </span>

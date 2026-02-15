@@ -8,7 +8,7 @@
  */
 
 import { SEO } from '@/components/SEO';
-import { Link } from 'react-router-dom';
+
 import { 
   Home, 
   Briefcase, 
@@ -170,10 +170,10 @@ export default function Industries() {
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button asChild size="lg">
-                <Link to="/pricing">View Pricing</Link>
+                <a href="/pricing">View Pricing</a>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link to="/contact">Get a Free Consultation</Link>
+                <a href="/contact">Get a Free Consultation</a>
               </Button>
             </div>
           </div>
@@ -185,9 +185,9 @@ export default function Industries() {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
             {industryCategories.map((category) => (
-              <Link
+              <a
                 key={category.slug}
-                to={`/industries/${category.slug}`}
+                href={`/industries/${category.slug}`}
                 className="group relative bg-card rounded-2xl p-6 md:p-8 border border-border/30 hover:border-primary/50 transition-all duration-300 hover-lift"
               >
                 {/* Header */}
@@ -212,7 +212,7 @@ export default function Industries() {
                   {category.tokenWords.map((word) => (
                     <span 
                       key={word}
-                      className="px-2 py-1 text-xs rounded-full bg-accent/50 text-accent-foreground"
+                      className="px-2 py-1 text-xs rounded-lg bg-accent/50 text-accent-foreground"
                     >
                       {word}
                     </span>
@@ -240,7 +240,7 @@ export default function Industries() {
                     Recommended: {category.recommendedTier}
                   </span>
                 </div>
-              </Link>
+              </a>
             ))}
           </div>
         </div>
@@ -289,10 +289,10 @@ export default function Industries() {
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button asChild size="lg">
-                <Link to="/pricing">See All Plans</Link>
+                <a href="/pricing">See All Plans</a>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link to="/let-ai-handle-it">Explore AI Employee</Link>
+                <a href="/let-ai-handle-it">Explore AI Employee</a>
               </Button>
             </div>
           </div>

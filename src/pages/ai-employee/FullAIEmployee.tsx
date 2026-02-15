@@ -39,30 +39,7 @@ import {
 // DATA
 // ============================================
 
-const channels = [
-  { icon: Phone, name: 'Voice Calls', description: 'AI answers phone calls 24/7' },
-  { icon: MessageSquare, name: 'SMS', description: 'Text conversations with leads' },
-  { icon: Globe, name: 'Web Chat', description: 'Chat widget on your website' },
-  { icon: Calendar, name: 'Booking', description: 'Books directly into calendar' },
-  { icon: ShieldCheck, name: 'Screening', description: 'Qualifies every lead' },
-  { icon: Zap, name: 'Live Transfer', description: 'Hot leads to you instantly' },
-];
-
-
-const unlimitedFeatures = [
-  { name: 'SMS/Text conversations', description: 'Unlimited AI-powered texting' },
-  { name: 'Missed call text-back', description: 'Instant response, no per-message fees' },
-  { name: 'AI review responses', description: 'Automated reputation management' },
-  { name: 'Web chat conversations', description: 'Unlimited website chat sessions' },
-  { name: 'CRM integration', description: 'All leads sync automatically' },
-  { name: 'Lead qualification AI', description: 'Smart scoring included' },
-];
-
-const includedMinutes = {
-  voice: '2,500 voice minutes/mo',
-  overage: '$0.06/min after',
-  note: 'Most businesses never exceed this'
-};
+// Channels and unlimited features consolidated into fullAiFeatures (ExpandableFeatureGrid)
 
 const stats = [
   { icon: Phone, value: '24/7', label: 'Coverage' },
@@ -179,35 +156,21 @@ export default function FullAIEmployee() {
           </div>
         </section>
 
-        {/* Channels Grid */}
+        {/* All Features - Single Comprehensive Section */}
         <section className="py-20 md:py-32 bg-card">
           <div className="container">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                <span className="text-foreground">Every Channel,</span>{' '}
-                <span className="text-gradient">Covered</span>
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                One AI Employee handling all your customer communications.
-              </p>
-            </div>
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+                  <span className="text-foreground">What's</span>{' '}
+                  <span className="text-gradient">Included</span>
+                </h2>
+                <p className="text-lg text-muted-foreground">
+                  Every channel, every feature, one flat price. No per-message fees.
+                </p>
+              </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              {channels.map((channel, index) => {
-                const Icon = channel.icon;
-                return (
-                  <div 
-                    key={index}
-                    className="p-6 rounded-2xl bg-background border border-border/50 text-center hover:border-accent/50 transition-colors group"
-                  >
-                    <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-accent/20 transition-colors">
-                      <Icon className="w-7 h-7 text-accent" />
-                    </div>
-                    <h3 className="text-lg font-semibold mb-1 text-foreground">{channel.name}</h3>
-                    <p className="text-sm text-muted-foreground">{channel.description}</p>
-                  </div>
-                );
-              })}
+              <ExpandableFeatureGrid features={fullAiFeatures} columns={2} />
             </div>
           </div>
         </section>
@@ -262,59 +225,14 @@ export default function FullAIEmployee() {
           </div>
         </section>
 
-        {/* What's Unlimited Section */}
-        <section className="py-20 md:py-32">
+        {/* Voice Minutes Callout */}
+        <section className="py-16 md:py-24">
           <div className="container">
-            <div className="max-w-4xl mx-auto">
-              <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                  <span className="text-foreground">What's</span>{' '}
-                  <span className="text-gradient">Unlimited</span>
-                </h2>
-                <p className="text-lg text-muted-foreground">
-                  No per-message fees. No hidden costs. Just results.
-                </p>
-              </div>
-
-              {/* Unlimited Features Grid */}
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-                {unlimitedFeatures.map((feature, index) => (
-                  <div key={index} className="p-5 rounded-xl bg-accent/5 border border-accent/20">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-accent font-bold">∞</span>
-                      <h3 className="font-semibold text-foreground">{feature.name}</h3>
-                    </div>
-                    <p className="text-sm text-muted-foreground">{feature.description}</p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Voice Minutes Callout */}
-              <div className="p-6 rounded-2xl bg-accent/10 border border-accent/30 text-center">
-                <h3 className="text-lg font-semibold text-foreground mb-2">Voice AI Minutes</h3>
-                <p className="text-3xl font-bold text-accent mb-1">{includedMinutes.voice}</p>
-                <p className="text-sm text-muted-foreground mb-2">{includedMinutes.overage}</p>
-                <p className="text-xs text-accent">{includedMinutes.note}</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Features Grid */}
-        <section className="py-20 md:py-32 bg-card">
-          <div className="container">
-            <div className="max-w-4xl mx-auto">
-              <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                  <span className="text-foreground">Everything</span>{' '}
-                  <span className="text-gradient">Included</span>
-                </h2>
-                <p className="text-lg text-muted-foreground">
-                  The complete AI front office for your business.
-                </p>
-              </div>
-
-              <ExpandableFeatureGrid features={fullAiFeatures} columns={2} />
+            <div className="max-w-3xl mx-auto p-6 rounded-2xl bg-accent/10 border border-accent/30 text-center">
+              <h3 className="text-lg font-semibold text-foreground mb-2">Voice AI Minutes</h3>
+              <p className="text-3xl font-bold text-accent mb-1">2,500 voice minutes/mo</p>
+              <p className="text-sm text-muted-foreground mb-2">$0.06/min after</p>
+              <p className="text-xs text-accent">Most businesses never exceed this</p>
             </div>
           </div>
         </section>
@@ -340,8 +258,8 @@ export default function FullAIEmployee() {
                   <ul className="space-y-4">
                     {comparisonPoints.individual.map((point, index) => (
                       <li key={index} className="flex items-center gap-3 text-muted-foreground">
-                        <div className="w-5 h-5 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                          <span className="text-xs">—</span>
+                        <div className="w-5 h-5 rounded-lg bg-muted flex items-center justify-center flex-shrink-0">
+                          <span className="text-xs text-muted-foreground">×</span>
                         </div>
                         <span>{point}</span>
                       </li>
