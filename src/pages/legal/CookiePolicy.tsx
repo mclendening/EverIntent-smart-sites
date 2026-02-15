@@ -60,7 +60,7 @@ export default function CookiePolicy() {
         {/* Content */}
         <section className="py-12 md:py-16">
           <div className="container max-w-4xl">
-            <div className="prose prose-slate dark:prose-invert max-w-none space-y-8">
+            <div className="prose dark:prose-invert max-w-none space-y-8 text-foreground prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-li:text-muted-foreground">
 
               {/* Manage Preferences CTA */}
               <div className="bg-accent/10 border border-accent/30 rounded-lg p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">

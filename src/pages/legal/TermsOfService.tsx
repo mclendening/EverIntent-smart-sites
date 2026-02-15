@@ -63,7 +63,7 @@ export default function TermsOfService() {
         {/* Content */}
         <section className="py-12 md:py-16">
           <div className="container max-w-4xl">
-            <div className="prose prose-slate dark:prose-invert max-w-none space-y-8">
+            <div className="prose dark:prose-invert max-w-none space-y-8 text-foreground prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-li:text-muted-foreground">
 
               {/* Section 1: Agreement */}
               <div className="space-y-4">
