@@ -44,7 +44,7 @@ const faqCategories: FAQCategory[] = [
       },
       {
         q: 'What are the Smart Website tiers?',
-        a: 'We offer four tiers: Launch ($249 one-time) for getting online fast, Capture ($97/mo) for lead capture and follow-up, Convert ($197/mo) for turning visitors into customers, and Scale ($497/mo) as an AI-powered growth engine.',
+        a: 'We offer four tiers: Launch ($249 one-time) for getting online fast, Capture ($97/mo) for lead capture and follow-up, Convert ($197/mo) for turning visitors into customers, and Scale ($297/mo) as an AI-powered growth engine.',
       },
       {
         q: 'Do I own my website?',
@@ -71,7 +71,7 @@ const faqCategories: FAQCategory[] = [
       },
       {
         q: 'What are the AI Employee modes?',
-        a: 'Three modes: After-Hours ($497/mo) covers calls outside business hours, Front Office ($547/mo) screens calls during business hours with optional transfer, and Full AI Employee ($597/mo) combines everything.',
+        a: 'Three plans: After-Hours ($197/mo) covers calls outside business hours with booking and missed call recovery, Front Office ($297/mo) screens calls during business hours with optional transfer, and Full AI Employee ($597/mo) combines everything.',
       },
       {
         q: 'How quickly can the AI Employee be set up?',
@@ -152,7 +152,7 @@ const faqCategories: FAQCategory[] = [
       },
       {
         q: 'Do you offer phone support?',
-        a: 'Phone support is available for Scale ($497/mo) customers, along with quarterly strategy calls. All other tiers can reach us via email and chat.',
+        a: 'Phone support is available for Scale ($297/mo) customers, along with quarterly strategy calls. All other tiers can reach us via email and chat.',
       },
     ],
   },
@@ -176,10 +176,10 @@ const FAQ = () => {
       <section className="py-16 md:py-24 bg-background">
         <div className="container max-w-3xl text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Frequently Asked Questions
+            Questions Before You Buy
           </h1>
           <p className="text-lg text-muted-foreground">
-            Everything you need to know about our smart websites and AI automation services.
+            Answers to help you choose the right plan for your business.
           </p>
         </div>
       </section>

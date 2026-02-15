@@ -474,9 +474,12 @@ export default function CompareWebsites() {
               <span className="text-gradient">Smart Website</span>
             </h1>
             
-            <p className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto">
+            <p className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto mb-6">
               From simple presence to full automation. Every website is designed to convert.
             </p>
+            <a href="/contact" className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors text-sm font-medium">
+              Need help choosing? Book a call →
+            </a>
           </div>
         </section>
         
@@ -531,6 +534,14 @@ export default function CompareWebsites() {
                         Choose {tier.name}
                         <ArrowRight className="w-4 h-4" />
                       </a>
+                      {tier.name === 'Scale' && (
+                        <a
+                          href="/contact"
+                          className="w-full mt-2 py-2 px-4 rounded-lg text-center text-sm font-medium border border-border hover:bg-muted transition-colors"
+                        >
+                          Book a Call
+                        </a>
+                      )}
                       
                       {/* Recommended Add-ons */}
                       {tier.recommendedAddons.length > 0 && (

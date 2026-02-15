@@ -222,13 +222,13 @@ const Pricing = () => {
           
           {/* Compare Plans Link */}
           <div className="mt-6">
-            <Link 
-              to={activeTab === 'websites' ? '/compare-websites' : '/compare-ai-employee'}
+            <a 
+              href={activeTab === 'websites' ? '/compare-websites' : '/compare-ai-employee'}
               className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors text-sm font-medium"
             >
               <span className="story-link">Compare all {activeTab === 'websites' ? 'website' : 'AI'} plans</span>
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </a>
           </div>
         </div>
       </section>
@@ -279,13 +279,13 @@ const Pricing = () => {
                     {websiteTiers.map((tier) => (
                       <td key={tier.id} className="py-6 px-4 text-center">
                         <div className="flex flex-col gap-2">
-                          <Link
-                            to={tier.href}
+                          <a
+                            href={tier.href}
                             className="inline-flex items-center justify-center gap-1.5 text-sm text-accent hover:text-accent/80 transition-colors"
                           >
                             See Details
                             <ArrowRight className="w-3.5 h-3.5" />
-                          </Link>
+                          </a>
                         <a
                             href={tier.checkoutHref}
                             className={`inline-block px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
@@ -338,12 +338,12 @@ const Pricing = () => {
                       })}
                     </ul>
                     <div className="space-y-2">
-                      <Link
-                        to={tier.href}
+                      <a
+                        href={tier.href}
                         className="block w-full py-2 px-4 rounded-lg text-center text-sm font-medium text-accent border border-accent/30 hover:bg-accent/10 transition-colors"
                       >
                         See Full Details
-                      </Link>
+                      </a>
                       <a
                         href={tier.checkoutHref}
                         className={`block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 ${
@@ -422,6 +422,14 @@ const Pricing = () => {
                         >
                           Get Started
                         </a>
+                        {(plan.id === 'front-office' || plan.id === 'full') && (
+                          <a
+                            href="/contact"
+                            className="px-4 py-2 rounded-lg text-sm font-medium border border-border hover:bg-muted transition-colors whitespace-nowrap"
+                          >
+                            Book a Call
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>

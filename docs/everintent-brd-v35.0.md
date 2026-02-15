@@ -1,11 +1,138 @@
-# EverIntent — Complete Business Requirements Document v35.3
+# EverIntent — Complete Business Requirements Document v36.0
 
-**Last Updated:** January 25, 2025  
-**Version:** 35.3 (AI-First + Smart Lead + Warmy Full Spec + Nav Refinement)
+**Last Updated:** February 15, 2026  
+**Version:** 36.0 (GTM Audit + Tier Naming Sync + CTA Escalation + Lifecycle Differentiation)
 **Status:** BUILD-READY
 **Owner:** EverIntent LLC  
 **Tagline:** Web Design AI & Automation
 **GitHub Path:** /docs/everintent-brd-v35.0.md
+
+---
+
+## v36.0 Amendment — GTM Trust & Revenue Fixes
+
+> This section documents changes from v35.3 → v36.0. All sections below are **authoritative** and override any conflicting content in the body of this document.
+
+### A1. Tier Naming Sync (Supersedes §6 "Tier Naming — RESOLVED")
+
+All customer-facing UI, marketing copy, and internal documentation must use the v2.2 tier names:
+
+| Internal ID | v35.3 Name | v36.0 Name (Authoritative) |
+|-------------|------------|---------------------------|
+| T1 | Smart Site | **Launch** |
+| T2 | Smart Lead | **Capture** |
+| T3 | Smart Business | **Convert** |
+| T4 | Smart Growth | **Scale** |
+
+The old names (Smart Site, Smart Lead, Smart Business, Smart Growth) are deprecated. They may appear in URL slugs (e.g., `/smart-websites/smart-lead`) for backward compatibility but must NEVER appear in headings, CTAs, cards, FAQs, or marketing copy.
+
+### A2. AI Employee Pricing (Supersedes §5.8 Mode Pricing Table)
+
+Consolidated plans with current pricing:
+
+| Plan | Setup Fee | Monthly |
+|------|-----------|---------|
+| After-Hours | $997 | **$197/mo** |
+| Front Office | $1,497 | **$297/mo** |
+| Full AI Employee | $2,500 | **$597/mo** |
+| Web Chat Only | $497 | $79/mo |
+
+The old 5-mode structure (M1–M5) is collapsed to 3 plans + Web Chat. After-Hours includes booking + missed call recovery. Front Office includes missed call recovery.
+
+### A3. Smart Websites Pricing (Supersedes §5.13 Conversion Ladder)
+
+| Tier | Setup | Monthly |
+|------|-------|---------|
+| Launch | $249 (one-time) | $149/yr renewal |
+| Capture | — | $97/mo |
+| Convert | — | $197/mo |
+| Scale | — | **$297/mo** |
+
+### A4. GHL Tag Schema (Supersedes §5.9 Tag Schema)
+
+```
+# Smart Website Tiers (v2.2 names)
+EI: Tier – Launch
+EI: Tier – Capture
+EI: Tier – Convert
+EI: Tier – Scale
+
+# AI Employee Plans
+EI: Tier – After-Hours
+EI: Tier – Front Office
+EI: Tier – Full AI Employee
+EI: Tier – Web Chat Only
+
+# Add-On Packs
+EI: AddOn – Email Authority
+EI: AddOn – Get Paid Now
+EI: AddOn – AI Voice Chat
+EI: AddOn – Social Autopilot
+EI: AddOn – Omnichannel Inbox
+EI: AddOn – Unlimited AI
+```
+
+### A5. Book a Call Escalation Rule
+
+**Rule:** Any plan priced ≥$297/mo MUST display a secondary "Book a Call" CTA alongside the primary "Get Started" button. This applies to:
+- Front Office ($297/mo)
+- Full AI Employee ($597/mo)
+- Scale ($297/mo)
+
+**Implementation:** Outline-style button linking to `/contact`. Text: "Book a Call". Appears on:
+- `/pricing` (both tabs)
+- `/compare-websites` (Scale column)
+- `/compare-ai-employee` (Front Office + Full AI columns)
+- Detail pages: SmartGrowth, FrontOffice, FullAIEmployee
+
+**Rationale:** High-ticket buyers need human reassurance. The chat widget handles instant questions; "Book a Call" provides scheduled consultation for complex decisions.
+
+### A6. "Need Help Choosing?" Prompt
+
+Both comparison pages (`/compare-websites` and `/compare-ai-employee`) must include a "Need help choosing?" prompt below the hero section, linking to `/contact`. This reduces decision paralysis for the non-technical ICP.
+
+### A7. Resource Center Lifecycle Differentiation
+
+| Route | Lifecycle Stage | H1 | Subheadline |
+|-------|----------------|-----|-------------|
+| `/faq` | Pre-sale | "Questions Before You Buy" | "Answers to help you choose the right plan for your business." |
+| `/help` | Post-sale onboarding | "Getting Started With EverIntent" | "Set up your account, connect your tools, and start capturing leads." |
+| `/support` | Active client issues | "Help With Your Account" | "Submit a ticket, check SLA response times, or contact us directly." |
+
+### A8. Portfolio Link Integrity Rule
+
+Portfolio cards MUST only link to routes with existing case study components. Cards without a dedicated case study page must either:
+1. Link to the portfolio hub (`/portfolio`) instead of a dead slug, OR
+2. Not render the "View Case Study" CTA
+
+**Current case studies with routes:** Desert Cool Air, Clearview Dentistry Austin, Alexander Tree, Honest Wrench Auto.
+**Cards without case studies:** Ashford Law, Summit Climate, Golden Gate Roofing, Harmony Wellness, Precision Auto — these must link to `/portfolio`.
+
+### A9. SSG Anchor Compliance Expansion
+
+Per the existing SSG native anchor standard, the following components were found to violate the `<a>` tag requirement and must be fixed:
+- `PortfolioCard.tsx` — uses React Router `<Link>`
+- `Pricing.tsx` — uses `<Link>` for "See Details" and compare links
+- `CompareWebsites.tsx` — uses `<Link>` for add-on and upsell links
+- `CompareAIEmployee.tsx` — uses `<Link>` for contact link
+- `PricingTeaser.tsx` — uses `<Link>` for compare link
+
+### A10. Page-Length Guidelines
+
+| Page Type | Max Scroll Depth | Pattern |
+|-----------|-----------------|---------|
+| Hub pages (/services, /industries) | 4-5 screens | Card directory, no feature duplication |
+| Detail pages (/smart-websites/capture) | 6-8 screens | Accordion sections for features beyond top 5 |
+| Comparison pages | Unlimited | Full feature matrix is acceptable |
+| Resource pages (/faq, /help, /support) | 3-4 screens | Accordions for Q&A; concise answers |
+
+### A11. Services Page Layout Bug
+
+`Services.tsx` wraps its content in `<Layout>`, creating a double Header/Footer since `RootLayout` already provides `<Layout>`. The inner `<Layout>` wrapper must be removed.
+
+### A12. PricingTeaser Homepage Card Fix
+
+The homepage `PricingTeaser` component shows "AI Employee" as the 4th card. This must be changed to "Scale" ($297/mo) to maintain consistency with the Smart Websites product line. AI Employee has its own dedicated section on the homepage.
 
 ---
 

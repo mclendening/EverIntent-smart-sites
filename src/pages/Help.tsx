@@ -67,10 +67,10 @@ const Help = () => {
       <section className="py-16 md:py-24 bg-background">
         <div className="container max-w-3xl text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            How Can We Help?
+            Getting Started With EverIntent
           </h1>
           <p className="text-lg text-muted-foreground">
-            Find answers, get support, or explore our resources.
+            Set up your account, connect your tools, and start capturing leads.
           </p>
         </div>
       </section>
