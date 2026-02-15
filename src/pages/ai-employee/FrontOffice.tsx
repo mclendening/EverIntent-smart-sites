@@ -16,8 +16,7 @@ import {
   AnimatedFlowDiagram, 
   DashboardPreview, 
   TranscriptCard, 
-  ExpandableFeatureGrid,
-  WhatsUnlimited 
+  ExpandableFeatureGrid 
 } from '@/components/ai-employee';
 import { frontOfficeFeatures } from '@/data/features';
 import { 
@@ -85,20 +84,32 @@ export default function FrontOffice() {
         title="Front Office AI: Screen, Qualify and Transfer Calls"
         description="AI screens every call, qualifies leads, and transfers hot prospects for Long Beach, Orange County, and LA businesses. $297/mo."
         canonical="/let-ai-handle-it/front-office"
-        structuredData={{
-          '@context': 'https://schema.org',
-          '@type': 'Product',
-          name: 'Front Office AI Employee',
-          description: 'AI screens every call, qualifies leads, and only transfers hot prospects.',
-          brand: { '@type': 'Brand', name: 'EverIntent' },
-          offers: {
-            '@type': 'Offer',
-            price: '297',
-            priceCurrency: 'USD',
-            priceSpecification: { '@type': 'UnitPriceSpecification', price: '297', priceCurrency: 'USD', billingDuration: 'P1M' },
-            availability: 'https://schema.org/InStock',
+        structuredData={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name: 'Front Office AI Employee',
+            description: 'AI screens every call, qualifies leads, and only transfers hot prospects.',
+            brand: { '@type': 'Brand', name: 'EverIntent' },
+            offers: {
+              '@type': 'Offer',
+              price: '297',
+              priceCurrency: 'USD',
+              priceSpecification: { '@type': 'UnitPriceSpecification', price: '297', priceCurrency: 'USD', billingDuration: 'P1M' },
+              availability: 'https://schema.org/InStock',
+            },
           },
-        }}
+          {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: [
+              { '@type': 'Question', name: 'How does Front Office AI screen calls?', acceptedAnswer: { '@type': 'Answer', text: 'AI answers every call instantly, asks your custom qualifying questions (service needed, timeline, budget), scores the lead, and either transfers hot prospects live or politely ends non-fit calls.' } },
+              { '@type': 'Question', name: 'What happens to spam and solicitor calls?', acceptedAnswer: { '@type': 'Answer', text: 'AI identifies spam, robocalls, and solicitors within seconds and politely ends the call. You never see or waste time on junk calls.' } },
+              { '@type': 'Question', name: 'How fast are qualified leads transferred?', acceptedAnswer: { '@type': 'Answer', text: 'Hot leads are warm-transferred to you in under 10 seconds with a whisper summary of their needs, budget, and timeline so you can close faster.' } },
+              { '@type': 'Question', name: 'How much does Front Office AI cost?', acceptedAnswer: { '@type': 'Answer', text: '$297 per month plus a one-time $1,497 setup fee. Includes 1,000 voice minutes, unlimited SMS, lead qualification, and live call transfers.' } },
+            ],
+          },
+        ]}
       />
       
       <main className="min-h-screen">
@@ -239,33 +250,28 @@ export default function FrontOffice() {
           </div>
         </section>
 
-        {/* What's Unlimited — Shared Component */}
-        <WhatsUnlimited 
-          voiceMinutes="1,000" 
-          features={[
-            { name: 'SMS/Text conversations', description: 'Unlimited AI-powered texting' },
-            { name: 'Missed call text-back', description: 'Instant response, no per-message fees' },
-            { name: 'AI review responses', description: 'Automated reputation management' },
-            { name: 'CRM integration', description: 'All leads sync automatically' },
-            { name: 'Lead qualification AI', description: 'Smart scoring included' },
-          ]}
-        />
-
-        {/* Features Grid */}
-        <section className="py-20 md:py-32">
+        {/* All Features — Single Comprehensive Section */}
+        <section className="py-20 md:py-32 bg-card">
           <div className="container">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-16">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                  <span className="text-foreground">All</span>{' '}
-                  <span className="text-gradient">Features</span>
+                  <span className="text-foreground">What's</span>{' '}
+                  <span className="text-gradient">Included</span>
                 </h2>
                 <p className="text-lg text-muted-foreground">
-                  Complete front office automation for your business.
+                  Unlimited SMS, missed-call text-back, lead qualification, CRM sync, and AI training. No per-message fees.
                 </p>
               </div>
 
               <ExpandableFeatureGrid features={frontOfficeFeatures} columns={2} />
+
+              {/* Voice Minutes Callout */}
+              <div className="mt-8 p-6 rounded-2xl bg-accent/5 border border-accent/20 text-center">
+                <h3 className="text-lg font-semibold text-foreground mb-2">Voice AI Minutes</h3>
+                <p className="text-2xl font-bold text-accent mb-1">1,000 voice minutes/mo</p>
+                <p className="text-sm text-muted-foreground">$0.06/min after</p>
+              </div>
             </div>
           </div>
         </section>

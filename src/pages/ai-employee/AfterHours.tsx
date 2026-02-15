@@ -18,8 +18,7 @@ import {
   AnimatedFlowDiagram, 
   DashboardPreview, 
   TranscriptCard, 
-  ExpandableFeatureGrid,
-  WhatsUnlimited 
+  ExpandableFeatureGrid 
 } from '@/components/ai-employee';
 import { afterHoursFeatures } from '@/data/features';
 import { ArrowRight, Clock, DollarSign, TrendingUp, Zap } from 'lucide-react';
@@ -77,20 +76,32 @@ export default function AfterHours() {
         title="After-Hours AI: Complete Night Coverage"
         description="AI receptionist answers calls, books appointments, and texts back missed calls while you're closed. Serving Long Beach, Orange County, and LA. $197/mo."
         canonical="/let-ai-handle-it/after-hours"
-        structuredData={{
-          '@context': 'https://schema.org',
-          '@type': 'Product',
-          name: 'After-Hours AI Employee',
-          description: 'AI answers calls, books appointments, and texts back missed calls while you\'re closed.',
-          brand: { '@type': 'Brand', name: 'EverIntent' },
-          offers: {
-            '@type': 'Offer',
-            price: '197',
-            priceCurrency: 'USD',
-            priceSpecification: { '@type': 'UnitPriceSpecification', price: '197', priceCurrency: 'USD', billingDuration: 'P1M' },
-            availability: 'https://schema.org/InStock',
+        structuredData={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name: 'After-Hours AI Employee',
+            description: 'AI answers calls, books appointments, and texts back missed calls while you\'re closed.',
+            brand: { '@type': 'Brand', name: 'EverIntent' },
+            offers: {
+              '@type': 'Offer',
+              price: '197',
+              priceCurrency: 'USD',
+              priceSpecification: { '@type': 'UnitPriceSpecification', price: '197', priceCurrency: 'USD', billingDuration: 'P1M' },
+              availability: 'https://schema.org/InStock',
+            },
           },
-        }}
+          {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: [
+              { '@type': 'Question', name: 'What does the After-Hours AI Employee do?', acceptedAnswer: { '@type': 'Answer', text: 'It answers calls, books appointments, and sends missed-call text-backs while your business is closed. You wake up to booked jobs instead of voicemails.' } },
+              { '@type': 'Question', name: 'How fast does AI respond to missed calls?', acceptedAnswer: { '@type': 'Answer', text: 'The AI sends an SMS text-back within 60 seconds of a missed call, opening a two-way conversation to capture the lead and book an appointment.' } },
+              { '@type': 'Question', name: 'How many voice minutes are included?', acceptedAnswer: { '@type': 'Answer', text: '500 voice minutes per month are included. Additional minutes are $0.06 per minute. Most small businesses never exceed this allowance.' } },
+              { '@type': 'Question', name: 'How much does After-Hours AI cost?', acceptedAnswer: { '@type': 'Answer', text: '$197 per month plus a one-time $997 setup fee. This includes unlimited SMS, missed-call text-back, CRM integration, and 500 voice minutes.' } },
+            ],
+          },
+        ]}
       />
       
       <main className="min-h-screen">
@@ -209,24 +220,28 @@ export default function AfterHours() {
           </div>
         </section>
 
-        {/* What's Unlimited — Shared Component */}
-        <WhatsUnlimited voiceMinutes="500" />
-
-        {/* Features Grid */}
-        <section className="py-20 md:py-32">
+        {/* All Features — Single Comprehensive Section */}
+        <section className="py-20 md:py-32 bg-card">
           <div className="container">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-16">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                  <span className="text-foreground">All</span>{' '}
-                  <span className="text-gradient">Features</span>
+                  <span className="text-foreground">What's</span>{' '}
+                  <span className="text-gradient">Included</span>
                 </h2>
                 <p className="text-lg text-muted-foreground">
-                  Everything you need for complete after-hours coverage.
+                  Unlimited SMS, missed-call text-back, CRM sync, and AI training. No per-message fees.
                 </p>
               </div>
 
               <ExpandableFeatureGrid features={afterHoursFeatures} columns={2} />
+
+              {/* Voice Minutes Callout */}
+              <div className="mt-8 p-6 rounded-2xl bg-accent/5 border border-accent/20 text-center">
+                <h3 className="text-lg font-semibold text-foreground mb-2">Voice AI Minutes</h3>
+                <p className="text-2xl font-bold text-accent mb-1">500 voice minutes/mo</p>
+                <p className="text-sm text-muted-foreground">$0.06/min after</p>
+              </div>
             </div>
           </div>
         </section>

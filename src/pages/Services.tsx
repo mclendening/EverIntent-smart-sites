@@ -49,6 +49,15 @@ import {
   TrendingUp,
 } from 'lucide-react';
 
+// Service imagery imports
+import imgSmartWebsites from '@/assets/services/smart-websites.jpg';
+import imgAiEmployee from '@/assets/services/ai-employee.jpg';
+import imgGetFound from '@/assets/services/get-found-online.jpg';
+import imgNeverMiss from '@/assets/services/never-miss-lead.jpg';
+import imgBookJobs from '@/assets/services/book-more-jobs.jpg';
+import imgReputation from '@/assets/services/build-reputation.jpg';
+import imgEmail from '@/assets/services/email-deliverability.jpg';
+
 // ============================================
 // SERVICE DATA
 // ============================================
@@ -60,6 +69,8 @@ import {
 const primaryServices = [
   {
     icon: Globe,
+    image: imgSmartWebsites,
+    imageAlt: 'Professional business website displayed on a laptop in a modern office',
     title: 'Smart Websites',
     headline: 'A Website That Pays for Itself',
     description: 'Professional 5-page website built in 5 days. Mobile-first, SEO-ready, upgrade-ready with AI under the hood. Starting at just $249.',
@@ -70,6 +81,8 @@ const primaryServices = [
   },
   {
     icon: Bot,
+    image: imgAiEmployee,
+    imageAlt: 'Smartphone showing incoming call notification in a dark office at night',
     title: 'AI Employee',
     headline: 'Let AI Handle It, 24/7',
     description: 'AI answers calls after hours, screens during business hours, texts back missed calls, and books appointments. Your virtual receptionist that never sleeps.',
@@ -80,6 +93,8 @@ const primaryServices = [
   },
   {
     icon: Search,
+    image: imgGetFound,
+    imageAlt: 'Business owner viewing Google search results showing local business rankings',
     title: 'Get Found Online',
     headline: 'Show Up When Customers Search',
     description: 'SEO fundamentals baked into every site. Google Business optimization and local search visibility so customers find you, not your competitor.',
@@ -90,6 +105,8 @@ const primaryServices = [
   },
   {
     icon: PhoneOff,
+    image: imgNeverMiss,
+    imageAlt: 'Contractor checking lead notifications on phone at a job site',
     title: 'Never Miss a Lead',
     headline: 'Every Inquiry Gets a Response',
     description: '85% of callers won\'t leave a voicemail. Missed call text-back, AI chat, and 24/7 lead capture ensure no opportunity falls through the cracks.',
@@ -100,6 +117,8 @@ const primaryServices = [
   },
   {
     icon: CalendarCheck,
+    image: imgBookJobs,
+    imageAlt: 'Tablet showing booking calendar with confirmed appointments',
     title: 'Book More Jobs',
     headline: 'Customers Book, You Show Up',
     description: 'Online booking eliminates phone tag. Automated reminders reduce no-shows. Calendar integration keeps your schedule tight.',
@@ -110,6 +129,8 @@ const primaryServices = [
   },
   {
     icon: Star,
+    image: imgReputation,
+    imageAlt: 'Five star review notification on smartphone screen',
     title: 'Build Your Reputation',
     headline: 'More 5-Star Reviews, Automatically',
     description: '93% of customers check reviews first. Automated review requests after every job, response templates, and reputation monitoring across platforms.',
@@ -120,6 +141,8 @@ const primaryServices = [
   },
   {
     icon: Mail,
+    image: imgEmail,
+    imageAlt: 'Email deliverability dashboard showing high inbox placement rates',
     title: 'Email Deliverability',
     headline: 'Your Emails Deserve to Be Seen',
     description: 'AI-powered email warm-up with inbox placement testing across 35+ providers. Stop landing in spam. 95%+ inbox placement guaranteed.',
@@ -376,20 +399,27 @@ export default function Services() {
                   </a>
                 </div>
 
-                {/* Visual Card — Pricing-focused, no giant icons */}
+                {/* Visual Card — Lifestyle photography */}
                 <Card className="bg-muted/30 border-border/30 overflow-hidden">
-                  <CardContent className="p-6 md:p-8 flex flex-col items-center justify-center min-h-[200px]">
-                    <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-4">
-                      <service.icon className="w-6 h-6 text-accent" />
+                  <CardContent className="p-0">
+                    <div className="relative aspect-[3/2] overflow-hidden">
+                      <img
+                        src={service.image}
+                        alt={service.imageAlt}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
+                      <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
+                        <p className="text-2xl md:text-3xl font-bold text-foreground">{service.pricing}</p>
+                        <a 
+                          href={service.href}
+                          className="mt-2 text-xs text-accent hover:text-accent/80 transition-colors inline-flex items-center gap-1"
+                        >
+                          Learn more <ArrowRight className="w-3 h-3" />
+                        </a>
+                      </div>
                     </div>
-                    <p className="text-2xl md:text-3xl font-bold text-foreground">{service.pricing}</p>
-                    <p className="text-sm text-muted-foreground mt-2">{service.title}</p>
-                    <a 
-                      href={service.href}
-                      className="mt-4 text-xs text-accent hover:text-accent/80 transition-colors inline-flex items-center gap-1"
-                    >
-                      Learn more <ArrowRight className="w-3 h-3" />
-                    </a>
                   </CardContent>
                 </Card>
               </div>
