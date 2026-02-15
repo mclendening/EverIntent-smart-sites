@@ -3,15 +3,16 @@
  * @module pages/Help
  * 
  * Hub page linking to FAQ, Support, and relevant resources.
- * Provides quick-access cards for common help topics.
+ * Features lifestyle photography instead of generic icons.
  */
 
 import { SEO } from '@/components/SEO';
-import { HelpCircle, MessageSquare, FileText, BookOpen, Phone, Mail } from 'lucide-react';
+import { Phone, Mail } from 'lucide-react';
+
+import helpSupportImg from '@/assets/lifestyle/help-support.jpg';
 
 /** Help category card data */
 interface HelpCard {
-  icon: React.ElementType;
   title: string;
   description: string;
   href: string;
@@ -20,28 +21,24 @@ interface HelpCard {
 
 const helpCards: HelpCard[] = [
   {
-    icon: HelpCircle,
     title: 'FAQ',
     description: 'Find quick answers to the most common questions about our services, pricing, and setup process.',
     href: '/faq',
     cta: 'Browse FAQ',
   },
   {
-    icon: MessageSquare,
     title: 'Contact Support',
     description: 'Need help with your account or service? Our support team responds within 24 hours.',
     href: '/support',
     cta: 'Get Support',
   },
   {
-    icon: FileText,
     title: 'Privacy & Legal',
     description: 'Review our privacy policy, terms of service, cookie policy, and data rights information.',
     href: '/legal/privacy',
     cta: 'View Policies',
   },
   {
-    icon: BookOpen,
     title: 'Pricing & Plans',
     description: 'Compare Smart Website tiers and AI Employee modes. Find the right plan for your business.',
     href: '/pricing',
@@ -50,7 +47,7 @@ const helpCards: HelpCard[] = [
 ];
 
 /**
- * Help center hub page.
+ * Help center hub page with lifestyle hero image.
  * 
  * @component
  */
@@ -81,9 +78,18 @@ const Help = () => {
         ]}
       />
 
-      {/* Hero */}
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container max-w-3xl text-center">
+      {/* Hero with lifestyle image */}
+      <section className="relative py-16 md:py-24 bg-background overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src={helpSupportImg}
+            alt="Business consultant helping a local business owner review documents"
+            className="w-full h-full object-cover opacity-15"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/80 to-background" />
+        </div>
+        <div className="container max-w-3xl text-center relative">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Getting Started With EverIntent
           </h1>
@@ -103,7 +109,6 @@ const Help = () => {
                 href={card.href}
                 className="group block rounded-xl border border-border/40 bg-card p-6 hover:border-accent/40 hover:shadow-lg transition-all duration-300"
               >
-                <card.icon className="h-8 w-8 text-accent mb-4" />
                 <h2 className="text-lg font-semibold text-foreground mb-2 group-hover:text-accent transition-colors">
                   {card.title}
                 </h2>

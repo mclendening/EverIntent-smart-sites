@@ -12,6 +12,11 @@ import { SEO } from '@/components/SEO';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
+import smartWebsiteHvac from '@/assets/lifestyle/smart-website-hvac.jpg';
+import smartWebsiteDental from '@/assets/lifestyle/smart-website-dental.jpg';
+import smartWebsiteAuto from '@/assets/lifestyle/smart-website-auto.jpg';
+import smartWebsiteLegal from '@/assets/lifestyle/smart-website-legal.jpg';
+
 /**
  * Smart Websites page component - 4-tier website ladder from $249 to $297/mo.
  */
@@ -141,10 +146,10 @@ const SmartWebsites = () => {
    * Portfolio previews - placeholder for real client work
    */
   const portfolioItems = [
-    { title: "HVAC Contractor", industry: "Home Services", image: "/placeholder.svg" },
-    { title: "Family Dental", industry: "Health & Wellness", image: "/placeholder.svg" },
-    { title: "Auto Detailing", industry: "Automotive", image: "/placeholder.svg" },
-    { title: "Law Firm", industry: "Professional", image: "/placeholder.svg" },
+    { title: "HVAC Contractor", industry: "Home Services", image: smartWebsiteHvac, imageAlt: "Laptop displaying a professional HVAC contractor website" },
+    { title: "Family Dental", industry: "Health & Wellness", image: smartWebsiteDental, imageAlt: "Laptop displaying a professional dental clinic website" },
+    { title: "Auto Detailing", industry: "Automotive", image: smartWebsiteAuto, imageAlt: "Laptop displaying a professional auto detailing website" },
+    { title: "Law Firm", industry: "Professional", image: smartWebsiteLegal, imageAlt: "Laptop displaying a professional law firm website" },
   ];
 
   /**
@@ -542,7 +547,7 @@ const SmartWebsites = () => {
                 <div className="aspect-video bg-muted relative overflow-hidden">
                   <img 
                     src={item.image} 
-                    alt={item.title}
+                    alt={item.imageAlt}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
