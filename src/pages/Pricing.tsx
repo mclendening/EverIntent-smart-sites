@@ -24,6 +24,10 @@ import afterHoursImg from '@/assets/lifestyle/after-hours-call.jpg';
 import frontOfficeImg from '@/assets/lifestyle/front-office-desk.jpg';
 import fullAiImg from '@/assets/lifestyle/full-ai-command.jpg';
 import webChatImg from '@/assets/lifestyle/web-chat-widget.jpg';
+import smartWebsiteHvacImg from '@/assets/lifestyle/smart-website-hvac.jpg';
+import missedCallImg from '@/assets/lifestyle/missed-call-recovery.jpg';
+import resultsDashboardImg from '@/assets/lifestyle/results-dashboard.jpg';
+import revenueGrowthImg from '@/assets/lifestyle/revenue-growth.jpg';
 import {
   Accordion,
   AccordionContent,
@@ -59,10 +63,10 @@ const websiteFeatures = [
 ];
 
 const websiteTiers = [
-  { id: 'launch', name: 'Launch', key: 't1', cta: 'Get Started', ctaStyle: 'secondary', href: '/smart-websites/launch', checkoutHref: '/checkout/launch' },
-  { id: 'capture', name: 'Capture', key: 't2', cta: 'Get Started', ctaStyle: 'primary', href: '/smart-websites/capture', checkoutHref: '/checkout/capture' },
-  { id: 'convert', name: 'Convert', key: 't3', cta: 'Get Started', ctaStyle: 'primary', href: '/smart-websites/convert', checkoutHref: '/checkout/convert' },
-  { id: 'scale', name: 'Scale', key: 't4', cta: 'Get Started', ctaStyle: 'secondary', href: '/smart-websites/scale', checkoutHref: '/checkout/scale' },
+  { id: 'launch', name: 'Launch', key: 't1', cta: 'Get Started', ctaStyle: 'secondary' as const, href: '/smart-websites/launch', checkoutHref: '/checkout/launch', image: smartWebsiteHvacImg, imageAlt: 'Professional business website displayed on laptop screen', description: 'Get online fast with a professional 5-page website. Mobile responsive, SEO-ready, delivered in 5 days.' },
+  { id: 'capture', name: 'Capture', key: 't2', cta: 'Get Started', ctaStyle: 'primary' as const, href: '/smart-websites/capture', checkoutHref: '/checkout/capture', image: missedCallImg, imageAlt: 'Smartphone showing missed call text-back notification from AI', description: 'Never miss a lead. AI chat widget, missed call text-back, CRM, and Google Business Profile sync.' },
+  { id: 'convert', name: 'Convert', key: 't3', cta: 'Get Started', ctaStyle: 'primary' as const, href: '/smart-websites/convert', checkoutHref: '/checkout/convert', image: resultsDashboardImg, imageAlt: 'Business dashboard showing booking and review automation metrics', description: 'Turn visitors into customers with online booking, review automation, CRM pipelines, and SMS campaigns.' },
+  { id: 'scale', name: 'Scale', key: 't4', cta: 'Get Started', ctaStyle: 'secondary' as const, href: '/smart-websites/scale', checkoutHref: '/checkout/scale', image: revenueGrowthImg, imageAlt: 'Revenue growth chart showing business scaling results', description: 'AI-powered growth engine with advanced automations, unified inbox, strategy calls, and full CRM.' },
 ];
 
 // ============================================
@@ -246,6 +250,61 @@ const Pricing = () => {
       {activeTab === 'websites' && (
         <section id="smart-websites" className="py-16 md:py-24 bg-muted/30">
           <div className="container mx-auto px-4">
+            {/* Plan Cards - matching AI Employee layout */}
+            <div className="space-y-4 max-w-4xl mx-auto mb-16">
+              {websiteTiers.map((tier) => {
+                const priceFeature = websiteFeatures.find(f => f.name === 'Price');
+                const billingFeature = websiteFeatures.find(f => f.name === 'Billing');
+                return (
+                  <div
+                    key={tier.id}
+                    id={tier.id}
+                    className="rounded-2xl p-6 border transition-all duration-300 hover-lift bg-card/50 border-border/30 hover:border-accent/30"
+                  >
+                    <div className="flex flex-col md:flex-row md:items-center gap-4">
+                      {/* Image & Name */}
+                      <div className="flex items-center gap-4 md:w-1/4">
+                        <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0">
+                          <img src={tier.image} alt={tier.imageAlt} className="w-full h-full object-cover" loading="lazy" width="48" height="48" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-foreground">{tier.name}</h3>
+                          <p className="text-sm text-muted-foreground">
+                            {priceFeature?.[tier.key as keyof typeof priceFeature]} {billingFeature?.[tier.key as keyof typeof billingFeature]}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-sm text-muted-foreground md:flex-1">
+                        {tier.description}
+                      </p>
+
+                      {/* Pricing & CTA */}
+                      <div className="flex items-center gap-4 md:w-auto">
+                        <a
+                          href={tier.href}
+                          className="text-sm text-accent hover:text-accent/80 transition-colors whitespace-nowrap"
+                        >
+                          See Details →
+                        </a>
+                        <a
+                          href={tier.checkoutHref}
+                          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+                            tier.ctaStyle === 'primary'
+                              ? 'bg-accent text-accent-foreground hover:bg-accent-hover'
+                              : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                          }`}
+                        >
+                          {tier.cta}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
             {/* Comparison Table - Desktop */}
             <div className="hidden lg:block overflow-x-auto">
               <table className="w-full max-w-6xl mx-auto">
@@ -313,61 +372,6 @@ const Pricing = () => {
               </table>
             </div>
 
-            {/* Mobile Cards */}
-            <div className="lg:hidden grid sm:grid-cols-2 gap-6">
-              {websiteTiers.map((tier) => {
-                const priceFeature = websiteFeatures.find(f => f.name === 'Price');
-                const billingFeature = websiteFeatures.find(f => f.name === 'Billing');
-                return (
-                  <div
-                    key={tier.id}
-                    className="relative rounded-2xl p-6 border transition-all duration-300 bg-card/50 border-border/30"
-                  >
-                    <h3 id={tier.id} className="text-lg font-semibold text-foreground mb-2">{tier.name}</h3>
-                    <div className="mb-4">
-                      <span className="text-3xl font-bold text-foreground">
-                        {priceFeature?.[tier.key as keyof typeof priceFeature]}
-                      </span>
-                      <span className="text-sm text-muted-foreground ml-2">
-                        {billingFeature?.[tier.key as keyof typeof billingFeature]}
-                      </span>
-                    </div>
-                    <ul className="space-y-2 mb-6">
-                      {websiteFeatures.slice(2, 8).map((feature) => {
-                        const value = feature[tier.key as keyof typeof feature];
-                        if (value === false) return null;
-                        return (
-                          <li key={feature.name} className="flex items-center gap-2 text-sm">
-                            <Check className="w-4 h-4 text-accent shrink-0" />
-                            <span className="text-muted-foreground">
-                              {feature.name}
-                            </span>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                    <div className="space-y-2">
-                      <a
-                        href={tier.href}
-                        className="block w-full py-2 px-4 rounded-lg text-center text-sm font-medium text-accent border border-accent/30 hover:bg-accent/10 transition-colors"
-                      >
-                        See Full Details
-                      </a>
-                      <a
-                        href={tier.checkoutHref}
-                        className={`block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium transition-all duration-300 ${
-                          tier.ctaStyle === 'primary'
-                            ? 'bg-accent text-accent-foreground hover:bg-accent-hover'
-                            : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                        }`}
-                      >
-                        {tier.cta}
-                      </a>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
 
             {/* T1 Renewal Note */}
             <p className="text-center text-sm text-muted-foreground mt-8">
