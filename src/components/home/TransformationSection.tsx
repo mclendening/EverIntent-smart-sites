@@ -2,39 +2,23 @@
  * @fileoverview Results/Benefits Section
  * @module components/home/TransformationSection
  * 
- * Four simple metrics in a clean horizontal layout.
+ * Four metrics with lifestyle photography backdrop.
  */
 
-import { TrendingUp, Phone, Star, Clock } from 'lucide-react';
+import revenueImg from '@/assets/lifestyle/revenue-growth.jpg';
 
 /**
  * Key business results metrics.
  */
 const results = [
-  {
-    icon: Phone,
-    metric: '3x',
-    label: 'More Calls',
-  },
-  {
-    icon: TrendingUp,
-    metric: '47%',
-    label: 'Revenue Growth',
-  },
-  {
-    icon: Star,
-    metric: '4.8★',
-    label: 'Client Rating',
-  },
-  {
-    icon: Clock,
-    metric: '24/7',
-    label: 'Lead Capture',
-  },
+  { metric: '3x', label: 'More Calls' },
+  { metric: '47%', label: 'Revenue Growth' },
+  { metric: '4.8★', label: 'Client Rating' },
+  { metric: '24/7', label: 'Lead Capture' },
 ];
 
 /**
- * Transformation metrics section - horizontal layout with minimal styling.
+ * Transformation metrics section with lifestyle photo and overlay metrics.
  * 
  * @component
  */
@@ -55,22 +39,32 @@ export function TransformationSection() {
           </p>
         </div>
         
-        {/* Results grid - horizontal on desktop */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 max-w-4xl mx-auto">
-          {results.map((result) => (
-            <div 
-              key={result.label}
-              className="text-center"
-            >
-              <result.icon className="w-6 h-6 text-accent mx-auto mb-4" strokeWidth={1.5} />
-              <div className="text-4xl md:text-5xl font-bold text-foreground mb-2">
-                {result.metric}
+        {/* Hero image with overlaid metrics */}
+        <div className="relative max-w-4xl mx-auto rounded-2xl overflow-hidden">
+          <img
+            src={revenueImg}
+            alt="Business owner reviewing growth metrics on tablet showing upward revenue trends"
+            className="w-full h-64 md:h-80 object-cover"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-background/70 backdrop-blur-sm" />
+          
+          {/* Results grid overlaid */}
+          <div className="absolute inset-0 grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 items-center px-8 md:px-12">
+            {results.map((result) => (
+              <div 
+                key={result.label}
+                className="text-center"
+              >
+                <div className="text-4xl md:text-5xl font-bold text-foreground mb-2">
+                  {result.metric}
+                </div>
+                <div className="text-sm text-muted-foreground uppercase tracking-wide">
+                  {result.label}
+                </div>
               </div>
-              <div className="text-sm text-muted-foreground uppercase tracking-wide">
-                {result.label}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
       

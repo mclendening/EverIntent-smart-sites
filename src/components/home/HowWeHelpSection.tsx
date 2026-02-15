@@ -2,30 +2,36 @@
  * @fileoverview Problem & Solution Section
  * @module components/home/HowWeHelpSection
  * 
- * Simplified to 3 key outcomes with generous spacing.
- * Vertical list with line icons, no boxed icons.
+ * Three key outcomes with lifestyle photography, replacing generic icons.
  */
 
-import { PhoneMissed, Moon, Filter, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+
+import missedCallImg from '@/assets/lifestyle/missed-call-recovery.jpg';
+import afterHoursImg from '@/assets/lifestyle/after-hours-coverage.jpg';
+import callScreeningImg from '@/assets/lifestyle/call-screening.jpg';
 
 /**
- * Three core value propositions with minimal styling.
+ * Three core value propositions with lifestyle photography.
  */
 const outcomes = [
   {
-    icon: PhoneMissed,
+    image: missedCallImg,
+    imageAlt: 'Contractor checking phone at night seeing a missed call notification',
     title: "Recover Missed Calls",
     description: "62% of calls to local businesses go unanswered. Our AI texts back every missed call in under 60 seconds, before they call your competitor.",
     link: "/let-ai-handle-it",
   },
   {
-    icon: Moon,
+    image: afterHoursImg,
+    imageAlt: 'Business owner sleeping while AI handles booking confirmations on phone',
     title: "Answer After Hours",
     description: "You close at 5pm. Your AI doesn't. Capture leads, answer questions, and book appointments while you sleep.",
     link: "/let-ai-handle-it",
   },
   {
-    icon: Filter,
+    image: callScreeningImg,
+    imageAlt: 'Professional receptionist screening phone calls at a modern office desk',
     title: "Screen Every Call",
     description: "Stop wasting time on tire-kickers. AI handles FAQs and only transfers real opportunities to your team.",
     link: "/let-ai-handle-it",
@@ -33,8 +39,7 @@ const outcomes = [
 ];
 
 /**
- * Problem/Solution section with three vertical cards.
- * Clean layout, generous spacing, simple line icons.
+ * Problem/Solution section with three vertical cards featuring lifestyle photography.
  * 
  * @component
  */
@@ -52,35 +57,42 @@ const HowWeHelpSection = () => {
           </p>
         </div>
 
-        {/* Cards - Two column on desktop */}
+        {/* Cards with photography */}
         <div className="grid md:grid-cols-3 gap-8 md:gap-12 max-w-5xl mx-auto">
           {outcomes.map((outcome, index) => (
             <div
               key={outcome.title}
-              className="group"
+              className="group rounded-2xl border border-border/30 bg-card/50 overflow-hidden hover:border-accent/30 transition-all duration-300"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              {/* Icon - Simple line style */}
-              <outcome.icon className="w-8 h-8 text-accent mb-6" strokeWidth={1.5} />
-              
-              {/* Title */}
-              <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3 tracking-tight">
-                {outcome.title}
-              </h3>
+              {/* Lifestyle Photo */}
+              <div className="aspect-[16/9] overflow-hidden">
+                <img
+                  src={outcome.image}
+                  alt={outcome.imageAlt}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+              </div>
 
-              {/* Description */}
-              <p className="text-muted-foreground leading-relaxed mb-6">
-                {outcome.description}
-              </p>
+              {/* Content */}
+              <div className="p-6">
+                <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3 tracking-tight">
+                  {outcome.title}
+                </h3>
 
-              {/* Link */}
-              <a
-                href={outcome.link}
-                className="inline-flex items-center gap-2 text-accent hover:gap-3 transition-all duration-300"
-              >
-                <span className="text-sm font-medium">Learn more</span>
-                <ArrowRight className="w-4 h-4" />
-              </a>
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                  {outcome.description}
+                </p>
+
+                <a
+                  href={outcome.link}
+                  className="inline-flex items-center gap-2 text-accent hover:gap-3 transition-all duration-300"
+                >
+                  <span className="text-sm font-medium">Learn more</span>
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
             </div>
           ))}
         </div>
