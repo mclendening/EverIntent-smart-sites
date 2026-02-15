@@ -96,6 +96,8 @@ import CheckoutPage from './pages/checkout/CheckoutPage';
 import LongBeach from './pages/locations/LongBeach';
 import OrangeCounty from './pages/locations/OrangeCounty';
 import LosAngeles from './pages/locations/LosAngeles';
+import CityLocation from './pages/locations/CityLocation';
+import { allLocationSlugs } from './data/locationConfigs';
 
 // ============================================
 // LAYOUT COMPONENTS
@@ -354,11 +356,12 @@ const checkoutPaths = [
   '/checkout/web-chat',
 ];
 
-// Location landing pages (Gap 8: local SEO)
+// Location landing pages (Gap 8: local SEO) - 3 primary + 32 sub-cities
 const locationPaths = [
   '/locations/long-beach',
   '/locations/orange-county',
   '/locations/los-angeles',
+  ...allLocationSlugs.map(slug => `/locations/${slug}`),
 ];
 
 // Legal and compliance pages
@@ -625,6 +628,8 @@ export const routes: RouteRecord[] = [
       { path: 'locations/long-beach', Component: LongBeach },
       { path: 'locations/orange-county', Component: OrangeCounty },
       { path: 'locations/los-angeles', Component: LosAngeles },
+      // Sub-city location pages (data-driven)
+      { path: 'locations/:slug', Component: CityLocation },
       // Upgrade
       createPlaceholderChild(upgradePath),
       // Catch-all 404

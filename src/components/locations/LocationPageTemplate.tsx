@@ -31,6 +31,15 @@ import {
   CalendarCheck,
 } from 'lucide-react';
 import localBusinessCityscape from '@/assets/lifestyle/local-business-cityscape.jpg';
+import laSkyline from '@/assets/lifestyle/la-skyline-sunset.jpg';
+import ocCoastline from '@/assets/lifestyle/oc-coastline-sunset.jpg';
+
+/** Region-to-image map for hero backgrounds */
+export const regionHeroImages: Record<string, { src: string; alt: string }> = {
+  'long-beach': { src: localBusinessCityscape, alt: 'Southern California boulevard with palm trees and local storefronts at golden hour' },
+  'los-angeles': { src: laSkyline, alt: 'Los Angeles skyline and palm trees at golden hour sunset' },
+  'orange-county': { src: ocCoastline, alt: 'Orange County coastline with pier and ocean at sunset' },
+};
 
 /** Service highlight for the location page grid */
 interface ServiceHighlight {
@@ -103,6 +112,8 @@ export interface LocationPageProps {
   mapEmbedUrl?: string;
   /** Nearby cities for "Also serving" section */
   nearbyCities: string[];
+  /** Region key for hero image selection */
+  region?: 'long-beach' | 'los-angeles' | 'orange-county';
 }
 
 /**
@@ -138,7 +149,9 @@ export function LocationPageTemplate({
   industries,
   mapEmbedUrl,
   nearbyCities,
+  region = 'long-beach',
 }: LocationPageProps) {
+  const heroImg = regionHeroImages[region] || regionHeroImages['long-beach'];
   /** LocalBusiness JSON-LD for this location */
   const localBusinessSchema = {
     "@context": "https://schema.org",
@@ -188,8 +201,8 @@ export function LocationPageTemplate({
         {/* Cinematic background image */}
         <div className="absolute inset-0">
           <img
-            src={localBusinessCityscape}
-            alt={`Aerial view of ${locationName}, California at golden hour with local storefronts and palm trees`}
+            src={heroImg.src}
+            alt={`${heroImg.alt}, representing ${locationName} local business community`}
             className="w-full h-full object-cover"
             loading="eager"
             decoding="async"
