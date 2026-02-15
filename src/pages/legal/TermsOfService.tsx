@@ -4,6 +4,7 @@
  */
 
 import { SEO } from '@/components/SEO';
+import legalHeroImg from '@/assets/lifestyle/legal-documents-desk.jpg';
 
 /**
  * Terms of Service page for EverIntent web design and automation services.
@@ -38,8 +39,19 @@ export default function TermsOfService() {
 
       <div className="min-h-screen bg-background">
         {/* Header Section */}
-        <section className="relative py-16 md:py-24 bg-card">
-          <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
+        <section className="relative py-16 md:py-24 overflow-hidden">
+          <div className="absolute inset-0">
+            <img
+              src={legalHeroImg}
+              alt="Legal documents and fountain pen on a professional desk in warm golden light"
+              className="w-full h-full object-cover"
+              loading="eager"
+              decoding="async"
+              width={1920}
+              height={1080}
+            />
+            <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+          </div>
           <div className="container relative">
             <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
               Terms of Service
