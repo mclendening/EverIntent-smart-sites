@@ -24,11 +24,6 @@ import { fullAiFeatures } from '@/data/features';
 import { 
   ArrowRight, 
   Phone, 
-  MessageSquare, 
-  Globe, 
-  Calendar, 
-  ShieldCheck, 
-  Zap,
   CheckCircle2,
   Star,
   Users,
