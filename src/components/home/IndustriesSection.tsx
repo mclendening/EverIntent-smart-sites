@@ -4,7 +4,6 @@
  */
 
 import { Home, Briefcase, Heart, Car, ArrowRight, LucideIcon } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 /**
  * SVG gradient definitions for industry icons.
@@ -110,9 +109,9 @@ export function IndustriesSection() {
         {/* Industries grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto">
           {industries.map((industry) => (
-            <Link
+            <a
               key={industry.name}
-              to={industry.href}
+              href={industry.href}
               className="group relative bg-background rounded-xl p-5 md:p-6 border border-border/30 hover:border-primary/50 transition-all duration-300 hover-lift"
             >
               <div className="flex items-center gap-3 mb-2">
@@ -135,7 +134,7 @@ export function IndustriesSection() {
                 {industry.verticals}
                 <span className="w-7 h-px bg-gradient-to-l from-accent to-transparent" />
               </span>
-            </Link>
+            </a>
           ))}
         </div>
       </div>

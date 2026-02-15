@@ -154,6 +154,16 @@ const Contact = () => {
         title="Contact Us"
         description="Get in touch about AI Employee or Smart Websites. We respond within 24 hours. Long Beach, LA & Orange County."
         canonical="/contact"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'LocalBusiness',
+          name: 'EverIntent',
+          url: 'https://everintent.com',
+          telephone: '+1-562-685-9500',
+          email: 'info@everintent.com',
+          address: { '@type': 'PostalAddress', streetAddress: '2892 N Bellflower Blvd, PMB 1018', addressLocality: 'Long Beach', addressRegion: 'CA', postalCode: '90815' },
+          contactPoint: { '@type': 'ContactPoint', telephone: '+1-562-685-9500', contactType: 'sales', availableLanguage: 'English' },
+        }}
       />
 
       {/* Hero Section */}

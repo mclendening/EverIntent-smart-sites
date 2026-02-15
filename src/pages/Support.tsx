@@ -62,6 +62,13 @@ const Support = () => {
         title="Support"
         description="EverIntent support channels, response times, and service level agreements. Get help when you need it."
         canonical="/support"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'WebPage',
+          name: 'EverIntent Support',
+          description: 'Support channels, SLA response times, and service level agreements for EverIntent customers.',
+          url: 'https://everintent.com/support',
+        }}
       />
 
       {/* Hero */}

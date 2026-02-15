@@ -7,7 +7,6 @@
  */
 
 import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 /**
  * Luxury Hero Section - Clean dark background, single powerful headline.
@@ -44,19 +43,19 @@ export function HeroSection() {
           
           {/* CTAs - Primary filled, secondary text link */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-16 animate-fade-in" style={{ animationDelay: '300ms' }}>
-            <Link 
-              to="/let-ai-handle-it" 
+            <a 
+              href="/let-ai-handle-it" 
               className="btn-gold btn-glow w-full sm:w-auto"
             >
               See AI Employee
-            </Link>
-            <Link 
-              to="/smart-websites" 
+            </a>
+            <a 
+              href="/smart-websites" 
               className="group inline-flex items-center gap-2 px-4 py-3 text-foreground hover:text-accent transition-colors duration-300"
             >
               <span className="story-link">See Smart Websites</span>
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
+            </a>
           </div>
           
           {/* Trust strip - Simple elegant line with gold accents */}

@@ -56,6 +56,19 @@ const About = () => {
         title="About Us"
         description="25+ years of enterprise automation, now serving local businesses in Long Beach, LA & OC. Systems that pay for themselves."
         canonical="/about"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: 'EverIntent',
+          url: 'https://everintent.com',
+          description: '25+ years of enterprise automation experience, now serving local businesses with AI Employee and Smart Websites.',
+          address: { '@type': 'PostalAddress', streetAddress: '2892 N Bellflower Blvd, PMB 1018', addressLocality: 'Long Beach', addressRegion: 'CA', postalCode: '90815' },
+          areaServed: [
+            { '@type': 'City', name: 'Long Beach' },
+            { '@type': 'City', name: 'Los Angeles' },
+            { '@type': 'AdministrativeArea', name: 'Orange County' },
+          ],
+        }}
       />
 
       {/* Hero Section */}

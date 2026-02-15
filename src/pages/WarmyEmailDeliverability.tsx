@@ -270,28 +270,28 @@ export default function WarmyEmailDeliverability() {
             {/* Compact funnel — tokenized per Phase 7 Batch 5 */}
             <div className="grid grid-cols-4 gap-1.5 md:gap-2 mb-4">
               <div className="bg-accent/10 border border-accent/20 rounded-md p-2 text-center">
-                <div className="w-6 h-6 rounded-full bg-accent/30 mx-auto mb-1 flex items-center justify-center">
+                <div className="w-6 h-6 rounded-lg bg-accent/30 mx-auto mb-1 flex items-center justify-center">
                   <Mail className="w-3 h-3 text-accent" />
                 </div>
                 <p className="text-sm font-bold text-foreground">1,000</p>
                 <p className="text-[9px] text-muted-foreground">Sent</p>
               </div>
               <div className="bg-destructive/10 border border-destructive/20 rounded-md p-2 text-center">
-                <div className="w-6 h-6 rounded-full bg-destructive/30 mx-auto mb-1 flex items-center justify-center">
+                <div className="w-6 h-6 rounded-lg bg-destructive/30 mx-auto mb-1 flex items-center justify-center">
                   <Shield className="w-3 h-3 text-destructive" />
                 </div>
                 <p className="text-sm font-bold text-destructive">-210</p>
                 <p className="text-[9px] text-muted-foreground">Blocked</p>
               </div>
               <div className="bg-gold/10 border border-gold/20 rounded-md p-2 text-center">
-                <div className="w-6 h-6 rounded-full bg-gold/30 mx-auto mb-1 flex items-center justify-center">
+                <div className="w-6 h-6 rounded-lg bg-gold/30 mx-auto mb-1 flex items-center justify-center">
                   <AlertCircle className="w-3 h-3 text-gold" />
                 </div>
                 <p className="text-sm font-bold text-gold">-320</p>
                 <p className="text-[9px] text-muted-foreground">Spam</p>
               </div>
               <div className="bg-highlight/10 border border-highlight/20 rounded-md p-2 text-center">
-                <div className="w-6 h-6 rounded-full bg-highlight/30 mx-auto mb-1 flex items-center justify-center">
+                <div className="w-6 h-6 rounded-lg bg-highlight/30 mx-auto mb-1 flex items-center justify-center">
                   <Inbox className="w-3 h-3 text-highlight" />
                 </div>
                 <p className="text-sm font-bold text-highlight">470</p>
@@ -386,7 +386,7 @@ export default function WarmyEmailDeliverability() {
                 </div>
                 <p className="text-xs italic mb-2">"{t.quote}"</p>
                 <div className="flex items-center gap-1.5 text-[10px]">
-                  <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold text-[9px]">{t.author[0]}</div>
+                  <div className="w-5 h-5 rounded-lg bg-accent/20 flex items-center justify-center text-accent font-bold text-[9px]">{t.author[0]}</div>
                   <span className="font-medium">{t.author}</span>
                   <span className="text-muted-foreground">• {t.role}</span>
                 </div>

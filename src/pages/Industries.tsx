@@ -152,6 +152,17 @@ export default function Industries() {
         title="Industries We Serve"
         description="AI automation and websites for 65+ local business verticals. HVAC, plumbing, dental, legal, automotive, and more."
         canonical="/industries"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'ItemList',
+          name: 'Industries Served by EverIntent',
+          numberOfItems: 4,
+          itemListElement: industryCategories.map((cat, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            item: { '@type': 'Service', name: cat.name, description: cat.description, url: `https://everintent.com/industries/${cat.slug}` },
+          })),
+        }}
       />
       
       <GradientDefs />

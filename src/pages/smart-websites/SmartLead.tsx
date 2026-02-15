@@ -6,7 +6,6 @@
  * Product structured data, and SSG-safe rendering.
  */
 
-import { Link } from 'react-router-dom';
 import { Check, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -95,13 +94,13 @@ export default function SmartLead() {
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link to="/" className="text-muted-foreground hover:text-accent">Home</Link>
+                  <a href="/" className="text-muted-foreground hover:text-accent">Home</a>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link to="/smart-websites" className="text-muted-foreground hover:text-accent">Smart Websites</Link>
+                  <a href="/smart-websites" className="text-muted-foreground hover:text-accent">Smart Websites</a>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
