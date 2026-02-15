@@ -570,7 +570,7 @@ const SmartWebsites = () => {
                 </h2>
                 <p className="text-lg text-muted-foreground mb-6">
                   Running email campaigns? Warmy Booster warms up your domain so your messages 
-                  land in the inbox—not the spam folder. Bundled free with Capture or available 
+                  land in the inbox—not the spam folder. Bundled free with Smart Websites: Scale or available 
                   as a $49/mo add-on.
                 </p>
                 <ul className="space-y-3 mb-6">
@@ -588,7 +588,7 @@ const SmartWebsites = () => {
                   </li>
                   <li className="flex items-center gap-3">
                     <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
-                    <span className="text-foreground">Free with Capture tier</span>
+                    <span className="text-foreground">Free with Smart Websites: Scale</span>
                   </li>
                 </ul>
                 <div className="flex flex-wrap gap-3">
@@ -605,7 +605,7 @@ const SmartWebsites = () => {
                 <div className="text-muted-foreground mb-4">/month add-on</div>
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-sm text-primary font-medium">
                   <Star className="h-4 w-4" />
-                  FREE with Capture
+                  FREE with Smart Websites: Scale
                 </div>
               </div>
             </div>
