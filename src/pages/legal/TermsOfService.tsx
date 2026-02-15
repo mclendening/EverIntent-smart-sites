@@ -39,7 +39,7 @@ export default function TermsOfService() {
 
       <div className="min-h-screen bg-background">
         {/* Header Section */}
-        <section className="relative py-16 md:py-24 overflow-hidden">
+        <section className="relative py-16 md:py-24 overflow-hidden" aria-label="Terms of Service">
           <div className="absolute inset-0">
             <img
               src={legalHeroImg}

@@ -36,7 +36,7 @@ export default function CookiePolicy() {
 
       <div className="min-h-screen bg-background">
         {/* Header Section */}
-        <section className="relative py-16 md:py-24 overflow-hidden">
+        <section className="relative py-16 md:py-24 overflow-hidden" aria-label="Cookie Policy">
           <div className="absolute inset-0">
             <img
               src={legalHeroImg}

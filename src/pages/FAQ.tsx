@@ -187,7 +187,7 @@ const FAQ = () => {
       />
 
       {/* Hero */}
-      <section className="py-16 md:py-24 bg-background">
+      <section className="py-16 md:py-24 bg-background" aria-label="Frequently asked questions">
         <div className="container max-w-3xl text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Questions Before You Buy

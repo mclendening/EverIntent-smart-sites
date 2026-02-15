@@ -286,7 +286,7 @@ export default function Services() {
       />
 
       {/* Hero Section */}
-      <section className="relative pt-20 pb-12 md:pt-28 md:pb-16 overflow-hidden">
+      <section className="relative pt-20 pb-12 md:pt-28 md:pb-16 overflow-hidden" aria-label="Services overview">
         {/* Animated background orbs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 -left-32 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />

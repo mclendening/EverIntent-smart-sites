@@ -79,7 +79,7 @@ const Help = () => {
       />
 
       {/* Hero with lifestyle image */}
-      <section className="relative py-16 md:py-24 bg-background overflow-hidden">
+      <section className="relative py-16 md:py-24 bg-background overflow-hidden" aria-label="Getting started with EverIntent">
         <div className="absolute inset-0">
           <img
             src={helpSupportImg}

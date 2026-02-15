@@ -208,7 +208,7 @@ export default function WarmyEmailDeliverability() {
       `}} />
 
       {/* Hero Section - Ultra compact */}
-      <section className="relative pt-16 pb-6 md:pt-20 md:pb-8 overflow-hidden">
+      <section className="relative pt-16 pb-6 md:pt-20 md:pb-8 overflow-hidden" aria-label="Email deliverability overview">
         <div className="absolute inset-0 bg-gradient-to-b from-accent/10 via-accent/5 to-background" />
         
         <div className="container relative z-10">

@@ -75,7 +75,7 @@ export default function SmartSite() {
       />
 
       {/* Hero Section */}
-      <section className="relative min-h-[60vh] flex items-center bg-background pt-24 pb-16">
+      <section className="relative min-h-[60vh] flex items-center bg-background pt-24 pb-16" aria-label="Smart Site Launch plan overview">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-card/30" />
         
         <div className="relative z-10 container mx-auto px-6">

@@ -199,7 +199,7 @@ const Pricing = () => {
       />
 
       {/* Hero Section */}
-      <section className="relative py-16 md:py-24 overflow-hidden">
+      <section className="relative py-16 md:py-24 overflow-hidden" aria-label="Pricing overview">
         <div className="absolute inset-0 bg-mesh opacity-20" />
         <div className="relative container mx-auto px-4 text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">

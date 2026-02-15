@@ -90,7 +90,7 @@ export default function SmartGrowth() {
       />
 
       {/* Hero Section */}
-      <section className="relative min-h-[60vh] flex items-center bg-background pt-24 pb-16">
+      <section className="relative min-h-[60vh] flex items-center bg-background pt-24 pb-16" aria-label="Smart Growth Scale plan overview">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-card/30" />
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-3xl" />
         
