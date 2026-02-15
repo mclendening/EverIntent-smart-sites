@@ -1,11 +1,25 @@
 # EverIntent — Complete Business Requirements Document v36.0
 
 **Last Updated:** February 15, 2026  
-**Version:** 36.0 (GTM Audit + Tier Naming Sync + CTA Escalation + Lifecycle Differentiation)
+**Version:** 36.1 (Warmy Tier Reassignment + Cross-Reference Naming Convention)
 **Status:** BUILD-READY
 **Owner:** EverIntent LLC  
 **Tagline:** Web Design AI & Automation
 **GitHub Path:** /docs/everintent-brd-v35.0.md
+
+---
+
+## v36.1 Amendment — Warmy Tier Reassignment + Naming Convention
+
+> This section documents changes from v36.0 → v36.1.
+
+### B1. Warmy Bundling Change (Supersedes all prior Warmy bundling references)
+
+Warmy Email Deliverability is now bundled **free with Smart Websites: Scale** ($297/mo), not Capture. Standalone pricing remains $49/mo.
+
+### B2. Cross-Reference Naming Convention
+
+When referencing Smart Website tiers **outside their own product pages** (e.g., on Warmy page, industry pages, add-on cards), use the colon format: **"Smart Websites: [Tier]"** (e.g., "Smart Websites: Scale", "Smart Websites: Capture"). This ensures tiers are never orphaned without product context.
 
 ---
 
@@ -257,7 +271,7 @@ This is the **single source of truth** for EverIntent.com. It governs:
 | **AI Employee** | Managed AI receptionist services (voice, SMS, chat) | Primary revenue driver |
 | **Smart Websites** | 4-tier website ladder ($249–$497/mo) | Entry point to ecosystem |
 | **Web Chat Only** | Chat automation without voice ($497 setup + $79/mo) | Parallel entry point |
-| **Warmy Booster** | Email deliverability add-on ($49/mo) | Add-on to Smart Lead |
+| **Warmy Booster** | Email deliverability add-on ($49/mo) | Add-on; free with Smart Websites: Scale |
 | **Legal AI** | Specialized vertical at EverIntentLegalAI.com | Separate microsite |
 
 ### 2.2 Anchor Statement (v35.0)
@@ -535,7 +549,7 @@ Each mode is a **configuration of the same engine**, not separate infrastructure
 | **Route** | `/warmy-email-deliverability` |
 | **Setup Fee** | — |
 | **Monthly** | $49 |
-| **Bundling** | Free with Smart Lead, or $49/mo standalone |
+| **Bundling** | Free with Smart Websites: Scale ($297/mo), or $49/mo standalone |
 
 **Core Features:**
 - **AI-Powered Warm-Up**: Gradual sending volume increases with smart reply patterns
@@ -552,7 +566,7 @@ Each mode is a **configuration of the same engine**, not separate infrastructure
 2. Problem Section: Spam folder statistics, cold email challenges
 3. Solution Grid: 4-feature breakdown with icons
 4. Integration Section: Works with GHL, any SMTP
-5. Pricing Card: $49/mo standalone OR "Included with Smart Lead"
+5. Pricing Card: $49/mo standalone OR "Included with Smart Websites: Scale"
 6. FAQ: 4-5 questions (setup time, email limits, compatibility)
 7. CTA: "Boost Your Deliverability" → checkout
 
@@ -760,7 +774,7 @@ Google Business Profile integration ensures all inbound calls are tracked and at
 | Product | Setup | Monthly | Use Case |
 |---------|-------|---------|----------|
 | **Web Chat Only** | $497 | $79/mo | Chat automation without voice AI |
-| **Warmy Booster** | — | $49/mo | Email deliverability add-on (bundled with Smart Lead or à la carte) |
+| **Warmy Booster** | — | $49/mo | Email deliverability add-on (bundled with Smart Websites: Scale or à la carte) |
 
 #### Relationship to AI Employee
 
