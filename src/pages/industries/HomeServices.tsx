@@ -226,7 +226,7 @@ export default function HomeServices() {
               <h2 className="text-2xl sm:text-3xl font-bold mb-4">Capture</h2>
               <p className="text-muted-foreground mb-6">
                 The perfect starting point for contractors. Get a conversion-focused website, 
-                lead capture forms, and automated follow-up — all for{' '}
+                lead capture forms, and automated follow-up, all for{' '}
                 <strong className="text-foreground">$97/month</strong>.
               </p>
 

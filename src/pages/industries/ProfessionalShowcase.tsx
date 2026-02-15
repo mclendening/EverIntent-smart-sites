@@ -76,7 +76,7 @@ const websiteMockups = [
 const faqItems = [
   {
     question: 'Is the AI compliant with attorney-client privilege?',
-    answer: 'The AI is designed for intake and scheduling only—it doesn\'t provide legal advice or access confidential case information. All calls are logged for your records, and the system is HIPAA-ready for firms handling sensitive matters.',
+    answer: 'The AI is designed for intake and scheduling only. It doesn\'t provide legal advice or access confidential case information. All calls are logged for your records, and the system is HIPAA-ready for firms handling sensitive matters.',
   },
   {
     question: 'Can the AI screen for conflicts of interest?',

@@ -94,7 +94,7 @@ const aiPlans = [
     bestFor: 'Everything included',
     price: '$597',
     setup: '$2,500',
-    description: 'All features included. Your complete AI-powered front office—voice, SMS, booking, screening, web chat, and Unlimited AI.',
+    description: 'All features included. Your complete AI-powered front office: voice, SMS, booking, screening, web chat, and Unlimited AI.',
     featured: true,
     href: '/let-ai-handle-it/full-ai-employee',
     checkoutHref: '/checkout/full-ai',
@@ -123,7 +123,7 @@ const faqItems = [
   },
   {
     question: "Can I upgrade from Launch to Capture later?",
-    answer: "Yes! You can upgrade to any higher tier at any time. We'll migrate everything seamlessly and prorate your billing. No rebuilds required — every tier is upgrade-ready from day one.",
+    answer: "Yes! You can upgrade to any higher tier at any time. We'll migrate everything seamlessly and prorate your billing. No rebuilds required. Every tier is upgrade-ready from day one.",
   },
   {
     question: "What happens if I exceed my SMS limit?",
@@ -495,7 +495,7 @@ const Pricing = () => {
                 href="/checkout/launch"
                 className="btn-gold btn-glow"
               >
-                Start with Launch — $249
+                Start with Launch: $249
               </a>
               <a
                 href="/contact"

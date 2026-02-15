@@ -203,7 +203,7 @@ export default function FullAIEmployee() {
                   Missed call at 11:47pm. Customer has an emergency. AI Employee responds in seconds, qualifies the lead, and books the job.
                 </p>
                 <p className="text-lg text-muted-foreground mb-6">
-                  This happens across voice, SMS, and web chat—all handled by your Full AI Employee.
+                  This happens across voice, SMS, and web chat, all handled by your Full AI Employee.
                 </p>
                 <p className="text-lg text-foreground font-medium">
                   Every channel. Every hour. Every lead captured.

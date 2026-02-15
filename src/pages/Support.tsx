@@ -178,7 +178,7 @@ const Support = () => {
             Need immediate help?
           </h2>
           <p className="text-muted-foreground mb-8">
-            Reach out directly — we respond within 24 hours for all tiers.
+            Reach out directly. We respond within 24 hours for all tiers.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a

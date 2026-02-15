@@ -82,7 +82,7 @@ const faqItems = [
   },
   {
     question: 'Can the AI give pricing quotes?',
-    answer: 'Absolutely. We configure the AI with your pricing structure—diagnostic fees, common repairs, flat-rate services. It provides accurate ballpark quotes while being transparent about on-site evaluation needs.',
+    answer: 'Absolutely. We configure the AI with your pricing structure: diagnostic fees, common repairs, flat-rate services. It provides accurate ballpark quotes while being transparent about on-site evaluation needs.',
   },
   {
     question: 'How quickly can I get started?',
@@ -90,7 +90,7 @@ const faqItems = [
   },
   {
     question: 'Do I own my website and customer data?',
-    answer: '100%. You own everything—the website design, content, and all customer data. We provide full exports on request, and there are no lock-in contracts.',
+    answer: '100%. You own everything: the website design, content, and all customer data. We provide full exports on request, and there are no lock-in contracts.',
   },
 ];
 

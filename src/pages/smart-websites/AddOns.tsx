@@ -88,16 +88,16 @@ const addOnPacks: AddOnPack[] = [
     recommended: ['launch'],
     details: {
       headline: 'Stop losing leads to the spam folder',
-      description: 'Your emails are useless if they never get seen. Email Authority uses Warmy\'s AI-powered warmup technology to build your sender reputation, monitor domain health, and ensure your messages land in the inbox—not spam.',
+      description: 'Your emails are useless if they never get seen. Email Authority uses Warmy\'s AI-powered warmup technology to build your sender reputation, monitor domain health, and ensure your messages land in the inbox, not spam.',
       benefits: [
         { icon: Shield, title: 'Protected Reputation', text: 'Gradual warmup builds trust with email providers so your domain stays off blacklists.' },
-        { icon: TrendingUp, title: 'Higher Open Rates', text: 'Inbox placement means more eyes on your emails—and more responses.' },
+        { icon: TrendingUp, title: 'Higher Open Rates', text: 'Inbox placement means more eyes on your emails and more responses.' },
         { icon: Clock, title: 'Set It & Forget It', text: 'Automated warmup runs in the background. No manual work required.' },
       ],
       idealFor: ['Businesses starting email outreach', 'Anyone recovering from spam issues', 'Teams sending cold emails or newsletters'],
       faq: [
         { q: 'How long does warmup take?', a: 'Most accounts see significant improvement within 2-4 weeks. Full warmup typically takes 6-8 weeks.' },
-        { q: 'Will this work with my email provider?', a: 'Yes—Email Authority works with Gmail, Outlook, and most major email services.' },
+        { q: 'Will this work with my email provider?', a: 'Yes. Email Authority works with Gmail, Outlook, and most major email services.' },
       ],
     },
   },
@@ -116,11 +116,11 @@ const addOnPacks: AddOnPack[] = [
     recommended: ['capture'],
     details: {
       headline: 'Stop chasing payments. Start collecting.',
-      description: 'Late payments kill cash flow. Get Paid Now lets you send professional invoices, accept payments online, and automate follow-ups—so you spend less time chasing and more time growing.',
+      description: 'Late payments kill cash flow. Get Paid Now lets you send professional invoices, accept payments online, and automate follow-ups so you spend less time chasing and more time growing.',
       benefits: [
         { icon: Zap, title: 'Instant Invoicing', text: 'Create and send branded invoices in seconds. Clients pay with one click.' },
         { icon: Clock, title: 'Automated Reminders', text: 'Gentle nudges go out automatically. No awkward follow-up emails from you.' },
-        { icon: TrendingUp, title: 'Real-Time Tracking', text: 'See who\'s paid, who\'s pending, and who needs a nudge—all in one dashboard.' },
+        { icon: TrendingUp, title: 'Real-Time Tracking', text: 'See who\'s paid, who\'s pending, and who needs a nudge. All in one dashboard.' },
       ],
       idealFor: ['Service providers with recurring clients', 'Contractors and freelancers', 'Businesses tired of late payments'],
       faq: [
@@ -144,10 +144,10 @@ const addOnPacks: AddOnPack[] = [
     recommended: ['convert'],
     details: {
       headline: 'Your social presence on autopilot',
-      description: 'Consistency wins on social media, but who has the time? Social Autopilot lets you schedule posts across platforms, plan your content calendar, and track engagement—without spending hours online.',
+      description: 'Consistency wins on social media, but who has the time? Social Autopilot lets you schedule posts across platforms, plan your content calendar, and track engagement without spending hours online.',
       benefits: [
         { icon: Clock, title: 'Schedule Ahead', text: 'Batch your content and schedule weeks in advance. Post at optimal times automatically.' },
-        { icon: Globe, title: 'Multi-Platform', text: 'Facebook, Instagram, LinkedIn, and more—all from one dashboard.' },
+        { icon: Globe, title: 'Multi-Platform', text: 'Facebook, Instagram, LinkedIn, and more, all from one dashboard.' },
         { icon: TrendingUp, title: 'Track What Works', text: 'See which posts drive engagement. Double down on winners.' },
       ],
       idealFor: ['Businesses without a social media manager', 'Teams that want consistent posting', 'Anyone who hates daily social updates'],
@@ -172,7 +172,7 @@ const addOnPacks: AddOnPack[] = [
     recommended: ['convert', 'scale'],
     details: {
       headline: 'Every conversation. One place.',
-      description: 'Your customers reach out everywhere—SMS, email, Facebook, Instagram. Omnichannel Inbox pulls it all into one unified view so you never miss a message, and your team can respond faster.',
+      description: 'Your customers reach out everywhere: SMS, email, Facebook, Instagram. Omnichannel Inbox pulls it all into one unified view so you never miss a message, and your team can respond faster.',
       benefits: [
         { icon: MessageSquare, title: 'Unified View', text: 'See SMS, email, and social DMs in one timeline. No more app-switching.' },
         { icon: Users, title: 'Team Collaboration', text: 'Assign conversations, add internal notes, and tag team members.' },
@@ -181,7 +181,7 @@ const addOnPacks: AddOnPack[] = [
       idealFor: ['Businesses with multiple contact channels', 'Teams that share customer communication', 'Anyone tired of switching between apps'],
       faq: [
         { q: 'Which channels are included?', a: 'SMS, email, Facebook Messenger, Instagram DMs, and Google Business Messages.' },
-        { q: 'Can multiple team members access the inbox?', a: 'Yes—assign conversations, see who\'s responding, and collaborate in real-time.' },
+        { q: 'Can multiple team members access the inbox?', a: 'Yes. Assign conversations, see who\'s responding, and collaborate in real-time.' },
       ],
     },
   },

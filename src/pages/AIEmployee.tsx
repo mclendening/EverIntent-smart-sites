@@ -55,7 +55,7 @@ const aiModes = [
     id: 'full',
     name: 'Full AI Employee',
     icon: Bot,
-    description: 'All modes combined. Your complete AI-powered front office—voice, SMS, booking, screening, web chat.',
+    description: 'All modes combined. Your complete AI-powered front office: voice, SMS, booking, screening, web chat.',
     bestFor: 'Maximum automation',
     price: '$597',
     setup: '$2,500',

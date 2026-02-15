@@ -126,7 +126,7 @@ export default function AfterHours() {
                 </h1>
                 
                 <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8">
-                  AI answers calls, books appointments, and texts back missed calls—all while you're closed. Wake up to leads and booked jobs, not voicemails.
+                  AI answers calls, books appointments, and texts back missed calls, all while you're closed. Wake up to leads and booked jobs, not voicemails.
                 </p>
                 
                 {/* Pricing */}
