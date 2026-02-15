@@ -20,7 +20,7 @@ import {
   ChevronDown,
   HelpCircle
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+
 import { SEO } from '@/components/SEO';
 import { cn } from '@/lib/utils';
 import {
@@ -612,12 +612,12 @@ export default function CompareAIEmployee() {
                 Book a call and we'll help you choose the perfect AI setup.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Link
-                  to="/contact"
+                <a
+                  href="/contact"
                   className="px-5 py-2.5 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors text-sm"
                 >
                   Ask a question
-                </Link>
+                </a>
                 <a
                   href="/checkout/full-ai"
                   className="btn-gold flex items-center justify-center gap-2"

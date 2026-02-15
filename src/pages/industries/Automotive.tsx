@@ -123,10 +123,10 @@ export default function Automotive() {
 
             <div className="flex flex-wrap justify-center gap-4">
               <Button asChild size="lg">
-                <Link to="/pricing">View Plans for Shops</Link>
+                <a href="/pricing">View Plans for Shops</a>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link to="/let-ai-handle-it">See AI Employee Demo</Link>
+                <a href="/let-ai-handle-it">See AI Employee Demo</a>
               </Button>
             </div>
           </div>
@@ -230,10 +230,10 @@ export default function Automotive() {
 
               <div className="flex flex-wrap justify-center gap-4">
                 <Button asChild size="lg">
-                  <Link to="/pricing">Get Capture</Link>
+                  <a href="/pricing">Get Capture</a>
                 </Button>
                 <Button asChild variant="outline" size="lg">
-                  <Link to="/contact">Talk to Sales</Link>
+                  <a href="/contact">Talk to Sales</a>
                 </Button>
               </div>
             </div>

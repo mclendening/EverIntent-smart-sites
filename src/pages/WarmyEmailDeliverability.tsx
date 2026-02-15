@@ -43,7 +43,7 @@ import {
   AlertCircle,
   ChevronDown
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+
 import { 
   DeliverabilityScoreDashboard,
   WarmUpProgressDashboard,
@@ -458,9 +458,9 @@ export default function WarmyEmailDeliverability() {
             <p className="text-xs text-muted-foreground mb-3">Join 10,000+ businesses with 95%+ inbox placement.</p>
             <div className="flex flex-col sm:flex-row gap-2 justify-center">
               <CTAButton to="/pricing" defaultText="Start Free Trial" hoverText="14 Days Free!" />
-              <Link to="/contact">
+              <a href="/contact">
                 <Button variant="outline" size="sm" className="w-full sm:w-auto text-xs">Talk to Expert</Button>
-              </Link>
+              </a>
             </div>
           </div>
         </div>

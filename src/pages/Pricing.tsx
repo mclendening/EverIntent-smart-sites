@@ -17,7 +17,7 @@
 
 import { useState, useEffect } from 'react';
 import { Check, Minus, ArrowRight, Moon, ShieldCheck, Bot, MessageSquare } from 'lucide-react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
 import {
   Accordion,
@@ -497,12 +497,12 @@ const Pricing = () => {
               >
                 Start with Launch — $249
               </a>
-              <Link
-                to="/contact"
+              <a
+                href="/contact"
                 className="px-6 py-3 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors font-medium"
               >
                 Book Strategy Call
-              </Link>
+              </a>
             </div>
           </div>
         </div>

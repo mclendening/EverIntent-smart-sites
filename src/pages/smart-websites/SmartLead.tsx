@@ -141,7 +141,7 @@ export default function SmartLead() {
                 </a>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <Link to="/smart-websites">Compare All Tiers</Link>
+                <a href="/smart-websites">Compare All Tiers</a>
               </Button>
             </div>
           </div>
@@ -264,7 +264,7 @@ export default function SmartLead() {
               </a>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/smart-websites/convert">See Convert →</Link>
+              <a href="/smart-websites/convert">See Convert →</a>
             </Button>
           </div>
         </div>

@@ -7,7 +7,7 @@ import { ArrowRight, Clock, Smartphone, CheckCircle, Zap, Globe, Lock, Calendar,
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Link } from 'react-router-dom';
+
 import { SEO } from '@/components/SEO';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -547,10 +547,10 @@ const SmartWebsites = () => {
 
           <div className="text-center mt-8">
             <Button asChild variant="outline">
-              <Link to="/contact">
+              <a href="/contact">
                 Want to See More? Let's Talk
                 <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
+              </a>
             </Button>
           </div>
         </div>
@@ -644,10 +644,10 @@ const SmartWebsites = () => {
                   </div>
                 </div>
                 <Button asChild>
-                  <Link to="/let-ai-handle-it">
+                  <a href="/let-ai-handle-it">
                     Learn About AI Employee
                     <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
+                  </a>
                 </Button>
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -714,15 +714,15 @@ const SmartWebsites = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" variant="secondary" className="text-lg px-8 py-6">
-                <Link to="/pricing">
+                <a href="/pricing">
                   See All Pricing
                   <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
+                </a>
               </Button>
               <Button asChild size="lg" variant="outline" className="text-lg px-8 py-6 bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
-                <Link to="/contact">
+                <a href="/contact">
                   Talk to Us First
-                </Link>
+                </a>
               </Button>
             </div>
           </div>

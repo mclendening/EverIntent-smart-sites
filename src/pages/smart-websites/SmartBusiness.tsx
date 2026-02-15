@@ -143,7 +143,7 @@ export default function SmartBusiness() {
                 </a>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <Link to="/smart-websites">Compare All Tiers</Link>
+                <a href="/smart-websites">Compare All Tiers</a>
               </Button>
             </div>
           </div>
@@ -266,7 +266,7 @@ export default function SmartBusiness() {
               </a>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/smart-websites/scale">See Scale →</Link>
+              <a href="/smart-websites/scale">See Scale →</a>
             </Button>
           </div>
         </div>

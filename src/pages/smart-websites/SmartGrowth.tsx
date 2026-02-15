@@ -146,7 +146,7 @@ export default function SmartGrowth() {
                 </a>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <Link to="/smart-websites">Compare All Tiers</Link>
+                <a href="/smart-websites">Compare All Tiers</a>
               </Button>
             </div>
           </div>
@@ -269,7 +269,7 @@ export default function SmartGrowth() {
               </a>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/let-ai-handle-it">Explore AI Employee →</Link>
+              <a href="/let-ai-handle-it">Explore AI Employee →</a>
             </Button>
           </div>
         </div>
