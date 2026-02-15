@@ -207,24 +207,41 @@
   </url>
 
   <!-- Location Landing Pages -->
-  <url>
-    <loc>https://everintent.com/locations/long-beach</loc>
-    <lastmod>2026-02-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://everintent.com/locations/orange-county</loc>
-    <lastmod>2026-02-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://everintent.com/locations/los-angeles</loc>
-    <lastmod>2026-02-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
+  <url><loc>https://everintent.com/locations/long-beach</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everintent.com/locations/orange-county</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everintent.com/locations/los-angeles</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everintent.com/locations/signal-hill</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/lakewood</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/seal-beach</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/los-alamitos</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/carson</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/cerritos</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/bellflower</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/paramount</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/santa-monica</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/beverly-hills</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/pasadena</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/glendale</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/burbank</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/culver-city</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/inglewood</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/torrance</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/west-hollywood</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/downtown-la</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/venice</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/silver-lake</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/irvine</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/anaheim</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/santa-ana</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/huntington-beach</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/costa-mesa</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/newport-beach</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/fullerton</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/mission-viejo</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/lake-forest</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/tustin</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/laguna-beach</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everintent.com/locations/san-clemente</loc><lastmod>2026-02-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
 
   <!-- Help & Support -->
   <url>
