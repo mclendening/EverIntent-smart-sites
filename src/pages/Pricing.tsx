@@ -119,7 +119,7 @@ const aiPlans = [
 const faqItems = [
   {
     question: "What's included in the one-time $249 price?",
-    answer: "Smart Site includes a professional 5-page website, mobile responsive design, SSL certificate, basic SEO setup, contact form, and Google Maps integration. You own the website forever. After the first year, hosting is just $149/year.",
+    answer: "Launch includes a professional 5-page website, mobile responsive design, SSL certificate, basic SEO setup, contact form, and Google Maps integration. You own the website forever. After the first year, hosting is just $149/year.",
   },
   {
     question: "Can I upgrade from Launch to Capture later?",
@@ -131,7 +131,7 @@ const faqItems = [
   },
   {
     question: "Do I own my website?",
-    answer: "Yes, you own everything. Smart Site customers get the source code delivered. Higher tiers include hosting, but you can export and self-host anytime. No lock-in.",
+    answer: "Yes, you own everything. Launch customers get the source code delivered. Higher tiers include hosting, but you can export and self-host anytime. No lock-in.",
   },
   {
     question: "Is there a contract?",
@@ -488,7 +488,7 @@ const Pricing = () => {
               Ready to get started?
             </h2>
             <p className="text-muted-foreground mb-8">
-              Book a free strategy call or get started with Smart Site today.
+              Book a free strategy call or get started with Launch today.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
