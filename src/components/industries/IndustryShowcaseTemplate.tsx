@@ -571,7 +571,7 @@ export function IndustryShowcaseTemplate({
 
           <div className="text-center mt-8">
             <Button asChild variant="outline">
-              <Link to="/our-work">View Full Portfolio</Link>
+              <a href="/portfolio">View Full Portfolio</a>
             </Button>
           </div>
         </div>

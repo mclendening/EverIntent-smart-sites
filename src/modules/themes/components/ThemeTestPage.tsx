@@ -20,7 +20,7 @@ type Theme = Tables<'site_themes'>;
 
 // Services dropdown items
 const servicesItems = [
-  { title: 'Beautiful Websites', path: '/beautiful-websites', description: 'Professional websites that get you customers' },
+  { title: 'Smart Websites', path: '/smart-websites', description: 'Professional websites that get you customers' },
   { title: 'Get Found Online', path: '/get-found-online', description: 'SEO and local search visibility' },
   { title: 'Never Miss a Lead', path: '/never-miss-a-lead', description: 'Lead capture and follow-up' },
   { title: 'Book More Jobs', path: '/book-more-jobs', description: 'Online booking and scheduling' },

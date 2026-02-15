@@ -3458,3 +3458,22 @@ Updated `SEO.tsx` to accept `structuredData` as either a single object or an arr
 - `coreRoutePaths` reduced from `['/', '/book-call', '/strategy-session', '/careers']` to `['/', '/careers']`
 - New `legacyRedirects` array handles deprecated paths centrally
 - `resourcePaths` array retained but FAQ/Help/Support now render dedicated components instead of Placeholder
+
+---
+
+### Changelog: 2026-02-14 — Legacy Redirect Scrub
+
+**Rationale:** Site is brand-new with no legacy URLs in the wild. Redirects were premature scaffolding that added dead code and unnecessary complexity.
+
+**Changes:**
+
+| File | Change |
+|------|--------|
+| `src/routes.tsx` | Removed `legacyRedirects` array and all `<Navigate>` mappings for `/beautiful-websites`, `/our-work`, `/book-call`, `/strategy-session` |
+| `src/config/routes.ts` | Removed `/book-call` and `/strategy-session` from `coreRoutes`; deleted `primaryServiceRoute` (`/beautiful-websites`); removed from `prerenderRoutes` and `allRoutes` aggregations |
+| `src/components/industries/IndustryShowcaseTemplate.tsx` | Changed `<Link to="/our-work">` → `<a href="/portfolio">` (SSG-compliant native anchor) |
+| `src/modules/themes/components/ThemeTestPage.tsx` | Changed `Beautiful Websites` → `Smart Websites` with `/smart-websites` path |
+
+**Verification:** `grep` confirms zero remaining references to `beautiful-websites`, `our-work`, `book-call`, `strategy-session`, or `legacyRedirect` in `src/`.
+
+**Sitemap:** Already clean — no legacy paths were present in `public/sitemap.xml`.
