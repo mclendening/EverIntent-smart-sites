@@ -48,7 +48,7 @@ const faqCategories: FAQCategory[] = [
       },
       {
         q: 'Do I own my website?',
-        a: 'Yes — your website, your data, your customers. No hostage situations, no hidden fees. Leave anytime and take it all with you.',
+        a: 'Yes. Your website, your data, your customers. No hostage situations, no hidden fees. Leave anytime and take it all with you.',
       },
       {
         q: 'How long does it take to build my site?',
@@ -56,7 +56,7 @@ const faqCategories: FAQCategory[] = [
       },
       {
         q: 'Can I upgrade my tier later?',
-        a: 'Absolutely. Every tier is upgrade-ready. Move from Launch to Capture, Convert, or Scale at any time — we handle the transition seamlessly.',
+        a: 'Absolutely. Every tier is upgrade-ready. Move from Launch to Capture, Convert, or Scale at any time. We handle the transition seamlessly.',
       },
     ],
   },
@@ -67,7 +67,7 @@ const faqCategories: FAQCategory[] = [
     questions: [
       {
         q: 'What is the AI Employee?',
-        a: 'A managed AI receptionist service that handles voice calls, SMS, and web chat for your business. It answers calls, qualifies leads, books appointments, and recovers missed opportunities — 24/7.',
+        a: 'A managed AI receptionist service that handles voice calls, SMS, and web chat for your business. It answers calls, qualifies leads, books appointments, and recovers missed opportunities, 24/7.',
       },
       {
         q: 'What are the AI Employee modes?',
@@ -79,7 +79,7 @@ const faqCategories: FAQCategory[] = [
       },
       {
         q: 'Will callers know they\'re talking to an AI?',
-        a: 'Yes — we comply with California Bot Disclosure Law (§17940). The AI identifies itself clearly at the start of every call, which actually builds trust with callers.',
+        a: 'Yes. We comply with California Bot Disclosure Law (§17940). The AI identifies itself clearly at the start of every call, which actually builds trust with callers.',
       },
       {
         q: 'What is Web Chat Only?',
@@ -110,7 +110,7 @@ const faqCategories: FAQCategory[] = [
       },
       {
         q: 'Is domain registration included?',
-        a: 'Yes — domain registration is included with all tiers as a value-add. We handle the purchase and DNS configuration during your 5-day build window.',
+        a: 'Yes. Domain registration is included with all tiers as a value-add. We handle the purchase and DNS configuration during your 5-day build window.',
       },
     ],
   },

@@ -14,7 +14,7 @@ export const smartBusinessFeatures: ExpandableFeature[] = [
     title: 'Online Booking System',
     shortDesc: 'Let customers book appointments 24/7 without calling.',
     detail: 'GoHighLevel calendar integration with a public booking page embedded on your website. Customers pick a date and time, receive instant confirmation via SMS and email, and get automated reminders before their appointment. Syncs with Google Calendar to prevent double-booking.',
-    benefit: 'Eliminate phone tag. Customers book themselves—you just show up.',
+    benefit: 'Eliminate phone tag. Customers book themselves and you just show up.',
     searchTerms: ['online booking system small business', 'appointment booking website', '24/7 appointment scheduling', 'online booking for contractors', 'automated appointment booking', 'self-service booking system'],
   },
   {

@@ -16,7 +16,7 @@ const differentiators = [
     image: operatorsImg,
     imageAlt: 'Experienced team of business professionals in a strategy war room',
     title: 'Operators, Not Vendors',
-    description: "We've built and run contact centers handling millions of calls. We understand your phone is your lifeline — because we've lived it.",
+    description: "We've built and run contact centers handling millions of calls. We understand your phone is your lifeline, because we've lived it.",
   },
   {
     image: ownershipImg,
@@ -28,7 +28,7 @@ const differentiators = [
     image: resultsImg,
     imageAlt: 'Business owner holding tablet showing upward revenue chart',
     title: '60-90 Day Results',
-    description: "We measure success in leads captured and calls answered — not vanity metrics. You'll see ROI in the first 90 days or less.",
+    description: "We measure success in leads captured and calls answered, not vanity metrics. You'll see ROI in the first 90 days or less.",
   },
   {
     image: noContractsImg,
@@ -84,13 +84,13 @@ const About = () => {
             
             <div className="prose prose-lg prose-invert mx-auto space-y-6 text-muted-foreground">
               <p>
-                We started in enterprise contact centers — the kind that handle millions of calls for Fortune 500 companies. We built AI systems, designed automation workflows, and learned exactly what it takes to never miss a lead.
+                We started in enterprise contact centers, the kind that handle millions of calls for Fortune 500 companies. We built AI systems, designed automation workflows, and learned exactly what it takes to never miss a lead.
               </p>
               <p>
                 Then we noticed something: local businesses were drowning. Plumbers missing calls while on jobs. Dentists losing patients to voicemail. Contractors watching competitors scoop up leads they couldn't answer fast enough.
               </p>
               <p>
-                These businesses didn't need enterprise-grade complexity. They needed <span className="text-foreground font-medium">enterprise-grade results</span> — packaged simply, priced fairly, and delivered fast.
+                These businesses didn't need enterprise-grade complexity. They needed <span className="text-foreground font-medium">enterprise-grade results</span>: packaged simply, priced fairly, and delivered fast.
               </p>
               <p>
                 That's why we built EverIntent. We took everything we learned from the enterprise world and made it accessible to the businesses that need it most: the local service providers who are too busy doing great work to answer every call.

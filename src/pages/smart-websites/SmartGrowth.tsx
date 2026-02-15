@@ -126,7 +126,7 @@ export default function SmartGrowth() {
 
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl">
               AI-powered growth engine. AI Voice Agent. Unified inbox. Advanced automations. 
-              This isn't just a website—it's a business that runs itself.
+              This isn't just a website. It's a business that runs itself.
             </p>
 
             <div className="flex items-baseline gap-2 mb-4">

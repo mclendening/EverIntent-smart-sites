@@ -15,7 +15,7 @@ const outcomes = [
   {
     icon: PhoneMissed,
     title: "Recover Missed Calls",
-    description: "62% of calls to local businesses go unanswered. Our AI texts back every missed call in under 60 seconds — before they call your competitor.",
+    description: "62% of calls to local businesses go unanswered. Our AI texts back every missed call in under 60 seconds, before they call your competitor.",
     link: "/let-ai-handle-it",
   },
   {

@@ -63,19 +63,19 @@ const testimonials = [
     quote: "In a city as competitive as LA, you need every edge. The AI receptionist books us 15+ appointments a week that we used to miss.",
     name: 'Ricardo S.',
     company: 'LA Pro Landscaping',
-    industry: 'Home Services — Landscaping',
+    industry: 'Home Services, Landscaping',
   },
   {
     quote: "We went from invisible on Google to page one for 'personal injury attorney Los Angeles' in 4 months. The website EverIntent built converts like crazy.",
     name: 'Sarah K.',
     company: 'Westside Legal Group',
-    industry: 'Professional Services — Legal',
+    industry: 'Professional Services, Legal',
   },
   {
     quote: "The missed-call text-back is perfect for LA. I'm always on the road between job sites and now every lead gets an instant response.",
     name: 'Tony D.',
     company: 'Downtown Electric Co.',
-    industry: 'Home Services — Electrical',
+    industry: 'Home Services, Electrical',
   },
 ];
 
@@ -118,7 +118,7 @@ export default function LosAngeles() {
       latitude={34.0522}
       longitude={-118.2437}
       heroHeadline="Los Angeles Businesses"
-      heroSubheadline="In a city of 500,000+ small businesses, standing out is everything. Get a website that converts and an AI that never sleeps — built for the pace of LA."
+      heroSubheadline="In a city of 500,000+ small businesses, standing out is everything. Get a website that converts and an AI that never sleeps. Built for the pace of LA."
       localStat="500,000+"
       localStatLabel="small businesses in Los Angeles"
       services={services}

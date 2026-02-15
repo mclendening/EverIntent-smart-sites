@@ -63,19 +63,19 @@ const testimonials = [
     quote: "EverIntent built us a website that actually gets us calls. We've booked 40% more AC installs this summer in Long Beach.",
     name: 'Carlos M.',
     company: 'Pacific Coast HVAC',
-    industry: 'Home Services — HVAC',
+    industry: 'Home Services, HVAC',
   },
   {
     quote: "The AI receptionist handles our after-hours calls perfectly. Long Beach homeowners love that we answer at 10pm.",
     name: 'Dana R.',
     company: 'Shoreline Plumbing',
-    industry: 'Home Services — Plumbing',
+    industry: 'Home Services, Plumbing',
   },
   {
     quote: "Our Google reviews went from 4.1 to 4.8 stars in three months. The automated review requests are a game-changer.",
     name: 'Kevin T.',
     company: 'Belmont Shore Dental',
-    industry: 'Health & Wellness — Dental',
+    industry: 'Health & Wellness, Dental',
   },
 ];
 

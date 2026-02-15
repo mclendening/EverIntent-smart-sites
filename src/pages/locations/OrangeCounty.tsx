@@ -63,19 +63,19 @@ const testimonials = [
     quote: "We serve all of Orange County and the AI receptionist handles calls from Anaheim to San Clemente. It's like having a full-time receptionist for $197/month.",
     name: 'Jason P.',
     company: 'OC Elite Roofing',
-    industry: 'Home Services — Roofing',
+    industry: 'Home Services, Roofing',
   },
   {
     quote: "Our Irvine dental practice saw a 35% increase in new patient bookings within 60 days of launching with EverIntent.",
     name: 'Dr. Amy L.',
     company: 'Irvine Family Dentistry',
-    industry: 'Health & Wellness — Dental',
+    industry: 'Health & Wellness, Dental',
   },
   {
     quote: "The missed-call text-back alone pays for itself. We recovered $8K in jobs last month that would have gone to competitors.",
     name: 'Marcus W.',
     company: 'Newport Electrical Services',
-    industry: 'Home Services — Electrical',
+    industry: 'Home Services, Electrical',
   },
 ];
 

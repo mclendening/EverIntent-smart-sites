@@ -227,7 +227,7 @@ export default function Industries() {
               <span className="text-foreground"> needs</span>
             </h2>
             <p className="text-muted-foreground">
-              Whether you're a plumber, dentist, attorney, or auto shop — these fundamentals drive growth.
+              Whether you're a plumber, dentist, attorney, or auto shop, these fundamentals drive growth.
             </p>
           </div>
 
@@ -263,7 +263,7 @@ export default function Industries() {
               Ready to grow your business?
             </h2>
             <p className="text-muted-foreground mb-8">
-              Get a smart website that actually generates leads — built in 5 days, starting at $249.
+              Get a smart website that actually generates leads. Built in 5 days, starting at $249.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button asChild size="lg">
