@@ -209,7 +209,7 @@ export default function ProfessionalServices() {
               <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
                 Recommended for Professional Services
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold mb-4">Smart Business</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-4">Convert</h2>
               <p className="text-muted-foreground mb-6">
                 Built for client-focused professionals. Premium website, CRM integration, 
                 appointment scheduling, and reputation management — all for{' '}
@@ -236,7 +236,7 @@ export default function ProfessionalServices() {
 
               <div className="flex flex-wrap justify-center gap-4">
                 <Button asChild size="lg">
-                  <Link to="/pricing">Get Smart Business</Link>
+                  <Link to="/pricing">Get Convert</Link>
                 </Button>
                 <Button asChild variant="outline" size="lg">
                   <Link to="/contact">Talk to Sales</Link>

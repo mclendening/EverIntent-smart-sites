@@ -26,7 +26,7 @@ import {
 const faqs = [
   {
     question: 'What happens after the first year?',
-    answer: 'Smart Site includes 1 year of hosting free. After Year 1, hosting renews at $149/year. This covers hosting, SSL, security updates, and basic maintenance.',
+    answer: 'Launch includes 1 year of hosting free. After Year 1, hosting renews at $149/year. This covers hosting, SSL, security updates, and basic maintenance.',
   },
   {
     question: 'Do I own my website?',

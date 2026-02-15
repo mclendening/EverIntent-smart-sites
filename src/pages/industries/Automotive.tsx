@@ -203,7 +203,7 @@ export default function Automotive() {
               <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
                 Recommended for Automotive
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold mb-4">Smart Lead</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-4">Capture</h2>
               <p className="text-muted-foreground mb-6">
                 Built for busy shops. Conversion-focused website, appointment booking, 
                 automated reminders, and review requests — all for{' '}
@@ -230,7 +230,7 @@ export default function Automotive() {
 
               <div className="flex flex-wrap justify-center gap-4">
                 <Button asChild size="lg">
-                  <Link to="/pricing">Get Smart Lead</Link>
+                  <Link to="/pricing">Get Capture</Link>
                 </Button>
                 <Button asChild variant="outline" size="lg">
                   <Link to="/contact">Talk to Sales</Link>

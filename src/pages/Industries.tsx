@@ -65,7 +65,7 @@ const industryCategories = [
       avgLeadValue: '$35-70',
       missedCallCost: '$150/missed call',
     },
-    recommendedTier: 'Smart Lead',
+    recommendedTier: 'Capture',
     topVerticals: ['HVAC', 'Plumbing', 'Electrical', 'Roofing', 'Landscaping'],
   },
   {
@@ -80,7 +80,7 @@ const industryCategories = [
       avgLeadValue: '$100-500',
       missedCallCost: '$300/missed inquiry',
     },
-    recommendedTier: 'Smart Business',
+    recommendedTier: 'Convert',
     topVerticals: ['Legal', 'Real Estate', 'Accounting', 'Insurance', 'Financial Advisor'],
   },
   {
@@ -95,7 +95,7 @@ const industryCategories = [
       avgLeadValue: '$75-200',
       missedCallCost: '$125/missed booking',
     },
-    recommendedTier: 'Smart Business',
+    recommendedTier: 'Convert',
     topVerticals: ['Dental', 'Chiropractic', 'Medspa', 'Salon', 'Personal Training'],
   },
   {
@@ -110,7 +110,7 @@ const industryCategories = [
       avgLeadValue: '$80-250',
       missedCallCost: '$175/missed estimate',
     },
-    recommendedTier: 'Smart Lead',
+    recommendedTier: 'Capture',
     topVerticals: ['Auto Repair', 'Detailing', 'Tire Shop', 'Body Shop', 'Towing'],
   },
 ];
