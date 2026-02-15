@@ -101,7 +101,7 @@ export default function AutomotiveShowcase() {
     <>
       <SEO
         title="Automotive Services AI Solutions | Auto Repair, Detailing, Tire Shops"
-        description="Fill more bays with AI-powered scheduling. Smart websites and phone answering for auto repair, detailing, and tire shops. Smart Lead from $97/mo."
+        description="Fill more bays with AI-powered scheduling. Smart websites and phone answering for auto repair, detailing, and tire shops. Capture from $97/mo."
         canonical="/industries/automotive-services/showcase"
       />
 

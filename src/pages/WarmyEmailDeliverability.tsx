@@ -10,7 +10,7 @@
  * - Domain Health Monitoring (SPF/DKIM/DMARC)
  * - Real-time Deliverability Analytics
  * 
- * Pricing: $49/mo standalone OR free with Smart Lead ($97/mo)
+ * Pricing: $49/mo standalone OR free with Capture ($97/mo)
  * 
  * SEO: Optimized for "email deliverability", "email warm-up", "inbox placement"
  * AEO: FAQ schema for voice search and AI answer engines
@@ -134,8 +134,8 @@ const faqItems = [
     answer: 'Warmy can help recover damaged sender reputation. The warm-up process gradually rebuilds trust with email providers while our monitoring prevents future issues.',
   },
   {
-    question: 'Is Warmy included with Smart Lead?',
-    answer: 'Yes! Warmy Email Deliverability is included free with our Smart Lead tier ($97/month). Standalone pricing is $49/month for businesses with existing websites.',
+    question: 'Is Warmy included with Capture?',
+    answer: 'Yes! Warmy Email Deliverability is included free with our Capture tier ($97/month). Standalone pricing is $49/month for businesses with existing websites.',
   },
   {
     question: 'What email providers does inbox testing cover?',
@@ -416,7 +416,7 @@ export default function WarmyEmailDeliverability() {
 
               <div className="bg-card border-2 border-accent rounded-md p-3 relative">
                 <span className="absolute -top-2 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground px-2 py-0.5 rounded-full text-[9px] font-medium">Best Value</span>
-                <p className="text-[10px] uppercase text-muted-foreground mb-0.5">Smart Lead</p>
+                <p className="text-[10px] uppercase text-muted-foreground mb-0.5">Capture</p>
                 <p className="text-2xl font-bold text-accent mb-2">FREE</p>
                 <ul className="space-y-1 text-[11px] mb-3">
                   {['All above', '+ Website', '+ CRM + AI'].map((item, i) => (

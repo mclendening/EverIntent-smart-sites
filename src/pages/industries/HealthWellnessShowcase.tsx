@@ -101,7 +101,7 @@ export default function HealthWellnessShowcase() {
     <>
       <SEO
         title="Health & Wellness AI Solutions | MedSpa, Dental, Chiropractic"
-        description="Book more patients with AI-powered scheduling. Smart websites and phone answering for medspas, dental practices, and wellness studios. Smart Business from $197/mo."
+        description="Book more patients with AI-powered scheduling. Smart websites and phone answering for medspas, dental practices, and wellness studios. Convert from $197/mo."
         canonical="/industries/health-wellness/showcase"
       />
 

@@ -92,7 +92,7 @@ const faqItems = [
   },
   {
     question: 'What about my existing website?',
-    answer: 'You can use our AI phone system with any website, or we can build you a new conversion-focused site. Smart Business tier includes a premium 8-page website designed specifically for professional services.',
+    answer: 'You can use our AI phone system with any website, or we can build you a new conversion-focused site. Convert tier includes a premium 8-page website designed specifically for professional services.',
   },
 ];
 
@@ -101,7 +101,7 @@ export default function ProfessionalShowcase() {
     <>
       <SEO
         title="Professional Services AI Solutions | Law, Accounting, Real Estate"
-        description="Convert more consultations with AI-powered client intake. Smart websites and phone answering for law firms, CPAs, and professional services. Smart Business from $197/mo."
+        description="Convert more consultations with AI-powered client intake. Smart websites and phone answering for law firms, CPAs, and professional services. Convert from $197/mo."
         canonical="/industries/professional-services/showcase"
       />
 
