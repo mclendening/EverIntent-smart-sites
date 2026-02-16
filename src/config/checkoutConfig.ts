@@ -196,35 +196,35 @@ export const ADDON_CONFIG: Record<AddonSlug, AddonConfig> = {
     displayName: 'Email Authority',
     description: 'Email warm-up, deliverability monitoring & inbox placement',
     monthlyPrice: 49,
-    ghlTag: 'EI: AddOn – Email Authority',
+    ghlTag: 'ei: addon - email authority',
   },
   'get-paid-now': {
     slug: 'get-paid-now',
     displayName: 'Get Paid Now',
     description: 'Text-to-Pay, proposals & invoicing in 60 seconds',
     monthlyPrice: 49,
-    ghlTag: 'EI: AddOn – Get Paid Now',
+    ghlTag: 'ei: addon - get paid now',
   },
   'social-autopilot': {
     slug: 'social-autopilot',
     displayName: 'Social Autopilot',
     description: 'Automated social posting & content calendar',
     monthlyPrice: 79,
-    ghlTag: 'EI: AddOn – Social Autopilot',
+    ghlTag: 'ei: addon - social autopilot',
   },
   'omnichannel-inbox': {
     slug: 'omnichannel-inbox',
     displayName: 'Omnichannel Inbox',
     description: 'WhatsApp, Facebook, Instagram & Google Business chat',
     monthlyPrice: 99,
-    ghlTag: 'EI: AddOn – Omnichannel Inbox',
+    ghlTag: 'ei: addon - omnichannel inbox',
   },
   'ai-voice-chat': {
     slug: 'ai-voice-chat',
     displayName: 'AI Voice Chat',
     description: 'Voice-enabled AI chat for your website',
     monthlyPrice: 79,
-    ghlTag: 'EI: AddOn – AI Voice Chat',
+    ghlTag: 'ei: addon - ai voice chat',
     includedInTiers: ['full-ai'],
   },
   'unlimited-ai': {
@@ -232,7 +232,7 @@ export const ADDON_CONFIG: Record<AddonSlug, AddonConfig> = {
     displayName: 'Unlimited AI',
     description: 'Unlimited AI usage across all features',
     monthlyPrice: 149,
-    ghlTag: 'EI: AddOn – Unlimited AI',
+    ghlTag: 'ei: addon - unlimited ai',
     includedInTiers: ['full-ai'],
   },
 };
@@ -242,14 +242,14 @@ export const ADDON_CONFIG: Record<AddonSlug, AddonConfig> = {
 // ============================================
 
 export const TIER_TAG_MAP: Record<TierSlug, string> = {
-  'launch': 'EI: Tier – Launch',
-  'capture': 'EI: Tier – Capture',
-  'convert': 'EI: Tier – Convert',
-  'scale': 'EI: Tier – Scale',
-  'after-hours': 'EI: Tier – After-Hours',
-  'front-office': 'EI: Tier – Front Office',
-  'full-ai': 'EI: Tier – Full AI Employee',
-  'web-chat': 'EI: Tier – Web Chat Only',
+  'launch': 'ei: tier - launch',
+  'capture': 'ei: tier - capture',
+  'convert': 'ei: tier - convert',
+  'scale': 'ei: tier - scale',
+  'after-hours': 'ei: tier - after-hours',
+  'front-office': 'ei: tier - front office',
+  'full-ai': 'ei: tier - full ai employee',
+  'web-chat': 'ei: tier - web chat only',
 };
 
 // ============================================
