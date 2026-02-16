@@ -9,98 +9,92 @@ const GHL_BASE_URL = 'https://services.leadconnectorhq.com';
 const GHL_API_VERSION = '2021-07-28';
 
 /**
- * Centralized GHL tag constants.
- * All tags used across the application are defined here for consistency.
- * Tags follow naming convention: "{Category}: {Action/Status}"
- * 
- * @constant
+ * Centralized GHL tag constants — SINGLE SOURCE OF TRUTH.
+ * Convention: ei: {category} - {value} (lowercase, standard hyphen, never en-dash)
+ * @see docs/GHL-TAG-REGISTRY.md
  */
 export const GHL_TAGS = {
-  // ============================================
-  // AI Employee Mode Tags (M1-M5)
-  // ============================================
-  /** M1: After-Hours - Voice AI after business hours */
-  AI_MODE_M1: 'EI: AI Mode - M1 After-Hours',
-  /** M2: After-Hours + Booking - Includes scheduling links */
-  AI_MODE_M2: 'EI: AI Mode - M2 After-Hours + Booking',
-  /** M3: Missed Call Recovery - SMS text-back for missed calls */
-  AI_MODE_M3: 'EI: AI Mode - M3 Missed Call Recovery',
-  /** M4: Front Line Screener - Voice AI all hours with routing */
-  AI_MODE_M4: 'EI: AI Mode - M4 Front Line Screener',
-  /** M5: Full AI Employee - Complete automation package */
-  AI_MODE_M5: 'EI: AI Mode - M5 Full AI Employee',
-  
-  // ============================================
-  // Smart Website Tier Tags
-  // ============================================
-  /** Smart Site - $249 one-time website */
-  TIER_SMART_SITE: 'EI: Tier - Smart Site',
-  /** Smart Lead - $97/mo lead capture bundle */
-  TIER_SMART_LEAD: 'EI: Tier - Smart Lead',
-  /** Smart Business - $197/mo full automation */
-  TIER_SMART_BUSINESS: 'EI: Tier - Smart Business',
-  /** Smart Growth - $297/mo premium package */
-  TIER_SMART_GROWTH: 'EI: Tier - Smart Growth',
-  
-  // ============================================
-  // Standalone Product Tags
-  // ============================================
-  /** Web Chat Only - $79/mo AI chat widget */
-  PRODUCT_WEB_CHAT: 'EI: Product - Web Chat Only',
-  /** Warmy Booster - $49/mo email warm-up */
-  PRODUCT_WARMY: 'EI: Product - Warmy Booster',
-  
-  // ============================================
-  // Legacy Checkout Tags (for backward compatibility)
-  // ============================================
-  /** @deprecated Use AI_MODE_* or TIER_* tags instead */
-  CHECKOUT_T1: 'EI: Checkout Started - T1',
-  /** @deprecated Use AI_MODE_* or TIER_* tags instead */
-  CHECKOUT_T2: 'EI: Checkout Started - T2',
-  /** @deprecated Use AI_MODE_* or TIER_* tags instead */
-  CHECKOUT_T3: 'EI: Checkout Started - T3',
-  /** @deprecated Use AI_MODE_* or TIER_* tags instead */
-  CHECKOUT_T4: 'EI: Checkout Started - T4',
-  
-  // ============================================
-  // Form & Application Tags
-  // ============================================
-  /** Careers job application */
-  CAREERS_APPLICATION: 'Careers: Application',
-  /** General contact form submission */
-  CONTACT_FORM: 'EI: Contact Form',
-  /** CCPA/DSAR data rights request - requires 45-day response */
-  DATA_RIGHTS_REQUEST: 'DSAR: Data Rights Request',
+  // Tier Tags (product/plan identity)
+  TIER_LAUNCH:           'ei: tier - launch',
+  TIER_CAPTURE:          'ei: tier - capture',
+  TIER_CONVERT:          'ei: tier - convert',
+  TIER_SCALE:            'ei: tier - scale',
+  TIER_AFTER_HOURS:      'ei: tier - after-hours',
+  TIER_FRONT_OFFICE:     'ei: tier - front office',
+  TIER_FULL_AI:          'ei: tier - full ai employee',
+  TIER_WEB_CHAT:         'ei: tier - web chat only',
+  // Add-On Tags
+  ADDON_EMAIL_AUTHORITY:  'ei: addon - email authority',
+  ADDON_GET_PAID_NOW:     'ei: addon - get paid now',
+  ADDON_AI_VOICE_CHAT:    'ei: addon - ai voice chat',
+  ADDON_SOCIAL_AUTOPILOT: 'ei: addon - social autopilot',
+  ADDON_OMNICHANNEL:      'ei: addon - omnichannel inbox',
+  ADDON_UNLIMITED_AI:     'ei: addon - unlimited ai',
+  // Checkout Funnel Tags
+  CHECKOUT_PENDING:       'ei: checkout - pending',
+  CHECKOUT_LAUNCH:        'ei: checkout - launch',
+  CHECKOUT_CAPTURE:       'ei: checkout - capture',
+  CHECKOUT_CONVERT:       'ei: checkout - convert',
+  CHECKOUT_SCALE:         'ei: checkout - scale',
+  CHECKOUT_AFTER_HOURS:   'ei: checkout - after-hours',
+  CHECKOUT_FRONT_OFFICE:  'ei: checkout - front office',
+  CHECKOUT_FULL_AI:       'ei: checkout - full ai employee',
+  CHECKOUT_WEB_CHAT:      'ei: checkout - web chat only',
+  // Form Tags
+  FORM_CONTACT:           'ei: form - contact',
+  FORM_DATA_RIGHTS:       'ei: form - data rights request',
+  FORM_JOB_APPLICATION:   'ei: form - job application',
+  // Lifecycle Tags
+  LIFECYCLE_ACTIVE:       'ei: active customer',
+  LIFECYCLE_ONBOARDING:   'ei: onboarding complete',
+  LIFECYCLE_PAID:         'ei: paid',
+  LIFECYCLE_REDIRECTED:   'ei: redirected',
+  LIFECYCLE_CHURNED:      'ei: churned',
+  LIFECYCLE_UPGRADE:      'ei: upgrade',
+  LIFECYCLE_DOWNGRADE:    'ei: downgrade',
+  LIFECYCLE_RENEWAL:      'ei: renewal',
+  // Affiliate Tags
+  AFFILIATE_REFERRED:     'ei: affiliate - referred',
 } as const;
 
-/**
- * Mapping of tier/mode identifiers to their corresponding GHL tags.
- * Used by checkout and form submission flows.
- * 
- * @constant
- */
+/** Maps tier slugs to canonical tier tags */
 export const TIER_TAG_MAP: Record<string, string> = {
-  // AI Employee Modes
-  m1: GHL_TAGS.AI_MODE_M1,
-  m2: GHL_TAGS.AI_MODE_M2,
-  m3: GHL_TAGS.AI_MODE_M3,
-  m4: GHL_TAGS.AI_MODE_M4,
-  m5: GHL_TAGS.AI_MODE_M5,
-  // Smart Website Tiers
-  'smart-site': GHL_TAGS.TIER_SMART_SITE,
-  'smart-lead': GHL_TAGS.TIER_SMART_LEAD,
-  'smart-business': GHL_TAGS.TIER_SMART_BUSINESS,
-  'smart-growth': GHL_TAGS.TIER_SMART_GROWTH,
-  // Standalone Products
-  'web-chat': GHL_TAGS.PRODUCT_WEB_CHAT,
-  'warmy': GHL_TAGS.PRODUCT_WARMY,
-  // Legacy tier mappings (backward compatibility)
-  t1: GHL_TAGS.CHECKOUT_T1,
-  t2: GHL_TAGS.CHECKOUT_T2,
-  t3: GHL_TAGS.CHECKOUT_T3,
-  t4: GHL_TAGS.CHECKOUT_T4,
+  'launch':       GHL_TAGS.TIER_LAUNCH,
+  'capture':      GHL_TAGS.TIER_CAPTURE,
+  'convert':      GHL_TAGS.TIER_CONVERT,
+  'scale':        GHL_TAGS.TIER_SCALE,
+  'after-hours':  GHL_TAGS.TIER_AFTER_HOURS,
+  'front-office': GHL_TAGS.TIER_FRONT_OFFICE,
+  'full-ai':      GHL_TAGS.TIER_FULL_AI,
+  'web-chat':     GHL_TAGS.TIER_WEB_CHAT,
 };
 
+/** Maps tier slugs to checkout funnel tags */
+export const CHECKOUT_TAG_MAP: Record<string, string> = {
+  'launch':       GHL_TAGS.CHECKOUT_LAUNCH,
+  'capture':      GHL_TAGS.CHECKOUT_CAPTURE,
+  'convert':      GHL_TAGS.CHECKOUT_CONVERT,
+  'scale':        GHL_TAGS.CHECKOUT_SCALE,
+  'after-hours':  GHL_TAGS.CHECKOUT_AFTER_HOURS,
+  'front-office': GHL_TAGS.CHECKOUT_FRONT_OFFICE,
+  'full-ai':      GHL_TAGS.CHECKOUT_FULL_AI,
+  'web-chat':     GHL_TAGS.CHECKOUT_WEB_CHAT,
+};
+
+/** Maps add-on slugs to canonical add-on tags */
+export const ADDON_TAG_MAP: Record<string, string> = {
+  'email-authority':   GHL_TAGS.ADDON_EMAIL_AUTHORITY,
+  'get-paid-now':      GHL_TAGS.ADDON_GET_PAID_NOW,
+  'ai-voice-chat':     GHL_TAGS.ADDON_AI_VOICE_CHAT,
+  'social-autopilot':  GHL_TAGS.ADDON_SOCIAL_AUTOPILOT,
+  'omnichannel-inbox': GHL_TAGS.ADDON_OMNICHANNEL,
+  'unlimited-ai':      GHL_TAGS.ADDON_UNLIMITED_AI,
+};
+
+/** Builds affiliate tag from partner slug */
+export function buildAffiliateTag(slug: string): string {
+  return `ei: affiliate - ${slug.toLowerCase().trim()}`;
+}
 // Helper to get GHL headers
 export function ghlHeaders(): Record<string, string> {
   const token = Deno.env.get('GHL_API_TOKEN');
