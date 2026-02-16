@@ -248,7 +248,7 @@
 | I8 | TCPA consent checkbox (unchecked by default) | §20.2, §Appendix C | `CheckoutStep2Details.tsx` | ⚠️ | **Verify** checkbox is unchecked by default |
 | I9 | Step 3 Review with section-specific Edit links | Phase 6 §4.3 | `CheckoutStep3Review.tsx` | ⚠️ | Known deficit per tracker — **verify and fix** |
 | I10 | `start-checkout` edge function saves + syncs + returns redirect URL | Phase 6 | `supabase/functions/start-checkout/index.ts` | ✅ | VERIFIED — redirect_url already returned correctly |
-| I11 | GHL checkout redirect via `window.location.href` | Phase 6 arch diagram | — | ❌ | Blocked by I10 — edge function must return URL first |
+| I11 | GHL checkout redirect via `window.location.href` | Phase 6 arch diagram | `CheckoutPage.tsx:378` | ✅ | VERIFIED — CheckoutPage.tsx line 378: window.location.href = data.redirect_url. I10 was already verified working. |
 | I12 | Contact page stays inquiry-only (no checkout logic) | Phase 6 | `Contact.tsx` is separate form | ✅ | None |
 | I13 | Checkout progress indicator (●○○) | Phase 6 §4 | `CheckoutProgress.tsx` exists | ✅ | None |
 | I14 | Order summary with dynamic pricing | Phase 6 §4.1 | `OrderSummary.tsx` exists | ✅ | None |
@@ -465,8 +465,8 @@
 
 | # | Token | Theme Spec Ref | Theme BRD Ref | Tracker Ref | Status | Notes |
 |---|-------|----------------|---------------|-------------|--------|-------|
-| Q23 | `--font-heading` (Space Grotesk) | §4.4 ✅ | §5.1 ✅ | 7.21d done | ❌ | **Pipeline violation:** CSS var exists in `index.css` but is hardcoded, not emitted by the theme publish pipeline. `tailwind.config.ts` also defines heading as `Inter`, contradicting `index.css` (`Space Grotesk`). **Fix:** Ensure `generateProductionCss` emits `--font-heading` from `typography_config.fontHeading`; update `tailwind.config.ts` to reference the CSS variable |
-| Q24 | `--font-body` (Inter) | §4.4 ✅ | §5.1 ✅ | 7.21d done | ❌ | **Pipeline violation:** Same as Q23 — hardcoded in `index.css` instead of emitted by theme pipeline. **Fix:** Ensure `generateProductionCss` emits `--font-body` from `typography_config.fontBody`; `tailwind.config.ts` should reference the CSS variable |
+| Q23 | `--font-heading` (Space Grotesk) | §4.4 ✅ | §5.1 ✅ | 7.21d done | ✅ | FIXED v36.4 — tailwind.config.ts uses var(--font-heading), generateProductionCss emits from typography_config |
+| Q24 | `--font-body` (Inter) | §4.4 ✅ | §5.1 ✅ | 7.21d done | ✅ | FIXED v36.4 — tailwind.config.ts uses var(--font-body), generateProductionCss emits from typography_config |
 | Q25 | `--font-mono` (JetBrains Mono) | §4.4 ✅ | §5.1 ✅ | — | ✅ | FIXED v36.5 — fontMono added to TypographyConfig, Zod schema, TypographyEditor, CSS publisher, tailwind.config.ts, DB default |
 | Q26 | `--transition-smooth` | §4.5 ✅ | §14.2 ✅ | 7.21e done | ✅ | — |
 | Q27 | `--transition-bounce` | §4.5 ✅ | §14.2 ✅ | 7.21e done | ✅ | — |
@@ -784,8 +784,8 @@
 
 | # | Requirement | BRD Ref | Codebase | Status | Recommended Action |
 |---|-------------|---------|----------|--------|-------------------|
-| AF1 | Space Grotesk for headings | §F.2 | `--font-heading` hardcoded in `index.css`; `tailwind.config.ts` defines heading as `Inter` (conflict) | ❌ | **Pipeline violation:** Font is hardcoded in `index.css` and `tailwind.config.ts` contradicts it. Per theme styling authority protocol, fonts must flow from theme admin DB → publish pipeline → CSS. **Fix:** (1) Remove hardcoded font from `index.css`; (2) Ensure `generateProductionCss` emits `--font-heading` from `typography_config`; (3) Update `tailwind.config.ts` to use `var(--font-heading)` |
-| AF2 | Inter for body | §F.2 | `--font-body` hardcoded in `index.css` | ❌ | **Pipeline violation:** Same as AF1 — must flow through theme admin pipeline, not be hardcoded. **Fix:** Same approach as AF1 for `--font-body` and `tailwind.config.ts` `fontFamily.body` |
+| AF1 | Space Grotesk for headings | §F.2 | `--font-heading` flows from theme admin DB → publish pipeline → CSS var | ✅ | FIXED v36.4 — see Q23. tailwind.config.ts uses var(--font-heading), no longer hardcodes Inter |
+| AF2 | Inter for body | §F.2 | `--font-body` flows from theme admin DB → publish pipeline → CSS var | ✅ | FIXED v36.4 — see Q24. tailwind.config.ts uses var(--font-body) |
 | AF2a | `--font-mono` not defined anywhere | §F.2, Theme BRD §5.1 | Missing from `index.css`, `tailwind.config.ts`, and `TypographyConfig` | ✅ | FIXED v36.5 — see Q25 |
 | AF3 | Dark base + amber accent | §F.0 | HSL 222 47% 7% bg, 38 92% 50% accent | ✅ | None |
 | AF4 | No rounded-full pills on public pages | §C2 | Replaced with `rounded-lg` | ✅ | None |
@@ -859,9 +859,9 @@
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Aligned | 189 | 71.1% |
+| ✅ Aligned | 194 | 72.9% |
 | ⚠️ Partial / Unverified | 58 | 21.8% |
-| ❌ Misaligned | 7 | 2.6% |
+| ❌ Misaligned | 2 | 0.8% |
 | 📋 Deferred / Planned | 12 | 4.5% |
 | **Total** | **266** | **100%** |
 
@@ -884,8 +884,8 @@
 | ~~P1~~ | G2 | Product | ~~Warmy not marked as included in Scale tier~~ | ✅ FIXED — includedInTiers: ['scale'] added |
 | ~~P1~~ | L11 | Routes | ~~`routes.ts` missing Accessibility Statement in legalRoutes~~ | ✅ FIXED — Added to legalRoutes |
 | ~~P1~~ | ~~U6~~ | ~~Theme Mode~~ | ~~BRD §11.2 says `system` supported but project uses binary~~ | ✅ FIXED — Theme BRD updated to binary mode |
-| ~~P0~~ | AF1 | Typography | ~~`--font-heading` hardcoded in `index.css`; `tailwind.config.ts` contradicts with `Inter`~~ | ✅ FIXED — tailwind.config.ts uses var(--font-heading) |
-| ~~P0~~ | AF2 | Typography | ~~`--font-body` hardcoded in `index.css` instead of flowing through admin pipeline~~ | ✅ FIXED — tailwind.config.ts uses var(--font-body) |
+| ~~P0~~ | ~~AF1~~ | ~~Typography~~ | ~~`--font-heading` hardcoded in `index.css`; `tailwind.config.ts` contradicts with `Inter`~~ | ✅ FIXED v36.4 — tailwind.config.ts uses var(--font-heading) |
+| ~~P0~~ | ~~AF2~~ | ~~Typography~~ | ~~`--font-body` hardcoded in `index.css` instead of flowing through admin pipeline~~ | ✅ FIXED v36.4 — tailwind.config.ts uses var(--font-body) |
 | ~~P1~~ | Q25/AF2a | Typography | ~~`--font-mono` missing — not in `TypographyConfig`, DB, editor, or pipeline~~ | ✅ FIXED — fontMono in full pipeline |
 | **P1** | C2 | Pricing | Launch renewal $149/yr not in checkout config | Add renewal config |
 | ~~P2~~ | F4 | Pricing | ~~Social Autopilot: $79 in code vs $97 in tracker~~ | ✅ RESOLVED v36.4 — Code aligned to $97/mo |
