@@ -19,6 +19,7 @@ export default {
         heading: ['var(--font-heading)', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         display: ['var(--font-display)', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         body: ['var(--font-body)', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        mono: ['var(--font-mono)', 'JetBrains Mono', 'Fira Code', 'monospace'],
       },
       fontSize: {
         // Display sizes - for hero headlines (serif)
