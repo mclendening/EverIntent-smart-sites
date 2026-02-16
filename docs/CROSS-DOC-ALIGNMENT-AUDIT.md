@@ -192,7 +192,7 @@
 | F1 | 6 add-on packs exist | §A4 | Phase 2 ✅ | `checkoutConfig.ts:193-237` | ✅ | None |
 | F2 | Email Authority: $49/mo | §A4 | Phase 2.2 ✅ | L197: `monthlyPrice: 49` | ✅ | None |
 | F3 | Get Paid Now: $49/mo | §A4 | Phase 2.3 ✅ | L204: `monthlyPrice: 49` | ✅ | None |
-| F4 | Social Autopilot: $97/mo per tracker | Phase 2.4: $97/mo | — | L210: `monthlyPrice: 79` | ❌ | **Discrepancy:** Tracker says $97/mo, code says $79/mo. Align to BRD-authoritative price |
+| F4 | Social Autopilot: $97/mo per tracker | Phase 2.4: $97/mo | — | L210: `monthlyPrice: 97` | ✅ | RESOLVED v36.4 — Code aligned to $97/mo |
 | F5 | Omnichannel Inbox: $99/mo | §A4 | Phase 2.5 ✅ | L218: `monthlyPrice: 99` | ✅ | None |
 | F6 | AI Voice Chat: $79/mo | §A4 | Phase 2.6 ✅ | L225: `monthlyPrice: 79` | ✅ | None |
 | F7 | Unlimited AI: $149/mo | §A4 | Phase 2.7 ✅ | L234: `monthlyPrice: 149` | ✅ | None |
@@ -888,7 +888,7 @@
 | **P0** | AF2 | Typography | `--font-body` hardcoded in `index.css` instead of flowing through admin pipeline | Same pipeline fix as AF1 |
 | **P1** | Q25/AF2a | Typography | `--font-mono` missing — not in `TypographyConfig`, DB, editor, or pipeline | Extend `TypographyConfig` with `fontMono`, add to Zod schema, DB default, `TypographyEditor`, and publish pipeline |
 | **P1** | C2 | Pricing | Launch renewal $149/yr not in checkout config | Add renewal config |
-| **P2** | F4 | Pricing | Social Autopilot: $79 in code vs $97 in tracker | Clarify authoritative price |
+| ~~P2~~ | F4 | Pricing | ~~Social Autopilot: $79 in code vs $97 in tracker~~ | ✅ RESOLVED v36.4 — Code aligned to $97/mo |
 | **P2** | A14 | Doc Integrity | BRD §28 Document History missing v36.0-v36.2 entries | Add entries |
 
 ---
@@ -932,11 +932,11 @@ These are cases where two or more documents contradict each other.
 
 | # | Conflict | Doc A | Doc B | Resolution |
 |---|----------|-------|-------|------------|
-| X1 | Smart Websites setup fees | BRD §A3: Capture/Convert/Scale show "—" (no setup) | BRD §6: T2 $249, T3 $497, T4 $997 setup | Code uses $249 for all. **Owner must decide** |
+| X1 | Smart Websites setup fees | BRD §A3: Capture/Convert/Scale show "—" (no setup) | BRD §6: T2 $249, T3 $497, T4 $997 setup | ✅ RESOLVED — Capture/Convert/Scale = $0 setup per §A3. Code fixed to match. |
 | X2 | AI Employee M1-M3 monthly price | BRD §5.8: $497/mo | BRD §A2: $197/mo | §A2 is authoritative (latest amendment) |
 | X3 | Smart Growth monthly price | BRD §4 Revenue, §5.13: $497/mo | BRD §A3: $297/mo | §A3 is authoritative |
 | X4 | Light/dark mode: binary vs system | Project memory: binary only | Theme BRD §11.2: "light \| dark \| system" | Memory is authoritative per RDBTB; update BRD |
-| X5 | Social Autopilot price | Tracker Phase 2.4: $97/mo | Code: $79/mo | **Needs owner decision** |
+| X5 | Social Autopilot price | Tracker Phase 2.4: $97/mo | Code: $97/mo | ✅ RESOLVED — Confirmed $97/mo. Code fixed to match. |
 | X6 | GHL tag format | BRD §5.9/§11.2: `EI: Checkout - Smart Site` | BRD §A4: `EI: Tier – Launch` | §A4 is authoritative (latest amendment) |
 | X7 | Portfolio route | BRD §16: `/our-work/` | Code: `/portfolio` | Code is authoritative; update BRD |
 | X8 | Footer structure | BRD §17.2: Services/AI Modes/Resources/Company | Code: Solutions/AI Employee/Resources/Company/Legal | Code is authoritative; update BRD |
