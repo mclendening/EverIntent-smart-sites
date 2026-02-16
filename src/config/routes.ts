@@ -153,6 +153,7 @@ export const legalRoutes: RouteConfig[] = [
   { path: '/legal/cookies', title: 'Cookie Policy', description: 'Our cookie policy' },
   { path: '/legal/terms', title: 'Terms of Service', description: 'Our terms of service' },
   { path: '/legal/data-request', title: 'Data Request', description: 'Request your data' },
+  { path: '/legal/accessibility-statement', title: 'Accessibility Statement', description: 'Our commitment to digital accessibility' },
 ];
 
 // ============================================
