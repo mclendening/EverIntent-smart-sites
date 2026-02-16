@@ -28,14 +28,18 @@ type FormType = typeof VALID_FORM_TYPES[number];
 /**
  * Maps form types to their corresponding GHL tags.
  */
+/**
+ * Maps form types to their canonical GHL form tag.
+ * @see docs/GHL-TAG-REGISTRY.md
+ */
 function getTagForFormType(formType: FormType): string {
   switch (formType) {
     case 'contact':
-      return GHL_TAGS.CONTACT_FORM;
+      return GHL_TAGS.FORM_CONTACT;
     case 'data_rights_request':
-      return GHL_TAGS.DATA_RIGHTS_REQUEST;
+      return GHL_TAGS.FORM_DATA_RIGHTS;
     default:
-      return GHL_TAGS.CONTACT_FORM;
+      return GHL_TAGS.FORM_CONTACT;
   }
 }
 
@@ -113,6 +117,7 @@ serve(async (req) => {
       source_page,
       ip_address,
       user_agent,
+      affiliate_id,
     } = body;
 
     // Validate required fields
@@ -200,27 +205,30 @@ serve(async (req) => {
 
       // Build tags array
       const tagsToAdd: string[] = [];
-      
-      // Add form type tag
+
+      // Form type tag
       tagsToAdd.push(getTagForFormType(form_type as FormType));
-      
-      // Add product interest tag if selected
+
+      // Product interest tag (tier selection on contact form)
       if (product_interest && TIER_TAG_MAP[product_interest]) {
         tagsToAdd.push(TIER_TAG_MAP[product_interest]);
-        console.log('[submit-form] Adding product tag:', TIER_TAG_MAP[product_interest]);
       }
-      
-      // Add add-on tags if selected
+
+      // Add-on tags
       if (selected_addons && Array.isArray(selected_addons)) {
         for (const addonId of selected_addons) {
           if (ADDON_TAG_MAP[addonId]) {
             tagsToAdd.push(ADDON_TAG_MAP[addonId]);
-            console.log('[submit-form] Adding add-on tag:', ADDON_TAG_MAP[addonId]);
           }
         }
       }
 
-      // Apply all tags
+      // Affiliate tag
+      if (affiliate_id) {
+        tagsToAdd.push(GHL_TAGS.AFFILIATE_REFERRED);
+        tagsToAdd.push(buildAffiliateTag(affiliate_id));
+      }
+
       await addTags(contactId, tagsToAdd);
 
       // Add note with submission details
