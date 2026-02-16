@@ -45,6 +45,7 @@ export interface TypographyConfig {
   fontHeading: string;
   fontBody: string;
   fontDisplay: string;
+  fontMono: string;
 }
 
 const fontOptions = [
@@ -58,6 +59,14 @@ const fontOptions = [
   { value: "Manrope, -apple-system, BlinkMacSystemFont, sans-serif", label: "Manrope" },
   { value: "Satoshi, -apple-system, BlinkMacSystemFont, sans-serif", label: "Satoshi" },
   { value: "General Sans, -apple-system, BlinkMacSystemFont, sans-serif", label: "General Sans" },
+];
+
+const monoFontOptions = [
+  { value: "JetBrains Mono, Fira Code, monospace", label: "JetBrains Mono" },
+  { value: "Fira Code, JetBrains Mono, monospace", label: "Fira Code" },
+  { value: "Source Code Pro, monospace", label: "Source Code Pro" },
+  { value: "IBM Plex Mono, monospace", label: "IBM Plex Mono" },
+  { value: "Roboto Mono, monospace", label: "Roboto Mono" },
 ];
 
 const getFontLabel = (value: string): string => {
@@ -123,6 +132,22 @@ export function TypographyEditor({ typography, onChange }: Props) {
             </Select>
             <p className="text-xs text-muted-foreground">Hero headlines and display text</p>
           </div>
+
+          <div>
+            <Label className="text-xs">Mono Font</Label>
+            <Select value={typography.fontMono} onValueChange={(v) => onChange({ ...typography, fontMono: v })}>
+              <SelectTrigger className="h-8 text-xs">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {monoFontOptions.map((font) => (
+                  <SelectItem key={font.value} value={font.value} className="text-xs">
+                    {font.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {/* Preview */}
@@ -138,6 +163,9 @@ export function TypographyEditor({ typography, onChange }: Props) {
             <p className="text-2xl font-semibold" style={{ fontFamily: typography.fontDisplay }}>
               Display: {getFontLabel(typography.fontDisplay)}
             </p>
+            <code className="text-xs px-1 py-0.5 rounded bg-muted" style={{ fontFamily: typography.fontMono }}>
+              Mono: {getFontLabel(typography.fontMono)} — const x = 42;
+            </code>
           </div>
         </div>
       </AccordionContent>
