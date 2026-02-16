@@ -52,8 +52,8 @@ All 12 tables have **RLS enabled**.
 | 27 | domain_name | text | YES | — | — |
 | 28 | selected_tier | text | YES | — | — |
 | 29 | addons | jsonb | YES | `'[]'::jsonb` | — |
-| 30 | monthly_total | integer | YES | `0` | — |
-| 31 | setup_total | integer | YES | `0` | — |
+| 30 | monthly_total | numeric(10,2) | YES | `0.00` | — |
+| 31 | setup_total | numeric(10,2) | YES | `0.00` | — |
 | 32 | affiliate_id | text | YES | — | — |
 
 ### 1.3 `form_submissions`
@@ -232,19 +232,22 @@ All 12 tables have **RLS enabled**.
 **`static_colors` default:**
 ```json
 {
-  "card": "0 0% 100%",
-  "input": "220 13% 91%",
-  "muted": "60 5% 96%",
-  "border": "220 13% 91%",
-  "primary": "222 47% 11%",
-  "secondary": "60 9% 98%",
   "background": "0 0% 100%",
   "foreground": "222 47% 11%",
-  "primaryLight": "215 25% 27%",
+  "card": "0 0% 100%",
   "cardForeground": "222 47% 11%",
-  "mutedForeground": "215 16% 47%",
+  "popover": "0 0% 100%",
+  "popoverForeground": "222 47% 11%",
+  "primary": "222 47% 11%",
+  "primaryLight": "215 25% 27%",
   "primaryForeground": "0 0% 100%",
-  "secondaryForeground": "222 47% 11%"
+  "secondary": "60 9% 98%",
+  "secondaryForeground": "222 47% 11%",
+  "muted": "60 5% 96%",
+  "mutedForeground": "215 16% 47%",
+  "border": "220 13% 91%",
+  "input": "220 13% 91%",
+  "ring": "240 70% 60%"
 }
 ```
 
