@@ -6,7 +6,7 @@
  * across After-Hours, Front Office, and Full AI Employee pages.
  * Accepts unique voice minute counts as props to customize per tier.
  * 
- * @see docs/everintent-brd-v35.0.md
+ * @see docs/everintent-brd-v36.4.md
  */
 
 interface UnlimitedFeature {
