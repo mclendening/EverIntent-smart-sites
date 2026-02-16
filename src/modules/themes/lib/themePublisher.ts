@@ -134,7 +134,7 @@ export interface ThemeConfig {
   gradientConfigs: { hero: string; cta: string; text: string; };
   ecommerceColors?: { gold: string; goldHover: string; goldGlow: string; goldForeground: string; pricingHighlight: string; };
   ctaVariants?: { primary: string; primaryHover: string; secondary: string; secondaryHover: string; };
-  typographyConfig?: { fontHeading: string; fontBody: string; fontDisplay: string; };
+  typographyConfig?: { fontHeading: string; fontBody: string; fontDisplay: string; fontMono: string; };
   motionConfig?: { transitionSmooth: string; transitionBounce: string; transitionSpring: string; };
   styleModules?: Array<{ name: string; tokens: Array<{ name: string; value: string }>; }>;
   defaultMode?: string;
@@ -318,6 +318,7 @@ export function generateProductionCss(params: ThemeGeneratorParams): string {
     --font-heading: ${typoCfg.fontHeading || "'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif"};
     --font-body: ${typoCfg.fontBody || "'Inter', -apple-system, BlinkMacSystemFont, sans-serif"};
     --font-display: ${typoCfg.fontDisplay || "'Inter', -apple-system, BlinkMacSystemFont, sans-serif"};
+    --font-mono: ${typoCfg.fontMono || "'JetBrains Mono', 'Fira Code', monospace"};
     --transition-smooth: ${motCfg.transitionSmooth || 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'};
     --transition-bounce: ${motCfg.transitionBounce || 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)'};
     --transition-spring: ${motCfg.transitionSpring || 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'};
@@ -396,6 +397,7 @@ ${styleModulesCss}  }
   html { scroll-behavior: smooth; }
   body { @apply bg-background text-foreground antialiased; font-family: var(--font-body); }
   h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); @apply font-bold tracking-tight; }
+  code, pre, kbd, samp { font-family: var(--font-mono); }
   h1 { @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl; }
   h2 { @apply text-3xl sm:text-4xl md:text-5xl; }
   h3 { @apply text-2xl sm:text-3xl; }
