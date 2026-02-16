@@ -551,8 +551,8 @@
 | U2 | Default: dark mode (`<html class="dark">`) | §11.2 | 7.14 | `index.html` head script | ✅ | None |
 | U3 | Persistence: `localStorage('theme-mode')` | §11.2 | 7.24 done | ModeToggle writes localStorage | ✅ | None |
 | U4 | FOUC prevention: inline `<head>` script | §11.3 | 7.14 done | `index.html` has script | ✅ | None |
-| U5 | Binary mode: light or dark only (no system) | Memory | 7.14 notes | `DefaultModeSelector.tsx` | ⚠️ | **Conflict:** Theme BRD §11.2 says `system` supported; Memory says excluded. **RESOLVE** |
-| U6 | Theme BRD §11.2 mentions `system` preference | §11.2: "light \| dark \| system" | — | — | ❌ | Either update BRD to remove `system` or implement system support |
+| U5 | Binary mode: light or dark only (no system) | Memory | 7.14 notes | `DefaultModeSelector.tsx` | ✅ | FIXED v36.5 — Theme BRD §11.2 updated to binary only (light | dark) |
+| U6 | Theme BRD §11.2 mentions `system` preference | §11.2: "light \| dark \| system" | — | — | ✅ | FIXED v36.5 — Removed 'system' from §11.2, §11.4 |
 | U7 | `applyThemeToRoot()` called on mode switch | §7.2 | 7.24 | ModeToggle triggers via requestAnimationFrame | ✅ | None |
 | U8 | Per-theme `defaultMode` field in DB | §11.4 | 7.14 | `site_themes.default_mode` column exists | ✅ | None |
 
@@ -859,9 +859,9 @@
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Aligned | 185 | 69.5% |
-| ⚠️ Partial / Unverified | 59 | 22.2% |
-| ❌ Misaligned | 10 | 3.8% |
+| ✅ Aligned | 187 | 70.3% |
+| ⚠️ Partial / Unverified | 58 | 21.8% |
+| ❌ Misaligned | 9 | 3.4% |
 | 📋 Deferred / Planned | 12 | 4.5% |
 | **Total** | **266** | **100%** |
 
@@ -883,7 +883,7 @@
 | ~~P1~~ | A11 | Doc Integrity | ~~Theme Spec §4.3 has stale "Hardcoded" status flags~~ | ✅ INVALID — No stale flags found in Theme Spec |
 | ~~P1~~ | G2 | Product | ~~Warmy not marked as included in Scale tier~~ | ✅ FIXED — includedInTiers: ['scale'] added |
 | ~~P1~~ | L11 | Routes | ~~`routes.ts` missing Accessibility Statement in legalRoutes~~ | ✅ FIXED — Added to legalRoutes |
-| **P1** | U6 | Theme Mode | BRD §11.2 says `system` supported but project uses binary | Resolve conflict |
+| ~~P1~~ | ~~U6~~ | ~~Theme Mode~~ | ~~BRD §11.2 says `system` supported but project uses binary~~ | ✅ FIXED — Theme BRD updated to binary mode |
 | ~~P0~~ | AF1 | Typography | ~~`--font-heading` hardcoded in `index.css`; `tailwind.config.ts` contradicts with `Inter`~~ | ✅ FIXED — tailwind.config.ts uses var(--font-heading) |
 | ~~P0~~ | AF2 | Typography | ~~`--font-body` hardcoded in `index.css` instead of flowing through admin pipeline~~ | ✅ FIXED — tailwind.config.ts uses var(--font-body) |
 | **P1** | Q25/AF2a | Typography | `--font-mono` missing — not in `TypographyConfig`, DB, editor, or pipeline | Extend `TypographyConfig` with `fontMono`, add to Zod schema, DB default, `TypographyEditor`, and publish pipeline |
@@ -935,12 +935,12 @@ These are cases where two or more documents contradict each other.
 | X1 | Smart Websites setup fees | BRD §A3: Capture/Convert/Scale show "—" (no setup) | BRD §6: T2 $249, T3 $497, T4 $997 setup | ✅ RESOLVED v36.4 — Capture/Convert/Scale = $0 setup. Code and BRD §A3 aligned. |
 | X2 | AI Employee M1-M3 monthly price | BRD §5.8: $497/mo | BRD §A2: $197/mo | §A2 is authoritative (latest amendment) |
 | X3 | Smart Growth monthly price | BRD §4 Revenue, §5.13: $497/mo | BRD §A3: $297/mo | §A3 is authoritative |
-| X4 | Light/dark mode: binary vs system | Project memory: binary only | Theme BRD §11.2: "light \| dark \| system" | Memory is authoritative per RDBTB; update BRD |
+| X4 | Light/dark mode: binary vs system | Project memory: binary only | Theme BRD §11.2: "light \| dark \| system" | ✅ RESOLVED v36.5 — Theme BRD updated to binary only per project memory |
 | X5 | Social Autopilot price | Tracker Phase 2.4: $97/mo | Code: $97/mo | ✅ RESOLVED v36.4 — $97/mo. Code and BRD aligned. |
 | X6 | GHL tag format | BRD §5.9/§11.2: `EI: Checkout - Smart Site` | BRD §A4: `EI: Tier – Launch` | ✅ RESOLVED v36.3 — Canonical format: ei: {category} - {value}. See docs/GHL-TAG-REGISTRY.md |
 | X7 | Portfolio route | BRD §16: `/our-work/` | Code: `/portfolio` | ✅ RESOLVED v36.4 — BRD §16 updated to /portfolio |
 | X8 | Footer structure | BRD §17.2: Services/AI Modes/Resources/Company | Code: Solutions/AI Employee/Resources/Company/Legal | ✅ RESOLVED v36.4 — BRD §17.2 updated to match code |
-| X9 | Number of legal pages | BRD §20.1: 4 pages | Code + Theme BRD: 5 pages (+ Accessibility) | Code is authoritative; update BRD §20.1 |
+| X9 | Number of legal pages | BRD §20.1: 4 pages | Code + Theme BRD: 5 pages (+ Accessibility) | ✅ RESOLVED v36.5 — BRD §20.1 updated to 5 pages including Accessibility Statement |
 | X10 | `--font-mono` existence | Theme Spec §4.4: "❌ Not yet a CSS var" | Theme BRD §5.1: included in `typography_config` | Theme BRD is authoritative; extend `TypographyConfig` interface + DB + Zod + Editor + pipeline |
 | X11 | Font pipeline authority | `index.css`: hardcodes `--font-heading` as `Space Grotesk` | `tailwind.config.ts`: defines heading as `Inter` | ✅ RESOLVED v36.4 — tailwind.config.ts now uses var(--font-heading), var(--font-body), var(--font-display) |
 
