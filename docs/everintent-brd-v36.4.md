@@ -2190,7 +2190,7 @@ utm_content=ad-variant-a|ad-variant-b
 
 ### 20.1 Legal Pages (Standard Language)
 
-All EverIntent properties must include these four legal pages:
+All EverIntent properties must include these five legal pages:
 
 | Page | Route | Purpose |
 |------|-------|---------|
@@ -2198,6 +2198,7 @@ All EverIntent properties must include these four legal pages:
 | Terms of Service | `/legal/terms` | Service agreement, payments, refunds, liability |
 | Cookie Policy | `/legal/cookies` | Cookie usage, categories, opt-out |
 | Data Rights Request | `/legal/data-request` | CCPA/DSAR submission form |
+| Accessibility Statement | `/legal/accessibility-statement` | ADA/WCAG compliance commitment |
 
 ### 20.2 TCPA Consent Language
 
