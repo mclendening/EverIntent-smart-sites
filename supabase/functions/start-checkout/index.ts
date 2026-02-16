@@ -36,6 +36,7 @@ serve(async (req) => {
       utm_campaign,
       source_page,
       user_agent,
+      affiliate_id,
     } = body;
 
     // Validate required fields
@@ -111,19 +112,32 @@ serve(async (req) => {
       });
       ghlContactId = contactId;
 
-      // Collect all tags: tier + add-ons
-    const tags: string[] = [];
-      
-      // Always apply Checkout – Pending for abandoned cart recovery (Task 6.24.4)
-      tags.push('EI: Checkout – Pending');
-      
+      // Collect all tags
+      const tags: string[] = [];
+
+      // Checkout funnel tag (for abandoned cart recovery)
+      tags.push(GHL_TAGS.CHECKOUT_PENDING);
+
+      // Tier-specific checkout tag
+      const checkoutTag = CHECKOUT_TAG_MAP[selected_tier];
+      if (checkoutTag) tags.push(checkoutTag);
+
+      // Tier identity tag
       const tierTag = TIER_TAG_MAP[selected_tier];
       if (tierTag) tags.push(tierTag);
 
+      // Add-on tags
       if (Array.isArray(addons)) {
         for (const addon of addons) {
-          if (addon.ghlTag) tags.push(addon.ghlTag);
+          const addonTag = ADDON_TAG_MAP[addon.slug] || addon.ghlTag;
+          if (addonTag) tags.push(addonTag);
         }
+      }
+
+      // Affiliate tag
+      if (affiliate_id) {
+        tags.push(GHL_TAGS.AFFILIATE_REFERRED);
+        tags.push(buildAffiliateTag(affiliate_id));
       }
 
       if (tags.length) await addTags(contactId, tags);
