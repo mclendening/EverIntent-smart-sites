@@ -217,7 +217,7 @@ All 12 tables have **RLS enabled**.
 | 12 | static_colors | jsonb | NO | *(see below)* | — |
 | 13 | dark_mode_overrides | jsonb | YES | `'{}'` | — |
 | 14 | style_modules | jsonb | NO | `'[]'` | — |
-| 15 | typography_config | jsonb | NO | `'{"fontBody":"Inter, …","fontDisplay":"Inter, …","fontHeading":"Space Grotesk, …"}'` | — |
+| 15 | typography_config | jsonb | NO | `'{"fontBody":"Inter, …","fontDisplay":"Inter, …","fontHeading":"Space Grotesk, …","fontMono":"JetBrains Mono, …"}'` | — |
 | 16 | motion_config | jsonb | NO | `'{"transitionBounce":"…","transitionSmooth":"…","transitionSpring":"…"}'` | — |
 | 17 | ecommerce_colors | jsonb | NO | `'{"gold":"39 95% 50%","goldGlow":"39 95% 60%","goldHover":"35 95% 44%","goldForeground":"0 0% 100%","pricingHighlight":"39 95% 50%"}'` | — |
 | 18 | cta_variants | jsonb | NO | `'{"primary":"240 70% 60%","secondary":"39 95% 50%","primaryHover":"240 70% 50%","secondaryHover":"35 95% 44%"}'` | — |
