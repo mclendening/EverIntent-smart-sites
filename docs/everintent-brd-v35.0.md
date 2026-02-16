@@ -84,29 +84,15 @@ The old 5-mode structure (M1–M5) is collapsed to 3 plans + Web Chat. After-Hou
 | Convert | — | $197/mo |
 | Scale | — | **$297/mo** |
 
-### A4. GHL Tag Schema (Supersedes §5.9 Tag Schema)
+### A4. GHL Tag Schema (v36.3 — Supersedes all prior tag references)
 
-```
-# Smart Website Tiers (v2.2 names)
-EI: Tier – Launch
-EI: Tier – Capture
-EI: Tier – Convert
-EI: Tier – Scale
+**Convention:** `ei: {category} - {value}` — all lowercase, standard hyphen (-), never en-dash (–).
 
-# AI Employee Plans
-EI: Tier – After-Hours
-EI: Tier – Front Office
-EI: Tier – Full AI Employee
-EI: Tier – Web Chat Only
+**Categories:** tier, addon, checkout, form, lifecycle, affiliate, source
 
-# Add-On Packs
-EI: AddOn – Email Authority
-EI: AddOn – Get Paid Now
-EI: AddOn – AI Voice Chat
-EI: AddOn – Social Autopilot
-EI: AddOn – Omnichannel Inbox
-EI: AddOn – Unlimited AI
-```
+**Canonical Registry:** `docs/GHL-TAG-REGISTRY.md` is the single source of truth.  
+
+**Code Constants:** `supabase/functions/_shared/ghlClient.ts` — all edge functions import from here.
 
 ### A5. Book a Call Escalation Rule
 
@@ -2489,6 +2475,7 @@ See Task 3.5 Definition (Section 28) for detailed phases.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v36.3 | 2026-02-16 | GHL Tag Registry consolidation. Canonical format: ei: {category} - {value}. Eliminated en-dash/hyphen split. Deprecated M1-M5 tags and old tier names. Added affiliate, form, lifecycle, source categories. See docs/GHL-TAG-REGISTRY.md. |
 | v1.0 | — | Initial BRD |
 | v19 | — | EverIntent LLC entity, full sales journey, HomePros model |
 | v20 | — | Renamed HomePros → LocalPros Network, added Partner Program |
