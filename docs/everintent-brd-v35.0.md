@@ -2475,6 +2475,7 @@ See Task 3.5 Definition (Section 28) for detailed phases.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v36.4 | 2026-02-16 | Pricing alignment: Capture/Convert/Scale setup = $0 per §A3. Web Chat setup = $497 per §A2. Social Autopilot = $97/mo. Email Authority included in Scale tier. |
 | v36.3 | 2026-02-16 | GHL Tag Registry consolidation. Canonical format: ei: {category} - {value}. Eliminated en-dash/hyphen split. Deprecated M1-M5 tags and old tier names. Added affiliate, form, lifecycle, source categories. See docs/GHL-TAG-REGISTRY.md. |
 | v1.0 | — | Initial BRD |
 | v19 | — | EverIntent LLC entity, full sales journey, HomePros model |
