@@ -139,6 +139,7 @@ const DEFAULT_TYPOGRAPHY: TypographyConfig = {
   fontHeading: 'Space Grotesk, -apple-system, BlinkMacSystemFont, sans-serif',
   fontBody: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
   fontDisplay: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+  fontMono: 'JetBrains Mono, Fira Code, monospace',
 };
 
 const DEFAULT_MOTION: MotionConfig = {
@@ -266,6 +267,7 @@ function parseThemeConfig(theme: Theme) {
     fontHeading: typoCfg.fontHeading || DEFAULT_TYPOGRAPHY.fontHeading,
     fontBody: typoCfg.fontBody || DEFAULT_TYPOGRAPHY.fontBody,
     fontDisplay: typoCfg.fontDisplay || DEFAULT_TYPOGRAPHY.fontDisplay,
+    fontMono: typoCfg.fontMono || DEFAULT_TYPOGRAPHY.fontMono,
   };
 
   const motCfg = theme.motion_config as Record<string, string> || {};
