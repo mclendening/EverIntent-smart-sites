@@ -26,9 +26,6 @@ type FormType = typeof VALID_FORM_TYPES[number];
 
 
 /**
- * Maps form types to their corresponding GHL tags.
- */
-/**
  * Maps form types to their canonical GHL form tag.
  * @see docs/GHL-TAG-REGISTRY.md
  */
