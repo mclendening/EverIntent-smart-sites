@@ -1698,61 +1698,86 @@ Each product page should:
 ### Marketing Site (everintent.com)
 
 ```
-/                               # Homepage
-├── /smart-websites/            # Smart Websites product page
-├── /let-ai-handle-it/          # AI Employee product page
-├── /pricing/                   # Tier comparison + CTAs
+/                                   # Homepage
+├── /smart-websites/                # Smart Websites hub
+│   ├── /launch/                    # Launch tier detail
+│   ├── /capture/                   # Capture tier detail
+│   ├── /convert/                   # Convert tier detail
+│   ├── /scale/                     # Scale tier detail
+│   └── /add-ons/                   # Add-on packs page
+├── /let-ai-handle-it/              # AI Employee hub
+│   ├── /after-hours/               # After-Hours AI detail
+│   ├── /front-office/              # Front Office AI detail
+│   └── /full-ai-employee/          # Full AI Employee detail
+├── /pricing/                       # Tier comparison + CTAs
+├── /compare-websites/              # Smart Websites side-by-side
+├── /compare-ai-employee/           # AI Employee side-by-side
+├── /warmy-email-deliverability/    # Email Authority standalone page
 ├── /checkout/
-│   ├── /smart-site/            # T1 pre-checkout
-│   ├── /smart-lead/            # T2 pre-checkout
-│   ├── /smart-business/        # T3 pre-checkout
-│   ├── /smart-growth/          # T4 pre-checkout
-│   └── /success/               # Post-payment success
-├── /services/                  # Services hub
-│   ├── /web-design/            # Product category page (NEW)
-│   ├── /seo/                   # Product category page (NEW)
-│   ├── /reputation/            # Product category page (NEW)
-│   ├── /ai-automation/         # Product category page (NEW)
-│   ├── /booking/               # Product category page (NEW)
-│   ├── /get-found-online/      # Benefit page (existing)
-│   ├── /never-miss-a-lead/
-│   ├── /book-more-jobs/
-│   ├── /run-from-your-phone/
-│   ├── /build-your-reputation/
-│   └── /let-ai-handle-it/
-├── /features/                  # Feature deep-dives (SEO pages)
+│   ├── /launch/                    # Launch checkout
+│   ├── /capture/                   # Capture checkout
+│   ├── /convert/                   # Convert checkout
+│   ├── /scale/                     # Scale checkout
+│   ├── /after-hours/               # After-Hours checkout
+│   ├── /front-office/              # Front Office checkout
+│   ├── /full-ai/                   # Full AI Employee checkout
+│   └── /web-chat/                  # Web Chat checkout
+├── /services/                      # Services hub
+│   ├── /web-design/                # Product category (SEO)
+│   ├── /seo/                       # Product category (SEO)
+│   ├── /lead-capture/              # Product category (SEO)
+│   ├── /booking/                   # Product category (SEO)
+│   ├── /reputation/                # Product category (SEO)
+│   ├── /ai-automation/             # Product category (SEO)
+│   ├── /get-found-online/          # Benefit page
+│   ├── /never-miss-a-lead/         # Benefit page
+│   ├── /book-more-jobs/            # Benefit page
+│   ├── /run-from-your-phone/       # Benefit page
+│   ├── /build-your-reputation/     # Benefit page
+│   └── /let-ai-handle-it/         # Benefit page
+├── /features/                      # Feature deep-dives (SEO)
 │   ├── /lead-capture/
 │   ├── /ai-chat/
 │   ├── /review-management/
 │   ├── /mobile-app/
 │   ├── /scheduling/
 │   └── /analytics/
-├── /industries/                # Industry landing pages
-│   ├── /home-services/         # Hub: Home Services
-│   │   └── /[vertical]/        # 31 verticals
-│   ├── /professional-services/ # Hub: Professional Services
-│   │   └── /[vertical]/        # 15 verticals
-│   ├── /health-wellness/       # Hub: Health & Wellness
-│   │   └── /[vertical]/        # 15 verticals
-│   └── /automotive-services/   # Hub: Automotive Services
-│       └── /[vertical]/        # 10 verticals
-├── /our-work/                  # Live sites as proof (renamed from /portfolio/)
-├── /about/                     # Company story
-├── /contact/                   # Contact form + "Book a Call" destination
-├── /careers/                   # Job listings (NEW)
-│   └── /:slug/                 # Individual job posting
+├── /industries/                    # Industry landing pages
+│   ├── /home-services/             # Hub + /showcase
+│   ├── /professional-services/     # Hub + /showcase
+│   ├── /health-wellness/           # Hub + /showcase
+│   └── /automotive-services/       # Hub + /showcase
+├── /locations/                     # Local landing pages
+│   ├── /long-beach/
+│   ├── /orange-county/
+│   └── /los-angeles/
+├── /portfolio/                     # Case studies & live sites
+│   ├── /riverstone-plumbing/
+│   ├── /desert-cool-air/
+│   ├── /clearview-dentistry-austin/
+│   ├── /alexander-tree/
+│   └── /honest-wrench-auto/
+├── /about/                         # Company story
+├── /contact/                       # Contact form + Book a Call
+├── /careers/                       # Job listings
+├── /faq/                           # Frequently asked questions
+├── /help/                          # Help center
+├── /support/                       # Support contact
+├── /upgrade/                       # Tier upsell page
 ├── /legal/
-│   ├── /privacy/
-│   ├── /terms/
-│   ├── /cookies/               # Cookie preferences page
-│   └── /data-request/          # DSAR
-├── /upgrade/                   # T1 upsell page
-└── /admin/                     # Admin portal (protected)
+│   ├── /privacy/                   # Privacy Policy
+│   ├── /terms/                     # Terms of Service
+│   ├── /cookies/                   # Cookie Policy
+│   ├── /data-request/              # DSAR form
+│   └── /accessibility-statement/   # Accessibility Statement
+└── /admin/                         # Admin portal (protected)
     ├── /login/
+    ├── /reset-password/
+    ├── /theme-test/
     ├── /submissions/
     ├── /portfolio/
     ├── /testimonials/
-    └── /careers/               # Jobs CRUD (NEW)
+    └── /careers/
 ```
 
 ### Customer Portal (GHL)
