@@ -1841,34 +1841,38 @@ Navigation uses dropdowns for AI Employee plans and Smart Websites tiers, plus I
 | Health & Wellness | `/industries/health-wellness` | MedSpa, Dental, Chiropractic |
 | Automotive | `/industries/automotive-services` | Auto Repair, Detailing, Body Shop |
 
-### 17.2 MVP Footer Navigation (v35.1)
+### 17.2 Footer Navigation (v36.4)
 
-**4-Column Structure:**
+**5-Column Structure:**
 
 **Column 1: Services**
 | Label | Route |
 |-------|-------|
+| All Services | `/services` |
 | AI Employee | `/let-ai-handle-it` |
-| Smart Site | `/smart-websites` |
-| Smart Lead | `/smart-websites#smart-lead` |
-| Smart Business | `/smart-websites#smart-business` |
-| Smart Growth | `/smart-websites#smart-growth` |
-| Web Chat Only | `/pricing#web-chat` |
-| Warmy Booster | `/pricing#warmy-booster` |
+| Launch | `/smart-websites/launch` |
+| Capture | `/smart-websites/capture` |
+| Convert | `/smart-websites/convert` |
+| Scale | `/smart-websites/scale` |
+| Compare Plans | `/compare-websites` |
+| Add-On Packs | `/smart-websites/add-ons` |
 
-**Column 2: AI Modes (NO M-prefixes in labels)**
+**Column 2: AI Employee**
 | Label | Route |
 |-------|-------|
-| After-Hours | `/let-ai-handle-it#after-hours` |
-| Booking Agent | `/let-ai-handle-it#booking` |
-| Missed Call Recovery | `/let-ai-handle-it#missed-call` |
-| Front Line Screening | `/let-ai-handle-it#screening` |
-| Full Takeover | `/let-ai-handle-it#full-takeover` |
+| After-Hours | `/let-ai-handle-it/after-hours` |
+| Front Office | `/let-ai-handle-it/front-office` |
+| Full AI Employee | `/let-ai-handle-it/full-ai-employee` |
+| Compare Modes | `/compare-ai-employee` |
 
 **Column 3: Resources**
 | Label | Route |
 |-------|-------|
-| FAQ | `/pricing#faq` |
+| Pricing | `/pricing` |
+| Portfolio | `/portfolio` |
+| FAQ | `/faq` |
+| Help Center | `/help` |
+| Support | `/support` |
 | Industries | `/industries` |
 
 **Column 4: Company**
@@ -1877,15 +1881,16 @@ Navigation uses dropdowns for AI Employee plans and Smart Websites tiers, plus I
 | About | `/about` |
 | Contact | `/contact` |
 | Careers | `/careers` |
-| Privacy Policy | `/privacy` |
-| Terms of Service | `/terms` |
-| Cookie Policy | `/cookies` |
+| Client Login | `https://app.everintent.com` (external) |
 
-**External Links (Footer)**
-| Label | URL |
-|-------|-----|
-| Client Login | `https://app.everintent.com` |
-
+**Column 5: Legal**
+| Label | Route |
+|-------|-------|
+| Privacy | `/legal/privacy` |
+| Cookies | `/legal/cookies` |
+| Terms | `/legal/terms` |
+| Data Rights | `/legal/data-request` |
+| Accessibility | `/legal/accessibility-statement` |
 ### 17.3 MVP Route Implementation
 
 - Hamburger menu with same 5 links + CTA
