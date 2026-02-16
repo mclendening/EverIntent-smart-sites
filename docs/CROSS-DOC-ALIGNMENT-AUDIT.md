@@ -120,7 +120,7 @@
 | # | Requirement | BRD Ref | Tracker Ref | Codebase File:Line | Status | Recommended Action |
 |---|-------------|---------|-------------|---------------------|--------|-------------------|
 | C1 | Launch: $249 one-time | §A3 | Phase 1 | `checkoutConfig.ts:42-43`: `setupFee: 249, isOneTime: true` | ✅ | None |
-| C2 | Launch renewal: $149/yr | §A3, §6 T1 | — | ❌ Not in `checkoutConfig.ts` | ❌ | Add `renewalPrice: 149`, `renewalInterval: 'yearly'` to Launch config |
+| C2 | Launch renewal: $149/yr | §A3, §6 T1 | — | GHL billing handles renewal | 📋 | DEFERRED — Launch renewal handled through GHL billing, not checkout config. No code change needed. |
 | C3 | Capture: $97/mo | §A3 | Phase 1 | `checkoutConfig.ts:58`: `monthlyPrice: 97` | ✅ | None |
 | C4 | Capture setup: $249 | §A3: "—" (no setup listed) vs §6 T2: "$249 setup" | — | `checkoutConfig.ts:57`: `setupFee: 249` | ⚠️ | BRD §A3 shows "—" for Capture setup but §6 says $249. Clarify which is authoritative |
 | C5 | Convert: $197/mo | §A3 | Phase 1 | `checkoutConfig.ts:74`: `monthlyPrice: 197` | ✅ | None |
@@ -861,8 +861,8 @@
 |--------|-------|---|
 | ✅ Aligned | 194 | 72.9% |
 | ⚠️ Partial / Unverified | 58 | 21.8% |
-| ❌ Misaligned | 2 | 0.8% |
-| 📋 Deferred / Planned | 12 | 4.5% |
+| ❌ Misaligned | 1 | 0.4% |
+| 📋 Deferred / Planned | 13 | 4.9% |
 | **Total** | **266** | **100%** |
 
 ---
@@ -887,7 +887,7 @@
 | ~~P0~~ | ~~AF1~~ | ~~Typography~~ | ~~`--font-heading` hardcoded in `index.css`; `tailwind.config.ts` contradicts with `Inter`~~ | ✅ FIXED v36.4 — tailwind.config.ts uses var(--font-heading) |
 | ~~P0~~ | ~~AF2~~ | ~~Typography~~ | ~~`--font-body` hardcoded in `index.css` instead of flowing through admin pipeline~~ | ✅ FIXED v36.4 — tailwind.config.ts uses var(--font-body) |
 | ~~P1~~ | Q25/AF2a | Typography | ~~`--font-mono` missing — not in `TypographyConfig`, DB, editor, or pipeline~~ | ✅ FIXED — fontMono in full pipeline |
-| **P1** | C2 | Pricing | Launch renewal $149/yr not in checkout config | Add renewal config |
+| ~~P1~~ | ~~C2~~ | ~~Pricing~~ | ~~Launch renewal $149/yr not in checkout config~~ | 📋 DEFERRED — GHL billing handles renewal |
 | ~~P2~~ | F4 | Pricing | ~~Social Autopilot: $79 in code vs $97 in tracker~~ | ✅ RESOLVED v36.4 — Code aligned to $97/mo |
 | **P2** | A14 | Doc Integrity | BRD §28 Document History missing v36.0-v36.2 entries | Add entries |
 
