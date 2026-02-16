@@ -32,7 +32,7 @@ export interface ThemeConfig {
   ctaVariants?: { primary: string; primaryHover: string; secondary: string; secondaryHover: string; };
   typographyConfig?: { fontHeading: string; fontBody: string; fontDisplay: string; fontMono: string; };
   motionConfig?: { transitionSmooth: string; transitionBounce: string; transitionSpring: string; };
-  styleModules?: Array<{ name: string; tokens: Array<{ name: string; value: string }>; }>;
+  styleModules?: Array<{ id?: string; name: string; tokens: Array<{ name: string; value: string | null; description?: string }>; description?: string; }>;
   defaultMode?: string;
   darkModeOverrides?: { background: string; foreground: string; card: string; cardForeground: string; popover: string; popoverForeground: string; primary: string; primaryLight: string; primaryForeground: string; secondary: string; secondaryForeground: string; muted: string; mutedForeground: string; border: string; input: string; ring: string; };
   logoVersionId?: string;
