@@ -9,7 +9,7 @@
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import { upsertContact, addTags, addNote, GHL_TAGS, TIER_TAG_MAP } from '../_shared/ghlClient.ts';
+import { upsertContact, addTags, addNote, GHL_TAGS, TIER_TAG_MAP, ADDON_TAG_MAP, buildAffiliateTag } from '../_shared/ghlClient.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -22,34 +22,8 @@ const corsHeaders = {
 const VALID_FORM_TYPES = ['contact', 'data_rights_request'] as const;
 type FormType = typeof VALID_FORM_TYPES[number];
 
-/**
- * Add-on pack ID to GHL tag mapping
- */
-const ADDON_TAG_MAP: Record<string, string> = {
-  'email-authority': 'EI: AddOn - Email Authority',
-  'get-paid-now': 'EI: AddOn - Get Paid Now',
-  'ai-voice-chat': 'EI: AddOn - AI Voice Chat',
-  'social-autopilot': 'EI: AddOn - Social Autopilot',
-  'omnichannel-inbox': 'EI: AddOn - Omnichannel Inbox',
-  'unlimited-ai': 'EI: AddOn - Unlimited AI',
-};
 
-/**
- * Product interest to GHL tag mapping (extends TIER_TAG_MAP)
- */
-const PRODUCT_TAG_MAP: Record<string, string> = {
-  // Smart Website tiers (v2.2 names)
-  'launch': 'EI: Tier - Launch',
-  'capture': 'EI: Tier - Capture', 
-  'convert': 'EI: Tier - Convert',
-  'scale': 'EI: Tier - Scale',
-  // AI Employee plans
-  'after-hours': GHL_TAGS.AI_MODE_M1,
-  'front-office': GHL_TAGS.AI_MODE_M4,
-  'full-ai': GHL_TAGS.AI_MODE_M5,
-  // Fallback to existing TIER_TAG_MAP
-  ...TIER_TAG_MAP,
-};
+
 
 /**
  * Maps form types to their corresponding GHL tags.
@@ -231,9 +205,9 @@ serve(async (req) => {
       tagsToAdd.push(getTagForFormType(form_type as FormType));
       
       // Add product interest tag if selected
-      if (product_interest && PRODUCT_TAG_MAP[product_interest]) {
-        tagsToAdd.push(PRODUCT_TAG_MAP[product_interest]);
-        console.log('[submit-form] Adding product tag:', PRODUCT_TAG_MAP[product_interest]);
+      if (product_interest && TIER_TAG_MAP[product_interest]) {
+        tagsToAdd.push(TIER_TAG_MAP[product_interest]);
+        console.log('[submit-form] Adding product tag:', TIER_TAG_MAP[product_interest]);
       }
       
       // Add add-on tags if selected
