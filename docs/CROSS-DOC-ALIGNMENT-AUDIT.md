@@ -87,8 +87,8 @@
 | A7 | BRD §17.1 nav uses old AI mode names | §17.1: "Booking Agent", "Missed Call Recovery", "Full Takeover" | — | — | — | Header.tsx uses: "After-Hours", "Front Office", "Full AI Employee" | ❌ | Update BRD §17.1 nav spec to match actual v36 implementation |
 | A8 | BRD §17.2 footer uses old structure | §17.2: Services/AI Modes/Resources/Company columns | — | — | — | Footer.tsx uses: Solutions/AI Employee/Resources/Company/Legal columns | ⚠️ | Update BRD §17.2 to match actual footer layout |
 | A9 | BRD §11.2 tag schema uses old format | §11.2: `EI: Checkout - Smart Site` | §A4: `EI: Tier – Launch` | — | — | `checkoutConfig.ts` L244-253 uses `EI: Tier – Launch` format | ✅ | FIXED v36.3 — §A4 updated, see GHL-TAG-REGISTRY.md |
-| A10 | BRD §5.9 tag schema uses old AI mode tags | §5.9: `EI: AI - Missed Call Recovery`, 5-mode structure | §A4: 3-plan structure | — | — | `ghlClient.ts` may have old tags | ⚠️ | Verify `ghlClient.ts` TIER_TAG_MAP matches §A4 schema |
-| A11 | Theme Spec has stale status flags | — | 7.21-7.22 done | §4.3.6-4.3.9: "⚠️ Hardcoded" | — | Fixed in code per tracker | ❌ | **Update Theme Spec** §4.3 statuses from "⚠️ Hardcoded" to "✅ Tokenized" |
+| A10 | BRD §5.9 tag schema uses old AI mode tags | §5.9: `EI: AI - Missed Call Recovery`, 5-mode structure | §A4: 3-plan structure | — | — | `ghlClient.ts` TIER_TAG_MAP uses canonical tags | ✅ | FIXED v36.3 — ghlClient.ts TIER_TAG_MAP uses canonical tags. Old M1-M5 tags deleted. |
+| A11 | Theme Spec has stale status flags | — | 7.21-7.22 done | §4.3.6-4.3.9: "⚠️ Hardcoded" | — | Fixed in code per tracker | ✅ | INVALID — Theme Spec does not contain §4.3.6-4.3.9 or any 'Hardcoded' flags. Audit item was incorrect. |
 | A12 | Theme Spec references 16 static_colors keys | — | — | §3.2: 16 keys in `static_colors` default | §5.1: expanded to 21+ keys | DB has expanded schema | ⚠️ | Theme Spec §3.2 defaults are v1.0. Theme BRD §5.1 is authoritative |
 | A13 | Tracker changelog dates accuracy | — | Changelog entries all dated 2026-02-07 to 2026-02-13 | — | — | — | ✅ | None |
 | A14 | BRD Document History stops at v35.1 | §28: Last entry is v35.1 (Jan 25) | — | — | — | v36.0-v36.2 amendments exist at top but not in §28 | ⚠️ | Add v36.0, v36.1, v36.2 entries to §28 Document History |
@@ -345,7 +345,7 @@
 | L8 | Admin routes excluded from SSG pre-rendering | §15.4 | `routes.tsx` filters admin from SSG | ✅ | None |
 | L9 | Checkout routes excluded from sitemap | §Appendix C | Checkout has noIndex; not in sitemap | ✅ | None |
 | L10 | Placeholder pages have noIndex | §A9 | `Placeholder.tsx:32`: `noIndex` | ✅ | None |
-| L11 | `routes.ts` `legalRoutes` includes Accessibility Statement | — | `routes.ts:151-156`: **Missing** `/legal/accessibility-statement` | ❌ | **Fix:** Add `{ path: '/legal/accessibility-statement', title: 'Accessibility Statement' }` to `legalRoutes` |
+| L11 | `routes.ts` `legalRoutes` includes Accessibility Statement | — | `routes.ts:151-157`: includes `/legal/accessibility-statement` | ✅ | FIXED — Added to legalRoutes in routes.ts |
 | L12 | 32 sub-city location pages in routes | Memory | `routes.tsx` has explicit city slugs array | ✅ | None |
 | L13 | Location pages use `useLocation()` path matching | Memory | `CityLocation.tsx` matches against config | ✅ | None |
 | L14 | `routes.ts` `locationRoutes` only has 3 regional hubs (not 32 cities) | — | `routes.ts:115-119` | ⚠️ | Sub-cities defined directly in `routes.tsx`. Consider centralizing for consistency |
@@ -859,9 +859,9 @@
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Aligned | 177 | 66.5% |
-| ⚠️ Partial / Unverified | 62 | 23.3% |
-| ❌ Misaligned | 15 | 5.6% |
+| ✅ Aligned | 180 | 67.7% |
+| ⚠️ Partial / Unverified | 61 | 22.9% |
+| ❌ Misaligned | 13 | 4.9% |
 | 📋 Deferred / Planned | 12 | 4.5% |
 | **Total** | **266** | **100%** |
 
@@ -880,9 +880,9 @@
 | **P1** | A6 | Doc Integrity | BRD §16 sitemap missing 15+ implemented routes | Update BRD sitemap |
 | **P1** | A7 | Doc Integrity | BRD §17.1 nav uses old AI mode names | Update BRD nav spec |
 | ~~P1~~ | A9 | Doc Integrity | ~~BRD §11.2 tag schema uses old format~~ | ✅ FIXED v36.3 — §A4 updated, see GHL-TAG-REGISTRY.md |
-| **P1** | A11 | Doc Integrity | Theme Spec §4.3 has stale "Hardcoded" status flags | Update to "Tokenized" |
+| ~~P1~~ | A11 | Doc Integrity | ~~Theme Spec §4.3 has stale "Hardcoded" status flags~~ | ✅ INVALID — No stale flags found in Theme Spec |
 | ~~P1~~ | G2 | Product | ~~Warmy not marked as included in Scale tier~~ | ✅ FIXED — includedInTiers: ['scale'] added |
-| **P1** | L11 | Routes | `routes.ts` missing Accessibility Statement in legalRoutes | Add route entry |
+| ~~P1~~ | L11 | Routes | ~~`routes.ts` missing Accessibility Statement in legalRoutes~~ | ✅ FIXED — Added to legalRoutes |
 | **P1** | U6 | Theme Mode | BRD §11.2 says `system` supported but project uses binary | Resolve conflict |
 | ~~P0~~ | AF1 | Typography | ~~`--font-heading` hardcoded in `index.css`; `tailwind.config.ts` contradicts with `Inter`~~ | ✅ FIXED — tailwind.config.ts uses var(--font-heading) |
 | ~~P0~~ | AF2 | Typography | ~~`--font-body` hardcoded in `index.css` instead of flowing through admin pipeline~~ | ✅ FIXED — tailwind.config.ts uses var(--font-body) |
