@@ -1,8 +1,8 @@
 /**
  * @fileoverview Individual portfolio project card
  * @module components/portfolio/PortfolioCard
- * @see docs/everintent-brd-v35.0.md §A8 Portfolio Link Integrity Rule
- * @see docs/everintent-brd-v35.0.md §A9 SSG Anchor Compliance
+ * @see docs/everintent-brd-v36.4.md §A8 Portfolio Link Integrity Rule
+ * @see docs/everintent-brd-v36.4.md §A9 SSG Anchor Compliance
  * 
  * Uses native <a> tags per SSG standard.
  * Cards without dedicated case study routes link to /portfolio hub.

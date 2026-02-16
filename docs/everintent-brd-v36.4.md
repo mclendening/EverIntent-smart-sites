@@ -1,11 +1,11 @@
 # EverIntent — Complete Business Requirements Document v36.0
 
 **Last Updated:** February 15, 2026  
-**Version:** 36.2 (P0 Audit Fixes: Content Dedup + Pill Purge + FAQPage Schema + SSG Nav)
+**Version:** 36.4 (Pricing alignment + font pipeline + GHL tag registry)
 **Status:** BUILD-READY
 **Owner:** EverIntent LLC  
 **Tagline:** Web Design AI & Automation
-**GitHub Path:** /docs/everintent-brd-v35.0.md
+**GitHub Path:** /docs/everintent-brd-v36.4.md
 
 ---
 

@@ -10,7 +10,7 @@
 
 | # | Document | Path | Version | Lines |
 |---|----------|------|---------|-------|
-| 1 | **Business Requirements Document** | `docs/everintent-brd-v35.0.md` | v36.2 (file misnamed) | 3,175 |
+| 1 | **Business Requirements Document** | `docs/everintent-brd-v36.4.md` | v36.4 | 3,175 |
 | 2 | **Smart Web v2.2 Tracker** | `docs/SMART-WEB-V2.2-TRACKER.md` | Active | 938 |
 | 3 | **Theme System Technical Spec** | `docs/THEME-SYSTEM-SPEC.md` | v2.0 | 2,328 |
 | 4 | **Theme BRD** | `docs/BRD-theming-system-v2.0.md` | v2.0 | 1,723 |
@@ -78,7 +78,7 @@
 
 | # | Requirement | BRD Ref | Tracker Ref | Theme Spec Ref | Theme BRD Ref | Codebase | Status | Recommended Action |
 |---|-------------|---------|-------------|----------------|---------------|----------|--------|-------------------|
-| A1 | BRD filename matches version | File named `everintent-brd-v35.0.md` | — | — | — | Contains v36.2 content (line 4) | ❌ | **Rename** → `everintent-brd-v36.2.md` |
+| A1 | BRD filename matches version | File named `everintent-brd-v36.4.md` | — | — | — | Contains v36.4 content (line 4) | ✅ | FIXED — Renamed to match version |
 | A2 | BRD body uses deprecated tier names (Smart Site, Smart Lead, etc.) | §5.13, §6, §7 body text | — | — | — | Code uses new names (Launch, Capture, Convert, Scale) | ⚠️ | BRD §A1 supersedes body; consider full-text find/replace or add prominent "body predates v36" notice |
 | A3 | BRD body has stale pricing | §5.8 M1-M3: $497/mo; §5.13: Growth $497/mo; §4 Revenue: $497/mo | §A2 supersedes: $197/$297/$597 | — | — | Code matches §A2 pricing | ⚠️ | Body references are pre-amendment. Acceptable if amendments are treated as authoritative |
 | A4 | BRD body has stale checkout slugs | §15.1: `/checkout/smart-site`, `/checkout/smart-lead` | §Phase 6: `/checkout/launch`, `/checkout/capture` | — | — | Code uses `/checkout/launch` etc. | ⚠️ | §15.1 sitemap uses old checkout slugs. Update to match actual routes |
