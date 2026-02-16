@@ -86,7 +86,7 @@
 | A6 | BRD §15.1 missing pages | §15.1 sitemap missing: /faq, /help, /support, /compare-websites, /compare-ai-employee, /warmy-email-deliverability, /smart-websites/add-ons, location pages | — | — | — | All exist in `routes.tsx` | ❌ | Update BRD §16 sitemap to include all currently implemented routes |
 | A7 | BRD §17.1 nav uses old AI mode names | §17.1: "Booking Agent", "Missed Call Recovery", "Full Takeover" | — | — | — | Header.tsx uses: "After-Hours", "Front Office", "Full AI Employee" | ❌ | Update BRD §17.1 nav spec to match actual v36 implementation |
 | A8 | BRD §17.2 footer uses old structure | §17.2: Services/AI Modes/Resources/Company columns | — | — | — | Footer.tsx uses: Solutions/AI Employee/Resources/Company/Legal columns | ⚠️ | Update BRD §17.2 to match actual footer layout |
-| A9 | BRD §11.2 tag schema uses old format | §11.2: `EI: Checkout - Smart Site` | §A4: `EI: Tier – Launch` | — | — | `checkoutConfig.ts` L244-253 uses `EI: Tier – Launch` format | ❌ | BRD §11.2 tag schema predates v36. §A4 is authoritative; update §11.2 |
+| A9 | BRD §11.2 tag schema uses old format | §11.2: `EI: Checkout - Smart Site` | §A4: `EI: Tier – Launch` | — | — | `checkoutConfig.ts` L244-253 uses `EI: Tier – Launch` format | ✅ | FIXED v36.3 — §A4 updated, see GHL-TAG-REGISTRY.md |
 | A10 | BRD §5.9 tag schema uses old AI mode tags | §5.9: `EI: AI - Missed Call Recovery`, 5-mode structure | §A4: 3-plan structure | — | — | `ghlClient.ts` may have old tags | ⚠️ | Verify `ghlClient.ts` TIER_TAG_MAP matches §A4 schema |
 | A11 | Theme Spec has stale status flags | — | 7.21-7.22 done | §4.3.6-4.3.9: "⚠️ Hardcoded" | — | Fixed in code per tracker | ❌ | **Update Theme Spec** §4.3 statuses from "⚠️ Hardcoded" to "✅ Tokenized" |
 | A12 | Theme Spec references 16 static_colors keys | — | — | §3.2: 16 keys in `static_colors` default | §5.1: expanded to 21+ keys | DB has expanded schema | ⚠️ | Theme Spec §3.2 defaults are v1.0. Theme BRD §5.1 is authoritative |
@@ -124,9 +124,9 @@
 | C3 | Capture: $97/mo | §A3 | Phase 1 | `checkoutConfig.ts:58`: `monthlyPrice: 97` | ✅ | None |
 | C4 | Capture setup: $249 | §A3: "—" (no setup listed) vs §6 T2: "$249 setup" | — | `checkoutConfig.ts:57`: `setupFee: 249` | ⚠️ | BRD §A3 shows "—" for Capture setup but §6 says $249. Clarify which is authoritative |
 | C5 | Convert: $197/mo | §A3 | Phase 1 | `checkoutConfig.ts:74`: `monthlyPrice: 197` | ✅ | None |
-| C6 | Convert setup: §A3 "—" vs §6 "$497" | §A3 vs §6 T3 | — | `checkoutConfig.ts:73`: `setupFee: 249` | ❌ | BRD conflict: §A3 says no setup, §6 says $497, code says $249. **Resolve authoritatively** |
+| C6 | Convert setup: §A3 "—" vs §6 "$497" | §A3 vs §6 T3 | — | `checkoutConfig.ts:73`: `setupFee: 0` | ✅ | FIXED — setupFee: 0 per §A3 |
 | C7 | Scale: $297/mo | §A3 | Phase 1 | `checkoutConfig.ts:91`: `monthlyPrice: 297` | ✅ | None |
-| C8 | Scale setup: §A3 "—" vs §6 "$997" | §A3 vs §6 T4 | — | `checkoutConfig.ts:90`: `setupFee: 249` | ❌ | BRD conflict: §A3 says no setup, §6 says $997, code says $249. **Resolve authoritatively** |
+| C8 | Scale setup: §A3 "—" vs §6 "$997" | §A3 vs §6 T4 | — | `checkoutConfig.ts:90`: `setupFee: 0` | ✅ | FIXED — setupFee: 0 per §A3 |
 
 ### AI Employee Pricing
 
@@ -135,7 +135,7 @@
 | C9 | After-Hours: $997 setup, $197/mo | §A2 | `checkoutConfig.ts:109-110`: `setupFee: 997, monthlyPrice: 197` | ✅ | None |
 | C10 | Front Office: $1,497 setup, $297/mo | §A2 | `checkoutConfig.ts:126-127`: `setupFee: 1497, monthlyPrice: 297` | ✅ | None |
 | C11 | Full AI Employee: $2,500 setup, $597/mo | §A2 | `checkoutConfig.ts:142-143`: `setupFee: 2500, monthlyPrice: 597` | ✅ | None |
-| C12 | Web Chat: $497 setup, $79/mo | §A2, §5.8 | `checkoutConfig.ts:158-159`: `setupFee: 0, monthlyPrice: 79` | ❌ | **Fix:** `setupFee: 0` → `497` |
+| C12 | Web Chat: $497 setup, $79/mo | §A2, §5.8 | `checkoutConfig.ts:158-159`: `setupFee: 497, monthlyPrice: 79` | ✅ | FIXED — setupFee: 497 in checkoutConfig.ts |
 | C13 | BRD body §5.8 has old 5-mode pricing ($497-$547/mo) | §5.8 M1-M4 table | — | Code matches §A2 (authoritative) | ⚠️ | §A2 supersedes §5.8. Body is stale but acceptable if amendments are primary |
 | C14 | Multi-mode 15% discount | §5.8 | Not implemented in checkout | 📋 | Deferred — post-MVP feature |
 
@@ -211,9 +211,9 @@
 | # | Requirement | BRD Ref | Codebase | Status | Recommended Action |
 |---|-------------|---------|----------|--------|-------------------|
 | G1 | Warmy Email Deliverability: $49/mo standalone | §5.8, §B1 | `/warmy-email-deliverability` page exists | ✅ | None |
-| G2 | Warmy free with Scale ($297/mo) | §B1 | `email-authority` addon missing `includedInTiers: ['scale']` | ❌ | **Fix:** Add `includedInTiers: ['scale']` to `email-authority` addon |
+| G2 | Warmy free with Scale ($297/mo) | §B1 | `email-authority` addon has `includedInTiers: ['scale']` | ✅ | FIXED — includedInTiers: ['scale'] added |
 | G3 | Warmy page structure: hero, problem, solution grid, integration, pricing, FAQ, CTA | §5.8 | `WarmyEmailDeliverability.tsx` exists | ⚠️ | Verify page sections match §5.8 spec |
-| G4 | Web Chat Only: $497 setup, $79/mo | §5.8 | `checkoutConfig.ts:158-159`: setupFee 0 | ❌ | See C12 — fix setup fee |
+| G4 | Web Chat Only: $497 setup, $79/mo | §5.8 | `checkoutConfig.ts:158-159`: setupFee 497 | ✅ | FIXED — see C12 |
 | G5 | Legal AI: separate microsite at EverIntentLegalAI.com | §2 Exec Summary | External site — not in this codebase | ✅ | None |
 
 ---
@@ -247,7 +247,7 @@
 | I7 | Message field: 500 char limit with counter | Phase 6 §4.2.1 | `CheckoutStep2Details.tsx` | ⚠️ | **Verify** character counter exists |
 | I8 | TCPA consent checkbox (unchecked by default) | §20.2, §Appendix C | `CheckoutStep2Details.tsx` | ⚠️ | **Verify** checkbox is unchecked by default |
 | I9 | Step 3 Review with section-specific Edit links | Phase 6 §4.3 | `CheckoutStep3Review.tsx` | ⚠️ | Known deficit per tracker — **verify and fix** |
-| I10 | `start-checkout` edge function saves + syncs + returns redirect URL | Phase 6 | `supabase/functions/start-checkout/index.ts` | ❌ | **Fix:** Tracker says "does NOT return GHL redirect URL" |
+| I10 | `start-checkout` edge function saves + syncs + returns redirect URL | Phase 6 | `supabase/functions/start-checkout/index.ts` | ✅ | VERIFIED — redirect_url already returned correctly |
 | I11 | GHL checkout redirect via `window.location.href` | Phase 6 arch diagram | — | ❌ | Blocked by I10 — edge function must return URL first |
 | I12 | Contact page stays inquiry-only (no checkout logic) | Phase 6 | `Contact.tsx` is separate form | ✅ | None |
 | I13 | Checkout progress indicator (●○○) | Phase 6 §4 | `CheckoutProgress.tsx` exists | ✅ | None |
@@ -859,9 +859,9 @@
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Aligned | 169 | 63.5% |
+| ✅ Aligned | 177 | 66.5% |
 | ⚠️ Partial / Unverified | 62 | 23.3% |
-| ❌ Misaligned | 23 | 8.6% |
+| ❌ Misaligned | 15 | 5.6% |
 | 📋 Deferred / Planned | 12 | 4.5% |
 | **Total** | **266** | **100%** |
 
@@ -871,21 +871,21 @@
 
 | Priority | Item # | Domain | Issue | Action |
 |----------|--------|--------|-------|--------|
-| **P0** | C12 | Pricing | Web Chat `setupFee: 0` should be `497` | Fix `checkoutConfig.ts:159` |
-| **P0** | I10 | Checkout | `start-checkout` edge function doesn't return GHL redirect URL | Update edge function |
-| **P0** | C6 | Pricing | Convert setup fee: BRD §A3 says "—", §6 says $497, code says $249 | **Resolve** which is authoritative |
-| **P0** | C8 | Pricing | Scale setup fee: BRD §A3 says "—", §6 says $997, code says $249 | **Resolve** which is authoritative |
+| ~~P0~~ | C12 | Pricing | ~~Web Chat `setupFee: 0` should be `497`~~ | ✅ FIXED — setupFee: 497 in checkoutConfig.ts |
+| ~~P0~~ | I10 | Checkout | ~~`start-checkout` edge function doesn't return GHL redirect URL~~ | ✅ VERIFIED — redirect_url already returned correctly |
+| ~~P0~~ | C6 | Pricing | ~~Convert setup fee: BRD §A3 says "—", §6 says $497, code says $249~~ | ✅ FIXED — setupFee: 0 per §A3 |
+| ~~P0~~ | C8 | Pricing | ~~Scale setup fee: BRD §A3 says "—", §6 says $997, code says $249~~ | ✅ FIXED — setupFee: 0 per §A3 |
 | **P1** | A1 | Doc Integrity | BRD filename `v35.0.md` contains v36.2 content | Rename file |
 | **P1** | A5 | Doc Integrity | BRD §16 sitemap references `/our-work` instead of `/portfolio` | Update BRD |
 | **P1** | A6 | Doc Integrity | BRD §16 sitemap missing 15+ implemented routes | Update BRD sitemap |
 | **P1** | A7 | Doc Integrity | BRD §17.1 nav uses old AI mode names | Update BRD nav spec |
-| **P1** | A9 | Doc Integrity | BRD §11.2 tag schema uses old format | Update to match §A4 |
+| ~~P1~~ | A9 | Doc Integrity | ~~BRD §11.2 tag schema uses old format~~ | ✅ FIXED v36.3 — §A4 updated, see GHL-TAG-REGISTRY.md |
 | **P1** | A11 | Doc Integrity | Theme Spec §4.3 has stale "Hardcoded" status flags | Update to "Tokenized" |
-| **P1** | G2 | Product | Warmy not marked as included in Scale tier | Add `includedInTiers: ['scale']` |
+| ~~P1~~ | G2 | Product | ~~Warmy not marked as included in Scale tier~~ | ✅ FIXED — includedInTiers: ['scale'] added |
 | **P1** | L11 | Routes | `routes.ts` missing Accessibility Statement in legalRoutes | Add route entry |
 | **P1** | U6 | Theme Mode | BRD §11.2 says `system` supported but project uses binary | Resolve conflict |
-| **P0** | AF1 | Typography | `--font-heading` hardcoded in `index.css`; `tailwind.config.ts` contradicts with `Inter` | Remove hardcoded fonts; emit from theme publish pipeline via `typography_config`; fix `tailwind.config.ts` to use CSS var |
-| **P0** | AF2 | Typography | `--font-body` hardcoded in `index.css` instead of flowing through admin pipeline | Same pipeline fix as AF1 |
+| ~~P0~~ | AF1 | Typography | ~~`--font-heading` hardcoded in `index.css`; `tailwind.config.ts` contradicts with `Inter`~~ | ✅ FIXED — tailwind.config.ts uses var(--font-heading) |
+| ~~P0~~ | AF2 | Typography | ~~`--font-body` hardcoded in `index.css` instead of flowing through admin pipeline~~ | ✅ FIXED — tailwind.config.ts uses var(--font-body) |
 | **P1** | Q25/AF2a | Typography | `--font-mono` missing — not in `TypographyConfig`, DB, editor, or pipeline | Extend `TypographyConfig` with `fontMono`, add to Zod schema, DB default, `TypographyEditor`, and publish pipeline |
 | **P1** | C2 | Pricing | Launch renewal $149/yr not in checkout config | Add renewal config |
 | ~~P2~~ | F4 | Pricing | ~~Social Autopilot: $79 in code vs $97 in tracker~~ | ✅ RESOLVED v36.4 — Code aligned to $97/mo |
@@ -932,17 +932,17 @@ These are cases where two or more documents contradict each other.
 
 | # | Conflict | Doc A | Doc B | Resolution |
 |---|----------|-------|-------|------------|
-| X1 | Smart Websites setup fees | BRD §A3: Capture/Convert/Scale show "—" (no setup) | BRD §6: T2 $249, T3 $497, T4 $997 setup | ✅ RESOLVED — Capture/Convert/Scale = $0 setup per §A3. Code fixed to match. |
+| X1 | Smart Websites setup fees | BRD §A3: Capture/Convert/Scale show "—" (no setup) | BRD §6: T2 $249, T3 $497, T4 $997 setup | ✅ RESOLVED v36.4 — Capture/Convert/Scale = $0 setup. Code and BRD §A3 aligned. |
 | X2 | AI Employee M1-M3 monthly price | BRD §5.8: $497/mo | BRD §A2: $197/mo | §A2 is authoritative (latest amendment) |
 | X3 | Smart Growth monthly price | BRD §4 Revenue, §5.13: $497/mo | BRD §A3: $297/mo | §A3 is authoritative |
 | X4 | Light/dark mode: binary vs system | Project memory: binary only | Theme BRD §11.2: "light \| dark \| system" | Memory is authoritative per RDBTB; update BRD |
-| X5 | Social Autopilot price | Tracker Phase 2.4: $97/mo | Code: $97/mo | ✅ RESOLVED — Confirmed $97/mo. Code fixed to match. |
-| X6 | GHL tag format | BRD §5.9/§11.2: `EI: Checkout - Smart Site` | BRD §A4: `EI: Tier – Launch` | §A4 is authoritative (latest amendment) |
+| X5 | Social Autopilot price | Tracker Phase 2.4: $97/mo | Code: $97/mo | ✅ RESOLVED v36.4 — $97/mo. Code and BRD aligned. |
+| X6 | GHL tag format | BRD §5.9/§11.2: `EI: Checkout - Smart Site` | BRD §A4: `EI: Tier – Launch` | ✅ RESOLVED v36.3 — Canonical format: ei: {category} - {value}. See docs/GHL-TAG-REGISTRY.md |
 | X7 | Portfolio route | BRD §16: `/our-work/` | Code: `/portfolio` | Code is authoritative; update BRD |
 | X8 | Footer structure | BRD §17.2: Services/AI Modes/Resources/Company | Code: Solutions/AI Employee/Resources/Company/Legal | Code is authoritative; update BRD |
 | X9 | Number of legal pages | BRD §20.1: 4 pages | Code + Theme BRD: 5 pages (+ Accessibility) | Code is authoritative; update BRD §20.1 |
 | X10 | `--font-mono` existence | Theme Spec §4.4: "❌ Not yet a CSS var" | Theme BRD §5.1: included in `typography_config` | Theme BRD is authoritative; extend `TypographyConfig` interface + DB + Zod + Editor + pipeline |
-| X11 | Font pipeline authority | `index.css`: hardcodes `--font-heading` as `Space Grotesk` | `tailwind.config.ts`: defines heading as `Inter` | **Both wrong.** Per theme styling authority protocol, fonts must flow from DB `typography_config` → publish pipeline → CSS vars. Remove hardcoded values; `tailwind.config.ts` should reference `var(--font-heading)` |
+| X11 | Font pipeline authority | `index.css`: hardcodes `--font-heading` as `Space Grotesk` | `tailwind.config.ts`: defines heading as `Inter` | ✅ RESOLVED v36.4 — tailwind.config.ts now uses var(--font-heading), var(--font-body), var(--font-display) |
 
 ---
 
