@@ -650,8 +650,7 @@ A **user-facing light/dark mode switch** must be visible on every page. This is 
 | Aspect | Specification |
 |--------|---------------|
 | **Default** | Dark mode (`<html class="dark">`) |
-| **Persistence** | `localStorage` key `theme-mode` with values `light` \| `dark` \| `system` |
-| **System Preference** | When set to `system`, respects `prefers-color-scheme` media query |
+| **Persistence** | `localStorage` key `theme-mode` with values `light` \| `dark` |
 | **SSG Safety** | Toggle script must be inlined in `<head>` (before paint) to prevent FOUC. No React hydration dependency. |
 | **Location** | Header bar — icon toggle (sun/moon) next to nav |
 | **Mobile** | Accessible from mobile hamburger menu AND bottom bar |
@@ -673,12 +672,12 @@ A **user-facing light/dark mode switch** must be visible on every page. This is 
 
 ### 11.4 Admin Control — Default Mode Setting
 
-Each theme stores a **`defaultMode`** field (`"dark"` | `"light"` | `"system"`) in the database. This determines the site's default appearance when no user preference is stored in `localStorage`.
+Each theme stores a **`defaultMode`** field (`"dark"` | `"light"`) in the database. This determines the site's default appearance when no user preference is stored in `localStorage`.
 
 ```jsonc
 // In site_themes table — new field or nested in existing config
 {
-  "defaultMode": "dark"  // "dark" | "light" | "system"
+  "defaultMode": "dark"  // "dark" | "light"
 }
 ```
 
