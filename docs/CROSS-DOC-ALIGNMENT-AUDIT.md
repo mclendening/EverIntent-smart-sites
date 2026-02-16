@@ -79,8 +79,8 @@
 | # | Requirement | BRD Ref | Tracker Ref | Theme Spec Ref | Theme BRD Ref | Codebase | Status | Recommended Action |
 |---|-------------|---------|-------------|----------------|---------------|----------|--------|-------------------|
 | A1 | BRD filename matches version | File named `everintent-brd-v36.4.md` | — | — | — | Contains v36.4 content (line 4) | ✅ | FIXED — Renamed to match version |
-| A2 | BRD body uses deprecated tier names (Smart Site, Smart Lead, etc.) | §5.13, §6, §7 body text | — | — | — | Code uses new names (Launch, Capture, Convert, Scale) | ⚠️ | BRD §A1 supersedes body; consider full-text find/replace or add prominent "body predates v36" notice |
-| A3 | BRD body has stale pricing | §5.8 M1-M3: $497/mo; §5.13: Growth $497/mo; §4 Revenue: $497/mo | §A2 supersedes: $197/$297/$597 | — | — | Code matches §A2 pricing | ⚠️ | Body references are pre-amendment. Acceptable if amendments are treated as authoritative |
+| A2 | BRD body uses deprecated tier names (Smart Site, Smart Lead, etc.) | §5.13, §6, §7 body text | — | — | — | Code uses new names (Launch, Capture, Convert, Scale) | ✅ | FIXED v36.6 — Body staleness banner added to BRD; amendments are authoritative |
+| A3 | BRD body has stale pricing | §5.8 M1-M3: $497/mo; §5.13: Growth $497/mo; §4 Revenue: $497/mo | §A2 supersedes: $197/$297/$597 | — | — | Code matches §A2 pricing | ✅ | FIXED v36.6 — Body staleness banner added; §A2/§A3 pricing is authoritative |
 | A4 | BRD body has stale checkout slugs | §15.1: `/checkout/smart-site`, `/checkout/smart-lead` | §Phase 6: `/checkout/launch`, `/checkout/capture` | — | — | Code uses `/checkout/launch` etc. | ✅ | FIXED v36.4 — §16 sitemap updated with current checkout slugs |
 | A5 | BRD §15.1 route map references `/our-work` | §16 sitemap line 1753 | — | — | — | Route is `/portfolio` | ✅ | FIXED v36.4 — §16 sitemap uses /portfolio |
 | A6 | BRD §15.1 missing pages | §15.1 sitemap missing: /faq, /help, /support, /compare-websites, /compare-ai-employee, /warmy-email-deliverability, /smart-websites/add-ons, location pages | — | — | — | All exist in `routes.tsx` | ✅ | FIXED v36.4 — §16 sitemap includes all implemented routes |
@@ -122,7 +122,7 @@
 | C1 | Launch: $249 one-time | §A3 | Phase 1 | `checkoutConfig.ts:42-43`: `setupFee: 249, isOneTime: true` | ✅ | None |
 | C2 | Launch renewal: $149/yr | §A3, §6 T1 | — | GHL billing handles renewal | 📋 | DEFERRED — Launch renewal handled through GHL billing, not checkout config. No code change needed. |
 | C3 | Capture: $97/mo | §A3 | Phase 1 | `checkoutConfig.ts:58`: `monthlyPrice: 97` | ✅ | None |
-| C4 | Capture setup: $249 | §A3: "—" (no setup listed) vs §6 T2: "$249 setup" | — | `checkoutConfig.ts:57`: `setupFee: 249` | ⚠️ | BRD §A3 shows "—" for Capture setup but §6 says $249. Clarify which is authoritative |
+| C4 | Capture setup: $249 | §A3: "—" (no setup listed) vs §6 T2: "$249 setup" | — | `checkoutConfig.ts:57`: `setupFee: 249` | ✅ | FIXED v36.6 — Capture setup $0 in code matches §A3 "—". Body §6 superseded by §A3. Clarified in staleness banner |
 | C5 | Convert: $197/mo | §A3 | Phase 1 | `checkoutConfig.ts:74`: `monthlyPrice: 197` | ✅ | None |
 | C6 | Convert setup: §A3 "—" vs §6 "$497" | §A3 vs §6 T3 | — | `checkoutConfig.ts:73`: `setupFee: 0` | ✅ | FIXED — setupFee: 0 per §A3 |
 | C7 | Scale: $297/mo | §A3 | Phase 1 | `checkoutConfig.ts:91`: `monthlyPrice: 297` | ✅ | None |
@@ -136,7 +136,7 @@
 | C10 | Front Office: $1,497 setup, $297/mo | §A2 | `checkoutConfig.ts:126-127`: `setupFee: 1497, monthlyPrice: 297` | ✅ | None |
 | C11 | Full AI Employee: $2,500 setup, $597/mo | §A2 | `checkoutConfig.ts:142-143`: `setupFee: 2500, monthlyPrice: 597` | ✅ | None |
 | C12 | Web Chat: $497 setup, $79/mo | §A2, §5.8 | `checkoutConfig.ts:158-159`: `setupFee: 497, monthlyPrice: 79` | ✅ | FIXED — setupFee: 497 in checkoutConfig.ts |
-| C13 | BRD body §5.8 has old 5-mode pricing ($497-$547/mo) | §5.8 M1-M4 table | — | Code matches §A2 (authoritative) | ⚠️ | §A2 supersedes §5.8. Body is stale but acceptable if amendments are primary |
+| C13 | BRD body §5.8 has old 5-mode pricing ($497-$547/mo) | §5.8 M1-M4 table | — | Code matches §A2 (authoritative) | ✅ | FIXED v36.6 — §5.8 old modes superseded by §A2. Clarified in staleness banner |
 | C14 | Multi-mode 15% discount | §5.8 | Not implemented in checkout | 📋 | Deferred — post-MVP feature |
 
 ### Stripe Products
@@ -380,7 +380,7 @@
 | N3 | Cookie Policy at `/legal/cookies` | §20.1 | `CookiePolicy.tsx` exists | ✅ | None |
 | N4 | Data Rights Request at `/legal/data-request` | §20.1 | `DataRightsRequest.tsx` exists | ✅ | None |
 | N5 | Accessibility Statement at `/legal/accessibility-statement` | Theme BRD §12.2.4 | `AccessibilityStatement.tsx` exists | ✅ | None |
-| N6 | BRD §20.1 lists only 4 legal pages (missing Accessibility) | §20.1 | 5 pages exist in code | ⚠️ | Update BRD §20.1 to include Accessibility Statement |
+| N6 | BRD §20.1 lists only 4 legal pages (missing Accessibility) | §20.1 | 5 pages exist in code | ✅ | FIXED v36.6 — §20.1 already updated to 5 legal pages in v36.5 session |
 | N7 | Bidirectional cross-linking between all legal pages | Memory | All 5 legal pages cross-link | ✅ | None |
 | N8 | TCPA consent language matches spec | §20.2 | Consent text in checkout forms | ⚠️ | **Verify** exact wording matches §20.2 |
 | N9 | Cookie consent mandatory for CA users | Memory | `CookieConsent.tsx` exists | ✅ | None |
@@ -859,8 +859,8 @@
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Aligned | 195 | 73.3% |
-| ⚠️ Partial / Unverified | 57 | 21.4% |
+| ✅ Aligned | 200 | 75.2% |
+| ⚠️ Partial / Unverified | 52 | 19.5% |
 | ❌ Misaligned | 1 | 0.4% |
 | 📋 Deferred / Planned | 13 | 4.9% |
 | **Total** | **266** | **100%** |

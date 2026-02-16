@@ -199,7 +199,7 @@ This is the **single source of truth** for EverIntent.com. It governs:
 - "SmartSites by EverIntent" → "EverIntent"
 - "Beautiful Websites" service → "Smart Websites" service
 - Use "smart website(s)" / "smart site" as **descriptive language** (lowercase in prose), not a capital-S brand
-- Tier names remain: Smart Site, Smart Lead, Smart Business, Smart Growth, Smart Launch
+- Tier names updated in v36.0: Launch (was Smart Site), Capture (was Smart Lead), Convert (was Smart Business), Scale (was Smart Growth). Old names deprecated — see §A1.
 - All logos, headers, footers use **EverIntent** only
 - Footer "Products" column → "Solutions" column
 - Add "Solutions" nav item linking to verticals (Legal AI, future packages)
@@ -246,6 +246,14 @@ This is the **single source of truth** for EverIntent.com. It governs:
 29. [Task 3.5 — AI Employee MVP Definition](#29-task-35--ai-employee-mvp-definition)
 
 ---
+
+> **⚠️ BODY STALENESS NOTICE (v36.0+)**
+>
+> Sections §4 through §15 below predate the v36.0 amendments. Where body text conflicts with the amendments at the top of this document, **the amendments are authoritative**:
+> - **Tier names:** §A1 renames Smart Site→Launch, Smart Lead→Capture, Smart Business→Convert, Smart Growth→Scale. Body still uses old names.
+> - **AI Employee plans:** §A2 collapses 5 modes (M1–M5) to 3 plans (After-Hours, Front Office, Full AI Employee). Body §5.8 still shows old modes.
+> - **Pricing:** §A2 and §A3 are the authoritative pricing tables. Body references ($497/mo modes, $249 Capture setup, etc.) are superseded.
+> - **Legal pages:** §20.1 has been updated to 5 pages (including Accessibility Statement).
 
 ## 1. Quick Reference
 
@@ -2502,6 +2510,7 @@ See Task 3.5 Definition (Section 28) for detailed phases.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v36.6 | 2026-02-16 | Body staleness banner: §4-§15 formally marked as pre-v36.0. Brand Pivot Notice updated with v36.0 tier names. Audit items A2, A3, C4, C13, N6 resolved. |
 | v36.5 | 2026-02-16 | Sitemap and navigation spec update: §16 sitemap reflects all current routes (checkout, locations, compare, add-ons, FAQ, help, support, accessibility). §17.1 header nav updated to v36 product names. §17.2 footer updated to 5-column structure with Legal column. |
 | v36.4 | 2026-02-16 | Pricing alignment: Capture/Convert/Scale setup = $0 per §A3. Web Chat setup = $497 per §A2. Social Autopilot = $97/mo. Email Authority included in Scale tier. |
 | v36.3 | 2026-02-16 | GHL Tag Registry consolidation. Canonical format: ei: {category} - {value}. Eliminated en-dash/hyphen split. Deprecated M1-M5 tags and old tier names. Added affiliate, form, lifecycle, source categories. See docs/GHL-TAG-REGISTRY.md. |
