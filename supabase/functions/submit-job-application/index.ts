@@ -137,7 +137,7 @@ serve(async (req) => {
       ghlContactId = contactId;
 
       // Add careers tag
-      await addTags(contactId, [GHL_TAGS.CAREERS_APPLICATION]);
+      await addTags(contactId, [GHL_TAGS.FORM_JOB_APPLICATION]);
 
       // Add note with application details
       const noteBody = `Job Application: ${jobTitle}
