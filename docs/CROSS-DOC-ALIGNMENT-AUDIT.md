@@ -81,11 +81,11 @@
 | A1 | BRD filename matches version | File named `everintent-brd-v36.4.md` | — | — | — | Contains v36.4 content (line 4) | ✅ | FIXED — Renamed to match version |
 | A2 | BRD body uses deprecated tier names (Smart Site, Smart Lead, etc.) | §5.13, §6, §7 body text | — | — | — | Code uses new names (Launch, Capture, Convert, Scale) | ⚠️ | BRD §A1 supersedes body; consider full-text find/replace or add prominent "body predates v36" notice |
 | A3 | BRD body has stale pricing | §5.8 M1-M3: $497/mo; §5.13: Growth $497/mo; §4 Revenue: $497/mo | §A2 supersedes: $197/$297/$597 | — | — | Code matches §A2 pricing | ⚠️ | Body references are pre-amendment. Acceptable if amendments are treated as authoritative |
-| A4 | BRD body has stale checkout slugs | §15.1: `/checkout/smart-site`, `/checkout/smart-lead` | §Phase 6: `/checkout/launch`, `/checkout/capture` | — | — | Code uses `/checkout/launch` etc. | ⚠️ | §15.1 sitemap uses old checkout slugs. Update to match actual routes |
-| A5 | BRD §15.1 route map references `/our-work` | §16 sitemap line 1753 | — | — | — | Route is `/portfolio` | ❌ | Update BRD §16 sitemap from `/our-work/` → `/portfolio` |
-| A6 | BRD §15.1 missing pages | §15.1 sitemap missing: /faq, /help, /support, /compare-websites, /compare-ai-employee, /warmy-email-deliverability, /smart-websites/add-ons, location pages | — | — | — | All exist in `routes.tsx` | ❌ | Update BRD §16 sitemap to include all currently implemented routes |
-| A7 | BRD §17.1 nav uses old AI mode names | §17.1: "Booking Agent", "Missed Call Recovery", "Full Takeover" | — | — | — | Header.tsx uses: "After-Hours", "Front Office", "Full AI Employee" | ❌ | Update BRD §17.1 nav spec to match actual v36 implementation |
-| A8 | BRD §17.2 footer uses old structure | §17.2: Services/AI Modes/Resources/Company columns | — | — | — | Footer.tsx uses: Solutions/AI Employee/Resources/Company/Legal columns | ⚠️ | Update BRD §17.2 to match actual footer layout |
+| A4 | BRD body has stale checkout slugs | §15.1: `/checkout/smart-site`, `/checkout/smart-lead` | §Phase 6: `/checkout/launch`, `/checkout/capture` | — | — | Code uses `/checkout/launch` etc. | ✅ | FIXED v36.4 — §16 sitemap updated with current checkout slugs |
+| A5 | BRD §15.1 route map references `/our-work` | §16 sitemap line 1753 | — | — | — | Route is `/portfolio` | ✅ | FIXED v36.4 — §16 sitemap uses /portfolio |
+| A6 | BRD §15.1 missing pages | §15.1 sitemap missing: /faq, /help, /support, /compare-websites, /compare-ai-employee, /warmy-email-deliverability, /smart-websites/add-ons, location pages | — | — | — | All exist in `routes.tsx` | ✅ | FIXED v36.4 — §16 sitemap includes all implemented routes |
+| A7 | BRD §17.1 nav uses old AI mode names | §17.1: "Booking Agent", "Missed Call Recovery", "Full Takeover" | — | — | — | Header.tsx uses: "After-Hours", "Front Office", "Full AI Employee" | ✅ | FIXED v36.4 — §17.1 updated: After-Hours, Front Office, Full AI Employee |
+| A8 | BRD §17.2 footer uses old structure | §17.2: Services/AI Modes/Resources/Company columns | — | — | — | Footer.tsx uses: Solutions/AI Employee/Resources/Company/Legal columns | ✅ | FIXED v36.4 — §17.2 updated to 5-column structure matching Footer.tsx |
 | A9 | BRD §11.2 tag schema uses old format | §11.2: `EI: Checkout - Smart Site` | §A4: `EI: Tier – Launch` | — | — | `checkoutConfig.ts` L244-253 uses `EI: Tier – Launch` format | ✅ | FIXED v36.3 — §A4 updated, see GHL-TAG-REGISTRY.md |
 | A10 | BRD §5.9 tag schema uses old AI mode tags | §5.9: `EI: AI - Missed Call Recovery`, 5-mode structure | §A4: 3-plan structure | — | — | `ghlClient.ts` TIER_TAG_MAP uses canonical tags | ✅ | FIXED v36.3 — ghlClient.ts TIER_TAG_MAP uses canonical tags. Old M1-M5 tags deleted. |
 | A11 | Theme Spec has stale status flags | — | 7.21-7.22 done | §4.3.6-4.3.9: "⚠️ Hardcoded" | — | Fixed in code per tracker | ✅ | INVALID — Theme Spec does not contain §4.3.6-4.3.9 or any 'Hardcoded' flags. Audit item was incorrect. |
@@ -859,9 +859,9 @@
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Aligned | 180 | 67.7% |
-| ⚠️ Partial / Unverified | 61 | 22.9% |
-| ❌ Misaligned | 13 | 4.9% |
+| ✅ Aligned | 185 | 69.5% |
+| ⚠️ Partial / Unverified | 59 | 22.2% |
+| ❌ Misaligned | 10 | 3.8% |
 | 📋 Deferred / Planned | 12 | 4.5% |
 | **Total** | **266** | **100%** |
 
@@ -876,9 +876,9 @@
 | ~~P0~~ | C6 | Pricing | ~~Convert setup fee: BRD §A3 says "—", §6 says $497, code says $249~~ | ✅ FIXED — setupFee: 0 per §A3 |
 | ~~P0~~ | C8 | Pricing | ~~Scale setup fee: BRD §A3 says "—", §6 says $997, code says $249~~ | ✅ FIXED — setupFee: 0 per §A3 |
 | **P1** | A1 | Doc Integrity | BRD filename `v35.0.md` contains v36.2 content | Rename file |
-| **P1** | A5 | Doc Integrity | BRD §16 sitemap references `/our-work` instead of `/portfolio` | Update BRD |
-| **P1** | A6 | Doc Integrity | BRD §16 sitemap missing 15+ implemented routes | Update BRD sitemap |
-| **P1** | A7 | Doc Integrity | BRD §17.1 nav uses old AI mode names | Update BRD nav spec |
+| ~~P1~~ | ~~A5~~ | ~~Doc Integrity~~ | ~~BRD §16 sitemap references `/our-work` instead of `/portfolio`~~ | ✅ FIXED v36.4 — §16 uses /portfolio |
+| ~~P1~~ | ~~A6~~ | ~~Doc Integrity~~ | ~~BRD §16 sitemap missing 15+ implemented routes~~ | ✅ FIXED v36.4 — §16 includes all routes |
+| ~~P1~~ | ~~A7~~ | ~~Doc Integrity~~ | ~~BRD §17.1 nav uses old AI mode names~~ | ✅ FIXED v36.4 — §17.1 updated |
 | ~~P1~~ | A9 | Doc Integrity | ~~BRD §11.2 tag schema uses old format~~ | ✅ FIXED v36.3 — §A4 updated, see GHL-TAG-REGISTRY.md |
 | ~~P1~~ | A11 | Doc Integrity | ~~Theme Spec §4.3 has stale "Hardcoded" status flags~~ | ✅ INVALID — No stale flags found in Theme Spec |
 | ~~P1~~ | G2 | Product | ~~Warmy not marked as included in Scale tier~~ | ✅ FIXED — includedInTiers: ['scale'] added |
@@ -938,8 +938,8 @@ These are cases where two or more documents contradict each other.
 | X4 | Light/dark mode: binary vs system | Project memory: binary only | Theme BRD §11.2: "light \| dark \| system" | Memory is authoritative per RDBTB; update BRD |
 | X5 | Social Autopilot price | Tracker Phase 2.4: $97/mo | Code: $97/mo | ✅ RESOLVED v36.4 — $97/mo. Code and BRD aligned. |
 | X6 | GHL tag format | BRD §5.9/§11.2: `EI: Checkout - Smart Site` | BRD §A4: `EI: Tier – Launch` | ✅ RESOLVED v36.3 — Canonical format: ei: {category} - {value}. See docs/GHL-TAG-REGISTRY.md |
-| X7 | Portfolio route | BRD §16: `/our-work/` | Code: `/portfolio` | Code is authoritative; update BRD |
-| X8 | Footer structure | BRD §17.2: Services/AI Modes/Resources/Company | Code: Solutions/AI Employee/Resources/Company/Legal | Code is authoritative; update BRD |
+| X7 | Portfolio route | BRD §16: `/our-work/` | Code: `/portfolio` | ✅ RESOLVED v36.4 — BRD §16 updated to /portfolio |
+| X8 | Footer structure | BRD §17.2: Services/AI Modes/Resources/Company | Code: Solutions/AI Employee/Resources/Company/Legal | ✅ RESOLVED v36.4 — BRD §17.2 updated to match code |
 | X9 | Number of legal pages | BRD §20.1: 4 pages | Code + Theme BRD: 5 pages (+ Accessibility) | Code is authoritative; update BRD §20.1 |
 | X10 | `--font-mono` existence | Theme Spec §4.4: "❌ Not yet a CSS var" | Theme BRD §5.1: included in `typography_config` | Theme BRD is authoritative; extend `TypographyConfig` interface + DB + Zod + Editor + pipeline |
 | X11 | Font pipeline authority | `index.css`: hardcodes `--font-heading` as `Space Grotesk` | `tailwind.config.ts`: defines heading as `Inter` | ✅ RESOLVED v36.4 — tailwind.config.ts now uses var(--font-heading), var(--font-body), var(--font-display) |

@@ -1,7 +1,7 @@
 # EverIntent — Complete Business Requirements Document v36.0
 
 **Last Updated:** February 15, 2026  
-**Version:** 36.4 (Pricing alignment + font pipeline + GHL tag registry)
+**Version:** 36.5 (Sitemap & navigation spec alignment)
 **Status:** BUILD-READY
 **Owner:** EverIntent LLC  
 **Tagline:** Web Design AI & Automation
@@ -2501,6 +2501,7 @@ See Task 3.5 Definition (Section 28) for detailed phases.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v36.5 | 2026-02-16 | Sitemap and navigation spec update: §16 sitemap reflects all current routes (checkout, locations, compare, add-ons, FAQ, help, support, accessibility). §17.1 header nav updated to v36 product names. §17.2 footer updated to 5-column structure with Legal column. |
 | v36.4 | 2026-02-16 | Pricing alignment: Capture/Convert/Scale setup = $0 per §A3. Web Chat setup = $497 per §A2. Social Autopilot = $97/mo. Email Authority included in Scale tier. |
 | v36.3 | 2026-02-16 | GHL Tag Registry consolidation. Canonical format: ei: {category} - {value}. Eliminated en-dash/hyphen split. Deprecated M1-M5 tags and old tier names. Added affiliate, form, lifecycle, source categories. See docs/GHL-TAG-REGISTRY.md. |
 | v1.0 | — | Initial BRD |
