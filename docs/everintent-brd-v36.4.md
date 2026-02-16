@@ -1799,9 +1799,9 @@ app.everintent.com/
 
 ## 17. Navigation Structure
 
-### 17.1 Header Navigation (v35.3)
+### 17.1 Header Navigation (v36.4)
 
-Navigation uses dropdowns for AI Employee modes and Smart Websites tiers, plus Industries:
+Navigation uses dropdowns for AI Employee plans and Smart Websites tiers, plus Industries:
 
 | Position | Label | Route | Type |
 |----------|-------|-------|------|
@@ -1809,26 +1809,28 @@ Navigation uses dropdowns for AI Employee modes and Smart Websites tiers, plus I
 | 2 | Smart Websites | Dropdown | Dropdown Menu |
 | 3 | Pricing | `/pricing` | Link |
 | 4 | Industries | Dropdown (clickable) | Dropdown Menu |
-| 5 | About | `/about` | Link |
-| 6 | Contact | `/contact` | Link |
+| 5 | Services | `/services` | Link |
+| 6 | Portfolio | `/portfolio` | Link |
+| 7 | Contact | `/contact` | Link |
 | CTA | Get Started | `/pricing` | Button |
 
-**AI Employee Dropdown (NO M1-M5 prefixes):**
+**AI Employee Dropdown (3 plans):**
 | Label | Route | Description |
 |-------|-------|-------------|
-| After-Hours | `/let-ai-handle-it#after-hours` | Coverage when you're closed |
-| Booking Agent | `/let-ai-handle-it#booking` | Appointment scheduling |
-| Missed Call Recovery | `/let-ai-handle-it#missed-call` | Recapture lost leads |
-| Front Line Screening | `/let-ai-handle-it#screening` | Qualify before you answer |
-| Full Takeover | `/let-ai-handle-it#full-takeover` | Complete phone management |
+| After-Hours | `/let-ai-handle-it/after-hours` | Calls, booking & missed call recovery |
+| Front Office | `/let-ai-handle-it/front-office` | Screen, qualify & transfer |
+| Full AI Employee | `/let-ai-handle-it/full-ai-employee` | Complete phone management |
+| Compare Plans | `/compare-ai-employee` | Side-by-side comparison |
 
-**Smart Websites Dropdown:**
+**Smart Websites Dropdown (4 tiers):**
 | Label | Route | Description |
 |-------|-------|-------------|
-| Smart Site | `/smart-websites#smart-site` | $249 one-time |
-| Smart Lead | `/smart-websites#smart-lead` | $97/mo — Most Popular |
-| Smart Business | `/smart-websites#smart-business` | $197/mo |
-| Smart Growth | `/smart-websites#smart-growth` | $297/mo |
+| Launch | `/smart-websites/launch` | $249 one-time |
+| Capture | `/smart-websites/capture` | $97/mo |
+| Convert | `/smart-websites/convert` | $197/mo |
+| Scale | `/smart-websites/scale` | $297/mo |
+| Compare Plans | `/compare-websites` | Side-by-side comparison |
+| Add-On Packs | `/smart-websites/add-ons` | Extend your plan |
 
 **Industries Dropdown (hub link clickable):**
 | Label | Route | Description |
@@ -1837,13 +1839,7 @@ Navigation uses dropdowns for AI Employee modes and Smart Websites tiers, plus I
 | Home Services | `/industries/home-services` | HVAC, Plumbing, Electrical |
 | Professional Services | `/industries/professional-services` | Legal, Real Estate, Accounting |
 | Health & Wellness | `/industries/health-wellness` | MedSpa, Dental, Chiropractic |
-| Automotive | `/industries/automotive` | Auto Repair, Detailing, Body Shop |
-
-**IMPORTANT: Mode Prefix Removal**
-- All UI elements (menus, descriptions, mobile nav) must use human-readable names ONLY
-- ❌ "M1: After-Hours" → ✅ "After-Hours"
-- ❌ "M3: Missed Call Recovery" → ✅ "Missed Call Recovery"
-- This applies to Header, Footer, Mobile Nav, and all marketing copy
+| Automotive | `/industries/automotive-services` | Auto Repair, Detailing, Body Shop |
 
 ### 17.2 MVP Footer Navigation (v35.1)
 
