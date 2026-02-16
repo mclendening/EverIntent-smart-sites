@@ -1,23 +1,12 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import { upsertContact, addTags, addNote } from '../_shared/ghlClient.ts';
+import { upsertContact, addTags, addNote, GHL_TAGS, TIER_TAG_MAP, CHECKOUT_TAG_MAP, ADDON_TAG_MAP, buildAffiliateTag } from '../_shared/ghlClient.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
 };
 
-/** Map tier slugs to GHL tags (en-dash convention per BRD §28.6) */
-const TIER_TAG_MAP: Record<string, string> = {
-  'launch': 'EI: Tier – Launch',
-  'capture': 'EI: Tier – Capture',
-  'convert': 'EI: Tier – Convert',
-  'scale': 'EI: Tier – Scale',
-  'after-hours': 'EI: Tier – After-Hours',
-  'front-office': 'EI: Tier – Front Office',
-  'full-ai': 'EI: Tier – Full AI Employee',
-  'web-chat': 'EI: Tier – Web Chat Only',
-};
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
