@@ -91,7 +91,7 @@
 | A11 | Theme Spec has stale status flags | — | 7.21-7.22 done | §4.3.6-4.3.9: "⚠️ Hardcoded" | — | Fixed in code per tracker | ✅ | INVALID — Theme Spec does not contain §4.3.6-4.3.9 or any 'Hardcoded' flags. Audit item was incorrect. |
 | A12 | Theme Spec references 16 static_colors keys | — | — | §3.2: 16 keys in `static_colors` default | §5.1: expanded to 21+ keys | DB has expanded schema | ⚠️ | Theme Spec §3.2 defaults are v1.0. Theme BRD §5.1 is authoritative |
 | A13 | Tracker changelog dates accuracy | — | Changelog entries all dated 2026-02-07 to 2026-02-13 | — | — | — | ✅ | None |
-| A14 | BRD Document History stops at v35.1 | §28: Last entry is v35.1 (Jan 25) | — | — | — | v36.0-v36.2 amendments exist at top but not in §28 | ⚠️ | Add v36.0, v36.1, v36.2 entries to §28 Document History |
+| A14 | BRD Document History stops at v35.1 | §28: Last entry is v35.1 (Jan 25) | — | — | — | v36.0-v36.2 entries added to §28 | ✅ | FIXED v36.5 — v36.0, v36.1, v36.2 entries added to §28 |
 
 ---
 
@@ -859,8 +859,8 @@
 
 | Status | Count | % |
 |--------|-------|---|
-| ✅ Aligned | 194 | 72.9% |
-| ⚠️ Partial / Unverified | 58 | 21.8% |
+| ✅ Aligned | 195 | 73.3% |
+| ⚠️ Partial / Unverified | 57 | 21.4% |
 | ❌ Misaligned | 1 | 0.4% |
 | 📋 Deferred / Planned | 13 | 4.9% |
 | **Total** | **266** | **100%** |
@@ -889,7 +889,7 @@
 | ~~P1~~ | Q25/AF2a | Typography | ~~`--font-mono` missing — not in `TypographyConfig`, DB, editor, or pipeline~~ | ✅ FIXED — fontMono in full pipeline |
 | ~~P1~~ | ~~C2~~ | ~~Pricing~~ | ~~Launch renewal $149/yr not in checkout config~~ | 📋 DEFERRED — GHL billing handles renewal |
 | ~~P2~~ | F4 | Pricing | ~~Social Autopilot: $79 in code vs $97 in tracker~~ | ✅ RESOLVED v36.4 — Code aligned to $97/mo |
-| **P2** | A14 | Doc Integrity | BRD §28 Document History missing v36.0-v36.2 entries | Add entries |
+| ~~P2~~ | ~~A14~~ | ~~Doc Integrity~~ | ~~BRD §28 Document History missing v36.0-v36.2 entries~~ | ✅ FIXED v36.5 — entries added |
 
 ---
 
