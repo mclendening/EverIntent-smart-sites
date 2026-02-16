@@ -132,6 +132,7 @@ export const typographyConfigSchema = z.object({
   fontHeading: z.string().default('Space Grotesk, -apple-system, BlinkMacSystemFont, sans-serif'),
   fontBody: z.string().default('Inter, -apple-system, BlinkMacSystemFont, sans-serif'),
   fontDisplay: z.string().default('Inter, -apple-system, BlinkMacSystemFont, sans-serif'),
+  fontMono: z.string().default('JetBrains Mono, Fira Code, monospace'),
 }).default({});
 
 // ─── MOTION CONFIG ───────────────────────────────────────────

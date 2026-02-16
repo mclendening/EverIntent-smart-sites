@@ -139,6 +139,7 @@ export interface TypographyConfig {
   fontHeading: string;
   fontBody: string;
   fontDisplay: string;
+  fontMono: string;
 }
 
 /** Motion/transition configuration — maps to `site_themes.motion_config` JSONB */
