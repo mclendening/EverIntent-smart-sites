@@ -21,6 +21,8 @@ Google Fonts must be loaded asynchronously to prevent render-blocking. The `<lin
 
 **Note:** This is an infrastructure-level optimization in `index.html`, not a theme pipeline violation. The Theme Typography Pipeline (DB → Publisher → CSS variables) governs *which* fonts are used; `index.html` governs *how* they are loaded. Both layers coexist.
 
+**Font Weight Subsetting (v36.10):** Space Grotesk is loaded at weight 700 only. All heading elements use `font-bold` (weight 700) via `src/index.css`. Inter retains weights 400, 500, 600, 700 (all used across public pages). If a future design requires Space Grotesk at other weights, the Google Fonts URL in `index.html` must be updated to include them.
+
 ### D2. LCP Image Optimization Requirements
 
 The Largest Contentful Paint (LCP) element (hero background image) must include:
@@ -2573,6 +2575,7 @@ See Task 3.5 Definition (Section 28) for detailed phases.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v36.10 | 2026-02-18 | D1 update: Space Grotesk font reduced from 4 weights to 700-only. ~60-90KB font download savings. Inter unchanged (4 weights all in use). |
 | v36.9 | 2026-02-18 | D6: Converted 4 images JPG→WebP (q40, 1280w). hero-background 188KB→39KB, la-skyline-sunset 368KB→78KB, oc-coastline-sunset 351KB→68KB, local-business-cityscape 292KB→55KB. Total 80% reduction. |
 | v36.8 | 2026-02-18 | D5 P0: Removed 5 dead UI component files and 5 unused npm deps. Repo cleanup only — 0KB bundle impact (Vite already tree-shook unreachable files). Performance score unchanged at 64. |
 | v36.7 | 2026-02-18 | Core Web Vitals & PageSpeed optimization: Non-render-blocking font loading (D1), LCP fetchPriority (D2), descriptive link text enforcement (D3), 44px touch targets (D4). JS bundle splitting (D5) and image format optimization (D6) documented as OPEN. Favicon simplified (D7). Accessibility 96→100, SEO 92→100. Performance remains 64 pending D5/D6. |
