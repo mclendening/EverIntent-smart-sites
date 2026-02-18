@@ -112,6 +112,7 @@ export function Footer() {
                       <li key={city.slug}>
                         <a
                           href={`/locations/${city.slug}`}
+                          rel="nofollow"
                           className="text-xs text-muted-foreground hover:text-accent transition-colors duration-300"
                         >
                           {city.name}

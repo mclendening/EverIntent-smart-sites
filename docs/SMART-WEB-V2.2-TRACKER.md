@@ -940,6 +940,8 @@ Per user directive (2026-02-11): The **page layout** (section backgrounds, headi
 | 10.6 | Convert hero image to WebP/AVIF | `done` | 4 images converted. 1,199KB→240KB (80%). Remaining images under 50KB. | BRD v36.9 §D6. |
 | 10.7 | Add responsive srcset to lifestyle images | `todo` | Below-fold images serve appropriately sized variants | BRD v36.7 §D6. Images currently oversized for mobile viewports |
 | 10.8 | Font weight subsetting | `done` | Space Grotesk reduced to wght@700 only in index.html. Inter unchanged. | BRD v36.10 §D1. ~60-90KB font savings. |
+| 10.9 | Sitemap priority hierarchy | `done` | public/sitemap.xml rewritten with priority 1.0-0.2 tiers. Locations demoted to 0.3. | BRD v36.12 §D8. |
+| 10.10 | Footer location nofollow | `done` | 35 location links in Footer.tsx marked rel="nofollow". Stops site-wide PageRank inflation. | BRD v36.12 §D8. |
 
 ---
 
