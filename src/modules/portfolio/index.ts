@@ -18,11 +18,14 @@
  * - To use in another project: provide matching Supabase `portfolio` table with RLS
  */
 
+import React from 'react';
 import { registerModule } from '../registry';
 import type { ModuleDefinition } from '../types';
 import { ModuleCategory } from '../types';
 import { Image } from 'lucide-react';
-import PortfolioListPage from './PortfolioListPage';
+
+/** Lazy-loaded — admin-only, excluded from SSG prerenderRoutes (BRD v36.11 §D5 P2) */
+const PortfolioListPage = React.lazy(() => import('./PortfolioListPage'));
 import PortfolioEditPage from './PortfolioEditPage';
 
 export const portfolioModule: ModuleDefinition = {

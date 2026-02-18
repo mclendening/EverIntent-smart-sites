@@ -23,11 +23,14 @@
  * - Run schema.sql against your Supabase instance.
  */
 
+import React from 'react';
 import { registerModule } from '../registry';
 import type { ModuleDefinition } from '../types';
 import { ModuleCategory } from '../types';
 import { Palette } from 'lucide-react';
-import AdminThemes from './components/ThemesPage';
+
+/** Lazy-loaded — admin-only, excluded from SSG prerenderRoutes (BRD v36.11 §D5 P2) */
+const AdminThemes = React.lazy(() => import('./components/ThemesPage'));
 
 // ─── MODULE DEFINITION ───────────────────────────────────────
 
