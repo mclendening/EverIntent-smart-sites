@@ -129,16 +129,16 @@ export function CookieConsent() {
                 </h3>
                 <p className="text-sm text-muted-foreground">
                   We use cookies to enhance your experience, analyze site usage, and personalize content. By continuing to browse, you consent to our use of cookies.{' '}
-                  <a 
+                   <a 
                     href="/legal/privacy" 
-                    className="text-accent hover:text-accent/80 underline font-medium"
+                    className="text-accent hover:text-accent/80 underline font-medium min-h-[44px] min-w-[44px] inline-flex items-center"
                   >
                     Privacy Policy
                   </a>
                   {' | '}
                   <button
                     onClick={() => setShowModal(true)}
-                    className="text-accent hover:text-accent/80 underline font-medium"
+                    className="text-accent hover:text-accent/80 underline font-medium min-h-[44px] min-w-[44px] inline-flex items-center"
                     type="button"
                   >
                     Cookie Settings

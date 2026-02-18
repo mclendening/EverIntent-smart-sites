@@ -21,6 +21,7 @@ const outcomes = [
     title: "Recover Missed Calls",
     description: "62% of calls to local businesses go unanswered. Our AI texts back every missed call in under 60 seconds, before they call your competitor.",
     link: "/let-ai-handle-it",
+    linkText: "See how AI recovers missed calls",
   },
   {
     image: afterHoursImg,
@@ -28,6 +29,7 @@ const outcomes = [
     title: "Answer After Hours",
     description: "You close at 5pm. Your AI doesn't. Capture leads, answer questions, and book appointments while you sleep.",
     link: "/let-ai-handle-it",
+    linkText: "See after-hours AI coverage",
   },
   {
     image: callScreeningImg,
@@ -35,6 +37,7 @@ const outcomes = [
     title: "Screen Every Call",
     description: "Stop wasting time on tire-kickers. AI handles FAQs and only transfers real opportunities to your team.",
     link: "/let-ai-handle-it",
+    linkText: "See AI call screening",
   },
 ];
 
@@ -89,7 +92,7 @@ const HowWeHelpSection = () => {
                   href={outcome.link}
                   className="inline-flex items-center gap-2 text-accent hover:gap-3 transition-all duration-300"
                 >
-                  <span className="text-sm font-medium">Learn more</span>
+                  <span className="text-sm font-medium">{outcome.linkText}</span>
                   <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
