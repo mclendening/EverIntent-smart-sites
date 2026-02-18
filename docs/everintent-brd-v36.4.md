@@ -74,6 +74,23 @@ The site favicon (`public/favicon.svg`) was simplified from a multi-path SVG spa
 
 **Rule:** Favicon must remain an inline SVG (no external image dependency). Brand color must match the `--primary` design token or be documented as an intentional override.
 
+### D8. Sitemap Priority Hierarchy and Sitelink Optimization
+
+Google sitelinks are influenced by internal link weight and sitemap priority signals. The flat sitemap (no `<priority>` tags) and 35 site-wide footer location links were causing Google to select location pages over product pages for sitelinks.
+
+**Sitemap hierarchy (public/sitemap.xml):**
+- 1.0: Homepage, Pricing, Services (core conversion pages)
+- 0.9: AI Employee, Smart Websites, About, Contact, Portfolio (primary nav)
+- 0.8: Product sub-pages (tiers, modes, comparisons)
+- 0.7: Industries, portfolio case studies
+- 0.5: FAQ, Help, Support
+- 0.3: Location pages (local SEO only, not sitelink candidates)
+- 0.2: Legal pages
+
+**Footer location links:** All 35 location links in the footer `<details>` element carry `rel="nofollow"` to prevent site-wide PageRank inflation. Location pages retain their own SEO value through the sitemap, internal content links, and local search signals.
+
+**Rule:** When adding new pages, assign sitemap priority based on this hierarchy. Location and legal pages must never exceed 0.3 priority.
+
 ---
 
 ## v36.2 Amendment — P0 Site-Wide Audit Fixes
@@ -2577,6 +2594,7 @@ See Task 3.5 Definition (Section 28) for detailed phases.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v36.12 | 2026-02-18 | D8: Sitemap priority hierarchy added (1.0 core → 0.2 legal). Footer location links marked rel="nofollow" to prevent sitelink pollution. |
 | v36.11 | 2026-02-18 | D5 P2: All admin page imports converted to React.lazy() in routes.tsx and 6 module index files. Suspense fallback added to AdminLayout. Admin code (framer-motion, CRUD UI, module pages) excluded from public bundle. |
 | v36.10 | 2026-02-18 | D1 update: Space Grotesk font reduced from 4 weights to 700-only. ~60-90KB font download savings. Inter unchanged (4 weights all in use). |
 | v36.9 | 2026-02-18 | D6: Converted 4 images JPG→WebP (q40, 1280w). hero-background 188KB→39KB, la-skyline-sunset 368KB→78KB, oc-coastline-sunset 351KB→68KB, local-business-cityscape 292KB→55KB. Total 80% reduction. |
