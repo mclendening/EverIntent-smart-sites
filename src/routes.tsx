@@ -12,7 +12,10 @@
  * - ClientOnly: Prevents SSR hydration mismatches for browser-dependent components
  * 
  * SSG Considerations:
- * - Uses direct imports (not React.lazy) to prevent hydration mismatches
+ * - Public pages use direct imports (not React.lazy) to prevent hydration mismatches
+ * - Admin pages use React.lazy() for code splitting — they are CSR-only and excluded
+ *   from prerenderRoutes, so lazy loading is safe and reduces public bundle size
+ *   (BRD v36.11 §D5 P2)
  * - QueryClient created inside components to prevent state persistence across renders
  * - Portal-based components (Toaster, Sonner) wrapped in ClientOnly
  */
@@ -74,10 +77,12 @@ import SmartGrowth from './pages/smart-websites/SmartGrowth';
 import AddOns from './pages/smart-websites/AddOns';
 import CompareWebsites from './pages/CompareWebsites';
 import CompareAIEmployee from './pages/CompareAIEmployee';
-import AdminLogin from './pages/admin/Login';
-import AdminResetPassword from './pages/admin/ResetPassword';
-import AdminDashboard from './pages/admin/Dashboard';
-import ThemeTestPage from '@/modules/themes/components/ThemeTestPage';
+// Admin page components — lazy-loaded for bundle splitting (BRD v36.11 §D5 P2).
+// Safe because admin routes are CSR-only (excluded from prerenderRoutes).
+const AdminLogin = React.lazy(() => import('./pages/admin/Login'));
+const AdminResetPassword = React.lazy(() => import('./pages/admin/ResetPassword'));
+const AdminDashboard = React.lazy(() => import('./pages/admin/Dashboard'));
+const ThemeTestPage = React.lazy(() => import('@/modules/themes/components/ThemeTestPage'));
 
 // Module registry — triggers self-registration of all modules
 import { getModules } from './modules';
@@ -158,10 +163,14 @@ function RootLayout() {
 /**
  * Admin layout wrapper without marketing Header/Footer.
  * Used for admin dashboard pages that require authentication.
- * 
+ *
  * Same SSG-safe patterns as RootLayout:
  * - QueryClient created inside component
- * - Portal components wrapped in ClientOnly
+ * - Portal-based Toaster/Sonner wrapped in ClientOnly
+ *
+ * Includes Suspense boundary for React.lazy() admin page components.
+ * Admin routes are CSR-only (excluded from prerenderRoutes), so
+ * lazy loading is safe here. (BRD v36.11 §D5 P2)
  */
 function AdminLayout() {
   const [queryClient] = useState(() => new QueryClient());
@@ -172,7 +181,7 @@ function AdminLayout() {
       <ClientOnly>
         <ScrollToTop />
       </ClientOnly>
-      <Suspense fallback={<div className="min-h-screen" />}>
+      <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" /></div>}>
         <Outlet />
       </Suspense>
 

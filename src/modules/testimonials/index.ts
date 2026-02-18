@@ -18,11 +18,14 @@
  * - To use in another project: provide matching Supabase `testimonials` table with RLS
  */
 
+import React from 'react';
 import { registerModule } from '../registry';
 import type { ModuleDefinition } from '../types';
 import { ModuleCategory } from '../types';
 import { MessageSquare } from 'lucide-react';
-import TestimonialsListPage from './TestimonialsListPage';
+
+/** Lazy-loaded — admin-only, excluded from SSG prerenderRoutes (BRD v36.11 §D5 P2) */
+const TestimonialsListPage = React.lazy(() => import('./TestimonialsListPage'));
 import TestimonialsEditPage from './TestimonialsEditPage';
 
 export const testimonialsModule: ModuleDefinition = {

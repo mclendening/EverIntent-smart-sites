@@ -20,14 +20,18 @@
  * - To use in another project: provide matching page components for each route.
  */
 
+import React from 'react';
 import { registerModule } from '../registry';
 import type { ModuleDefinition } from '../types';
 import { ModuleCategory } from '../types';
 import { FlaskConical } from 'lucide-react';
-import AdminPlayground from '@/pages/admin/Playground';
-import AdminPlaygroundBadges from '@/pages/admin/PlaygroundBadges';
-import AdminPlaygroundTimelines from '@/pages/admin/PlaygroundTimelines';
-import AdminPlaygroundSeparators from '@/pages/admin/PlaygroundSeparators';
+
+// Lazy-loaded — admin-only, excluded from SSG prerenderRoutes (BRD v36.11 §D5 P2).
+// This also defers framer-motion (~80-100KB) which is only used in these 3 Playground pages.
+const AdminPlayground = React.lazy(() => import('@/pages/admin/Playground'));
+const AdminPlaygroundBadges = React.lazy(() => import('@/pages/admin/PlaygroundBadges'));
+const AdminPlaygroundTimelines = React.lazy(() => import('@/pages/admin/PlaygroundTimelines'));
+const AdminPlaygroundSeparators = React.lazy(() => import('@/pages/admin/PlaygroundSeparators'));
 
 export const playgroundModule: ModuleDefinition = {
   id: 'playground',

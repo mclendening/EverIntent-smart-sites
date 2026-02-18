@@ -15,11 +15,14 @@
  * - Depends on: registry.ts, types.ts, manifest.ts, exportEngine.ts, importEngine.ts
  */
 
+import React from 'react';
 import { registerModule } from '../registry';
 import type { ModuleDefinition } from '../types';
 import { ModuleCategory } from '../types';
 import { Package } from 'lucide-react';
-import { ModuleManagerHub } from './components';
+
+/** Lazy-loaded — admin-only, excluded from SSG prerenderRoutes (BRD v36.11 §D5 P2) */
+const ModuleManagerHub = React.lazy(() => import('./components/ModuleManagerHub'));
 
 export const moduleManagerModule: ModuleDefinition = {
   id: 'module-manager',

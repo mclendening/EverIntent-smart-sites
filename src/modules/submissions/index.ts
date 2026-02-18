@@ -21,11 +21,14 @@
  *   an AdminSubmissions component.
  */
 
+import React from 'react';
 import { registerModule } from '../registry';
 import type { ModuleDefinition } from '../types';
 import { ModuleCategory } from '../types';
 import { FileText } from 'lucide-react';
-import AdminSubmissions from '@/pages/admin/Submissions';
+
+/** Lazy-loaded — admin-only, excluded from SSG prerenderRoutes (BRD v36.11 §D5 P2) */
+const AdminSubmissions = React.lazy(() => import('@/pages/admin/Submissions'));
 
 export const submissionsModule: ModuleDefinition = {
   id: 'submissions',

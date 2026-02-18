@@ -60,6 +60,8 @@ PageSpeed flagged 409KB of unused JavaScript in a single 569KB bundle (`app-cxxj
 
 **D5 Reassessment (v36.8):** The bundle is monolithic because `routes.tsx` eagerly imports all 90+ page components and `vite-react-ssg` requires synchronous imports for pre-rendering. Tree-shaking is already effective — no unused library code reaches the bundle. The remaining 569KB IS the application. Reduction requires either (A) dynamic imports for admin/heavy pages behind ClientOnly guards, (B) SSG strategy migration to enable standard Vite code splitting, or (C) accepting the current score and optimizing images (D6) instead. This is an architectural decision, not a quick fix.
 
+**D5 P2: Admin Route Lazy Loading (v36.11):** All admin page components converted from eager `import` to `React.lazy()` dynamic imports. This includes 4 direct admin page imports in `routes.tsx` and 6 module page component imports across `src/modules/*/index.ts`. Admin routes are CSR-only (excluded from `prerenderRoutes`), so `React.lazy` is safe — no SSG hydration conflict. A `<Suspense>` fallback (centered spinner) was added to `AdminLayout` in `routes.tsx`. This defers framer-motion (~80-100KB, used only in 3 Playground pages), react-hook-form, admin CRUD UI, and all module page components from the public-facing bundle. Public visitors download only marketing page code.
+
 ### D6. Image Format Optimization (PARTIAL)
 
 Hero background image (187KB JPG) should be converted to WebP/AVIF for ~50% size reduction. Other lifestyle images are appropriately sized but could benefit from responsive `srcset` attributes.
@@ -2575,6 +2577,7 @@ See Task 3.5 Definition (Section 28) for detailed phases.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v36.11 | 2026-02-18 | D5 P2: All admin page imports converted to React.lazy() in routes.tsx and 6 module index files. Suspense fallback added to AdminLayout. Admin code (framer-motion, CRUD UI, module pages) excluded from public bundle. |
 | v36.10 | 2026-02-18 | D1 update: Space Grotesk font reduced from 4 weights to 700-only. ~60-90KB font download savings. Inter unchanged (4 weights all in use). |
 | v36.9 | 2026-02-18 | D6: Converted 4 images JPG→WebP (q40, 1280w). hero-background 188KB→39KB, la-skyline-sunset 368KB→78KB, oc-coastline-sunset 351KB→68KB, local-business-cityscape 292KB→55KB. Total 80% reduction. |
 | v36.8 | 2026-02-18 | D5 P0: Removed 5 dead UI component files and 5 unused npm deps. Repo cleanup only — 0KB bundle impact (Vite already tree-shook unreachable files). Performance score unchanged at 64. |
