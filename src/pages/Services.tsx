@@ -279,7 +279,7 @@ export default function Services() {
   return (
     <>
       <SEO
-        title="Services for Local Businesses"
+        title="Services"
         description="Websites from $249, AI receptionist from $197/mo, lead capture, and review automation. Serving Long Beach, LA & Orange County."
         canonical="/services"
         structuredData={structuredData}

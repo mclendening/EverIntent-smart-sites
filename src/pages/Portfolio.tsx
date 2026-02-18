@@ -87,7 +87,7 @@ const Portfolio = () => {
   return (
     <>
       <SEO 
-        title="Portfolio: Websites That Drive Results"
+        title="Portfolio"
         description="87 projects. $3.8M revenue generated. 4.9★ rating. See real websites we built for local businesses."
         canonical="/portfolio"
         structuredData={structuredData}

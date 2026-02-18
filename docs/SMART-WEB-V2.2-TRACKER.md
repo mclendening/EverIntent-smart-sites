@@ -942,6 +942,8 @@ Per user directive (2026-02-11): The **page layout** (section backgrounds, headi
 | 10.8 | Font weight subsetting | `done` | Space Grotesk reduced to wght@700 only in index.html. Inter unchanged. | BRD v36.10 §D1. ~60-90KB font savings. |
 | 10.9 | Sitemap priority hierarchy | `done` | public/sitemap.xml rewritten with priority 1.0-0.2 tiers. Locations demoted to 0.3. | BRD v36.12 §D8. |
 | 10.10 | Footer location nofollow | `done` | 35 location links in Footer.tsx marked rel="nofollow". Stops site-wide PageRank inflation. | BRD v36.12 §D8. |
+| 10.11 | Title tag optimization | `done` | 10 primary page titles shortened for sitelink display. All under 30 chars before brand suffix. | BRD v36.13 §D9. |
+| 10.12 | SiteNavigationElement | `done` | JSON-LD added to homepage listing 8 primary nav pages. Excludes location pages. | BRD v36.13 §D9. |
 
 ---
 

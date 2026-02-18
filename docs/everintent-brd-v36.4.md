@@ -91,6 +91,28 @@ Google sitelinks are influenced by internal link weight and sitemap priority sig
 
 **Rule:** When adding new pages, assign sitemap priority based on this hierarchy. Location and legal pages must never exceed 0.3 priority.
 
+### D9. Title Tag Optimization and SiteNavigationElement
+
+**Title tags:** All primary page title props shortened to under 30 characters. The SEO component appends " | EverIntent" automatically, keeping full rendered titles under 50 characters for clean sitelink display. Detailed keywords remain in meta descriptions.
+
+**Sitelink-optimized titles:**
+| Page | Title Prop | Renders As |
+|------|-----------|------------|
+| Homepage | AI Employee & Smart Websites | AI Employee & Smart Websites \| EverIntent |
+| AI Employee | AI Employee | AI Employee \| EverIntent |
+| Smart Websites | Smart Websites | Smart Websites \| EverIntent |
+| Services | Services | Services \| EverIntent |
+| Pricing | Pricing | Pricing \| EverIntent |
+| About | About | About \| EverIntent |
+| Contact | Contact | Contact \| EverIntent |
+| Portfolio | Portfolio | Portfolio \| EverIntent |
+| Industries | Industries | Industries \| EverIntent |
+| FAQ | FAQ | FAQ \| EverIntent |
+
+**SiteNavigationElement:** Homepage includes `SiteNavigationElement` JSON-LD listing the 8 primary navigation pages. This explicitly signals to Google which pages should be considered for sitelinks. Location pages are intentionally excluded.
+
+**Rule:** Title props for primary pages must stay under 30 characters. Use meta descriptions for detailed keywords, not titles.
+
 ---
 
 ## v36.2 Amendment — P0 Site-Wide Audit Fixes
@@ -2594,6 +2616,7 @@ See Task 3.5 Definition (Section 28) for detailed phases.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v36.13 | 2026-02-18 | D9: Title tags shortened for sitelink display (all under 30 chars). SiteNavigationElement JSON-LD added to homepage with 8 primary nav pages. |
 | v36.12 | 2026-02-18 | D8: Sitemap priority hierarchy added (1.0 core → 0.2 legal). Footer location links marked rel="nofollow" to prevent sitelink pollution. |
 | v36.11 | 2026-02-18 | D5 P2: All admin page imports converted to React.lazy() in routes.tsx and 6 module index files. Suspense fallback added to AdminLayout. Admin code (framer-motion, CRUD UI, module pages) excluded from public bundle. |
 | v36.10 | 2026-02-18 | D1 update: Space Grotesk font reduced from 4 weights to 700-only. ~60-90KB font download savings. Inter unchanged (4 weights all in use). |

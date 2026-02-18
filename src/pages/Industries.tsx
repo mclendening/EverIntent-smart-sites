@@ -111,7 +111,7 @@ export default function Industries() {
   return (
     <>
       <SEO 
-        title="Industries We Serve"
+        title="Industries"
         description="AI automation and websites for 65+ local business verticals. HVAC, plumbing, dental, legal, automotive, and more."
         canonical="/industries"
         structuredData={{
