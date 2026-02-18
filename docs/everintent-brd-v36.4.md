@@ -62,7 +62,7 @@ PageSpeed flagged 409KB of unused JavaScript in a single 569KB bundle (`app-cxxj
 
 Hero background image (187KB JPG) should be converted to WebP/AVIF for ~50% size reduction. Other lifestyle images are appropriately sized but could benefit from responsive `srcset` attributes.
 
-**Status:** PARTIAL — Hero and 3 largest lifestyle images converted to WebP (v36.9). Remaining lifestyle images are under 50KB and low priority.
+**Status:** OPEN — requires build pipeline evaluation for automatic format conversion.
 
 ### D7. Favicon Update
 
@@ -2573,7 +2573,6 @@ See Task 3.5 Definition (Section 28) for detailed phases.
 
 | Version | Date | Changes |
 |---------|------|---------|
-| v36.9 | 2026-02-18 | D6: Converted hero-background and 3 largest lifestyle images (la-skyline-sunset, oc-coastline-sunset, local-business-cityscape) from JPG to WebP. ~600KB total savings across 4 files. |
 | v36.8 | 2026-02-18 | D5 P0: Removed 5 dead UI component files and 5 unused npm deps. Repo cleanup only — 0KB bundle impact (Vite already tree-shook unreachable files). Performance score unchanged at 64. |
 | v36.7 | 2026-02-18 | Core Web Vitals & PageSpeed optimization: Non-render-blocking font loading (D1), LCP fetchPriority (D2), descriptive link text enforcement (D3), 44px touch targets (D4). JS bundle splitting (D5) and image format optimization (D6) documented as OPEN. Favicon simplified (D7). Accessibility 96→100, SEO 92→100. Performance remains 64 pending D5/D6. |
 | v36.6 | 2026-02-16 | Body staleness banner: §4-§15 formally marked as pre-v36.0. Brand Pivot Notice updated with v36.0 tier names. Audit items A2, A3, C4, C13, N6 resolved. |

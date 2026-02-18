@@ -7,7 +7,7 @@
  */
 
 import { ArrowRight } from 'lucide-react';
-import heroBackground from '@/assets/hero-background.webp';
+import heroBackground from '@/assets/hero-background.jpg';
 
 /**
  * Luxury Hero Section with cinematic background photography.
