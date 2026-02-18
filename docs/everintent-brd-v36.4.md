@@ -1,11 +1,64 @@
 # EverIntent — Complete Business Requirements Document v36.0
 
-**Last Updated:** February 15, 2026  
-**Version:** 36.5 (Sitemap & navigation spec alignment)
+**Last Updated:** February 18, 2026  
+**Version:** 36.7 (Core Web Vitals & PageSpeed optimization)
 **Status:** BUILD-READY
 **Owner:** EverIntent LLC  
 **Tagline:** Web Design AI & Automation
 **GitHub Path:** /docs/everintent-brd-v36.4.md
+
+---
+
+## v36.7 Amendment — Core Web Vitals & PageSpeed Optimization
+
+> This section documents changes from v36.6 → v36.7. Based on PageSpeed Insights audit (Feb 18, 2026): Performance 64, Accessibility 96→100, Best Practices 100, SEO 92→100.
+
+### D1. Font Loading Strategy (Non-Render-Blocking)
+
+Google Fonts must be loaded asynchronously to prevent render-blocking. The `<link rel="stylesheet">` pattern in `index.html` is replaced with `<link rel="preload" as="style">` with async onload fallback and `<noscript>` fallback for no-JS.
+
+**Rule:** Font loading in `index.html` MUST use the preload pattern. Direct `rel="stylesheet"` for external fonts is prohibited.
+
+**Note:** This is an infrastructure-level optimization in `index.html`, not a theme pipeline violation. The Theme Typography Pipeline (DB → Publisher → CSS variables) governs *which* fonts are used; `index.html` governs *how* they are loaded. Both layers coexist.
+
+### D2. LCP Image Optimization Requirements
+
+The Largest Contentful Paint (LCP) element (hero background image) must include:
+- `fetchPriority="high"` attribute
+- `loading="eager"` (already present)
+- `decoding="async"` for non-blocking decode
+
+**Rule:** Any hero/above-the-fold image identified as the LCP element MUST have `fetchPriority="high"`. Below-fold images MUST have `loading="lazy"`.
+
+### D3. Descriptive Link Text (SEO)
+
+Generic link text ("Learn more", "Click here", "Read more") is prohibited on all public-facing pages. Links must describe their destination.
+
+**Rule:** All `<a>` elements must have descriptive text that communicates the link's purpose without surrounding context. Example: "See how AI recovers missed calls" instead of "Learn more".
+
+### D4. Minimum Touch Target Size (Accessibility)
+
+Interactive elements (links, buttons) must meet a minimum touch target of 44x44px per WCAG 2.1 Success Criterion 2.5.5.
+
+**Rule:** Inline interactive elements (text links within paragraphs, inline buttons) must include `min-h-[44px] min-w-[44px] inline-flex items-center` to meet touch target requirements.
+
+### D5. JS Bundle Size — Route-Level Code Splitting (OPEN)
+
+PageSpeed flagged 409KB of unused JavaScript in a single 569KB bundle (`app-cxxjllB4.js`). This is the primary remaining performance bottleneck.
+
+**Status:** OPEN — requires architectural evaluation. `vite-react-ssg` does not natively support `React.lazy()` code splitting. Options under investigation:
+1. **Manual route grouping** via Vite `manualChunks` (previously failed — see Appendix H)
+2. **Dynamic imports** for heavy page components (portfolio case studies, admin)
+3. **Migration** from `vite-react-ssg` to `vite-plugin-html-prerender` (already installed but unused)
+4. **Tree-shaking audit** to identify unused library imports
+
+**Constraint:** Any solution must NOT break SSG pre-rendering or cause hydration mismatches.
+
+### D6. Image Format Optimization (OPEN)
+
+Hero background image (187KB JPG) should be converted to WebP/AVIF for ~50% size reduction. Other lifestyle images are appropriately sized but could benefit from responsive `srcset` attributes.
+
+**Status:** OPEN — requires build pipeline evaluation for automatic format conversion.
 
 ---
 
@@ -2510,6 +2563,7 @@ See Task 3.5 Definition (Section 28) for detailed phases.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v36.7 | 2026-02-18 | Core Web Vitals & PageSpeed optimization: Non-render-blocking font loading (D1), LCP fetchPriority (D2), descriptive link text enforcement (D3), 44px touch targets (D4). JS bundle splitting (D5) and image format optimization (D6) documented as OPEN. Accessibility 96→100, SEO 92→100. Performance remains 64 pending D5/D6. |
 | v36.6 | 2026-02-16 | Body staleness banner: §4-§15 formally marked as pre-v36.0. Brand Pivot Notice updated with v36.0 tier names. Audit items A2, A3, C4, C13, N6 resolved. |
 | v36.5 | 2026-02-16 | Sitemap and navigation spec update: §16 sitemap reflects all current routes (checkout, locations, compare, add-ons, FAQ, help, support, accessibility). §17.1 header nav updated to v36 product names. §17.2 footer updated to 5-column structure with Legal column. |
 | v36.4 | 2026-02-16 | Pricing alignment: Capture/Convert/Scale setup = $0 per §A3. Web Chat setup = $497 per §A2. Social Autopilot = $97/mo. Email Authority included in Scale tier. |

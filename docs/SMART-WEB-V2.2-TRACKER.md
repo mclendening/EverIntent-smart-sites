@@ -904,7 +904,7 @@ Per user directive (2026-02-11): The **page layout** (section backgrounds, headi
 
 ---
 
-## Phase 7 – GTM Trust & Revenue Fixes (BRD v36.0) 🚧 IN PROGRESS
+## Phase 7 – GTM Trust & Revenue Fixes (BRD v36.0) ✅ COMPLETE
 
 > **Authority**: BRD v36.0 Amendments A1–A12
 > **Created**: 2026-02-15
@@ -924,6 +924,24 @@ Per user directive (2026-02-11): The **page layout** (section backgrounds, headi
 
 ---
 
+## Phase 8 – Core Web Vitals & PageSpeed Optimization (BRD v36.7) 🚧 IN PROGRESS
+
+> **Authority**: BRD v36.7 Amendments D1–D6
+> **Created**: 2026-02-18
+> **PageSpeed Baseline** (Feb 18, 2026 — mobile): Performance 64 | Accessibility 100 | Best Practices 100 | SEO 100
+
+| ID | Task | Status | Verification | Notes |
+|----|------|--------|--------------|-------|
+| 8.1 | Non-render-blocking font loading | `done` | Google Fonts uses `rel="preload"` with async onload in `index.html` | BRD v36.7 §D1. Saves ~750ms render-blocking time |
+| 8.2 | LCP image fetchPriority="high" | `done` | Hero background `<img>` has `fetchPriority="high"` + `decoding="async"` | BRD v36.7 §D2. LCP element in HeroSection.tsx |
+| 8.3 | Replace generic "Learn more" link text | `done` | 3 links in HowWeHelpSection use descriptive text | BRD v36.7 §D3. SEO score 92→100 |
+| 8.4 | Fix cookie consent touch targets (44px) | `done` | "Privacy Policy" and "Cookie Settings" inline links have min 44x44px | BRD v36.7 §D4. Accessibility score 96→100 |
+| 8.5 | JS bundle code splitting | `todo` | Single 569KB bundle → route-level chunks. Performance score should reach 90+ | BRD v36.7 §D5. BLOCKED: vite-react-ssg manualChunks incompatibility (see Appendix H) |
+| 8.6 | Convert hero image to WebP/AVIF | `todo` | hero-background.jpg (187KB) → WebP (~90KB). Verify LCP improvement | BRD v36.7 §D6. May require build pipeline plugin |
+| 8.7 | Add responsive srcset to lifestyle images | `todo` | Below-fold images serve appropriately sized variants | BRD v36.7 §D6. Images currently oversized for mobile viewports |
+
+---
+
 ### 📋 Audit History
 
 | Audit | Date | Scope | New Findings |
@@ -936,3 +954,4 @@ Per user directive (2026-02-11): The **page layout** (section backgrounds, headi
 | 2026-02-13 | **SEO/AEO Gap Analysis: Gaps 1-7 + 10 CLOSED.** Removed duplicate meta tags from `index.html`. Added `postalAddress`, `geo`, granular `areaServed` to homepage JSON-LD. Added `noIndex` to `Placeholder.tsx` and `NotFound.tsx`. Added `FAQPage` schema to 4 Smart Website tier pages via upgraded `SEO.tsx` (now supports array `structuredData`). Migrated `Pricing.tsx` from `dangerouslySetInnerHTML` to SEO component. Added location keywords (Long Beach/OC/LA) to 12 page descriptions. Gap 11 (ExpandableFeatureCard content depth) closed in prior cycle. Gap 8 (location landing pages) deferred. | Lovable |
 | 2026-02-13 | **SEO/AEO Gap 8: CLOSED.** Created 3 location landing pages (`/locations/long-beach`, `/locations/orange-county`, `/locations/los-angeles`) with reusable `LocationPageTemplate`. Each has LocalBusiness JSON-LD, geo coords, service grid, local testimonials, industry list, Google Maps embed, nearby-city tags. Added to routes.tsx, config/routes.ts, sitemap.xml, footer Resources column. **All 11 SEO/AEO gaps now closed.** | Lovable |
 | 2026-02-15 | **Phase 7: GTM Trust & Revenue Fixes (BRD v36.0).** Fixed 5 dead portfolio links, PricingTeaser tier naming, FAQ pricing errors, SSG anchor violations, added Book a Call CTAs, lifecycle headers, comparison page help prompts, Services double Layout bug. BRD updated to v36.0 with 12 amendments. | Lovable |
+| 2026-02-18 | **Phase 8: Core Web Vitals & PageSpeed Optimization (BRD v36.7).** Non-render-blocking font loading, LCP fetchPriority="high", descriptive link text (SEO), 44px touch targets (a11y). Accessibility 100, SEO 100, Best Practices 100. Performance 64 pending JS bundle splitting (D5) and image format optimization (D6). | Lovable |
