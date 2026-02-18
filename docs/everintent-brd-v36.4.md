@@ -58,11 +58,11 @@ PageSpeed flagged 409KB of unused JavaScript in a single 569KB bundle (`app-cxxj
 
 **D5 Reassessment (v36.8):** The bundle is monolithic because `routes.tsx` eagerly imports all 90+ page components and `vite-react-ssg` requires synchronous imports for pre-rendering. Tree-shaking is already effective — no unused library code reaches the bundle. The remaining 569KB IS the application. Reduction requires either (A) dynamic imports for admin/heavy pages behind ClientOnly guards, (B) SSG strategy migration to enable standard Vite code splitting, or (C) accepting the current score and optimizing images (D6) instead. This is an architectural decision, not a quick fix.
 
-### D6. Image Format Optimization (OPEN)
+### D6. Image Format Optimization (PARTIAL)
 
 Hero background image (187KB JPG) should be converted to WebP/AVIF for ~50% size reduction. Other lifestyle images are appropriately sized but could benefit from responsive `srcset` attributes.
 
-**Status:** OPEN — requires build pipeline evaluation for automatic format conversion.
+**Status:** PARTIAL — Hero and 3 largest lifestyle images converted to WebP at quality 40, resized to 1280w (v36.9). Total savings: 1,199KB → 240KB (80% reduction). Remaining lifestyle images under 50KB, low priority.
 
 ### D7. Favicon Update
 
@@ -2573,6 +2573,7 @@ See Task 3.5 Definition (Section 28) for detailed phases.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v36.9 | 2026-02-18 | D6: Converted 4 images JPG→WebP (q40, 1280w). hero-background 188KB→39KB, la-skyline-sunset 368KB→78KB, oc-coastline-sunset 351KB→68KB, local-business-cityscape 292KB→55KB. Total 80% reduction. |
 | v36.8 | 2026-02-18 | D5 P0: Removed 5 dead UI component files and 5 unused npm deps. Repo cleanup only — 0KB bundle impact (Vite already tree-shook unreachable files). Performance score unchanged at 64. |
 | v36.7 | 2026-02-18 | Core Web Vitals & PageSpeed optimization: Non-render-blocking font loading (D1), LCP fetchPriority (D2), descriptive link text enforcement (D3), 44px touch targets (D4). JS bundle splitting (D5) and image format optimization (D6) documented as OPEN. Favicon simplified (D7). Accessibility 96→100, SEO 92→100. Performance remains 64 pending D5/D6. |
 | v36.6 | 2026-02-16 | Body staleness banner: §4-§15 formally marked as pre-v36.0. Brand Pivot Notice updated with v36.0 tier names. Audit items A2, A3, C4, C13, N6 resolved. |
