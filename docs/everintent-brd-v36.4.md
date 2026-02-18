@@ -54,6 +54,8 @@ PageSpeed flagged 409KB of unused JavaScript in a single 569KB bundle (`app-cxxj
 
 **Constraint:** Any solution must NOT break SSG pre-rendering or cause hydration mismatches.
 
+**P0 Dead Code Removal (v36.8):** Removed 5 unused shadcn/ui wrapper components (chart, command, drawer, calendar, carousel) and uninstalled 6 orphaned dependencies (recharts, cmdk, vaul, date-fns, react-day-picker, embla-carousel-react). Estimated savings: 150-170KB. These components were auto-scaffolded by shadcn/ui CLI but never imported by any application code.
+
 ### D6. Image Format Optimization (OPEN)
 
 Hero background image (187KB JPG) should be converted to WebP/AVIF for ~50% size reduction. Other lifestyle images are appropriately sized but could benefit from responsive `srcset` attributes.
@@ -2569,6 +2571,7 @@ See Task 3.5 Definition (Section 28) for detailed phases.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v36.8 | 2026-02-18 | D5 P0: Removed 5 dead UI components and 6 unused npm dependencies (~150-170KB). Bundle reduced from 569KB. |
 | v36.7 | 2026-02-18 | Core Web Vitals & PageSpeed optimization: Non-render-blocking font loading (D1), LCP fetchPriority (D2), descriptive link text enforcement (D3), 44px touch targets (D4). JS bundle splitting (D5) and image format optimization (D6) documented as OPEN. Favicon simplified (D7). Accessibility 96→100, SEO 92→100. Performance remains 64 pending D5/D6. |
 | v36.6 | 2026-02-16 | Body staleness banner: §4-§15 formally marked as pre-v36.0. Brand Pivot Notice updated with v36.0 tier names. Audit items A2, A3, C4, C13, N6 resolved. |
 | v36.5 | 2026-02-16 | Sitemap and navigation spec update: §16 sitemap reflects all current routes (checkout, locations, compare, add-ons, FAQ, help, support, accessibility). §17.1 header nav updated to v36 product names. §17.2 footer updated to 5-column structure with Legal column. |
