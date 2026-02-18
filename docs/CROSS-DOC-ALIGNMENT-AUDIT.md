@@ -775,7 +775,7 @@
 | AE12 | AI Employee sub-pages: FAQPage schema | — | AfterHours, FrontOffice, FullAIEmployee all have FAQPage | ✅ | None |
 | AE13 | Single H1 per page | §Appendix B | — | ⚠️ | Needs page-by-page audit |
 | AE14 | Semantic HTML (`<header>`, `<main>`, `<section>`) | SEO best practices | Layout.tsx uses semantic elements | ⚠️ | **Verify** all pages use semantic structure |
-| AE15 | Lazy loading on images | SEO best practices | — | ⚠️ | **Verify** images have `loading="lazy"` |
+| AE15 | Lazy loading on images | SEO best practices | — | ✅ | Hero uses fetchPriority="high" + loading="eager" (BRD §D2). Below-fold images verified lazy. v36.7. |
 | AE16 | Alt text on all images | §12.6 | — | ⚠️ | Needs audit |
 
 ---

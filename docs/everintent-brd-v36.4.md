@@ -60,6 +60,12 @@ Hero background image (187KB JPG) should be converted to WebP/AVIF for ~50% size
 
 **Status:** OPEN — requires build pipeline evaluation for automatic format conversion.
 
+### D7. Favicon Update
+
+The site favicon (`public/favicon.svg`) was simplified from a multi-path SVG sparkle icon (stroke-based, `hsl(240, 70%, 60%)`) to a single Unicode ✦ character rendered as text (`fill="#3B82F6"`, serif font). This reduces SVG complexity and renders crisply at 32x32.
+
+**Rule:** Favicon must remain an inline SVG (no external image dependency). Brand color must match the `--primary` design token or be documented as an intentional override.
+
 ---
 
 ## v36.2 Amendment — P0 Site-Wide Audit Fixes
@@ -2563,7 +2569,7 @@ See Task 3.5 Definition (Section 28) for detailed phases.
 
 | Version | Date | Changes |
 |---------|------|---------|
-| v36.7 | 2026-02-18 | Core Web Vitals & PageSpeed optimization: Non-render-blocking font loading (D1), LCP fetchPriority (D2), descriptive link text enforcement (D3), 44px touch targets (D4). JS bundle splitting (D5) and image format optimization (D6) documented as OPEN. Accessibility 96→100, SEO 92→100. Performance remains 64 pending D5/D6. |
+| v36.7 | 2026-02-18 | Core Web Vitals & PageSpeed optimization: Non-render-blocking font loading (D1), LCP fetchPriority (D2), descriptive link text enforcement (D3), 44px touch targets (D4). JS bundle splitting (D5) and image format optimization (D6) documented as OPEN. Favicon simplified (D7). Accessibility 96→100, SEO 92→100. Performance remains 64 pending D5/D6. |
 | v36.6 | 2026-02-16 | Body staleness banner: §4-§15 formally marked as pre-v36.0. Brand Pivot Notice updated with v36.0 tier names. Audit items A2, A3, C4, C13, N6 resolved. |
 | v36.5 | 2026-02-16 | Sitemap and navigation spec update: §16 sitemap reflects all current routes (checkout, locations, compare, add-ons, FAQ, help, support, accessibility). §17.1 header nav updated to v36 product names. §17.2 footer updated to 5-column structure with Legal column. |
 | v36.4 | 2026-02-16 | Pricing alignment: Capture/Convert/Scale setup = $0 per §A3. Web Chat setup = $497 per §A2. Social Autopilot = $97/mo. Email Authority included in Scale tier. |
