@@ -24,6 +24,8 @@ export function HeroSection() {
           alt=""
           className="w-full h-full object-cover opacity-20"
           loading="eager"
+          fetchPriority="high"
+          decoding="async"
           aria-hidden="true"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background" />
