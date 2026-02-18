@@ -54,7 +54,9 @@ PageSpeed flagged 409KB of unused JavaScript in a single 569KB bundle (`app-cxxj
 
 **Constraint:** Any solution must NOT break SSG pre-rendering or cause hydration mismatches.
 
-**P0 Dead Code Removal (v36.8):** Removed 5 unused shadcn/ui wrapper components (chart, command, drawer, calendar, carousel) and uninstalled 6 orphaned dependencies (recharts, cmdk, vaul, date-fns, react-day-picker, embla-carousel-react). Estimated savings: 150-170KB. These components were auto-scaffolded by shadcn/ui CLI but never imported by any application code.
+**P0 Dead Code Removal (v36.8 — repo cleanup, not bundle reduction):** Removed 5 unused shadcn/ui wrapper components (chart, command, drawer, calendar, carousel) and uninstalled 5 orphaned dependencies (recharts, cmdk, vaul, react-day-picker, embla-carousel-react). date-fns was kept — used by admin/Submissions.tsx. **Bundle impact: 0KB** — Vite's tree-shaking already excluded these unreachable files from the production build. The 569KB monolithic bundle remains unchanged. This was a repository hygiene fix, not a performance fix.
+
+**D5 Reassessment (v36.8):** The bundle is monolithic because `routes.tsx` eagerly imports all 90+ page components and `vite-react-ssg` requires synchronous imports for pre-rendering. Tree-shaking is already effective — no unused library code reaches the bundle. The remaining 569KB IS the application. Reduction requires either (A) dynamic imports for admin/heavy pages behind ClientOnly guards, (B) SSG strategy migration to enable standard Vite code splitting, or (C) accepting the current score and optimizing images (D6) instead. This is an architectural decision, not a quick fix.
 
 ### D6. Image Format Optimization (OPEN)
 
@@ -2571,7 +2573,7 @@ See Task 3.5 Definition (Section 28) for detailed phases.
 
 | Version | Date | Changes |
 |---------|------|---------|
-| v36.8 | 2026-02-18 | D5 P0: Removed 5 dead UI components and 6 unused npm dependencies (~150-170KB). Bundle reduced from 569KB. |
+| v36.8 | 2026-02-18 | D5 P0: Removed 5 dead UI component files and 5 unused npm deps. Repo cleanup only — 0KB bundle impact (Vite already tree-shook unreachable files). Performance score unchanged at 64. |
 | v36.7 | 2026-02-18 | Core Web Vitals & PageSpeed optimization: Non-render-blocking font loading (D1), LCP fetchPriority (D2), descriptive link text enforcement (D3), 44px touch targets (D4). JS bundle splitting (D5) and image format optimization (D6) documented as OPEN. Favicon simplified (D7). Accessibility 96→100, SEO 92→100. Performance remains 64 pending D5/D6. |
 | v36.6 | 2026-02-16 | Body staleness banner: §4-§15 formally marked as pre-v36.0. Brand Pivot Notice updated with v36.0 tier names. Audit items A2, A3, C4, C13, N6 resolved. |
 | v36.5 | 2026-02-16 | Sitemap and navigation spec update: §16 sitemap reflects all current routes (checkout, locations, compare, add-ons, FAQ, help, support, accessibility). §17.1 header nav updated to v36 product names. §17.2 footer updated to 5-column structure with Legal column. |
