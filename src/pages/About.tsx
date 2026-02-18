@@ -42,7 +42,7 @@ const About = () => {
   return (
     <>
       <SEO
-        title="About Us"
+        title="About"
         description="25+ years of enterprise automation, now serving local businesses in Long Beach, LA & OC. Systems that pay for themselves."
         canonical="/about"
         structuredData={{

@@ -167,7 +167,7 @@ const FAQ = () => {
   return (
     <>
       <SEO
-        title="Frequently Asked Questions"
+        title="FAQ"
         description="Common questions about EverIntent Smart Websites, AI Employee, pricing, setup, and support. Get answers fast."
         canonical="/faq"
         structuredData={{

@@ -223,7 +223,7 @@ const SmartWebsites = () => {
   return (
     <>
       <SEO 
-        title="Smart Websites from $249"
+        title="Smart Websites"
         description="Professional websites built in 5 days. AI chat, missed-call text-back, and booking included. Serving Long Beach, LA & Orange County."
         canonical="/smart-websites"
         structuredData={{

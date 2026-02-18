@@ -151,7 +151,7 @@ const Contact = () => {
   return (
     <>
       <SEO
-        title="Contact Us"
+        title="Contact"
         description="Get in touch about AI Employee or Smart Websites. We respond within 24 hours. Long Beach, LA & Orange County."
         canonical="/contact"
         structuredData={{

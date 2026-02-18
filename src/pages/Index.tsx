@@ -109,6 +109,23 @@ const localBusinessSchema = {
   }
 };
 
+/** SiteNavigationElement — tells Google which pages are primary navigation (BRD v36.13 §D9) */
+const siteNavigationSchema = {
+  "@context": "https://schema.org",
+  "@type": "SiteNavigationElement",
+  "name": "Main Navigation",
+  "hasPart": [
+    { "@type": "WebPage", "name": "AI Employee", "url": "https://everintent.com/let-ai-handle-it" },
+    { "@type": "WebPage", "name": "Smart Websites", "url": "https://everintent.com/smart-websites" },
+    { "@type": "WebPage", "name": "Industries", "url": "https://everintent.com/industries" },
+    { "@type": "WebPage", "name": "Services", "url": "https://everintent.com/services" },
+    { "@type": "WebPage", "name": "Portfolio", "url": "https://everintent.com/portfolio" },
+    { "@type": "WebPage", "name": "Pricing", "url": "https://everintent.com/pricing" },
+    { "@type": "WebPage", "name": "About", "url": "https://everintent.com/about" },
+    { "@type": "WebPage", "name": "Contact", "url": "https://everintent.com/contact" }
+  ]
+};
+
 /**
  * Index - Homepage component
  * 
@@ -125,10 +142,10 @@ const Index = () => {
   return (
     <main>
       <SEO
-        title="AI Employee and Smart Websites"
+        title="AI Employee & Smart Websites"
         description="AI Employee answers calls 24/7, books appointments, and captures every lead. Smart Websites from $249. Serving Long Beach, LA & OC."
         canonical="/"
-        structuredData={localBusinessSchema}
+        structuredData={[localBusinessSchema, siteNavigationSchema]}
       />
       <HeroSection />
       <HowWeHelpSection />

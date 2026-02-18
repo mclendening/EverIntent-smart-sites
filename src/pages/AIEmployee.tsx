@@ -113,7 +113,7 @@ export default function AIEmployee() {
   return (
     <>
       <SEO 
-        title="AI Employee: 24/7 AI Phone Answering"
+        title="AI Employee"
         description="AI receptionist that answers calls 24/7, books appointments, and recovers missed leads. From $197/mo. Long Beach, LA & OC."
         canonical="/let-ai-handle-it"
         structuredData={{

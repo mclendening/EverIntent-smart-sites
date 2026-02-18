@@ -192,7 +192,7 @@ const Pricing = () => {
   return (
     <>
       <SEO
-        title="Pricing: Smart Websites and AI Employee"
+        title="Pricing"
         description="Websites from $249. AI automation from $197/mo. No contracts, no hidden fees. Serving Long Beach, LA & Orange County."
         canonical="/pricing"
         structuredData={faqSchema}
