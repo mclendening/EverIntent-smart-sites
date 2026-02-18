@@ -30,9 +30,9 @@ import {
   MessageSquare,
   CalendarCheck,
 } from 'lucide-react';
-import localBusinessCityscape from '@/assets/lifestyle/local-business-cityscape.jpg';
-import laSkyline from '@/assets/lifestyle/la-skyline-sunset.jpg';
-import ocCoastline from '@/assets/lifestyle/oc-coastline-sunset.jpg';
+import localBusinessCityscape from '@/assets/lifestyle/local-business-cityscape.webp';
+import laSkyline from '@/assets/lifestyle/la-skyline-sunset.webp';
+import ocCoastline from '@/assets/lifestyle/oc-coastline-sunset.webp';
 
 /** Region-to-image map for hero backgrounds */
 export const regionHeroImages: Record<string, { src: string; alt: string }> = {

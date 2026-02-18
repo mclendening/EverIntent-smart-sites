@@ -937,7 +937,7 @@ Per user directive (2026-02-11): The **page layout** (section backgrounds, headi
 | 10.3 | Replace generic "Learn more" link text | `done` | 3 links in HowWeHelpSection use descriptive text | BRD v36.7 §D3. SEO score 92→100 |
 | 10.4 | Fix cookie consent touch targets (44px) | `done` | "Privacy Policy" and "Cookie Settings" inline links have min 44x44px | BRD v36.7 §D4. Accessibility score 96→100 |
 | 10.5 | JS bundle code splitting | `blocked` | P0 repo cleanup complete (0KB bundle impact — Vite already tree-shook dead files). 569KB monolithic bundle remains. Requires architectural decision: (A) dynamic admin imports, (B) SSG migration, or (C) accept and optimize images instead. | BRD v36.8 §D5. Score unchanged at 64 mobile / 98 desktop. |
-| 10.6 | Convert hero image to WebP/AVIF | `todo` | hero-background.jpg (187KB) → WebP (~90KB). Verify LCP improvement | BRD v36.7 §D6. May require build pipeline plugin |
+| 10.6 | Convert hero image to WebP/AVIF | `done` | Hero + 3 largest lifestyle images converted. Remaining images under 50KB. | BRD v36.9 §D6. |
 | 10.7 | Add responsive srcset to lifestyle images | `todo` | Below-fold images serve appropriately sized variants | BRD v36.7 §D6. Images currently oversized for mobile viewports |
 
 ---
