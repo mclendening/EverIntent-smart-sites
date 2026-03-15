@@ -38,8 +38,8 @@ interface NavDropdownProps {
  */
 export function NavDropdown({ label, items, hubPath, className }: NavDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const openTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const openTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleMouseEnter = () => {
     if (closeTimeoutRef.current) {

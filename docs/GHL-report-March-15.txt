@@ -1,0 +1,114 @@
+========================================================================
+GHL FEATURE INTELLIGENCE REPORT — Mid-Feb to Mid-Mar 2026
+Enterprise / Whale Focus | Stack-Ranked by Zero-Touch Viability
+Report Date: March 15, 2026
+========================================================================
+
+RANKING METHODOLOGY
+- Zero-Touch Score (ZTS): 1–10 scale. 10 = fully automated sales/delivery, no human needed.
+- Market Entry: Quick Start (QS) / Moderate (M) / High Effort (HE)
+- Enterprise Target: Y = multi-location/multi-client/whale. N = SMB-focused.
+
+========================================================================
+STACK-RANKED FEATURE TABLE
+========================================================================
+
+| Rank | Feature | Date | Ent? | Description | GTM Strategy | n8n/AI Amplifier | Entry | ZTS | Source |
+|------|---------|------|------|-------------|--------------|------------------|-------|-----|--------|
+| 1 | Agent Studio: Vibe Code Agents | Feb 27 | Y | Built-in AI assistant generates/refines/tests agents via chat. Visual graph preview, automated smoke tests, LLM test suites. Version-scoped history. | White-label AI agents per vertical; sell "done-for-you" agent builds at $2-5K/agent. Deploy via API across 100s of sub-accounts. Affiliates pitching "AI employee agency" model. | n8n: Bulk-deploy agents via API across sub-accounts. Claude: Generate agent prompts per vertical. ChatGPT: Create test suites. Codex: Build agent config templates programmatically. | QS | 9 | ideas.gohighlevel.com/changelog, Release Radar Feb 23-27 |
+| 2 | Deploy Agents via API | Feb 27 | Y | Programmatic agent deployment for multi-location operations. | Zero-touch: n8n workflow triggers agent deployment on new sub-account creation. Sell "instant AI setup" as premium onboarding. | n8n: Webhook on sub-account creation → API call to deploy pre-built agent. Claude: Dynamic prompt generation per client vertical. | QS | 10 | Release Radar Feb 23-27 |
+| 3 | Reselling Reporting Dashboard | Feb 27 | Y | Agency-level revenue/cost/profit/MRR tracking across sub-accounts. Filter by sub-account, product, date. Export-ready. | Whale visibility: Show enterprise clients their ROI. Upsell low-margin accounts. Use data to auto-generate monthly reports. | n8n: Scheduled data pull → auto-generate PDF reports → email to clients. ChatGPT: Narrative summaries of performance data. | QS | 8 | Release Radar Feb 23-27 |
+| 4 | AI Workflow Builder: Full Settings Control | Mar 13 | Y | Natural language configures workflow name, re-entry, time zones, sender details, time windows. Single prompt → production-ready workflow. | Sell "workflow-as-a-service" packages. Build client automations in minutes, bill hours. Deploy identical workflows across locations via snapshots. | n8n: Trigger workflow creation via GHL API with pre-built prompts per use case. Claude: Generate complex workflow descriptions. | QS | 9 | ideas.gohighlevel.com/changelog Mar 13 |
+| 5 | SaaS Onboarding Revamp | Feb 27 | Y | Streamlined SaaS Mode client onboarding flow. Reduced friction for white-label client activation. | Zero-touch onboarding funnel: Lead → checkout → auto-provision sub-account → snapshot deploy → agent deploy. No human touch. | n8n: Webhook on new SaaS signup → deploy snapshot → deploy agent → send welcome sequence. | QS | 10 | Release Radar Feb 23-27 |
+| 6 | Voice AI: Advanced Controls + Prompt Editor | Mar 2-6 | Y | Fine-grained call behavior: silence timeout, response speed, greeting delay, transcription tuning, noise cancellation, ambient volume, speech normalization. AI-powered prompt editing with diff view. | Sell "AI receptionist" packages to multi-location medical/legal/home services. Premium pricing for advanced voice config. | n8n: Bulk-configure voice agents across sub-accounts via API. Claude: Generate industry-specific voice prompts. | M | 8 | Release Radar Mar 2-6 |
+| 7 | Email AI: Import & Convert Templates | Mar 13 | Y | Import emails from HubSpot, Mailchimp, ActiveCampaign, or any inbox. Auto-convert to editable GHL templates. | Migration play: Offer "switch from HubSpot" packages. Import prospect's existing emails, improve with AI, show before/after. Zero selling — let the demo sell. | n8n: Scrape competitor email examples → auto-import → AI optimize → deploy as campaigns. | QS | 7 | ideas.gohighlevel.com/changelog Mar 13 |
+| 8 | Custom Agents in Ask AI | ~Mar 10 | Y | Connect Agent Studio agents to internal Ask AI for team use. | Internal ops: Deploy knowledge agents for onboarding, SOPs, client data lookup. Sell "internal AI assistant" add-on to enterprise clients. | n8n: Sync knowledge bases from Notion/Google Docs → Agent Studio. Claude: Curate and structure knowledge bases. | M | 6 | ghlcrms.com, community sources |
+| 9 | Advanced SmartList Filtering | Mar 13 | Y | Standardized date/string/numeric operators. DND suffix filters. Custom objects support. Opportunity filter rename. | Enterprise segmentation: Offer "data hygiene + segmentation audit" service. Auto-build smart lists per vertical. | n8n: Auto-create SmartLists via API based on client vertical templates. ChatGPT: Generate filter logic from plain English requirements. | QS | 7 | ideas.gohighlevel.com/changelog Mar 13 |
+| 10 | Products: Cost Price & Margin Tracking | Mar 2-6 | Y | Track cost, margins at product/variant level. Export line item costs in CSV. | E-commerce whale play: Offer profit optimization consulting using native margin data. Auto-alert on low-margin products. | n8n: Pull margin data → flag underperformers → auto-adjust pricing or notify. | M | 5 | Release Radar Mar 2-6 |
+| 11 | E-commerce PDP Overhaul | Mar 12 | N | Variant-image sync, carousel/gallery/two-column layouts, image zoom/lightbox, variant pills, adjustable image sizing. | Sell "store optimization" packages. Before/after conversion lift demos. | n8n: Auto-configure PDP settings across sub-accounts. A/B test layouts. | M | 4 | ideas.gohighlevel.com/changelog Mar 12 |
+| 12 | Conversation AI Response Styles | Feb 27 | Y | Concise/Balanced/Detailed bot reply modes per bot. | Vertical-specific bot configs: Concise for appointment booking, Detailed for support/FAQ. Sell "bot tuning" service. | n8n: Bulk-configure response styles across sub-accounts based on vertical. | QS | 6 | Release Radar Feb 23-27 |
+| 13 | RCS Messaging Beta | Feb 27 | Y | Rich Communication Services channel — rich media messaging, branding, interactive buttons. | Early mover advantage on RCS. Offer "RCS campaign setup" before competitors. Higher engagement than SMS. | n8n: RCS campaign automation triggered by workflow events. ChatGPT: Generate rich media message templates. | HE | 7 | Release Radar Feb 23-27 |
+| 14 | Bulk Export/Import Companies + Custom Objects | Feb 23-27 | Y | Bulk data operations for company objects and custom objects. Mass import/export/actions. | Enterprise data migration: Offer "CRM migration" packages. Import from Salesforce/HubSpot at scale. | n8n: ETL pipelines — extract from source CRM → transform → bulk import to GHL. | M | 6 | Release Radar Feb 23-27 |
+| 15 | Pre-Built A2P Registration Wizard | Mar 2-6 | Y | Auto-generates A2P-compliant chat widget, simplified use-case selection, blocks high-risk combos, auto age-gating. | Compliance-as-a-service: Handle A2P registration for clients. Reduce rejection rates. Bundle with onboarding. | n8n: Auto-trigger A2P registration on new sub-account creation. Monitor registration status. | M | 7 | Release Radar Mar 2-6 |
+| 16 | Canva Integration in Media Storage | Feb 27 | N | Native Canva tab inside Media Storage. Browse/edit/download/import designs. One account per location. | Bundle "branded asset library" with onboarding. Canva templates per vertical. | n8n: Auto-import Canva designs to new sub-accounts. | QS | 3 | Release Radar Feb 23-27 |
+| 17 | LeadConnector Desktop App | Feb 27 | N | macOS/Windows native app. Faster, browser-free. Native OS notifications. | White-label desktop app as premium differentiator. | N/A — client-side UX improvement. | QS | 2 | Release Radar Feb 23-27 |
+| 18 | WordPress Snapshots | Feb 23 | N | Pre-built WordPress migration snapshots. | Migration play: "Move from WordPress in 1 click." Target WordPress agencies. | n8n: Auto-detect WordPress sites → trigger migration offer campaigns. | QS | 5 | Release Radar Feb 23 |
+| 19 | LinkedIn Ads Snapshots | Feb 23 | Y | LinkedIn ad campaign templates ready to deploy. | B2B whale acquisition: Deploy LinkedIn ads targeting enterprise decision-makers. Sell "LinkedIn lead gen" packages. | n8n: Auto-deploy LinkedIn ad snapshots per vertical. ChatGPT: Generate ad copy variations. | M | 6 | Release Radar Feb 23 |
+| 20 | Shipping Sort & Auto-Select | Mar 13 | N | Cheapest shipping auto-selected. Price-sorted display. Dynamic recalculation. | E-commerce conversion optimization. Reduces checkout friction. | Minimal automation needed — works automatically. | QS | 2 | ideas.gohighlevel.com/changelog Mar 13 |
+| 21 | Rentals Calendar Beta | Mar 2-6 | N | Calendar system for rental businesses. | Niche play: target rental/property management companies. | n8n: Sync rental calendars with Airbnb/VRBO APIs. | HE | 4 | Release Radar Mar 2-6 |
+| 22 | Multilingual Transcription | Mar 2-6 | Y | Multi-language voice transcription support. | Enterprise play: Serve multi-lingual markets (healthcare, legal, real estate in bilingual regions). | n8n: Route transcripts to translation APIs for full multilingual support. | M | 5 | Release Radar Mar 2-6 |
+| 23 | Ad Manager Conversion Destinations | Mar 2-6 | Y | Configure conversion destinations in Ad Manager. | Better ROAS tracking for enterprise ad spend. Sell "ad optimization" packages. | n8n: Pull conversion data → auto-optimize campaigns. | M | 5 | Release Radar Mar 2-6 |
+| 24 | IVR Call Whisper | Mar 2-6 | Y | Whisper message to agent before connecting call. Context before pickup. | Enterprise call centers: Sell "smart routing + whisper" packages. Agent knows caller context before answering. | n8n: Dynamic whisper content based on CRM data lookup. | M | 5 | Release Radar Mar 2-6 |
+| 25 | Documents & Contracts Staff Selection | Feb 27 | N | Template-level staff assignment for documents/contracts. | Operational efficiency for multi-staff agencies. | n8n: Auto-assign staff based on deal owner or pipeline stage. | QS | 3 | Release Radar Feb 23-27 |
+| 26 | New Templates (Mar 14) | Mar 14 | N | Website, email, form, survey, social, ad templates across verticals (medical, insurance, automotive, etc.). | Snapshot + template bundles per vertical. Quick-launch packages. | n8n: Auto-deploy vertical-specific template bundles on sub-account creation. | QS | 4 | ideas.gohighlevel.com/changelog Mar 14 |
+| 27 | Global Languages Rollout | Mar 2-6 | Y | Platform-wide language support expansion. | International enterprise markets: LATAM, EU, APAC expansion. | n8n: Auto-configure language settings based on client locale. | M | 4 | Release Radar Mar 2-6 |
+| 28 | Marketplace Tokens & Compliance | Mar 2-6 | Y | Token-based marketplace access, compliance controls. | Marketplace monetization for SaaS resellers. Sell apps/integrations. | n8n: Auto-provision marketplace tokens for new clients. | HE | 5 | Release Radar Mar 2-6 |
+
+========================================================================
+TOP 5 ZERO-TOUCH AUTOMATED SELLING PLAYS
+========================================================================
+
+1. AI EMPLOYEE AGENCY (ZTS: 10)
+   Features: Agent Studio Vibe Code + Deploy via API + SaaS Onboarding
+   Flow: LinkedIn/Meta ad → landing page → checkout → n8n webhook → auto-provision sub-account → deploy snapshot → deploy AI agent → welcome sequence
+   Revenue: $497-2,997/mo per client
+   n8n: 4 workflows (lead capture, provisioning, agent deploy, reporting)
+   
+2. ENTERPRISE MIGRATION MACHINE (ZTS: 8)
+   Features: Email AI Import + Bulk Import + WordPress Snapshots
+   Flow: Scrape prospect's current stack → auto-generate migration demo → personalized video → checkout
+   Revenue: $2,500 setup + $497/mo
+   n8n: 3 workflows (prospect detection, migration demo, onboarding)
+   
+3. VOICE AI RECEPTIONIST FACTORY (ZTS: 8)
+   Features: Voice AI Advanced Controls + Multilingual + IVR Whisper
+   Flow: Vertical-specific landing pages → demo call → auto-provision → voice agent deploy
+   Revenue: $997-2,497/mo per location
+   n8n: 5 workflows (lead, demo, provision, deploy, reporting)
+   
+4. RESELLING PROFIT OPTIMIZER (ZTS: 7)
+   Features: Reselling Dashboard + Margin Tracking + SmartList Filtering
+   Flow: Auto-pull margin data → identify upsell opportunities → trigger campaigns → close
+   Revenue: 15-30% margin on resold services
+   n8n: 3 workflows (data pull, analysis, campaign trigger)
+   
+5. RCS EARLY MOVER PLAY (ZTS: 7)
+   Features: RCS Messaging Beta + Conversation AI + A2P Wizard
+   Flow: RCS campaigns with rich media → AI follow-up → booking
+   Revenue: $497-997/mo add-on
+   n8n: 2 workflows (RCS campaign automation, A2P compliance)
+
+========================================================================
+MARKET ENTRY ASSESSMENT BY VERTICAL
+========================================================================
+
+| Vertical | Best Features | Entry | Competition | Revenue Potential |
+|----------|--------------|-------|-------------|-------------------|
+| Multi-location Healthcare | Voice AI, Multilingual, A2P, Agent Studio | M | Medium | $2-5K/mo/location |
+| Legal (multi-partner firms) | Voice AI, IVR Whisper, SmartList, Agents | M | Low | $1.5-3K/mo/firm |
+| Home Services (franchise) | Agent Deploy API, SaaS Onboarding, Snapshots | QS | High | $500-1.5K/mo/location |
+| E-commerce (DTC brands) | PDP Overhaul, Margin Tracking, Shipping | M | High | $997-2.5K/mo |
+| SaaS Reselling | Reselling Dashboard, SaaS Onboarding, Templates | QS | Medium | $5-50K/mo MRR |
+| Real Estate (brokerages) | Agent Studio, Voice AI, SmartList, LinkedIn Ads | M | Medium | $2-5K/mo/brokerage |
+| Education (multi-campus) | Communities, Global Languages, Agents | HE | Low | $3-10K/mo/institution |
+
+========================================================================
+CITATIONS & SOURCES
+========================================================================
+
+1. ideas.gohighlevel.com/changelog — Official GHL changelog (Mar 12-14, 2026 entries)
+2. gohighlevel.com/post/release-radar-blog-february-23 — Release Radar Feb 23-27, 2026
+3. gohighlevel.com/post/release-radar-blog-march-2 — Release Radar Mar 2-6, 2026
+4. facebook.com/highlevelreviews — Release Radar videos (Feb-Mar 2026)
+5. ghlcrms.com/ghl-ai-features-agent-studio-2026/ — Agent Studio deep dive
+6. ghlcrms.com/ghl-workflows-ai-agents-automation-guide-2026/ — Workflows + AI Agents guide
+7. getautomized.com/gohighlevel-workflow-automation/ — Workflow AI Builder guide (Mar 7, 2026)
+8. help.gohighlevel.com/support/solutions/articles/155000006100 — Workflow AI Builder docs (updated Mar 9, 2026)
+9. ghl-services-playbooks-automation-crm-marketing.ghost.io — SaaS Mode, reselling, affiliate playbooks
+10. highlevelautomationlab.com — White-label agency blueprint
+11. whitebeardstrategies.com — AI workflow builder analysis (Feb 18, 2026)
+12. reddit.com/r/gohighlevel — Community discussions on AI agents, automation
+
+========================================================================
+END OF REPORT
+========================================================================
