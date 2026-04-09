@@ -27,7 +27,7 @@
  * - Consumers provide raw theme data; this module handles all formatting.
  */
 
-import type { StyleModule } from '../components/StyleModulesEditor';
+import type { StyleModule } from '../types';
 
 // ─── THEME PUBLISHER INTERFACE ───────────────────────────────
 
@@ -454,5 +454,117 @@ ${styleModulesCss}  }
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: hsl(var(--muted)); }
 ::-webkit-scrollbar-thumb { background: hsl(var(--muted-foreground) / 0.5); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground) / 0.7); }`;
+::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground) / 0.7); }
+
+/* ─── ADA Accessibility Widget CSS ─────────────────────────── */
+
+/* Text Size — 3 levels */
+html.ada-text-size-1 { font-size: 110% !important; }
+html.ada-text-size-2 { font-size: 120% !important; }
+html.ada-text-size-3 { font-size: 135% !important; }
+
+/* Dyslexia-friendly font */
+html.ada-dyslexia-font * { font-family: 'OpenDyslexic', 'Comic Sans MS', sans-serif !important; }
+
+/* Readable / legible font override */
+html.ada-readable-font * { font-family: 'Verdana', 'Tahoma', 'Arial', sans-serif !important; letter-spacing: 0.03em !important; }
+
+/* Bold text */
+html.ada-bold-text * { font-weight: bold !important; }
+
+/* Highlight titles */
+html.ada-highlight-titles h1, html.ada-highlight-titles h2, html.ada-highlight-titles h3,
+html.ada-highlight-titles h4, html.ada-highlight-titles h5, html.ada-highlight-titles h6 {
+  outline: 2px solid hsl(var(--accent)) !important;
+  outline-offset: 2px !important;
+  padding: 2px 6px !important;
+}
+
+/* Highlight links */
+html.ada-highlight-links a { outline: 2px solid hsl(var(--accent)) !important; outline-offset: 2px !important; text-decoration: underline !important; }
+
+/* Text alignment */
+html.ada-align-left * { text-align: left !important; }
+html.ada-align-center * { text-align: center !important; }
+html.ada-align-right * { text-align: right !important; }
+
+/* Letter spacing — 3 levels */
+html.ada-letter-spacing-1 * { letter-spacing: 0.05em !important; }
+html.ada-letter-spacing-2 * { letter-spacing: 0.1em !important; }
+html.ada-letter-spacing-3 * { letter-spacing: 0.15em !important; }
+
+/* Line height — 3 levels */
+html.ada-line-height-1 * { line-height: 1.8 !important; }
+html.ada-line-height-2 * { line-height: 2.2 !important; }
+html.ada-line-height-3 * { line-height: 2.6 !important; }
+
+/* High contrast */
+html.ada-high-contrast { filter: contrast(1.5) !important; }
+
+/* Dark contrast */
+html.ada-dark-contrast { filter: invert(1) hue-rotate(180deg) !important; }
+html.ada-dark-contrast img, html.ada-dark-contrast video, html.ada-dark-contrast canvas,
+html.ada-dark-contrast [style*="background-image"] { filter: invert(1) hue-rotate(180deg) !important; }
+
+/* Light contrast */
+html.ada-light-contrast { filter: contrast(0.8) brightness(1.2) !important; }
+
+/* Monochrome */
+html.ada-monochrome { filter: grayscale(1) !important; }
+
+/* High saturation */
+html.ada-high-saturation { filter: saturate(2) !important; }
+
+/* Big cursor */
+html.ada-big-cursor, html.ada-big-cursor * { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath d='M4 4l14 30 4-12 12-4z' fill='black' stroke='white' stroke-width='2'/%3E%3C/svg%3E") 4 4, auto !important; }
+
+/* Focus highlight */
+html.ada-focus-highlight *:focus { outline: 3px solid hsl(var(--accent)) !important; outline-offset: 3px !important; box-shadow: 0 0 0 5px hsl(var(--accent) / 0.3) !important; }
+
+/* Keyboard navigation indicator */
+html.ada-keyboard-nav *:focus-visible { outline: 3px dashed hsl(var(--accent)) !important; outline-offset: 4px !important; }
+
+/* Hide images */
+html.ada-hide-images img { opacity: 0.05 !important; }
+
+/* Stop animations / reduced motion */
+html.ada-stop-animations *, html.ada-stop-animations *::before, html.ada-stop-animations *::after,
+html.ada-reduced-motion *, html.ada-reduced-motion *::before, html.ada-reduced-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Mute sounds — visual indicator only; actual muting handled via JS */
+html.ada-mute-sounds video, html.ada-mute-sounds audio { opacity: 0.5 !important; outline: 2px dashed hsl(0 60% 50%) !important; }
+
+/* Text magnifier — enlarged text on hover */
+html.ada-text-magnifier p:hover, html.ada-text-magnifier span:hover, html.ada-text-magnifier li:hover,
+html.ada-text-magnifier a:hover, html.ada-text-magnifier td:hover {
+  transform: scale(1.15) !important;
+  transform-origin: left center !important;
+  transition: transform 0.2s ease !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+/* Reading line guide */
+html.ada-reading-line .ada-reading-line-el {
+  position: fixed; left: 0; right: 0; height: 3px; pointer-events: none; z-index: 99999;
+  background: hsl(var(--accent)); box-shadow: 0 0 8px hsl(var(--accent) / 0.5);
+}
+
+/* Reading mask */
+html.ada-reading-mask .ada-reading-mask-el {
+  position: fixed; left: 0; right: 0; pointer-events: none; z-index: 99998;
+  background: hsl(0 0% 0% / 0.6);
+}
+
+/* Highlight content on hover */
+html.ada-highlight-content p:hover, html.ada-highlight-content span:hover,
+html.ada-highlight-content li:hover, html.ada-highlight-content div:hover {
+  background: hsl(var(--accent) / 0.1) !important;
+  outline: 1px solid hsl(var(--accent) / 0.3) !important;
+}`;
 }
