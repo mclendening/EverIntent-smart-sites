@@ -6,7 +6,7 @@
  * Sequential channel reveals with a final summary notification.
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Phone, MessageSquare, Globe, Bell } from 'lucide-react';
 

@@ -9,7 +9,7 @@
  * - Realistic iOS styling
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Phone } from 'lucide-react';
 
 interface Message {
@@ -174,6 +174,7 @@ export function SMSDemo() {
                 </div>
               </div>
             )}
+            <div ref={scrollEndRef} />
           </div>
 
           {/* Input Bar */}

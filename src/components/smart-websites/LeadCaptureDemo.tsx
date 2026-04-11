@@ -7,7 +7,7 @@
  * prefers-reduced-motion support, ClientOnly wrapper required.
  */
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { MessageSquare } from 'lucide-react';
 

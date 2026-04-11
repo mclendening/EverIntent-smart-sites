@@ -6,7 +6,7 @@
  * Follows SMSDemo.tsx architecture.
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Phone } from 'lucide-react';
 
