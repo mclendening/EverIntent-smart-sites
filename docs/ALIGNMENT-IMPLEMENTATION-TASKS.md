@@ -505,7 +505,7 @@ All copy changes must match the outcome-first framing of the portfolio detail pa
 
 ### DO NOT TOUCH
 - [ ] Portfolio embed system / portfolio site assets
-- [ ] `public/404.html`
+- [ ] `public/404.html` (created in Phase 7.4 — do not delete)
 - [ ] Legal pages (except tech stack FAQ removal in 4.1c)
 - [ ] Nav structure
 - [ ] `checkoutConfig.ts` product structures (except `annualPrice` field in 6.1)
