@@ -55,8 +55,10 @@ const EXCLUDED_PREFIXES = [
   '/services/booking',
   '/services/reputation',
   '/services/ai-automation',
-  '/features/',
-  '/checkout/',
+  '/features/lead-capture', '/features/ai-chat', '/features/review-management',
+  '/features/mobile-app', '/features/scheduling', '/features/analytics',
+  '/checkout/launch', '/checkout/capture', '/checkout/convert', '/checkout/scale',
+  '/checkout/after-hours', '/checkout/front-office', '/checkout/full-ai', '/checkout/web-chat',
   // Industry verticals (placeholder pages) — exclude entire subtrees
   '/industries/home-services/hvac',
   '/industries/home-services/plumbing',
@@ -199,7 +201,7 @@ function getCategoryComment(route: string): string | null {
 // This must stay in sync with src/routes.tsx prerenderRoutes
 const ALL_ROUTES: string[] = [
   // Core
-  '/', '/pricing', '/about', '/contact', '/portfolio', '/careers',
+  '/', '/pricing', '/about', '/contact', '/careers',
   // Smart Websites hub
   '/smart-websites',
   // Services
