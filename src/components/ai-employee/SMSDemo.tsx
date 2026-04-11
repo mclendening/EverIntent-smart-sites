@@ -182,7 +182,7 @@ export function SMSDemo() {
                 </div>
               </div>
             )}
-            <div ref={scrollEndRef} />
+            
           </div>
 
           {/* Input Bar */}

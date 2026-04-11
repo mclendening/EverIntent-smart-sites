@@ -153,7 +153,7 @@ export function MultiChannelDemo() {
                             );
                           })}
                         </AnimatePresence>
-                        <div ref={scrollEndRef} />
+                        
                       </>
                     )}
                   </div>

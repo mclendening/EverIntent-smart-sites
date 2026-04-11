@@ -222,7 +222,7 @@ export function LeadCaptureDemo() {
                       </div>
                     </div>
                    )}
-                    <div ref={scrollEndRef} />
+                    
                 </>
               )}
             </PhoneMockup>

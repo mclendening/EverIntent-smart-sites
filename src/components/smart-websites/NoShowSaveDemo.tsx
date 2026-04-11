@@ -184,7 +184,7 @@ export function NoShowSaveDemo() {
                             <div className="bg-accent rounded-2xl rounded-br-md"><TypingDots /></div>
                           </div>
                         )}
-                        <div ref={scrollEndRef} />
+                        
                       </>
                     )}
                   </div>
