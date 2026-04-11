@@ -1,6 +1,6 @@
 # EverIntent Alignment Implementation Task List
 
-**Version:** 1.7  
+**Version:** 1.8  
 **Created:** 2026-04-11  
 **Source:** Claude Implementation Spec + Codebase Audit + Analysis Cross-Reference  
 **Reference:** `docs/ALIGNMENT-ANALYSIS-v1.md`  
@@ -432,10 +432,13 @@ Architecture approved 2026-04-11. Downstream updates applied:
 - **Decision resolved:** Use framer-motion (matches existing pattern)
 
 ### Phase 5 Verification Checklist
-- [ ] Animated demo on Capture, Convert, Scale pages
-- [ ] All wrapped in `ClientOnly`
-- [ ] `prefers-reduced-motion` respected
-- [ ] Mobile layout (375px) — stacked, no horizontal overflow
+- [x] Animated demo on Capture, Convert, Scale pages ✅
+- [x] All wrapped in `ClientOnly` ✅
+- [x] `prefers-reduced-motion` respected ✅
+- [x] Mobile layout (375px) — stacked, no horizontal overflow ✅
+- [x] MultiChannelDemo summary card visible 3+ seconds before loop reset ✅
+
+> **Phase 5 Status: ✅ COMPLETE** — All 3 demos verified by independent testing 2026-04-11
 
 ---
 
@@ -452,11 +455,13 @@ Architecture approved 2026-04-11. Downstream updates applied:
 | 6.4 | Add "Not sure which plan?" scenario cards to Compare pages | `CompareWebsites.tsx`, `CompareAIEmployee.tsx` | Feature grid first, no guidance | 3 scenario cards at top: "I just need to look professional" → Launch, etc. | Buyers self-select by problem, not budget. | [A§7] — **NEW** |
 
 ### Phase 6 Verification Checklist
-- [ ] Annual toggle works on `/pricing`
-- [ ] Annual prices calculate correctly (monthly × 10 for annual)
-- [ ] Voice AI Chat Widget in comparison table
-- [ ] "Included free with Scale" badges visible on add-ons page
-- [ ] Scenario cards on both compare pages
+- [x] Annual toggle works on `/pricing` ✅
+- [x] Annual prices calculate correctly (monthly × 10 for annual) ✅
+- [x] Voice AI Chat Widget in comparison table ✅
+- [x] "Included free with Scale" badges visible on add-ons page ✅
+- [x] Scenario cards on both compare pages ✅
+
+> **Phase 6 Status: ✅ COMPLETE** — All 4 tasks verified by independent testing 2026-04-11
 
 ---
 
@@ -543,16 +548,16 @@ Phase 4 (parallel pattern fixes) ✅ COMPLETE
   ├── 4.2 SW tier page heroes ✅
   └── 4.3 FAQ content scrub (10 rewrites) ✅
 
-Phase 5 (3 parallel components) ⬅ IN PROGRESS
+Phase 5 (3 parallel components) ✅ COMPLETE
   ├── 5.1 LeadCaptureDemo on Capture page ✅
   ├── 5.2 NoShowSaveDemo on Convert page ✅
   └── 5.3 MultiChannelDemo on Scale page ✅
 
-Phase 6 (4 parallel tasks)
-  ├── 6.1 Annual pricing toggle
-  ├── 6.2 Voice AI Chat Widget mentions
-  ├── 6.3 "Included free with Scale" badges
-  └── 6.4 Compare page scenario cards                           ← BLOCKED by 2.5B
+Phase 6 (4 parallel tasks) ✅ COMPLETE
+  ├── 6.1 Annual pricing toggle ✅
+  ├── 6.2 Voice AI Chat Widget mentions ✅
+  ├── 6.3 "Included free with Scale" badges ✅
+  └── 6.4 Compare page scenario cards ✅
 ```
 
 ---
@@ -595,3 +600,4 @@ Phase 6 (4 parallel tasks)
 | 2026-04-11 | 1.5 | **Phase 2.5B ✅ COMPLETE.** All 16 files migrated to centralized FAQ system. Added tasks 2.5B.7 (Services.tsx), 2.5B.8 (WarmyEmailDeliverability.tsx), 2.5B.9 (removed dead `faqItems` prop + `FAQAccordion` from IndustryShowcaseTemplate). Added `services` category to `faqs.ts` with 6 new entries. `grep` verification: zero hardcoded FAQ arrays in `src/`. Task 4.3 now unblocked. |
 | 2026-04-11 | 1.6 | **Phase 4 ✅ COMPLETE.** 4.1a: zero company-first intros in non-legal pages. 4.1c: zero WordPress/OVH. 4.1d: all 4 pricing tier descriptions rewritten outcome-first. 4.1e: no SLA jargon found. 4.2: all 4 SW tier page heroes updated with conviction-first headlines. 4.3: 10 FAQ answers rewritten — "setup fee" → "AI Training & Implementation fee" for $497+ tiers, "5-page" eliminated, SSL/mobile-responsive removed as selling points. All verified and approved. |
 | 2026-04-11 | 1.7 | **Phase 5 — Animated Proof Sections built.** 3 new components: `LeadCaptureDemo.tsx` (chat widget lead capture), `NoShowSaveDemo.tsx` (SMS reminder/reschedule), `MultiChannelDemo.tsx` (voice+SMS+chat activity feed). All in `src/components/smart-websites/`. Integrated into SmartLead, SmartBusiness, SmartGrowth pages. All wrapped in `ClientOnly`. All respect `prefers-reduced-motion`. Design tokens only — zero hardcoded colors. Pending iPhone verification. |
+| 2026-04-11 | 1.8 | **ALL PHASES COMPLETE.** Phase 5 verified — MultiChannelDemo timing fix (8s loop delay). Phase 6 verified — annual pricing toggle, Voice AI Chat Widget branding, "Included with Scale" badges, scenario cards on both compare pages. All 8 phases (1, 2, 2.5, 2.5B, 3, 4, 5, 6) confirmed by independent testing. 6 deferred items tracked for next sprint. |
