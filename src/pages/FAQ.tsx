@@ -105,6 +105,10 @@ const faqCategories: FAQCategory[] = [
         a: 'How many calls did you miss this week? The data says 62% of calls to local businesses go unanswered. At $200+ per missed call, that\'s $1,000+ every week walking out the door. There are no contracts — you can cancel anytime. The only risk is waiting.',
       },
       {
+        q: 'Are there contracts or cancellation fees?',
+        a: 'No contracts. No cancellation fees. We earn your business every month. Stay because it works, not because you\'re locked in.',
+      },
+      {
         q: 'What payment methods do you accept?',
         a: 'We accept all major credit cards through our secure Stripe-powered checkout. Setup fees are charged upfront, and monthly subscriptions are billed automatically.',
       },
