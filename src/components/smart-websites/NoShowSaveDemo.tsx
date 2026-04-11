@@ -146,7 +146,7 @@ export function NoShowSaveDemo() {
                     </div>
                     <Phone className="w-5 h-5 text-accent" />
                   </div>
-                  <div className="h-[400px] overflow-y-auto px-3 py-4 space-y-3">
+                  <div ref={containerRef} className="h-[400px] overflow-y-auto px-3 py-4 space-y-3">
                     {prefersReducedMotion ? (
                       <StaticView />
                     ) : (

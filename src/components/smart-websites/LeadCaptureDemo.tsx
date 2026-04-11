@@ -74,7 +74,7 @@ function StaticView() {
   );
 }
 
-function PhoneMockup({ children }: { children: React.ReactNode }) {
+function PhoneMockup({ children, containerRef }: { children: React.ReactNode; containerRef?: React.RefObject<HTMLDivElement> }) {
   return (
     <div className="relative mx-auto w-full max-w-[320px]">
       <div className="relative bg-card rounded-[2.5rem] p-2 shadow-2xl border border-border">
@@ -105,7 +105,7 @@ function PhoneMockup({ children }: { children: React.ReactNode }) {
             <MessageSquare className="w-5 h-5 text-accent" />
           </div>
           {/* Messages */}
-          <div className="h-[400px] overflow-y-auto px-3 py-4 space-y-3">
+          <div ref={containerRef} className="h-[400px] overflow-y-auto px-3 py-4 space-y-3">
             {children}
           </div>
           {/* Input Bar */}

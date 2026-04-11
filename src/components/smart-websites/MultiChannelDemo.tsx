@@ -125,7 +125,7 @@ export function MultiChannelDemo() {
                       <div className="text-muted-foreground text-xs">Tuesday Morning</div>
                     </div>
                   </div>
-                  <div className="h-[400px] overflow-y-auto px-3 py-4 space-y-3">
+                  <div ref={containerRef} className="h-[400px] overflow-y-auto px-3 py-4 space-y-3">
                     {prefersReducedMotion ? (
                       <StaticView />
                     ) : (
