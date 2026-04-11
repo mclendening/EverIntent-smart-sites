@@ -409,7 +409,9 @@ Architecture approved 2026-04-11. Downstream updates applied:
 - [x] Pricing tier descriptions are outcome-first ✅
 - [x] Each SW tier page hero is outcome-first (all 4 verified) ✅
 - [x] Zero feature-first language in `faqs.ts` (10 rewrites committed) ✅
-- [ ] Zero "5-page," "setup fee," "WordPress," "we strive to" in `faqs.ts`
+- [x] Zero "5-page," "setup fee," "WordPress," "we strive to" in `faqs.ts` ✅
+
+> **Phase 4 Status: ✅ COMPLETE** — All tasks verified by independent testing 2026-04-11
 
 ---
 
@@ -528,13 +530,8 @@ Phase 2.5 — FAQ Architecture ✅ COMPLETE
   ├── 2.5.3 Propose centralized FAQ architecture ✅
   └── 2.5.4 Build core system + initial migrations ✅
 
-Phase 2.5B — FAQ Migration Completion ⬅ DO NEXT
-  ├── 2.5B.1 Smart Website tier pages (4 files, parallel)
-  ├── 2.5B.2 AI Employee pages (4 files, parallel)
-  ├── 2.5B.3 Help + Support pages (parallel)
-  ├── 2.5B.4 Industry Showcase pages (parallel)
-  ├── 2.5B.5 Verify zero hardcoded arrays (after 2.5B.1-4)
-  └── 2.5B.6 Resolve duplicate conflicts (after 2.5B.5)
+Phase 2.5B — FAQ Migration Completion ✅ COMPLETE
+  ├── 2.5B.1-9 All files migrated ✅
 
 Phase 3 (3 streams) ✅ COMPLETE
   ├── Stream A: 3.1 + 3.2 + 3.5 (homepage + industries hero) ✅
@@ -546,10 +543,10 @@ Phase 4 (parallel pattern fixes) ✅ COMPLETE
   ├── 4.2 SW tier page heroes ✅
   └── 4.3 FAQ content scrub (10 rewrites) ✅
 
-Phase 5 (3 parallel components)
-  ├── 5.1 Capture animated demo
-  ├── 5.2 Convert animated demo
-  └── 5.3 Scale animated demo
+Phase 5 (3 parallel components) ⬅ IN PROGRESS
+  ├── 5.1 LeadCaptureDemo on Capture page ✅
+  ├── 5.2 NoShowSaveDemo on Convert page ✅
+  └── 5.3 MultiChannelDemo on Scale page ✅
 
 Phase 6 (4 parallel tasks)
   ├── 6.1 Annual pricing toggle
