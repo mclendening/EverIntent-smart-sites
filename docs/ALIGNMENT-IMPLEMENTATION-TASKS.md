@@ -1,6 +1,6 @@
 # EverIntent Alignment Implementation Task List
 
-**Version:** 1.2  
+**Version:** 1.4  
 **Created:** 2026-04-11  
 **Source:** Claude Implementation Spec + Codebase Audit + Analysis Cross-Reference  
 **Reference:** `docs/ALIGNMENT-ANALYSIS-v1.md`  
@@ -106,12 +106,14 @@
 | Header | "Get Started" | **DO NOT CHANGE** | `Header.tsx` — generic entry point, keep as-is |
 
 ### Phase 2 Verification Checklist
-- [ ] 3 objection FAQs appear on `/faq` and `/pricing`
-- [ ] No "setup" label remains on any buyer-facing page
-- [ ] Trust strip visible at `/checkout/launch` on desktop and 375px mobile
-- [ ] Every tier CTA uses outcome text (spot-check 5 pages)
-- [ ] "Want to talk first?" link on Convert, Scale, After-Hours cards
-- [ ] "Choose Your Mode" replaced with "How Much Do You Want AI to Handle?"
+- [x] 3 objection FAQs appear on `/faq` and `/pricing` — confirmed 2026-04-11
+- [x] No "setup" label remains on any buyer-facing page — confirmed 2026-04-11
+- [x] Trust strip visible at `/checkout/launch` on desktop and 375px mobile — confirmed 2026-04-11
+- [x] Every tier CTA uses outcome text (spot-check 5 pages) — confirmed 2026-04-11
+- [x] "Want to talk first?" link on Convert, Scale, After-Hours cards — confirmed 2026-04-11
+- [x] "Choose Your Mode" replaced with "How Much Do You Want AI to Handle?" — confirmed 2026-04-11
+
+> **Phase 2 Status: ✅ COMPLETE** — All 6 tasks verified on mobile 2026-04-11
 
 ---
 
@@ -257,25 +259,49 @@ No more manual JSON-LD construction per page. Schema always matches displayed co
 5. **Delete orphaned inline FAQ data** from each migrated page
 6. **Verify:** FAQPage JSON-LD output matches pre-migration content on every page
 
-### Task 2.5.4 — Downstream Task Updates (Pending Approval)
+### Task 2.5.4 — Downstream Task Updates
 
-After architecture approval, the following updates will be made:
+Architecture approved 2026-04-11. Downstream updates applied:
 
-- **Add new task** (Phase 2.5 implementation): "Build centralized FAQ system" — creates `src/data/faqs.ts` + `FAQSection` component + migrates all 20+ files
-- **Add Task 4.3:** "FAQ content rewrite" — targets `src/data/faqs.ts` (single file), not hardcoded pages
-- **Update Task 3.3:** If pricing page FAQ comes from centralized source, 3.3 uses `<FAQSection category="pricing">` instead of inline content
-- **Update Task 6.4:** Compare page scenario cards can pull from FAQ data via tags if applicable
+- **Phase 2.5 implementation complete:** `src/data/faqs.ts` + `src/components/faq/FAQSection.tsx` built. `FAQ.tsx`, `Pricing.tsx`, `SmartWebsites.tsx` migrated to centralized system.
+- **Phase 2.5B added:** FAQ Migration Completion — migrates remaining 12+ files to centralized system.
+- **Task 4.3 added:** FAQ content scrub — targets `src/data/faqs.ts` (single file). BLOCKED by 2.5B.
+- **Task 3.3 updated:** Uses centralized FAQ system. Now unblocked and COMPLETE.
+- **Task 6.4:** Compare page scenario cards can pull from FAQ data via tags if applicable.
 
-**Updated Parallel Execution Map (pending approval):**
+> **Phase 2.5 Status: ✅ COMPLETE** — Architecture approved, core system built, initial migrations done. Remaining migrations tracked in Phase 2.5B.
 
-```
-Phase 3 (updated)
-  ├── Stream A: 3.1 + 3.2 + 3.5 (homepage + industries hero)  ← NOT BLOCKED
-  ├── Stream B: 3.4 (pricing hero)                              ← NOT BLOCKED
-  └── Stream C: 3.3 (pricing cost section)                      ← BLOCKED by 2.5 implementation
-```
+---
 
-> **Phase 2.5 Status: ⏳ AUDIT COMPLETE — Awaiting architecture approval before implementation**
+## Phase 2.5B: FAQ Migration Completion
+
+> **Estimated effort:** 1-2 hours  
+> **Blocks:** Phase 4 Task 4.3 (FAQ content scrub)  
+> **Parallelism:** All page migrations are independent — can run in parallel.
+
+| # | Task | File(s) | Current State | Target State | Success Criteria |
+|---|------|---------|--------------|--------------|-----------------|
+| 2.5B.1 | Migrate Smart Website tier pages to FAQSection | `SmartSite.tsx`, `SmartLead.tsx`, `SmartBusiness.tsx`, `SmartGrowth.tsx` | Hardcoded `faqs[]` arrays + manual JSON-LD | `<FAQSection>` with product/category filters, auto JSON-LD | Zero inline FAQ arrays in these 4 files. JSON-LD auto-generated. |
+| 2.5B.2 | Migrate AI Employee pages to FAQSection | `AIEmployee.tsx`, `AfterHours.tsx`, `FrontOffice.tsx`, `FullAIEmployee.tsx` | Inline FAQPage JSON-LD in `structuredData` prop, no visible FAQ section or hardcoded arrays | `<FAQSection>` with product filters if visible FAQ needed, or FAQPage schema generated from `faqs.ts` data | Zero manual JSON-LD construction for FAQ in these files. |
+| 2.5B.3 | Migrate Help and Support pages to FAQSection | `Help.tsx`, `Support.tsx` | Inline FAQPage JSON-LD | `<FAQSection>` with appropriate filters | Zero manual JSON-LD in these files. |
+| 2.5B.4 | Migrate Industry Showcase pages to FAQSection | All `industries/*Showcase.tsx` files | `faqItems[]` passed to `IndustryShowcaseTemplate` | Industry FAQs in `faqs.ts` tagged by industry. Template uses `<FAQSection>` with industry tag filter. | Zero hardcoded FAQ arrays in showcase files. Template pulls from centralized source. |
+| 2.5B.5 | Verify zero hardcoded FAQ arrays remain | Full `src/` search | Some files still have inline FAQ | `grep -r "faqItems\|faqs\s*=" src/ --include="*.tsx"` returns zero matches outside of `faqs.ts` and `FAQSection` | No hardcoded FAQ content anywhere in `src/` except `src/data/faqs.ts`. |
+| 2.5B.6 | Resolve duplicate questions with conflicting answers | `src/data/faqs.ts` | Same question may exist with different answers from different source pages | One canonical answer per question, selected using Voice Calibration Standard | Show me every duplicate conflict with both versions + recommended winner before committing. |
+
+### Phase 2.5B Verification Checklist
+- [ ] `SmartSite.tsx` — no inline FAQ array, no manual JSON-LD
+- [ ] `SmartLead.tsx` — same
+- [ ] `SmartBusiness.tsx` — same
+- [ ] `SmartGrowth.tsx` — same
+- [ ] `AIEmployee.tsx` — no manual FAQ JSON-LD
+- [ ] `AfterHours.tsx` — same
+- [ ] `FrontOffice.tsx` — same
+- [ ] `FullAIEmployee.tsx` — same
+- [ ] `Help.tsx` — same
+- [ ] `Support.tsx` — same
+- [ ] All `*Showcase.tsx` — same
+- [ ] `grep` confirms zero hardcoded FAQ arrays in `src/`
+- [ ] All duplicate questions resolved with Voice Calibration Standard
 
 ---
 
@@ -288,7 +314,7 @@ Phase 3 (updated)
 |---|------|---------|--------------|--------------|-----------------|-------------|
 | 3.1 | Fix hero subheadline | `src/components/home/HeroSection.tsx` line 51 | "EverIntent provides AI Employee automation and websites for local businesses." | "Your phone answered 24/7. Appointments booked automatically. Leads captured while you sleep." | No company name in subheadline. Copy leads with outcomes. | [A§5, A§11, A#10] |
 | 3.2 | Rewrite HowWeHelp to cover 3 buyer types | `src/components/home/HowWeHelpSection.tsx` | All 3 cards address "bleeding wound" (missed calls) | Card 1: Credibility, Card 2: Bleeding, Card 3: Burnout (details below) | 3 distinct buyer personas addressed. Each card links to appropriate product. | [A§5, A#4] |
-| 3.3 | Add "Cost of Doing Nothing" section to Pricing | `src/pages/Pricing.tsx` | No cost-of-inaction section | 3-column stat row above tier cards (validated data below) | Section renders between hero and first tier card. Uses `bg-muted` + `text-accent` stats. **⚠️ BLOCKED by Phase 2.5 — if FAQ content on pricing page should come from centralized source.** | [A§12, A#6] |
+| 3.3 | Add "Cost of Doing Nothing" section to Pricing | `src/pages/Pricing.tsx` | No cost-of-inaction section | 3-column stat row above tier cards (validated data below) | Section renders between hero and first tier card. Uses `bg-muted` + `text-accent` stats. | [A§12, A#6] |
 | 3.4 | Fix pricing page hero headline | `src/pages/Pricing.tsx` line 206 | "Simple, Transparent Pricing" | "Stop Losing Money. Pick Your Plan." | Hero headline leads with pain, not platitude. | [A§11, A§2] |
 | 3.5 | Fix Industries hero | `src/pages/Industries.tsx` | "Built for your industry" | "Your Industry Loses $X/Month to Missed Calls. We Fix That." | Hero leads with industry-specific pain, not generic claim. | [A§6] — **NEW** |
 
@@ -315,12 +341,14 @@ Phase 3 (updated)
 **Below stats:** "Our most popular plan costs $197/month. Your missed calls cost more."
 
 ### Phase 3 Verification Checklist
-- [ ] Hero subheadline starts with "Your phone answered 24/7"
-- [ ] HowWeHelp shows 3 distinct cards for credibility/bleeding/burnout
-- [ ] Cost-of-inaction section visible on `/pricing` above tier cards (after 2.5 unblocks)
-- [ ] Pricing hero says "Stop Losing Money. Pick Your Plan."
-- [ ] Industries hero is pain-led
-- [ ] All changes render correctly at 375px
+- [x] Hero subheadline starts with "Your phone answered 24/7" — confirmed 2026-04-11
+- [x] HowWeHelp shows 3 distinct cards for credibility/bleeding/burnout — confirmed 2026-04-11
+- [x] Cost-of-inaction section visible on `/pricing` above tier cards — confirmed 2026-04-11
+- [x] Pricing hero says "Stop Losing Money. Pick Your Plan." — confirmed 2026-04-11
+- [x] Industries hero is pain-led — confirmed 2026-04-11
+- [x] All changes render correctly at 375px — confirmed 2026-04-11
+
+> **Phase 3 Status: ✅ COMPLETE** — All 5 tasks verified on mobile 2026-04-11
 
 ---
 
@@ -337,6 +365,7 @@ Phase 3 (updated)
 | 4.1d | Remove feature-first descriptions where they lead | `Pricing.tsx` websiteTiers descriptions | "Get online fast with a professional 5-page website..." | Outcome-first: "Look professional online. Capture leads from day one. Built and launched in 5 days." | Tier descriptions lead with outcomes. Feature details stay in comparison tables. | [A§2, A§3] |
 | 4.1e | Fix FAQ response time language | `src/pages/FAQ.tsx` | Internal SLA jargon ("Urgent, High priority, Normal") | Plain language: "If your site goes down, we're on it within an hour. Everything else within 24 hours." | No internal SLA terminology in buyer-facing FAQ. | [A§9] — **NEW** |
 | 4.2 | Smart Website page heroes — outcome-first | `SmartSite.tsx`, `SmartLead.tsx`, `SmartBusiness.tsx`, `SmartGrowth.tsx` | Likely feature-first heroes | See hero copy below | Each SW tier page hero leads with outcome statement. | [A§3] |
+| 4.3 | Scrub faqs.ts for feature-first language and packaging misalignment | `src/data/faqs.ts` | Contains migrated content that may still reference "5-page website," "setup fee," WordPress/Elementor, soft hedging language | Every answer passes Voice Calibration Standard. Zero "5-page," zero "setup fee" (use "AI Training & Implementation" for $497+ or "No setup fee" for $0), zero WordPress/OVH/Plesk, zero "we strive to." Conviction-first, outcome-driven. | Show me every flagged answer with current text and proposed replacement before committing. Zero feature-first language remaining in any FAQ answer. **⚠️ BLOCKED by Phase 2.5B** | [A§9, A§11, Cross-Phase Voice Calibration Standard] |
 
 ### Task 4.2 Smart Website Hero Copy
 
@@ -353,12 +382,26 @@ Phase 3 (updated)
 - Convert: "Turn every call into a booked job"
 - Scale: "AI handles it while you take a day off"
 
+### Task 4.3 Search Patterns
+
+> Run these against `src/data/faqs.ts` after 2.5B migration is complete:
+
+- `"5-page"` / `"5 page"`
+- `"setup fee"` / `"setup cost"` / `"$249 setup"` / `"$0 setup"`
+- `"mobile responsive"` as a selling point
+- `"SSL"` as a selling point
+- `"WordPress"` / `"Elementor"` / `"OVH"` / `"Plesk"`
+- `"we strive to"` / `"we aim to"` / `"our goal is"`
+- Any answer where the first sentence is a definition rather than a conviction statement
+
 ### Phase 4 Verification Checklist
 - [ ] Zero "EverIntent provides/offers" in non-legal pages
 - [ ] No CMS/hosting tech stack in FAQ
 - [ ] No SLA jargon in FAQ response time answer
 - [ ] Pricing tier descriptions are outcome-first
 - [ ] Each SW tier page hero is outcome-first (spot-check all 4)
+- [ ] Zero feature-first language in `faqs.ts` (Task 4.3)
+- [ ] Zero "5-page," "setup fee," "WordPress," "we strive to" in `faqs.ts`
 
 ---
 
@@ -459,33 +502,41 @@ All copy changes must match the outcome-first framing of the portfolio detail pa
 
 ```
 Phase 1 (all 5 tasks in parallel) ✅ COMPLETE
-  ├── 1.1 FinalCTASection price
-  ├── 1.2 CompareWebsites Email Authority price  
-  ├── 1.3 AIEmployee Web Chat link
-  ├── 1.4 SmartWebsites + SmartLead Capture setup fee
-  └── 1.5 Pricing SMS/Email quota removal
+  ├── 1.1 FinalCTASection price ✅
+  ├── 1.2 CompareWebsites Email Authority price ✅
+  ├── 1.3 AIEmployee Web Chat link ✅
+  ├── 1.4 SmartWebsites + SmartLead Capture setup fee ✅
+  └── 1.5 Pricing SMS/Email quota removal ✅
 
 Phase 2 (4 parallel streams) ✅ COMPLETE
-  ├── Stream A: 2.1 FAQ objection answers
-  ├── Stream B: 2.2 Setup fee relabeling + 2.6 "Choose Your Mode"
-  ├── Stream C: 2.3 Checkout trust strip
-  └── Stream D: 2.4 + 2.5 CTA text + Book a Call links
+  ├── Stream A: 2.1 FAQ objection answers ✅
+  ├── Stream B: 2.2 Setup fee relabeling + 2.6 "Choose Your Mode" ✅
+  ├── Stream C: 2.3 Checkout trust strip ✅
+  └── Stream D: 2.4 + 2.5 CTA text + Book a Call links ✅
 
-Phase 2.5 — FAQ Architecture Audit ⏳ AUDIT COMPLETE, AWAITING APPROVAL
+Phase 2.5 — FAQ Architecture ✅ COMPLETE
   ├── 2.5.1 Audit existing FAQ architecture ✅
   ├── 2.5.2 Check Supabase for FAQ data model ✅
   ├── 2.5.3 Propose centralized FAQ architecture ✅
-  └── 2.5.4 Update downstream tasks (after approval)
+  └── 2.5.4 Build core system + initial migrations ✅
 
-Phase 3 (3 streams — Stream C blocked by 2.5)
-  ├── Stream A: 3.1 + 3.2 + 3.5 (homepage + industries hero)  ← NOT BLOCKED
-  ├── Stream B: 3.4 (pricing hero)                              ← NOT BLOCKED
-  └── Stream C: 3.3 (pricing cost section)                      ← BLOCKED by 2.5
+Phase 2.5B — FAQ Migration Completion ⬅ DO NEXT
+  ├── 2.5B.1 Smart Website tier pages (4 files, parallel)
+  ├── 2.5B.2 AI Employee pages (4 files, parallel)
+  ├── 2.5B.3 Help + Support pages (parallel)
+  ├── 2.5B.4 Industry Showcase pages (parallel)
+  ├── 2.5B.5 Verify zero hardcoded arrays (after 2.5B.1-4)
+  └── 2.5B.6 Resolve duplicate conflicts (after 2.5B.5)
 
-Phase 4 (parallel pattern fixes)
+Phase 3 (3 streams) ✅ COMPLETE
+  ├── Stream A: 3.1 + 3.2 + 3.5 (homepage + industries hero) ✅
+  ├── Stream B: 3.4 (pricing hero) ✅
+  └── Stream C: 3.3 (pricing cost section) ✅
+
+Phase 4 (parallel pattern fixes) — after 2.5B complete + confirmed
   ├── 4.1a-e Copy patterns (independent file edits)
   ├── 4.2 SW tier page heroes (4 independent pages)
-  └── 4.3 FAQ content rewrite (TO BE ADDED after 2.5 approval) ← BLOCKED by 2.5
+  └── 4.3 FAQ content scrub                                     ← BLOCKED by 2.5B
 
 Phase 5 (3 parallel components)
   ├── 5.1 Capture animated demo
@@ -496,7 +547,7 @@ Phase 6 (4 parallel tasks)
   ├── 6.1 Annual pricing toggle
   ├── 6.2 Voice AI Chat Widget mentions
   ├── 6.3 "Included free with Scale" badges
-  └── 6.4 Compare page scenario cards                           ← BLOCKED by 2.5
+  └── 6.4 Compare page scenario cards                           ← BLOCKED by 2.5B
 ```
 
 ---
@@ -535,3 +586,4 @@ Phase 6 (4 parallel tasks)
 | 2026-04-11 | 1.1 | Added checkout status section. Checkout confirmed working (GHL redirect live). Removed D7/D8. |
 | 2026-04-11 | 1.2 | **Analysis cross-reference pass:** Added `[A§N]` refs to every task. Pulled pre-written FAQ copy from Analysis §9 into Task 2.1. Enriched Task 3.3 with validated market data + citations. Added 4 new tasks from analysis gaps: 2.6 (Choose Your Mode), 3.5 (Industries hero), 4.1e (FAQ response time), 6.3 (Scale badges), 6.4 (Compare scenario cards). Added Deferred Items table for post-launch. Added spec doc references to Checkout Status section. |
 | 2026-04-11 | 1.3 | **Phase 2.5 — FAQ Architecture Audit** added as dependency resolution before Phase 3. Audited 20+ files — found zero centralized FAQ system. All content hardcoded inline per-page with voice drift. No Supabase FAQ table exists. Proposed repo-file + shared component architecture. Updated Phase 3 to show Stream C blocked by 2.5. Updated parallel execution map. Task 4.3 and 6.4 flagged as blocked. |
+| 2026-04-11 | 1.4 | **Phase 2.5B — FAQ Migration Completion** added with 6 tasks covering remaining 12+ file migrations. **Task 4.3** added to Phase 4 — FAQ content scrub with search patterns, blocked by 2.5B. Marked Phases 1, 2, 2.5, 3 as ✅ COMPLETE with verification dates. Updated parallel execution map to show 2.5B as next action. Task 6.4 blocker updated from 2.5 → 2.5B. |
