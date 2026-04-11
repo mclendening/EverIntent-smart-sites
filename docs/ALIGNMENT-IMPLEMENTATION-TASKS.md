@@ -30,11 +30,13 @@
 | 1.5 | Remove SMS/Email quotas from Pricing comparison | `src/pages/Pricing.tsx` line 55 | `SMS/Email` row with `400/600/1000` values | Remove this row from `websiteFeatures` array | No SMS/Email quota row in pricing table. Keep in `CompareWebsites.tsx` (detail view) with footnote. | [A§2, Appendix] |
 
 ### Phase 1 Verification Checklist
-- [ ] `$197/month` in FinalCTASection
-- [ ] `$49/mo` for Email Authority in CompareWebsites  
-- [ ] Web Chat CTA links to `/checkout/web-chat`
-- [ ] Capture setup fee = $0 across SmartWebsites.tsx AND SmartLead.tsx
-- [ ] SMS/Email quota row removed from Pricing.tsx
+- [x] `$197/month` in FinalCTASection — confirmed 2026-04-11
+- [x] `$49/mo` for Email Authority in CompareWebsites — confirmed 2026-04-11
+- [x] Web Chat CTA links to `/checkout/web-chat` — confirmed 2026-04-11
+- [x] Capture setup fee = $0 across SmartWebsites.tsx AND SmartLead.tsx — confirmed 2026-04-11
+- [x] SMS/Email quota row removed from Pricing.tsx — confirmed 2026-04-11
+
+> **Phase 1 Status: ✅ COMPLETE** — All 5 data fixes verified on mobile (375px) 2026-04-11
 
 ---
 
