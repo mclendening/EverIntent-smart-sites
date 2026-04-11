@@ -93,7 +93,7 @@ const plans = [
     tagline: 'Complete after-hours coverage',
     price: '$197',
     period: '/mo',
-    setup: '$997 setup',
+    setup: '$997 AI Training & Implementation',
     description: 'AI answers after hours, books appointments, texts back missed calls. Never lose a lead when you\'re closed.',
     href: '/let-ai-handle-it/after-hours',
     checkoutHref: '/checkout/after-hours',
@@ -103,7 +103,7 @@ const plans = [
     tagline: 'Qualify before you answer',
     price: '$297',
     period: '/mo',
-    setup: '$1,497 setup',
+    setup: '$1,497 AI Training & Implementation',
     description: 'AI screens all calls, qualifies leads, recovers missed calls, and transfers hot opportunities live.',
     href: '/let-ai-handle-it/front-office',
     checkoutHref: '/checkout/front-office',
@@ -113,7 +113,7 @@ const plans = [
     tagline: 'AI across every touchpoint',
     price: '$597',
     period: '/mo',
-    setup: '$2,500 setup',
+    setup: '$2,500 AI Training & Implementation',
     description: 'Voice, SMS, web chat, booking, screening, and Unlimited AI for reviews, content, and marketing. Your full AI team member.',
     href: '/let-ai-handle-it/full-ai-employee',
     checkoutHref: '/checkout/full-ai',
@@ -291,9 +291,9 @@ function MobilePlanCard({ plan, planIndex }: { plan: typeof plans[0]; planIndex:
               ? "bg-accent text-accent-foreground hover:bg-accent/90"
               : "bg-accent/10 text-accent hover:bg-accent/20"
           )}
-        >
-          Get Started
-          <ArrowRight className="w-4 h-4" />
+          >
+            {plan.name === 'After-Hours' ? 'Answer After Hours' : plan.name === 'Front Office' ? 'Screen My Calls' : 'Hire My AI Employee'}
+            <ArrowRight className="w-4 h-4" />
         </a>
       </div>
       
@@ -502,7 +502,7 @@ export default function CompareAIEmployee() {
                             : "bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
                         )}
                       >
-                        Get Started
+                        {plan.name === 'After-Hours' ? 'Answer After Hours' : plan.name === 'Front Office' ? 'Screen My Calls' : 'Hire My AI Employee'}
                         <ArrowRight className="w-4 h-4" />
                       </a>
                       {(plan.name === 'Front Office' || plan.name === 'Full AI Employee') && (

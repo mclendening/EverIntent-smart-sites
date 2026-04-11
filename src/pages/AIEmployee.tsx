@@ -41,7 +41,7 @@ const aiModes = [
     description: 'AI answers calls when you\'re closed, books appointments, and texts back missed calls. Complete after-hours coverage.',
     bestFor: 'Businesses with set hours',
     price: '$197',
-    setup: '$997',
+    setup: '$997 AI Training & Implementation',
     href: '/let-ai-handle-it/after-hours',
   },
   {
@@ -52,7 +52,7 @@ const aiModes = [
     description: 'AI answers during business hours. Screens callers, qualifies leads, recovers missed calls, transfers hot opportunities live.',
     bestFor: 'Teams drowning in calls',
     price: '$297',
-    setup: '$1,497',
+    setup: '$1,497 AI Training & Implementation',
     href: '/let-ai-handle-it/front-office',
   },
   {
@@ -63,7 +63,7 @@ const aiModes = [
     description: 'All modes combined. Your complete AI-powered front office: voice, SMS, booking, screening, web chat.',
     bestFor: 'Maximum automation',
     price: '$597',
-    setup: '$2,500',
+    setup: '$2,500 AI Training & Implementation',
     featured: true,
     href: '/let-ai-handle-it/full-ai-employee',
   },
@@ -75,7 +75,7 @@ const aiModes = [
     description: 'AI chat widget for your website. Capture leads 24/7 without voice AI.',
     bestFor: 'Website chat without phone',
     price: '$79',
-    setup: '$497',
+    setup: '$497 AI Training & Implementation',
     href: '/checkout/web-chat',
   },
 ];
@@ -216,7 +216,7 @@ export default function AIEmployee() {
           <div className="container">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Choose Your Mode
+                How Much Do You Want AI to Handle?
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 Three ways to let AI handle your phones. All modes include missed call text-back.
@@ -263,7 +263,7 @@ export default function AIEmployee() {
                       <div className="text-right">
                         <span className="text-2xl font-bold text-foreground">{mode.price}</span>
                         <span className="text-muted-foreground text-sm">/mo</span>
-                        <p className="text-xs text-muted-foreground">{mode.setup} setup</p>
+                        <p className="text-xs text-muted-foreground">{mode.setup}</p>
                       </div>
                       <a
                         href={mode.href}
@@ -273,7 +273,7 @@ export default function AIEmployee() {
                             : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
                         }`}
                       >
-                        Learn More
+                        {mode.id === 'after-hours' ? 'Answer After Hours' : mode.id === 'front-office' ? 'Screen My Calls' : mode.id === 'full' ? 'Hire My AI Employee' : 'Add AI Chat'}
                       </a>
                     </div>
                   </div>
@@ -289,7 +289,7 @@ export default function AIEmployee() {
             <div className="max-w-3xl mx-auto rounded-2xl border border-accent/30 bg-accent/5 p-6 md:p-8">
               <div className="flex flex-col md:flex-row md:items-center gap-6">
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-foreground mb-2">One-Time Setup Includes:</h3>
+                  <h3 className="text-xl font-bold text-foreground mb-2">One-Time AI Training & Implementation Includes:</h3>
                   <ul className="grid sm:grid-cols-2 gap-2 text-sm text-muted-foreground">
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-accent" />

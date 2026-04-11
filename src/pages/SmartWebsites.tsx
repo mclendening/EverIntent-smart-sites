@@ -48,14 +48,14 @@ const SmartWebsites = () => {
         { name: "Review automation", included: false },
       ],
       highlight: false,
-      cta: "Get Started",
+      cta: "Build My Website",
     },
     {
       name: "Capture",
       tagline: "Never Miss a Lead",
       price: "$97",
       priceNote: "/month",
-      setup: "$0",
+      setup: "",
       monthly: "$97",
       hostingNote: "Hosting included",
       features: [
@@ -80,7 +80,7 @@ const SmartWebsites = () => {
       tagline: "Turn Visitors into Customers",
       price: "$197",
       priceNote: "/month",
-      setup: "$497",
+      setup: "",
       monthly: "$197",
       hostingNote: "Hosting included",
       features: [
@@ -98,14 +98,14 @@ const SmartWebsites = () => {
         { name: "Review automation", included: true },
       ],
       highlight: false,
-      cta: "Grow Your Business",
+      cta: "Automate My Business",
     },
     {
       name: "Scale",
       tagline: "AI-Powered Growth Engine",
       price: "$297",
       priceNote: "/month",
-      setup: "$997",
+      setup: "",
       monthly: "$297",
       hostingNote: "Hosting included",
       features: [
@@ -344,7 +344,7 @@ const SmartWebsites = () => {
                     <span className="text-muted-foreground ml-1">{tier.priceNote}</span>
                   </div>
                   <p className="text-sm text-muted-foreground mt-1">
-                    {tier.setup} setup • {tier.hostingNote}
+                    {tier.setup ? `${tier.setup} setup • ` : ''}{tier.hostingNote}
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -408,7 +408,7 @@ const SmartWebsites = () => {
                         </span>
                         <span className="text-sm text-muted-foreground">{tier.priceNote}</span>
                       </div>
-                      <p className="text-[11px] text-muted-foreground mt-1">{tier.setup} setup</p>
+                      {tier.setup ? <p className="text-[11px] text-muted-foreground mt-1">{tier.setup} setup</p> : <p className="text-[11px] text-muted-foreground mt-1">No setup fee</p>}
                     </div>
                   </div>
                 ))}

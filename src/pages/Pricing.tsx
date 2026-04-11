@@ -62,10 +62,10 @@ const websiteFeatures = [
 ];
 
 const websiteTiers = [
-  { id: 'launch', name: 'Launch', key: 't1', cta: 'Get Started', ctaStyle: 'secondary' as const, href: '/smart-websites/launch', checkoutHref: '/checkout/launch', image: smartWebsiteHvacImg, imageAlt: 'Professional business website displayed on laptop screen', description: 'Get online fast with a professional 5-page website. Mobile responsive, SEO-ready, delivered in 5 days.' },
-  { id: 'capture', name: 'Capture', key: 't2', cta: 'Get Started', ctaStyle: 'primary' as const, href: '/smart-websites/capture', checkoutHref: '/checkout/capture', image: missedCallImg, imageAlt: 'Smartphone showing missed call text-back notification from AI', description: 'Never miss a lead. AI chat widget, missed call text-back, CRM, and Google Business Profile sync.' },
-  { id: 'convert', name: 'Convert', key: 't3', cta: 'Get Started', ctaStyle: 'primary' as const, href: '/smart-websites/convert', checkoutHref: '/checkout/convert', image: resultsDashboardImg, imageAlt: 'Business dashboard showing booking and review automation metrics', description: 'Turn visitors into customers with online booking, review automation, CRM pipelines, and SMS campaigns.' },
-  { id: 'scale', name: 'Scale', key: 't4', cta: 'Get Started', ctaStyle: 'secondary' as const, href: '/smart-websites/scale', checkoutHref: '/checkout/scale', image: revenueGrowthImg, imageAlt: 'Revenue growth chart showing business scaling results', description: 'AI-powered growth engine with advanced automations, unified inbox, strategy calls, and full CRM.' },
+  { id: 'launch', name: 'Launch', key: 't1', cta: 'Build My Website', ctaStyle: 'secondary' as const, href: '/smart-websites/launch', checkoutHref: '/checkout/launch', image: smartWebsiteHvacImg, imageAlt: 'Professional business website displayed on laptop screen', description: 'Get online fast with a professional 5-page website. Mobile responsive, SEO-ready, delivered in 5 days.' },
+  { id: 'capture', name: 'Capture', key: 't2', cta: 'Start Capturing Leads', ctaStyle: 'primary' as const, href: '/smart-websites/capture', checkoutHref: '/checkout/capture', image: missedCallImg, imageAlt: 'Smartphone showing missed call text-back notification from AI', description: 'Never miss a lead. AI chat widget, missed call text-back, CRM, and Google Business Profile sync.' },
+  { id: 'convert', name: 'Convert', key: 't3', cta: 'Automate My Business', ctaStyle: 'primary' as const, href: '/smart-websites/convert', checkoutHref: '/checkout/convert', image: resultsDashboardImg, imageAlt: 'Business dashboard showing booking and review automation metrics', description: 'Turn visitors into customers with online booking, review automation, CRM pipelines, and SMS campaigns.' },
+  { id: 'scale', name: 'Scale', key: 't4', cta: 'Unlock Full AI', ctaStyle: 'secondary' as const, href: '/smart-websites/scale', checkoutHref: '/checkout/scale', image: revenueGrowthImg, imageAlt: 'Revenue growth chart showing business scaling results', description: 'AI-powered growth engine with advanced automations, unified inbox, strategy calls, and full CRM.' },
 ];
 
 // ============================================
@@ -80,7 +80,7 @@ const aiPlans = [
     imageAlt: 'Contractor checking phone at night for new appointment booking',
     bestFor: 'Complete after-hours coverage',
     price: '$197',
-    setup: '$997',
+    setup: '$997 AI Training',
     description: 'AI answers after hours, books appointments, and texts back missed calls. Never lose a lead when you\'re closed.',
     href: '/let-ai-handle-it/after-hours',
     checkoutHref: '/checkout/after-hours',
@@ -92,7 +92,7 @@ const aiPlans = [
     imageAlt: 'Busy front desk receptionist answering phones',
     bestFor: 'Screen, qualify, and transfer',
     price: '$297',
-    setup: '$1,497',
+    setup: '$1,497 AI Training',
     description: 'AI screens all calls, qualifies leads, recovers missed calls, and transfers hot opportunities live.',
     href: '/let-ai-handle-it/front-office',
     checkoutHref: '/checkout/front-office',
@@ -104,7 +104,7 @@ const aiPlans = [
     imageAlt: 'Business command center with multiple AI dashboard screens',
     bestFor: 'Complete AI-powered front office',
     price: '$597',
-    setup: '$2,500',
+    setup: '$2,500 AI Training',
     description: 'All features included. Your complete AI-powered front office: voice, SMS, booking, screening, web chat, and Unlimited AI.',
     featured: true,
     href: '/let-ai-handle-it/full-ai-employee',
@@ -117,7 +117,7 @@ const aiPlans = [
     imageAlt: 'Laptop showing AI chat widget conversation',
     bestFor: 'Website chat without phone',
     price: '$79',
-    setup: '$497',
+    setup: '$497 AI Training',
     description: 'AI chat widget for your website. Capture leads 24/7 without voice AI.',
     href: '/contact',
     checkoutHref: '/checkout/web-chat',
@@ -130,16 +130,24 @@ const aiPlans = [
 
 const faqItems = [
   {
+    question: "Will my customers hate talking to a robot?",
+    answer: "The choice isn't AI vs. human. It's AI vs. voicemail. 85% of people who reach voicemail never call back — they call your competitor instead. Our AI answers in 2 seconds, knows your business, your hours, and your services. 94% of callers rate the experience 4+ stars. And most don't even realize they're talking to AI. Your competitor's voicemail isn't beating our AI.",
+  },
+  {
+    question: "Is $197/month expensive?",
+    answer: "A full-time receptionist costs $40,000 a year. We cost $2,364. And we work nights, weekends, and holidays without calling in sick. The average service business loses $50,000-$120,000 a year to missed calls (CallBird, 2026). If we capture one $200 job you would have missed, we've paid for ourselves for six months. The expensive option is doing nothing.",
+  },
+  {
+    question: "I need to think about it.",
+    answer: "How many calls did you miss this week? The data says 62% of calls to local businesses go unanswered. At $200+ per missed call, that's $1,000+ every week walking out the door. There are no contracts — you can cancel anytime. The only risk is waiting.",
+  },
+  {
     question: "What's included in the one-time $249 price?",
     answer: "Launch includes a professional 5-page website, mobile responsive design, SSL certificate, basic SEO setup, contact form, and Google Maps integration. You own the website forever. After the first year, hosting is just $149/year.",
   },
   {
     question: "Can I upgrade from Launch to Capture later?",
     answer: "Yes! You can upgrade to any higher tier at any time. We'll migrate everything seamlessly and prorate your billing. No rebuilds required. Every tier is upgrade-ready from day one.",
-  },
-  {
-    question: "What happens if I exceed my SMS limit?",
-    answer: "We'll notify you when you're approaching your limit. Additional SMS are billed at $0.015 each. You can also upgrade to a higher tier for more included messages.",
   },
   {
     question: "Do I own my website?",
@@ -297,6 +305,14 @@ const Pricing = () => {
                         >
                           {tier.cta}
                         </a>
+                        {(tier.id === 'convert' || tier.id === 'scale') && (
+                          <a
+                            href="/contact"
+                            className="text-sm text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+                          >
+                            Want to talk first?
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -418,7 +434,7 @@ const Pricing = () => {
                         <div className="text-right">
                           <span className="text-2xl font-bold text-foreground">{plan.price}</span>
                           <span className="text-muted-foreground text-sm">/mo</span>
-                          <p className="text-xs text-muted-foreground">{plan.setup} setup</p>
+                          <p className="text-xs text-muted-foreground">{plan.setup}</p>
                         </div>
                         <a
                           href={plan.checkoutHref}
@@ -428,7 +444,7 @@ const Pricing = () => {
                               : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
                           }`}
                         >
-                          Get Started
+                          {plan.id === 'after-hours' ? 'Answer After Hours' : plan.id === 'front-office' ? 'Screen My Calls' : plan.id === 'full' ? 'Hire My AI Employee' : 'Add AI Chat'}
                         </a>
                         <a
                           href={plan.href}
@@ -436,12 +452,12 @@ const Pricing = () => {
                         >
                           See Details →
                         </a>
-                        {(plan.id === 'front-office' || plan.id === 'full') && (
+                        {(plan.id === 'after-hours' || plan.id === 'front-office' || plan.id === 'full') && (
                           <a
                             href="/contact"
-                            className="px-4 py-2 rounded-lg text-sm font-medium border border-border hover:bg-muted transition-colors whitespace-nowrap"
+                            className="text-sm text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
                           >
-                            Book a Call
+                            Want to talk first?
                           </a>
                         )}
                       </div>
