@@ -74,7 +74,7 @@ function StaticView() {
   );
 }
 
-function PhoneMockup({ children }: { children: React.ReactNode }) {
+function PhoneMockup({ children, containerRef }: { children: React.ReactNode; containerRef?: React.RefObject<HTMLDivElement> }) {
   return (
     <div className="relative mx-auto w-full max-w-[320px]">
       <div className="relative bg-card rounded-[2.5rem] p-2 shadow-2xl border border-border">
@@ -105,7 +105,7 @@ function PhoneMockup({ children }: { children: React.ReactNode }) {
             <MessageSquare className="w-5 h-5 text-accent" />
           </div>
           {/* Messages */}
-          <div className="h-[400px] overflow-y-auto px-3 py-4 space-y-3">
+          <div ref={containerRef} className="h-[400px] overflow-y-auto px-3 py-4 space-y-3">
             {children}
           </div>
           {/* Input Bar */}
@@ -131,11 +131,12 @@ export function LeadCaptureDemo() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const scrollEndRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (messages.length > 0 || isTyping) {
-      scrollEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      const el = containerRef.current;
+      if (el) el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
     }
   }, [messages, isTyping]);
 
@@ -179,7 +180,7 @@ export function LeadCaptureDemo() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Phone Mockup */}
           <div className="order-1 lg:order-1">
-            <PhoneMockup>
+            <PhoneMockup containerRef={containerRef}>
               {prefersReducedMotion ? (
                 <StaticView />
               ) : (
@@ -221,7 +222,7 @@ export function LeadCaptureDemo() {
                       </div>
                     </div>
                    )}
-                    <div ref={scrollEndRef} />
+                    
                 </>
               )}
             </PhoneMockup>

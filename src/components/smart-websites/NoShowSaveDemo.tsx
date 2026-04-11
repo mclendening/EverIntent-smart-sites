@@ -74,11 +74,12 @@ export function NoShowSaveDemo() {
   const [messages, setMessages] = useState<SmsMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const scrollEndRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (messages.length > 0 || isTyping) {
-      scrollEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      const el = containerRef.current;
+      if (el) el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
     }
   }, [messages, isTyping]);
 
@@ -145,7 +146,7 @@ export function NoShowSaveDemo() {
                     </div>
                     <Phone className="w-5 h-5 text-accent" />
                   </div>
-                  <div className="h-[400px] overflow-y-auto px-3 py-4 space-y-3">
+                  <div ref={containerRef} className="h-[400px] overflow-y-auto px-3 py-4 space-y-3">
                     {prefersReducedMotion ? (
                       <StaticView />
                     ) : (
@@ -183,7 +184,7 @@ export function NoShowSaveDemo() {
                             <div className="bg-accent rounded-2xl rounded-br-md"><TypingDots /></div>
                           </div>
                         )}
-                        <div ref={scrollEndRef} />
+                        
                       </>
                     )}
                   </div>

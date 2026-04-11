@@ -71,11 +71,12 @@ export function MultiChannelDemo() {
   const prefersReducedMotion = useReducedMotion();
   const [events, setEvents] = useState<ChannelEvent[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const scrollEndRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (events.length > 0) {
-      scrollEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      const el = containerRef.current;
+      if (el) el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
     }
   }, [events]);
 
@@ -124,7 +125,7 @@ export function MultiChannelDemo() {
                       <div className="text-muted-foreground text-xs">Tuesday Morning</div>
                     </div>
                   </div>
-                  <div className="h-[400px] overflow-y-auto px-3 py-4 space-y-3">
+                  <div ref={containerRef} className="h-[400px] overflow-y-auto px-3 py-4 space-y-3">
                     {prefersReducedMotion ? (
                       <StaticView />
                     ) : (
@@ -152,7 +153,7 @@ export function MultiChannelDemo() {
                             );
                           })}
                         </AnimatePresence>
-                        <div ref={scrollEndRef} />
+                        
                       </>
                     )}
                   </div>
