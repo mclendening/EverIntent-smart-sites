@@ -220,7 +220,8 @@ export function LeadCaptureDemo() {
                         <TypingDots />
                       </div>
                     </div>
-                  )}
+                   )}
+                    <div ref={scrollEndRef} />
                 </>
               )}
             </PhoneMockup>
