@@ -73,29 +73,6 @@ const websiteMockups = [
   },
 ];
 
-const faqItems = [
-  {
-    question: 'Can the AI handle insurance and warranty questions?',
-    answer: 'The AI is trained to gather insurance information and explain your warranty policies. For claims processing or complex warranty issues, it captures details and schedules a callback from your service advisor.',
-  },
-  {
-    question: 'Does it integrate with my shop management software?',
-    answer: 'We integrate with Mitchell, ShopWare, Tekmetric, and most popular auto repair shop management systems. Appointments sync directly to your schedule.',
-  },
-  {
-    question: 'Can it quote labor rates and parts?',
-    answer: 'Yes. We configure the AI with your labor rates and common repair pricing. It provides accurate estimates for standard services like oil changes, brakes, and diagnostics.',
-  },
-  {
-    question: 'What about fleet and commercial accounts?',
-    answer: 'The AI recognizes fleet customers and routes them appropriately. It can also handle basic fleet scheduling and capture vehicle information for your team.',
-  },
-  {
-    question: 'How do customers get updates on their vehicle?',
-    answer: 'The AI can send automated status updates via text: when the diagnostic is complete, when the car is ready, and follow-up satisfaction checks.',
-  },
-];
-
 export default function AutomotiveShowcase() {
   return (
     <>
@@ -130,7 +107,7 @@ export default function AutomotiveShowcase() {
         recommendedTier="Capture"
         tierPrice="$97/mo"
         tierSetup="$249"
-        faqItems={faqItems}
+        faqCategory="industry-automotive"
         ctaText="Get Capture"
         ctaLink="/checkout/capture"
       />

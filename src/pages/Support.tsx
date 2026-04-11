@@ -13,6 +13,7 @@
  */
 
 import { SEO } from '@/components/SEO';
+import { filterFAQs, generateFAQSchema } from '@/data/faqs';
 import { Mail, MessageSquare, Phone, Clock, CheckCircle, XCircle, Calendar } from 'lucide-react';
 
 /** Support tier data from BRD §25 */
@@ -70,15 +71,7 @@ const Support = () => {
             description: 'Support channels, SLA response times, and service level agreements for EverIntent customers.',
             url: 'https://everintent.com/support',
           },
-          {
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: [
-              { '@type': 'Question', name: 'What support channels does EverIntent offer?', acceptedAnswer: { '@type': 'Answer', text: 'All plans include email support. Capture and Convert plans add live chat. Scale plan customers get email, chat, phone support, and quarterly strategy calls.' } },
-              { '@type': 'Question', name: 'What are EverIntent response times?', acceptedAnswer: { '@type': 'Answer', text: 'Urgent issues (site down): 1-hour first response, 4-hour resolution. High priority: 4-hour response, 24-hour resolution. Normal requests: 24-hour response, 3 business days resolution.' } },
-              { '@type': 'Question', name: 'How do I submit a support ticket?', acceptedAnswer: { '@type': 'Answer', text: 'Email support@everintent.com or use the contact form at everintent.com/contact. Include your business name and a description of the issue for fastest resolution.' } },
-            ],
-          },
+          generateFAQSchema(filterFAQs({ category: 'support', maxItems: 5 })),
         ]}
       />
 
