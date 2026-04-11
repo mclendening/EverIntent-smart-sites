@@ -352,7 +352,6 @@ export function IndustryShowcaseTemplate({
   recommendedTier,
   tierPrice,
   tierSetup,
-  faqItems,
   faqCategory,
   ctaText = 'Get Started',
   ctaLink = '/pricing',
@@ -545,11 +544,7 @@ export function IndustryShowcaseTemplate({
           </div>
 
           <div className="max-w-2xl mx-auto">
-            {faqCategory ? (
-              <FAQSection category={faqCategory} variant="bordered" />
-            ) : faqItems ? (
-              <FAQAccordion items={faqItems} />
-            ) : null}
+            <FAQSection category={faqCategory} variant="bordered" />
           </div>
         </div>
       </section>
