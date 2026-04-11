@@ -132,12 +132,13 @@ export default function Industries() {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
-              <span className="text-foreground">Built for </span>
-              <span className="text-gradient">your industry</span>
+              <span className="text-foreground">Your industry loses </span>
+              <span className="text-gradient">$48K/year</span>
+              <span className="text-foreground"> to missed calls</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8">
-              We understand local businesses. That's why we serve <strong className="text-foreground">4 industry categories</strong> with 
-              tailored solutions that speak your language.
+              62% of calls to local businesses go unanswered. AI fixes that for <strong className="text-foreground">65+ verticals</strong> across 
+              4 industry categories.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button asChild size="lg">

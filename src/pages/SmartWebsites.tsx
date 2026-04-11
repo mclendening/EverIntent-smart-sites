@@ -4,13 +4,15 @@
  */
 
 import { ArrowRight, Clock, Smartphone, CheckCircle, Zap, Globe, Lock, Calendar, MessageSquare, Phone, Star, Users, TrendingUp, HelpCircle, Check, Minus } from 'lucide-react';
+import { FAQSection } from '@/components/faq';
+import { filterFAQs, generateFAQSchema } from '@/data/faqs';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 import { SEO } from '@/components/SEO';
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+
 
 import smartWebsiteHvac from '@/assets/lifestyle/smart-website-hvac.jpg';
 import smartWebsiteDental from '@/assets/lifestyle/smart-website-dental.jpg';
@@ -152,35 +154,8 @@ const SmartWebsites = () => {
     { title: "Law Firm", industry: "Professional", image: smartWebsiteLegal, imageAlt: "Laptop displaying a professional law firm website" },
   ];
 
-  /**
-   * FAQ items covering hosting, ownership, and common questions
-   */
-  const faqItems = [
-    {
-      question: "Do I own my website?",
-      answer: "Yes, 100%. Your domain, your content, your site. We don't do lock-in contracts or hostage situations. If you ever want to leave, we'll help you migrate everything."
-    },
-    {
-      question: "What happens after the first year with Launch?",
-      answer: "Launch includes 1 year of hosting free. After Year 1, hosting renews at $149/year. This covers hosting, SSL, security updates, and basic maintenance. You can cancel anytime."
-    },
-    {
-      question: "How long does it take to build my site?",
-      answer: "5 business days from kickoff to launch. We've streamlined our process so you're not waiting months. Once you provide your content and branding, we move fast."
-    },
-    {
-      question: "Can I upgrade later?",
-      answer: "Absolutely. Every Smart Website is built upgrade-ready. When you're ready for lead capture, automation, or AI, upgrading is seamless. You keep everything and just unlock more features."
-    },
-    {
-      question: "What if I'm running ads?",
-      answer: "Capture ($97/mo) is specifically designed for businesses running paid traffic. It includes missed-call text-back, AI chat widget, and CRM so you don't lose leads you paid for."
-    },
-    {
-      question: "Do you offer refunds?",
-      answer: "Yes. We offer a 30-day money-back guarantee. If you're not happy with your site within 30 days of launch, we'll refund your setup fee. No questions asked."
-    },
-  ];
+  // FAQ data from centralized source
+  const swFaqItems = filterFAQs({ category: 'smart-websites', maxItems: 6 });
 
   /**
    * Feature rows for comparison table
@@ -226,18 +201,7 @@ const SmartWebsites = () => {
         title="Smart Websites"
         description="Professional websites built in 5 days. AI chat, missed-call text-back, and booking included. Serving Long Beach, LA & Orange County."
         canonical="/smart-websites"
-        structuredData={{
-          '@context': 'https://schema.org',
-          '@type': 'FAQPage',
-          mainEntity: faqItems.map((item) => ({
-            '@type': 'Question',
-            name: item.question,
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: item.answer,
-            },
-          })),
-        }}
+        structuredData={generateFAQSchema(swFaqItems)}
       />
 
       {/* Hero Section - Luxury gold aesthetic matching homepage */}
@@ -703,18 +667,7 @@ const SmartWebsites = () => {
               </h2>
             </div>
 
-            <Accordion type="single" collapsible className="w-full">
-              {faqItems.map((item, index) => (
-                <AccordionItem key={index} value={`item-${index}`}>
-                  <AccordionTrigger className="text-left">
-                    {item.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground">
-                    {item.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <FAQSection category="smart-websites" maxItems={6} showSchema={false} />
           </div>
         </div>
       </section>
