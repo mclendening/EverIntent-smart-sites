@@ -11,6 +11,8 @@ import { Check, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SEO } from '@/components/SEO';
 import { RecommendedAddOns } from '@/components/smart-websites/RecommendedAddOns';
+import { MultiChannelDemo } from '@/components/smart-websites/MultiChannelDemo';
+import { ClientOnly } from '@/components/ClientOnly';
 import { ExpandableFeatureGrid } from '@/components/ai-employee';
 import { smartGrowthFeatures } from '@/data/features';
 import { FAQSection } from '@/components/faq';
@@ -122,6 +124,11 @@ export default function SmartGrowth() {
           </div>
         </div>
       </section>
+
+      {/* Animated Proof — Multi-Channel AI Demo */}
+      <ClientOnly>
+        <MultiChannelDemo />
+      </ClientOnly>
 
       {/* New Features - Expandable */}
       <section className="py-16 lg:py-24 bg-card/30">

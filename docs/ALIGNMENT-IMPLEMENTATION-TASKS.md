@@ -1,6 +1,6 @@
 # EverIntent Alignment Implementation Task List
 
-**Version:** 1.6  
+**Version:** 1.7  
 **Created:** 2026-04-11  
 **Source:** Claude Implementation Spec + Codebase Audit + Analysis Cross-Reference  
 **Reference:** `docs/ALIGNMENT-ANALYSIS-v1.md`  
@@ -409,7 +409,9 @@ Architecture approved 2026-04-11. Downstream updates applied:
 - [x] Pricing tier descriptions are outcome-first ✅
 - [x] Each SW tier page hero is outcome-first (all 4 verified) ✅
 - [x] Zero feature-first language in `faqs.ts` (10 rewrites committed) ✅
-- [ ] Zero "5-page," "setup fee," "WordPress," "we strive to" in `faqs.ts`
+- [x] Zero "5-page," "setup fee," "WordPress," "we strive to" in `faqs.ts` ✅
+
+> **Phase 4 Status: ✅ COMPLETE** — All tasks verified by independent testing 2026-04-11
 
 ---
 
@@ -528,13 +530,8 @@ Phase 2.5 — FAQ Architecture ✅ COMPLETE
   ├── 2.5.3 Propose centralized FAQ architecture ✅
   └── 2.5.4 Build core system + initial migrations ✅
 
-Phase 2.5B — FAQ Migration Completion ⬅ DO NEXT
-  ├── 2.5B.1 Smart Website tier pages (4 files, parallel)
-  ├── 2.5B.2 AI Employee pages (4 files, parallel)
-  ├── 2.5B.3 Help + Support pages (parallel)
-  ├── 2.5B.4 Industry Showcase pages (parallel)
-  ├── 2.5B.5 Verify zero hardcoded arrays (after 2.5B.1-4)
-  └── 2.5B.6 Resolve duplicate conflicts (after 2.5B.5)
+Phase 2.5B — FAQ Migration Completion ✅ COMPLETE
+  ├── 2.5B.1-9 All files migrated ✅
 
 Phase 3 (3 streams) ✅ COMPLETE
   ├── Stream A: 3.1 + 3.2 + 3.5 (homepage + industries hero) ✅
@@ -546,10 +543,10 @@ Phase 4 (parallel pattern fixes) ✅ COMPLETE
   ├── 4.2 SW tier page heroes ✅
   └── 4.3 FAQ content scrub (10 rewrites) ✅
 
-Phase 5 (3 parallel components)
-  ├── 5.1 Capture animated demo
-  ├── 5.2 Convert animated demo
-  └── 5.3 Scale animated demo
+Phase 5 (3 parallel components) ⬅ IN PROGRESS
+  ├── 5.1 LeadCaptureDemo on Capture page ✅
+  ├── 5.2 NoShowSaveDemo on Convert page ✅
+  └── 5.3 MultiChannelDemo on Scale page ✅
 
 Phase 6 (4 parallel tasks)
   ├── 6.1 Annual pricing toggle
@@ -597,3 +594,4 @@ Phase 6 (4 parallel tasks)
 | 2026-04-11 | 1.4 | **Phase 2.5B — FAQ Migration Completion** added with 6 tasks covering remaining 12+ file migrations. **Task 4.3** added to Phase 4 — FAQ content scrub with search patterns, blocked by 2.5B. Marked Phases 1, 2, 2.5, 3 as ✅ COMPLETE with verification dates. Updated parallel execution map to show 2.5B as next action. Task 6.4 blocker updated from 2.5 → 2.5B. |
 | 2026-04-11 | 1.5 | **Phase 2.5B ✅ COMPLETE.** All 16 files migrated to centralized FAQ system. Added tasks 2.5B.7 (Services.tsx), 2.5B.8 (WarmyEmailDeliverability.tsx), 2.5B.9 (removed dead `faqItems` prop + `FAQAccordion` from IndustryShowcaseTemplate). Added `services` category to `faqs.ts` with 6 new entries. `grep` verification: zero hardcoded FAQ arrays in `src/`. Task 4.3 now unblocked. |
 | 2026-04-11 | 1.6 | **Phase 4 ✅ COMPLETE.** 4.1a: zero company-first intros in non-legal pages. 4.1c: zero WordPress/OVH. 4.1d: all 4 pricing tier descriptions rewritten outcome-first. 4.1e: no SLA jargon found. 4.2: all 4 SW tier page heroes updated with conviction-first headlines. 4.3: 10 FAQ answers rewritten — "setup fee" → "AI Training & Implementation fee" for $497+ tiers, "5-page" eliminated, SSL/mobile-responsive removed as selling points. All verified and approved. |
+| 2026-04-11 | 1.7 | **Phase 5 — Animated Proof Sections built.** 3 new components: `LeadCaptureDemo.tsx` (chat widget lead capture), `NoShowSaveDemo.tsx` (SMS reminder/reschedule), `MultiChannelDemo.tsx` (voice+SMS+chat activity feed). All in `src/components/smart-websites/`. Integrated into SmartLead, SmartBusiness, SmartGrowth pages. All wrapped in `ClientOnly`. All respect `prefers-reduced-motion`. Design tokens only — zero hardcoded colors. Pending iPhone verification. |
