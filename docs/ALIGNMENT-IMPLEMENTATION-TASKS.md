@@ -268,6 +268,9 @@
 - [ ] No horizontal overflow
 - [ ] Touch targets ≥ 44×44px
 
+### Voice Calibration Standard (verify after EVERY copy change)
+All copy changes must match the outcome-first framing of the portfolio detail pages (e.g., Desert Cool Air, Clearview Dentistry). Portfolio pages lead with specific outcome metrics ("+247% Qualified Leads," "62 Avg. Leads/Month," "100% Calls Answered"), use real pain language in testimonials, and tie CTAs to results ("Ready for Results Like These?"). Product pages and pricing descriptions must meet this same standard. **If the new copy sounds like a feature list or a generic marketing statement, it hasn't met the bar.**
+
 ### DO NOT TOUCH
 - [ ] Portfolio embed system / portfolio site assets
 - [ ] `public/404.html`
