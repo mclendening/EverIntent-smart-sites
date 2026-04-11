@@ -76,7 +76,7 @@ const aiModes = [
     bestFor: 'Website chat without phone',
     price: '$79',
     setup: '$497',
-    href: '/contact',
+    href: '/checkout/web-chat',
   },
 ];
 

@@ -52,7 +52,6 @@ const websiteFeatures = [
   { name: 'Missed Call Text-Back', t1: false, t2: true, t3: true, t4: true },
   { name: 'AI Chat Widget', t1: false, t2: true, t3: true, t4: true },
   { name: 'CRM / Contacts', t1: false, t2: true, t3: true, t4: true },
-  { name: 'SMS/Email', t1: false, t2: '400/mo', t3: '600/mo', t4: '1000/mo' },
   { name: 'Mobile App', t1: false, t2: true, t3: true, t4: true },
   { name: 'Online Booking', t1: false, t2: false, t3: true, t4: true },
   { name: 'Pipeline Management', t1: false, t2: false, t3: true, t4: true },

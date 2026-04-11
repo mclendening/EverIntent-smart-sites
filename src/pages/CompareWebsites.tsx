@@ -108,7 +108,7 @@ const tiers = [
     checkoutHref: '/checkout/launch',
     bgVariant: 'launch' as const,
     recommendedAddons: [
-      { id: 'email-authority', name: 'Email Authority', price: '$79/mo', icon: Mail }
+      { id: 'email-authority', name: 'Email Authority', price: '$49/mo', icon: Mail }
     ],
   },
   {

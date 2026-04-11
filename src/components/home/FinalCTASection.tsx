@@ -28,7 +28,7 @@ export function FinalCTASection() {
           
           {/* Subhead */}
           <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-xl mx-auto">
-            Professional websites from $249. AI automation from $149/month.
+            Professional websites from $249. AI automation from $197/month.
           </p>
           
           {/* CTAs */}

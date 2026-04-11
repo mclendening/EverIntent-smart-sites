@@ -55,7 +55,7 @@ const SmartWebsites = () => {
       tagline: "Never Miss a Lead",
       price: "$97",
       priceNote: "/month",
-      setup: "$249",
+      setup: "$0",
       monthly: "$97",
       hostingNote: "Hosting included",
       features: [
