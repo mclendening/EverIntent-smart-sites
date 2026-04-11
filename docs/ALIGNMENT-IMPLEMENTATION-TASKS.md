@@ -562,6 +562,37 @@ Phase 6 (4 parallel tasks) ✅ COMPLETE
 
 ---
 
+## Phase 7: SEO Infrastructure Fixes
+
+> **Estimated effort:** 2-3 hours  
+> **Parallelism:** All 6 tasks are independent — can run in parallel.  
+> **Source:** Full SEO infrastructure audit (Questions 1-4) conducted 2026-04-11.
+
+| # | Task | File(s) | Current State | Target State | Success Criteria |
+|---|------|---------|--------------|--------------|-----------------|
+| 7.1 | Update sitemap.xml — add changefreq, priority per BRD hierarchy, update lastmod | `public/sitemap.xml` | 75 URLs, no changefreq/priority, stale uniform lastmod (2026-02-15) | All entries have changefreq + priority per BRD hierarchy (1.0 core → 0.2 legal). lastmod updated to today for changed pages. | `grep -c "priority" public/sitemap.xml` > 0. Priority values match BRD spec. |
+| 7.2 | Add structured data to 8 industry pages (4 hubs + 4 showcases) | `HomeServices.tsx`, `ProfessionalServices.tsx`, `HealthWellness.tsx`, `Automotive.tsx`, `HomeServicesShowcase.tsx`, `ProfessionalShowcase.tsx`, `HealthWellnessShowcase.tsx`, `AutomotiveShowcase.tsx` | No `structuredData` prop on SEO component | Service schema with name, description, provider, areaServed | Each page has `structuredData` with `@type: Service`. Valid JSON-LD in SSG output. |
+| 7.3 | Add structured data to add-ons page | `src/pages/smart-websites/AddOns.tsx` | No `structuredData` prop on SEO component | ItemList schema listing all 6 add-on packs with prices | `structuredData` present. ItemList has 6 items. |
+| 7.4 | Create public/404.html static file | `public/404.html` | File does not exist | Static HTML 404 page per SSG-BEST-PRACTICES | `ls public/404.html` succeeds. Page has basic HTML with redirect or message. |
+| 7.5 | Verify/fix duplicate FAQPage JSON-LD on Smart Website tier pages | `SmartSite.tsx`, `SmartLead.tsx`, `SmartBusiness.tsx`, `SmartGrowth.tsx` | FAQSection renders with `showSchema={true}` (default) AND SEO prop may also pass FAQ schema | Single FAQPage schema per page — no duplicates | Each tier page has exactly ONE `application/ld+json` block with `@type: FAQPage`. |
+| 7.6 | Auto-generate sitemap.xml at build time from prerenderRoutes | New: `scripts/generate-sitemap.ts`, update `package.json` build script | Hand-maintained `public/sitemap.xml` that drifts | Build-time generation from same route list SSG uses | `npm run build` produces sitemap.xml with all prerenderRoutes. Adding a route to prerenderRoutes automatically adds it to sitemap. |
+
+### Phase 7 Dependencies
+- None. All tasks are independent of each other and of Phases 1-6.
+- Task 7.6 supersedes Task 7.1 (once auto-generated, manual sitemap metadata is managed in the generator script).
+
+### Phase 7 Verification Checklist
+- [ ] Sitemap has changefreq + priority values
+- [ ] 8 industry pages have Service JSON-LD
+- [ ] Add-ons page has ItemList JSON-LD
+- [ ] `public/404.html` exists
+- [ ] No duplicate FAQPage schema on tier pages
+- [ ] Sitemap auto-generated at build time from prerenderRoutes
+
+> **Phase 7 Status: 🔄 IN PROGRESS**
+
+---
+
 ## Open Decisions
 
 | # | Question | Impact | Recommendation |
