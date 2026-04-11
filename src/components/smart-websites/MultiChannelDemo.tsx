@@ -71,11 +71,12 @@ export function MultiChannelDemo() {
   const prefersReducedMotion = useReducedMotion();
   const [events, setEvents] = useState<ChannelEvent[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const scrollEndRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (events.length > 0) {
-      scrollEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      const el = containerRef.current;
+      if (el) el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
     }
   }, [events]);
 

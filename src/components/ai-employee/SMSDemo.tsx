@@ -38,11 +38,12 @@ export function SMSDemo() {
   const [isTyping, setIsTyping] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const scrollEndRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (messages.length > 0 || isTyping) {
-      scrollEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      const el = containerRef.current;
+      if (el) el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
     }
   }, [messages, isTyping]);
 
@@ -133,7 +134,7 @@ export function SMSDemo() {
           </div>
 
           {/* Messages */}
-          <div className="h-[400px] overflow-y-auto px-3 py-4 space-y-3">
+          <div ref={containerRef} className="h-[400px] overflow-y-auto px-3 py-4 space-y-3">
             {messages.map((msg) => (
               <div key={msg.id}>
                 {msg.type === 'system' ? (
