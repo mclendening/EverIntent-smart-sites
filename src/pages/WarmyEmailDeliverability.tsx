@@ -40,8 +40,7 @@ import {
   Star,
   Check,
   X,
-  AlertCircle,
-  ChevronDown
+  AlertCircle
 } from 'lucide-react';
 
 import { 

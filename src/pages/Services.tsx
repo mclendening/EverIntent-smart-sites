@@ -46,7 +46,6 @@ import {
   CreditCard,
   Share2,
   Inbox,
-  ChevronDown,
   Phone,
   TrendingUp,
 } from 'lucide-react';
