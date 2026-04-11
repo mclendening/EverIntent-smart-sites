@@ -273,35 +273,42 @@ Architecture approved 2026-04-11. Downstream updates applied:
 
 ---
 
-## Phase 2.5B: FAQ Migration Completion
+## Phase 2.5B: FAQ Migration Completion ✅ COMPLETE
 
 > **Estimated effort:** 1-2 hours  
 > **Blocks:** Phase 4 Task 4.3 (FAQ content scrub)  
-> **Parallelism:** All page migrations are independent — can run in parallel.
+> **Parallelism:** All page migrations are independent — can run in parallel.  
+> **Status:** ✅ COMPLETE — All migrations verified 2026-04-11
 
-| # | Task | File(s) | Current State | Target State | Success Criteria |
-|---|------|---------|--------------|--------------|-----------------|
-| 2.5B.1 | Migrate Smart Website tier pages to FAQSection | `SmartSite.tsx`, `SmartLead.tsx`, `SmartBusiness.tsx`, `SmartGrowth.tsx` | Hardcoded `faqs[]` arrays + manual JSON-LD | `<FAQSection>` with product/category filters, auto JSON-LD | Zero inline FAQ arrays in these 4 files. JSON-LD auto-generated. |
-| 2.5B.2 | Migrate AI Employee pages to FAQSection | `AIEmployee.tsx`, `AfterHours.tsx`, `FrontOffice.tsx`, `FullAIEmployee.tsx` | Inline FAQPage JSON-LD in `structuredData` prop, no visible FAQ section or hardcoded arrays | `<FAQSection>` with product filters if visible FAQ needed, or FAQPage schema generated from `faqs.ts` data | Zero manual JSON-LD construction for FAQ in these files. |
-| 2.5B.3 | Migrate Help and Support pages to FAQSection | `Help.tsx`, `Support.tsx` | Inline FAQPage JSON-LD | `<FAQSection>` with appropriate filters | Zero manual JSON-LD in these files. |
-| 2.5B.4 | Migrate Industry Showcase pages to FAQSection | All `industries/*Showcase.tsx` files | `faqItems[]` passed to `IndustryShowcaseTemplate` | Industry FAQs in `faqs.ts` tagged by industry. Template uses `<FAQSection>` with industry tag filter. | Zero hardcoded FAQ arrays in showcase files. Template pulls from centralized source. |
-| 2.5B.5 | Verify zero hardcoded FAQ arrays remain | Full `src/` search | Some files still have inline FAQ | `grep -r "faqItems\|faqs\s*=" src/ --include="*.tsx"` returns zero matches outside of `faqs.ts` and `FAQSection` | No hardcoded FAQ content anywhere in `src/` except `src/data/faqs.ts`. |
-| 2.5B.6 | Resolve duplicate questions with conflicting answers | `src/data/faqs.ts` | Same question may exist with different answers from different source pages | One canonical answer per question, selected using Voice Calibration Standard | Show me every duplicate conflict with both versions + recommended winner before committing. |
+| # | Task | File(s) | Status |
+|---|------|---------|--------|
+| 2.5B.1 | Migrate Smart Website tier pages to FAQSection | `SmartSite.tsx`, `SmartLead.tsx`, `SmartBusiness.tsx`, `SmartGrowth.tsx` | ✅ |
+| 2.5B.2 | Migrate AI Employee pages to FAQSection | `AIEmployee.tsx`, `AfterHours.tsx`, `FrontOffice.tsx`, `FullAIEmployee.tsx` | ✅ |
+| 2.5B.3 | Migrate Help and Support pages to FAQSection | `Help.tsx`, `Support.tsx` | ✅ |
+| 2.5B.4 | Migrate Industry Showcase pages to FAQSection | All `industries/*Showcase.tsx` + `IndustryShowcaseTemplate.tsx` | ✅ |
+| 2.5B.5 | Verify zero hardcoded FAQ arrays remain | Full `src/` search | ✅ |
+| 2.5B.6 | Resolve duplicate questions with conflicting answers | `src/data/faqs.ts` | ✅ No conflicts found |
+| 2.5B.7 | Migrate Services.tsx to FAQSection | `Services.tsx` | ✅ Added `services` category to faqs.ts with 6 entries |
+| 2.5B.8 | Migrate WarmyEmailDeliverability.tsx to FAQSection | `WarmyEmailDeliverability.tsx` | ✅ Already in faqs.ts as `warmy` category |
+| 2.5B.9 | Remove dead `faqItems` prop from IndustryShowcaseTemplate | `IndustryShowcaseTemplate.tsx` | ✅ Removed prop, FAQItem type, and FAQAccordion component |
 
 ### Phase 2.5B Verification Checklist
-- [ ] `SmartSite.tsx` — no inline FAQ array, no manual JSON-LD
-- [ ] `SmartLead.tsx` — same
-- [ ] `SmartBusiness.tsx` — same
-- [ ] `SmartGrowth.tsx` — same
-- [ ] `AIEmployee.tsx` — no manual FAQ JSON-LD
-- [ ] `AfterHours.tsx` — same
-- [ ] `FrontOffice.tsx` — same
-- [ ] `FullAIEmployee.tsx` — same
-- [ ] `Help.tsx` — same
-- [ ] `Support.tsx` — same
-- [ ] All `*Showcase.tsx` — same
-- [ ] `grep` confirms zero hardcoded FAQ arrays in `src/`
-- [ ] All duplicate questions resolved with Voice Calibration Standard
+- [x] `SmartSite.tsx` — no inline FAQ array, no manual JSON-LD
+- [x] `SmartLead.tsx` — same
+- [x] `SmartBusiness.tsx` — same
+- [x] `SmartGrowth.tsx` — same
+- [x] `AIEmployee.tsx` — no manual FAQ JSON-LD
+- [x] `AfterHours.tsx` — same
+- [x] `FrontOffice.tsx` — same
+- [x] `FullAIEmployee.tsx` — same
+- [x] `Help.tsx` — same
+- [x] `Support.tsx` — same
+- [x] All `*Showcase.tsx` — same
+- [x] `Services.tsx` — same
+- [x] `WarmyEmailDeliverability.tsx` — same
+- [x] `IndustryShowcaseTemplate.tsx` — dead `faqItems` prop removed
+- [x] `grep` confirms zero hardcoded FAQ arrays in `src/`
+- [x] All duplicate questions resolved with Voice Calibration Standard
 
 ---
 
