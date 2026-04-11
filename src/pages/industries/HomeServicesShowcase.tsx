@@ -78,6 +78,19 @@ export default function HomeServicesShowcase() {
         title="Home Services AI Solutions | HVAC, Plumbing, Electrical"
         description="Never miss another service call. AI-powered websites and phone answering for HVAC, plumbing, electrical, and roofing contractors. Get Capture from $97/mo."
         canonical="/industries/home-services/showcase"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Service',
+          name: 'AI-Powered Websites for Home Service Contractors',
+          description: 'Smart websites with AI phone answering for HVAC, plumbing, electrical, and roofing contractors. Capture every lead starting at $97/mo.',
+          provider: { '@type': 'Organization', name: 'EverIntent', url: 'https://everintent.com' },
+          areaServed: [
+            { '@type': 'City', name: 'Long Beach' },
+            { '@type': 'City', name: 'Los Angeles' },
+            { '@type': 'AdministrativeArea', name: 'Orange County' },
+          ],
+          serviceType: 'Smart Websites for Home Services',
+        }}
       />
 
       <IndustryShowcaseTemplate

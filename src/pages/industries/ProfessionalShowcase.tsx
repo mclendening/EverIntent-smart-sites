@@ -80,6 +80,19 @@ export default function ProfessionalShowcase() {
         title="Professional Services AI Solutions | Law, Accounting, Real Estate"
         description="Convert more consultations with AI-powered client intake. Smart websites and phone answering for law firms, CPAs, and professional services. Convert from $197/mo."
         canonical="/industries/professional-services/showcase"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Service',
+          name: 'AI-Powered Websites for Professional Services',
+          description: 'Smart websites with AI client intake for law firms, CPAs, real estate agents, and professional services. Convert more consultations from $197/mo.',
+          provider: { '@type': 'Organization', name: 'EverIntent', url: 'https://everintent.com' },
+          areaServed: [
+            { '@type': 'City', name: 'Long Beach' },
+            { '@type': 'City', name: 'Los Angeles' },
+            { '@type': 'AdministrativeArea', name: 'Orange County' },
+          ],
+          serviceType: 'Smart Websites for Professional Services',
+        }}
       />
 
       <IndustryShowcaseTemplate

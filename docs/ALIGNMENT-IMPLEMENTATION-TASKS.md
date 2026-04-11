@@ -505,7 +505,7 @@ All copy changes must match the outcome-first framing of the portfolio detail pa
 
 ### DO NOT TOUCH
 - [ ] Portfolio embed system / portfolio site assets
-- [ ] `public/404.html`
+- [ ] `public/404.html` (created in Phase 7.4 — do not delete)
 - [ ] Legal pages (except tech stack FAQ removal in 4.1c)
 - [ ] Nav structure
 - [ ] `checkoutConfig.ts` product structures (except `annualPrice` field in 6.1)
@@ -558,7 +558,46 @@ Phase 6 (4 parallel tasks) ✅ COMPLETE
   ├── 6.2 Voice AI Chat Widget mentions ✅
   ├── 6.3 "Included free with Scale" badges ✅
   └── 6.4 Compare page scenario cards ✅
+
+Phase 7 (6 parallel tasks) 🔄 IN PROGRESS
+  ├── 7.1 Sitemap changefreq + priority
+  ├── 7.2 Industry pages structured data (8 files)
+  ├── 7.3 Add-ons page structured data
+  ├── 7.4 Create public/404.html
+  ├── 7.5 Fix duplicate FAQPage schema on tier pages
+  └── 7.6 Auto-generate sitemap at build time
 ```
+
+---
+
+## Phase 7: SEO Infrastructure Fixes
+
+> **Estimated effort:** 2-3 hours  
+> **Parallelism:** All 6 tasks are independent — can run in parallel.  
+> **Source:** Full SEO infrastructure audit (Questions 1-4) conducted 2026-04-11.
+
+| # | Task | File(s) | Current State | Target State | Success Criteria |
+|---|------|---------|--------------|--------------|-----------------|
+| 7.1 | Update sitemap.xml — add changefreq, priority per BRD hierarchy, update lastmod | `public/sitemap.xml` | 75 URLs, no changefreq/priority, stale uniform lastmod (2026-02-15) | All entries have changefreq + priority per BRD hierarchy (1.0 core → 0.2 legal). lastmod updated to today for changed pages. | `grep -c "priority" public/sitemap.xml` > 0. Priority values match BRD spec. |
+| 7.2 | Add structured data to 8 industry pages (4 hubs + 4 showcases) | `HomeServices.tsx`, `ProfessionalServices.tsx`, `HealthWellness.tsx`, `Automotive.tsx`, `HomeServicesShowcase.tsx`, `ProfessionalShowcase.tsx`, `HealthWellnessShowcase.tsx`, `AutomotiveShowcase.tsx` | No `structuredData` prop on SEO component | Service schema with name, description, provider, areaServed | Each page has `structuredData` with `@type: Service`. Valid JSON-LD in SSG output. |
+| 7.3 | Add structured data to add-ons page | `src/pages/smart-websites/AddOns.tsx` | No `structuredData` prop on SEO component | ItemList schema listing all 6 add-on packs with prices | `structuredData` present. ItemList has 6 items. |
+| 7.4 | Create public/404.html static file | `public/404.html` | File does not exist | Static HTML 404 page per SSG-BEST-PRACTICES | `ls public/404.html` succeeds. Page has basic HTML with redirect or message. |
+| 7.5 | Verify/fix duplicate FAQPage JSON-LD on Smart Website tier pages | `SmartSite.tsx`, `SmartLead.tsx`, `SmartBusiness.tsx`, `SmartGrowth.tsx` | FAQSection renders with `showSchema={true}` (default) AND SEO prop may also pass FAQ schema | Single FAQPage schema per page — no duplicates | Each tier page has exactly ONE `application/ld+json` block with `@type: FAQPage`. |
+| 7.6 | Auto-generate sitemap.xml at build time from prerenderRoutes | New: `scripts/generate-sitemap.ts`, update `package.json` build script | Hand-maintained `public/sitemap.xml` that drifts | Build-time generation from same route list SSG uses | `npm run build` produces sitemap.xml with all prerenderRoutes. Adding a route to prerenderRoutes automatically adds it to sitemap. |
+
+### Phase 7 Dependencies
+- None. All tasks are independent of each other and of Phases 1-6.
+- Task 7.6 supersedes Task 7.1 (once auto-generated, manual sitemap metadata is managed in the generator script).
+
+### Phase 7 Verification Checklist
+- [ ] Sitemap has changefreq + priority values
+- [ ] 8 industry pages have Service JSON-LD
+- [ ] Add-ons page has ItemList JSON-LD
+- [ ] `public/404.html` exists
+- [ ] No duplicate FAQPage schema on tier pages
+- [ ] Sitemap auto-generated at build time from prerenderRoutes
+
+> **Phase 7 Status: 🔄 IN PROGRESS**
 
 ---
 
@@ -601,3 +640,4 @@ Phase 6 (4 parallel tasks) ✅ COMPLETE
 | 2026-04-11 | 1.6 | **Phase 4 ✅ COMPLETE.** 4.1a: zero company-first intros in non-legal pages. 4.1c: zero WordPress/OVH. 4.1d: all 4 pricing tier descriptions rewritten outcome-first. 4.1e: no SLA jargon found. 4.2: all 4 SW tier page heroes updated with conviction-first headlines. 4.3: 10 FAQ answers rewritten — "setup fee" → "AI Training & Implementation fee" for $497+ tiers, "5-page" eliminated, SSL/mobile-responsive removed as selling points. All verified and approved. |
 | 2026-04-11 | 1.7 | **Phase 5 — Animated Proof Sections built.** 3 new components: `LeadCaptureDemo.tsx` (chat widget lead capture), `NoShowSaveDemo.tsx` (SMS reminder/reschedule), `MultiChannelDemo.tsx` (voice+SMS+chat activity feed). All in `src/components/smart-websites/`. Integrated into SmartLead, SmartBusiness, SmartGrowth pages. All wrapped in `ClientOnly`. All respect `prefers-reduced-motion`. Design tokens only — zero hardcoded colors. Pending iPhone verification. |
 | 2026-04-11 | 1.8 | **ALL PHASES COMPLETE.** Phase 5 verified — MultiChannelDemo timing fix (8s loop delay). Phase 6 verified — annual pricing toggle, Voice AI Chat Widget branding, "Included with Scale" badges, scenario cards on both compare pages. All 8 phases (1, 2, 2.5, 2.5B, 3, 4, 5, 6) confirmed by independent testing. 6 deferred items tracked for next sprint. |
+| 2026-04-11 | 1.9 | **Phase 7 — SEO Infrastructure Fixes** added. 6 tasks from full SEO audit: sitemap metadata, industry page schema (8 files), add-ons schema, 404.html, duplicate FAQ schema fix, auto-generated sitemap. All independent — parallel execution. |

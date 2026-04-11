@@ -79,6 +79,19 @@ export default function Automotive() {
         title="Automotive: AI for Auto Repair Shops"
         description="Smart websites and AI automation for auto repair, detailing, tire shops, body shops, towing, and 5 more automotive service verticals."
         canonical="/industries/automotive-services"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Service',
+          name: 'AI Automation for Automotive Services',
+          description: 'Smart websites and AI-powered scheduling for auto repair shops, detailing services, tire shops, body shops, towing companies, and 5 more automotive verticals.',
+          provider: { '@type': 'Organization', name: 'EverIntent', url: 'https://everintent.com' },
+          areaServed: [
+            { '@type': 'City', name: 'Long Beach' },
+            { '@type': 'City', name: 'Los Angeles' },
+            { '@type': 'AdministrativeArea', name: 'Orange County' },
+          ],
+          serviceType: 'AI Automation for Automotive Services',
+        }}
       />
       
       {/* Hero Section */}

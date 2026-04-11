@@ -448,6 +448,21 @@ export default function AddOns() {
         title="Add-On Packs: Expand Your Smart Website"
         description="Boost your Smart Website with modular add-on packs. Email deliverability, invoicing, social media, unified inbox, AI chat, and unlimited AI features starting at $49/mo."
         canonical="/smart-websites/add-ons"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'ItemList',
+          name: 'Smart Website Add-On Packs',
+          description: 'Modular add-on packs for EverIntent Smart Websites.',
+          numberOfItems: 6,
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Email Authority', url: 'https://everintent.com/smart-websites/add-ons' },
+            { '@type': 'ListItem', position: 2, name: 'Get Paid Now', url: 'https://everintent.com/smart-websites/add-ons' },
+            { '@type': 'ListItem', position: 3, name: 'Social Autopilot', url: 'https://everintent.com/smart-websites/add-ons' },
+            { '@type': 'ListItem', position: 4, name: 'Omnichannel Inbox', url: 'https://everintent.com/smart-websites/add-ons' },
+            { '@type': 'ListItem', position: 5, name: 'Voice AI Chat Widget', url: 'https://everintent.com/smart-websites/add-ons' },
+            { '@type': 'ListItem', position: 6, name: 'Unlimited AI', url: 'https://everintent.com/smart-websites/add-ons' },
+          ],
+        }}
       />
 
       {/* Detail Modal */}
