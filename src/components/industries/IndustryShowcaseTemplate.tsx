@@ -28,7 +28,8 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-
+import { FAQSection } from '@/components/faq';
+import { type FAQCategory } from '@/data/faqs';
 import { cn } from '@/lib/utils';
 
 // ============================================
@@ -86,8 +87,10 @@ export interface IndustryShowcaseProps {
   tierPrice: string;
   /** Recommended tier setup fee */
   tierSetup: string;
-  /** Industry-specific FAQ */
-  faqItems: FAQItem[];
+  /** Industry-specific FAQ items (legacy) */
+  faqItems?: FAQItem[];
+  /** Industry FAQ category for centralized FAQSection */
+  faqCategory?: FAQCategory;
   /** CTA button text */
   ctaText?: string;
   /** CTA link */
@@ -392,6 +395,7 @@ export function IndustryShowcaseTemplate({
   tierPrice,
   tierSetup,
   faqItems,
+  faqCategory,
   ctaText = 'Get Started',
   ctaLink = '/pricing',
 }: IndustryShowcaseProps) {
@@ -583,7 +587,11 @@ export function IndustryShowcaseTemplate({
           </div>
 
           <div className="max-w-2xl mx-auto">
-            <FAQAccordion items={faqItems} />
+            {faqCategory ? (
+              <FAQSection category={faqCategory} variant="bordered" />
+            ) : faqItems ? (
+              <FAQAccordion items={faqItems} />
+            ) : null}
           </div>
         </div>
       </section>
