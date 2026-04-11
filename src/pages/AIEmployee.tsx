@@ -12,6 +12,7 @@
 import { SEO } from '@/components/SEO';
 
 import { filterFAQs, generateFAQSchema } from '@/data/faqs';
+import { SMSDemo } from '@/components/ai-employee/SMSDemo';
 import { ClientOnly } from '@/components/ClientOnly';
 import { 
   ArrowRight,
