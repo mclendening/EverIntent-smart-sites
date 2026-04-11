@@ -11,6 +11,8 @@ import { Check, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SEO } from '@/components/SEO';
 import { RecommendedAddOns } from '@/components/smart-websites/RecommendedAddOns';
+import { LeadCaptureDemo } from '@/components/smart-websites/LeadCaptureDemo';
+import { ClientOnly } from '@/components/ClientOnly';
 import { ExpandableFeatureGrid } from '@/components/ai-employee';
 import { smartLeadFeatures } from '@/data/features';
 import { FAQSection } from '@/components/faq';
@@ -117,6 +119,11 @@ export default function SmartLead() {
           </div>
         </div>
       </section>
+
+      {/* Animated Proof — Lead Capture Demo */}
+      <ClientOnly>
+        <LeadCaptureDemo />
+      </ClientOnly>
 
       {/* Lead Capture Features - Expandable */}
       <section className="py-16 lg:py-24 bg-card/30">

@@ -11,6 +11,8 @@ import { Check, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SEO } from '@/components/SEO';
 import { RecommendedAddOns } from '@/components/smart-websites/RecommendedAddOns';
+import { NoShowSaveDemo } from '@/components/smart-websites/NoShowSaveDemo';
+import { ClientOnly } from '@/components/ClientOnly';
 import { ExpandableFeatureGrid } from '@/components/ai-employee';
 import { smartBusinessFeatures } from '@/data/features';
 import { FAQSection } from '@/components/faq';
@@ -119,6 +121,11 @@ export default function SmartBusiness() {
           </div>
         </div>
       </section>
+
+      {/* Animated Proof — No-Show Save Demo */}
+      <ClientOnly>
+        <NoShowSaveDemo />
+      </ClientOnly>
 
       {/* New Features - Expandable */}
       <section className="py-16 lg:py-24 bg-card/30">
