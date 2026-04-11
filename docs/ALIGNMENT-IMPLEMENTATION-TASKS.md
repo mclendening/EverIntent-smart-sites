@@ -263,3 +263,4 @@ Phase 6 (2 parallel tasks)
 | Date | Version | Change |
 |------|---------|--------|
 | 2026-04-11 | 1.0 | Initial task list created from Claude implementation spec + codebase audit |
+| 2026-04-11 | 1.1 | Added CRITICAL BLOCKER section: checkout not wired to GHL past Stage 2. Added decisions D7 (CTA targets) and D8 (sequencing). Updated Task 1.3 recommendation to link to detail page instead of checkout. |
