@@ -59,6 +59,7 @@ interface AddOnPack {
   icon: React.ElementType;
   features: string[];
   recommended?: string[];
+  includedWithScale?: boolean;
   // Expanded detail modal content
   details: {
     headline: string;
@@ -170,6 +171,7 @@ const addOnPacks: AddOnPack[] = [
       'Team collaboration',
     ],
     recommended: ['convert', 'scale'],
+    includedWithScale: true,
     details: {
       headline: 'Every conversation. One place.',
       description: 'Your customers reach out everywhere: SMS, email, Facebook, Instagram. Omnichannel Inbox pulls it all into one unified view so you never miss a message, and your team can respond faster.',
@@ -198,6 +200,7 @@ const addOnPacks: AddOnPack[] = [
       'Smart handoff to you',
     ],
     recommended: ['capture'],
+    includedWithScale: true,
     details: {
       headline: 'Your 24/7 AI receptionist, on your website',
       description: 'When visitors land on your site, AI Voice Chat engages them instantly. It answers questions, qualifies leads, and hands off warm prospects to you, even while you sleep.',
@@ -384,7 +387,12 @@ function PackCard({ pack, onLearnMore }: { pack: AddOnPack; onLearnMore: () => v
   const IconComponent = pack.icon;
   
   return (
-    <Card className="border-border/50 bg-card/50 hover:border-accent/50 transition-colors flex flex-col h-full">
+    <Card className="border-border/50 bg-card/50 hover:border-accent/50 transition-colors flex flex-col h-full relative">
+      {pack.includedWithScale && (
+        <div className="absolute top-3 right-3 text-[10px] font-semibold text-accent bg-accent/10 border border-accent/20 px-2 py-0.5 rounded-full">
+          Included with Scale
+        </div>
+      )}
       <CardHeader>
         <div className="flex items-center justify-between mb-2">
           <div className="p-3 rounded-xl bg-accent/10 border border-accent/20">
