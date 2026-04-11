@@ -28,12 +28,8 @@ import smartWebsiteHvacImg from '@/assets/lifestyle/smart-website-hvac.jpg';
 import missedCallImg from '@/assets/lifestyle/missed-call-recovery.jpg';
 import resultsDashboardImg from '@/assets/lifestyle/results-dashboard.jpg';
 import revenueGrowthImg from '@/assets/lifestyle/revenue-growth.jpg';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
+import { FAQSection } from '@/components/faq';
+import { filterFAQs, generateFAQSchema } from '@/data/faqs';
 
 // ============================================
 // DATA - Smart Websites
@@ -124,61 +120,9 @@ const aiPlans = [
   },
 ];
 
-// ============================================
-// DATA - FAQ
-// ============================================
-
-const faqItems = [
-  {
-    question: "Will my customers hate talking to a robot?",
-    answer: "The choice isn't AI vs. human. It's AI vs. voicemail. 85% of people who reach voicemail never call back — they call your competitor instead. Our AI answers in 2 seconds, knows your business, your hours, and your services. 94% of callers rate the experience 4+ stars. And most don't even realize they're talking to AI. Your competitor's voicemail isn't beating our AI.",
-  },
-  {
-    question: "Is $197/month expensive?",
-    answer: "A full-time receptionist costs $40,000 a year. We cost $2,364. And we work nights, weekends, and holidays without calling in sick. The average service business loses $50,000-$120,000 a year to missed calls (CallBird, 2026). If we capture one $200 job you would have missed, we've paid for ourselves for six months. The expensive option is doing nothing.",
-  },
-  {
-    question: "I need to think about it.",
-    answer: "How many calls did you miss this week? The data says 62% of calls to local businesses go unanswered. At $200+ per missed call, that's $1,000+ every week walking out the door. There are no contracts — you can cancel anytime. The only risk is waiting.",
-  },
-  {
-    question: "What's included in the one-time $249 price?",
-    answer: "Launch includes a professional 5-page website, mobile responsive design, SSL certificate, basic SEO setup, contact form, and Google Maps integration. You own the website forever. After the first year, hosting is just $149/year.",
-  },
-  {
-    question: "Can I upgrade from Launch to Capture later?",
-    answer: "Yes! You can upgrade to any higher tier at any time. We'll migrate everything seamlessly and prorate your billing. No rebuilds required. Every tier is upgrade-ready from day one.",
-  },
-  {
-    question: "Do I own my website?",
-    answer: "Yes, you own everything. Launch customers get the source code delivered. Higher tiers include hosting, but you can export and self-host anytime. No lock-in.",
-  },
-  {
-    question: "Is there a contract?",
-    answer: "No contracts. All monthly plans are month-to-month. Cancel anytime with no penalties. We believe in earning your business every month.",
-  },
-  {
-    question: "What's the setup process for AI Employee?",
-    answer: "Setup includes custom AI training for your business, integration with your existing systems (calendar, CRM, phone), workflow configuration, and 30-day optimization. Most setups are live within 5-7 business days.",
-  },
-  {
-    question: "Do all AI Employee plans include missed call text-back?",
-    answer: "Yes! All AI Employee plans include missed call text-back recovery. When you can't answer, AI texts the caller within 60 seconds to keep the lead warm.",
-  },
-];
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer,
-    },
-  })),
-};
+// FAQ data now from centralized source
+const pricingFAQItems = filterFAQs({ category: 'pricing', maxItems: 9 });
+const faqSchema = generateFAQSchema(pricingFAQItems);
 
 // ============================================
 // COMPONENT
@@ -491,22 +435,7 @@ const Pricing = () => {
           </div>
 
           <div className="max-w-3xl mx-auto">
-            <Accordion type="single" collapsible className="space-y-3">
-              {faqItems.map((item, index) => (
-                <AccordionItem
-                  key={index}
-                  value={`faq-${index}`}
-                  className="border border-border/30 rounded-xl px-6 bg-card/30 data-[state=open]:bg-card/50"
-                >
-                  <AccordionTrigger className="text-left text-foreground hover:text-accent hover:no-underline py-4">
-                    {item.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-4">
-                    {item.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <FAQSection category="pricing" showSchema={false} />
           </div>
         </div>
       </section>
