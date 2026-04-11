@@ -62,10 +62,10 @@ const websiteFeatures = [
 ];
 
 const websiteTiers = [
-  { id: 'launch', name: 'Launch', key: 't1', cta: 'Get Started', ctaStyle: 'secondary' as const, href: '/smart-websites/launch', checkoutHref: '/checkout/launch', image: smartWebsiteHvacImg, imageAlt: 'Professional business website displayed on laptop screen', description: 'Get online fast with a professional 5-page website. Mobile responsive, SEO-ready, delivered in 5 days.' },
-  { id: 'capture', name: 'Capture', key: 't2', cta: 'Get Started', ctaStyle: 'primary' as const, href: '/smart-websites/capture', checkoutHref: '/checkout/capture', image: missedCallImg, imageAlt: 'Smartphone showing missed call text-back notification from AI', description: 'Never miss a lead. AI chat widget, missed call text-back, CRM, and Google Business Profile sync.' },
-  { id: 'convert', name: 'Convert', key: 't3', cta: 'Get Started', ctaStyle: 'primary' as const, href: '/smart-websites/convert', checkoutHref: '/checkout/convert', image: resultsDashboardImg, imageAlt: 'Business dashboard showing booking and review automation metrics', description: 'Turn visitors into customers with online booking, review automation, CRM pipelines, and SMS campaigns.' },
-  { id: 'scale', name: 'Scale', key: 't4', cta: 'Get Started', ctaStyle: 'secondary' as const, href: '/smart-websites/scale', checkoutHref: '/checkout/scale', image: revenueGrowthImg, imageAlt: 'Revenue growth chart showing business scaling results', description: 'AI-powered growth engine with advanced automations, unified inbox, strategy calls, and full CRM.' },
+  { id: 'launch', name: 'Launch', key: 't1', cta: 'Build My Website', ctaStyle: 'secondary' as const, href: '/smart-websites/launch', checkoutHref: '/checkout/launch', image: smartWebsiteHvacImg, imageAlt: 'Professional business website displayed on laptop screen', description: 'Get online fast with a professional 5-page website. Mobile responsive, SEO-ready, delivered in 5 days.' },
+  { id: 'capture', name: 'Capture', key: 't2', cta: 'Start Capturing Leads', ctaStyle: 'primary' as const, href: '/smart-websites/capture', checkoutHref: '/checkout/capture', image: missedCallImg, imageAlt: 'Smartphone showing missed call text-back notification from AI', description: 'Never miss a lead. AI chat widget, missed call text-back, CRM, and Google Business Profile sync.' },
+  { id: 'convert', name: 'Convert', key: 't3', cta: 'Automate My Business', ctaStyle: 'primary' as const, href: '/smart-websites/convert', checkoutHref: '/checkout/convert', image: resultsDashboardImg, imageAlt: 'Business dashboard showing booking and review automation metrics', description: 'Turn visitors into customers with online booking, review automation, CRM pipelines, and SMS campaigns.' },
+  { id: 'scale', name: 'Scale', key: 't4', cta: 'Unlock Full AI', ctaStyle: 'secondary' as const, href: '/smart-websites/scale', checkoutHref: '/checkout/scale', image: revenueGrowthImg, imageAlt: 'Revenue growth chart showing business scaling results', description: 'AI-powered growth engine with advanced automations, unified inbox, strategy calls, and full CRM.' },
 ];
 
 // ============================================
@@ -80,7 +80,7 @@ const aiPlans = [
     imageAlt: 'Contractor checking phone at night for new appointment booking',
     bestFor: 'Complete after-hours coverage',
     price: '$197',
-    setup: '$997',
+    setup: '$997 AI Training',
     description: 'AI answers after hours, books appointments, and texts back missed calls. Never lose a lead when you\'re closed.',
     href: '/let-ai-handle-it/after-hours',
     checkoutHref: '/checkout/after-hours',
@@ -92,7 +92,7 @@ const aiPlans = [
     imageAlt: 'Busy front desk receptionist answering phones',
     bestFor: 'Screen, qualify, and transfer',
     price: '$297',
-    setup: '$1,497',
+    setup: '$1,497 AI Training',
     description: 'AI screens all calls, qualifies leads, recovers missed calls, and transfers hot opportunities live.',
     href: '/let-ai-handle-it/front-office',
     checkoutHref: '/checkout/front-office',
@@ -104,7 +104,7 @@ const aiPlans = [
     imageAlt: 'Business command center with multiple AI dashboard screens',
     bestFor: 'Complete AI-powered front office',
     price: '$597',
-    setup: '$2,500',
+    setup: '$2,500 AI Training',
     description: 'All features included. Your complete AI-powered front office: voice, SMS, booking, screening, web chat, and Unlimited AI.',
     featured: true,
     href: '/let-ai-handle-it/full-ai-employee',
@@ -117,7 +117,7 @@ const aiPlans = [
     imageAlt: 'Laptop showing AI chat widget conversation',
     bestFor: 'Website chat without phone',
     price: '$79',
-    setup: '$497',
+    setup: '$497 AI Training',
     description: 'AI chat widget for your website. Capture leads 24/7 without voice AI.',
     href: '/contact',
     checkoutHref: '/checkout/web-chat',
