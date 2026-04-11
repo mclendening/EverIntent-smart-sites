@@ -305,6 +305,14 @@ const Pricing = () => {
                         >
                           {tier.cta}
                         </a>
+                        {(tier.id === 'convert' || tier.id === 'scale') && (
+                          <a
+                            href="/contact"
+                            className="text-sm text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+                          >
+                            Want to talk first?
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
