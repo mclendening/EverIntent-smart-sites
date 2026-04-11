@@ -40,7 +40,8 @@ import {
   Star,
   Check,
   X,
-  AlertCircle
+  AlertCircle,
+  ChevronDown
 } from 'lucide-react';
 
 import { 
@@ -49,8 +50,8 @@ import {
   InboxPlacementDashboard,
   DomainHealthDashboard
 } from '@/components/warmy/RealisticDashboards';
-import { FAQSection } from '@/components/faq';
-import { filterFAQs, generateFAQSchema } from '@/data/faqs';
+
+// ============================================
 // DATA DEFINITIONS
 // ============================================
 
@@ -113,6 +114,36 @@ const integrations = [
 ];
 
 /**
+ * FAQ items for SEO/AEO - structured for voice search
+ */
+const faqItems = [
+  {
+    question: 'How long does email warm-up take?',
+    answer: 'Most domains reach optimal deliverability within 2-4 weeks. New domains may take longer. Our AI adjusts the pace based on your domain reputation, ensuring safe and effective warm-up.',
+  },
+  {
+    question: 'How many emails can I send with Warmy?',
+    answer: 'Warmy handles warm-up emails automatically. Your regular sending limits depend on your email provider. We optimize delivery and reputation, not volume limits.',
+  },
+  {
+    question: 'Does Warmy work with GoHighLevel?',
+    answer: 'Yes! Warmy integrates seamlessly with GoHighLevel (GHL) and any SMTP-compatible email system including Gmail, Outlook, and custom SMTP servers.',
+  },
+  {
+    question: 'What if I already have email deliverability issues?',
+    answer: 'Warmy can help recover damaged sender reputation. The warm-up process gradually rebuilds trust with email providers while our monitoring prevents future issues.',
+  },
+  {
+    question: 'Is Warmy included with any Smart Websites plan?',
+    answer: 'Yes! Warmy Email Deliverability is included free with our Smart Websites: Scale plan ($297/month). Standalone pricing is $49/month for businesses on other plans or with existing websites.',
+  },
+  {
+    question: 'What email providers does inbox testing cover?',
+    answer: 'Our inbox placement testing covers 35+ email providers including Gmail, Outlook, Yahoo, AOL, iCloud, and major corporate email systems.',
+  },
+];
+
+/**
  * Testimonials for social proof
  */
 const testimonials = [
@@ -147,8 +178,21 @@ export default function WarmyEmailDeliverability() {
         title="Email Deliverability: AI Warm-Up"
         description="Stop landing in spam. AI warm-up, inbox testing across 35+ providers, and domain monitoring. $49/mo or free with Smart Websites: Scale."
         canonical="/warmy-email-deliverability"
-        structuredData={generateFAQSchema(filterFAQs({ category: 'warmy' }))}
       />
+
+      {/* JSON-LD Schema for FAQ - AEO optimization */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": faqItems.map(item => ({
+          "@type": "Question",
+          "name": item.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": item.answer
+          }
+        }))
+      })}} />
 
       {/* Custom CSS for animations */}
       <style dangerouslySetInnerHTML={{ __html: `
@@ -391,7 +435,17 @@ export default function WarmyEmailDeliverability() {
         <div className="container">
           <div className="max-w-xl mx-auto">
             <h2 className="text-base font-bold text-center mb-3">FAQ</h2>
-            <FAQSection category="warmy" maxItems={4} showSchema={false} variant="minimal" />
+            <div className="grid gap-0.5">
+              {faqItems.slice(0, 4).map((item, index) => (
+                <details key={index} className="group bg-muted/30 rounded">
+                  <summary className="flex items-center justify-between p-2 cursor-pointer list-none text-xs">
+                    <span className="font-medium">{item.question}</span>
+                    <ChevronDown className="w-3 h-3 text-muted-foreground group-open:rotate-180 transition-transform ml-2" />
+                  </summary>
+                  <div className="px-2 pb-2 text-[11px] text-muted-foreground">{item.answer}</div>
+                </details>
+              ))}
+            </div>
           </div>
         </div>
       </section>

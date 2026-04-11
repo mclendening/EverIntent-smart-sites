@@ -55,6 +55,10 @@ export interface PainPoint {
   stat: string;
 }
 
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
 
 export interface IndustryShowcaseProps {
   /** Industry category name */
@@ -83,8 +87,10 @@ export interface IndustryShowcaseProps {
   tierPrice: string;
   /** Recommended tier setup fee */
   tierSetup: string;
+  /** Industry-specific FAQ items (legacy) */
+  faqItems?: FAQItem[];
   /** Industry FAQ category for centralized FAQSection */
-  faqCategory: FAQCategory;
+  faqCategory?: FAQCategory;
   /** CTA button text */
   ctaText?: string;
   /** CTA link */
@@ -287,6 +293,42 @@ function WebsiteMockupGallery({ mockups }: { mockups: WebsiteMockup[] }) {
   );
 }
 
+// ============================================
+// FAQ ACCORDION
+// ============================================
+
+function FAQAccordion({ items }: { items: FAQItem[] }) {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  return (
+    <div className="space-y-3">
+      {items.map((item, index) => (
+        <div
+          key={index}
+          className="bg-card rounded-xl border border-border/30 overflow-hidden"
+        >
+          <button
+            onClick={() => setOpenIndex(openIndex === index ? null : index)}
+            className="w-full flex items-center justify-between p-4 text-left hover:bg-muted/30 transition-colors"
+          >
+            <span className="font-medium text-foreground pr-4">{item.question}</span>
+            <ChevronDown 
+              className={cn(
+                "w-5 h-5 text-muted-foreground flex-shrink-0 transition-transform duration-200",
+                openIndex === index && "rotate-180"
+              )} 
+            />
+          </button>
+          {openIndex === index && (
+            <div className="px-4 pb-4 animate-in slide-in-from-top-2 duration-200">
+              <p className="text-muted-foreground text-sm leading-relaxed">{item.answer}</p>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 // ============================================
 // STICKY CTA HEADER
@@ -352,6 +394,7 @@ export function IndustryShowcaseTemplate({
   recommendedTier,
   tierPrice,
   tierSetup,
+  faqItems,
   faqCategory,
   ctaText = 'Get Started',
   ctaLink = '/pricing',
@@ -544,7 +587,11 @@ export function IndustryShowcaseTemplate({
           </div>
 
           <div className="max-w-2xl mx-auto">
-            <FAQSection category={faqCategory} variant="bordered" />
+            {faqCategory ? (
+              <FAQSection category={faqCategory} variant="bordered" />
+            ) : faqItems ? (
+              <FAQAccordion items={faqItems} />
+            ) : null}
           </div>
         </div>
       </section>
