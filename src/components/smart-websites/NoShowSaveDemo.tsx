@@ -51,7 +51,7 @@ function StaticView() {
                 <p className="whitespace-pre-wrap">{msg.text}</p>
                 <div className="flex items-center justify-end gap-1 mt-1">
                   <span className="text-[10px] text-accent-foreground/70">{msg.time}</span>
-                  <span className="text-[10px] text-green-400">✓✓</span>
+                  <span className="text-[10px] text-accent">✓✓</span>
                 </div>
               </div>
             </div>
