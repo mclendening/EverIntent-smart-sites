@@ -53,7 +53,6 @@ const websiteFeatures = [
   { name: 'AI Chat Widget', t1: false, t2: true, t3: true, t4: true },
   { name: 'CRM / Contacts', t1: false, t2: true, t3: true, t4: true },
   { name: 'Mobile App', t1: false, t2: true, t3: true, t4: true },
-  { name: 'Mobile App', t1: false, t2: true, t3: true, t4: true },
   { name: 'Online Booking', t1: false, t2: false, t3: true, t4: true },
   { name: 'Pipeline Management', t1: false, t2: false, t3: true, t4: true },
   { name: 'Review Automation', t1: false, t2: false, t3: true, t4: true },

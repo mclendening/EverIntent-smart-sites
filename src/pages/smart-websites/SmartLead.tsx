@@ -129,7 +129,7 @@ export default function SmartLead() {
               <span className="text-xl text-muted-foreground">/month</span>
             </div>
             <p className="text-sm text-muted-foreground mb-8">
-              $249 setup • 5-day delivery • No contracts
+              $0 setup • 5-day delivery • No contracts
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
