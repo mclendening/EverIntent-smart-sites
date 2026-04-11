@@ -12,6 +12,7 @@
  */
 
 import { SEO } from '@/components/SEO';
+import { filterFAQs, generateFAQSchema } from '@/data/faqs';
 import { CTAButton } from '@/components/CTAButton';
 import { ClientOnly } from '@/components/ClientOnly';
 import { 
@@ -84,16 +85,7 @@ export default function FullAIEmployee() {
               availability: 'https://schema.org/InStock',
             },
           },
-          {
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: [
-              { '@type': 'Question', name: 'What does the Full AI Employee include?', acceptedAnswer: { '@type': 'Answer', text: 'Voice AI call answering, SMS automation, web chat, appointment booking, call screening, live transfers, and CRM integration across all channels. One flat monthly price with no per-message fees.' } },
-              { '@type': 'Question', name: 'How is Full AI Employee different from individual modes?', acceptedAnswer: { '@type': 'Answer', text: 'Instead of paying separately for After-Hours and Front Office modes, the Full AI Employee bundles everything into one unified system with priority support, white-glove onboarding, and 2,500 voice minutes.' } },
-              { '@type': 'Question', name: 'How many voice minutes are included?', acceptedAnswer: { '@type': 'Answer', text: '2,500 voice minutes per month. Additional minutes are $0.06 each. Most businesses never exceed this allowance.' } },
-              { '@type': 'Question', name: 'How much does the Full AI Employee cost?', acceptedAnswer: { '@type': 'Answer', text: '$597 per month plus a one-time $2,500 setup fee that includes white-glove onboarding, AI training on your business, and full system configuration.' } },
-            ],
-          },
+          generateFAQSchema(filterFAQs({ products: ['full-ai'] })),
         ]}
       />
       

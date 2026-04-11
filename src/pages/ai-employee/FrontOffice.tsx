@@ -10,6 +10,7 @@
  */
 
 import { SEO } from '@/components/SEO';
+import { filterFAQs, generateFAQSchema } from '@/data/faqs';
 import { CTAButton } from '@/components/CTAButton';
 import { ClientOnly } from '@/components/ClientOnly';
 import { 
@@ -99,16 +100,7 @@ export default function FrontOffice() {
               availability: 'https://schema.org/InStock',
             },
           },
-          {
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: [
-              { '@type': 'Question', name: 'How does Front Office AI screen calls?', acceptedAnswer: { '@type': 'Answer', text: 'AI answers every call instantly, asks your custom qualifying questions (service needed, timeline, budget), scores the lead, and either transfers hot prospects live or politely ends non-fit calls.' } },
-              { '@type': 'Question', name: 'What happens to spam and solicitor calls?', acceptedAnswer: { '@type': 'Answer', text: 'AI identifies spam, robocalls, and solicitors within seconds and politely ends the call. You never see or waste time on junk calls.' } },
-              { '@type': 'Question', name: 'How fast are qualified leads transferred?', acceptedAnswer: { '@type': 'Answer', text: 'Hot leads are warm-transferred to you in under 10 seconds with a whisper summary of their needs, budget, and timeline so you can close faster.' } },
-              { '@type': 'Question', name: 'How much does Front Office AI cost?', acceptedAnswer: { '@type': 'Answer', text: '$297 per month plus a one-time $1,497 setup fee. Includes 1,000 voice minutes, unlimited SMS, lead qualification, and live call transfers.' } },
-            ],
-          },
+          generateFAQSchema(filterFAQs({ products: ['front-office'] })),
         ]}
       />
       
