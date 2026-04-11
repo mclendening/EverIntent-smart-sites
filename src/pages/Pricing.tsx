@@ -131,7 +131,20 @@ const faqSchema = generateFAQSchema(pricingFAQItems);
 const Pricing = () => {
   const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState<'websites' | 'ai'>('websites');
+  const [annualBilling, setAnnualBilling] = useState(false);
   
+  // Annual = 10 months for the price of 12 (2 months free)
+  const getPrice = (monthlyPrice: string, isOneTime: boolean) => {
+    if (isOneTime || !annualBilling) return monthlyPrice;
+    const num = parseInt(monthlyPrice.replace('$', '').replace('/mo', ''));
+    return `$${num * 10}/yr`;
+  };
+  
+  const getMonthlyEquiv = (monthlyPrice: string, isOneTime: boolean) => {
+    if (isOneTime || !annualBilling) return null;
+    const num = parseInt(monthlyPrice.replace('$', '').replace('/mo', ''));
+    return `$${Math.round((num * 10) / 12)}/mo`;
+  };
   // Read tab from URL param on mount
   useEffect(() => {
     const tabParam = searchParams.get('tab');
@@ -224,11 +237,30 @@ const Pricing = () => {
       {activeTab === 'websites' && (
         <section id="smart-websites" className="py-16 md:py-24 bg-muted/30">
           <div className="container mx-auto px-4">
+            {/* Annual/Monthly Toggle */}
+            <div className="flex items-center justify-center gap-3 mb-10">
+              <span className={`text-sm font-medium ${!annualBilling ? 'text-foreground' : 'text-muted-foreground'}`}>Monthly</span>
+              <button
+                onClick={() => setAnnualBilling(!annualBilling)}
+                className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors ${annualBilling ? 'bg-accent' : 'bg-muted'}`}
+                aria-label="Toggle annual billing"
+              >
+                <span className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-md transition-transform ${annualBilling ? 'translate-x-6' : 'translate-x-1'}`} />
+              </button>
+              <span className={`text-sm font-medium ${annualBilling ? 'text-foreground' : 'text-muted-foreground'}`}>Annual</span>
+              {annualBilling && (
+                <span className="text-xs font-semibold text-accent bg-accent/10 px-2 py-0.5 rounded-full">Save 2 months</span>
+              )}
+            </div>
             {/* Plan Cards - matching AI Employee layout */}
             <div className="space-y-4 max-w-4xl mx-auto mb-16">
               {websiteTiers.map((tier) => {
                 const priceFeature = websiteFeatures.find(f => f.name === 'Price');
                 const billingFeature = websiteFeatures.find(f => f.name === 'Billing');
+                const rawPrice = priceFeature?.[tier.key as keyof typeof priceFeature] as string || '';
+                const isOneTime = tier.id === 'launch';
+                const displayPrice = isOneTime ? rawPrice : (annualBilling ? getPrice(rawPrice, false) : rawPrice);
+                const monthlyEquiv = getMonthlyEquiv(rawPrice, isOneTime);
                 return (
                   <div
                     key={tier.id}
@@ -244,8 +276,11 @@ const Pricing = () => {
                         <div>
                           <h3 className="font-semibold text-foreground">{tier.name}</h3>
                           <p className="text-sm text-muted-foreground">
-                            {priceFeature?.[tier.key as keyof typeof priceFeature]} {billingFeature?.[tier.key as keyof typeof billingFeature]}
+                            {displayPrice} {isOneTime ? 'One-time' : (annualBilling ? 'Billed annually' : billingFeature?.[tier.key as keyof typeof billingFeature])}
                           </p>
+                          {monthlyEquiv && (
+                            <p className="text-xs text-accent">{monthlyEquiv} effective</p>
+                          )}
                         </div>
                       </div>
 

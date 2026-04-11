@@ -482,6 +482,32 @@ export default function CompareWebsites() {
             </a>
           </div>
         </section>
+
+        {/* Scenario Cards */}
+        <section className="pb-8 md:pb-12">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-lg font-semibold text-foreground text-center mb-6">Not sure which plan? Start with your problem.</h2>
+              <div className="grid md:grid-cols-3 gap-4">
+                <a href="/smart-websites/launch" className="p-4 rounded-xl border border-border/30 bg-card/30 hover:border-accent/30 transition-colors group">
+                  <p className="text-sm font-semibold text-foreground mb-1">"I don't have a website yet"</p>
+                  <p className="text-xs text-muted-foreground mb-2">You need credibility fast. A professional site in 5 days.</p>
+                  <span className="text-xs text-accent font-medium group-hover:underline">Launch → $249 one-time</span>
+                </a>
+                <a href="/smart-websites/capture" className="p-4 rounded-xl border border-border/30 bg-card/30 hover:border-accent/30 transition-colors group">
+                  <p className="text-sm font-semibold text-foreground mb-1">"I'm losing leads after hours"</p>
+                  <p className="text-xs text-muted-foreground mb-2">AI chat + missed call text-back captures every lead 24/7.</p>
+                  <span className="text-xs text-accent font-medium group-hover:underline">Capture → $97/mo</span>
+                </a>
+                <a href="/smart-websites/scale" className="p-4 rounded-xl border border-border/30 bg-card/30 hover:border-accent/30 transition-colors group">
+                  <p className="text-sm font-semibold text-foreground mb-1">"I want AI to run my front office"</p>
+                  <p className="text-xs text-muted-foreground mb-2">Full automation: booking, follow-ups, unified inbox, AI workflows.</p>
+                  <span className="text-xs text-accent font-medium group-hover:underline">Scale → $297/mo</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
         
         {/* Gradient Divider */}
         <div className="h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />

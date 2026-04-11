@@ -24,7 +24,8 @@ import {
 import { fullAiFeatures } from '@/data/features';
 import { 
   ArrowRight, 
-  Phone, 
+  Phone,
+  Globe,
   CheckCircle2,
   Star,
   Users,
@@ -224,14 +225,24 @@ export default function FullAIEmployee() {
           </div>
         </section>
 
-        {/* Voice Minutes Callout */}
+        {/* Voice AI & Chat Widget Callout */}
         <section className="py-16 md:py-24">
           <div className="container">
-            <div className="max-w-3xl mx-auto p-6 rounded-2xl bg-accent/10 border border-accent/30 text-center">
-              <h3 className="text-lg font-semibold text-foreground mb-2">Voice AI Minutes</h3>
-              <p className="text-3xl font-bold text-accent mb-1">2,500 voice minutes/mo</p>
-              <p className="text-sm text-muted-foreground mb-2">$0.06/min after</p>
-              <p className="text-xs text-accent">Most businesses never exceed this</p>
+            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              <div className="p-6 rounded-2xl bg-accent/10 border border-accent/30 text-center">
+                <Phone className="w-8 h-8 text-accent mx-auto mb-3" />
+                <h3 className="text-lg font-semibold text-foreground mb-2">Voice AI Minutes</h3>
+                <p className="text-3xl font-bold text-accent mb-1">2,500 minutes/mo</p>
+                <p className="text-sm text-muted-foreground mb-2">$0.06/min after</p>
+                <p className="text-xs text-accent">Most businesses never exceed this</p>
+              </div>
+              <div className="p-6 rounded-2xl bg-accent/10 border border-accent/30 text-center">
+                <Globe className="w-8 h-8 text-accent mx-auto mb-3" />
+                <h3 className="text-lg font-semibold text-foreground mb-2">Voice AI Chat Widget</h3>
+                <p className="text-3xl font-bold text-accent mb-1">Included</p>
+                <p className="text-sm text-muted-foreground mb-2">$79/mo value — free with Full AI</p>
+                <p className="text-xs text-accent">24/7 AI chat on your website</p>
+              </div>
             </div>
           </div>
         </section>

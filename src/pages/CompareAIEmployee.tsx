@@ -177,7 +177,7 @@ const featureCategories = [
   {
     name: 'Premium Features',
     features: [
-      { name: 'AI Web Chat Widget', tooltip: 'AI-powered chatbot for your website. Captures leads 24/7.', values: ['+$79/mo', '+$79/mo', 'Included'], badge: 'addon' },
+      { name: 'Voice AI Chat Widget', tooltip: 'AI-powered chatbot for your website. Captures leads 24/7.', values: ['+$79/mo', '+$79/mo', 'Included'], badge: 'addon' },
       { name: 'Dedicated onboarding', tooltip: 'White-glove setup assistance', values: [false, true, true] },
       { name: 'Priority support', tooltip: 'Fast-track support response', values: [false, false, true] },
       { name: 'Monthly optimization', tooltip: 'Ongoing AI tuning and improvements', values: [false, false, true] },
@@ -442,6 +442,32 @@ export default function CompareAIEmployee() {
             <a href="/contact" className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors text-sm font-medium">
               Need help choosing? Book a call →
             </a>
+          </div>
+        </section>
+
+        {/* Scenario Cards */}
+        <section className="pb-8 md:pb-12">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-lg font-semibold text-foreground text-center mb-6">Not sure which mode? Start with your problem.</h2>
+              <div className="grid md:grid-cols-3 gap-4">
+                <a href="/let-ai-handle-it/after-hours" className="p-4 rounded-xl border border-border/30 bg-card/30 hover:border-accent/30 transition-colors group">
+                  <p className="text-sm font-semibold text-foreground mb-1">"I miss calls after 5pm"</p>
+                  <p className="text-xs text-muted-foreground mb-2">AI answers after hours, books appointments, and texts back missed calls.</p>
+                  <span className="text-xs text-accent font-medium group-hover:underline">After-Hours → $197/mo</span>
+                </a>
+                <a href="/let-ai-handle-it/front-office" className="p-4 rounded-xl border border-border/30 bg-card/30 hover:border-accent/30 transition-colors group">
+                  <p className="text-sm font-semibold text-foreground mb-1">"I waste time on unqualified calls"</p>
+                  <p className="text-xs text-muted-foreground mb-2">AI screens every call, qualifies leads, and transfers hot opportunities live.</p>
+                  <span className="text-xs text-accent font-medium group-hover:underline">Front Office → $297/mo</span>
+                </a>
+                <a href="/let-ai-handle-it/full-ai-employee" className="p-4 rounded-xl border border-border/30 bg-card/30 hover:border-accent/30 transition-colors group">
+                  <p className="text-sm font-semibold text-foreground mb-1">"I want AI handling everything"</p>
+                  <p className="text-xs text-muted-foreground mb-2">Voice, SMS, web chat, booking, screening — your complete AI team member.</p>
+                  <span className="text-xs text-accent font-medium group-hover:underline">Full AI Employee → $597/mo</span>
+                </a>
+              </div>
+            </div>
           </div>
         </section>
         
