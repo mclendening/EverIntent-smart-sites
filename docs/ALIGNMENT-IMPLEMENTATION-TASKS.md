@@ -1,6 +1,6 @@
 # EverIntent Alignment Implementation Task List
 
-**Version:** 1.4  
+**Version:** 1.5  
 **Created:** 2026-04-11  
 **Source:** Claude Implementation Spec + Codebase Audit + Analysis Cross-Reference  
 **Reference:** `docs/ALIGNMENT-ANALYSIS-v1.md`  
@@ -594,3 +594,4 @@ Phase 6 (4 parallel tasks)
 | 2026-04-11 | 1.2 | **Analysis cross-reference pass:** Added `[A§N]` refs to every task. Pulled pre-written FAQ copy from Analysis §9 into Task 2.1. Enriched Task 3.3 with validated market data + citations. Added 4 new tasks from analysis gaps: 2.6 (Choose Your Mode), 3.5 (Industries hero), 4.1e (FAQ response time), 6.3 (Scale badges), 6.4 (Compare scenario cards). Added Deferred Items table for post-launch. Added spec doc references to Checkout Status section. |
 | 2026-04-11 | 1.3 | **Phase 2.5 — FAQ Architecture Audit** added as dependency resolution before Phase 3. Audited 20+ files — found zero centralized FAQ system. All content hardcoded inline per-page with voice drift. No Supabase FAQ table exists. Proposed repo-file + shared component architecture. Updated Phase 3 to show Stream C blocked by 2.5. Updated parallel execution map. Task 4.3 and 6.4 flagged as blocked. |
 | 2026-04-11 | 1.4 | **Phase 2.5B — FAQ Migration Completion** added with 6 tasks covering remaining 12+ file migrations. **Task 4.3** added to Phase 4 — FAQ content scrub with search patterns, blocked by 2.5B. Marked Phases 1, 2, 2.5, 3 as ✅ COMPLETE with verification dates. Updated parallel execution map to show 2.5B as next action. Task 6.4 blocker updated from 2.5 → 2.5B. |
+| 2026-04-11 | 1.5 | **Phase 2.5B ✅ COMPLETE.** All 16 files migrated to centralized FAQ system. Added tasks 2.5B.7 (Services.tsx), 2.5B.8 (WarmyEmailDeliverability.tsx), 2.5B.9 (removed dead `faqItems` prop + `FAQAccordion` from IndustryShowcaseTemplate). Added `services` category to `faqs.ts` with 6 new entries. `grep` verification: zero hardcoded FAQ arrays in `src/`. Task 4.3 now unblocked. |
