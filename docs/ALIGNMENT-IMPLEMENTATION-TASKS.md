@@ -1,6 +1,6 @@
 # EverIntent Alignment Implementation Task List
 
-**Version:** 1.4  
+**Version:** 1.5  
 **Created:** 2026-04-11  
 **Source:** Claude Implementation Spec + Codebase Audit + Analysis Cross-Reference  
 **Reference:** `docs/ALIGNMENT-ANALYSIS-v1.md`  
@@ -273,35 +273,42 @@ Architecture approved 2026-04-11. Downstream updates applied:
 
 ---
 
-## Phase 2.5B: FAQ Migration Completion
+## Phase 2.5B: FAQ Migration Completion ✅ COMPLETE
 
 > **Estimated effort:** 1-2 hours  
 > **Blocks:** Phase 4 Task 4.3 (FAQ content scrub)  
-> **Parallelism:** All page migrations are independent — can run in parallel.
+> **Parallelism:** All page migrations are independent — can run in parallel.  
+> **Status:** ✅ COMPLETE — All migrations verified 2026-04-11
 
-| # | Task | File(s) | Current State | Target State | Success Criteria |
-|---|------|---------|--------------|--------------|-----------------|
-| 2.5B.1 | Migrate Smart Website tier pages to FAQSection | `SmartSite.tsx`, `SmartLead.tsx`, `SmartBusiness.tsx`, `SmartGrowth.tsx` | Hardcoded `faqs[]` arrays + manual JSON-LD | `<FAQSection>` with product/category filters, auto JSON-LD | Zero inline FAQ arrays in these 4 files. JSON-LD auto-generated. |
-| 2.5B.2 | Migrate AI Employee pages to FAQSection | `AIEmployee.tsx`, `AfterHours.tsx`, `FrontOffice.tsx`, `FullAIEmployee.tsx` | Inline FAQPage JSON-LD in `structuredData` prop, no visible FAQ section or hardcoded arrays | `<FAQSection>` with product filters if visible FAQ needed, or FAQPage schema generated from `faqs.ts` data | Zero manual JSON-LD construction for FAQ in these files. |
-| 2.5B.3 | Migrate Help and Support pages to FAQSection | `Help.tsx`, `Support.tsx` | Inline FAQPage JSON-LD | `<FAQSection>` with appropriate filters | Zero manual JSON-LD in these files. |
-| 2.5B.4 | Migrate Industry Showcase pages to FAQSection | All `industries/*Showcase.tsx` files | `faqItems[]` passed to `IndustryShowcaseTemplate` | Industry FAQs in `faqs.ts` tagged by industry. Template uses `<FAQSection>` with industry tag filter. | Zero hardcoded FAQ arrays in showcase files. Template pulls from centralized source. |
-| 2.5B.5 | Verify zero hardcoded FAQ arrays remain | Full `src/` search | Some files still have inline FAQ | `grep -r "faqItems\|faqs\s*=" src/ --include="*.tsx"` returns zero matches outside of `faqs.ts` and `FAQSection` | No hardcoded FAQ content anywhere in `src/` except `src/data/faqs.ts`. |
-| 2.5B.6 | Resolve duplicate questions with conflicting answers | `src/data/faqs.ts` | Same question may exist with different answers from different source pages | One canonical answer per question, selected using Voice Calibration Standard | Show me every duplicate conflict with both versions + recommended winner before committing. |
+| # | Task | File(s) | Status |
+|---|------|---------|--------|
+| 2.5B.1 | Migrate Smart Website tier pages to FAQSection | `SmartSite.tsx`, `SmartLead.tsx`, `SmartBusiness.tsx`, `SmartGrowth.tsx` | ✅ |
+| 2.5B.2 | Migrate AI Employee pages to FAQSection | `AIEmployee.tsx`, `AfterHours.tsx`, `FrontOffice.tsx`, `FullAIEmployee.tsx` | ✅ |
+| 2.5B.3 | Migrate Help and Support pages to FAQSection | `Help.tsx`, `Support.tsx` | ✅ |
+| 2.5B.4 | Migrate Industry Showcase pages to FAQSection | All `industries/*Showcase.tsx` + `IndustryShowcaseTemplate.tsx` | ✅ |
+| 2.5B.5 | Verify zero hardcoded FAQ arrays remain | Full `src/` search | ✅ |
+| 2.5B.6 | Resolve duplicate questions with conflicting answers | `src/data/faqs.ts` | ✅ No conflicts found |
+| 2.5B.7 | Migrate Services.tsx to FAQSection | `Services.tsx` | ✅ Added `services` category to faqs.ts with 6 entries |
+| 2.5B.8 | Migrate WarmyEmailDeliverability.tsx to FAQSection | `WarmyEmailDeliverability.tsx` | ✅ Already in faqs.ts as `warmy` category |
+| 2.5B.9 | Remove dead `faqItems` prop from IndustryShowcaseTemplate | `IndustryShowcaseTemplate.tsx` | ✅ Removed prop, FAQItem type, and FAQAccordion component |
 
 ### Phase 2.5B Verification Checklist
-- [ ] `SmartSite.tsx` — no inline FAQ array, no manual JSON-LD
-- [ ] `SmartLead.tsx` — same
-- [ ] `SmartBusiness.tsx` — same
-- [ ] `SmartGrowth.tsx` — same
-- [ ] `AIEmployee.tsx` — no manual FAQ JSON-LD
-- [ ] `AfterHours.tsx` — same
-- [ ] `FrontOffice.tsx` — same
-- [ ] `FullAIEmployee.tsx` — same
-- [ ] `Help.tsx` — same
-- [ ] `Support.tsx` — same
-- [ ] All `*Showcase.tsx` — same
-- [ ] `grep` confirms zero hardcoded FAQ arrays in `src/`
-- [ ] All duplicate questions resolved with Voice Calibration Standard
+- [x] `SmartSite.tsx` — no inline FAQ array, no manual JSON-LD
+- [x] `SmartLead.tsx` — same
+- [x] `SmartBusiness.tsx` — same
+- [x] `SmartGrowth.tsx` — same
+- [x] `AIEmployee.tsx` — no manual FAQ JSON-LD
+- [x] `AfterHours.tsx` — same
+- [x] `FrontOffice.tsx` — same
+- [x] `FullAIEmployee.tsx` — same
+- [x] `Help.tsx` — same
+- [x] `Support.tsx` — same
+- [x] All `*Showcase.tsx` — same
+- [x] `Services.tsx` — same
+- [x] `WarmyEmailDeliverability.tsx` — same
+- [x] `IndustryShowcaseTemplate.tsx` — dead `faqItems` prop removed
+- [x] `grep` confirms zero hardcoded FAQ arrays in `src/`
+- [x] All duplicate questions resolved with Voice Calibration Standard
 
 ---
 
@@ -587,3 +594,4 @@ Phase 6 (4 parallel tasks)
 | 2026-04-11 | 1.2 | **Analysis cross-reference pass:** Added `[A§N]` refs to every task. Pulled pre-written FAQ copy from Analysis §9 into Task 2.1. Enriched Task 3.3 with validated market data + citations. Added 4 new tasks from analysis gaps: 2.6 (Choose Your Mode), 3.5 (Industries hero), 4.1e (FAQ response time), 6.3 (Scale badges), 6.4 (Compare scenario cards). Added Deferred Items table for post-launch. Added spec doc references to Checkout Status section. |
 | 2026-04-11 | 1.3 | **Phase 2.5 — FAQ Architecture Audit** added as dependency resolution before Phase 3. Audited 20+ files — found zero centralized FAQ system. All content hardcoded inline per-page with voice drift. No Supabase FAQ table exists. Proposed repo-file + shared component architecture. Updated Phase 3 to show Stream C blocked by 2.5. Updated parallel execution map. Task 4.3 and 6.4 flagged as blocked. |
 | 2026-04-11 | 1.4 | **Phase 2.5B — FAQ Migration Completion** added with 6 tasks covering remaining 12+ file migrations. **Task 4.3** added to Phase 4 — FAQ content scrub with search patterns, blocked by 2.5B. Marked Phases 1, 2, 2.5, 3 as ✅ COMPLETE with verification dates. Updated parallel execution map to show 2.5B as next action. Task 6.4 blocker updated from 2.5 → 2.5B. |
+| 2026-04-11 | 1.5 | **Phase 2.5B ✅ COMPLETE.** All 16 files migrated to centralized FAQ system. Added tasks 2.5B.7 (Services.tsx), 2.5B.8 (WarmyEmailDeliverability.tsx), 2.5B.9 (removed dead `faqItems` prop + `FAQAccordion` from IndustryShowcaseTemplate). Added `services` category to `faqs.ts` with 6 new entries. `grep` verification: zero hardcoded FAQ arrays in `src/`. Task 4.3 now unblocked. |
