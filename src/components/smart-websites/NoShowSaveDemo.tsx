@@ -156,7 +156,7 @@ export function NoShowSaveDemo() {
                                     <p className="whitespace-pre-wrap">{msg.text}</p>
                                     <div className="flex items-center justify-end gap-1 mt-1">
                                       <span className="text-[10px] text-accent-foreground/70">{msg.time}</span>
-                                      <span className={`text-[10px] transition-colors duration-300 ${msg.status === 'read' ? 'text-green-400' : msg.status === 'delivered' ? 'text-accent-foreground/70' : 'text-accent-foreground/40'}`}>✓✓</span>
+                                      <span className={`text-[10px] transition-colors duration-300 ${msg.status === 'read' ? 'text-accent' : msg.status === 'delivered' ? 'text-accent-foreground/70' : 'text-accent-foreground/40'}`}>✓✓</span>
                                     </div>
                                   </div>
                                 </div>
