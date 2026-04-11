@@ -71,29 +71,6 @@ const websiteMockups = [
   },
 ];
 
-const faqItems = [
-  {
-    question: 'Does the AI integrate with my scheduling software?',
-    answer: 'Yes! We integrate with ServiceTitan, Housecall Pro, Jobber, and most popular field service management platforms. The AI can book directly into your calendar and sync customer data automatically.',
-  },
-  {
-    question: 'What happens if a customer has a complex issue?',
-    answer: 'The AI is trained to recognize when to escalate. For complex technical questions or high-value commercial jobs, it captures details and schedules a callback from your team. You get full transcripts of every call.',
-  },
-  {
-    question: 'Can the AI give pricing quotes?',
-    answer: 'Absolutely. We configure the AI with your pricing structure: diagnostic fees, common repairs, flat-rate services. It provides accurate ballpark quotes while being transparent about on-site evaluation needs.',
-  },
-  {
-    question: 'How quickly can I get started?',
-    answer: 'Capture websites launch in 5 business days. AI Employee setup takes an additional 3-5 days for voice training and integration. Most contractors are fully live within 2 weeks.',
-  },
-  {
-    question: 'Do I own my website and customer data?',
-    answer: '100%. You own everything: the website design, content, and all customer data. We provide full exports on request, and there are no lock-in contracts.',
-  },
-];
-
 export default function HomeServicesShowcase() {
   return (
     <>
@@ -128,7 +105,7 @@ export default function HomeServicesShowcase() {
         recommendedTier="Capture"
         tierPrice="$97/mo"
         tierSetup="$249"
-        faqItems={faqItems}
+        faqCategory="industry-home-services"
         ctaText="Get Capture"
         ctaLink="/checkout/capture"
       />

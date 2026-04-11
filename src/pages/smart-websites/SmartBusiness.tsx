@@ -4,15 +4,16 @@
  *
  * Features expandable feature cards for new Convert features,
  * Product structured data, and SSG-safe rendering.
+ * FAQ rendered via centralized FAQSection component.
  */
 
 import { Check, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { SEO } from '@/components/SEO';
 import { RecommendedAddOns } from '@/components/smart-websites/RecommendedAddOns';
 import { ExpandableFeatureGrid } from '@/components/ai-employee';
 import { smartBusinessFeatures } from '@/data/features';
+import { FAQSection } from '@/components/faq';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -34,25 +35,6 @@ const includedFromLead = [
   'Response automation',
 ];
 
-const faqs = [
-  {
-    question: 'What\'s the difference from Capture?',
-    answer: 'Convert adds online booking and review automation. If customers need to schedule with you, or if Google reviews matter to your business, this is the tier.',
-  },
-  {
-    question: 'How does the booking system work?',
-    answer: 'Customers pick a time on your calendar, and it syncs with your schedule. You get notified, they get reminders. No back-and-forth phone tag.',
-  },
-  {
-    question: 'Will review automation seem spammy?',
-    answer: 'No. We send a simple, professional request after each job. Happy customers leave reviews. Unhappy ones reach you privately first.',
-  },
-  {
-    question: 'Can I upgrade from Capture?',
-    answer: 'Yes. If you\'re on Capture and want booking + reviews, we migrate you seamlessly. Pay the difference in setup, new monthly rate kicks in.',
-  },
-];
-
 export default function SmartBusiness() {
   return (
     <>
@@ -60,31 +42,20 @@ export default function SmartBusiness() {
         title="Convert: Booking and Reviews Website $197/mo"
         description="Turn visitors into customers in Long Beach, Orange County, and LA. Online booking + review automation for $197/mo. Customers book 24/7."
         canonical="/smart-websites/convert"
-        structuredData={[
-          {
-            '@context': 'https://schema.org',
-            '@type': 'Product',
-            name: 'Convert Smart Website',
-            description: 'Website with online booking and review automation for appointment-based businesses.',
-            brand: { '@type': 'Brand', name: 'EverIntent' },
-            offers: {
-              '@type': 'Offer',
-              price: '197',
-              priceCurrency: 'USD',
-              priceSpecification: { '@type': 'UnitPriceSpecification', price: '197', priceCurrency: 'USD', billingDuration: 'P1M' },
-              availability: 'https://schema.org/InStock',
-            },
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: 'Convert Smart Website',
+          description: 'Website with online booking and review automation for appointment-based businesses.',
+          brand: { '@type': 'Brand', name: 'EverIntent' },
+          offers: {
+            '@type': 'Offer',
+            price: '197',
+            priceCurrency: 'USD',
+            priceSpecification: { '@type': 'UnitPriceSpecification', price: '197', priceCurrency: 'USD', billingDuration: 'P1M' },
+            availability: 'https://schema.org/InStock',
           },
-          {
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: faqs.map(faq => ({
-              '@type': 'Question',
-              name: faq.question,
-              acceptedAnswer: { '@type': 'Answer', text: faq.answer },
-            })),
-          },
-        ]}
+        }}
       />
 
       {/* Hero Section */}
@@ -219,29 +190,14 @@ export default function SmartBusiness() {
         </div>
       </section>
 
-      {/* FAQ Section */}
+      {/* FAQ Section — Centralized */}
       <section className="py-16 lg:py-24 bg-background">
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8 text-center">
               Common Questions
             </h2>
-            <Accordion type="single" collapsible className="space-y-4">
-              {faqs.map((faq, index) => (
-                <AccordionItem 
-                  key={index} 
-                  value={`faq-${index}`}
-                  className="rounded-xl bg-card/50 border border-border/50 px-6"
-                >
-                  <AccordionTrigger className="text-lg font-semibold text-foreground hover:no-underline py-5">
-                    {faq.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-5">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <FAQSection products={['convert']} variant="bordered" />
           </div>
         </div>
       </section>

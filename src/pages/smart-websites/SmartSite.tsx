@@ -4,15 +4,16 @@
  *
  * Features expandable feature cards with rich SEO/AEO content,
  * Product structured data, and SSG-safe rendering.
+ * FAQ rendered via centralized FAQSection component.
  */
 
 import { Check, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { SEO } from '@/components/SEO';
 import { RecommendedAddOns } from '@/components/smart-websites/RecommendedAddOns';
 import { ExpandableFeatureGrid } from '@/components/ai-employee';
 import { smartSiteFeatures } from '@/data/features';
+import { FAQSection } from '@/components/faq';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -22,25 +23,6 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 
-const faqs = [
-  {
-    question: 'What happens after the first year?',
-    answer: 'Launch includes 1 year of hosting free. After Year 1, hosting renews at $149/year. This covers hosting, SSL, security updates, and basic maintenance.',
-  },
-  {
-    question: 'Do I own my website?',
-    answer: 'Yes, 100%. Your domain, your content, your site. We don\'t do lock-in contracts. If you ever want to leave, we\'ll help you migrate everything.',
-  },
-  {
-    question: 'Can I upgrade to Capture later?',
-    answer: 'Absolutely. Every Smart Website is built upgrade-ready. When you\'re ready for lead capture and automation, upgrading is seamless.',
-  },
-  {
-    question: 'How long does it take to build?',
-    answer: '5 business days from kickoff to launch. Once you provide your content and branding, we move fast.',
-  },
-];
-
 export default function SmartSite() {
   return (
     <>
@@ -48,30 +30,19 @@ export default function SmartSite() {
         title="Launch: Professional Website for $249 One-Time"
         description="Get a professional 5-page website for just $249 one-time in Long Beach, Orange County, and LA. Mobile design, SSL, SEO setup. Built in 5 days."
         canonical="/smart-websites/launch"
-        structuredData={[
-          {
-            '@context': 'https://schema.org',
-            '@type': 'Product',
-            name: 'Launch Smart Website',
-            description: 'Professional 5-page website with mobile design, SSL, SEO setup, and Google Maps.',
-            brand: { '@type': 'Brand', name: 'EverIntent' },
-            offers: {
-              '@type': 'Offer',
-              price: '249',
-              priceCurrency: 'USD',
-              availability: 'https://schema.org/InStock',
-            },
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: 'Launch Smart Website',
+          description: 'Professional 5-page website with mobile design, SSL, SEO setup, and Google Maps.',
+          brand: { '@type': 'Brand', name: 'EverIntent' },
+          offers: {
+            '@type': 'Offer',
+            price: '249',
+            priceCurrency: 'USD',
+            availability: 'https://schema.org/InStock',
           },
-          {
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: faqs.map(faq => ({
-              '@type': 'Question',
-              name: faq.question,
-              acceptedAnswer: { '@type': 'Answer', text: faq.answer },
-            })),
-          },
-        ]}
+        }}
       />
 
       {/* Hero Section */}
@@ -187,29 +158,14 @@ export default function SmartSite() {
         </div>
       </section>
 
-      {/* FAQ Section */}
+      {/* FAQ Section — Centralized */}
       <section className="py-16 lg:py-24 bg-card/30">
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8 text-center">
               Common Questions
             </h2>
-            <Accordion type="single" collapsible className="space-y-4">
-              {faqs.map((faq, index) => (
-                <AccordionItem 
-                  key={index} 
-                  value={`faq-${index}`}
-                  className="rounded-xl bg-background border border-border/50 px-6"
-                >
-                  <AccordionTrigger className="text-lg font-semibold text-foreground hover:no-underline py-5">
-                    {faq.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-5">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <FAQSection products={['launch']} variant="bordered" />
           </div>
         </div>
       </section>

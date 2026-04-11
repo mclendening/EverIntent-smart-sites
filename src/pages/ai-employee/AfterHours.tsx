@@ -12,6 +12,7 @@
 
 import { SEO } from '@/components/SEO';
 import { CTAButton } from '@/components/CTAButton';
+import { filterFAQs, generateFAQSchema } from '@/data/faqs';
 import { ClientOnly } from '@/components/ClientOnly';
 import { 
   SMSDemo, 
@@ -91,16 +92,7 @@ export default function AfterHours() {
               availability: 'https://schema.org/InStock',
             },
           },
-          {
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: [
-              { '@type': 'Question', name: 'What does the After-Hours AI Employee do?', acceptedAnswer: { '@type': 'Answer', text: 'It answers calls, books appointments, and sends missed-call text-backs while your business is closed. You wake up to booked jobs instead of voicemails.' } },
-              { '@type': 'Question', name: 'How fast does AI respond to missed calls?', acceptedAnswer: { '@type': 'Answer', text: 'The AI sends an SMS text-back within 60 seconds of a missed call, opening a two-way conversation to capture the lead and book an appointment.' } },
-              { '@type': 'Question', name: 'How many voice minutes are included?', acceptedAnswer: { '@type': 'Answer', text: '500 voice minutes per month are included. Additional minutes are $0.06 per minute. Most small businesses never exceed this allowance.' } },
-              { '@type': 'Question', name: 'How much does After-Hours AI cost?', acceptedAnswer: { '@type': 'Answer', text: '$197 per month plus a one-time $997 setup fee. This includes unlimited SMS, missed-call text-back, CRM integration, and 500 voice minutes.' } },
-            ],
-          },
+          generateFAQSchema(filterFAQs({ products: ['after-hours'] })),
         ]}
       />
       

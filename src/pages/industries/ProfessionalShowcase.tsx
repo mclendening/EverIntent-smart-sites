@@ -73,29 +73,6 @@ const websiteMockups = [
   },
 ];
 
-const faqItems = [
-  {
-    question: 'Is the AI compliant with attorney-client privilege?',
-    answer: 'The AI is designed for intake and scheduling only. It doesn\'t provide legal advice or access confidential case information. All calls are logged for your records, and the system is HIPAA-ready for firms handling sensitive matters.',
-  },
-  {
-    question: 'Can the AI screen for conflicts of interest?',
-    answer: 'Yes. We can configure the AI to ask key screening questions (opposing parties, case types, etc.) and flag potential conflicts before booking. Your team reviews flagged intakes before consultations proceed.',
-  },
-  {
-    question: 'How does it handle different practice areas?',
-    answer: 'The AI routes callers to the appropriate attorney or department based on their needs. Whether it\'s family law, business litigation, or estate planning, it asks the right questions and schedules with the right person.',
-  },
-  {
-    question: 'Does it integrate with my practice management software?',
-    answer: 'We integrate with Clio, MyCase, PracticePanther, Lawmatics, and most major legal practice management platforms. Client data syncs automatically.',
-  },
-  {
-    question: 'What about my existing website?',
-    answer: 'You can use our AI phone system with any website, or we can build you a new conversion-focused site. Convert tier includes a premium 8-page website designed specifically for professional services.',
-  },
-];
-
 export default function ProfessionalShowcase() {
   return (
     <>
@@ -130,7 +107,7 @@ export default function ProfessionalShowcase() {
         recommendedTier="Convert"
         tierPrice="$197/mo"
         tierSetup="$497"
-        faqItems={faqItems}
+        faqCategory="industry-professional"
         ctaText="Get Convert"
         ctaLink="/checkout/convert"
       />

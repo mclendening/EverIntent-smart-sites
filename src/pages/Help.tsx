@@ -7,6 +7,7 @@
  */
 
 import { SEO } from '@/components/SEO';
+import { filterFAQs, generateFAQSchema } from '@/data/faqs';
 import { Phone, Mail } from 'lucide-react';
 
 import helpSupportImg from '@/assets/lifestyle/help-support.jpg';
@@ -66,15 +67,7 @@ const Help = () => {
             description: 'Get help with EverIntent Smart Websites and AI Employee services.',
             url: 'https://everintent.com/help',
           },
-          {
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: [
-              { '@type': 'Question', name: 'How do I get started with EverIntent?', acceptedAnswer: { '@type': 'Answer', text: 'Choose a Smart Website plan starting at $249, complete checkout, and our team builds your site in 5 business days. You can add AI Employee or other services at any time.' } },
-              { '@type': 'Question', name: 'How do I contact EverIntent support?', acceptedAnswer: { '@type': 'Answer', text: 'Email support@everintent.com or call (562) 685-9500. All plans include email support with 24-hour response times. Scale plan customers get phone and strategy call access.' } },
-              { '@type': 'Question', name: 'Can I upgrade my plan later?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Every Smart Website is built upgrade-ready. You can add AI Employee, review automation, or any add-on service at any time with no rebuilds required.' } },
-            ],
-          },
+          generateFAQSchema(filterFAQs({ category: 'support', maxItems: 5 })),
         ]}
       />
 

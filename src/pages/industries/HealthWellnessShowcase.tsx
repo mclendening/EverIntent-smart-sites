@@ -73,29 +73,6 @@ const websiteMockups = [
   },
 ];
 
-const faqItems = [
-  {
-    question: 'Is the AI HIPAA compliant?',
-    answer: 'Yes. Our platform is built with HIPAA compliance in mind. The AI doesn\'t access patient records. It only handles scheduling and general inquiries. All call logs are encrypted and access-controlled.',
-  },
-  {
-    question: 'Can it integrate with my EMR/practice management system?',
-    answer: 'We integrate with most major healthcare practice management systems including Jane App, Mindbody, Vagaro, and aesthetic platforms like Aesthetic Record and Boulevard.',
-  },
-  {
-    question: 'How does it handle medical questions?',
-    answer: 'The AI is trained to recognize medical questions and appropriately redirect to qualified staff. It never provides medical advice, only scheduling assistance and general service information that you approve.',
-  },
-  {
-    question: 'Can patients book specific providers?',
-    answer: 'Absolutely. The AI knows your staff schedule and can book with specific providers based on patient preference, availability, or service type requirements.',
-  },
-  {
-    question: 'What about membership and package sales?',
-    answer: 'The AI can explain membership options and packages you offer. For purchases, it captures interest and books a consultation, or routes to your team for immediate follow-up.',
-  },
-];
-
 export default function HealthWellnessShowcase() {
   return (
     <>
@@ -130,7 +107,7 @@ export default function HealthWellnessShowcase() {
         recommendedTier="Convert"
         tierPrice="$197/mo"
         tierSetup="$497"
-        faqItems={faqItems}
+        faqCategory="industry-health"
         ctaText="Get Convert"
         ctaLink="/checkout/convert"
       />
