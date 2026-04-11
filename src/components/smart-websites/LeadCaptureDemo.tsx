@@ -180,7 +180,7 @@ export function LeadCaptureDemo() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Phone Mockup */}
           <div className="order-1 lg:order-1">
-            <PhoneMockup>
+            <PhoneMockup containerRef={containerRef}>
               {prefersReducedMotion ? (
                 <StaticView />
               ) : (
