@@ -667,18 +667,7 @@ const SmartWebsites = () => {
               </h2>
             </div>
 
-            <Accordion type="single" collapsible className="w-full">
-              {faqItems.map((item, index) => (
-                <AccordionItem key={index} value={`item-${index}`}>
-                  <AccordionTrigger className="text-left">
-                    {item.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground">
-                    {item.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <FAQSection category="smart-websites" maxItems={6} showSchema={false} />
           </div>
         </div>
       </section>
