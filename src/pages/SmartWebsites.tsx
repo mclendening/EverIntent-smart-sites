@@ -344,7 +344,7 @@ const SmartWebsites = () => {
                     <span className="text-muted-foreground ml-1">{tier.priceNote}</span>
                   </div>
                   <p className="text-sm text-muted-foreground mt-1">
-                    {tier.setup} setup • {tier.hostingNote}
+                    {tier.setup ? `${tier.setup} setup • ` : ''}{tier.hostingNote}
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
