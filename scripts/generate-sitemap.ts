@@ -309,7 +309,7 @@ function generateSitemap(): string {
 }
 
 // Write to public/sitemap.xml
-const outputPath = path.resolve(__dirname, '../public/sitemap.xml');
+const outputPath = path.resolve(import.meta.dirname || path.dirname(new URL(import.meta.url).pathname), '../public/sitemap.xml');
 const sitemap = generateSitemap();
 fs.writeFileSync(outputPath, sitemap, 'utf-8');
 
