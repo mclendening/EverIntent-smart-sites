@@ -115,16 +115,180 @@
 
 ---
 
+## Phase 2.5: FAQ Architecture Audit (Dependency Resolution)
+
+> **Estimated effort:** Research only, no code. 30-60 min.  
+> **Blocks:** Task 3.3 (pricing page content section), Task 4.3 (FAQ rewrite — to be added), Task 6.4 (compare page scenario cards)  
+> **Does NOT block:** Tasks 3.1, 3.2, 3.4, 3.5 (homepage and pricing hero changes)
+
+### Task 2.5.1 — Audit Results: Existing FAQ Architecture
+
+**Finding: No centralized FAQ system exists.** FAQ content is hardcoded inline across 20+ files with complete duplication and voice drift risk.
+
+| Location | Pattern | Content |
+|----------|---------|---------|
+| `src/pages/FAQ.tsx` lines 35-171 | `faqCategories[]` array, 5 categories, ~25 questions | Main FAQ page. Inline data. FAQPage JSON-LD auto-generated from same array. |
+| `src/pages/Pricing.tsx` lines 131-168 | `faqItems[]` array, 6 questions | Pricing-specific FAQ section. Duplicate of some FAQ.tsx content. Independent FAQPage JSON-LD. |
+| `src/pages/SmartWebsites.tsx` lines 158-224 | `faqItems[]` array, 8 questions | Smart Websites FAQ. Fully independent. Own FAQPage JSON-LD. |
+| `src/pages/smart-websites/SmartSite.tsx` | `faqs[]` array + inline FAQPage schema | Tier-specific FAQ, hardcoded. |
+| `src/pages/smart-websites/SmartLead.tsx` | `faqs[]` array + inline FAQPage schema | Tier-specific FAQ, hardcoded. |
+| `src/pages/smart-websites/SmartBusiness.tsx` | `faqs[]` array + inline FAQPage schema | Tier-specific FAQ, hardcoded. |
+| `src/pages/smart-websites/SmartGrowth.tsx` | `faqs[]` array + inline FAQPage schema | Tier-specific FAQ, hardcoded. |
+| `src/pages/AIEmployee.tsx` lines 119-130 | Inline FAQPage JSON-LD in `structuredData` prop | No visible FAQ section — schema-only for SEO. |
+| `src/pages/ai-employee/AfterHours.tsx` | Inline FAQPage JSON-LD | Schema-only. |
+| `src/pages/ai-employee/FrontOffice.tsx` | Inline FAQPage JSON-LD | Schema-only. |
+| `src/pages/ai-employee/FullAIEmployee.tsx` | Inline FAQPage JSON-LD | Schema-only. |
+| `src/pages/Help.tsx` lines 69-78 | Inline FAQPage JSON-LD | Schema-only, 3 questions. |
+| `src/pages/Support.tsx` lines 73-76 | Inline FAQPage JSON-LD | Schema-only. |
+| `src/pages/industries/*Showcase.tsx` (×4) | `faqItems[]` passed to `IndustryShowcaseTemplate` | Industry-specific FAQs via shared template component. |
+| `src/components/industries/IndustryShowcaseTemplate.tsx` | `FAQAccordion` component + `FAQItem` interface | Reusable display component — but data still comes hardcoded from each showcase page. |
+
+**Key risks:**
+- Same question appears with different answers across pages (voice drift already present)
+- Price/product changes require touching 10+ files
+- FAQPage JSON-LD is manually constructed per-page — schema drift guaranteed
+- No way for a non-technical operator to update FAQ content
+
+### Task 2.5.2 — Supabase Check: No FAQ Data Model Exists
+
+- **No `faqs` table** in any migration file
+- **No FAQ-related edge functions**
+- **No admin UI** for FAQ content management
+- **No content table** that could serve FAQ data
+- The only Supabase mention of "FAQ" is a comment in `supabase/functions/ghl-config/index.ts` line 48 about future widget routing
+
+### Task 2.5.3 — Recommended Centralized FAQ Architecture
+
+#### Data Structure
+
+```typescript
+// src/data/faqs.ts — Single source of truth
+interface FAQItem {
+  id: string;                    // Unique identifier
+  question: string;
+  answer: string;
+  category: FAQCategory;        // 'smart-websites' | 'ai-employee' | 'pricing' | 'setup' | 'support'
+  tags: FAQTag[];               // Multi-tag for contextual filtering
+  products?: ProductTag[];       // Which products this FAQ relates to
+  priority: number;              // Sort order within category (lower = first)
+  isObjection?: boolean;         // Flag for conviction-first ordering
+}
+
+type FAQCategory = 'smart-websites' | 'ai-employee' | 'pricing' | 'setup' | 'support';
+
+type FAQTag = 
+  | 'pricing' | 'product' | 'support' | 'objection' | 'technical'
+  | 'billing' | 'setup' | 'ownership' | 'compliance' | 'integration';
+
+type ProductTag = 
+  | 'launch' | 'capture' | 'convert' | 'scale'
+  | 'web-chat' | 'after-hours' | 'front-office' | 'full-ai'
+  | 'all-websites' | 'all-ai';
+```
+
+#### Where the Data Lives: **Repo file (`src/data/faqs.ts`)**
+
+**Rationale:** SSG requires build-time data. A Supabase table would require a build-time fetch step + fallback, adding complexity for no gain at current scale (~50 FAQs). The repo file approach:
+- ✅ SSG-compatible (imported at build time, zero client fetch)
+- ✅ Type-safe (TypeScript interfaces)
+- ✅ Version-controlled (git history for every change)
+- ✅ Single file to update (non-technical operator edits one file, not 20)
+- ✅ No migration needed from current hardcoded content
+
+**Future upgrade path:** When FAQ count exceeds ~200 or a non-technical CMS is needed, migrate to Supabase `faqs` table + build-time fetch via `vite-react-ssg` data loading. The component layer stays identical — only the data source changes.
+
+#### How Pages Consume It
+
+```typescript
+// src/components/faq/FAQSection.tsx — Shared display component
+// Replaces all inline FAQ rendering across 20+ files
+
+interface FAQSectionProps {
+  category?: FAQCategory;           // Filter by category
+  tags?: FAQTag[];                  // Filter by tags (OR logic)
+  products?: ProductTag[];          // Filter by product
+  maxItems?: number;                // Limit display count
+  showSchema?: boolean;             // Include FAQPage JSON-LD (default: true)
+  className?: string;
+}
+
+// Usage examples:
+// /faq page:          <FAQSection />  (shows all, grouped by category)
+// /pricing:           <FAQSection category="pricing" />
+// /smart-websites:    <FAQSection products={['all-websites']} />
+// /let-ai-handle-it:  <FAQSection products={['all-ai']} />
+// Industry showcase:  <FAQSection products={['capture']} tags={['integration']} />
+```
+
+#### How SEO Schema Gets Generated
+
+The `FAQSection` component auto-generates `FAQPage` JSON-LD from the filtered FAQ items it displays:
+
+```typescript
+// Inside FAQSection, when showSchema={true}:
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: filteredItems.map(item => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer }
+  }))
+};
+// Injected via <SEO structuredData={schema} /> or inline <script>
+```
+
+No more manual JSON-LD construction per page. Schema always matches displayed content.
+
+#### How an Operator Updates It
+
+1. Open `src/data/faqs.ts`
+2. Add/edit/remove an entry in the array
+3. Set `category`, `tags`, and `products` for filtering
+4. Set `priority` for ordering (lower = appears first)
+5. Commit — SSG rebuilds, every page consuming that FAQ auto-updates
+
+#### Migration Path
+
+1. **Create `src/data/faqs.ts`** with all current FAQ content consolidated from 20+ files
+2. **Create `src/components/faq/FAQSection.tsx`** shared display component
+3. **Create `src/components/faq/FAQCategoryGroup.tsx`** for the /faq page (grouped view)
+4. **Migrate pages one-by-one:** Replace inline `faqItems[]` arrays + manual JSON-LD with `<FAQSection>` component calls
+5. **Delete orphaned inline FAQ data** from each migrated page
+6. **Verify:** FAQPage JSON-LD output matches pre-migration content on every page
+
+### Task 2.5.4 — Downstream Task Updates (Pending Approval)
+
+After architecture approval, the following updates will be made:
+
+- **Add new task** (Phase 2.5 implementation): "Build centralized FAQ system" — creates `src/data/faqs.ts` + `FAQSection` component + migrates all 20+ files
+- **Add Task 4.3:** "FAQ content rewrite" — targets `src/data/faqs.ts` (single file), not hardcoded pages
+- **Update Task 3.3:** If pricing page FAQ comes from centralized source, 3.3 uses `<FAQSection category="pricing">` instead of inline content
+- **Update Task 6.4:** Compare page scenario cards can pull from FAQ data via tags if applicable
+
+**Updated Parallel Execution Map (pending approval):**
+
+```
+Phase 3 (updated)
+  ├── Stream A: 3.1 + 3.2 + 3.5 (homepage + industries hero)  ← NOT BLOCKED
+  ├── Stream B: 3.4 (pricing hero)                              ← NOT BLOCKED
+  └── Stream C: 3.3 (pricing cost section)                      ← BLOCKED by 2.5 implementation
+```
+
+> **Phase 2.5 Status: ⏳ AUDIT COMPLETE — Awaiting architecture approval before implementation**
+
+---
+
 ## Phase 3: Homepage & Pricing Page Alignment
 
 > **Estimated effort:** 2-3 hours  
-> **Parallelism:** 3.1 + 3.2 (homepage) can run parallel with 3.3 + 3.4 (pricing page).
+> **Parallelism:** 3.1 + 3.2 + 3.5 (homepage) can run parallel with 3.4 (pricing hero). 3.3 BLOCKED by Phase 2.5.
 
 | # | Task | File(s) | Current State | Target State | Success Criteria | Analysis Ref |
 |---|------|---------|--------------|--------------|-----------------|-------------|
 | 3.1 | Fix hero subheadline | `src/components/home/HeroSection.tsx` line 51 | "EverIntent provides AI Employee automation and websites for local businesses." | "Your phone answered 24/7. Appointments booked automatically. Leads captured while you sleep." | No company name in subheadline. Copy leads with outcomes. | [A§5, A§11, A#10] |
 | 3.2 | Rewrite HowWeHelp to cover 3 buyer types | `src/components/home/HowWeHelpSection.tsx` | All 3 cards address "bleeding wound" (missed calls) | Card 1: Credibility, Card 2: Bleeding, Card 3: Burnout (details below) | 3 distinct buyer personas addressed. Each card links to appropriate product. | [A§5, A#4] |
-| 3.3 | Add "Cost of Doing Nothing" section to Pricing | `src/pages/Pricing.tsx` | No cost-of-inaction section | 3-column stat row above tier cards (validated data below) | Section renders between hero and first tier card. Uses `bg-muted` + `text-accent` stats. | [A§12, A#6] |
+| 3.3 | Add "Cost of Doing Nothing" section to Pricing | `src/pages/Pricing.tsx` | No cost-of-inaction section | 3-column stat row above tier cards (validated data below) | Section renders between hero and first tier card. Uses `bg-muted` + `text-accent` stats. **⚠️ BLOCKED by Phase 2.5 — if FAQ content on pricing page should come from centralized source.** | [A§12, A#6] |
 | 3.4 | Fix pricing page hero headline | `src/pages/Pricing.tsx` line 206 | "Simple, Transparent Pricing" | "Stop Losing Money. Pick Your Plan." | Hero headline leads with pain, not platitude. | [A§11, A§2] |
 | 3.5 | Fix Industries hero | `src/pages/Industries.tsx` | "Built for your industry" | "Your Industry Loses $X/Month to Missed Calls. We Fix That." | Hero leads with industry-specific pain, not generic claim. | [A§6] — **NEW** |
 
@@ -153,7 +317,7 @@
 ### Phase 3 Verification Checklist
 - [ ] Hero subheadline starts with "Your phone answered 24/7"
 - [ ] HowWeHelp shows 3 distinct cards for credibility/bleeding/burnout
-- [ ] Cost-of-inaction section visible on `/pricing` above tier cards
+- [ ] Cost-of-inaction section visible on `/pricing` above tier cards (after 2.5 unblocks)
 - [ ] Pricing hero says "Stop Losing Money. Pick Your Plan."
 - [ ] Industries hero is pain-led
 - [ ] All changes render correctly at 375px
@@ -294,26 +458,34 @@ All copy changes must match the outcome-first framing of the portfolio detail pa
 ## Parallel Execution Map
 
 ```
-Phase 1 (all 5 tasks in parallel)
+Phase 1 (all 5 tasks in parallel) ✅ COMPLETE
   ├── 1.1 FinalCTASection price
   ├── 1.2 CompareWebsites Email Authority price  
   ├── 1.3 AIEmployee Web Chat link
   ├── 1.4 SmartWebsites + SmartLead Capture setup fee
   └── 1.5 Pricing SMS/Email quota removal
 
-Phase 2 (4 parallel streams)
-  ├── Stream A: 2.1 FAQ objection answers (copy is pre-written above)
-  ├── Stream B: 2.2 Setup fee relabeling (multi-file) + 2.6 "Choose Your Mode"
+Phase 2 (4 parallel streams) ✅ COMPLETE
+  ├── Stream A: 2.1 FAQ objection answers
+  ├── Stream B: 2.2 Setup fee relabeling + 2.6 "Choose Your Mode"
   ├── Stream C: 2.3 Checkout trust strip
   └── Stream D: 2.4 + 2.5 CTA text + Book a Call links
 
-Phase 3 (2 parallel streams)
-  ├── Stream A: 3.1 + 3.2 Homepage (hero + HowWeHelp) + 3.5 Industries hero
-  └── Stream B: 3.3 + 3.4 Pricing page (cost section + hero)
+Phase 2.5 — FAQ Architecture Audit ⏳ AUDIT COMPLETE, AWAITING APPROVAL
+  ├── 2.5.1 Audit existing FAQ architecture ✅
+  ├── 2.5.2 Check Supabase for FAQ data model ✅
+  ├── 2.5.3 Propose centralized FAQ architecture ✅
+  └── 2.5.4 Update downstream tasks (after approval)
+
+Phase 3 (3 streams — Stream C blocked by 2.5)
+  ├── Stream A: 3.1 + 3.2 + 3.5 (homepage + industries hero)  ← NOT BLOCKED
+  ├── Stream B: 3.4 (pricing hero)                              ← NOT BLOCKED
+  └── Stream C: 3.3 (pricing cost section)                      ← BLOCKED by 2.5
 
 Phase 4 (parallel pattern fixes)
   ├── 4.1a-e Copy patterns (independent file edits)
-  └── 4.2 SW tier page heroes (4 independent pages)
+  ├── 4.2 SW tier page heroes (4 independent pages)
+  └── 4.3 FAQ content rewrite (TO BE ADDED after 2.5 approval) ← BLOCKED by 2.5
 
 Phase 5 (3 parallel components)
   ├── 5.1 Capture animated demo
@@ -324,7 +496,7 @@ Phase 6 (4 parallel tasks)
   ├── 6.1 Annual pricing toggle
   ├── 6.2 Voice AI Chat Widget mentions
   ├── 6.3 "Included free with Scale" badges
-  └── 6.4 Compare page scenario cards
+  └── 6.4 Compare page scenario cards                           ← BLOCKED by 2.5
 ```
 
 ---
@@ -362,3 +534,4 @@ Phase 6 (4 parallel tasks)
 | 2026-04-11 | 1.0 | Initial task list created from Claude implementation spec + codebase audit |
 | 2026-04-11 | 1.1 | Added checkout status section. Checkout confirmed working (GHL redirect live). Removed D7/D8. |
 | 2026-04-11 | 1.2 | **Analysis cross-reference pass:** Added `[A§N]` refs to every task. Pulled pre-written FAQ copy from Analysis §9 into Task 2.1. Enriched Task 3.3 with validated market data + citations. Added 4 new tasks from analysis gaps: 2.6 (Choose Your Mode), 3.5 (Industries hero), 4.1e (FAQ response time), 6.3 (Scale badges), 6.4 (Compare scenario cards). Added Deferred Items table for post-launch. Added spec doc references to Checkout Status section. |
+| 2026-04-11 | 1.3 | **Phase 2.5 — FAQ Architecture Audit** added as dependency resolution before Phase 3. Audited 20+ files — found zero centralized FAQ system. All content hardcoded inline per-page with voice drift. No Supabase FAQ table exists. Proposed repo-file + shared component architecture. Updated Phase 3 to show Stream C blocked by 2.5. Updated parallel execution map. Task 4.3 and 6.4 flagged as blocked. |
