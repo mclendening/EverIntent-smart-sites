@@ -408,7 +408,7 @@ const SmartWebsites = () => {
                         </span>
                         <span className="text-sm text-muted-foreground">{tier.priceNote}</span>
                       </div>
-                      <p className="text-[11px] text-muted-foreground mt-1">{tier.setup} setup</p>
+                      {tier.setup ? <p className="text-[11px] text-muted-foreground mt-1">{tier.setup} setup</p> : <p className="text-[11px] text-muted-foreground mt-1">No setup fee</p>}
                     </div>
                   </div>
                 ))}
