@@ -76,7 +76,7 @@ export default function SmartSite() {
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] mb-6 tracking-tight">
-              <span className="text-gradient">Launch</span>
+              Look Professional.<br />Get Found.<br className="hidden sm:block" /><span className="text-gradient"> Get Called.</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl">

@@ -92,7 +92,7 @@ export default function SmartGrowth() {
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] mb-6 tracking-tight">
-              <span className="text-gradient">Scale</span>
+              AI Runs Your Website While <span className="text-gradient">You Run Your Business</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl">
