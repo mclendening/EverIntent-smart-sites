@@ -50,8 +50,8 @@ import {
   InboxPlacementDashboard,
   DomainHealthDashboard
 } from '@/components/warmy/RealisticDashboards';
-
-// ============================================
+import { FAQSection } from '@/components/faq';
+import { filterFAQs, generateFAQSchema } from '@/data/faqs';
 // DATA DEFINITIONS
 // ============================================
 

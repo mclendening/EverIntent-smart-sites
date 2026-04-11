@@ -29,6 +29,8 @@ import { SEO } from '@/components/SEO';
 import { CTAButton } from '@/components/CTAButton';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { FAQSection } from '@/components/faq';
+import { filterFAQs, generateFAQSchema } from '@/data/faqs';
 import {
   Globe,
   Search,
