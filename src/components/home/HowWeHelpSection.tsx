@@ -1,48 +1,51 @@
 /**
- * @fileoverview Problem & Solution Section
+ * @fileoverview Problem & Solution Section — 3 Buyer Types
  * @module components/home/HowWeHelpSection
  * 
- * Three key outcomes with lifestyle photography, replacing generic icons.
+ * Three cards addressing distinct buyer personas:
+ * 1. Credibility buyer — needs professional presence
+ * 2. Bleeding wound — losing money to missed calls  
+ * 3. Burnout — overwhelmed, needs automation
  */
 
 import { ArrowRight } from "lucide-react";
 
+import credibilityImg from '@/assets/lifestyle/credibility-storefront.jpg';
 import missedCallImg from '@/assets/lifestyle/missed-call-recovery.jpg';
-import afterHoursImg from '@/assets/lifestyle/after-hours-coverage.jpg';
-import callScreeningImg from '@/assets/lifestyle/call-screening.jpg';
+import burnoutImg from '@/assets/lifestyle/burnout-overwhelmed.jpg';
 
 /**
- * Three core value propositions with lifestyle photography.
+ * Three core value propositions targeting distinct buyer personas.
  */
 const outcomes = [
   {
+    image: credibilityImg,
+    imageAlt: 'Professional business owner standing confidently in front of their modern storefront',
+    title: "Look Like the Business You Are",
+    description: "Referrals Google you before they call. A professional website with AI-powered chat captures leads 24/7 — even while you're on a job.",
+    link: "/smart-websites",
+    linkText: "See Smart Websites",
+  },
+  {
     image: missedCallImg,
     imageAlt: 'Contractor checking phone at night seeing a missed call notification',
-    title: "Recover Missed Calls",
-    description: "62% of calls to local businesses go unanswered. Our AI texts back every missed call in under 60 seconds, before they call your competitor.",
+    title: "Recover Every Missed Call",
+    description: "62% of calls to local businesses go unanswered. Our AI texts back in under 60 seconds, before they call your competitor.",
     link: "/let-ai-handle-it",
-    linkText: "See how AI recovers missed calls",
+    linkText: "See How AI Recovers Calls",
   },
   {
-    image: afterHoursImg,
-    imageAlt: 'Business owner sleeping while AI handles booking confirmations on phone',
-    title: "Answer After Hours",
-    description: "You close at 5pm. Your AI doesn't. Capture leads, answer questions, and book appointments while you sleep.",
-    link: "/let-ai-handle-it",
-    linkText: "See after-hours AI coverage",
-  },
-  {
-    image: callScreeningImg,
-    imageAlt: 'Professional receptionist screening phone calls at a modern office desk',
-    title: "Screen Every Call",
-    description: "Stop wasting time on tire-kickers. AI handles FAQs and only transfers real opportunities to your team.",
-    link: "/let-ai-handle-it",
-    linkText: "See AI call screening",
+    image: burnoutImg,
+    imageAlt: 'Overwhelmed business owner stressed at desk surrounded by work',
+    title: "Stop Being the Bottleneck",
+    description: "AI screens calls, qualifies leads, books appointments, and follows up — so you focus on the work that actually needs you.",
+    link: "/let-ai-handle-it/full-ai-employee",
+    linkText: "See Full AI Employee",
   },
 ];
 
 /**
- * Problem/Solution section with three vertical cards featuring lifestyle photography.
+ * Problem/Solution section with three vertical cards for distinct buyer personas.
  * 
  * @component
  */
