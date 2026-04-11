@@ -199,7 +199,9 @@ function getCategoryComment(route: string): string | null {
 // This must stay in sync with src/routes.tsx prerenderRoutes
 const ALL_ROUTES: string[] = [
   // Core
-  '/', '/careers',
+  '/', '/pricing', '/about', '/contact', '/portfolio', '/careers',
+  // Smart Websites hub
+  '/smart-websites',
   // Services
   '/services', '/get-found-online', '/never-miss-a-lead', '/book-more-jobs',
   '/run-from-your-phone', '/build-your-reputation', '/let-ai-handle-it',
