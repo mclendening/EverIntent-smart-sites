@@ -418,7 +418,7 @@ const Pricing = () => {
                         <div className="text-right">
                           <span className="text-2xl font-bold text-foreground">{plan.price}</span>
                           <span className="text-muted-foreground text-sm">/mo</span>
-                          <p className="text-xs text-muted-foreground">{plan.setup} setup</p>
+                          <p className="text-xs text-muted-foreground">{plan.setup}</p>
                         </div>
                         <a
                           href={plan.checkoutHref}
@@ -428,7 +428,7 @@ const Pricing = () => {
                               : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
                           }`}
                         >
-                          Get Started
+                          {plan.id === 'after-hours' ? 'Answer After Hours' : plan.id === 'front-office' ? 'Screen My Calls' : plan.id === 'full' ? 'Hire My AI Employee' : 'Add AI Chat'}
                         </a>
                         <a
                           href={plan.href}
