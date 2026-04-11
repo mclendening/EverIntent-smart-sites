@@ -253,7 +253,7 @@ export default function SmartLead() {
             Stop Losing Leads Today
           </h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            $97/mo for a website that actually captures leads. Setup is $249. Live in 5 days.
+            $97/mo for a website that actually captures leads. No setup fee. Live in 5 days.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button asChild size="lg" variant="gold" className="btn-glow">
