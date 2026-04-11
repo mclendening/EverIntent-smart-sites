@@ -114,36 +114,6 @@ const integrations = [
 ];
 
 /**
- * FAQ items for SEO/AEO - structured for voice search
- */
-const faqItems = [
-  {
-    question: 'How long does email warm-up take?',
-    answer: 'Most domains reach optimal deliverability within 2-4 weeks. New domains may take longer. Our AI adjusts the pace based on your domain reputation, ensuring safe and effective warm-up.',
-  },
-  {
-    question: 'How many emails can I send with Warmy?',
-    answer: 'Warmy handles warm-up emails automatically. Your regular sending limits depend on your email provider. We optimize delivery and reputation, not volume limits.',
-  },
-  {
-    question: 'Does Warmy work with GoHighLevel?',
-    answer: 'Yes! Warmy integrates seamlessly with GoHighLevel (GHL) and any SMTP-compatible email system including Gmail, Outlook, and custom SMTP servers.',
-  },
-  {
-    question: 'What if I already have email deliverability issues?',
-    answer: 'Warmy can help recover damaged sender reputation. The warm-up process gradually rebuilds trust with email providers while our monitoring prevents future issues.',
-  },
-  {
-    question: 'Is Warmy included with any Smart Websites plan?',
-    answer: 'Yes! Warmy Email Deliverability is included free with our Smart Websites: Scale plan ($297/month). Standalone pricing is $49/month for businesses on other plans or with existing websites.',
-  },
-  {
-    question: 'What email providers does inbox testing cover?',
-    answer: 'Our inbox placement testing covers 35+ email providers including Gmail, Outlook, Yahoo, AOL, iCloud, and major corporate email systems.',
-  },
-];
-
-/**
  * Testimonials for social proof
  */
 const testimonials = [
@@ -178,9 +148,8 @@ export default function WarmyEmailDeliverability() {
         title="Email Deliverability: AI Warm-Up"
         description="Stop landing in spam. AI warm-up, inbox testing across 35+ providers, and domain monitoring. $49/mo or free with Smart Websites: Scale."
         canonical="/warmy-email-deliverability"
+        structuredData={generateFAQSchema(filterFAQs({ category: 'warmy' }))}
       />
-
-      {/* JSON-LD Schema for FAQ - AEO optimization */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "FAQPage",
