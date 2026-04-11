@@ -4,13 +4,15 @@
  */
 
 import { ArrowRight, Clock, Smartphone, CheckCircle, Zap, Globe, Lock, Calendar, MessageSquare, Phone, Star, Users, TrendingUp, HelpCircle, Check, Minus } from 'lucide-react';
+import { FAQSection } from '@/components/faq';
+import { filterFAQs, generateFAQSchema } from '@/data/faqs';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 import { SEO } from '@/components/SEO';
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+
 
 import smartWebsiteHvac from '@/assets/lifestyle/smart-website-hvac.jpg';
 import smartWebsiteDental from '@/assets/lifestyle/smart-website-dental.jpg';
