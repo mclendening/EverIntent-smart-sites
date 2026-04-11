@@ -1,6 +1,6 @@
 # EverIntent Alignment Implementation Task List
 
-**Version:** 1.5  
+**Version:** 1.6  
 **Created:** 2026-04-11  
 **Source:** Claude Implementation Spec + Codebase Audit + Analysis Cross-Reference  
 **Reference:** `docs/ALIGNMENT-ANALYSIS-v1.md`  
@@ -359,20 +359,21 @@ Architecture approved 2026-04-11. Downstream updates applied:
 
 ---
 
-## Phase 4: Copy Voice Cleanup
+## Phase 4: Copy Voice Cleanup ✅ COMPLETE
 
 > **Estimated effort:** 1-2 hours  
-> **Parallelism:** 4.1 patterns can be searched/fixed in parallel. 4.2 pages are independent.
+> **Parallelism:** 4.1 patterns can be searched/fixed in parallel. 4.2 pages are independent.  
+> **Status:** ✅ COMPLETE — All tasks verified 2026-04-11
 
 | # | Task | File(s) | Current State | Target State | Success Criteria | Analysis Ref |
 |---|------|---------|--------------|--------------|-----------------|-------------|
-| 4.1a | Remove company-first intros | `HeroSection.tsx` line 51, `Services.tsx` lines 195-196 | "EverIntent provides..." | Lead with outcome | Zero "EverIntent provides/offers/helps" in buyer-facing copy. **Exception:** Legal pages — keep as-is. | [A§11] |
-| 4.1b | Remove soft hedging language | Only found in `AccessibilityStatement.tsx` | "We strive to" / "we aim to" | N/A — **legal page, DO NOT CHANGE** | No action needed. Legal pages are exempt. | [A§11] |
-| 4.1c | Remove WordPress/Elementor/OVH/Plesk from FAQ | `src/pages/FAQ.tsx` line 136 | "WordPress with Elementor, hosted on OVH/Plesk infrastructure with Cloudflare" | "Built on modern, fast infrastructure with Cloudflare for performance and security." | No CMS/hosting stack details in buyer-facing FAQ. | [A§9, A§11] |
-| 4.1d | Remove feature-first descriptions where they lead | `Pricing.tsx` websiteTiers descriptions | "Get online fast with a professional 5-page website..." | Outcome-first: "Look professional online. Capture leads from day one. Built and launched in 5 days." | Tier descriptions lead with outcomes. Feature details stay in comparison tables. | [A§2, A§3] |
-| 4.1e | Fix FAQ response time language | `src/pages/FAQ.tsx` | Internal SLA jargon ("Urgent, High priority, Normal") | Plain language: "If your site goes down, we're on it within an hour. Everything else within 24 hours." | No internal SLA terminology in buyer-facing FAQ. | [A§9] — **NEW** |
-| 4.2 | Smart Website page heroes — outcome-first | `SmartSite.tsx`, `SmartLead.tsx`, `SmartBusiness.tsx`, `SmartGrowth.tsx` | Likely feature-first heroes | See hero copy below | Each SW tier page hero leads with outcome statement. | [A§3] |
-| 4.3 | Scrub faqs.ts for feature-first language and packaging misalignment | `src/data/faqs.ts` | Contains migrated content that may still reference "5-page website," "setup fee," WordPress/Elementor, soft hedging language | Every answer passes Voice Calibration Standard. Zero "5-page," zero "setup fee" (use "AI Training & Implementation" for $497+ or "No setup fee" for $0), zero WordPress/OVH/Plesk, zero "we strive to." Conviction-first, outcome-driven. | Show me every flagged answer with current text and proposed replacement before committing. Zero feature-first language remaining in any FAQ answer. **⚠️ BLOCKED by Phase 2.5B** | [A§9, A§11, Cross-Phase Voice Calibration Standard] |
+| 4.1a | ✅ Remove company-first intros | All non-legal `src/` files | "EverIntent provides..." | Lead with outcome | Only match in `TermsOfService.tsx` (legal, exempt). Zero matches in buyer-facing pages. | [A§11] |
+| 4.1b | ✅ Remove soft hedging language | Only found in `AccessibilityStatement.tsx` | "We strive to" / "we aim to" | N/A — **legal page, DO NOT CHANGE** | No action needed. Legal pages are exempt. | [A§11] |
+| 4.1c | ✅ Remove WordPress/Elementor/OVH/Plesk from FAQ | `src/data/faqs.ts` | Previously in FAQ pages | Zero matches in faqs.ts | Verified clean — no CMS/hosting stack in buyer-facing FAQ. | [A§9, A§11] |
+| 4.1d | ✅ Pricing tier descriptions outcome-first | `Pricing.tsx` websiteTiers descriptions | Feature-first descriptions | Outcome-first: "Look professional online in 5 days..." / "Every lead gets captured..." / "Customers book themselves..." / "AI runs your website..." | All 4 tier descriptions lead with outcomes. | [A§2, A§3] |
+| 4.1e | ✅ Fix FAQ response time language | `src/data/faqs.ts` | No SLA jargon found | Already clean | Verified — no "Urgent/High priority/Normal/SLA" in faqs.ts. | [A§9] |
+| 4.2 | ✅ Smart Website page heroes — outcome-first | `SmartSite.tsx`, `SmartLead.tsx`, `SmartBusiness.tsx`, `SmartGrowth.tsx` | Single-word tier name heroes | Outcome headlines per spec | All 4 pages updated with conviction-first headlines. | [A§3] |
+| 4.3 | ✅ Scrub faqs.ts for feature-first language | `src/data/faqs.ts` | 10 instances of "setup fee," "5-page," "SSL," "mobile responsive" | All rewritten to Voice Calibration Standard. "AI Training & Implementation" for $497+ fees. Zero "5-page," zero "setup fee." | 10 answers rewritten and approved. Zero feature-first language remaining. | [A§9, A§11] |
 
 ### Task 4.2 Smart Website Hero Copy
 
@@ -402,12 +403,12 @@ Architecture approved 2026-04-11. Downstream updates applied:
 - Any answer where the first sentence is a definition rather than a conviction statement
 
 ### Phase 4 Verification Checklist
-- [ ] Zero "EverIntent provides/offers" in non-legal pages
-- [ ] No CMS/hosting tech stack in FAQ
-- [ ] No SLA jargon in FAQ response time answer
-- [ ] Pricing tier descriptions are outcome-first
-- [ ] Each SW tier page hero is outcome-first (spot-check all 4)
-- [ ] Zero feature-first language in `faqs.ts` (Task 4.3)
+- [x] Zero "EverIntent provides/offers" in non-legal pages ✅
+- [x] No CMS/hosting tech stack in FAQ ✅
+- [x] No SLA jargon in FAQ response time answer ✅
+- [x] Pricing tier descriptions are outcome-first ✅
+- [x] Each SW tier page hero is outcome-first (all 4 verified) ✅
+- [x] Zero feature-first language in `faqs.ts` (10 rewrites committed) ✅
 - [ ] Zero "5-page," "setup fee," "WordPress," "we strive to" in `faqs.ts`
 
 ---
@@ -540,10 +541,10 @@ Phase 3 (3 streams) ✅ COMPLETE
   ├── Stream B: 3.4 (pricing hero) ✅
   └── Stream C: 3.3 (pricing cost section) ✅
 
-Phase 4 (parallel pattern fixes) — after 2.5B complete + confirmed
-  ├── 4.1a-e Copy patterns (independent file edits)
-  ├── 4.2 SW tier page heroes (4 independent pages)
-  └── 4.3 FAQ content scrub                                     ← BLOCKED by 2.5B
+Phase 4 (parallel pattern fixes) ✅ COMPLETE
+  ├── 4.1a-e Copy patterns ✅
+  ├── 4.2 SW tier page heroes ✅
+  └── 4.3 FAQ content scrub (10 rewrites) ✅
 
 Phase 5 (3 parallel components)
   ├── 5.1 Capture animated demo
@@ -595,3 +596,4 @@ Phase 6 (4 parallel tasks)
 | 2026-04-11 | 1.3 | **Phase 2.5 — FAQ Architecture Audit** added as dependency resolution before Phase 3. Audited 20+ files — found zero centralized FAQ system. All content hardcoded inline per-page with voice drift. No Supabase FAQ table exists. Proposed repo-file + shared component architecture. Updated Phase 3 to show Stream C blocked by 2.5. Updated parallel execution map. Task 4.3 and 6.4 flagged as blocked. |
 | 2026-04-11 | 1.4 | **Phase 2.5B — FAQ Migration Completion** added with 6 tasks covering remaining 12+ file migrations. **Task 4.3** added to Phase 4 — FAQ content scrub with search patterns, blocked by 2.5B. Marked Phases 1, 2, 2.5, 3 as ✅ COMPLETE with verification dates. Updated parallel execution map to show 2.5B as next action. Task 6.4 blocker updated from 2.5 → 2.5B. |
 | 2026-04-11 | 1.5 | **Phase 2.5B ✅ COMPLETE.** All 16 files migrated to centralized FAQ system. Added tasks 2.5B.7 (Services.tsx), 2.5B.8 (WarmyEmailDeliverability.tsx), 2.5B.9 (removed dead `faqItems` prop + `FAQAccordion` from IndustryShowcaseTemplate). Added `services` category to `faqs.ts` with 6 new entries. `grep` verification: zero hardcoded FAQ arrays in `src/`. Task 4.3 now unblocked. |
+| 2026-04-11 | 1.6 | **Phase 4 ✅ COMPLETE.** 4.1a: zero company-first intros in non-legal pages. 4.1c: zero WordPress/OVH. 4.1d: all 4 pricing tier descriptions rewritten outcome-first. 4.1e: no SLA jargon found. 4.2: all 4 SW tier page heroes updated with conviction-first headlines. 4.3: 10 FAQ answers rewritten — "setup fee" → "AI Training & Implementation fee" for $497+ tiers, "5-page" eliminated, SSL/mobile-responsive removed as selling points. All verified and approved. |
