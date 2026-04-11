@@ -150,18 +150,6 @@ export default function WarmyEmailDeliverability() {
         canonical="/warmy-email-deliverability"
         structuredData={generateFAQSchema(filterFAQs({ category: 'warmy' }))}
       />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": faqItems.map(item => ({
-          "@type": "Question",
-          "name": item.question,
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": item.answer
-          }
-        }))
-      })}} />
 
       {/* Custom CSS for animations */}
       <style dangerouslySetInnerHTML={{ __html: `
@@ -404,17 +392,7 @@ export default function WarmyEmailDeliverability() {
         <div className="container">
           <div className="max-w-xl mx-auto">
             <h2 className="text-base font-bold text-center mb-3">FAQ</h2>
-            <div className="grid gap-0.5">
-              {faqItems.slice(0, 4).map((item, index) => (
-                <details key={index} className="group bg-muted/30 rounded">
-                  <summary className="flex items-center justify-between p-2 cursor-pointer list-none text-xs">
-                    <span className="font-medium">{item.question}</span>
-                    <ChevronDown className="w-3 h-3 text-muted-foreground group-open:rotate-180 transition-transform ml-2" />
-                  </summary>
-                  <div className="px-2 pb-2 text-[11px] text-muted-foreground">{item.answer}</div>
-                </details>
-              ))}
-            </div>
+            <FAQSection category="warmy" maxItems={4} showSchema={false} variant="minimal" />
           </div>
         </div>
       </section>
