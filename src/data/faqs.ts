@@ -13,7 +13,7 @@
 // TYPES
 // ============================================
 
-export type FAQCategory = 'smart-websites' | 'ai-employee' | 'pricing' | 'setup' | 'support' | 'warmy' | 'industry-automotive' | 'industry-health' | 'industry-home-services' | 'industry-professional';
+export type FAQCategory = 'smart-websites' | 'ai-employee' | 'pricing' | 'setup' | 'support' | 'warmy' | 'services' | 'industry-automotive' | 'industry-health' | 'industry-home-services' | 'industry-professional';
 
 export type FAQTag =
   | 'pricing' | 'product' | 'support' | 'objection' | 'technical'
