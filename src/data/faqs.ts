@@ -13,7 +13,7 @@
 // TYPES
 // ============================================
 
-export type FAQCategory = 'smart-websites' | 'ai-employee' | 'pricing' | 'setup' | 'support' | 'warmy' | 'industry-automotive' | 'industry-health' | 'industry-home-services' | 'industry-professional';
+export type FAQCategory = 'smart-websites' | 'ai-employee' | 'pricing' | 'setup' | 'support' | 'warmy' | 'services' | 'industry-automotive' | 'industry-health' | 'industry-home-services' | 'industry-professional';
 
 export type FAQTag =
   | 'pricing' | 'product' | 'support' | 'objection' | 'technical'
@@ -860,6 +860,64 @@ export const faqData: FAQItem[] = [
     tags: ['product'],
     products: ['convert'],
     priority: 5,
+  },
+
+  // ──────────────────────────────────────────
+  // SERVICES HUB PAGE
+  // ──────────────────────────────────────────
+  {
+    id: 'svc-what-offers',
+    question: "What services does EverIntent offer for local businesses?",
+    answer: "Smart websites starting at $249, AI Employee call answering from $197/month, email deliverability, review automation, online booking, lead capture, and SEO — all designed specifically for local service businesses.",
+    category: 'services',
+    tags: ['product'],
+    products: ['all-websites', 'all-ai'],
+    priority: 1,
+  },
+  {
+    id: 'svc-website-cost',
+    question: "How much does a website cost with EverIntent?",
+    answer: "Our Launch plan starts at $249 one-time for a professional 5-page website. Monthly plans with CRM, lead capture, and automation range from $97 to $297 per month. Every site is mobile-optimized, SEO-ready, and built to convert visitors into customers.",
+    category: 'services',
+    tags: ['pricing', 'product'],
+    products: ['all-websites'],
+    priority: 2,
+  },
+  {
+    id: 'svc-ai-employee',
+    question: "What is the AI Employee and how does it work?",
+    answer: "A managed AI receptionist that answers calls, qualifies leads, books appointments, and sends missed-call text-backs — 24/7, powered by voice AI and SMS automation. Plans start at $197/month for after-hours coverage.",
+    category: 'services',
+    tags: ['product'],
+    products: ['all-ai'],
+    priority: 3,
+  },
+  {
+    id: 'svc-outside-socal',
+    question: "Do you serve businesses outside of Southern California?",
+    answer: "Our primary service areas are Long Beach, Orange County, and Los Angeles, but our smart websites and AI Employee work nationwide. No geographic limitations.",
+    category: 'services',
+    tags: ['product'],
+    products: ['all-websites', 'all-ai'],
+    priority: 4,
+  },
+  {
+    id: 'svc-start-website-add-ai',
+    question: "Can I start with just a website and add AI later?",
+    answer: "Every smart website ships upgrade-ready with automation and AI built into the architecture. Start with our $249 Launch plan and add AI Employee, review automation, or any add-on when you're ready. No rebuilds required.",
+    category: 'services',
+    tags: ['product'],
+    products: ['all-websites'],
+    priority: 5,
+  },
+  {
+    id: 'svc-industries',
+    question: "What industries do you specialize in?",
+    answer: "We serve 65+ local business verticals across four categories: Home Services (HVAC, plumbing, electrical), Professional Services (legal, real estate, accounting), Health & Wellness (dental, medspa, chiropractic), and Automotive (auto repair, detailing, tire shops).",
+    category: 'services',
+    tags: ['product'],
+    products: ['all-websites', 'all-ai'],
+    priority: 6,
   },
 ];
 
