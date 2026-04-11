@@ -7,7 +7,7 @@
  * prefers-reduced-motion support, ClientOnly wrapper required.
  */
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { MessageSquare } from 'lucide-react';
 
@@ -131,6 +131,13 @@ export function LeadCaptureDemo() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (messages.length > 0 || isTyping) {
+      scrollEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+  }, [messages, isTyping]);
 
   const addMessage = useCallback((msg: ChatMessage) => {
     setMessages(prev => [...prev, msg]);
@@ -213,7 +220,8 @@ export function LeadCaptureDemo() {
                         <TypingDots />
                       </div>
                     </div>
-                  )}
+                   )}
+                    <div ref={scrollEndRef} />
                 </>
               )}
             </PhoneMockup>

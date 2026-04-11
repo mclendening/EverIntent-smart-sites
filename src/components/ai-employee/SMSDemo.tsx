@@ -9,7 +9,7 @@
  * - Realistic iOS styling
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Phone } from 'lucide-react';
 
 interface Message {
@@ -38,6 +38,13 @@ export function SMSDemo() {
   const [isTyping, setIsTyping] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const scrollEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (messages.length > 0 || isTyping) {
+      scrollEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+  }, [messages, isTyping]);
 
   const addMessage = useCallback((msg: Omit<Message, 'status'>) => {
     const status = msg.type === 'outgoing' ? 'sent' : undefined;
@@ -174,6 +181,7 @@ export function SMSDemo() {
                 </div>
               </div>
             )}
+            <div ref={scrollEndRef} />
           </div>
 
           {/* Input Bar */}

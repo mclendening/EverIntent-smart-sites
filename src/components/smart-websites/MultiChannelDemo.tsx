@@ -6,7 +6,7 @@
  * Sequential channel reveals with a final summary notification.
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Phone, MessageSquare, Globe, Bell } from 'lucide-react';
 
@@ -71,6 +71,13 @@ export function MultiChannelDemo() {
   const prefersReducedMotion = useReducedMotion();
   const [events, setEvents] = useState<ChannelEvent[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (events.length > 0) {
+      scrollEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+  }, [events]);
 
   useEffect(() => {
     if (prefersReducedMotion) return;
@@ -121,29 +128,32 @@ export function MultiChannelDemo() {
                     {prefersReducedMotion ? (
                       <StaticView />
                     ) : (
-                      <AnimatePresence>
-                        {events.map(evt => {
-                          const Icon = iconMap[evt.icon];
-                          return (
-                            <motion.div
-                              key={evt.id}
-                              initial={{ opacity: 0, x: -20 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ duration: 0.4, ease: 'easeOut' }}
-                              className={`flex items-start gap-3 p-3 rounded-xl border ${channelColors[evt.channel]}`}
-                            >
-                              <Icon className="w-5 h-5 mt-0.5 flex-shrink-0" />
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center justify-between">
-                                  <span className="text-sm font-semibold">{evt.label}</span>
-                                  <span className="text-[10px] text-muted-foreground">{evt.time}</span>
+                      <>
+                        <AnimatePresence>
+                          {events.map(evt => {
+                            const Icon = iconMap[evt.icon];
+                            return (
+                              <motion.div
+                                key={evt.id}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.4, ease: 'easeOut' }}
+                                className={`flex items-start gap-3 p-3 rounded-xl border ${channelColors[evt.channel]}`}
+                              >
+                                <Icon className="w-5 h-5 mt-0.5 flex-shrink-0" />
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-sm font-semibold">{evt.label}</span>
+                                    <span className="text-[10px] text-muted-foreground">{evt.time}</span>
+                                  </div>
+                                  <p className="text-xs text-muted-foreground mt-0.5">{evt.detail}</p>
                                 </div>
-                                <p className="text-xs text-muted-foreground mt-0.5">{evt.detail}</p>
-                              </div>
-                            </motion.div>
-                          );
-                        })}
-                      </AnimatePresence>
+                              </motion.div>
+                            );
+                          })}
+                        </AnimatePresence>
+                        <div ref={scrollEndRef} />
+                      </>
                     )}
                   </div>
                   <div className="flex justify-center py-2">

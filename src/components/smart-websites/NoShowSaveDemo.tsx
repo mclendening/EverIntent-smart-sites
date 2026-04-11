@@ -6,7 +6,7 @@
  * Follows SMSDemo.tsx architecture.
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Phone } from 'lucide-react';
 
@@ -74,6 +74,13 @@ export function NoShowSaveDemo() {
   const [messages, setMessages] = useState<SmsMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (messages.length > 0 || isTyping) {
+      scrollEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+  }, [messages, isTyping]);
 
   const addMessage = useCallback((msg: Omit<SmsMessage, 'status'>) => {
     const status = msg.type === 'outgoing' ? 'sent' as const : undefined;
@@ -176,6 +183,7 @@ export function NoShowSaveDemo() {
                             <div className="bg-accent rounded-2xl rounded-br-md"><TypingDots /></div>
                           </div>
                         )}
+                        <div ref={scrollEndRef} />
                       </>
                     )}
                   </div>
