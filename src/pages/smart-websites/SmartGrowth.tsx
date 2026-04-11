@@ -4,15 +4,16 @@
  *
  * Features expandable feature cards for new Scale features,
  * Product structured data, and SSG-safe rendering.
+ * FAQ rendered via centralized FAQSection component.
  */
 
 import { Check, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { SEO } from '@/components/SEO';
 import { RecommendedAddOns } from '@/components/smart-websites/RecommendedAddOns';
 import { ExpandableFeatureGrid } from '@/components/ai-employee';
 import { smartGrowthFeatures } from '@/data/features';
+import { FAQSection } from '@/components/faq';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -36,25 +37,6 @@ const includedFromBusiness = [
   'Response automation',
 ];
 
-const faqs = [
-  {
-    question: 'What makes Scale worth the extra cost?',
-    answer: 'AI Voice Agent alone replaces a $3k+/month front desk hire. Add unified inbox and advanced automations, and you\'re running a business that scales without hiring.',
-  },
-  {
-    question: 'How does the AI Voice Agent work?',
-    answer: 'When someone calls, AI answers professionally, asks qualifying questions, and books appointments on your calendar. You only talk to qualified leads.',
-  },
-  {
-    question: 'What are the quarterly strategy calls?',
-    answer: 'Every 3 months, we review your analytics, automation performance, and lead flow. We optimize and suggest improvements to keep your system running at peak.',
-  },
-  {
-    question: 'Is there an AI Employee option beyond this?',
-    answer: 'Yes. If you want full AI automation of calls, chat, and scheduling without a website, check out our AI Employee plans starting at $197/mo.',
-  },
-];
-
 export default function SmartGrowth() {
   return (
     <>
@@ -62,31 +44,20 @@ export default function SmartGrowth() {
         title="Scale: AI-Powered Growth Engine $297/mo"
         description="AI Voice Agent + unified inbox + automations for Long Beach, Orange County, and LA businesses. $297/mo, 5-day delivery, quarterly strategy calls."
         canonical="/smart-websites/scale"
-        structuredData={[
-          {
-            '@context': 'https://schema.org',
-            '@type': 'Product',
-            name: 'Scale Smart Website',
-            description: 'AI-powered growth engine with Voice Agent, unified inbox, and advanced automations.',
-            brand: { '@type': 'Brand', name: 'EverIntent' },
-            offers: {
-              '@type': 'Offer',
-              price: '297',
-              priceCurrency: 'USD',
-              priceSpecification: { '@type': 'UnitPriceSpecification', price: '297', priceCurrency: 'USD', billingDuration: 'P1M' },
-              availability: 'https://schema.org/InStock',
-            },
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: 'Scale Smart Website',
+          description: 'AI-powered growth engine with Voice Agent, unified inbox, and advanced automations.',
+          brand: { '@type': 'Brand', name: 'EverIntent' },
+          offers: {
+            '@type': 'Offer',
+            price: '297',
+            priceCurrency: 'USD',
+            priceSpecification: { '@type': 'UnitPriceSpecification', price: '297', priceCurrency: 'USD', billingDuration: 'P1M' },
+            availability: 'https://schema.org/InStock',
           },
-          {
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: faqs.map(faq => ({
-              '@type': 'Question',
-              name: faq.question,
-              acceptedAnswer: { '@type': 'Answer', text: faq.answer },
-            })),
-          },
-        ]}
+        }}
       />
 
       {/* Hero Section */}
@@ -222,29 +193,14 @@ export default function SmartGrowth() {
         </div>
       </section>
 
-      {/* FAQ Section */}
+      {/* FAQ Section — Centralized */}
       <section className="py-16 lg:py-24 bg-background">
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8 text-center">
               Common Questions
             </h2>
-            <Accordion type="single" collapsible className="space-y-4">
-              {faqs.map((faq, index) => (
-                <AccordionItem 
-                  key={index} 
-                  value={`faq-${index}`}
-                  className="rounded-xl bg-card/50 border border-border/50 px-6"
-                >
-                  <AccordionTrigger className="text-lg font-semibold text-foreground hover:no-underline py-5">
-                    {faq.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-5">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <FAQSection products={['scale']} variant="bordered" />
           </div>
         </div>
       </section>

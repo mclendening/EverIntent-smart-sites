@@ -4,15 +4,16 @@
  *
  * Features expandable feature cards with rich SEO/AEO content,
  * Product structured data, and SSG-safe rendering.
+ * FAQ rendered via centralized FAQSection component.
  */
 
 import { Check, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { SEO } from '@/components/SEO';
 import { RecommendedAddOns } from '@/components/smart-websites/RecommendedAddOns';
 import { ExpandableFeatureGrid } from '@/components/ai-employee';
 import { smartLeadFeatures } from '@/data/features';
+import { FAQSection } from '@/components/faq';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -31,25 +32,6 @@ const includedFromSite = [
   'Contact form',
 ];
 
-const faqs = [
-  {
-    question: 'Why is Capture the most popular?',
-    answer: 'Because most businesses running ads or any paid traffic need lead capture. Without missed-call text-back and AI chat, you\'re paying for leads and losing them.',
-  },
-  {
-    question: 'What\'s the difference from Launch?',
-    answer: 'Launch is a basic website. Capture adds the tools that actually capture leads: AI chat, missed-call text-back, CRM, and automation.',
-  },
-  {
-    question: 'Is there a contract?',
-    answer: 'No contracts. Cancel anytime. We keep you because you love the results, not because you\'re locked in.',
-  },
-  {
-    question: 'How fast can I get started?',
-    answer: '5 business days from kickoff to launch. Your lead capture system goes live the same day as your website.',
-  },
-];
-
 export default function SmartLead() {
   return (
     <>
@@ -57,31 +39,20 @@ export default function SmartLead() {
         title="Capture: Lead Capture Website $97/mo"
         description="Never miss a lead in Long Beach, Orange County, or LA. AI chat, missed-call text-back, CRM for $97/mo. Built in 5 days."
         canonical="/smart-websites/capture"
-        structuredData={[
-          {
-            '@context': 'https://schema.org',
-            '@type': 'Product',
-            name: 'Capture Smart Website',
-            description: 'Lead capture website with AI chat, missed-call text-back, CRM, and automation.',
-            brand: { '@type': 'Brand', name: 'EverIntent' },
-            offers: {
-              '@type': 'Offer',
-              price: '97',
-              priceCurrency: 'USD',
-              priceSpecification: { '@type': 'UnitPriceSpecification', price: '97', priceCurrency: 'USD', billingDuration: 'P1M' },
-              availability: 'https://schema.org/InStock',
-            },
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: 'Capture Smart Website',
+          description: 'Lead capture website with AI chat, missed-call text-back, CRM, and automation.',
+          brand: { '@type': 'Brand', name: 'EverIntent' },
+          offers: {
+            '@type': 'Offer',
+            price: '97',
+            priceCurrency: 'USD',
+            priceSpecification: { '@type': 'UnitPriceSpecification', price: '97', priceCurrency: 'USD', billingDuration: 'P1M' },
+            availability: 'https://schema.org/InStock',
           },
-          {
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: faqs.map(faq => ({
-              '@type': 'Question',
-              name: faq.question,
-              acceptedAnswer: { '@type': 'Answer', text: faq.answer },
-            })),
-          },
-        ]}
+        }}
       />
 
       {/* Hero Section */}
@@ -217,29 +188,14 @@ export default function SmartLead() {
         </div>
       </section>
 
-      {/* FAQ Section */}
+      {/* FAQ Section — Centralized */}
       <section className="py-16 lg:py-24 bg-background">
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8 text-center">
               Common Questions
             </h2>
-            <Accordion type="single" collapsible className="space-y-4">
-              {faqs.map((faq, index) => (
-                <AccordionItem 
-                  key={index} 
-                  value={`faq-${index}`}
-                  className="rounded-xl bg-card/50 border border-border/50 px-6"
-                >
-                  <AccordionTrigger className="text-lg font-semibold text-foreground hover:no-underline py-5">
-                    {faq.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-5">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <FAQSection products={['capture']} variant="bordered" />
           </div>
         </div>
       </section>
