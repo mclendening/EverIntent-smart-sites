@@ -197,6 +197,29 @@ const Pricing = () => {
         </div>
       </section>
 
+      {/* Cost of Doing Nothing */}
+      <section className="py-10 md:py-14 bg-muted/50" aria-label="Cost of inaction">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-center">
+            <div>
+              <p className="text-4xl md:text-5xl font-bold text-accent">62%</p>
+              <p className="text-muted-foreground mt-2 text-sm">of calls go unanswered</p>
+            </div>
+            <div>
+              <p className="text-4xl md:text-5xl font-bold text-accent">$200+</p>
+              <p className="text-muted-foreground mt-2 text-sm">lost per missed call</p>
+            </div>
+            <div>
+              <p className="text-4xl md:text-5xl font-bold text-accent">$48,000</p>
+              <p className="text-muted-foreground mt-2 text-sm">average annual loss</p>
+            </div>
+          </div>
+          <p className="text-center text-muted-foreground mt-8 text-sm md:text-base">
+            Our most popular plan costs <span className="text-foreground font-semibold">$197/month</span>. Your missed calls cost more.
+          </p>
+        </div>
+      </section>
+
       {/* Smart Websites Tab */}
       {activeTab === 'websites' && (
         <section id="smart-websites" className="py-16 md:py-24 bg-muted/30">
