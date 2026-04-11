@@ -48,7 +48,7 @@
 | # | Task | File(s) | Current State | Target State | Success Criteria | Analysis Ref |
 |---|------|---------|--------------|--------------|-----------------|-------------|
 | 2.1 | Add 3 killer objection FAQs | `src/pages/FAQ.tsx` (pricing category), `src/pages/Pricing.tsx` (faqItems array) | Missing: "robot objection", "expensive objection", "think about it" | Add 3 Q&As (pre-written copy below) | FAQs appear in both `/faq` page and `/pricing` FAQ section. | [A§9, A#2] |
-| 2.2 | Reframe "setup" → "AI Training & Implementation" | Multiple files (see line refs below) | Label says "setup" | "AI Training & Implementation" (full) / "AI Training" (compact cards at 375px) | All setup fee labels use new framing. No remaining "setup" labels on buyer-facing pricing. | [A§2, A#3] |
+| 2.2 | Conditional setup fee relabeling | Multiple files (see line refs below) | Label says "setup" on all tiers | **$0 tiers** (Capture/Convert/Scale): "No setup fee" or remove line. **$249 Launch**: leave as-is (product price, not a fee). **$497+ AI Employee**: "$X AI Training & Implementation" (full) / "$X AI Training" (compact 375px). | No "setup" label on $0 tiers. Launch unchanged. AI Employee tiers say "AI Training & Implementation." `checkoutConfig.ts` field stays `setupFee` (data model unchanged). | [A§2, A#3] |
 | 2.3 | Add trust signals to checkout flow | `src/pages/checkout/CheckoutPage.tsx` | No trust strip above form | Horizontal strip: `✓ No contracts  ✓ Cancel anytime  ✓ 30-day optimization  ✓ Secure checkout` | Trust strip visible on all `/checkout/*` routes. Desktop: single row. Mobile (375px): 2×2 grid. Uses `bg-muted` + `text-muted-foreground`. | [A§10, A#9] |
 | 2.4 | Replace generic "Get Started" CTAs with outcome text | Multiple files (see CTA mapping below) | Generic "Get Started" on most tier CTAs | Outcome-specific CTA text per tier | Every tier's primary CTA uses its designated outcome text. | [A§2, A§4, A#5] |
 | 2.5 | Add "Book a Call" secondary CTA on plans ≥$197/mo | `src/pages/Pricing.tsx`, individual tier pages | Missing for Convert ($197) and Scale ($297). Already exists for Front Office and Full AI on Pricing.tsx lines 440-447. | Text link: "Want to talk first?" → `/contact` | Secondary CTA visible on Convert, Scale, After-Hours cards. Does NOT compete visually with primary CTA. | [A§10] |
@@ -70,14 +70,22 @@
 
 > A: How many calls did you miss this week? The data says 62% of calls to local businesses go unanswered. At $200+ per missed call, that's $1,000+ every week walking out the door. There are no contracts — you can cancel anytime. The only risk is waiting.
 
-### Task 2.2 File Locations for "Setup" → "AI Training & Implementation"
+### Task 2.2 Conditional Setup Fee Relabeling Rules
 
-| File | Lines | Context |
-|------|-------|---------|
-| `src/pages/Pricing.tsx` | 84, 96, 108, 121, 422 | Pricing cards + AI tab |
-| `src/pages/AIEmployee.tsx` | 44, 55, 66, 78, 266 | AI tier cards + setup callout section |
-| `src/pages/CompareAIEmployee.tsx` | 96, 106, 116 | Comparison table |
-| `src/pages/SmartWebsites.tsx` | 33, 58, 83, 108, 411 | SW tier cards + setup callout |
+| Fee Amount | Current Label | New Label |
+|---|---|---|
+| $0 (Capture, Convert, Scale websites) | "$0 setup" | "No setup fee" — or remove the setup line entirely |
+| $249 (Launch website) | "$249" | Leave as-is. Product price, not a fee. Do NOT add "AI Training & Implementation." |
+| $497+ (AI Employee tiers) | "$X setup" | "$X AI Training & Implementation" (full) / "$X AI Training" (compact 375px) |
+
+**Data model note:** `checkoutConfig.ts` field remains `setupFee` — this is presentation-layer only.
+
+| File | Lines | Context | Action |
+|------|-------|---------|--------|
+| `src/pages/Pricing.tsx` | 83-121, 421 | SW cards show `setup` for $0 tiers; AI tab shows `setup` for AI tiers | Remove setup display for $0 tiers; relabel AI tier setup |
+| `src/pages/AIEmployee.tsx` | 44, 55, 66, 78, 266, 292 | AI tier cards + setup callout section | Relabel to "AI Training & Implementation" |
+| `src/pages/CompareAIEmployee.tsx` | 96, 106, 116, 280, 492 | Comparison table + mobile cards | Relabel to "AI Training & Implementation" |
+| `src/pages/SmartWebsites.tsx` | 33, 58, 83, 108, 347, 411 | SW tier cards + desktop table | Remove/hide setup for $0 tiers; leave Launch as-is |
 
 **Note from Analysis §4 line 185:** The AI Employee page ALREADY frames setup correctly in the callout section ("Business-specific AI training, System integration, Testing & QA, 30-day optimization"). Match this existing pattern for the label change — don't reinvent.
 
