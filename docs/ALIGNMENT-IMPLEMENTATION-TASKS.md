@@ -458,26 +458,34 @@ All copy changes must match the outcome-first framing of the portfolio detail pa
 ## Parallel Execution Map
 
 ```
-Phase 1 (all 5 tasks in parallel)
+Phase 1 (all 5 tasks in parallel) ✅ COMPLETE
   ├── 1.1 FinalCTASection price
   ├── 1.2 CompareWebsites Email Authority price  
   ├── 1.3 AIEmployee Web Chat link
   ├── 1.4 SmartWebsites + SmartLead Capture setup fee
   └── 1.5 Pricing SMS/Email quota removal
 
-Phase 2 (4 parallel streams)
-  ├── Stream A: 2.1 FAQ objection answers (copy is pre-written above)
-  ├── Stream B: 2.2 Setup fee relabeling (multi-file) + 2.6 "Choose Your Mode"
+Phase 2 (4 parallel streams) ✅ COMPLETE
+  ├── Stream A: 2.1 FAQ objection answers
+  ├── Stream B: 2.2 Setup fee relabeling + 2.6 "Choose Your Mode"
   ├── Stream C: 2.3 Checkout trust strip
   └── Stream D: 2.4 + 2.5 CTA text + Book a Call links
 
-Phase 3 (2 parallel streams)
-  ├── Stream A: 3.1 + 3.2 Homepage (hero + HowWeHelp) + 3.5 Industries hero
-  └── Stream B: 3.3 + 3.4 Pricing page (cost section + hero)
+Phase 2.5 — FAQ Architecture Audit ⏳ AUDIT COMPLETE, AWAITING APPROVAL
+  ├── 2.5.1 Audit existing FAQ architecture ✅
+  ├── 2.5.2 Check Supabase for FAQ data model ✅
+  ├── 2.5.3 Propose centralized FAQ architecture ✅
+  └── 2.5.4 Update downstream tasks (after approval)
+
+Phase 3 (3 streams — Stream C blocked by 2.5)
+  ├── Stream A: 3.1 + 3.2 + 3.5 (homepage + industries hero)  ← NOT BLOCKED
+  ├── Stream B: 3.4 (pricing hero)                              ← NOT BLOCKED
+  └── Stream C: 3.3 (pricing cost section)                      ← BLOCKED by 2.5
 
 Phase 4 (parallel pattern fixes)
   ├── 4.1a-e Copy patterns (independent file edits)
-  └── 4.2 SW tier page heroes (4 independent pages)
+  ├── 4.2 SW tier page heroes (4 independent pages)
+  └── 4.3 FAQ content rewrite (TO BE ADDED after 2.5 approval) ← BLOCKED by 2.5
 
 Phase 5 (3 parallel components)
   ├── 5.1 Capture animated demo
@@ -488,7 +496,7 @@ Phase 6 (4 parallel tasks)
   ├── 6.1 Annual pricing toggle
   ├── 6.2 Voice AI Chat Widget mentions
   ├── 6.3 "Included free with Scale" badges
-  └── 6.4 Compare page scenario cards
+  └── 6.4 Compare page scenario cards                           ← BLOCKED by 2.5
 ```
 
 ---
