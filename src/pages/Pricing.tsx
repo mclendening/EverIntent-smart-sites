@@ -130,16 +130,24 @@ const aiPlans = [
 
 const faqItems = [
   {
+    question: "Will my customers hate talking to a robot?",
+    answer: "The choice isn't AI vs. human. It's AI vs. voicemail. 85% of people who reach voicemail never call back — they call your competitor instead. Our AI answers in 2 seconds, knows your business, your hours, and your services. 94% of callers rate the experience 4+ stars. And most don't even realize they're talking to AI. Your competitor's voicemail isn't beating our AI.",
+  },
+  {
+    question: "Is $197/month expensive?",
+    answer: "A full-time receptionist costs $40,000 a year. We cost $2,364. And we work nights, weekends, and holidays without calling in sick. The average service business loses $50,000-$120,000 a year to missed calls (CallBird, 2026). If we capture one $200 job you would have missed, we've paid for ourselves for six months. The expensive option is doing nothing.",
+  },
+  {
+    question: "I need to think about it.",
+    answer: "How many calls did you miss this week? The data says 62% of calls to local businesses go unanswered. At $200+ per missed call, that's $1,000+ every week walking out the door. There are no contracts — you can cancel anytime. The only risk is waiting.",
+  },
+  {
     question: "What's included in the one-time $249 price?",
     answer: "Launch includes a professional 5-page website, mobile responsive design, SSL certificate, basic SEO setup, contact form, and Google Maps integration. You own the website forever. After the first year, hosting is just $149/year.",
   },
   {
     question: "Can I upgrade from Launch to Capture later?",
     answer: "Yes! You can upgrade to any higher tier at any time. We'll migrate everything seamlessly and prorate your billing. No rebuilds required. Every tier is upgrade-ready from day one.",
-  },
-  {
-    question: "What happens if I exceed my SMS limit?",
-    answer: "We'll notify you when you're approaching your limit. Additional SMS are billed at $0.015 each. You can also upgrade to a higher tier for more included messages.",
   },
   {
     question: "Do I own my website?",
@@ -436,12 +444,12 @@ const Pricing = () => {
                         >
                           See Details →
                         </a>
-                        {(plan.id === 'front-office' || plan.id === 'full') && (
+                        {(plan.id === 'after-hours' || plan.id === 'front-office' || plan.id === 'full') && (
                           <a
                             href="/contact"
-                            className="px-4 py-2 rounded-lg text-sm font-medium border border-border hover:bg-muted transition-colors whitespace-nowrap"
+                            className="text-sm text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
                           >
-                            Book a Call
+                            Want to talk first?
                           </a>
                         )}
                       </div>
