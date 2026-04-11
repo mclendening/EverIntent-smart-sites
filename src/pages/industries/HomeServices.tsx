@@ -100,6 +100,19 @@ export default function HomeServices() {
         title="Home Services: AI Automation for Contractors"
         description="Smart websites and AI automation for HVAC, plumbing, electrical, roofing, landscaping, and 26 more home service verticals."
         canonical="/industries/home-services"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Service',
+          name: 'AI Automation for Home Service Contractors',
+          description: 'Smart websites and AI-powered call answering for HVAC, plumbing, electrical, roofing, landscaping, and 26 more home service verticals.',
+          provider: { '@type': 'Organization', name: 'EverIntent', url: 'https://everintent.com' },
+          areaServed: [
+            { '@type': 'City', name: 'Long Beach' },
+            { '@type': 'City', name: 'Los Angeles' },
+            { '@type': 'AdministrativeArea', name: 'Orange County' },
+          ],
+          serviceType: 'AI Automation for Home Services',
+        }}
       />
       
       {/* Hero Section */}

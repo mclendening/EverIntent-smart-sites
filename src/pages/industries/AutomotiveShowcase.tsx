@@ -80,6 +80,19 @@ export default function AutomotiveShowcase() {
         title="Automotive Services AI Solutions | Auto Repair, Detailing, Tire Shops"
         description="Fill more bays with AI-powered scheduling. Smart websites and phone answering for auto repair, detailing, and tire shops. Capture from $97/mo."
         canonical="/industries/automotive-services/showcase"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Service',
+          name: 'AI-Powered Websites for Automotive Services',
+          description: 'Smart websites with AI scheduling for auto repair shops, detailing services, and tire shops. Fill more bays from $97/mo.',
+          provider: { '@type': 'Organization', name: 'EverIntent', url: 'https://everintent.com' },
+          areaServed: [
+            { '@type': 'City', name: 'Long Beach' },
+            { '@type': 'City', name: 'Los Angeles' },
+            { '@type': 'AdministrativeArea', name: 'Orange County' },
+          ],
+          serviceType: 'Smart Websites for Automotive Services',
+        }}
       />
 
       <IndustryShowcaseTemplate

@@ -84,6 +84,19 @@ export default function HealthWellness() {
         title="Health & Wellness: AI for Practices"
         description="Smart websites and AI automation for dental, chiropractic, medspa, salons, fitness, and 10 more health & wellness verticals."
         canonical="/industries/health-wellness"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Service',
+          name: 'AI Automation for Health & Wellness Practices',
+          description: 'Smart websites and AI-powered patient scheduling for dental practices, chiropractors, medspas, salons, fitness studios, and 10 more health & wellness verticals.',
+          provider: { '@type': 'Organization', name: 'EverIntent', url: 'https://everintent.com' },
+          areaServed: [
+            { '@type': 'City', name: 'Long Beach' },
+            { '@type': 'City', name: 'Los Angeles' },
+            { '@type': 'AdministrativeArea', name: 'Orange County' },
+          ],
+          serviceType: 'AI Automation for Health & Wellness',
+        }}
       />
       
       {/* Hero Section */}

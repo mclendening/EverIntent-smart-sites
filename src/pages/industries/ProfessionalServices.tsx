@@ -84,6 +84,19 @@ export default function ProfessionalServices() {
         title="Professional Services: AI for Firms"
         description="Smart websites and AI automation for legal, real estate, accounting, insurance, and 10 more professional service verticals."
         canonical="/industries/professional-services"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Service',
+          name: 'AI Automation for Professional Services',
+          description: 'Smart websites and AI-powered client intake for law firms, real estate agents, accountants, insurance agencies, and 10 more professional service verticals.',
+          provider: { '@type': 'Organization', name: 'EverIntent', url: 'https://everintent.com' },
+          areaServed: [
+            { '@type': 'City', name: 'Long Beach' },
+            { '@type': 'City', name: 'Los Angeles' },
+            { '@type': 'AdministrativeArea', name: 'Orange County' },
+          ],
+          serviceType: 'AI Automation for Professional Services',
+        }}
       />
       
       {/* Hero Section */}

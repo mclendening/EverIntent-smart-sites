@@ -80,6 +80,19 @@ export default function HealthWellnessShowcase() {
         title="Health & Wellness AI Solutions | MedSpa, Dental, Chiropractic"
         description="Book more patients with AI-powered scheduling. Smart websites and phone answering for medspas, dental practices, and wellness studios. Convert from $197/mo."
         canonical="/industries/health-wellness/showcase"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Service',
+          name: 'AI-Powered Websites for Health & Wellness',
+          description: 'Smart websites with AI scheduling for medspas, dental practices, chiropractors, and wellness studios. Book more patients from $197/mo.',
+          provider: { '@type': 'Organization', name: 'EverIntent', url: 'https://everintent.com' },
+          areaServed: [
+            { '@type': 'City', name: 'Long Beach' },
+            { '@type': 'City', name: 'Los Angeles' },
+            { '@type': 'AdministrativeArea', name: 'Orange County' },
+          ],
+          serviceType: 'Smart Websites for Health & Wellness',
+        }}
       />
 
       <IndustryShowcaseTemplate
