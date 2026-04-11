@@ -75,7 +75,7 @@ export function MultiChannelDemo() {
   useEffect(() => {
     if (prefersReducedMotion) return;
     if (currentIndex >= eventScript.length) {
-      const timer = setTimeout(() => { setEvents([]); setCurrentIndex(0); }, 5000);
+      const timer = setTimeout(() => { setEvents([]); setCurrentIndex(0); }, 8000);
       return () => clearTimeout(timer);
     }
 
