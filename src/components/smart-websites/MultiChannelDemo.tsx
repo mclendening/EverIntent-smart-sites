@@ -71,6 +71,13 @@ export function MultiChannelDemo() {
   const prefersReducedMotion = useReducedMotion();
   const [events, setEvents] = useState<ChannelEvent[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (events.length > 0) {
+      scrollEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+  }, [events]);
 
   useEffect(() => {
     if (prefersReducedMotion) return;
@@ -144,6 +151,7 @@ export function MultiChannelDemo() {
                           );
                         })}
                       </AnimatePresence>
+                      <div ref={scrollEndRef} />
                     )}
                   </div>
                   <div className="flex justify-center py-2">
