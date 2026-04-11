@@ -153,6 +153,33 @@
 
 ---
 
+## ⚠️ CRITICAL BLOCKER: Checkout Not Wired to GHL
+
+**Status:** Checkout pages were never fully implemented past Stage 2 (the pre-checkout form). The GHL SaaS billing integration (Stage 2 of the 2-stage architecture) has NOT been connected. This means:
+
+- `/checkout/*` routes render the 3-step form UI but **do not complete a purchase**
+- The `start-checkout` Edge Function exists but the GHL redirect/billing handoff is not live
+- Any CTA pointing to `/checkout/*` currently leads to a dead-end after form submission
+
+### Impact on Alignment Tasks
+
+| Task | Impact | Mitigation |
+|------|--------|------------|
+| **1.3** Fix Web Chat CTA link | Low — we can still fix the link target, but checkout won't complete | Link to `/let-ai-handle-it/web-chat` (detail page) instead of `/checkout/web-chat` until checkout is live |
+| **2.3** Trust strip on checkout | Low — still worth adding for when checkout goes live | Build it, it'll be ready |
+| **2.4** Outcome-specific CTAs | Medium — CTAs on pricing/product pages point to `/checkout/*` | Keep CTAs pointed at checkout routes (they'll work once GHL is wired). Alternatively, route to `/contact` as interim |
+| **2.5** "Book a Call" secondary CTA | None — links to `/contact` which works | No change needed |
+| **6.1** Annual pricing toggle | High — can't test end-to-end without GHL billing | Build the UI toggle + display logic. Defer `checkoutConfig.ts` annual pricing until GHL integration is ready |
+
+### Decision Needed
+
+| # | Question | Options |
+|---|----------|---------|
+| D7 | Should CTAs point to `/checkout/*` (broken) or `/contact` (working) until GHL is wired? | **A:** Keep `/checkout/*` — the form still captures lead data in Supabase even without GHL completion. **B:** Redirect all to `/contact` — simpler, no dead-end UX. **Recommendation:** Option A — the checkout form captures intent data (name, email, tier selected) into `checkout_submissions` table, which has value even without GHL billing. Add a "We'll be in touch within 24 hours" confirmation message on Step 3 until GHL is live. |
+| D8 | Should we prioritize wiring GHL checkout before or after the alignment work? | **Recommendation:** After. Alignment work fixes copy, framing, and trust — all of which make the checkout more effective once it IS wired. |
+
+---
+
 ## Cross-Phase Constraints
 
 ### Design Token Compliance (verify after EVERY phase)
