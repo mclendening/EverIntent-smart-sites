@@ -55,8 +55,10 @@ const EXCLUDED_PREFIXES = [
   '/services/booking',
   '/services/reputation',
   '/services/ai-automation',
-  '/features/',
-  '/checkout/',
+  '/features/lead-capture', '/features/ai-chat', '/features/review-management',
+  '/features/mobile-app', '/features/scheduling', '/features/analytics',
+  '/checkout/launch', '/checkout/capture', '/checkout/convert', '/checkout/scale',
+  '/checkout/after-hours', '/checkout/front-office', '/checkout/full-ai', '/checkout/web-chat',
   // Industry verticals (placeholder pages) — exclude entire subtrees
   '/industries/home-services/hvac',
   '/industries/home-services/plumbing',
