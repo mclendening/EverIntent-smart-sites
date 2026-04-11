@@ -93,10 +93,6 @@ const faqCategories: FAQCategory[] = [
     icon: CreditCard,
     questions: [
       {
-        q: 'Are there contracts or cancellation fees?',
-        a: 'No contracts. No cancellation fees. We earn your business every month. Stay because it works, not because you\'re locked in.',
-      },
-      {
         q: 'Will my customers hate talking to a robot?',
         a: 'The choice isn\'t AI vs. human. It\'s AI vs. voicemail. 85% of people who reach voicemail never call back — they call your competitor instead. Our AI answers in 2 seconds, knows your business, your hours, and your services. 94% of callers rate the experience 4+ stars. And most don\'t even realize they\'re talking to AI. Your competitor\'s voicemail isn\'t beating our AI.',
       },
