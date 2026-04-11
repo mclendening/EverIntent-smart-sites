@@ -124,7 +124,7 @@ export default function SmartSite() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Button asChild size="lg" variant="gold" className="btn-glow">
                 <a href="/checkout/launch">
-                  Get Started
+                  Build My Website
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </a>
               </Button>
