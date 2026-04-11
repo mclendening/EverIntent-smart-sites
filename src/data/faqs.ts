@@ -87,7 +87,7 @@ export const faqData: FAQItem[] = [
   {
     id: 'pricing-payment',
     question: "What payment methods do you accept?",
-    answer: "We accept all major credit cards through our secure Stripe-powered checkout. Setup fees are charged upfront, and monthly subscriptions are billed automatically.",
+    answer: "We accept all major credit cards through our secure Stripe-powered checkout. AI Training & Implementation fees are charged upfront when we begin building your system. Monthly billing starts after your site or AI Employee is live and verified.",
     category: 'pricing',
     tags: ['billing'],
     products: ['all-websites', 'all-ai'],
@@ -123,7 +123,7 @@ export const faqData: FAQItem[] = [
   {
     id: 'pricing-launch-included',
     question: "What's included in the one-time $249 price?",
-    answer: "Launch includes a professional 5-page website, mobile responsive design, SSL certificate, basic SEO setup, contact form, and Google Maps integration. You own the website forever. After the first year, hosting is just $149/year.",
+    answer: "Launch gets you online in 5 days with a professional website that looks great on every device. Customers find you on Google, see your location on Maps, and contact you instantly. After Year 1, hosting is just $149/year.",
     category: 'pricing',
     tags: ['pricing', 'product'],
     products: ['launch'],
@@ -159,7 +159,7 @@ export const faqData: FAQItem[] = [
   {
     id: 'pricing-refunds',
     question: "Do you offer refunds?",
-    answer: "Yes. We offer a 30-day money-back guarantee. If you're not happy with your site within 30 days of launch, we'll refund your setup fee. No questions asked.",
+    answer: "Yes. We offer a 30-day money-back guarantee. If you're not happy with your site within 30 days of launch, we'll refund your payment. No questions asked.",
     category: 'pricing',
     tags: ['billing'],
     products: ['all-websites'],
@@ -181,7 +181,7 @@ export const faqData: FAQItem[] = [
   {
     id: 'sw-what',
     question: "What is a Smart Website?",
-    answer: "A professional 5-page website built in 5 days. Mobile-first, SEO-ready, and you own everything. Every site ships upgrade-ready with automation and AI under the hood.",
+    answer: "A professional website built in 5 days that makes your business look established and gets you found on Google. Every site ships upgrade-ready with automation and AI under the hood.",
     category: 'smart-websites',
     tags: ['product'],
     products: ['all-websites'],
@@ -226,7 +226,7 @@ export const faqData: FAQItem[] = [
   {
     id: 'sw-after-year1',
     question: "What happens after the first year with Launch?",
-    answer: "Launch includes 1 year of hosting free. After Year 1, hosting renews at $149/year. This covers hosting, SSL, security updates, and basic maintenance. You can cancel anytime.",
+    answer: "Launch includes 1 year of hosting free. After Year 1, hosting renews at $149/year. This covers hosting, security, updates, and maintenance — everything that keeps your site fast and protected. You can cancel anytime.",
     category: 'smart-websites',
     tags: ['pricing', 'billing'],
     products: ['launch'],
@@ -300,7 +300,7 @@ export const faqData: FAQItem[] = [
   {
     id: 'sw-convert-upgrade',
     question: "Can I upgrade from Capture to Convert?",
-    answer: "Yes. If you're on Capture and want booking + reviews, we migrate you seamlessly. Pay the difference in setup, new monthly rate kicks in.",
+    answer: "Yes. If you're on Capture and want booking + reviews, we migrate you seamlessly. Pay the difference in your one-time fee, new monthly rate kicks in.",
     category: 'smart-websites',
     tags: ['product', 'pricing'],
     products: ['convert'],
@@ -423,7 +423,7 @@ export const faqData: FAQItem[] = [
   {
     id: 'ai-ah-cost',
     question: "How much does After-Hours AI cost?",
-    answer: "$197 per month plus a one-time $997 setup fee. This includes unlimited SMS, missed-call text-back, CRM integration, and 500 voice minutes.",
+    answer: "$197 per month plus a one-time $997 AI Training & Implementation fee. This includes unlimited SMS, missed-call text-back, CRM integration, and 500 voice minutes.",
     category: 'ai-employee',
     tags: ['pricing'],
     products: ['after-hours'],
@@ -461,7 +461,7 @@ export const faqData: FAQItem[] = [
   {
     id: 'ai-fo-cost',
     question: "How much does Front Office AI cost?",
-    answer: "$297 per month plus a one-time $1,497 setup fee. Includes 1,000 voice minutes, unlimited SMS, lead qualification, and live call transfers.",
+    answer: "$297 per month plus a one-time $1,497 AI Training & Implementation fee. Includes 1,000 voice minutes, unlimited SMS, lead qualification, and live call transfers.",
     category: 'ai-employee',
     tags: ['pricing'],
     products: ['front-office'],
@@ -499,7 +499,7 @@ export const faqData: FAQItem[] = [
   {
     id: 'ai-full-cost',
     question: "How much does the Full AI Employee cost?",
-    answer: "$597 per month plus a one-time $2,500 setup fee that includes white-glove onboarding, AI training on your business, and full system configuration.",
+    answer: "$597 per month plus a one-time $2,500 AI Training & Implementation fee that includes white-glove onboarding, AI training on your business, and full system configuration.",
     category: 'ai-employee',
     tags: ['pricing'],
     products: ['full-ai'],
@@ -877,7 +877,7 @@ export const faqData: FAQItem[] = [
   {
     id: 'svc-website-cost',
     question: "How much does a website cost with EverIntent?",
-    answer: "Our Launch plan starts at $249 one-time for a professional 5-page website. Monthly plans with CRM, lead capture, and automation range from $97 to $297 per month. Every site is mobile-optimized, SEO-ready, and built to convert visitors into customers.",
+    answer: "Our Launch plan starts at $249 one-time — you're online in 5 days with a site that gets you found and gets you called. Monthly plans from $97 add lead capture, booking, and AI automation.",
     category: 'services',
     tags: ['pricing', 'product'],
     products: ['all-websites'],
