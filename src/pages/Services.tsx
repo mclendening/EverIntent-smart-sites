@@ -190,36 +190,6 @@ const addOnServices = [
 ];
 
 /**
- * FAQ items for SEO/AEO structured data
- */
-const faqItems = [
-  {
-    question: 'What services does EverIntent offer for local businesses?',
-    answer: 'EverIntent provides smart websites starting at $249, AI Employee call answering from $197/month, email deliverability services, review automation, online booking, lead capture, and SEO. All designed specifically for local service businesses in Long Beach, Orange County, and Los Angeles.',
-  },
-  {
-    question: 'How much does a website cost with EverIntent?',
-    answer: 'Our Launch plan starts at $249 one-time for a professional 5-page website. Monthly plans with CRM, lead capture, and automation range from $97 to $297 per month. Every site is mobile-optimized, SEO-ready, and built to convert visitors into customers.',
-  },
-  {
-    question: 'What is the AI Employee and how does it work?',
-    answer: 'The AI Employee is a managed AI receptionist that answers calls, qualifies leads, books appointments, and sends missed-call text-backs. It works 24/7 using voice AI and SMS automation powered by GoHighLevel. Plans start at $197/month for after-hours coverage.',
-  },
-  {
-    question: 'Do you serve businesses outside of Southern California?',
-    answer: 'While our primary service areas are Long Beach, Orange County, and Los Angeles, our smart websites and AI Employee services work nationwide. The AI answering service and email deliverability tools have no geographic limitations.',
-  },
-  {
-    question: 'Can I start with just a website and add AI later?',
-    answer: 'Absolutely. Every smart website ships upgrade-ready with automation and AI built into the architecture. You can start with our $249 Launch plan and add AI Employee, review automation, or any add-on when you are ready. No rebuilds required.',
-  },
-  {
-    question: 'What industries do you specialize in?',
-    answer: 'We serve 65+ local business verticals across four main categories: Home Services (HVAC, plumbing, electrical, roofing), Professional Services (legal, real estate, accounting), Health & Wellness (dental, medspa, chiropractic), and Automotive (auto repair, detailing, tire shops).',
-  },
-];
-
-/**
  * Structured data for SEO - ItemList of all services
  */
 const structuredData = [
@@ -250,18 +220,7 @@ const structuredData = [
       },
     })),
   },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqItems.map((item) => ({
-      '@type': 'Question',
-      name: item.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: item.answer,
-      },
-    })),
-  },
+  generateFAQSchema(filterFAQs({ category: 'services' })),
 ];
 
 // ============================================
@@ -543,22 +502,7 @@ export default function Services() {
             Frequently Asked <span className="text-accent">Questions</span>
           </h2>
 
-          <div className="space-y-4">
-            {faqItems.map((item, index) => (
-              <details
-                key={index}
-                className="group bg-card border border-border/30 rounded-lg overflow-hidden"
-              >
-                <summary className="flex items-center justify-between p-4 cursor-pointer list-none">
-                  <h3 className="text-sm font-semibold text-foreground pr-4">{item.question}</h3>
-                  <ChevronDown className="w-4 h-4 text-muted-foreground flex-shrink-0 transition-transform group-open:rotate-180" />
-                </summary>
-                <div className="px-4 pb-4">
-                  <p className="text-sm text-muted-foreground leading-relaxed">{item.answer}</p>
-                </div>
-              </details>
-            ))}
-          </div>
+          <FAQSection category="services" showSchema={false} variant="bordered" />
         </div>
       </section>
 
