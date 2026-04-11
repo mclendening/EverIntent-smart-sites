@@ -154,10 +154,10 @@ const Pricing = () => {
         <div className="absolute inset-0 bg-mesh opacity-20" />
         <div className="relative container mx-auto px-4 text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-            Simple, Transparent Pricing
+            Stop Losing Money. Pick Your Plan.
           </h1>
           <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mb-8">
-            Professional websites from $249. AI automation from $197/month.
+            Every missed call costs you $200+. Fix that today.
           </p>
 
           {/* Tab Switcher */}
