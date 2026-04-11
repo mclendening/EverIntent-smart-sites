@@ -283,7 +283,20 @@ export default function CheckoutPage() {
       
       <main className="min-h-screen bg-background pt-24 pb-24 md:pt-28 md:pb-12" aria-label="Checkout">
         <div className="container max-w-6xl mx-auto px-4">
-          {/* Progress Indicator */}
+          {/* Trust Strip */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 rounded-xl bg-muted p-4 mb-6">
+            {[
+              { icon: '✓', text: 'No contracts' },
+              { icon: '✓', text: 'Cancel anytime' },
+              { icon: '✓', text: '30-day optimization' },
+              { icon: '🔒', text: 'Secure checkout' },
+            ].map((item) => (
+              <div key={item.text} className="flex items-center justify-center gap-1.5 text-sm text-muted-foreground">
+                <span className="text-accent">{item.icon}</span>
+                <span>{item.text}</span>
+              </div>
+            ))}
+          </div>
           <CheckoutProgress currentStep={step} />
           
           {/* Mobile Order Summary - shows at top on mobile */}

@@ -97,6 +97,18 @@ const faqCategories: FAQCategory[] = [
         a: 'No contracts. No cancellation fees. We earn your business every month. Stay because it works, not because you\'re locked in.',
       },
       {
+        q: 'Will my customers hate talking to a robot?',
+        a: 'The choice isn\'t AI vs. human. It\'s AI vs. voicemail. 85% of people who reach voicemail never call back — they call your competitor instead. Our AI answers in 2 seconds, knows your business, your hours, and your services. 94% of callers rate the experience 4+ stars. And most don\'t even realize they\'re talking to AI. Your competitor\'s voicemail isn\'t beating our AI.',
+      },
+      {
+        q: 'Is $197/month expensive?',
+        a: 'A full-time receptionist costs $40,000 a year. We cost $2,364. And we work nights, weekends, and holidays without calling in sick. The average service business loses $50,000-$120,000 a year to missed calls (CallBird, 2026). If we capture one $200 job you would have missed, we\'ve paid for ourselves for six months. The expensive option is doing nothing.',
+      },
+      {
+        q: 'I need to think about it.',
+        a: 'How many calls did you miss this week? The data says 62% of calls to local businesses go unanswered. At $200+ per missed call, that\'s $1,000+ every week walking out the door. There are no contracts — you can cancel anytime. The only risk is waiting.',
+      },
+      {
         q: 'What payment methods do you accept?',
         a: 'We accept all major credit cards through our secure Stripe-powered checkout. Setup fees are charged upfront, and monthly subscriptions are billed automatically.',
       },
