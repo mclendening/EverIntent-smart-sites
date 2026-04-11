@@ -558,6 +558,14 @@ Phase 6 (4 parallel tasks) ✅ COMPLETE
   ├── 6.2 Voice AI Chat Widget mentions ✅
   ├── 6.3 "Included free with Scale" badges ✅
   └── 6.4 Compare page scenario cards ✅
+
+Phase 7 (6 parallel tasks) 🔄 IN PROGRESS
+  ├── 7.1 Sitemap changefreq + priority
+  ├── 7.2 Industry pages structured data (8 files)
+  ├── 7.3 Add-ons page structured data
+  ├── 7.4 Create public/404.html
+  ├── 7.5 Fix duplicate FAQPage schema on tier pages
+  └── 7.6 Auto-generate sitemap at build time
 ```
 
 ---
@@ -632,3 +640,4 @@ Phase 6 (4 parallel tasks) ✅ COMPLETE
 | 2026-04-11 | 1.6 | **Phase 4 ✅ COMPLETE.** 4.1a: zero company-first intros in non-legal pages. 4.1c: zero WordPress/OVH. 4.1d: all 4 pricing tier descriptions rewritten outcome-first. 4.1e: no SLA jargon found. 4.2: all 4 SW tier page heroes updated with conviction-first headlines. 4.3: 10 FAQ answers rewritten — "setup fee" → "AI Training & Implementation fee" for $497+ tiers, "5-page" eliminated, SSL/mobile-responsive removed as selling points. All verified and approved. |
 | 2026-04-11 | 1.7 | **Phase 5 — Animated Proof Sections built.** 3 new components: `LeadCaptureDemo.tsx` (chat widget lead capture), `NoShowSaveDemo.tsx` (SMS reminder/reschedule), `MultiChannelDemo.tsx` (voice+SMS+chat activity feed). All in `src/components/smart-websites/`. Integrated into SmartLead, SmartBusiness, SmartGrowth pages. All wrapped in `ClientOnly`. All respect `prefers-reduced-motion`. Design tokens only — zero hardcoded colors. Pending iPhone verification. |
 | 2026-04-11 | 1.8 | **ALL PHASES COMPLETE.** Phase 5 verified — MultiChannelDemo timing fix (8s loop delay). Phase 6 verified — annual pricing toggle, Voice AI Chat Widget branding, "Included with Scale" badges, scenario cards on both compare pages. All 8 phases (1, 2, 2.5, 2.5B, 3, 4, 5, 6) confirmed by independent testing. 6 deferred items tracked for next sprint. |
+| 2026-04-11 | 1.9 | **Phase 7 — SEO Infrastructure Fixes** added. 6 tasks from full SEO audit: sitemap metadata, industry page schema (8 files), add-ons schema, 404.html, duplicate FAQ schema fix, auto-generated sitemap. All independent — parallel execution. |
