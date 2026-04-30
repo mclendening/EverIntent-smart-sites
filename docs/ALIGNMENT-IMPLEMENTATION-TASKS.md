@@ -723,7 +723,7 @@ will fail end-to-end without it.
 **File:** `src/components/checkout/CheckoutStep1Selection.tsx` (new card component may live alongside)
 **Acceptance:**
 - Renders ABOVE the standard add-ons grid, only when `selectedTier ∈ {web-chat, after-hours, front-office, full-ai, scale}`.
-- Card content matches spec exactly: eyebrow "Recommended Upgrade", headline "Add Trusted AI — the AI that can't go off-script" (note: this headline uses an em dash from the spec; **rewrite to** "Add Trusted AI: the AI that can't go off-script" to comply with the no-em-dash rule), sub copy, pricing line "+ $147/mo · + $497 one-time AI Training & Implementation", primary CTA "Add to my plan", secondary CTA "Skip — I'll risk it" (rewrite: "Skip, I'll risk it"), trust micro-copy, "Learn more" link to `/trusted-ai` (new tab, native `<a>`).
+- Card content matches spec exactly: eyebrow "Recommended Upgrade", headline "Add Trusted AI: the AI that does exactly what you approved" (spec source uses an em dash; rewritten with a colon to comply with the no-em-dash rule), sub "Standard AI is confident but not always correct. Trusted AI is built on a visual canvas, staged, and approved by you before it talks to a customer.", pricing line "+ $147/mo · + $497 one-time AI Training & Implementation", primary CTA "Add to my plan", secondary CTA "Skip, I'll risk it" (spec source uses an em dash; rewritten with a comma), trust micro-copy "You can add this later. Every conversation before then is one you can't take back.", "Learn more" link to `/trusted-ai` (new tab, native `<a>`).
 - Visual: distinct from standard add-on grid (gold border, shield icon, "Recommended" badge). HSL tokens only.
 - State: not rendered if Trusted AI already in cart; not re-rendered after session decline.
 - Fires `trusted_ai_upsell_shown` on first render and `trusted_ai_upsell_decision` on accept/decline (see ND-12).
@@ -732,7 +732,19 @@ will fail end-to-end without it.
 ### ND-5 — Dedicated `/trusted-ai` page
 **Depends on:** ND-6 (uses shared upgrade card), ND-8 (FAQ content), ND-11 (route registration).
 **Files:** `src/pages/TrustedAI.tsx`, `src/components/SEO.tsx` (no edit; just consumed)
-**Acceptance:** Renders all 10 sections per spec (Hero, Drift Problem, How It Works, Generative-vs-Trusted AI table, What You Control, What Happens On Unknown, Industries, Pricing band, FAQ via `<FAQSection products={['trusted-ai']} objectionsFirst />`, Final CTA). SEO: title "Trusted AI: The AI Agent That Can't Hallucinate", meta description per spec, canonical `/trusted-ai`, OG image reusing space template, JSON-LD Product (two Offers: $147 recurring + $497 one-time) + BreadcrumbList. Hero CTA links to `/checkout/full-ai?addon=trusted-ai` via native `<a>`. Verified at 375px.
+**Acceptance:** Renders all 10 sections per spec:
+1. Hero — Headline "The AI was confident. The AI was wrong. Yours won't be." Sub "Trusted AI does exactly what you approved. Nothing else." Three buyer-type chips (Credibility / Bleeding wound / Burnout per spec verbatim). Primary CTA "Add Trusted AI to my plan".
+2. Why standard AI breaks trust — Air Canada lead-in: "A Canadian court ruled an airline was legally liable for the policy its chatbot invented. The legal precedent is clear: your AI's lies are your lies." Then three trust-failure scenarios verbatim from spec ($89/$389 quote, Saturday hours, invented service).
+3. How Trusted AI works — Build → Stage → Approve → Ship.
+4. Standard AI vs Trusted AI comparison table — columns "Standard AI | Trusted AI". Rows: Where outputs come from, Drift risk, Hallucination possible, Operator control, Update workflow, Compliance posture, Testing before launch, Version control.
+5. What you control.
+6. What happens when the AI doesn't know.
+7. Industries where this matters most.
+8. Pricing band — $147/mo + $497 one-time. CTA "Add Trusted AI to my plan".
+9. FAQ via `<FAQSection products={['trusted-ai']} objectionsFirst />`.
+10. Final CTA.
+
+SEO: title "Trusted AI: The AI That Does Exactly What You Approved | EverIntent", meta description "Standard AI is confident but not always correct. Trusted AI is built on a visual canvas, tested in staging, and approved by you before it ever talks to a customer. $147/mo + $497 setup.", canonical `/trusted-ai`, OG image reusing space template with overlay "AI you can trust.", JSON-LD Product (two Offers: $147 recurring + $497 one-time) + BreadcrumbList. Hero CTA links to `/checkout/full-ai?addon=trusted-ai` via native `<a>`. Verified at 375px.
 
 ### ND-6 — Shared `<TrustedAIUpgradeCard />` component
 **Depends on:** ND-1.
@@ -802,6 +814,7 @@ Run across all files touched in this build:
 - `won't make mistakes`
 - `never wrong`
 - `always accurate`
+- `No-Drift`, `no-drift`, `NoDrift` (case-insensitive) — straggling references from the prior product name. **Zero matches required across the entire codebase**, not just newly added copy.
 **Acceptance:** Zero matches in newly added copy.
 
 ### ND-F4 — Reachability audit
@@ -815,4 +828,5 @@ Produce a summary listing: every file touched, new routes registered, new FAQs b
 - **Spec copy contains em dashes** in two CTA strings (ND-4). Rewrites noted in the task. Flagging here so reviewers know we are intentionally diverging from the spec text to honor the no-em-dash rule.
 - **Web Chat Only tier page** does not exist. ND-7b skips it intentionally. Pricing card and checkout upsell still cover the `web-chat` slug.
 - **GHL gate (ND-2 / ND-F1)** is the only thing that can block production. Plan accordingly.
+- **Product renamed from "No-Drift AI Upgrade" to "Trusted AI Upgrade"** before execution. All slugs, routes, components, files, analytics events, GHL tag, copy, headlines, FAQs, industry callouts, and SEO metadata in this document reflect the new name. Forbidden-phrase grep (ND-F3) hardened to fail on any straggling "No-Drift" reference. Analysis doc renamed `docs/NO-DRIFT-ANALYSIS.md` → `docs/TRUSTED-AI-ANALYSIS.md`.
 
