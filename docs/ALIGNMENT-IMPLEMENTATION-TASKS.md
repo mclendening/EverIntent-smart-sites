@@ -641,16 +641,16 @@ Phase 7 (6 parallel tasks) 🔄 IN PROGRESS
 | 2026-04-11 | 1.7 | **Phase 5 — Animated Proof Sections built.** 3 new components: `LeadCaptureDemo.tsx` (chat widget lead capture), `NoShowSaveDemo.tsx` (SMS reminder/reschedule), `MultiChannelDemo.tsx` (voice+SMS+chat activity feed). All in `src/components/smart-websites/`. Integrated into SmartLead, SmartBusiness, SmartGrowth pages. All wrapped in `ClientOnly`. All respect `prefers-reduced-motion`. Design tokens only — zero hardcoded colors. Pending iPhone verification. |
 | 2026-04-11 | 1.8 | **ALL PHASES COMPLETE.** Phase 5 verified — MultiChannelDemo timing fix (8s loop delay). Phase 6 verified — annual pricing toggle, Voice AI Chat Widget branding, "Included with Scale" badges, scenario cards on both compare pages. All 8 phases (1, 2, 2.5, 2.5B, 3, 4, 5, 6) confirmed by independent testing. 6 deferred items tracked for next sprint. |
 | 2026-04-11 | 1.9 | **Phase 7 — SEO Infrastructure Fixes** added. 6 tasks from full SEO audit: sitemap metadata, industry page schema (8 files), add-ons schema, 404.html, duplicate FAQ schema fix, auto-generated sitemap. All independent — parallel execution. |
-| 2026-04-30 | 2.0 | **No-Drift AI Upgrade Implementation** task list appended below. Awaiting approval before execution. |
+| 2026-04-30 | 2.0 | **Trusted AI Upgrade Implementation** task list appended below. Awaiting approval before execution. |
 
 ---
 
-# No-Drift AI Upgrade Implementation
+# Trusted AI Upgrade Implementation
 
 **Status:** AWAITING APPROVAL — do not execute until explicitly confirmed.
-**Spec source:** Claude implementation spec (in-thread, 2026-04-30) + `docs/NO-DRIFT-ANALYSIS.md`.
-**Product:** No-Drift AI Upgrade — universal add-on, $147/mo recurring + $497 one-time AI Training & Implementation.
-**Slug:** `no-drift-ai`. **GHL tag:** `ei: addon - no-drift ai`.
+**Spec source:** Claude implementation spec (in-thread, 2026-04-30) + `docs/TRUSTED-AI-ANALYSIS.md`.
+**Product:** Trusted AI Upgrade — universal add-on, $147/mo recurring + $497 one-time AI Training & Implementation.
+**Slug:** `trusted-ai`. **GHL tag:** `ei: addon - trusted ai`.
 **Eligibility:** AI Employee tiers (`web-chat`, `after-hours`, `front-office`, `full-ai`) + Smart Websites `scale`. NOT offered with `launch`, `capture`, `convert`.
 
 ## Hard Rules (apply to every task below)
@@ -659,7 +659,7 @@ Phase 7 (6 parallel tasks) 🔄 IN PROGRESS
 - No em dashes (`—`) in new copy.
 - No "won't make mistakes" / "always accurate" / "never wrong" claims.
 - Outcome-first, owner-operator vernacular.
-- Native `<a>` tags for all internal links to `/no-drift-ai` (per SSG routing standard).
+- Native `<a>` tags for all internal links to `/trusted-ai` (per SSG routing standard).
 - Do NOT modify the load-bearing accuracy FAQs at `src/data/faqs.ts:693, 724, 791` in this build (post-launch copy review).
 - Do NOT build a Web Chat Only landing page in this build (separate effort, flagged in analysis).
 - HSL design tokens only. No hardcoded colors in any new component.
@@ -673,10 +673,10 @@ ND-1 (schema)  ──▶  ND-3 (checkout arithmetic + edge fn)  ──▶  ND-4 
       │
       ├──▶  ND-8 (FAQ content; needs FAQTag + ProductTag enums)
       │
-      └──▶  ND-6 (NoDriftUpgradeCard shared component)  ──▶  ND-7 (Pricing page integration)
+      └──▶  ND-6 (TrustedAIUpgradeCard shared component)  ──▶  ND-7 (Pricing page integration)
                                                        └──▶  AI tier page integration (ND-6 placement)
 
-ND-5 (/no-drift-ai page) depends on ND-8 (FAQ filter populates from faqs.ts) and ND-6 (uses NoDriftUpgradeCard variants).
+ND-5 (/trusted-ai page) depends on ND-8 (FAQ filter populates from faqs.ts) and ND-6 (uses TrustedAIUpgradeCard variants).
 ND-9 (industry callouts), ND-10 (nav/footer/sitemap), ND-11 (route registration) depend only on ND-5 existing.
 
 ND-2 (GHL configuration) is an EXTERNAL OPERATOR GATE. It does not block frontend work,
@@ -690,21 +690,21 @@ will fail end-to-end without it.
 **Files:** `src/config/checkoutConfig.ts`, `src/data/faqs.ts`
 **Acceptance:**
 - `AddonConfig` type gains optional `setupFee?: number` and `setupFeeLabel?: string` fields.
-- `AddonSlug` union includes `'no-drift-ai'`.
-- `ADDON_CONFIG['no-drift-ai']` registered with: `monthlyPrice: 147`, `setupFee: 497`, `setupFeeLabel: 'AI Training & Implementation'`, `ghlTag: 'ei: addon - no-drift ai'`, `eligibleTiers: ['web-chat','after-hours','front-office','full-ai','scale']`, `recommended: true`, never auto-included.
+- `AddonSlug` union includes `'trusted-ai'`.
+- `ADDON_CONFIG['trusted-ai']` registered with: `monthlyPrice: 147`, `setupFee: 497`, `setupFeeLabel: 'AI Training & Implementation'`, `ghlTag: 'ei: addon - trusted ai'`, `eligibleTiers: ['web-chat','after-hours','front-office','full-ai','scale']`, `recommended: true`, never auto-included.
 - `AddonConfig` extended with optional `eligibleTiers?: TierSlug[]` and `recommended?: boolean` (used by ND-4 to gate rendering).
-- `FAQTag` union extended with `'no-drift'` and `'reliability'`.
-- `ProductTag` union extended with `'no-drift-ai'`.
+- `FAQTag` union extended with `'trusted-ai'` and `'reliability'`.
+- `ProductTag` union extended with `'trusted-ai'`.
 - Type-checks pass; no other call sites broken.
 **Dependencies:** None. **Must complete first.**
 
 ### ND-2 — GHL configuration confirmation (EXTERNAL OPERATOR GATE)
 **Owner:** Operator (NOT Lovable). This is a real external dependency, not a Lovable checkbox.
 **Acceptance (operator must confirm in writing before production promotion):**
-- GHL contact tag `ei: addon - no-drift ai` exists.
-- $147/mo recurring product line exists in GHL and is mapped to the No-Drift add-on.
+- GHL contact tag `ei: addon - trusted ai` exists.
+- $147/mo recurring product line exists in GHL and is mapped to the Trusted AI add-on.
 - $497 one-time "AI Training & Implementation" product line exists in GHL.
-- Checkout end-to-end test succeeds against staging GHL with No-Drift selected.
+- Checkout end-to-end test succeeds against staging GHL with Trusted AI selected.
 **Gates:** Promotion to production. Frontend build can complete and ship to preview without this; live checkout will fail without it.
 
 ### ND-3 — Checkout arithmetic + edge function payload
@@ -712,47 +712,59 @@ will fail end-to-end without it.
 **Files:** `src/pages/checkout/CheckoutPage.tsx`, `src/components/checkout/OrderSummary.tsx`, `src/components/checkout/CheckoutStep3Review.tsx`, `supabase/functions/start-checkout/index.ts`
 **Acceptance:**
 - `setupTotal` includes `tier.setupFee + sum(selectedAddons.filter(a => a.setupFee).map(a => a.setupFee))`.
-- `OrderSummary` renders an itemized one-time line for each addon with a setupFee, labeled with `setupFeeLabel` (e.g. "No-Drift AI Training & Implementation — $497").
-- Step 3 Review breaks out the No-Drift recurring ($147/mo) and one-time ($497) line items separately, both included in their respective totals.
+- `OrderSummary` renders an itemized one-time line for each addon with a setupFee, labeled with `setupFeeLabel` (e.g. "Trusted AI Training & Implementation — $497").
+- Step 3 Review breaks out the Trusted AI recurring ($147/mo) and one-time ($497) line items separately, both included in their respective totals.
 - Edge function payload extended: each addon entry now includes `setupFee` (when present) and `setupFeeLabel`. `setup_total` arithmetic mirrors the client.
 - GHL receives both the recurring tag/product and the one-time line item.
 - Verified at 375px viewport.
 
-### ND-4 — No-Drift checkout upsell card (Step 1)
+### ND-4 — Trusted AI checkout upsell card (Step 1)
 **Depends on:** ND-1, ND-3, ND-12.
 **File:** `src/components/checkout/CheckoutStep1Selection.tsx` (new card component may live alongside)
 **Acceptance:**
 - Renders ABOVE the standard add-ons grid, only when `selectedTier ∈ {web-chat, after-hours, front-office, full-ai, scale}`.
-- Card content matches spec exactly: eyebrow "Recommended Upgrade", headline "Add No-Drift AI — the AI that can't go off-script" (note: this headline uses an em dash from the spec; **rewrite to** "Add No-Drift AI: the AI that can't go off-script" to comply with the no-em-dash rule), sub copy, pricing line "+ $147/mo · + $497 one-time AI Training & Implementation", primary CTA "Add to my plan", secondary CTA "Skip — I'll risk it" (rewrite: "Skip, I'll risk it"), trust micro-copy, "Learn more" link to `/no-drift-ai` (new tab, native `<a>`).
+- Card content matches spec exactly: eyebrow "Recommended Upgrade", headline "Add Trusted AI: the AI that does exactly what you approved" (spec source uses an em dash; rewritten with a colon to comply with the no-em-dash rule), sub "Standard AI is confident but not always correct. Trusted AI is built on a visual canvas, staged, and approved by you before it talks to a customer.", pricing line "+ $147/mo · + $497 one-time AI Training & Implementation", primary CTA "Add to my plan", secondary CTA "Skip, I'll risk it" (spec source uses an em dash; rewritten with a comma), trust micro-copy "You can add this later. Every conversation before then is one you can't take back.", "Learn more" link to `/trusted-ai` (new tab, native `<a>`).
 - Visual: distinct from standard add-on grid (gold border, shield icon, "Recommended" badge). HSL tokens only.
-- State: not rendered if No-Drift already in cart; not re-rendered after session decline.
-- Fires `no_drift_upsell_shown` on first render and `no_drift_upsell_decision` on accept/decline (see ND-12).
+- State: not rendered if Trusted AI already in cart; not re-rendered after session decline.
+- Fires `trusted_ai_upsell_shown` on first render and `trusted_ai_upsell_decision` on accept/decline (see ND-12).
 - Verified at 375px viewport.
 
-### ND-5 — Dedicated `/no-drift-ai` page
+### ND-5 — Dedicated `/trusted-ai` page
 **Depends on:** ND-6 (uses shared upgrade card), ND-8 (FAQ content), ND-11 (route registration).
-**Files:** `src/pages/NoDriftAI.tsx`, `src/components/SEO.tsx` (no edit; just consumed)
-**Acceptance:** Renders all 10 sections per spec (Hero, Drift Problem, How It Works, Generative-vs-No-Drift table, What You Control, What Happens On Unknown, Industries, Pricing band, FAQ via `<FAQSection products={['no-drift-ai']} objectionsFirst />`, Final CTA). SEO: title "No-Drift AI: The AI Agent That Can't Hallucinate", meta description per spec, canonical `/no-drift-ai`, OG image reusing space template, JSON-LD Product (two Offers: $147 recurring + $497 one-time) + BreadcrumbList. Hero CTA links to `/checkout/full-ai?addon=no-drift-ai` via native `<a>`. Verified at 375px.
+**Files:** `src/pages/TrustedAI.tsx`, `src/components/SEO.tsx` (no edit; just consumed)
+**Acceptance:** Renders all 10 sections per spec:
+1. Hero — Headline "The AI was confident. The AI was wrong. Yours won't be." Sub "Trusted AI does exactly what you approved. Nothing else." Three buyer-type chips (Credibility / Bleeding wound / Burnout per spec verbatim). Primary CTA "Add Trusted AI to my plan".
+2. Why standard AI breaks trust — Air Canada lead-in: "A Canadian court ruled an airline was legally liable for the policy its chatbot invented. The legal precedent is clear: your AI's lies are your lies." Then three trust-failure scenarios verbatim from spec ($89/$389 quote, Saturday hours, invented service).
+3. How Trusted AI works — Build → Stage → Approve → Ship.
+4. Standard AI vs Trusted AI comparison table — columns "Standard AI | Trusted AI". Rows: Where outputs come from, Drift risk, Hallucination possible, Operator control, Update workflow, Compliance posture, Testing before launch, Version control.
+5. What you control.
+6. What happens when the AI doesn't know.
+7. Industries where this matters most.
+8. Pricing band — $147/mo + $497 one-time. CTA "Add Trusted AI to my plan".
+9. FAQ via `<FAQSection products={['trusted-ai']} objectionsFirst />`.
+10. Final CTA.
 
-### ND-6 — Shared `<NoDriftUpgradeCard />` component
+SEO: title "Trusted AI: The AI That Does Exactly What You Approved | EverIntent", meta description "Standard AI is confident but not always correct. Trusted AI is built on a visual canvas, tested in staging, and approved by you before it ever talks to a customer. $147/mo + $497 setup.", canonical `/trusted-ai`, OG image reusing space template with overlay "AI you can trust.", JSON-LD Product (two Offers: $147 recurring + $497 one-time) + BreadcrumbList. Hero CTA links to `/checkout/full-ai?addon=trusted-ai` via native `<a>`. Verified at 375px.
+
+### ND-6 — Shared `<TrustedAIUpgradeCard />` component
 **Depends on:** ND-1.
-**File:** `src/components/ai-employee/NoDriftUpgradeCard.tsx`
-**Acceptance:** Single source of truth for the No-Drift pitch. Props: `tierContext?: TierSlug`, `variant: 'inline' | 'banner'`. Used by ND-7 and AI tier page integration. Contains 3-4 sentence pitch + "Add No-Drift to my plan" CTA (deep-links to checkout with `?addon=no-drift-ai`) + "Learn more" → `/no-drift-ai`.
+**File:** `src/components/ai-employee/TrustedAIUpgradeCard.tsx`
+**Acceptance:** Single source of truth for the Trusted AI pitch. Props: `tierContext?: TierSlug`, `variant: 'inline' | 'banner'`. Used by ND-7 and AI tier page integration. Contains 3-4 sentence pitch + "Add Trusted AI to my plan" CTA (deep-links to checkout with `?addon=trusted-ai`) + "Learn more" → `/trusted-ai`.
 
 ### ND-7 — Pricing page integration
 **Depends on:** ND-6.
 **File:** `src/pages/Pricing.tsx`
-**Acceptance:** On the AI tab, full-width `<NoDriftUpgradeCard variant="banner" />` rendered BELOW the 4 plan cards. Each AI plan card gains an inline note "+ Add No-Drift Upgrade · $147/mo" linking to `/no-drift-ai`. Card count remains 4 (no 5th card). Verified at 375px.
+**Acceptance:** On the AI tab, full-width `<TrustedAIUpgradeCard variant="banner" />` rendered BELOW the 4 plan cards. Each AI plan card gains an inline note "+ Add Trusted AI Upgrade · $147/mo" linking to `/trusted-ai`. Card count remains 4 (no 5th card). Verified at 375px.
 
 ### ND-7b — AI tier page integration
 **Depends on:** ND-6.
 **Files:** `src/pages/ai-employee/AfterHours.tsx`, `src/pages/ai-employee/FrontOffice.tsx`, `src/pages/ai-employee/FullAIEmployee.tsx`
-**Acceptance:** `<NoDriftUpgradeCard variant="inline" tierContext={...} />` placed near bottom of each page, before the final CTA section. Web Chat Only tier page intentionally skipped (no landing page exists; flagged in analysis as separate effort). Verified at 375px.
+**Acceptance:** `<TrustedAIUpgradeCard variant="inline" tierContext={...} />` placed near bottom of each page, before the final CTA section. Web Chat Only tier page intentionally skipped (no landing page exists; flagged in analysis as separate effort). Verified at 375px.
 
 ### ND-8 — FAQ content
 **Depends on:** ND-1 (FAQTag/ProductTag enums).
 **File:** `src/data/faqs.ts`
-**Acceptance:** 8 new FAQ entries added per spec verbatim (FAQs 1–8). All carry `category: 'ai-employee'`, `products: ['no-drift-ai', ...relevant tier slugs]`, `tags: ['no-drift', 'reliability', ...]`. FAQs 1 and 2 marked `isObjection: true, priority: 'high'`. Auto-surfaces on `/no-drift-ai` via `<FAQSection products={['no-drift-ai']} objectionsFirst />` and on tier pages whose slugs are in `products`.
+**Acceptance:** 8 new FAQ entries added per spec verbatim (FAQs 1–8). All carry `category: 'ai-employee'`, `products: ['trusted-ai', ...relevant tier slugs]`, `tags: ['trusted-ai', 'reliability', ...]`. FAQs 1 and 2 marked `isObjection: true, priority: 'high'`. Auto-surfaces on `/trusted-ai` via `<FAQSection products={['trusted-ai']} objectionsFirst />` and on tier pages whose slugs are in `products`.
 
 ### ND-9 — Industry showcase callouts
 **Depends on:** ND-5 (target route must exist).
@@ -761,37 +773,37 @@ will fail end-to-end without it.
 - `src/pages/industries/ProfessionalServices.tsx` + `ProfessionalShowcase.tsx`
 - `src/pages/industries/Automotive.tsx` + `AutomotiveShowcase.tsx`
 - `src/pages/industries/HomeServices.tsx` + `HomeServicesShowcase.tsx`
-**Acceptance:** Each page (full + showcase) gains a "Why No-Drift matters in [industry]" callout per spec copy. Showcase pages use the condensed variant. All link to `/no-drift-ai` via native `<a>`. Home Services uses the lighter dispatch-info framing. Existing accuracy FAQs at `faqs.ts:693,724,791` left untouched. Verified at 375px.
+**Acceptance:** Each page (full + showcase) gains a "Why Trusted AI matters in [industry]" callout per spec copy. Showcase pages use the condensed variant. All link to `/trusted-ai` via native `<a>`. Home Services uses the lighter dispatch-info framing. Existing accuracy FAQs at `faqs.ts:693,724,791` left untouched. Verified at 375px.
 
 ### ND-10 — Navigation, footer, sitemap
 **Depends on:** ND-5.
 **Files:** `src/components/layout/Header.tsx`, `src/components/layout/Footer.tsx`, `scripts/generate-sitemap.ts`, `public/sitemap.xml`
 **Acceptance:**
-- "No-Drift AI" added as the LAST item inside the "Let AI Handle It" header dropdown, with a small "Upgrade" badge. NOT added to the primary nav.
-- Footer: "No-Drift AI Upgrade" link added under the AI Employee column.
-- Sitemap: `/no-drift-ai` listed at priority `0.8`, changefreq `monthly`. Confirmed NOT in `EXCLUDED_PREFIXES`.
+- "Trusted AI" added as the LAST item inside the "Let AI Handle It" header dropdown, with a small "Upgrade" badge. NOT added to the primary nav.
+- Footer: "Trusted AI Upgrade" link added under the AI Employee column.
+- Sitemap: `/trusted-ai` listed at priority `0.8`, changefreq `monthly`. Confirmed NOT in `EXCLUDED_PREFIXES`.
 
 ### ND-11 — Route registration
 **Depends on:** ND-5 page exists.
 **File:** `src/routes.tsx`
-**Acceptance:** `/no-drift-ai` registered as a top-level route. SSG prerender verified (HTML contains hero headline + JSON-LD). All internal links to it use native `<a>`, not React Router `<Link>`.
+**Acceptance:** `/trusted-ai` registered as a top-level route. SSG prerender verified (HTML contains hero headline + JSON-LD). All internal links to it use native `<a>`, not React Router `<Link>`.
 
 ### ND-12 — Analytics events
 **Depends on:** ND-1 (slug must exist).
 **File:** `src/lib/checkoutAnalytics.ts`
 **Acceptance:** Three new exported functions:
-- `trackNoDriftUpsellShown(tier: string)` → `event: 'no_drift_upsell_shown'`
-- `trackNoDriftUpsellDecision(tier: string, decision: 'accepted' | 'declined')` → `event: 'no_drift_upsell_decision'`
-- `trackNoDriftPageCtaClicked(sourceSection: string)` → `event: 'no_drift_page_cta_clicked'`
+- `trackTrustedAIUpsellShown(tier: string)` → `event: 'trusted_ai_upsell_shown'`
+- `trackTrustedAIUpsellDecision(tier: string, decision: 'accepted' | 'declined')` → `event: 'trusted_ai_upsell_decision'`
+- `trackTrustedAIPageCtaClicked(sourceSection: string)` → `event: 'trusted_ai_page_cta_clicked'`
 Wired into ND-4 (shown + decision) and ND-5 page CTAs (page CTA clicked).
 
 ## Required Final Tasks (from spec — must appear and be checked off)
 
 ### ND-F1 — GHL operator gate confirmed
-Operator confirms in writing: `ei: addon - no-drift ai` tag exists, $147/mo recurring product configured, $497 one-time product configured. **This gates promotion to production.** Frontend build may ship to preview without it.
+Operator confirms in writing: `ei: addon - trusted ai` tag exists, $147/mo recurring product configured, $497 one-time product configured. **This gates promotion to production.** Frontend build may ship to preview without it.
 
 ### ND-F2 — 375px viewport verification
-Every new or modified page (`/no-drift-ai`, Pricing, all 3 AI tier pages, all 8 industry pages, checkout Step 1 + Step 3) validated at 375px iPhone viewport before its task is marked complete.
+Every new or modified page (`/trusted-ai`, Pricing, all 3 AI tier pages, all 8 industry pages, checkout Step 1 + Step 3) validated at 375px iPhone viewport before its task is marked complete.
 
 ### ND-F3 — Forbidden-phrase grep
 Run across all files touched in this build:
@@ -802,10 +814,11 @@ Run across all files touched in this build:
 - `won't make mistakes`
 - `never wrong`
 - `always accurate`
+- `No-Drift`, `no-drift`, `NoDrift` (case-insensitive) — straggling references from the prior product name. **Zero matches required across the entire codebase**, not just newly added copy.
 **Acceptance:** Zero matches in newly added copy.
 
 ### ND-F4 — Reachability audit
-Confirm `/no-drift-ai` is reachable from: header "Let AI Handle It" dropdown, footer, Pricing page (banner + per-card inline note), all 3 AI tier landing pages (After-Hours, Front Office, Full AI), and all 8 industry pages (4 full + 4 showcase). Sitemap entry present. FAQ count on `/no-drift-ai` ≥ 8.
+Confirm `/trusted-ai` is reachable from: header "Let AI Handle It" dropdown, footer, Pricing page (banner + per-card inline note), all 3 AI tier landing pages (After-Hours, Front Office, Full AI), and all 8 industry pages (4 full + 4 showcase). Sitemap entry present. FAQ count on `/trusted-ai` ≥ 8.
 
 ### ND-F5 — Final implementation summary
 Produce a summary listing: every file touched, new routes registered, new FAQs by ID, new add-on slug + tag registered, new analytics events. Append to this section as version 2.1.
@@ -815,4 +828,5 @@ Produce a summary listing: every file touched, new routes registered, new FAQs b
 - **Spec copy contains em dashes** in two CTA strings (ND-4). Rewrites noted in the task. Flagging here so reviewers know we are intentionally diverging from the spec text to honor the no-em-dash rule.
 - **Web Chat Only tier page** does not exist. ND-7b skips it intentionally. Pricing card and checkout upsell still cover the `web-chat` slug.
 - **GHL gate (ND-2 / ND-F1)** is the only thing that can block production. Plan accordingly.
+- **Product renamed from "No-Drift AI Upgrade" to "Trusted AI Upgrade"** before execution. All slugs, routes, components, files, analytics events, GHL tag, copy, headlines, FAQs, industry callouts, and SEO metadata in this document reflect the new name. Forbidden-phrase grep (ND-F3) hardened to fail on any straggling "No-Drift" reference. Analysis doc renamed `docs/NO-DRIFT-ANALYSIS.md` → `docs/TRUSTED-AI-ANALYSIS.md`.
 

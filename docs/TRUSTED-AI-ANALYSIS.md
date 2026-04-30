@@ -1,7 +1,7 @@
-# No-Drift AI Upgrade — Site Audit & Integration Analysis
+# Trusted AI Upgrade — Site Audit & Integration Analysis
 
 **Status:** Analysis only. No code changes proposed yet.
-**Product:** No-Drift AI Upgrade — $147/mo + $497 AI Training & Implementation
+**Product:** Trusted AI Upgrade — $147/mo + $497 AI Training & Implementation
 **Positioning:** Universal upsell across every AI Employee tier (and the Scale Smart Website tier, which bundles AI Chat). Version-controlled, staged, operator-approved AI on a visual decision canvas. Cannot generate responses outside what was built and approved.
 
 ---
@@ -27,21 +27,21 @@
 - Each add-on has `slug`, `displayName`, `description`, `monthlyPrice`, `ghlTag`, optional `includedInTiers`.
 - GHL tag pattern: `ei: addon - {slug-words}` (matches the GHL Tag Registry memory).
 - `includedInTiers` is the existing mechanism for "this is bundled in tier X" — used today for `email-authority` (in Scale), `ai-voice-chat` (in Full AI), `unlimited-ai` (in Full AI).
-- Pricing model is **monthly only** for add-ons. There is **no field for a setup fee on add-ons today.** The No-Drift product is the first add-on to introduce a one-time training fee ($497).
+- Pricing model is **monthly only** for add-ons. There is **no field for a setup fee on add-ons today.** The Trusted AI product is the first add-on to introduce a one-time training fee ($497).
 
-### Where No-Drift slots in
+### Where Trusted AI slots in
 
-1. Extend `AddonSlug` union with `'no-drift-ai'`.
+1. Extend `AddonSlug` union with `'trusted-ai'`.
 2. Extend `AddonConfig` interface with an optional `setupFee?: number` (default 0). This is a breaking-but-additive schema change — every add-on consumer (`OrderSummary`, `CheckoutStep1Selection`, `CheckoutStep3Review`) needs to read it and add to `setupTotal`.
 3. New entry:
    ```ts
-   'no-drift-ai': {
-     slug: 'no-drift-ai',
-     displayName: 'No-Drift AI Upgrade',
+   'trusted-ai': {
+     slug: 'trusted-ai',
+     displayName: 'Trusted AI Upgrade',
      description: 'Version-controlled AI on a visual canvas. Operator approves every word before it goes live. Can\'t hallucinate, can\'t drift.',
      monthlyPrice: 147,
      setupFee: 497,
-     ghlTag: 'ei: addon - no-drift ai',
+     ghlTag: 'ei: addon - trusted ai',
    }
    ```
 4. **Do not** put it in `includedInTiers` for any tier — it is a true universal upsell, never bundled.
@@ -49,9 +49,9 @@
 
 ### Naming convention compliance
 
-- Slug `no-drift-ai` (kebab-case) ✓
-- Display name `No-Drift AI Upgrade` (matches "Upgrade" framing) ✓
-- GHL tag `ei: addon - no-drift ai` follows registry standard from memory `mem://integrations/ghl-tag-registry-and-pipeline-standard`.
+- Slug `trusted-ai` (kebab-case) ✓
+- Display name `Trusted AI Upgrade` (matches "Upgrade" framing) ✓
+- GHL tag `ei: addon - trusted ai` follows registry standard from memory `mem://integrations/ghl-tag-registry-and-pipeline-standard`.
 
 ---
 
@@ -70,9 +70,9 @@
 - Tab switcher → Cost-of-inaction band → toggle (Smart Websites only) → 4 stacked plan cards → comparison table (Smart Websites desktop only) → recommended add-ons section is **absent on this page** (it lives only on Smart Website tier landing pages, see §3).
 - Add-ons are not surfaced anywhere on `/pricing`. The first time a buyer sees add-ons is inside the checkout flow at Step 1.
 
-### Recommended placement for No-Drift
+### Recommended placement for Trusted AI
 
-**Recommendation: A dedicated full-width "Upgrade" band that sits between the AI plan cards and the FAQ, plus a small "+ No-Drift available" inline note inside each AI plan card.**
+**Recommendation: A dedicated full-width "Upgrade" band that sits between the AI plan cards and the FAQ, plus a small "+ Trusted AI available" inline note inside each AI plan card.**
 
 Rationale by option:
 
@@ -82,9 +82,9 @@ Rationale by option:
 | Stacked option below each tier | ❌ Clutters cards, makes monthly price feel inflated, easy to scan past. |
 | "Recommended" callout on Full AI Employee only | ❌ Wrong product positioning — it's universal, not premium-only. |
 | Its own card mixed in with the 4 tiers | ❌ Confuses the tier mental model. It's not a tier. |
-| Inline "+ Add No-Drift for $147/mo" line in each card | ✅ Pair with #1. Plants the seed before the buyer scrolls. |
+| Inline "+ Add Trusted AI for $147/mo" line in each card | ✅ Pair with #1. Plants the seed before the buyer scrolls. |
 
-The dedicated band should fire below the 4 AI cards, above any FAQ block, with its own visual treatment (border, the "shield" icon family from `lucide-react`, and a CTA that goes to `/no-drift-ai` if a dedicated page is built — see §7).
+The dedicated band should fire below the 4 AI cards, above any FAQ block, with its own visual treatment (border, the "shield" icon family from `lucide-react`, and a CTA that goes to `/trusted-ai` if a dedicated page is built — see §7).
 
 ---
 
@@ -103,16 +103,16 @@ The AI Employee hub (`src/pages/AIEmployee.tsx`) is the umbrella page; tier land
 
 ### Where the "drift problem" lands naturally on each
 
-- **AfterHours.tsx** — pain point belongs near the "11pm emergency" transcript proof. Frame: "Your AI shouldn't invent prices at 11pm. No-Drift means the only quotes it gives are ones you approved."
-- **FrontOffice.tsx** — pain point belongs near call screening / qualification copy. Frame: "Your AI is the front door. If it screens wrong or quotes wrong, you look amateur. No-Drift puts every script under your control."
+- **AfterHours.tsx** — pain point belongs near the "11pm emergency" transcript proof. Frame: "Your AI shouldn't invent prices at 11pm. Trusted AI means the only quotes it gives are ones you approved."
+- **FrontOffice.tsx** — pain point belongs near call screening / qualification copy. Frame: "Your AI is the front door. If it screens wrong or quotes wrong, you look amateur. Trusted AI puts every script under your control."
 - **FullAIEmployee.tsx** — strongest fit. Frame the upsell as the natural completion: "You bought the full AI front office. Now make it operator-controlled so it never goes off-script."
 - **(Future) Web Chat Only page** — strongest cost-of-error fit. Web chat hallucinations get screenshotted. Position as the **default** companion product for any chat-only buyer.
 
 ### Recommended placement on every tier page
 
 1. A short "AI without guardrails is a liability" pain section between the existing "How it works" and "Pricing/CTA" sections.
-2. A `<NoDriftUpsellCard>` component that renders the same content the Pricing page uses (single source of truth via a shared component in `src/components/ai-employee/`).
-3. The CTA on the upsell card should go to a `/no-drift-ai` deep-dive page (see §7) rather than directly to checkout — this lets us close the buyer who isn't yet sold on the parent tier.
+2. A `<TrustedAIUpsellCard>` component that renders the same content the Pricing page uses (single source of truth via a shared component in `src/components/ai-employee/`).
+3. The CTA on the upsell card should go to a `/trusted-ai` deep-dive page (see §7) rather than directly to checkout — this lets us close the buyer who isn't yet sold on the parent tier.
 
 ---
 
@@ -134,7 +134,7 @@ The AI Employee hub (`src/pages/AIEmployee.tsx`) is the umbrella page; tier land
 
 ### Where the universal upsell prompt should appear
 
-**Recommendation: Make No-Drift a first-class element of Step 1, NOT a separate interstitial step.**
+**Recommendation: Make Trusted AI a first-class element of Step 1, NOT a separate interstitial step.**
 
 Two reasons:
 - v5.2 spec is a 3-step flow. Adding a step adds friction and breaks the tracker, the GTM events, and the Storage schema.
@@ -142,27 +142,28 @@ Two reasons:
 
 Concretely:
 
-- Render a **dedicated, visually elevated "No-Drift Upgrade" card ABOVE the standard add-ons grid** in `CheckoutStep1Selection.tsx`. Treat it like a featured upsell, not a peer of Email Authority and Get Paid Now.
+- Render a **dedicated, visually elevated "Trusted AI Upgrade" card ABOVE the standard add-ons grid** in `CheckoutStep1Selection.tsx`. Treat it like a featured upsell, not a peer of Email Authority and Get Paid Now.
 - Only render this card when the selected tier is in the AI Employee product line OR is `scale` (which bundles AI Chat). For Smart Websites Launch/Capture/Convert, it's not relevant — they don't have AI to drift.
 - Mark it visually distinct (gold border, "Recommended" badge, shield icon).
 
 ### Upsell card spec
 
 - **Eyebrow:** "Recommended Upgrade"
-- **Headline:** "Add No-Drift AI — the AI that can't go off-script"
-- **Sub (1–2 lines):** "Standard AI chatbots drift, hallucinate, and quote prices that don't exist. No-Drift is version-controlled, staged, and approved by you before it ever talks to a customer."
+- **Headline:** "Add Trusted AI — the AI that does exactly what you approved"
+- **Sub (1–2 lines):** "Standard AI is confident but not always correct. Trusted AI is built on a visual canvas, staged, and approved by you before it talks to a customer."
 - **Pricing line:** "+ $147/mo · + $497 one-time AI Training & Implementation"
 - **Buttons:** Primary "Add to my plan" (toggles selection in state.addons), Secondary "Skip — I'll risk it" (textual decline that closes the card for the session). Decline should fire `addon_toggled` with `selected: false` so we can measure decline rates.
-- **Trust micro-copy below buttons:** "You can add this later — but every conversation before then is one you can't take back."
-- **Schema event:** `no_drift_upsell_shown` and `no_drift_upsell_decision` (accept/decline) — extend `src/lib/checkoutAnalytics.ts`.
+- **Trust micro-copy below buttons:** "You can add this later. Every conversation before then is one you can't take back."
+- **Learn more link:** opens `/trusted-ai` in new tab.
+- **Schema event:** `trusted_ai_upsell_shown` and `trusted_ai_upsell_decision` (accept/decline) — extend `src/lib/checkoutAnalytics.ts`.
 
 ### What changes downstream when this add-on is selected
 
 - `OrderSummary.tsx` — already lists add-ons by name and monthly price. Needs to also include the add-on `setupFee` in the one-time setup line.
 - `CheckoutPage.tsx:259` — `setupTotal` calc must include selected add-on setup fees.
-- `CheckoutStep3Review.tsx` — review must show the No-Drift line item with its monthly + one-time components broken out.
+- `CheckoutStep3Review.tsx` — review must show the Trusted AI line item with its monthly + one-time components broken out.
 - `start-checkout` edge function — already receives `addons` with `slug`, `name`, `monthlyPrice`, `ghlTag` (`CheckoutPage.tsx:350-355`). Add `setupFee` to that payload and into `setup_total` arithmetic.
-- GHL: tag `ei: addon - no-drift ai` and a separate one-time product line for the $497 must be configured on the GHL side.
+- GHL: tag `ei: addon - trusted ai` and a separate one-time product line for the $497 must be configured on the GHL side.
 
 ---
 
@@ -170,41 +171,41 @@ Concretely:
 
 **File:** `src/data/faqs.ts`
 
-### Schema relevant to No-Drift
+### Schema relevant to Trusted AI
 
 - `FAQCategory` (line 16) — No new category needed. Use existing `'ai-employee'` and `'pricing'`.
-- `FAQTag` (lines 18–22) — Recommend **adding** two new tags: `'no-drift'`, `'reliability'`. Both are additive and won't break existing filters.
-- `ProductTag` (lines 24–27) — Recommend **adding** `'no-drift-ai'` so FAQs can be filtered to just No-Drift contexts.
+- `FAQTag` (lines 18–22) — Recommend **adding** two new tags: `'trusted-ai'`, `'reliability'`. Both are additive and won't break existing filters.
+- `ProductTag` (lines 24–27) — Recommend **adding** `'trusted-ai'` so FAQs can be filtered to just Trusted AI contexts.
 - `priority` and `isObjection` are already supported — use `isObjection: true` for the cost and "isn't this just better Conversation AI" questions so they sort to the top via the existing `objectionsFirst` flag in `FAQSection`.
 
-### Recommended 6–8 No-Drift FAQs
+### Recommended 6–8 Trusted AI FAQs
 
-1. **Cost objection** (`isObjection: true`) — "Is $147/mo extra worth it just to stop hallucinations?" — Frame against one wrong-price job (e.g., AI quoted $89 when it should have been $389 = full year of No-Drift).
-2. **"Isn't this just better Conversation AI?"** (`isObjection: true`) — Distinguish: standard AI = generative, infers, can invent; No-Drift = decision canvas with explicit branches, only says what's been built and approved.
+1. **Cost objection** (`isObjection: true`) — "Is $147/mo extra worth it just to stop hallucinations?" — Answer references "Trusted AI". Frame against one wrong-price job (e.g., AI quoted $89 when it should have been $389 = full year of Trusted AI).
+2. **"Isn't this just better Conversation AI?"** (`isObjection: true`) — Answer: "No. Standard AI is generative — it infers, predicts, and can invent. Trusted AI is a decision canvas with explicit branches. It only says what's been built and approved. Different architecture, different category."
 3. **What happens when the AI doesn't know something?** — It hands off (text the owner, book a callback, escalate to human chat). It does not guess. Frame as the feature, not the limitation.
 4. **Can I update it later?** — Yes. Operator edits in staging, tests, ships. Versioned. Old version stays live until new version is approved.
 5. **Do I have to retrain the AI from scratch?** — No. Edits are surgical: change one branch, change one script line, ship. The $497 covers initial build and the staging environment.
 6. **Complexity / "do I need to be technical?"** — No. We build it with you. You approve the conversation flow in plain English. We handle the canvas.
-7. **What about voice AI hallucinations specifically?** — Same engine. Voice agent uses the same approved decision tree, so it can't quote a price you didn't set or invent business hours.
+7. **What about voice AI hallucinations specifically?** — Answer: "Same engine, same protection. The voice agent runs on the same approved decision tree, so it can't quote a price you didn't set or invent business hours."
 8. **Can I A/B test scripts?** — Yes. Stage a new version, route a percentage of traffic, promote the winner. (Optional — only include if this is actually on the roadmap.)
 
-All eight should carry: `category: 'ai-employee'`, `tags: ['no-drift', 'reliability', ...]`, `products: ['no-drift-ai']` and the three relevant AI tier slugs so they auto-appear on those tier pages.
+All eight should carry: `category: 'ai-employee'`, `tags: ['trusted-ai', 'reliability', ...]`, `products: ['trusted-ai']` and the three relevant AI tier slugs so they auto-appear on those tier pages.
 
 ---
 
 ## 6. Industry Showcase Audit
 
-### Files with AI mentions worth a No-Drift cross-reference
+### Files with AI mentions worth a Trusted AI cross-reference
 
 | File | High-stakes wrong-info risk? | Recommended treatment |
 |---|---|---|
-| `src/pages/industries/HealthWellness.tsx` | **Critical.** HIPAA exposure, medical info, scheduling. The existing FAQ at `faqs.ts:724` already says "the AI doesn't access patient records" — that's a *boundary* claim that No-Drift makes enforceable. | Add a "Why No-Drift matters in healthcare" callout. |
-| `src/pages/industries/HealthWellnessShowcase.tsx` | Same as above. | Cross-link to `/no-drift-ai`. |
-| `src/pages/industries/ProfessionalServices.tsx` | **Critical for legal/financial verticals** named on the page. Wrong policy, wrong fee, wrong availability all create real liability. | Add a "Compliance-grade AI" section. |
+| `src/pages/industries/HealthWellness.tsx` | **Critical.** HIPAA exposure, medical info, scheduling. The existing FAQ at `faqs.ts:724` already says "the AI doesn't access patient records" — that's a *boundary* claim that Trusted AI makes enforceable. | Section heading: "Healthcare can't run on AI guesswork." Body references "Trusted AI" and links to `/trusted-ai`. |
+| `src/pages/industries/HealthWellnessShowcase.tsx` | Same as above. | Cross-link to `/trusted-ai`. |
+| `src/pages/industries/ProfessionalServices.tsx` | **Critical for legal/financial verticals** named on the page. Wrong policy, wrong fee, wrong availability all create real liability. | Section heading: "Compliance-grade AI for legal and financial services." Cross-link to `/trusted-ai`. |
 | `src/pages/industries/ProfessionalShowcase.tsx` | Same. | Cross-link. |
-| `src/pages/industries/Automotive.tsx` | **High.** Pricing FAQ at `faqs.ts:693` and `faqs.ts:791` already promises "accurate estimates" and "accurate ballpark quotes" — those promises are the exact failure mode No-Drift fixes. | Update those answers to credit No-Drift, or add "How we keep estimates accurate" sidebar. |
+| `src/pages/industries/Automotive.tsx` | **High.** Pricing FAQ at `faqs.ts:693` and `faqs.ts:791` already promises "accurate estimates" and "accurate ballpark quotes" — those promises are the exact failure mode Trusted AI fixes. | Section heading: "Estimates customers can trust." Body: "Wrong-price quotes you have to honor cost more than the AI itself. Trusted AI makes pricing accuracy structural." Cross-link to `/trusted-ai`. |
 | `src/pages/industries/AutomotiveShowcase.tsx` | High. | Cross-link. |
-| `src/pages/industries/HomeServices.tsx` | Medium. Wrong dispatch info, wrong service area. | Light callout. |
+| `src/pages/industries/HomeServices.tsx` | Medium. Wrong dispatch info, wrong service area. | Section heading: "When customers need to trust what the AI tells them." Light callout cross-linking to `/trusted-ai`. |
 | `src/pages/industries/HomeServicesShowcase.tsx` | Medium. | Light callout. |
 
 **Real Estate** is mentioned in copy but not yet a dedicated industry page. When it's built, it needs the same treatment as legal/financial — wrong square footage, wrong price, wrong availability are all litigation-grade errors.
@@ -213,7 +214,7 @@ All eight should carry: `category: 'ai-employee'`, `tags: ['no-drift', 'reliabil
 
 ## 7. Dedicated Page Recommendation
 
-**Recommendation: Build a dedicated `/no-drift-ai` page.**
+**Recommendation: Build a dedicated `/trusted-ai` page.**
 
 Reasons:
 1. **SEO surface.** Keywords like "AI hallucination," "deterministic AI agent," "AI drift" need a page to rank against. Cross-product upsell components don't get indexed as their own destinations.
@@ -223,15 +224,15 @@ Reasons:
 
 ### Proposed section outline
 
-1. **Hero** — "Your AI shouldn't invent prices, policies, or business hours." + the three problem framings (credibility / bleeding wound / burnout) condensed into 3 chips.
-2. **The drift problem** — 2–3 short scenarios: AI quotes wrong price, AI invents a service you don't offer, AI gives wrong hours during a holiday. (Real or representative.)
-3. **How No-Drift works** — visual canvas screenshot or animated diagram. Build → Stage → Approve → Ship.
-4. **Generative AI vs No-Drift comparison table** — Drift risk, Hallucination, Operator control, Update workflow, Compliance posture, Where outputs come from.
+1. **Hero** — Headline: "The AI was confident. The AI was wrong. Yours won't be." Sub: "Trusted AI does exactly what you approved. Nothing else." Three buyer-type chips: (Credibility) "Trusted AI is what professional businesses run." (Bleeding wound) "Trusted AI doesn't quote prices that don't exist." (Burnout) "Trusted AI lets you walk away without worrying." Primary CTA: "Add Trusted AI to my plan."
+2. **Why standard AI breaks trust** — Lead with the Air Canada anchor: "A Canadian court ruled an airline was legally liable for the policy its chatbot invented. The legal precedent is clear: your AI's lies are your lies." Then three trust-failure scenarios: (a) "Your AI quoted $89. The real price was $389. You honor it or you refund." (b) "Your AI told a customer you're open Saturday. You're not. They show up to a closed door." (c) "Your AI made up a service you don't offer. The customer expected it. You can't deliver it."
+3. **How Trusted AI works** — visual canvas screenshot or animated diagram. Build → Stage → Approve → Ship.
+4. **Standard AI vs Trusted AI comparison table** — Columns: "Standard AI | Trusted AI". Rows: Where outputs come from, Drift risk, Hallucination possible, Operator control, Update workflow, Compliance posture, Testing before launch, Version control.
 5. **What you control** — explicit list: every script line, every price, every policy, every escalation rule.
 6. **What happens when the AI doesn't know** — frame as feature.
 7. **Industries where this matters most** — link to Health, Professional, Automotive industry pages.
-8. **Pricing band** — $147/mo + $497 one-time. CTA: "Add No-Drift to my plan" → routes to `/checkout/{lastViewedTier or full-ai}` with the add-on pre-selected via query param (e.g. `?addon=no-drift-ai`).
-9. **FAQ section** — uses `<FAQSection products={['no-drift-ai']} />` to pull the 6–8 FAQs from §5.
+8. **Pricing band** — $147/mo + $497 one-time. CTA: "Add Trusted AI to my plan" → routes to `/checkout/{lastViewedTier or full-ai}` with the add-on pre-selected via query param (e.g. `?addon=trusted-ai`).
+9. **FAQ section** — uses `<FAQSection products={['trusted-ai']} />` to pull the 6–8 FAQs from §5.
 10. **Final CTA** — book a call OR add to plan.
 
 The cross-product upsell card (in `/pricing`, in tier pages, in checkout Step 1) all link to this page when the buyer wants to learn more.
@@ -243,33 +244,33 @@ The cross-product upsell card (in `/pricing`, in tier pages, in checkout Step 1)
 ### Header (`src/components/layout/Header.tsx`)
 
 - Primary nav today: Let AI Handle It, Smart Websites, Industries, (more), Pricing.
-- **Recommendation:** Do **not** add No-Drift to primary nav. It's an upsell, not a tier. Adding it dilutes the existing tier mental model.
-- Instead: add a "No-Drift AI" item inside the **"Let AI Handle It" dropdown** (`NavDropdown`) as the last item, with a small badge ("Upgrade" or "New"). This keeps it discoverable without confusing the buying journey.
+- **Recommendation:** Do **not** add Trusted AI to primary nav. It's an upsell, not a tier. Adding it dilutes the existing tier mental model.
+- Instead: add a "Trusted AI" item inside the **"Let AI Handle It" dropdown** (`NavDropdown`) as the last item, with a small badge ("Upgrade" or "New"). This keeps it discoverable without confusing the buying journey.
 
 ### Footer (`src/components/layout/Footer.tsx`)
 
 - Footer link group structure shown at lines 65–80 and 187–200.
-- **Recommendation:** Add `No-Drift AI Upgrade → /no-drift-ai` under whichever footer column hosts AI Employee links. This is the right "directory" surface for crawlers and curious buyers.
+- **Recommendation:** Add `Trusted AI Upgrade → /trusted-ai` under whichever footer column hosts AI Employee links. This is the right "directory" surface for crawlers and curious buyers.
 
 ### Sitemap (`scripts/generate-sitemap.ts` + `public/sitemap.xml`)
 
-- Add `/no-drift-ai` at priority `0.8`, changefreq `monthly`. Higher than location pages, equal to top-tier landing pages.
+- Add `/trusted-ai` at priority `0.8`, changefreq `monthly`. Higher than location pages, equal to top-tier landing pages.
 - Ensure it's NOT in `EXCLUDED_PREFIXES`.
 
 ### Routes (`src/routes.tsx`)
 
-- Register `/no-drift-ai` as a top-level route. Per the SSG routing memory, use a native `<a>` tag from anywhere it's linked, not React Router `<Link>`.
+- Register `/trusted-ai` as a top-level route. Per the SSG routing memory, use a native `<a>` tag from anywhere it's linked, not React Router `<Link>`.
 
 ---
 
 ## 9. SEO Strategy
 
-### Page metadata (for `/no-drift-ai`)
+### Page metadata (for `/trusted-ai`)
 
-- **Title (under 60 chars):** `No-Drift AI: The AI Agent That Can't Hallucinate`
-- **Meta description (under 160):** `Stop AI from quoting wrong prices, inventing policies, or making up business hours. No-Drift AI is version-controlled, staged, and approved by you before it talks to a customer. $147/mo.`
-- **Canonical:** `/no-drift-ai`
-- **OG image:** Reuse the EverIntent space-aesthetic OG template per `mem://marketing/og-image-management`. Headline overlay: "AI That Can't Drift."
+- **Title:** `Trusted AI: The AI That Does Exactly What You Approved | EverIntent`
+- **Meta description:** `Standard AI is confident but not always correct. Trusted AI is built on a visual canvas, tested in staging, and approved by you before it ever talks to a customer. $147/mo + $497 setup.`
+- **Canonical:** `/trusted-ai`
+- **OG image:** Reuse the EverIntent space-aesthetic OG template per `mem://marketing/og-image-management`. Headline overlay: "AI you can trust."
 
 ### Schema markup
 
@@ -282,24 +283,24 @@ The cross-product upsell card (in `/pricing`, in tier pages, in checkout Step 1)
 
 | Keyword | Intent | Why us |
 |---|---|---|
+| trusted AI | Brand/category | Owns the new term. |
+| AI you can trust | Emotional | Direct buyer language. |
 | AI hallucination prevention | Defensive | We literally prevent it. |
 | AI chatbot wrong information | Pain | Maps to bleeding-wound buyer. |
-| Deterministic AI agent | Technical buyer | We are deterministic by design. |
-| AI drift | Educational | Owns the term. |
+| approved AI agent | Mechanism | Operator-approval differentiator. |
+| controlled AI for small business | Buyer-side | Maps to credibility buyer. |
 | AI agent off-script | Pain | Direct match. |
-| Controlled AI for small business | Buyer-side | Maps to credibility buyer. |
-| Version-controlled AI workflow | Technical | Differentiator. |
-| AI guardrails for service businesses | Vertical | Bridges to industry pages. |
 | HIPAA-safe AI receptionist | Vertical | Connects to HealthWellness. |
-| Compliance-grade AI for law firms | Vertical | Connects to ProfessionalServices. |
+| compliance-grade AI for law firms | Vertical | Connects to ProfessionalServices. |
+| AI agent legal liability | Defensive | Air Canada anchor. |
 
 ### Internal linking
 
-- Every AI Employee tier page links into `/no-drift-ai` from the upsell card.
-- `/no-drift-ai` links out to all four AI Employee tier pages.
+- Every AI Employee tier page links into `/trusted-ai` from the upsell card.
+- `/trusted-ai` links out to all four AI Employee tier pages.
 - Industry pages (Health, Professional, Automotive) link in via the compliance/accuracy callouts.
 - Pricing page links in from the upsell band.
-- Checkout Step 1 upsell card has a "Learn more" link to `/no-drift-ai` (opens in new tab so as not to break the checkout session).
+- Checkout Step 1 upsell card has a "Learn more" link to `/trusted-ai` (opens in new tab so as not to break the checkout session).
 
 ---
 
@@ -308,26 +309,26 @@ The cross-product upsell card (in `/pricing`, in tier pages, in checkout Step 1)
 ### Voice benchmarks observed
 
 - Established voice (per `mem://style/voice-calibration-standard-portfolio-anchor`): declarative, outcome-driven, owner-operator vernacular, no hedging, no marketing fluff. Examples: "Stop Losing Money. Pick Your Plan." (`Pricing.tsx:170`), "Let AI Handle It" (`AIEmployee.tsx:132`), "Never miss a lead." (multiple).
-- The No-Drift positioning **maps cleanly** to this voice. Sample direct-voice lines that already feel native:
-  - "AI that can't drift."
+- The Trusted AI positioning **maps cleanly** to this voice. Sample direct-voice lines that already feel native:
+  - "The AI was confident. The AI was wrong. Yours won't be."
+  - "Trusted AI does exactly what you approved. Nothing else."
+  - "Standard AI is confident but not always correct. Trusted AI is confident because it's correct."
   - "You approve every word."
-  - "Build it once. Ship it. Walk away."
-  - "Standard AI invents. No-Drift doesn't."
 
-### Existing copy that becomes more honest with No-Drift (or oversold without it)
+### Existing copy that becomes more honest with Trusted AI (or oversold without it)
 
-These are claims currently made on the site that are **load-bearing on AI accuracy** — they are honest if No-Drift exists, optimistic if it doesn't:
+These are claims currently made on the site that are **load-bearing on AI accuracy** — they are honest if Trusted AI exists, optimistic if it doesn't:
 
 | File:Line | Existing copy | Risk |
 |---|---|---|
-| `src/data/faqs.ts:693` | "It provides accurate estimates for standard services like oil changes, brakes, and diagnostics." | Standard AI can invent prices. Needs No-Drift to be defensible. |
-| `src/data/faqs.ts:724` | "The AI doesn't access patient records. It only handles scheduling and general inquiries." | This is a *boundary* claim. Standard AI can be prompt-injected to discuss anything. No-Drift makes the boundary structural, not aspirational. |
+| `src/data/faqs.ts:693` | "It provides accurate estimates for standard services like oil changes, brakes, and diagnostics." | Standard AI can invent prices. Needs Trusted AI to be defensible. |
+| `src/data/faqs.ts:724` | "The AI doesn't access patient records. It only handles scheduling and general inquiries." | This is a *boundary* claim. Standard AI can be prompt-injected to discuss anything. Trusted AI makes the boundary structural, not aspirational. |
 | `src/data/faqs.ts:791` | "It provides accurate ballpark quotes while being transparent about on-site evaluation needs." | Same as the auto pricing line — accuracy is a function of guardrails. |
 | `src/data/features/after-hours-features.ts:34` | "AI captures caller details accurately." | Capture is one thing — it's the *response* side that drifts. Verify this line refers to data capture (low risk) and not response accuracy (high risk). |
-| `src/pages/AIEmployee.tsx:51` (transcript proof: "AI responded in 12 seconds, booked a 7am appointment") | Implies the booking decision was correct. | With standard AI, the booked time slot could conflict with reality. No-Drift makes this claim safer. |
-| FAQ `objection-robot` (`faqs.ts:50-51`) | "94% of callers rate the experience 4+ stars. And most don't even realize they're talking to AI." | If the AI hallucinates a price, that 4-star rating becomes a 1-star refund request. No-Drift protects this stat. |
+| `src/pages/AIEmployee.tsx:51` (transcript proof: "AI responded in 12 seconds, booked a 7am appointment") | Implies the booking decision was correct. | With standard AI, the booked time slot could conflict with reality. Trusted AI makes this claim safer. |
+| FAQ `objection-robot` (`faqs.ts:50-51`) | "94% of callers rate the experience 4+ stars. And most don't even realize they're talking to AI." | If the AI hallucinates a price, that 4-star rating becomes a 1-star refund request. Trusted AI protects this stat. |
 
-**Recommendation:** Do not rewrite these now. After No-Drift launches, revisit and add either a No-Drift micro-credit or an explicit "with No-Drift Upgrade" qualifier where the claim is strongest. The honest version of every accuracy claim becomes "If you add No-Drift, this is structurally true. Without it, we work hard to keep it true."
+**Recommendation:** Do not rewrite these now. After Trusted AI launches, revisit and add either a Trusted AI micro-credit or an explicit "with Trusted AI Upgrade" qualifier where the claim is strongest. The honest version of every accuracy claim becomes "If you add Trusted AI, this is structurally true. Without it, we work hard to keep it true."
 
 There is **no current copy that promises "won't make mistakes" or "never wrong"** in the audited files. Verified via search for `won.t make`, `never wrong`, `always accurate`, `no mistake` — zero matches in marketing copy. That's a clean baseline. Don't introduce those claims now and then walk them back.
 
@@ -337,17 +338,17 @@ There is **no current copy that promises "won't make mistakes" or "never wrong"*
 
 The implementation spec should cover, in this order:
 
-1. **Schema changes** — `AddonConfig.setupFee` field; `'no-drift-ai'` in `AddonSlug`; `'no-drift'` and `'reliability'` in `FAQTag`; `'no-drift-ai'` in `ProductTag`; `addon-setup-fee` arithmetic in `CheckoutPage` + `OrderSummary` + `CheckoutStep3Review` + `start-checkout` edge function.
-2. **GHL setup** — confirm tag `ei: addon - no-drift ai`, create $497 one-time line item, create $147/mo recurring line item, confirm tags flow on submit.
-3. **No-Drift checkout upsell** — new `<NoDriftUpsellCard>` rendered above the standard add-ons grid in `CheckoutStep1Selection`, only for AI Employee tiers and Smart Websites Scale. Two new analytics events.
-4. **Dedicated page** — `/no-drift-ai` with the 10-section outline from §7. Route registered, sitemap updated, internal links added.
-5. **Tier landing page integration** — shared `<NoDriftUpsellCard>` placed in After-Hours, Front Office, Full AI Employee landing pages. Link to `/no-drift-ai` for deep-dive.
+1. **Schema changes** — `AddonConfig.setupFee` field; `'trusted-ai'` in `AddonSlug`; `'trusted-ai'` and `'reliability'` in `FAQTag`; `'trusted-ai'` in `ProductTag`; `addon-setup-fee` arithmetic in `CheckoutPage` + `OrderSummary` + `CheckoutStep3Review` + `start-checkout` edge function.
+2. **GHL setup** — confirm tag `ei: addon - trusted ai`, create $497 one-time line item, create $147/mo recurring line item, confirm tags flow on submit.
+3. **Trusted AI checkout upsell** — new `<TrustedAIUpsellCard>` rendered above the standard add-ons grid in `CheckoutStep1Selection`, only for AI Employee tiers and Smart Websites Scale. Two new analytics events.
+4. **Dedicated page** — `/trusted-ai` with the 10-section outline from §7. Route registered, sitemap updated, internal links added.
+5. **Tier landing page integration** — shared `<TrustedAIUpsellCard>` placed in After-Hours, Front Office, Full AI Employee landing pages. Link to `/trusted-ai` for deep-dive.
 6. **Pricing page** — full-width upsell band on the AI tab below the 4 plan cards; small inline note inside each AI plan card.
 7. **FAQ content** — write and add the 6–8 FAQs from §5 with proper category/tag/product wiring.
-8. **Industry callouts** — Health, Professional Services, Automotive get a No-Drift compliance/accuracy callout linking to `/no-drift-ai`.
+8. **Industry callouts** — Health, Professional Services, Automotive get a Trusted AI compliance/accuracy callout linking to `/trusted-ai`.
 9. **Navigation** — add to "Let AI Handle It" dropdown with an "Upgrade" badge; add footer link.
-10. **Web Chat Only landing page** — separate effort, but flagged by this audit as a missing tier page. When built, No-Drift is the default companion product for that tier.
+10. **Web Chat Only landing page** — separate effort, but flagged by this audit as a missing tier page. When built, Trusted AI is the default companion product for that tier.
 11. **SEO** — title/meta/schema per §9; add target-keyword copy throughout the new page.
-12. **Existing-copy review pass** — after launch, qualify the accuracy-bearing FAQ answers identified in §10 with No-Drift attribution where it strengthens the claim.
+12. **Existing-copy review pass** — after launch, qualify the accuracy-bearing FAQ answers identified in §10 with Trusted AI attribution where it strengthens the claim.
 
 No code has been modified. This document is the input for the implementation spec.
