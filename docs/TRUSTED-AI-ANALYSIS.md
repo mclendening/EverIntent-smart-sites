@@ -149,11 +149,12 @@ Concretely:
 ### Upsell card spec
 
 - **Eyebrow:** "Recommended Upgrade"
-- **Headline:** "Add Trusted AI — the AI that can't go off-script"
-- **Sub (1–2 lines):** "Standard AI chatbots drift, hallucinate, and quote prices that don't exist. Trusted AI is version-controlled, staged, and approved by you before it ever talks to a customer."
+- **Headline:** "Add Trusted AI — the AI that does exactly what you approved"
+- **Sub (1–2 lines):** "Standard AI is confident but not always correct. Trusted AI is built on a visual canvas, staged, and approved by you before it talks to a customer."
 - **Pricing line:** "+ $147/mo · + $497 one-time AI Training & Implementation"
 - **Buttons:** Primary "Add to my plan" (toggles selection in state.addons), Secondary "Skip — I'll risk it" (textual decline that closes the card for the session). Decline should fire `addon_toggled` with `selected: false` so we can measure decline rates.
-- **Trust micro-copy below buttons:** "You can add this later — but every conversation before then is one you can't take back."
+- **Trust micro-copy below buttons:** "You can add this later. Every conversation before then is one you can't take back."
+- **Learn more link:** opens `/trusted-ai` in new tab.
 - **Schema event:** `trusted_ai_upsell_shown` and `trusted_ai_upsell_decision` (accept/decline) — extend `src/lib/checkoutAnalytics.ts`.
 
 ### What changes downstream when this add-on is selected
@@ -179,13 +180,13 @@ Concretely:
 
 ### Recommended 6–8 Trusted AI FAQs
 
-1. **Cost objection** (`isObjection: true`) — "Is $147/mo extra worth it just to stop hallucinations?" — Frame against one wrong-price job (e.g., AI quoted $89 when it should have been $389 = full year of Trusted AI).
-2. **"Isn't this just better Conversation AI?"** (`isObjection: true`) — Distinguish: standard AI = generative, infers, can invent; Trusted AI = decision canvas with explicit branches, only says what's been built and approved.
+1. **Cost objection** (`isObjection: true`) — "Is $147/mo extra worth it just to stop hallucinations?" — Answer references "Trusted AI". Frame against one wrong-price job (e.g., AI quoted $89 when it should have been $389 = full year of Trusted AI).
+2. **"Isn't this just better Conversation AI?"** (`isObjection: true`) — Answer: "No. Standard AI is generative — it infers, predicts, and can invent. Trusted AI is a decision canvas with explicit branches. It only says what's been built and approved. Different architecture, different category."
 3. **What happens when the AI doesn't know something?** — It hands off (text the owner, book a callback, escalate to human chat). It does not guess. Frame as the feature, not the limitation.
 4. **Can I update it later?** — Yes. Operator edits in staging, tests, ships. Versioned. Old version stays live until new version is approved.
 5. **Do I have to retrain the AI from scratch?** — No. Edits are surgical: change one branch, change one script line, ship. The $497 covers initial build and the staging environment.
 6. **Complexity / "do I need to be technical?"** — No. We build it with you. You approve the conversation flow in plain English. We handle the canvas.
-7. **What about voice AI hallucinations specifically?** — Same engine. Voice agent uses the same approved decision tree, so it can't quote a price you didn't set or invent business hours.
+7. **What about voice AI hallucinations specifically?** — Answer: "Same engine, same protection. The voice agent runs on the same approved decision tree, so it can't quote a price you didn't set or invent business hours."
 8. **Can I A/B test scripts?** — Yes. Stage a new version, route a percentage of traffic, promote the winner. (Optional — only include if this is actually on the roadmap.)
 
 All eight should carry: `category: 'ai-employee'`, `tags: ['trusted-ai', 'reliability', ...]`, `products: ['trusted-ai']` and the three relevant AI tier slugs so they auto-appear on those tier pages.
@@ -198,13 +199,13 @@ All eight should carry: `category: 'ai-employee'`, `tags: ['trusted-ai', 'reliab
 
 | File | High-stakes wrong-info risk? | Recommended treatment |
 |---|---|---|
-| `src/pages/industries/HealthWellness.tsx` | **Critical.** HIPAA exposure, medical info, scheduling. The existing FAQ at `faqs.ts:724` already says "the AI doesn't access patient records" — that's a *boundary* claim that Trusted AI makes enforceable. | Add a "Why Trusted AI matters in healthcare" callout. |
+| `src/pages/industries/HealthWellness.tsx` | **Critical.** HIPAA exposure, medical info, scheduling. The existing FAQ at `faqs.ts:724` already says "the AI doesn't access patient records" — that's a *boundary* claim that Trusted AI makes enforceable. | Section heading: "Healthcare can't run on AI guesswork." Body references "Trusted AI" and links to `/trusted-ai`. |
 | `src/pages/industries/HealthWellnessShowcase.tsx` | Same as above. | Cross-link to `/trusted-ai`. |
-| `src/pages/industries/ProfessionalServices.tsx` | **Critical for legal/financial verticals** named on the page. Wrong policy, wrong fee, wrong availability all create real liability. | Add a "Compliance-grade AI" section. |
+| `src/pages/industries/ProfessionalServices.tsx` | **Critical for legal/financial verticals** named on the page. Wrong policy, wrong fee, wrong availability all create real liability. | Section heading: "Compliance-grade AI for legal and financial services." Cross-link to `/trusted-ai`. |
 | `src/pages/industries/ProfessionalShowcase.tsx` | Same. | Cross-link. |
-| `src/pages/industries/Automotive.tsx` | **High.** Pricing FAQ at `faqs.ts:693` and `faqs.ts:791` already promises "accurate estimates" and "accurate ballpark quotes" — those promises are the exact failure mode Trusted AI fixes. | Update those answers to credit Trusted AI, or add "How we keep estimates accurate" sidebar. |
+| `src/pages/industries/Automotive.tsx` | **High.** Pricing FAQ at `faqs.ts:693` and `faqs.ts:791` already promises "accurate estimates" and "accurate ballpark quotes" — those promises are the exact failure mode Trusted AI fixes. | Section heading: "Estimates customers can trust." Body: "Wrong-price quotes you have to honor cost more than the AI itself. Trusted AI makes pricing accuracy structural." Cross-link to `/trusted-ai`. |
 | `src/pages/industries/AutomotiveShowcase.tsx` | High. | Cross-link. |
-| `src/pages/industries/HomeServices.tsx` | Medium. Wrong dispatch info, wrong service area. | Light callout. |
+| `src/pages/industries/HomeServices.tsx` | Medium. Wrong dispatch info, wrong service area. | Section heading: "When customers need to trust what the AI tells them." Light callout cross-linking to `/trusted-ai`. |
 | `src/pages/industries/HomeServicesShowcase.tsx` | Medium. | Light callout. |
 
 **Real Estate** is mentioned in copy but not yet a dedicated industry page. When it's built, it needs the same treatment as legal/financial — wrong square footage, wrong price, wrong availability are all litigation-grade errors.
@@ -223,10 +224,10 @@ Reasons:
 
 ### Proposed section outline
 
-1. **Hero** — "Your AI shouldn't invent prices, policies, or business hours." + the three problem framings (credibility / bleeding wound / burnout) condensed into 3 chips.
-2. **The drift problem** — 2–3 short scenarios: AI quotes wrong price, AI invents a service you don't offer, AI gives wrong hours during a holiday. (Real or representative.)
+1. **Hero** — Headline: "The AI was confident. The AI was wrong. Yours won't be." Sub: "Trusted AI does exactly what you approved. Nothing else." Three buyer-type chips: (Credibility) "Trusted AI is what professional businesses run." (Bleeding wound) "Trusted AI doesn't quote prices that don't exist." (Burnout) "Trusted AI lets you walk away without worrying." Primary CTA: "Add Trusted AI to my plan."
+2. **Why standard AI breaks trust** — Lead with the Air Canada anchor: "A Canadian court ruled an airline was legally liable for the policy its chatbot invented. The legal precedent is clear: your AI's lies are your lies." Then three trust-failure scenarios: (a) "Your AI quoted $89. The real price was $389. You honor it or you refund." (b) "Your AI told a customer you're open Saturday. You're not. They show up to a closed door." (c) "Your AI made up a service you don't offer. The customer expected it. You can't deliver it."
 3. **How Trusted AI works** — visual canvas screenshot or animated diagram. Build → Stage → Approve → Ship.
-4. **Generative AI vs Trusted AI comparison table** — Drift risk, Hallucination, Operator control, Update workflow, Compliance posture, Where outputs come from.
+4. **Standard AI vs Trusted AI comparison table** — Columns: "Standard AI | Trusted AI". Rows: Where outputs come from, Drift risk, Hallucination possible, Operator control, Update workflow, Compliance posture, Testing before launch, Version control.
 5. **What you control** — explicit list: every script line, every price, every policy, every escalation rule.
 6. **What happens when the AI doesn't know** — frame as feature.
 7. **Industries where this matters most** — link to Health, Professional, Automotive industry pages.
@@ -266,10 +267,10 @@ The cross-product upsell card (in `/pricing`, in tier pages, in checkout Step 1)
 
 ### Page metadata (for `/trusted-ai`)
 
-- **Title (under 60 chars):** `Trusted AI: The AI Agent That Can't Hallucinate`
-- **Meta description (under 160):** `Stop AI from quoting wrong prices, inventing policies, or making up business hours. Trusted AI is version-controlled, staged, and approved by you before it talks to a customer. $147/mo.`
+- **Title:** `Trusted AI: The AI That Does Exactly What You Approved | EverIntent`
+- **Meta description:** `Standard AI is confident but not always correct. Trusted AI is built on a visual canvas, tested in staging, and approved by you before it ever talks to a customer. $147/mo + $497 setup.`
 - **Canonical:** `/trusted-ai`
-- **OG image:** Reuse the EverIntent space-aesthetic OG template per `mem://marketing/og-image-management`. Headline overlay: "AI That Can't Drift."
+- **OG image:** Reuse the EverIntent space-aesthetic OG template per `mem://marketing/og-image-management`. Headline overlay: "AI you can trust."
 
 ### Schema markup
 
@@ -282,16 +283,16 @@ The cross-product upsell card (in `/pricing`, in tier pages, in checkout Step 1)
 
 | Keyword | Intent | Why us |
 |---|---|---|
+| trusted AI | Brand/category | Owns the new term. |
+| AI you can trust | Emotional | Direct buyer language. |
 | AI hallucination prevention | Defensive | We literally prevent it. |
 | AI chatbot wrong information | Pain | Maps to bleeding-wound buyer. |
-| Deterministic AI agent | Technical buyer | We are deterministic by design. |
-| AI drift | Educational | Owns the term. |
+| approved AI agent | Mechanism | Operator-approval differentiator. |
+| controlled AI for small business | Buyer-side | Maps to credibility buyer. |
 | AI agent off-script | Pain | Direct match. |
-| Controlled AI for small business | Buyer-side | Maps to credibility buyer. |
-| Version-controlled AI workflow | Technical | Differentiator. |
-| AI guardrails for service businesses | Vertical | Bridges to industry pages. |
 | HIPAA-safe AI receptionist | Vertical | Connects to HealthWellness. |
-| Compliance-grade AI for law firms | Vertical | Connects to ProfessionalServices. |
+| compliance-grade AI for law firms | Vertical | Connects to ProfessionalServices. |
+| AI agent legal liability | Defensive | Air Canada anchor. |
 
 ### Internal linking
 
@@ -309,10 +310,10 @@ The cross-product upsell card (in `/pricing`, in tier pages, in checkout Step 1)
 
 - Established voice (per `mem://style/voice-calibration-standard-portfolio-anchor`): declarative, outcome-driven, owner-operator vernacular, no hedging, no marketing fluff. Examples: "Stop Losing Money. Pick Your Plan." (`Pricing.tsx:170`), "Let AI Handle It" (`AIEmployee.tsx:132`), "Never miss a lead." (multiple).
 - The Trusted AI positioning **maps cleanly** to this voice. Sample direct-voice lines that already feel native:
-  - "AI that can't drift."
+  - "The AI was confident. The AI was wrong. Yours won't be."
+  - "Trusted AI does exactly what you approved. Nothing else."
+  - "Standard AI is confident but not always correct. Trusted AI is confident because it's correct."
   - "You approve every word."
-  - "Build it once. Ship it. Walk away."
-  - "Standard AI invents. Trusted AI doesn't."
 
 ### Existing copy that becomes more honest with Trusted AI (or oversold without it)
 
