@@ -56,7 +56,7 @@ export function CheckoutProgress({ currentStep }: CheckoutProgressProps) {
               {/* Step Circle */}
               <div className="flex flex-col items-center">
                 <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all"
+                  className="w-10 h-10 rounded-xl flex items-center justify-center border-2 transition-all"
                   style={circleStyle}
                 >
                   {isCompleted ? (
