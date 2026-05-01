@@ -1,16 +1,22 @@
 User-agent: Googlebot
 Allow: /
+Disallow: /sandbox
 
 User-agent: Bingbot
 Allow: /
+Disallow: /sandbox
 
 User-agent: Twitterbot
 Allow: /
+Disallow: /sandbox
 
 User-agent: facebookexternalhit
 Allow: /
+Disallow: /sandbox
 
 User-agent: *
 Allow: /
+Disallow: /sandbox
+Disallow: /sandbox/
 
 Sitemap: https://everintent.com/sitemap.xml
