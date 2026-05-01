@@ -701,8 +701,9 @@ will fail end-to-end without it.
 
 ### ND-2 — GHL configuration confirmation (EXTERNAL OPERATOR GATE)
 **Owner:** Operator (NOT Lovable). This is a real external dependency, not a Lovable checkbox.
+**Status:** ✅ Tag confirmed by operator on 2026-05-01 — `ei: addon - trusted ai` created in GHL. Remaining items (recurring/one-time product lines + staging checkout E2E) still operator-owned before production promotion.
 **Acceptance (operator must confirm in writing before production promotion):**
-- GHL contact tag `ei: addon - trusted ai` exists.
+- ✅ GHL contact tag `ei: addon - trusted ai` exists.
 - $147/mo recurring product line exists in GHL and is mapped to the Trusted AI add-on.
 - $497 one-time "AI Training & Implementation" product line exists in GHL.
 - Checkout end-to-end test succeeds against staging GHL with Trusted AI selected.

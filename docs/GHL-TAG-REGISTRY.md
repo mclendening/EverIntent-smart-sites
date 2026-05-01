@@ -58,6 +58,8 @@ Format: `ei: {category} - {value}`
 
 | ADDON_UNLIMITED_AI | ei: addon - unlimited ai |
 
+| ADDON_TRUSTED_AI | ei: addon - trusted ai |
+
 ### Checkout Funnel Tags
 
 | Constant | Tag |
