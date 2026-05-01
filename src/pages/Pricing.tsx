@@ -30,6 +30,7 @@ import resultsDashboardImg from '@/assets/lifestyle/results-dashboard.jpg';
 import revenueGrowthImg from '@/assets/lifestyle/revenue-growth.jpg';
 import { FAQSection } from '@/components/faq';
 import { filterFAQs, generateFAQSchema } from '@/data/faqs';
+import { TrustedAIUpgradeCard } from '@/components/ai-employee';
 
 // ============================================
 // DATA - Smart Websites
@@ -475,6 +476,11 @@ const Pricing = () => {
               <p className="text-sm text-muted-foreground">
                 <span className="text-accent font-medium">All plans include</span> missed call text-back recovery.
               </p>
+            </div>
+
+            {/* Trusted AI Upgrade — universal upsell */}
+            <div className="mt-12 max-w-4xl mx-auto">
+              <TrustedAIUpgradeCard variant="banner" />
             </div>
           </div>
         </section>
