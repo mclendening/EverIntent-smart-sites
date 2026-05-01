@@ -157,7 +157,7 @@ export default function AIEmployee() {
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <a 
                   href="/pricing?tab=ai"
-                  className="btn-gold btn-glow"
+                  className="btn-gold btn-glow rounded-lg px-6 py-3"
                 >
                   See Pricing
                 </a>
@@ -385,7 +385,7 @@ export default function AIEmployee() {
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <a 
                   href="/pricing?tab=ai"
-                  className="btn-gold btn-glow"
+                  className="btn-gold btn-glow rounded-lg px-6 py-3"
                 >
                   See Pricing
                 </a>

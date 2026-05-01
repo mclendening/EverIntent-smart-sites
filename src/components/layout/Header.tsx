@@ -147,7 +147,7 @@ export function Header() {
         {/* Desktop CTA - Native anchor */}
         <div className="hidden lg:flex items-center gap-3">
           <ModeToggle variant="compact" />
-          <a href="/pricing" className="btn-gold btn-glow">
+          <a href="/pricing" className="btn-gold btn-glow rounded-lg px-5 py-2.5">
             Get Started
           </a>
         </div>
@@ -265,7 +265,7 @@ export function Header() {
                 <div className="pt-6">
                   <a 
                     href="/pricing" 
-                    className="btn-gold btn-glow w-full text-center block"
+                    className="btn-gold btn-glow rounded-lg px-5 py-3 w-full text-center block"
                   >
                     Get Started
                   </a>

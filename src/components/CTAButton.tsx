@@ -65,7 +65,7 @@ export function CTAButton({
       onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`btn-gold btn-glow inline-flex items-center justify-center gap-2 ${fullWidth ? 'w-full' : ''} ${className}`}
+      className={`btn-gold btn-glow inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 ${fullWidth ? 'w-full' : ''} ${className}`}
     >
       {buttonContent}
     </a>
