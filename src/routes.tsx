@@ -39,6 +39,12 @@ import { getThemeForRoute, applyThemeToRoot } from '@/config/themes';
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import PlaceholderPage from './pages/Placeholder';
+// Sandbox prototypes (noindex, isolated from design tokens)
+import SandboxLayout from './pages/sandbox/SandboxLayout';
+import SandboxHub from './pages/sandbox/SandboxHub';
+import SandboxConcierge from './pages/sandbox/Concierge';
+import SandboxQuietAuthority from './pages/sandbox/QuietAuthority';
+import SandboxAtelierCobalt from './pages/sandbox/AtelierCobalt';
 import FAQ from './pages/FAQ';
 import Help from './pages/Help';
 import Support from './pages/Support';
