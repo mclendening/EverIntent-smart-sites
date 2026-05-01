@@ -434,49 +434,87 @@ function PackDetailModal({
  */
 function PackCard({ pack, onLearnMore }: { pack: AddOnPack; onLearnMore: () => void }) {
   const IconComponent = pack.icon;
-  
+  const isGold = pack.goldAccent;
+  const accentClasses = isGold
+    ? { tile: 'bg-gold/15 border-gold/30', icon: 'text-gold', price: 'text-gold', border: 'hover:border-gold/60 border-gold/30' }
+    : { tile: 'bg-accent/10 border-accent/20', icon: 'text-accent', price: 'text-accent', border: 'border-border/50 hover:border-accent/50' };
+
+  // Track upsell impression for the Trusted AI card
+  const cardRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (pack.id !== 'trusted-ai' || !cardRef.current) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          trackTrustedAIUpsellShown('addon-hub');
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.5 },
+    );
+    observer.observe(cardRef.current);
+    return () => observer.disconnect();
+  }, [pack.id]);
+
+  const handlePrimaryClick = () => {
+    if (pack.id === 'trusted-ai') trackTrustedAIPageCtaClicked('addon-hub');
+  };
+
   return (
-    <Card className="border-border/50 bg-card/50 hover:border-accent/50 transition-colors flex flex-col h-full relative">
-      {pack.includedWithScale && (
-        <div className="absolute top-3 right-3 text-[10px] font-semibold text-accent bg-accent/10 border border-accent/20 px-2 py-0.5 rounded-full">
-          Included with Scale
-        </div>
-      )}
+    <Card
+      ref={cardRef}
+      className={`bg-card/50 transition-colors flex flex-col h-full ${accentClasses.border}`}
+    >
       <CardHeader>
         <div className="flex items-center justify-between mb-2">
-          <div className="p-3 rounded-xl bg-accent/10 border border-accent/20">
-            <IconComponent className="h-6 w-6 text-accent" />
+          <div className={`p-3 rounded-xl border ${accentClasses.tile}`}>
+            <IconComponent className={`h-6 w-6 ${accentClasses.icon}`} />
           </div>
           <div className="text-right">
-            <span className="text-2xl font-bold text-accent">${pack.price}</span>
+            <span className={`text-2xl font-bold ${accentClasses.price}`}>${pack.price}</span>
             <span className="text-sm text-muted-foreground">/mo</span>
           </div>
         </div>
         <CardTitle className="text-xl text-foreground">{pack.name}</CardTitle>
         <CardDescription className="text-muted-foreground">{pack.tagline}</CardDescription>
+        {pack.setupFee && (
+          <p className="text-sm text-foreground/90 pt-2">
+            <span className={`font-semibold ${accentClasses.price}`}>+ ${pack.setupFee} one-time</span>
+            {pack.setupFeeLabel && (
+              <span className="text-muted-foreground"> · {pack.setupFeeLabel}</span>
+            )}
+          </p>
+        )}
       </CardHeader>
       <CardContent className="flex-1">
         <ul className="space-y-2">
           {pack.features.map((feature, index) => (
             <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
-              <Check className="h-4 w-4 text-accent mt-0.5 shrink-0" />
+              <Check className={`h-4 w-4 mt-0.5 shrink-0 ${accentClasses.icon}`} />
               <span>{feature}</span>
             </li>
           ))}
         </ul>
+        {(pack.eligibilityNote || pack.includedWithScale) && (
+          <p className="mt-4 pt-3 border-t border-border/40 text-xs text-muted-foreground">
+            {pack.eligibilityNote ?? 'Included with Scale'}
+          </p>
+        )}
       </CardContent>
       <CardFooter className="flex flex-col gap-2">
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="w-full text-accent hover:text-accent hover:bg-accent/10"
-          onClick={onLearnMore}
-        >
-          Learn More
-        </Button>
-        <Button asChild variant="outline" className="w-full">
-          <a href="/contact">
-            Add to Plan
+        {!pack.hideLearnMore && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className={`w-full ${isGold ? 'text-gold hover:text-gold hover:bg-gold/10' : 'text-accent hover:text-accent hover:bg-accent/10'}`}
+            onClick={onLearnMore}
+          >
+            Learn More
+          </Button>
+        )}
+        <Button asChild variant={isGold ? 'gold' : 'outline'} className="w-full">
+          <a href={pack.primaryCtaHref ?? '/contact'} onClick={handlePrimaryClick}>
+            {pack.primaryCtaLabel ?? 'Add to Plan'}
             <ArrowRight className="ml-2 h-4 w-4" />
           </a>
         </Button>
