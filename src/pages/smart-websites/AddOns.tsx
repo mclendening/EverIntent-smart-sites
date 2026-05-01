@@ -32,7 +32,30 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { SEO } from '@/components/SEO';
 import { trackTrustedAIUpsellShown, trackTrustedAIPageCtaClicked } from '@/lib/checkoutAnalytics';
-import { ADDON_CONFIG } from '@/config/checkoutConfig';
+import { ADDON_CONFIG, TIER_CONFIG } from '@/config/checkoutConfig';
+import { faqData } from '@/data/faqs';
+
+/**
+ * Derive the eligibility one-liner from ADDON_CONFIG so the hub never drifts
+ * from the source of truth in checkoutConfig.
+ */
+function buildTrustedAIEligibilityNote(): string {
+  const tiers = ADDON_CONFIG['trusted-ai'].eligibleTiers ?? [];
+  const aiTiers = tiers.filter((t) => TIER_CONFIG[t]?.productLine === 'ai-employee');
+  return aiTiers.length > 0 ? 'Requires an AI Employee plan' : 'Eligibility: see plan';
+}
+
+/**
+ * Pull the two highest-priority Trusted AI FAQs from the centralized FAQ
+ * module so the modal stays in sync with /faq, /trusted-ai, and pricing.
+ */
+function getTrustedAICardFaqs(): { q: string; a: string }[] {
+  return faqData
+    .filter((f) => f.products?.includes('trusted-ai'))
+    .sort((a, b) => a.priority - b.priority)
+    .slice(0, 2)
+    .map((f) => ({ q: f.question, a: f.answer }));
+}
 import {
   Dialog,
   DialogContent,
@@ -274,7 +297,7 @@ const addOnPacks: AddOnPack[] = [
     ],
     recommended: [],
     goldAccent: true,
-    eligibilityNote: 'Requires an AI Employee plan',
+    eligibilityNote: buildTrustedAIEligibilityNote(),
     primaryCtaHref: '/trusted-ai',
     primaryCtaLabel: 'See how it works',
     hideLearnMore: true,
@@ -287,10 +310,7 @@ const addOnPacks: AddOnPack[] = [
         { icon: Clock, title: 'Staged Before Launch', text: 'Run the full conversation in staging until it behaves the way you want.' },
       ],
       idealFor: ['Regulated industries', 'High-ticket service businesses', 'Anyone who has been burned by hallucinated AI'],
-      faq: [
-        { q: 'Which plans can add Trusted AI?', a: 'After Hours, Front Office, Full AI Employee, Web Chat, and Scale. It layers on top of any AI Employee plan.' },
-        { q: 'Why the setup fee?', a: 'The $497 covers the visual canvas build, staging, and your approval cycle. It is the AI Training & Implementation work that makes Trusted AI trustworthy.' },
-      ],
+      faq: getTrustedAICardFaqs(),
     },
   },
 ];
