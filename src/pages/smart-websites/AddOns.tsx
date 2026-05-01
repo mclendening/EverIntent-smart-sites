@@ -533,14 +533,14 @@ export default function AddOns() {
     <>
       <SEO 
         title="Add-On Packs: Expand Your Smart Website"
-        description="Boost your Smart Website with modular add-on packs. Email deliverability, invoicing, social media, unified inbox, AI chat, and unlimited AI features starting at $49/mo."
+        description="Boost your EverIntent plan with modular add-on packs: email deliverability, invoicing, social, unified inbox, AI chat, unlimited AI, and the Trusted AI Upgrade. Starting at $49/mo."
         canonical="/smart-websites/add-ons"
         structuredData={{
           '@context': 'https://schema.org',
           '@type': 'ItemList',
           name: 'Smart Website Add-On Packs',
-          description: 'Modular add-on packs for EverIntent Smart Websites.',
-          numberOfItems: 6,
+          description: 'Modular add-on packs for EverIntent Smart Websites and AI Employee plans.',
+          numberOfItems: 7,
           itemListElement: [
             { '@type': 'ListItem', position: 1, name: 'Email Authority', url: 'https://everintent.com/smart-websites/add-ons' },
             { '@type': 'ListItem', position: 2, name: 'Get Paid Now', url: 'https://everintent.com/smart-websites/add-ons' },
@@ -548,6 +548,7 @@ export default function AddOns() {
             { '@type': 'ListItem', position: 4, name: 'Omnichannel Inbox', url: 'https://everintent.com/smart-websites/add-ons' },
             { '@type': 'ListItem', position: 5, name: 'Voice AI Chat Widget', url: 'https://everintent.com/smart-websites/add-ons' },
             { '@type': 'ListItem', position: 6, name: 'Unlimited AI', url: 'https://everintent.com/smart-websites/add-ons' },
+            { '@type': 'ListItem', position: 7, name: 'Trusted AI Upgrade', url: 'https://everintent.com/trusted-ai' },
           ],
         }}
       />
@@ -617,10 +618,10 @@ export default function AddOns() {
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              6 Powerful Packs
+              7 Powerful Packs
             </h2>
             <p className="text-lg text-muted-foreground">
-              Each pack adds specific capabilities to any Smart Website tier. Stack them to build your perfect solution.
+              Each pack adds specific capabilities to any Smart Website or AI Employee plan. Stack them to build your perfect solution.
             </p>
           </div>
 
