@@ -646,21 +646,21 @@ export default function AddOns() {
             </h2>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="text-center">
-                <div className="w-12 h-12 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-4">
                   <span className="text-xl font-bold text-accent">1</span>
                 </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2">Choose Your Plan</h3>
                 <p className="text-muted-foreground text-sm">Start with any Smart Website tier: Launch, Capture, Convert, or Scale.</p>
               </div>
               <div className="text-center">
-                <div className="w-12 h-12 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-4">
                   <span className="text-xl font-bold text-accent">2</span>
                 </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2">Add What You Need</h3>
                 <p className="text-muted-foreground text-sm">Select add-on packs that match your business goals. No minimums.</p>
               </div>
               <div className="text-center">
-                <div className="w-12 h-12 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-4">
                   <span className="text-xl font-bold text-accent">3</span>
                 </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2">Adjust Anytime</h3>
