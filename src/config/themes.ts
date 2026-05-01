@@ -53,6 +53,20 @@ export interface ThemeConfig {
     streakConfig: StreakElementConfig;
     taglineConfig: TaglineElementConfig;
   };
+  adaWidgetConfig?: {
+    enabled: boolean;
+    position: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
+    hideOnMobile: boolean;
+    hideOnDesktop: boolean;
+    pauseUntil: string | null;
+    hiddenIndefinitely: boolean;
+    iconType: 'universal' | 'wheelchair' | 'eye' | 'human';
+    iconColor: string;
+    iconBgColor: string;
+    iconSize: number;
+    iconShape: 'circle' | 'rounded-square' | 'pill';
+    readingHandleSize: number;
+  };
 }
 
 export interface RouteThemeMapping { route: string; themeId: string; }
