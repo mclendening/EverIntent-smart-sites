@@ -235,6 +235,8 @@ const ALL_ROUTES: string[] = [
   '/upgrade',
   // Standalone
   '/warmy-email-deliverability',
+  // Trusted AI Upgrade
+  '/trusted-ai',
   // Compare
   '/compare-websites', '/compare-ai-employee',
   // Portfolio
