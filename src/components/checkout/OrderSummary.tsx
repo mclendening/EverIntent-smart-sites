@@ -55,9 +55,17 @@ export function OrderSummary({ tier, addons, monthlyTotal, setupTotal }: OrderSu
               {addons.map((addonSlug) => {
                 const addon = ADDON_CONFIG[addonSlug];
                 return (
-                  <div key={addonSlug} className="flex justify-between text-sm">
-                    <span>{addon.displayName}</span>
-                    <span className="text-gold/90">{formatPrice(addon.monthlyPrice)}</span>
+                  <div key={addonSlug} className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span>{addon.displayName}</span>
+                      <span className="text-gold/90">{formatPrice(addon.monthlyPrice)}</span>
+                    </div>
+                    {addon.setupFee && addon.setupFee > 0 && (
+                      <div className="flex justify-between text-xs text-muted-foreground pl-3">
+                        <span>{addon.displayName} {addon.setupFeeLabel || 'Setup'}</span>
+                        <span className="text-gold/70">${addon.setupFee}</span>
+                      </div>
+                    )}
                   </div>
                 );
               })}

@@ -256,7 +256,11 @@ export default function CheckoutPage() {
     (sum, addon) => sum + (ADDON_CONFIG[addon]?.monthlyPrice || 0), 
     0
   );
-  const setupTotal = tierConfig.setupFee;
+  const addonSetupTotal = state.addons.reduce(
+    (sum, addon) => sum + (ADDON_CONFIG[addon]?.setupFee || 0),
+    0,
+  );
+  const setupTotal = tierConfig.setupFee + addonSetupTotal;
 
   const tierDisplayName = tierConfig?.displayName || 'Checkout';
 
@@ -352,6 +356,8 @@ export default function CheckoutPage() {
                         name: ADDON_CONFIG[slug]?.displayName,
                         monthlyPrice: ADDON_CONFIG[slug]?.monthlyPrice,
                         ghlTag: ADDON_CONFIG[slug]?.ghlTag,
+                        setupFee: ADDON_CONFIG[slug]?.setupFee ?? 0,
+                        setupFeeLabel: ADDON_CONFIG[slug]?.setupFeeLabel,
                       }));
 
                       const { data, error: fnError } = await supabase.functions.invoke('start-checkout', {
