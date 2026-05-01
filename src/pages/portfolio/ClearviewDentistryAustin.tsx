@@ -31,11 +31,11 @@ const ClearviewDentistryAustin = () => {
       accentColor="#0EA5E9"
       
       discoveryPoints={[
-        'Website designed by a friend in 2015 — clinical, cold, and forgettable',
+        'Website designed by a friend in 2015: clinical, cold, and forgettable',
         'Only 12 new patients per month, almost entirely from word-of-mouth referrals',
-        'No online booking — 40% of calls came during unstaffed lunch hour',
+        'No online booking: 40% of calls came during unstaffed lunch hour',
         '17% no-show rate costing approximately $3,400/month in lost revenue',
-        'Anxious patients (their specialty) avoid phone calls — need low-friction booking'
+        'Anxious patients (their specialty) avoid phone calls and need low-friction booking'
       ]}
       
       requirementsPoints={[
@@ -58,7 +58,7 @@ const ClearviewDentistryAustin = () => {
         '89% of appointment requests came through website vs phone on day one',
         'Staff reported patients arriving already feeling calm from website experience',
         'Automated text reminders reduced no-shows from 17% to 4% within 30 days',
-        'New patient count hit 47/month by month three — nearly 4x previous rate'
+        'New patient count hit 47/month by month three, nearly 4x previous rate'
       ]}
       
       results={[

@@ -463,7 +463,7 @@ export default function CompareAIEmployee() {
                 </a>
                 <a href="/let-ai-handle-it/full-ai-employee" className="p-4 rounded-xl border border-border/30 bg-card/30 hover:border-accent/30 transition-colors group">
                   <p className="text-sm font-semibold text-foreground mb-1">"I want AI handling everything"</p>
-                  <p className="text-xs text-muted-foreground mb-2">Voice, SMS, web chat, booking, screening — your complete AI team member.</p>
+                  <p className="text-xs text-muted-foreground mb-2">Voice, SMS, web chat, booking, screening: your complete AI team member.</p>
                   <span className="text-xs text-accent font-medium group-hover:underline">Full AI Employee → $597/mo</span>
                 </a>
               </div>

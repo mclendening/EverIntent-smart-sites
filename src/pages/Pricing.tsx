@@ -60,7 +60,7 @@ const websiteFeatures = [
 
 const websiteTiers = [
   { id: 'launch', name: 'Launch', key: 't1', cta: 'Build My Website', ctaStyle: 'secondary' as const, href: '/smart-websites/launch', checkoutHref: '/checkout/launch', image: smartWebsiteHvacImg, imageAlt: 'Professional business website displayed on laptop screen', description: 'Look professional online in 5 days. Customers find you, trust you, and call you.' },
-  { id: 'capture', name: 'Capture', key: 't2', cta: 'Start Capturing Leads', ctaStyle: 'primary' as const, href: '/smart-websites/capture', checkoutHref: '/checkout/capture', image: missedCallImg, imageAlt: 'Smartphone showing missed call text-back notification from AI', description: 'Every lead gets captured — even the ones who call after hours. AI chat and missed-call text-back included.' },
+  { id: 'capture', name: 'Capture', key: 't2', cta: 'Start Capturing Leads', ctaStyle: 'primary' as const, href: '/smart-websites/capture', checkoutHref: '/checkout/capture', image: missedCallImg, imageAlt: 'Smartphone showing missed call text-back notification from AI', description: 'Every lead gets captured, even the ones who call after hours. AI chat and missed-call text-back included.' },
   { id: 'convert', name: 'Convert', key: 't3', cta: 'Automate My Business', ctaStyle: 'primary' as const, href: '/smart-websites/convert', checkoutHref: '/checkout/convert', image: resultsDashboardImg, imageAlt: 'Business dashboard showing booking and review automation metrics', description: 'Customers book themselves. Reviews collect automatically. Your calendar fills while you work.' },
   { id: 'scale', name: 'Scale', key: 't4', cta: 'Unlock Full AI', ctaStyle: 'secondary' as const, href: '/smart-websites/scale', checkoutHref: '/checkout/scale', image: revenueGrowthImg, imageAlt: 'Revenue growth chart showing business scaling results', description: 'AI runs your website, answers your phone, and fills your calendar. You focus on the work.' },
 ];
@@ -246,11 +246,11 @@ const Pricing = () => {
                 className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors ${annualBilling ? 'bg-accent' : 'bg-muted'}`}
                 aria-label="Toggle annual billing"
               >
-                <span className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-md transition-transform ${annualBilling ? 'translate-x-6' : 'translate-x-1'}`} />
+                <span className={`inline-block h-5 w-5 transform rounded-full bg-background shadow-md transition-transform ${annualBilling ? 'translate-x-6' : 'translate-x-1'}`} />
               </button>
               <span className={`text-sm font-medium ${annualBilling ? 'text-foreground' : 'text-muted-foreground'}`}>Annual</span>
               {annualBilling && (
-                <span className="text-xs font-semibold text-accent bg-accent/10 px-2 py-0.5 rounded-full">Save 2 months</span>
+                <span className="text-xs font-semibold text-accent bg-accent/10 border border-accent/20 px-2 py-0.5 rounded-md">Save 2 months</span>
               )}
             </div>
             {/* Plan Cards - matching AI Employee layout */}

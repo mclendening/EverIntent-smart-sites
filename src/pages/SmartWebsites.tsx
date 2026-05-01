@@ -471,7 +471,7 @@ const SmartWebsites = () => {
                 <div key={index} className="relative">
                   <Card className="h-full text-center hover:border-primary/40 transition-colors">
                     <CardHeader className="pb-2">
-                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-2">
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-2">
                         <span className="text-primary font-bold">{index + 1}</span>
                       </div>
                       <Badge variant="outline" className="mx-auto">{step.day}</Badge>
@@ -551,7 +551,7 @@ const SmartWebsites = () => {
                 </h2>
                 <p className="text-lg text-muted-foreground mb-6">
                   Running email campaigns? Warmy Booster warms up your domain so your messages 
-                  land in the inbox—not the spam folder. Bundled free with Smart Websites: Scale or available 
+                  land in the inbox, not the spam folder. Bundled free with Smart Websites: Scale or available 
                   as a $49/mo add-on.
                 </p>
                 <ul className="space-y-3 mb-6">

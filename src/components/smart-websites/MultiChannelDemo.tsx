@@ -173,7 +173,7 @@ export function MultiChannelDemo() {
               Three Channels. Zero Interruptions.
             </h2>
             <p className="text-lg text-muted-foreground mb-4">
-              While you were on the job, AI handled 3 calls, 2 chats, and an SMS — and booked 3 appointments. This is what Scale looks like.
+              While you were on the job, AI handled 3 calls, 2 chats, and an SMS, and booked 3 appointments. This is what Scale looks like.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
               <a href="/checkout/scale" className="inline-flex items-center justify-center rounded-lg bg-accent text-accent-foreground px-6 py-3 font-semibold hover:opacity-90 transition-opacity">

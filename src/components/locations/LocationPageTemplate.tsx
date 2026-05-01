@@ -156,7 +156,7 @@ export function LocationPageTemplate({
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": ["ProfessionalService", "LocalBusiness"],
-    "name": `EverIntent — ${regionLabel}`,
+    "name": `EverIntent · ${regionLabel}`,
     "url": `https://everintent.com${canonical}`,
     "logo": "https://everintent.com/favicon.svg",
     "description": seoDescription,
