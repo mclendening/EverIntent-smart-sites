@@ -40,7 +40,6 @@ import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import PlaceholderPage from './pages/Placeholder';
 // Sandbox prototypes (noindex, isolated from design tokens)
-import SandboxLayout from './pages/sandbox/SandboxLayout';
 import SandboxHub from './pages/sandbox/SandboxHub';
 import SandboxConcierge from './pages/sandbox/Concierge';
 import SandboxQuietAuthority from './pages/sandbox/QuietAuthority';
@@ -655,6 +654,14 @@ export const routes: RouteRecord[] = [
       })),
       // Upgrade
       createPlaceholderChild(upgradePath),
+      // Sandbox prototypes (noindex, isolated styling, hardcoded inline styles).
+      // Nested inside marketing root so they resolve before the '*' catch-all,
+      // but each prototype renders its own full-screen layout that visually
+      // covers the marketing Header/Footer.
+      { path: 'sandbox', Component: SandboxHub },
+      { path: 'sandbox/concierge', Component: SandboxConcierge },
+      { path: 'sandbox/quiet-authority', Component: SandboxQuietAuthority },
+      { path: 'sandbox/atelier-cobalt', Component: SandboxAtelierCobalt },
       // Catch-all 404
       {
         path: '*',
@@ -702,18 +709,6 @@ export const routes: RouteRecord[] = [
         path: '*',
         element: <Navigate to="/" replace />,
       },
-    ],
-  },
-  // Sandbox prototypes — top-level, isolated from RootLayout/design tokens.
-  // Excluded from prerenderRoutes; noindex meta added in SandboxLayout.
-  {
-    path: '/sandbox',
-    Component: SandboxLayout,
-    children: [
-      { index: true, Component: SandboxHub },
-      { path: 'concierge', Component: SandboxConcierge },
-      { path: 'quiet-authority', Component: SandboxQuietAuthority },
-      { path: 'atelier-cobalt', Component: SandboxAtelierCobalt },
     ],
   },
 ];

@@ -3,6 +3,7 @@
  * Uses inline styles only. No design tokens. Noindex.
  */
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const card: React.CSSProperties = {
   display: 'block',
@@ -41,8 +42,15 @@ const palettes = [
 ];
 
 export default function SandboxHub() {
+  useEffect(() => {
+    const meta = document.createElement('meta');
+    meta.name = 'robots';
+    meta.content = 'noindex, nofollow, noarchive, nosnippet';
+    document.head.appendChild(meta);
+    return () => { document.head.removeChild(meta); };
+  }, []);
   return (
-    <div style={{ minHeight: '100vh', background: '#fafafa', fontFamily: 'system-ui, -apple-system, Segoe UI, Roboto, sans-serif', color: '#111' }}>
+    <div style={{ position: 'fixed', inset: 0, zIndex: 9999, overflowY: 'auto', background: '#fafafa', fontFamily: 'system-ui, -apple-system, Segoe UI, Roboto, sans-serif', color: '#111' }}>
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '64px 24px' }}>
         <p style={{ fontSize: '12px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#888', margin: 0 }}>
           Internal · Noindex

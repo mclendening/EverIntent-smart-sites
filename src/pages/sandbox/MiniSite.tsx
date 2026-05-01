@@ -3,7 +3,7 @@
  * Renders Home, Product, Compare, Checkout as one SPA-style page with
  * internal section nav. ALL styling inline; no design tokens.
  */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export interface PaletteSpec {
@@ -27,9 +27,20 @@ type View = 'home' | 'product' | 'compare' | 'checkout';
 export default function MiniSite({ p }: { p: PaletteSpec }) {
   const [view, setView] = useState<View>('home');
 
+  useEffect(() => {
+    const meta = document.createElement('meta');
+    meta.name = 'robots';
+    meta.content = 'noindex, nofollow, noarchive, nosnippet';
+    document.head.appendChild(meta);
+    return () => { document.head.removeChild(meta); };
+  }, []);
+
   return (
     <div style={{
-      minHeight: '100vh',
+      position: 'fixed',
+      inset: 0,
+      zIndex: 9999,
+      overflowY: 'auto',
       background: p.bg,
       color: p.fg,
       fontFamily: p.fontBody,
