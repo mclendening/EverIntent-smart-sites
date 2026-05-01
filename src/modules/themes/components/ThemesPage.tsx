@@ -183,10 +183,12 @@ export default function AdminThemes() {
             <Button
               onClick={generateProductionConfig}
               size="sm"
-              className="text-[10px] h-7 px-2 bg-accent hover:bg-accent/90 text-accent-foreground"
+              disabled
+              title="Publishing disabled — theme source is now src/config/themes.ts. Edit via PR."
+              className="text-[10px] h-7 px-2 bg-accent/40 text-accent-foreground cursor-not-allowed opacity-60"
             >
               <Rocket className="h-3 w-3 mr-1" />
-              <span className="hidden sm:inline">Publish</span>
+              <span className="hidden sm:inline">Publish (disabled)</span>
             </Button>
             <span className="hidden md:inline text-[10px] text-muted-foreground">{user?.email}</span>
           </div>
