@@ -38,3 +38,19 @@ export function trackCheckoutSubmitted(tier: string, monthlyTotal: number, setup
 export function trackCheckoutRedirected(tier: string, redirectUrl: string) {
   pushEvent('checkout_redirected', { tier, redirect_url: redirectUrl });
 }
+
+// ============================================
+// Trusted AI Upgrade events (ND-12)
+// ============================================
+
+export function trackTrustedAIUpsellShown(tier: string) {
+  pushEvent('trusted_ai_upsell_shown', { tier });
+}
+
+export function trackTrustedAIUpsellDecision(tier: string, decision: 'accepted' | 'declined') {
+  pushEvent('trusted_ai_upsell_decision', { tier, decision });
+}
+
+export function trackTrustedAIPageCtaClicked(sourceSection: string) {
+  pushEvent('trusted_ai_page_cta_clicked', { source_section: sourceSection });
+}
