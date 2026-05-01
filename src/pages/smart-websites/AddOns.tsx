@@ -33,6 +33,30 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { SEO } from '@/components/SEO';
 import { trackTrustedAIUpsellShown, trackTrustedAIPageCtaClicked } from '@/lib/checkoutAnalytics';
 import { ADDON_CONFIG } from '@/config/checkoutConfig';
+import { faqData } from '@/data/faqs';
+import { TIER_CONFIG } from '@/config/checkoutConfig';
+
+/**
+ * Derive the eligibility one-liner from ADDON_CONFIG so the hub never drifts
+ * from the source of truth in checkoutConfig.
+ */
+function buildTrustedAIEligibilityNote(): string {
+  const tiers = ADDON_CONFIG['trusted-ai'].eligibleTiers ?? [];
+  const aiTiers = tiers.filter((t) => TIER_CONFIG[t]?.productLine === 'ai-employee');
+  return aiTiers.length > 0 ? 'Requires an AI Employee plan' : 'Eligibility: see plan';
+}
+
+/**
+ * Pull the two highest-priority Trusted AI FAQs from the centralized FAQ
+ * module so the modal stays in sync with /faq, /trusted-ai, and pricing.
+ */
+function getTrustedAICardFaqs(): { q: string; a: string }[] {
+  return faqData
+    .filter((f) => f.products?.includes('trusted-ai'))
+    .sort((a, b) => a.priority - b.priority)
+    .slice(0, 2)
+    .map((f) => ({ q: f.question, a: f.answer }));
+}
 import {
   Dialog,
   DialogContent,
