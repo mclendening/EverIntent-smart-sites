@@ -102,6 +102,19 @@ export default function CheckoutPage() {
     }
   }, [isHydrated, searchParams]);
 
+  // Auto-add deep-linked addon (e.g. ?addon=trusted-ai)
+  useEffect(() => {
+    if (!isHydrated) return;
+    const addonParam = searchParams.get('addon');
+    if (!addonParam || !(addonParam in ADDON_CONFIG)) return;
+    const addonSlug = addonParam as AddonSlug;
+    setState(prev =>
+      prev.addons.includes(addonSlug)
+        ? prev
+        : { ...prev, addons: [...prev.addons, addonSlug] },
+    );
+  }, [isHydrated, searchParams]);
+
   // Handle ?resume=[id] OR sessionStorage restore — runs ONCE after hydration
   useEffect(() => {
     if (!isHydrated || hasInitialized.current) return;
