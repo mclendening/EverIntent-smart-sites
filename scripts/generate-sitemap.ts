@@ -143,6 +143,7 @@ function getPriority(route: string): string {
   // 0.8 — Product tiers
   if (route.startsWith('/smart-websites/') && !route.includes('add-ons')) return '0.8';
   if (route.startsWith('/let-ai-handle-it/')) return '0.8';
+  if (route === '/trusted-ai') return '0.8';
 
   // 0.7 — Industries, portfolio case studies, compare pages
   if (route === '/industries') return '0.7';
@@ -235,6 +236,8 @@ const ALL_ROUTES: string[] = [
   '/upgrade',
   // Standalone
   '/warmy-email-deliverability',
+  // Trusted AI Upgrade
+  '/trusted-ai',
   // Compare
   '/compare-websites', '/compare-ai-employee',
   // Portfolio

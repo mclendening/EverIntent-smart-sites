@@ -19,7 +19,8 @@ import {
   SMSDemo,
   AnimatedFlowDiagram, 
   DashboardPreview, 
-  ExpandableFeatureGrid 
+  ExpandableFeatureGrid,
+  TrustedAIUpgradeCard
 } from '@/components/ai-employee';
 import { fullAiFeatures } from '@/data/features';
 import { 
@@ -319,6 +320,9 @@ export default function FullAIEmployee() {
         {/* Final CTA */}
         <section className="py-20 md:py-32 bg-accent/5">
           <div className="container">
+            <div className="max-w-4xl mx-auto mb-12">
+              <TrustedAIUpgradeCard variant="inline" tierContext="full-ai" />
+            </div>
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
                 <span className="text-foreground">Ready for the</span>{' '}

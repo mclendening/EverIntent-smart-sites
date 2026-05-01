@@ -262,6 +262,16 @@ export default function HomeServices() {
                   <a href="/contact">Talk to Sales</a>
                 </Button>
               </div>
+
+              <div className="mt-8 pt-6 border-t border-border/40 text-center">
+                <p className="text-sm text-muted-foreground">
+                  Worried about AI saying the wrong thing to a customer?{' '}
+                  <a href="/trusted-ai" className="text-accent font-medium hover:underline">
+                    See the Trusted AI Upgrade
+                  </a>
+                  {' '}: $147/mo + $497 AI Training.
+                </p>
+              </div>
             </div>
           </div>
         </div>

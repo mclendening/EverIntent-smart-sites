@@ -11,3 +11,5 @@ export { FeatureGrid } from './FeatureGrid';
 export { ExpandableFeatureGrid } from './ExpandableFeatureCard';
 export type { ExpandableFeature } from './ExpandableFeatureCard';
 export { WhatsUnlimited } from './WhatsUnlimited';
+export { TrustedAIUpgradeCard } from './TrustedAIUpgradeCard';
+export type { TrustedAIUpgradeCardProps } from './TrustedAIUpgradeCard';
