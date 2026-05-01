@@ -241,7 +241,7 @@ export function CheckoutStep1Selection({
             role="region"
             aria-label="Recommended Trusted AI Upgrade"
           >
-            <span className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-gold text-background">
+            <span className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-gold text-background">
               Recommended
             </span>
             <div className="flex items-start gap-3 mb-3">

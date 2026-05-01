@@ -471,7 +471,7 @@ const SmartWebsites = () => {
                 <div key={index} className="relative">
                   <Card className="h-full text-center hover:border-primary/40 transition-colors">
                     <CardHeader className="pb-2">
-                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-2">
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-2">
                         <span className="text-primary font-bold">{index + 1}</span>
                       </div>
                       <Badge variant="outline" className="mx-auto">{step.day}</Badge>

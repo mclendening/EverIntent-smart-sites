@@ -74,7 +74,7 @@ const HonestWrenchAuto = () => {
       ]}
       
       testimonial={{
-        quote: "Marcus showed me photos of exactly what was wrong with my brakes—no pressure, no upselling, just facts. First time I've ever trusted a mechanic completely. The new website captures that same honesty perfectly.",
+        quote: "Marcus showed me photos of exactly what was wrong with my brakes, no pressure, no upselling, just facts. First time I've ever trusted a mechanic completely. The new website captures that same honesty perfectly.",
         author: "James M.",
         title: "Riverside Customer (3 years)"
       }}
