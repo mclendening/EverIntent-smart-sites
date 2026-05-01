@@ -704,4 +704,16 @@ export const routes: RouteRecord[] = [
       },
     ],
   },
+  // Sandbox prototypes — top-level, isolated from RootLayout/design tokens.
+  // Excluded from prerenderRoutes; noindex meta added in SandboxLayout.
+  {
+    path: '/sandbox',
+    Component: SandboxLayout,
+    children: [
+      { index: true, Component: SandboxHub },
+      { path: 'concierge', Component: SandboxConcierge },
+      { path: 'quiet-authority', Component: SandboxQuietAuthority },
+      { path: 'atelier-cobalt', Component: SandboxAtelierCobalt },
+    ],
+  },
 ];
