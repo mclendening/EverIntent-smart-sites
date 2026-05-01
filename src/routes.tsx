@@ -77,6 +77,7 @@ import SmartGrowth from './pages/smart-websites/SmartGrowth';
 import AddOns from './pages/smart-websites/AddOns';
 import CompareWebsites from './pages/CompareWebsites';
 import CompareAIEmployee from './pages/CompareAIEmployee';
+import TrustedAI from './pages/TrustedAI';
 // Admin page components — lazy-loaded for bundle splitting (BRD v36.11 §D5 P2).
 // Safe because admin routes are CSR-only (excluded from prerenderRoutes).
 const AdminLogin = React.lazy(() => import('./pages/admin/Login'));
@@ -419,6 +420,7 @@ export const prerenderRoutes: string[] = [
   ...resourcePaths, // Placeholder pages with noIndex — valid static responses
   upgradePath,
   '/warmy-email-deliverability', // Warmy full service page
+  '/trusted-ai', // Trusted AI Upgrade landing page
   ...locationPaths, // Location landing pages (Gap 8)
 ];
 
