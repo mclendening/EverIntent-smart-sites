@@ -157,7 +157,7 @@ export function Header() {
           <Sheet>
             <SheetTrigger asChild>
               <button
-                className="w-12 h-12 flex items-center justify-center rounded-full bg-background/80 border border-border/50"
+                className="w-12 h-12 flex items-center justify-center rounded-xl bg-background/80 border border-border/50"
                 aria-label="Open menu"
               >
                 <Menu className="h-6 w-6 text-foreground" />
