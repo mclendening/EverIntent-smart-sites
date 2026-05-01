@@ -298,7 +298,7 @@ const addOnPacks: AddOnPack[] = [
     ],
     recommended: [],
     goldAccent: true,
-    eligibilityNote: 'Requires an AI Employee plan',
+    eligibilityNote: buildTrustedAIEligibilityNote(),
     primaryCtaHref: '/trusted-ai',
     primaryCtaLabel: 'See how it works',
     hideLearnMore: true,
@@ -311,10 +311,7 @@ const addOnPacks: AddOnPack[] = [
         { icon: Clock, title: 'Staged Before Launch', text: 'Run the full conversation in staging until it behaves the way you want.' },
       ],
       idealFor: ['Regulated industries', 'High-ticket service businesses', 'Anyone who has been burned by hallucinated AI'],
-      faq: [
-        { q: 'Which plans can add Trusted AI?', a: 'After Hours, Front Office, Full AI Employee, Web Chat, and Scale. It layers on top of any AI Employee plan.' },
-        { q: 'Why the setup fee?', a: 'The $497 covers the visual canvas build, staging, and your approval cycle. It is the AI Training & Implementation work that makes Trusted AI trustworthy.' },
-      ],
+      faq: getTrustedAICardFaqs(),
     },
   },
 ];
