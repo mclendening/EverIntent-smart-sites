@@ -1,7 +1,17 @@
 /**
- * Static Theme Configuration
- * Generated: 2026-04-09
- * DO NOT edit manually - use admin theme editor.
+ * Static Theme Configuration — AUTHORITATIVE SOURCE OF TRUTH
+ *
+ * As of the theme system migration (config-file authority), this file is the
+ * single source of truth for all production theming. The `site_themes`,
+ * `published_theme_configs`, `page_theme_assignments`, and `logo_versions`
+ * Supabase tables are READ-ONLY and scheduled for removal.
+ *
+ * Edit theme tokens here, in version control, with PR review. The admin
+ * theme editor is frozen and now serves only as a visual designer that
+ * exports a token patch / opens a PR.
+ *
+ * Day/Night, ADA widget, SSG, SEO, and per-route theme overrides all read
+ * from this file. Zero runtime database calls.
  */
 
 export interface LogoElementConfig {
