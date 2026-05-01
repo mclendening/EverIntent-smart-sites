@@ -22,7 +22,7 @@ export const PortfolioFilters = ({ activeFilter, onFilterChange }: PortfolioFilt
           key={option.value}
           onClick={() => onFilterChange(option.value)}
           className={cn(
-            'px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-sm font-medium transition-all duration-300',
+            'px-4 sm:px-6 py-2 sm:py-2.5 rounded-md text-sm font-medium transition-all duration-300',
             activeFilter === option.value
               ? 'bg-accent text-accent-foreground shadow-button'
               : 'bg-card border border-border text-muted-foreground hover:text-foreground hover:border-accent/50'
