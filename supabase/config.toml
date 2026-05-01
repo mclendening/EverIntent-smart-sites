@@ -18,9 +18,6 @@ verify_jwt = false
 [functions.ghl-admin-fields]
 verify_jwt = true
 
-[functions.sync-theme-to-github]
-verify_jwt = true
-
 [functions.ghl-config]
 verify_jwt = false
 

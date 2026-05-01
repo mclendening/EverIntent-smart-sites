@@ -33,7 +33,7 @@ import { Layout } from '@/components/layout/Layout';
 import { AdminGuard } from '@/components/admin/AdminGuard';
 import { ClientOnly } from '@/components/ClientOnly';
 import { ScrollToTop } from '@/components/ScrollToTop';
-import { getThemeForRoute, applyThemeToRoot } from '@/modules/themes/lib/themeConfig';
+import { getThemeForRoute, applyThemeToRoot } from '@/config/themes';
 
 // Direct page imports for SSG compatibility
 import Index from './pages/Index';
@@ -83,7 +83,6 @@ import TrustedAI from './pages/TrustedAI';
 const AdminLogin = React.lazy(() => import('./pages/admin/Login'));
 const AdminResetPassword = React.lazy(() => import('./pages/admin/ResetPassword'));
 const AdminDashboard = React.lazy(() => import('./pages/admin/Dashboard'));
-const ThemeTestPage = React.lazy(() => import('@/modules/themes/components/ThemeTestPage'));
 
 // Module registry — triggers self-registration of all modules
 import { getModules } from './modules';
@@ -387,7 +386,6 @@ const upgradePath = '/upgrade';
 const adminPaths = [
   '/admin/login',
   '/admin',
-  '/admin/themes',
   '/admin/submissions',
   '/admin/portfolio',
   '/admin/testimonials',
@@ -693,15 +691,6 @@ export const routes: RouteRecord[] = [
           Component: undefined,
         }))
       ),
-      // Legacy routes not yet migrated to modules
-      {
-        path: 'theme-test',
-        element: (
-          <AdminGuard>
-            <ThemeTestPage />
-          </AdminGuard>
-        ),
-      },
       // Catch-all: redirect unknown admin routes to home
       {
         path: '*',
