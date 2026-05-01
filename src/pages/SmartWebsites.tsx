@@ -234,7 +234,7 @@ const SmartWebsites = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-16 animate-fade-in" style={{ animationDelay: '300ms' }}>
               <a 
                 href="/pricing" 
-                className="btn-gold btn-glow w-full sm:w-auto"
+                className="btn-gold btn-glow rounded-lg px-6 py-3 w-full sm:w-auto"
               >
                 See All Pricing
               </a>
@@ -437,7 +437,7 @@ const SmartWebsites = () => {
                     <Button 
                       asChild 
                       size="sm"
-                      className={tier.highlight ? 'btn-gold text-xs' : 'text-xs'}
+                      className={tier.highlight ? 'btn-gold rounded-lg text-xs' : 'text-xs'}
                       variant={tier.highlight ? "default" : "outline"}
                     >
                       <a href={`/checkout/${tier.name === 'Launch' ? 'launch' : tier.name === 'Capture' ? 'capture' : tier.name === 'Convert' ? 'convert' : 'scale'}`}>{tier.cta}</a>

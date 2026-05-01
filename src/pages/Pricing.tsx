@@ -517,7 +517,7 @@ const Pricing = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/checkout/launch"
-                className="btn-gold btn-glow"
+                className="btn-gold btn-glow rounded-lg px-6 py-3"
               >
                 Start with Launch: $249
               </a>
