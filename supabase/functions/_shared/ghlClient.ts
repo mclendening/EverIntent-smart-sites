@@ -30,6 +30,7 @@ export const GHL_TAGS = {
   ADDON_SOCIAL_AUTOPILOT: 'ei: addon - social autopilot',
   ADDON_OMNICHANNEL:      'ei: addon - omnichannel inbox',
   ADDON_UNLIMITED_AI:     'ei: addon - unlimited ai',
+  ADDON_TRUSTED_AI:       'ei: addon - trusted ai',
   // Checkout Funnel Tags
   CHECKOUT_PENDING:       'ei: checkout - pending',
   CHECKOUT_LAUNCH:        'ei: checkout - launch',
@@ -89,6 +90,7 @@ export const ADDON_TAG_MAP: Record<string, string> = {
   'social-autopilot':  GHL_TAGS.ADDON_SOCIAL_AUTOPILOT,
   'omnichannel-inbox': GHL_TAGS.ADDON_OMNICHANNEL,
   'unlimited-ai':      GHL_TAGS.ADDON_UNLIMITED_AI,
+  'trusted-ai':        GHL_TAGS.ADDON_TRUSTED_AI,
 };
 
 /** Builds affiliate tag from partner slug */

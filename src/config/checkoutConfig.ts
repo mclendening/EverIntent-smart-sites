@@ -178,7 +178,8 @@ export type AddonSlug =
   | 'social-autopilot'
   | 'omnichannel-inbox'
   | 'ai-voice-chat'
-  | 'unlimited-ai';
+  | 'unlimited-ai'
+  | 'trusted-ai';
 
 export interface AddonConfig {
   slug: AddonSlug;
@@ -188,6 +189,14 @@ export interface AddonConfig {
   ghlTag: string;
   /** Tiers where this add-on is already included */
   includedInTiers?: TierSlug[];
+  /** Optional one-time setup fee (e.g. AI training & implementation) */
+  setupFee?: number;
+  /** Display label for the one-time setup line item */
+  setupFeeLabel?: string;
+  /** Tiers this add-on is offered with (omit = all tiers) */
+  eligibleTiers?: TierSlug[];
+  /** When true, the add-on is highlighted as a recommended upgrade */
+  recommended?: boolean;
 }
 
 export const ADDON_CONFIG: Record<AddonSlug, AddonConfig> = {
@@ -235,6 +244,17 @@ export const ADDON_CONFIG: Record<AddonSlug, AddonConfig> = {
     monthlyPrice: 149,
     ghlTag: 'ei: addon - unlimited ai',
     includedInTiers: ['full-ai'],
+  },
+  'trusted-ai': {
+    slug: 'trusted-ai',
+    displayName: 'Trusted AI Upgrade',
+    description: 'AI built on a visual canvas, staged, and approved by you before it talks to a customer.',
+    monthlyPrice: 147,
+    setupFee: 497,
+    setupFeeLabel: 'AI Training & Implementation',
+    ghlTag: 'ei: addon - trusted ai',
+    eligibleTiers: ['web-chat', 'after-hours', 'front-office', 'full-ai', 'scale'],
+    recommended: true,
   },
 };
 

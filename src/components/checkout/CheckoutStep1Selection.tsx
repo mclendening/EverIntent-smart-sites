@@ -4,7 +4,7 @@
  * @brd-reference Detail-Checkout-design-v5.2.md Section 4.1
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -12,7 +12,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TIER_CONFIG, ADDON_CONFIG, formatPrice, getTiersByProductLine, isAddonIncludedInTier, type TierSlug, type AddonSlug } from '@/config/checkoutConfig';
 import type { CheckoutState } from '@/pages/checkout/CheckoutPage';
 import { cn } from '@/lib/utils';
-import { Check, Pencil, Globe, Bot, ArrowLeft } from 'lucide-react';
+import { Check, Pencil, Globe, Bot, ArrowLeft, Shield } from 'lucide-react';
+import {
+  trackTrustedAIUpsellShown,
+  trackTrustedAIUpsellDecision,
+} from '@/lib/checkoutAnalytics';
 
 interface CheckoutStep1SelectionProps {
   state: CheckoutState;
@@ -29,7 +33,32 @@ export function CheckoutStep1Selection({
 }: CheckoutStep1SelectionProps) {
   const tierConfig = TIER_CONFIG[state.tier];
   const [isChangingPlan, setIsChangingPlan] = useState(false);
-  const allAddons = Object.values(ADDON_CONFIG);
+  const allAddons = Object.values(ADDON_CONFIG).filter(a => !a.recommended);
+  const trustedAI = ADDON_CONFIG['trusted-ai'];
+  const trustedAIEligible =
+    trustedAI.eligibleTiers?.includes(state.tier) ?? false;
+  const trustedAISelected = state.addons.includes('trusted-ai');
+  const [trustedAIDeclined, setTrustedAIDeclined] = useState(false);
+  const showTrustedAIUpsell =
+    trustedAIEligible && !trustedAISelected && !trustedAIDeclined;
+  const hasTrackedShown = useRef(false);
+
+  useEffect(() => {
+    if (showTrustedAIUpsell && !hasTrackedShown.current) {
+      hasTrackedShown.current = true;
+      trackTrustedAIUpsellShown(state.tier);
+    }
+  }, [showTrustedAIUpsell, state.tier]);
+
+  const handleTrustedAIAccept = () => {
+    trackTrustedAIUpsellDecision(state.tier, 'accepted');
+    onAddonToggle('trusted-ai');
+  };
+
+  const handleTrustedAIDecline = () => {
+    trackTrustedAIUpsellDecision(state.tier, 'declined');
+    setTrustedAIDeclined(true);
+  };
 
   const websiteTiers = getTiersByProductLine('smart-websites');
   const aiTiers = getTiersByProductLine('ai-employee');
@@ -204,6 +233,71 @@ export function CheckoutStep1Selection({
           <h2 className="text-lg font-semibold">Enhance Your Plan</h2>
           <p className="text-sm text-muted-foreground">Add optional features to supercharge your results</p>
         </div>
+
+        {/* Trusted AI Upsell — rendered above the standard add-on grid */}
+        {showTrustedAIUpsell && (
+          <div
+            className="relative overflow-hidden rounded-xl border-2 border-gold/40 bg-gradient-to-br from-gold/[0.07] via-card to-card p-5"
+            role="region"
+            aria-label="Recommended Trusted AI Upgrade"
+          >
+            <span className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-gold text-background">
+              Recommended
+            </span>
+            <div className="flex items-start gap-3 mb-3">
+              <div
+                className="shrink-0 w-10 h-10 rounded-lg bg-gold/15 flex items-center justify-center"
+                aria-hidden="true"
+              >
+                <Shield className="w-5 h-5 text-gold" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-gold">
+                  Recommended Upgrade
+                </p>
+                <h3 className="text-lg font-bold text-foreground leading-snug">
+                  Add Trusted AI: the AI that does exactly what you approved
+                </h3>
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+              Standard AI is confident but not always correct. Trusted AI is built on a visual
+              canvas, staged, and approved by you before it talks to a customer.
+            </p>
+            <p className="text-sm font-medium text-foreground mb-4">
+              <span className="text-gold">+ ${trustedAI.monthlyPrice}/mo</span>
+              <span className="text-muted-foreground"> · </span>
+              <span className="text-gold">+ ${trustedAI.setupFee} one-time {trustedAI.setupFeeLabel}</span>
+            </p>
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+              <Button
+                onClick={handleTrustedAIAccept}
+                className="btn-gold flex-1 min-h-[44px]"
+              >
+                Add to my plan
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={handleTrustedAIDecline}
+                className="flex-1 min-h-[44px] text-muted-foreground hover:text-foreground"
+              >
+                Skip, I'll risk it
+              </Button>
+            </div>
+            <p className="text-xs text-muted-foreground mt-3 leading-relaxed">
+              You can add this later. Every conversation before then is one you can't take back.{' '}
+              <a
+                href="/trusted-ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent underline underline-offset-2 hover:text-gold"
+              >
+                Learn more
+              </a>
+            </p>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" role="group" aria-label="Available add-ons">
           {allAddons.map((addon) => {
             const isIncluded = isAddonIncludedInTier(addon.slug, state.tier);

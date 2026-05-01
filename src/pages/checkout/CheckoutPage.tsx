@@ -102,6 +102,19 @@ export default function CheckoutPage() {
     }
   }, [isHydrated, searchParams]);
 
+  // Auto-add deep-linked addon (e.g. ?addon=trusted-ai)
+  useEffect(() => {
+    if (!isHydrated) return;
+    const addonParam = searchParams.get('addon');
+    if (!addonParam || !(addonParam in ADDON_CONFIG)) return;
+    const addonSlug = addonParam as AddonSlug;
+    setState(prev =>
+      prev.addons.includes(addonSlug)
+        ? prev
+        : { ...prev, addons: [...prev.addons, addonSlug] },
+    );
+  }, [isHydrated, searchParams]);
+
   // Handle ?resume=[id] OR sessionStorage restore — runs ONCE after hydration
   useEffect(() => {
     if (!isHydrated || hasInitialized.current) return;
@@ -256,7 +269,11 @@ export default function CheckoutPage() {
     (sum, addon) => sum + (ADDON_CONFIG[addon]?.monthlyPrice || 0), 
     0
   );
-  const setupTotal = tierConfig.setupFee;
+  const addonSetupTotal = state.addons.reduce(
+    (sum, addon) => sum + (ADDON_CONFIG[addon]?.setupFee || 0),
+    0,
+  );
+  const setupTotal = tierConfig.setupFee + addonSetupTotal;
 
   const tierDisplayName = tierConfig?.displayName || 'Checkout';
 
@@ -352,6 +369,8 @@ export default function CheckoutPage() {
                         name: ADDON_CONFIG[slug]?.displayName,
                         monthlyPrice: ADDON_CONFIG[slug]?.monthlyPrice,
                         ghlTag: ADDON_CONFIG[slug]?.ghlTag,
+                        setupFee: ADDON_CONFIG[slug]?.setupFee ?? 0,
+                        setupFeeLabel: ADDON_CONFIG[slug]?.setupFeeLabel,
                       }));
 
                       const { data, error: fnError } = await supabase.functions.invoke('start-checkout', {

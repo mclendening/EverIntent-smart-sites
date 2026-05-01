@@ -144,7 +144,12 @@ serve(async (req) => {
 
       // Build detailed sales note
       const addonLines = Array.isArray(addons) && addons.length
-        ? addons.map((a: { name: string; monthlyPrice: number }) => `  • ${a.name} ($${a.monthlyPrice}/mo)`).join('\n')
+        ? addons.map((a: { name: string; monthlyPrice: number; setupFee?: number; setupFeeLabel?: string }) => {
+            const setup = a.setupFee && a.setupFee > 0
+              ? ` + $${a.setupFee} ${a.setupFeeLabel || 'one-time setup'}`
+              : '';
+            return `  • ${a.name} ($${a.monthlyPrice}/mo${setup})`;
+          }).join('\n')
         : '  None';
 
       const noteBody = `🛒 Checkout Started
