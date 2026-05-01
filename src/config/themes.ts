@@ -1,7 +1,17 @@
 /**
- * Static Theme Configuration
- * Generated: 2026-04-09
- * DO NOT edit manually - use admin theme editor.
+ * Static Theme Configuration — AUTHORITATIVE SOURCE OF TRUTH
+ *
+ * As of the theme system migration (config-file authority), this file is the
+ * single source of truth for all production theming. The `site_themes`,
+ * `published_theme_configs`, `page_theme_assignments`, and `logo_versions`
+ * Supabase tables are READ-ONLY and scheduled for removal.
+ *
+ * Edit theme tokens here, in version control, with PR review. The admin
+ * theme editor is frozen and now serves only as a visual designer that
+ * exports a token patch / opens a PR.
+ *
+ * Day/Night, ADA widget, SSG, SEO, and per-route theme overrides all read
+ * from this file. Zero runtime database calls.
  */
 
 export interface LogoElementConfig {
@@ -42,6 +52,20 @@ export interface ThemeConfig {
     intentConfig: LogoElementConfig;
     streakConfig: StreakElementConfig;
     taglineConfig: TaglineElementConfig;
+  };
+  adaWidgetConfig?: {
+    enabled: boolean;
+    position: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
+    hideOnMobile: boolean;
+    hideOnDesktop: boolean;
+    pauseUntil: string | null;
+    hiddenIndefinitely: boolean;
+    iconType: 'universal' | 'wheelchair' | 'eye' | 'human';
+    iconColor: string;
+    iconBgColor: string;
+    iconSize: number;
+    iconShape: 'circle' | 'rounded-square' | 'pill';
+    readingHandleSize: number;
   };
 }
 
@@ -378,10 +402,25 @@ export const activeTheme: ThemeConfig = {
       "primaryForeground": "0 0% 100%",
       "secondaryForeground": "60 9% 98%"
   },
+  adaWidgetConfig: {
+    enabled: true,
+    position: 'bottom-left',
+    hideOnMobile: false,
+    hideOnDesktop: false,
+    pauseUntil: null,
+    hiddenIndefinitely: false,
+    iconType: 'universal',
+    iconColor: '0 0% 100%',
+    iconBgColor: '240 70% 60%',
+    iconSize: 48,
+    iconShape: 'circle',
+    readingHandleSize: 28,
+  },
 };
 
 export const routeThemeMappings: RouteThemeMapping[] = [
-  { route: '/', themeId: '38aafcee-1959-4968-b74b-6c2d53815323' },
+  // No route-specific overrides currently; all routes use activeTheme.
+  // Add { route: '/foo', themeId: 'foo-theme' } and register the theme in publishedThemes below.
 ];
 
 export const publishedThemes: Record<string, ThemeConfig> = { 'ocean-blue': activeTheme };

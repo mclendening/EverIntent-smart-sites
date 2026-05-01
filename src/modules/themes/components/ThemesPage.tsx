@@ -183,10 +183,12 @@ export default function AdminThemes() {
             <Button
               onClick={generateProductionConfig}
               size="sm"
-              className="text-[10px] h-7 px-2 bg-accent hover:bg-accent/90 text-accent-foreground"
+              disabled
+              title="Publishing disabled — theme source is now src/config/themes.ts. Edit via PR."
+              className="text-[10px] h-7 px-2 bg-accent/40 text-accent-foreground cursor-not-allowed opacity-60"
             >
               <Rocket className="h-3 w-3 mr-1" />
-              <span className="hidden sm:inline">Publish</span>
+              <span className="hidden sm:inline">Publish (disabled)</span>
             </Button>
             <span className="hidden md:inline text-[10px] text-muted-foreground">{user?.email}</span>
           </div>
@@ -195,6 +197,11 @@ export default function AdminThemes() {
 
       {/* ── Drill-down views ── */}
       <main className="flex-1 min-h-0">
+        {/* ── Authority Migration Banner ── */}
+        <div className="border-b border-amber-500/40 bg-amber-500/10 px-3 py-2 text-[11px] text-foreground/90">
+          <strong className="text-amber-600 dark:text-amber-400">Theme source moved to <code className="px-1 py-0.5 rounded bg-background/60">src/config/themes.ts</code>.</strong>{' '}
+          The DB-backed editor is in read-only / preview mode. Save and Publish are disabled. Edit tokens in the config file via PR. Existing themes here are kept as a visual designer + reference snapshot.
+        </div>
         {admin.view === 'list' && (
           <ThemeListView
             themes={admin.themes}
