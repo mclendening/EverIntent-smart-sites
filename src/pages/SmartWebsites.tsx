@@ -234,7 +234,7 @@ const SmartWebsites = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-16 animate-fade-in" style={{ animationDelay: '300ms' }}>
               <a 
                 href="/pricing" 
-                className="btn-gold btn-glow w-full sm:w-auto"
+                className="btn-gold btn-glow rounded-lg px-6 py-3 w-full sm:w-auto"
               >
                 See All Pricing
               </a>
@@ -298,9 +298,9 @@ const SmartWebsites = () => {
               return (
               <Card key={index} id={tierId} className={`border ${tier.highlight ? 'border-accent/60 shadow-gold-glow' : 'border-border/50 hover:border-accent/30'} transition-all duration-300`}>
                 <CardHeader className="text-center pb-4">
-                  {tier.highlight && (
-                    <Badge className="mb-2 mx-auto bg-accent text-accent-foreground">Most Popular</Badge>
-                  )}
+                    {tier.highlight && (
+                      <Badge className="mb-2 mx-auto bg-accent text-accent-foreground">Most Popular</Badge>
+                    )}
                   <CardTitle className="text-2xl">{tier.name}</CardTitle>
                   <CardDescription>{tier.tagline}</CardDescription>
                   <div className="mt-4">
@@ -356,7 +356,7 @@ const SmartWebsites = () => {
                     {/* Popular indicator - gold top bar */}
                     {tier.highlight && (
                       <div className="absolute -top-1 left-4 right-4">
-                        <div className="h-1.5 bg-accent rounded-full" />
+                        <div className="h-1.5 bg-accent rounded-sm" />
                         <div className="mt-3 text-[10px] font-bold tracking-[0.15em] uppercase text-accent">
                           Most Popular
                         </div>
@@ -437,7 +437,7 @@ const SmartWebsites = () => {
                     <Button 
                       asChild 
                       size="sm"
-                      className={tier.highlight ? 'btn-gold text-xs' : 'text-xs'}
+                      className={tier.highlight ? 'btn-gold rounded-lg text-xs' : 'text-xs'}
                       variant={tier.highlight ? "default" : "outline"}
                     >
                       <a href={`/checkout/${tier.name === 'Launch' ? 'launch' : tier.name === 'Capture' ? 'capture' : tier.name === 'Convert' ? 'convert' : 'scale'}`}>{tier.cta}</a>

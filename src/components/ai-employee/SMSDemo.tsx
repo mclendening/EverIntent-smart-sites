@@ -139,7 +139,7 @@ export function SMSDemo() {
               <div key={msg.id}>
                 {msg.type === 'system' ? (
                   <div className="flex justify-center">
-                    <div className="bg-white/10 text-white/70 text-xs px-3 py-1.5 rounded-full">
+                    <div className="bg-white/10 text-white/70 text-xs px-3 py-1.5 rounded-md">
                       {msg.text}
                     </div>
                   </div>
@@ -188,17 +188,17 @@ export function SMSDemo() {
           {/* Input Bar */}
           <div className="flex items-center gap-2 px-3 py-2 border-t border-white/10">
             <button className="text-[#007AFF] text-xl">+</button>
-            <div className="flex-1 bg-[#1c1c1e] rounded-full px-4 py-2 text-white/40 text-sm">
+            <div className="flex-1 bg-[#1c1c1e] rounded-lg px-4 py-2 text-white/40 text-sm">
               Message…
             </div>
-            <button className="w-8 h-8 bg-[#007AFF] rounded-full flex items-center justify-center">
+            <button className="w-8 h-8 bg-[#007AFF] rounded-lg flex items-center justify-center">
               <span className="text-white text-sm">↑</span>
             </button>
           </div>
 
           {/* Home Indicator */}
           <div className="flex justify-center py-2">
-            <div className="w-32 h-1 bg-white/30 rounded-full" />
+            <div className="w-32 h-1 bg-white/30 rounded-sm" />
           </div>
         </div>
       </div>

@@ -235,14 +235,14 @@ function FeatureValue({ value, badge }: { value: boolean | string; badge?: strin
   // Handle boolean true - bright checkmark in subtle circle
   if (value === true) {
     return (
-      <div className="w-7 h-7 rounded-full bg-accent/25 flex items-center justify-center">
+      <div className="w-7 h-7 rounded-md bg-accent/25 flex items-center justify-center">
         <Check className="w-4 h-4 text-accent drop-shadow-[0_0_3px_hsl(var(--accent)/0.5)]" />
       </div>
     );
   }
   // Handle boolean false - very subtle X
   return (
-    <div className="w-7 h-7 rounded-full bg-foreground/5 flex items-center justify-center">
+    <div className="w-7 h-7 rounded-md bg-foreground/5 flex items-center justify-center">
       <X className="w-3.5 h-3.5 text-foreground/20" />
     </div>
   );
@@ -524,7 +524,7 @@ export default function CompareAIEmployee() {
                         className={cn(
                           "w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium flex items-center justify-center gap-2",
                           plan.highlight 
-                            ? "btn-gold"
+                            ? "btn-gold rounded-lg"
                             : "bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
                         )}
                       >
@@ -646,7 +646,7 @@ export default function CompareAIEmployee() {
                 </a>
                 <a
                   href="/checkout/full-ai"
-                  className="btn-gold flex items-center justify-center gap-2"
+                  className="btn-gold rounded-lg px-5 py-2.5 flex items-center justify-center gap-2"
                 >
                   Get Full AI Employee
                   <ArrowRight className="w-4 h-4" />

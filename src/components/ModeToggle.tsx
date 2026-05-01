@@ -86,8 +86,8 @@ export function ModeToggle({ className, variant = 'compact' }: ModeToggleProps) 
   }
 
   return (
-    <div className={cn(
-      "flex items-center bg-muted/50 rounded-full p-0.5 border border-border/30",
+      <div className={cn(
+      "flex items-center bg-muted/50 rounded-lg p-0.5 border border-border/30",
       className
     )}>
       {modes.map(({ value, icon: Icon, label }) => (
@@ -95,7 +95,7 @@ export function ModeToggle({ className, variant = 'compact' }: ModeToggleProps) 
           key={value}
           onClick={() => setMode(value)}
           className={cn(
-            "p-1.5 rounded-full transition-all duration-200",
+            "p-1.5 rounded-md transition-all duration-200",
             mode === value
               ? "bg-accent text-accent-foreground shadow-sm"
               : "text-muted-foreground hover:text-foreground"

@@ -88,7 +88,7 @@ export function TrustedAIUpgradeCard({
         >
           <a
             href={checkoutHref}
-            className="btn-gold inline-flex items-center justify-center gap-2 min-h-[44px] px-5"
+            className="btn-gold inline-flex items-center justify-center gap-2 min-h-[44px] rounded-lg px-5"
           >
             Add Trusted AI to my plan
             <ArrowRight className="w-4 h-4" aria-hidden="true" />

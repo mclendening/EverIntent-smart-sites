@@ -43,7 +43,7 @@ function StaticView() {
         <div key={msg.id}>
           {msg.type === 'system' ? (
             <div className="flex justify-center">
-              <div className="bg-muted text-muted-foreground text-xs px-3 py-1.5 rounded-full">{msg.text}</div>
+              <div className="bg-muted text-muted-foreground text-xs px-3 py-1.5 rounded-md">{msg.text}</div>
             </div>
           ) : msg.type === 'outgoing' ? (
             <div className="flex justify-end">
@@ -156,7 +156,7 @@ export function NoShowSaveDemo() {
                             <motion.div key={msg.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
                               {msg.type === 'system' ? (
                                 <div className="flex justify-center">
-                                  <div className="bg-muted text-muted-foreground text-xs px-3 py-1.5 rounded-full">{msg.text}</div>
+                                  <div className="bg-muted text-muted-foreground text-xs px-3 py-1.5 rounded-md">{msg.text}</div>
                                 </div>
                               ) : msg.type === 'outgoing' ? (
                                 <div className="flex justify-end">
@@ -189,13 +189,13 @@ export function NoShowSaveDemo() {
                     )}
                   </div>
                   <div className="flex items-center gap-2 px-3 py-2 border-t border-border">
-                    <div className="flex-1 bg-muted rounded-full px-4 py-2 text-muted-foreground text-sm">Message…</div>
-                    <button className="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
+                    <div className="flex-1 bg-muted rounded-lg px-4 py-2 text-muted-foreground text-sm">Message…</div>
+                    <button className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
                       <span className="text-accent-foreground text-sm">↑</span>
                     </button>
                   </div>
                   <div className="flex justify-center py-2">
-                    <div className="w-32 h-1 bg-muted-foreground/30 rounded-full" />
+                    <div className="w-32 h-1 bg-muted-foreground/30 rounded-sm" />
                   </div>
                 </div>
               </div>

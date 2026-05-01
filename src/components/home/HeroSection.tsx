@@ -56,7 +56,7 @@ export function HeroSection() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-16 animate-fade-in" style={{ animationDelay: '300ms' }}>
             <a 
               href="/let-ai-handle-it" 
-              className="btn-gold btn-glow w-full sm:w-auto"
+              className="btn-gold btn-glow rounded-lg px-6 py-3 w-full sm:w-auto"
             >
               See AI Employee
             </a>

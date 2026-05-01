@@ -124,7 +124,7 @@ export default function TrustedAI() {
             <a
               href="/checkout/full-ai?addon=trusted-ai"
               onClick={() => trackTrustedAIPageCtaClicked('hero')}
-              className="btn-gold inline-flex items-center justify-center min-h-[48px] px-6 text-base font-semibold"
+              className="btn-gold inline-flex items-center justify-center min-h-[48px] rounded-lg px-6 text-base font-semibold"
             >
               Add Trusted AI to my plan
             </a>
@@ -286,7 +286,7 @@ export default function TrustedAI() {
             <a
               href="/checkout/full-ai?addon=trusted-ai"
               onClick={() => trackTrustedAIPageCtaClicked('final')}
-              className="btn-gold inline-flex items-center justify-center min-h-[48px] px-6 text-base font-semibold"
+              className="btn-gold inline-flex items-center justify-center min-h-[48px] rounded-lg px-6 text-base font-semibold"
             >
               Add Trusted AI to my plan
             </a>

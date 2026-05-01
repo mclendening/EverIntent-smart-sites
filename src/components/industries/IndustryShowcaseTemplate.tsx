@@ -145,7 +145,7 @@ function AnimatedTranscript({ messages }: { messages: TranscriptMessage[] }) {
             )}
           >
             {message.role === 'ai' && (
-              <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-accent/20 flex items-center justify-center flex-shrink-0">
                 <Bot className="w-4 h-4 text-accent" />
               </div>
             )}
@@ -160,7 +160,7 @@ function AnimatedTranscript({ messages }: { messages: TranscriptMessage[] }) {
               <p className="text-sm">{message.text}</p>
             </div>
             {message.role === 'caller' && (
-              <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0">
                 <Phone className="w-4 h-4 text-muted-foreground" />
               </div>
             )}
@@ -170,7 +170,7 @@ function AnimatedTranscript({ messages }: { messages: TranscriptMessage[] }) {
         {/* Typing indicator */}
         {visibleMessages < messages.length && isAnimating && (
           <div className="flex gap-3 animate-in fade-in duration-300">
-            <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-accent/20 flex items-center justify-center flex-shrink-0">
               <Bot className="w-4 h-4 text-accent" />
             </div>
             <div className="bg-muted rounded-xl px-4 py-3">
@@ -200,7 +200,7 @@ function AudioDemoMockup() {
   return (
     <div className="bg-card rounded-xl border border-border/30 p-6">
       <div className="flex items-center gap-4 mb-4">
-        <button className="w-12 h-12 rounded-full bg-accent flex items-center justify-center hover:bg-accent-hover transition-colors">
+        <button className="w-12 h-12 rounded-xl bg-accent flex items-center justify-center hover:bg-accent-hover transition-colors">
           <Play className="w-5 h-5 text-accent-foreground ml-0.5" />
         </button>
         <div className="flex-1">
@@ -217,7 +217,7 @@ function AudioDemoMockup() {
           return (
             <div
               key={i}
-              className="flex-1 bg-accent/30 rounded-full transition-all duration-200 hover:bg-accent/50"
+              className="flex-1 bg-accent/30 rounded-sm transition-all duration-200 hover:bg-accent/50"
               style={{ height: `${height}%` }}
             />
           );

@@ -104,7 +104,7 @@ export function DesktopChatButton() {
       <span className="text-primary-foreground font-medium text-sm tracking-wide whitespace-nowrap pointer-events-none">
         {isHovered ? 'Chat with us' : 'Need help?'}
       </span>
-      <div className="w-2 h-2 rounded-full bg-accent animate-pulse pointer-events-none" />
+      <div className="w-2 h-2 rounded-sm bg-accent animate-pulse pointer-events-none" />
     </button>
   );
 }

@@ -405,7 +405,7 @@ export function LocationPageTemplate({
               Professional websites from $249. AI automation from $149/month. Built for {locationName} businesses.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-              <a href="/checkout/launch" className="btn-gold btn-glow w-full sm:w-auto">
+              <a href="/checkout/launch" className="btn-gold btn-glow rounded-lg px-6 py-3 w-full sm:w-auto">
                 Get Started: $249
               </a>
               <a

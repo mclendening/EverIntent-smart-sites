@@ -147,7 +147,7 @@ export function Header() {
         {/* Desktop CTA - Native anchor */}
         <div className="hidden lg:flex items-center gap-3">
           <ModeToggle variant="compact" />
-          <a href="/pricing" className="btn-gold btn-glow">
+          <a href="/pricing" className="btn-gold btn-glow rounded-lg px-5 py-2.5">
             Get Started
           </a>
         </div>
@@ -157,7 +157,7 @@ export function Header() {
           <Sheet>
             <SheetTrigger asChild>
               <button
-                className="w-12 h-12 flex items-center justify-center rounded-full bg-background/80 border border-border/50"
+                className="w-12 h-12 flex items-center justify-center rounded-xl bg-background/80 border border-border/50"
                 aria-label="Open menu"
               >
                 <Menu className="h-6 w-6 text-foreground" />
@@ -265,7 +265,7 @@ export function Header() {
                 <div className="pt-6">
                   <a 
                     href="/pricing" 
-                    className="btn-gold btn-glow w-full text-center block"
+                    className="btn-gold btn-glow rounded-lg px-5 py-3 w-full text-center block"
                   >
                     Get Started
                   </a>

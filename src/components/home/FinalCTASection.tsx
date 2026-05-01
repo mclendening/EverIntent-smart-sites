@@ -35,7 +35,7 @@ export function FinalCTASection() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
             <a 
               href="/pricing" 
-              className="btn-gold btn-glow w-full sm:w-auto"
+              className="btn-gold btn-glow rounded-lg px-6 py-3 w-full sm:w-auto"
             >
               See Pricing
             </a>

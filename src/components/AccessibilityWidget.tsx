@@ -552,7 +552,7 @@ function ModuleSection({ title, modules, state, onToggle }: ModuleSectionProps) 
               <Icon className="h-5 w-5 shrink-0" />
               <span className="text-sm font-medium flex-1">{mod.label}</span>
               {statusLabel && (
-                <span className="text-xs bg-accent text-accent-foreground px-2 py-0.5 rounded-full">
+                <span className="text-xs bg-accent text-accent-foreground px-2 py-0.5 rounded-md">
                   {statusLabel}
                 </span>
               )}
@@ -600,7 +600,7 @@ function ProfilesSection({ activeProfile, onActivate }: ProfilesSectionProps) {
                 <span className="text-[11px] text-muted-foreground block truncate">{profile.description}</span>
               </div>
               {isActive && (
-                <span className="text-xs bg-accent text-accent-foreground px-2 py-0.5 rounded-full shrink-0">
+                <span className="text-xs bg-accent text-accent-foreground px-2 py-0.5 rounded-md shrink-0">
                   Active
                 </span>
               )}
@@ -789,8 +789,8 @@ export function AccessibilityWidget() {
     handleRuntimeEffects(cleared);
   }
 
-  const shapeClass = config.iconShape === 'circle' ? 'rounded-full'
-    : config.iconShape === 'pill' ? 'rounded-full px-4'
+  const shapeClass = config.iconShape === 'circle' ? 'rounded-xl'
+    : config.iconShape === 'pill' ? 'rounded-xl px-4'
     : 'rounded-xl';
 
   const activeCount = Object.values(state).filter(v => v > 0).length;
@@ -829,7 +829,7 @@ export function AccessibilityWidget() {
       >
         <Accessibility className="w-1/2 h-1/2 pointer-events-none" />
         {activeCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center pointer-events-none">
+          <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-[10px] font-bold rounded-md w-5 h-5 flex items-center justify-center pointer-events-none">
             {activeCount}
           </span>
         )}
