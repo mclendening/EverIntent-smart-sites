@@ -9,7 +9,7 @@
  * @brd-reference Smart Websites v2.2 - Phase 2
  */
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { 
   ArrowRight, 
@@ -31,6 +31,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { SEO } from '@/components/SEO';
+import { trackTrustedAIUpsellShown, trackTrustedAIPageCtaClicked } from '@/lib/checkoutAnalytics';
+import { ADDON_CONFIG } from '@/config/checkoutConfig';
 import {
   Dialog,
   DialogContent,
@@ -60,6 +62,18 @@ interface AddOnPack {
   features: string[];
   recommended?: string[];
   includedWithScale?: boolean;
+  /** Optional one-time setup line shown beneath /mo price */
+  setupFee?: number;
+  setupFeeLabel?: string;
+  /** When set, card uses gold accent + eligibility note instead of standard accent */
+  goldAccent?: boolean;
+  /** Plain-text eligibility line replacing the deprecated 'Included with Scale' pill */
+  eligibilityNote?: string;
+  /** Override CTA target (defaults to /contact) */
+  primaryCtaHref?: string;
+  primaryCtaLabel?: string;
+  /** Hide Learn More modal (e.g., when card links to a dedicated landing page) */
+  hideLearnMore?: boolean;
   // Expanded detail modal content
   details: {
     headline: string;
@@ -244,6 +258,41 @@ const addOnPacks: AddOnPack[] = [
       ],
     },
   },
+  {
+    id: 'trusted-ai',
+    name: 'Trusted AI',
+    tagline: 'The AI that does exactly what you approved',
+    price: ADDON_CONFIG['trusted-ai'].monthlyPrice,
+    setupFee: ADDON_CONFIG['trusted-ai'].setupFee,
+    setupFeeLabel: ADDON_CONFIG['trusted-ai'].setupFeeLabel,
+    icon: Shield,
+    features: [
+      'Visual conversation canvas',
+      'Staged before going live',
+      'Owner approval required',
+      'Deterministic guardrails',
+    ],
+    recommended: [],
+    goldAccent: true,
+    eligibilityNote: 'Requires an AI Employee plan',
+    primaryCtaHref: '/trusted-ai',
+    primaryCtaLabel: 'See how it works',
+    hideLearnMore: true,
+    details: {
+      headline: 'The AI that does exactly what you approved',
+      description: 'Standard AI is confident but not always correct. Trusted AI is built on a visual canvas, staged, and approved by you before it talks to a customer. Your script, your guardrails, your sign-off.',
+      benefits: [
+        { icon: Shield, title: 'Owner Approved', text: 'Every response path is reviewed and signed off before it goes live.' },
+        { icon: Zap, title: 'Deterministic Guardrails', text: 'The AI cannot drift, hallucinate, or invent answers it was not trained on.' },
+        { icon: Clock, title: 'Staged Before Launch', text: 'Run the full conversation in staging until it behaves the way you want.' },
+      ],
+      idealFor: ['Regulated industries', 'High-ticket service businesses', 'Anyone who has been burned by hallucinated AI'],
+      faq: [
+        { q: 'Which plans can add Trusted AI?', a: 'After Hours, Front Office, Full AI Employee, Web Chat, and Scale. It layers on top of any AI Employee plan.' },
+        { q: 'Why the setup fee?', a: 'The $497 covers the visual canvas build, staging, and your approval cycle. It is the AI Training & Implementation work that makes Trusted AI trustworthy.' },
+      ],
+    },
+  },
 ];
 
 /**
@@ -385,49 +434,87 @@ function PackDetailModal({
  */
 function PackCard({ pack, onLearnMore }: { pack: AddOnPack; onLearnMore: () => void }) {
   const IconComponent = pack.icon;
-  
+  const isGold = pack.goldAccent;
+  const accentClasses = isGold
+    ? { tile: 'bg-gold/15 border-gold/30', icon: 'text-gold', price: 'text-gold', border: 'hover:border-gold/60 border-gold/30' }
+    : { tile: 'bg-accent/10 border-accent/20', icon: 'text-accent', price: 'text-accent', border: 'border-border/50 hover:border-accent/50' };
+
+  // Track upsell impression for the Trusted AI card
+  const cardRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (pack.id !== 'trusted-ai' || !cardRef.current) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          trackTrustedAIUpsellShown('addon-hub');
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.5 },
+    );
+    observer.observe(cardRef.current);
+    return () => observer.disconnect();
+  }, [pack.id]);
+
+  const handlePrimaryClick = () => {
+    if (pack.id === 'trusted-ai') trackTrustedAIPageCtaClicked('addon-hub');
+  };
+
   return (
-    <Card className="border-border/50 bg-card/50 hover:border-accent/50 transition-colors flex flex-col h-full relative">
-      {pack.includedWithScale && (
-        <div className="absolute top-3 right-3 text-[10px] font-semibold text-accent bg-accent/10 border border-accent/20 px-2 py-0.5 rounded-full">
-          Included with Scale
-        </div>
-      )}
+    <Card
+      ref={cardRef}
+      className={`bg-card/50 transition-colors flex flex-col h-full ${accentClasses.border}`}
+    >
       <CardHeader>
         <div className="flex items-center justify-between mb-2">
-          <div className="p-3 rounded-xl bg-accent/10 border border-accent/20">
-            <IconComponent className="h-6 w-6 text-accent" />
+          <div className={`p-3 rounded-xl border ${accentClasses.tile}`}>
+            <IconComponent className={`h-6 w-6 ${accentClasses.icon}`} />
           </div>
           <div className="text-right">
-            <span className="text-2xl font-bold text-accent">${pack.price}</span>
+            <span className={`text-2xl font-bold ${accentClasses.price}`}>${pack.price}</span>
             <span className="text-sm text-muted-foreground">/mo</span>
           </div>
         </div>
         <CardTitle className="text-xl text-foreground">{pack.name}</CardTitle>
         <CardDescription className="text-muted-foreground">{pack.tagline}</CardDescription>
+        {pack.setupFee && (
+          <p className="text-sm text-foreground/90 pt-2">
+            <span className={`font-semibold ${accentClasses.price}`}>+ ${pack.setupFee} one-time</span>
+            {pack.setupFeeLabel && (
+              <span className="text-muted-foreground"> · {pack.setupFeeLabel}</span>
+            )}
+          </p>
+        )}
       </CardHeader>
       <CardContent className="flex-1">
         <ul className="space-y-2">
           {pack.features.map((feature, index) => (
             <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
-              <Check className="h-4 w-4 text-accent mt-0.5 shrink-0" />
+              <Check className={`h-4 w-4 mt-0.5 shrink-0 ${accentClasses.icon}`} />
               <span>{feature}</span>
             </li>
           ))}
         </ul>
+        {(pack.eligibilityNote || pack.includedWithScale) && (
+          <p className="mt-4 pt-3 border-t border-border/40 text-xs text-muted-foreground">
+            {pack.eligibilityNote ?? 'Included with Scale'}
+          </p>
+        )}
       </CardContent>
       <CardFooter className="flex flex-col gap-2">
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="w-full text-accent hover:text-accent hover:bg-accent/10"
-          onClick={onLearnMore}
-        >
-          Learn More
-        </Button>
-        <Button asChild variant="outline" className="w-full">
-          <a href="/contact">
-            Add to Plan
+        {!pack.hideLearnMore && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className={`w-full ${isGold ? 'text-gold hover:text-gold hover:bg-gold/10' : 'text-accent hover:text-accent hover:bg-accent/10'}`}
+            onClick={onLearnMore}
+          >
+            Learn More
+          </Button>
+        )}
+        <Button asChild variant={isGold ? 'gold' : 'outline'} className="w-full">
+          <a href={pack.primaryCtaHref ?? '/contact'} onClick={handlePrimaryClick}>
+            {pack.primaryCtaLabel ?? 'Add to Plan'}
             <ArrowRight className="ml-2 h-4 w-4" />
           </a>
         </Button>
@@ -446,14 +533,14 @@ export default function AddOns() {
     <>
       <SEO 
         title="Add-On Packs: Expand Your Smart Website"
-        description="Boost your Smart Website with modular add-on packs. Email deliverability, invoicing, social media, unified inbox, AI chat, and unlimited AI features starting at $49/mo."
+        description="Boost your EverIntent plan with modular add-on packs: email deliverability, invoicing, social, unified inbox, AI chat, unlimited AI, and the Trusted AI Upgrade. Starting at $49/mo."
         canonical="/smart-websites/add-ons"
         structuredData={{
           '@context': 'https://schema.org',
           '@type': 'ItemList',
           name: 'Smart Website Add-On Packs',
-          description: 'Modular add-on packs for EverIntent Smart Websites.',
-          numberOfItems: 6,
+          description: 'Modular add-on packs for EverIntent Smart Websites and AI Employee plans.',
+          numberOfItems: 7,
           itemListElement: [
             { '@type': 'ListItem', position: 1, name: 'Email Authority', url: 'https://everintent.com/smart-websites/add-ons' },
             { '@type': 'ListItem', position: 2, name: 'Get Paid Now', url: 'https://everintent.com/smart-websites/add-ons' },
@@ -461,6 +548,7 @@ export default function AddOns() {
             { '@type': 'ListItem', position: 4, name: 'Omnichannel Inbox', url: 'https://everintent.com/smart-websites/add-ons' },
             { '@type': 'ListItem', position: 5, name: 'Voice AI Chat Widget', url: 'https://everintent.com/smart-websites/add-ons' },
             { '@type': 'ListItem', position: 6, name: 'Unlimited AI', url: 'https://everintent.com/smart-websites/add-ons' },
+            { '@type': 'ListItem', position: 7, name: 'Trusted AI Upgrade', url: 'https://everintent.com/trusted-ai' },
           ],
         }}
       />
@@ -530,10 +618,10 @@ export default function AddOns() {
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              6 Powerful Packs
+              7 Powerful Packs
             </h2>
             <p className="text-lg text-muted-foreground">
-              Each pack adds specific capabilities to any Smart Website tier. Stack them to build your perfect solution.
+              Each pack adds specific capabilities to any Smart Website or AI Employee plan. Stack them to build your perfect solution.
             </p>
           </div>
 
@@ -558,21 +646,21 @@ export default function AddOns() {
             </h2>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="text-center">
-                <div className="w-12 h-12 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-4">
                   <span className="text-xl font-bold text-accent">1</span>
                 </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2">Choose Your Plan</h3>
                 <p className="text-muted-foreground text-sm">Start with any Smart Website tier: Launch, Capture, Convert, or Scale.</p>
               </div>
               <div className="text-center">
-                <div className="w-12 h-12 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-4">
                   <span className="text-xl font-bold text-accent">2</span>
                 </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2">Add What You Need</h3>
                 <p className="text-muted-foreground text-sm">Select add-on packs that match your business goals. No minimums.</p>
               </div>
               <div className="text-center">
-                <div className="w-12 h-12 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-4">
                   <span className="text-xl font-bold text-accent">3</span>
                 </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2">Adjust Anytime</h3>
