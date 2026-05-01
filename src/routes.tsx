@@ -550,6 +550,11 @@ export const routes: RouteRecord[] = [
         path: 'compare-ai-employee',
         Component: CompareAIEmployee,
       },
+      // Trusted AI Upgrade landing page
+      {
+        path: 'trusted-ai',
+        Component: TrustedAI,
+      },
       // Warmy Email Deliverability - full service page
       {
         path: 'warmy-email-deliverability',
