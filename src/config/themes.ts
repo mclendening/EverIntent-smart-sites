@@ -402,10 +402,25 @@ export const activeTheme: ThemeConfig = {
       "primaryForeground": "0 0% 100%",
       "secondaryForeground": "60 9% 98%"
   },
+  adaWidgetConfig: {
+    enabled: true,
+    position: 'bottom-left',
+    hideOnMobile: false,
+    hideOnDesktop: false,
+    pauseUntil: null,
+    hiddenIndefinitely: false,
+    iconType: 'universal',
+    iconColor: '0 0% 100%',
+    iconBgColor: '240 70% 60%',
+    iconSize: 48,
+    iconShape: 'circle',
+    readingHandleSize: 28,
+  },
 };
 
 export const routeThemeMappings: RouteThemeMapping[] = [
-  { route: '/', themeId: '38aafcee-1959-4968-b74b-6c2d53815323' },
+  // No route-specific overrides currently; all routes use activeTheme.
+  // Add { route: '/foo', themeId: 'foo-theme' } and register the theme in publishedThemes below.
 ];
 
 export const publishedThemes: Record<string, ThemeConfig> = { 'ocean-blue': activeTheme };
