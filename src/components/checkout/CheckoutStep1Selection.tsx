@@ -4,7 +4,7 @@
  * @brd-reference Detail-Checkout-design-v5.2.md Section 4.1
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -13,7 +13,6 @@ import { TIER_CONFIG, ADDON_CONFIG, formatPrice, getTiersByProductLine, isAddonI
 import type { CheckoutState } from '@/pages/checkout/CheckoutPage';
 import { cn } from '@/lib/utils';
 import { Check, Pencil, Globe, Bot, ArrowLeft, Shield } from 'lucide-react';
-import { useEffect, useRef, useState as useReactState } from 'react';
 import {
   trackTrustedAIUpsellShown,
   trackTrustedAIUpsellDecision,
@@ -39,7 +38,7 @@ export function CheckoutStep1Selection({
   const trustedAIEligible =
     trustedAI.eligibleTiers?.includes(state.tier) ?? false;
   const trustedAISelected = state.addons.includes('trusted-ai');
-  const [trustedAIDeclined, setTrustedAIDeclined] = useReactState(false);
+  const [trustedAIDeclined, setTrustedAIDeclined] = useState(false);
   const showTrustedAIUpsell =
     trustedAIEligible && !trustedAISelected && !trustedAIDeclined;
   const hasTrackedShown = useRef(false);
