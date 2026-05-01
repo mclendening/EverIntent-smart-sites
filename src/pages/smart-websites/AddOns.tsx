@@ -258,6 +258,41 @@ const addOnPacks: AddOnPack[] = [
       ],
     },
   },
+  {
+    id: 'trusted-ai',
+    name: 'Trusted AI',
+    tagline: 'The AI that does exactly what you approved',
+    price: ADDON_CONFIG['trusted-ai'].monthlyPrice,
+    setupFee: ADDON_CONFIG['trusted-ai'].setupFee,
+    setupFeeLabel: ADDON_CONFIG['trusted-ai'].setupFeeLabel,
+    icon: Shield,
+    features: [
+      'Visual conversation canvas',
+      'Staged before going live',
+      'Owner approval required',
+      'Deterministic guardrails',
+    ],
+    recommended: [],
+    goldAccent: true,
+    eligibilityNote: 'Requires an AI Employee plan',
+    primaryCtaHref: '/trusted-ai',
+    primaryCtaLabel: 'See how it works',
+    hideLearnMore: true,
+    details: {
+      headline: 'The AI that does exactly what you approved',
+      description: 'Standard AI is confident but not always correct. Trusted AI is built on a visual canvas, staged, and approved by you before it talks to a customer. Your script, your guardrails, your sign-off.',
+      benefits: [
+        { icon: Shield, title: 'Owner Approved', text: 'Every response path is reviewed and signed off before it goes live.' },
+        { icon: Zap, title: 'Deterministic Guardrails', text: 'The AI cannot drift, hallucinate, or invent answers it was not trained on.' },
+        { icon: Clock, title: 'Staged Before Launch', text: 'Run the full conversation in staging until it behaves the way you want.' },
+      ],
+      idealFor: ['Regulated industries', 'High-ticket service businesses', 'Anyone who has been burned by hallucinated AI'],
+      faq: [
+        { q: 'Which plans can add Trusted AI?', a: 'After Hours, Front Office, Full AI Employee, Web Chat, and Scale. It layers on top of any AI Employee plan.' },
+        { q: 'Why the setup fee?', a: 'The $497 covers the visual canvas build, staging, and your approval cycle. It is the AI Training & Implementation work that makes Trusted AI trustworthy.' },
+      ],
+    },
+  },
 ];
 
 /**
