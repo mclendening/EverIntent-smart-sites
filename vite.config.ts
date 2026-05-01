@@ -32,9 +32,9 @@ export default defineConfig(({ mode }) => ({
     script: 'defer',
     formatting: 'none',
     dirStyle: 'nested',
-    // Pre-render all marketing routes, exclude only admin (handled via SPA fallback)
+    // Pre-render all marketing routes; exclude admin and noindex sandbox (SPA fallback handles them)
     includedRoutes: (paths: string[]) => {
-      return paths.filter(path => !path.startsWith('/admin'));
+      return paths.filter(path => !path.startsWith('/admin') && !path.startsWith('/sandbox'));
     },
   },
   // Note: manualChunks removed - incompatible with vite-react-ssg (causes "external module" error)
