@@ -9,7 +9,7 @@
  * @brd-reference Smart Websites v2.2 - Phase 2
  */
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { 
   ArrowRight, 
@@ -31,6 +31,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { SEO } from '@/components/SEO';
+import { trackTrustedAIUpsellShown, trackTrustedAIPageCtaClicked } from '@/lib/checkoutAnalytics';
+import { ADDON_CONFIG } from '@/config/checkoutConfig';
 import {
   Dialog,
   DialogContent,
@@ -60,6 +62,18 @@ interface AddOnPack {
   features: string[];
   recommended?: string[];
   includedWithScale?: boolean;
+  /** Optional one-time setup line shown beneath /mo price */
+  setupFee?: number;
+  setupFeeLabel?: string;
+  /** When set, card uses gold accent + eligibility note instead of standard accent */
+  goldAccent?: boolean;
+  /** Plain-text eligibility line replacing the deprecated 'Included with Scale' pill */
+  eligibilityNote?: string;
+  /** Override CTA target (defaults to /contact) */
+  primaryCtaHref?: string;
+  primaryCtaLabel?: string;
+  /** Hide Learn More modal (e.g., when card links to a dedicated landing page) */
+  hideLearnMore?: boolean;
   // Expanded detail modal content
   details: {
     headline: string;
