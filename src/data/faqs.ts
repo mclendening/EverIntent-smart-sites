@@ -19,12 +19,14 @@ export type FAQTag =
   | 'pricing' | 'product' | 'support' | 'objection' | 'technical'
   | 'billing' | 'setup' | 'ownership' | 'compliance' | 'integration'
   | 'voice-ai' | 'sms' | 'web-chat' | 'booking' | 'screening'
-  | 'email' | 'deliverability';
+  | 'email' | 'deliverability'
+  | 'trusted-ai' | 'reliability';
 
 export type ProductTag =
   | 'launch' | 'capture' | 'convert' | 'scale'
   | 'web-chat' | 'after-hours' | 'front-office' | 'full-ai'
-  | 'all-websites' | 'all-ai' | 'warmy';
+  | 'all-websites' | 'all-ai' | 'warmy'
+  | 'trusted-ai';
 
 export interface FAQItem {
   id: string;
