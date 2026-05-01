@@ -32,9 +32,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { SEO } from '@/components/SEO';
 import { trackTrustedAIUpsellShown, trackTrustedAIPageCtaClicked } from '@/lib/checkoutAnalytics';
-import { ADDON_CONFIG } from '@/config/checkoutConfig';
+import { ADDON_CONFIG, TIER_CONFIG } from '@/config/checkoutConfig';
 import { faqData } from '@/data/faqs';
-import { TIER_CONFIG } from '@/config/checkoutConfig';
 
 /**
  * Derive the eligibility one-liner from ADDON_CONFIG so the hub never drifts
