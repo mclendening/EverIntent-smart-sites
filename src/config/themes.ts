@@ -429,16 +429,14 @@ export function getThemeForRoute(pathname: string): ThemeConfig {
 
 export function applyThemeToRoot(theme: ThemeConfig): void {
   const root = document.documentElement;
-  const isDark = root.classList.contains('dark');
-  const colors = (isDark && theme.darkModeOverrides) ? theme.darkModeOverrides : theme.staticColors;
-  Object.entries(colors).forEach(([key, value]) => {
-    const cssVar = key.replace(/([A-Z])/g, '-$1').toLowerCase();
-    root.style.setProperty(`--${cssVar}`, value);
-  });
-  root.style.setProperty('--accent', theme.accentConfig.accent);
-  root.style.setProperty('--accent-hover', theme.accentConfig.accentHover);
-  root.style.setProperty('--accent-glow', theme.accentConfig.accentGlow);
-  root.style.setProperty('--accent-foreground', theme.accentConfig.accentForeground);
+  // NOTE: We deliberately do NOT write background/foreground/card/etc. as inline
+  // styles. Those tokens are defined in index.css under `:root` (light) and
+  // `.dark` (dark) and must be controlled by the .dark class on <html> so that
+  // light/dark mode toggling actually works. Inline styles would always win and
+  // permanently lock the page to a single palette.
+  //
+  // We only set non-mode-bound tokens (accent, gradients, ecommerce, cta,
+  // typography, motion, style modules) which are the same across modes today.
   root.style.setProperty('--gradient-hero', theme.gradientConfigs.hero);
   root.style.setProperty('--gradient-cta', theme.gradientConfigs.cta);
   root.style.setProperty('--gradient-text', theme.gradientConfigs.text);

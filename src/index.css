@@ -343,15 +343,51 @@ html.ada-text-magnifier a:hover, html.ada-text-magnifier td:hover {
 }
 
 /* Reading line guide */
-html.ada-reading-line .ada-reading-line-el {
+html.ada-reading-line #ada-reading-line-el {
   position: fixed; left: 0; right: 0; height: 3px; pointer-events: none; z-index: 99999;
-  background: hsl(var(--accent)); box-shadow: 0 0 8px hsl(var(--accent) / 0.5);
+  background: hsl(var(--accent)); box-shadow: 0 0 12px hsl(var(--accent) / 0.7);
+  transform: translateY(-50%);
 }
 
-/* Reading mask */
-html.ada-reading-mask .ada-reading-mask-el {
-  position: fixed; left: 0; right: 0; pointer-events: none; z-index: 99998;
-  background: hsl(0 0% 0% / 0.6);
+/* Reading mask — dims everything except a horizontal band centered on --mask-y */
+html.ada-reading-mask #ada-reading-mask-el {
+  position: fixed; inset: 0; pointer-events: none; z-index: 99998;
+  --mask-y: 50vh;
+  --mask-band: 140px;
+  background:
+    linear-gradient(to bottom,
+      hsl(0 0% 0% / 0.7) 0,
+      hsl(0 0% 0% / 0.7) calc(var(--mask-y) - var(--mask-band) / 2),
+      transparent calc(var(--mask-y) - var(--mask-band) / 2),
+      transparent calc(var(--mask-y) + var(--mask-band) / 2),
+      hsl(0 0% 0% / 0.7) calc(var(--mask-y) + var(--mask-band) / 2),
+      hsl(0 0% 0% / 0.7) 100%);
+}
+
+/* Drag handle for reading aids — visible draggable grip */
+.ada-reading-handle {
+  position: absolute;
+  left: var(--handle-x, 50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--handle-size, 28px);
+  height: var(--handle-size, 28px);
+  border-radius: 9999px;
+  background: hsl(var(--accent));
+  box-shadow: 0 2px 8px hsl(0 0% 0% / 0.4), 0 0 0 2px hsl(0 0% 100% / 0.6);
+  cursor: grab;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  touch-action: none;
+}
+.ada-reading-handle span {
+  width: 2px;
+  height: 10px;
+  background: hsl(var(--accent-foreground) / 0.9);
+  border-radius: 1px;
 }
 
 /* Highlight content on hover */
