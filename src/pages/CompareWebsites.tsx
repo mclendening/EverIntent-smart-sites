@@ -183,8 +183,8 @@ const featureCategories = [
       { name: 'Missed call text-back', tooltip: 'Auto-text leads who call and miss you', values: [false, true, true, true] },
       { name: 'Lead notifications', tooltip: 'Instant alerts for new leads', values: [false, true, true, true] },
       { name: 'CRM integration', tooltip: 'All leads synced to your CRM', values: [false, false, true, true] },
-      { name: 'SMS credits/month', tooltip: 'Monthly text message allocation', values: ['—', '400', '600', '1,000'] },
-      { name: 'AI chat minutes/month', tooltip: 'Monthly AI conversation allocation', values: ['—', '30 min', '50 min', '100 min'] },
+      { name: 'SMS credits/month', tooltip: 'Monthly text message allocation', values: ['Not included', '400', '600', '1,000'] },
+      { name: 'AI chat minutes/month', tooltip: 'Monthly AI conversation allocation', values: ['Not included', '30 min', '50 min', '100 min'] },
     ],
   },
   {
@@ -224,7 +224,7 @@ function getTierFeatures(tierIndex: number) {
         included.push(feature.name);
       } else if (value === false) {
         notIncluded.push(feature.name);
-      } else if (typeof value === 'string' && value !== '—') {
+      } else if (typeof value === 'string' && value !== 'Not included') {
         included.push(`${feature.name}: ${value}`);
       }
     });
@@ -237,7 +237,7 @@ function getTierFeatures(tierIndex: number) {
  * Renders a feature value cell for desktop table - styled like AI Employee comparison
  */
 function FeatureValue({ value }: { value: boolean | string }) {
-  if (typeof value === 'string' && value !== '—') {
+  if (typeof value === 'string' && value !== 'Not included') {
     return (
       <span className="text-sm font-medium text-foreground/90">{value}</span>
     );
@@ -249,7 +249,7 @@ function FeatureValue({ value }: { value: boolean | string }) {
       </div>
     );
   }
-  // false or '—'
+  // false or 'Not included'
   return (
     <div className="w-7 h-7 rounded-full bg-foreground/5 flex items-center justify-center mx-auto">
       <X className="w-3.5 h-3.5 text-foreground/20" />
