@@ -241,7 +241,7 @@ export default function FullAIEmployee() {
                 <Globe className="w-8 h-8 text-accent mx-auto mb-3" />
                 <h3 className="text-lg font-semibold text-foreground mb-2">Voice AI Chat Widget</h3>
                 <p className="text-3xl font-bold text-accent mb-1">Included</p>
-                <p className="text-sm text-muted-foreground mb-2">$79/mo value — free with Full AI</p>
+                <p className="text-sm text-muted-foreground mb-2">$79/mo value, free with Full AI</p>
                 <p className="text-xs text-accent">24/7 AI chat on your website</p>
               </div>
             </div>
