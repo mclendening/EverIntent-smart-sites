@@ -524,7 +524,7 @@ export default function CompareAIEmployee() {
                         className={cn(
                           "w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium flex items-center justify-center gap-2",
                           plan.highlight 
-                            ? "btn-gold"
+                            ? "btn-gold rounded-lg"
                             : "bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
                         )}
                       >
@@ -646,7 +646,7 @@ export default function CompareAIEmployee() {
                 </a>
                 <a
                   href="/checkout/full-ai"
-                  className="btn-gold flex items-center justify-center gap-2"
+                  className="btn-gold rounded-lg px-5 py-2.5 flex items-center justify-center gap-2"
                 >
                   Get Full AI Employee
                   <ArrowRight className="w-4 h-4" />

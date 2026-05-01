@@ -272,7 +272,7 @@ export function CheckoutStep1Selection({
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <Button
                 onClick={handleTrustedAIAccept}
-                className="btn-gold flex-1 min-h-[44px]"
+                className="btn-gold rounded-lg flex-1 min-h-[44px]"
               >
                 Add to my plan
               </Button>
@@ -366,7 +366,7 @@ export function CheckoutStep1Selection({
 
       {/* Navigation */}
       <div className="flex justify-end pt-4">
-        <Button onClick={onNext} size="lg" className="btn-gold">
+        <Button onClick={onNext} size="lg" className="btn-gold rounded-lg">
           Continue
         </Button>
       </div>
