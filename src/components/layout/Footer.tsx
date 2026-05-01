@@ -24,6 +24,7 @@ const aiModesLinks = [
   { title: 'After-Hours', path: '/let-ai-handle-it/after-hours' },
   { title: 'Front Office', path: '/let-ai-handle-it/front-office' },
   { title: 'Full AI Employee', path: '/let-ai-handle-it/full-ai-employee' },
+  { title: 'Trusted AI Upgrade', path: '/trusted-ai' },
   { title: 'Compare Modes', path: '/compare-ai-employee' },
 ];
 
