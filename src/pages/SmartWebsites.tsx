@@ -298,9 +298,9 @@ const SmartWebsites = () => {
               return (
               <Card key={index} id={tierId} className={`border ${tier.highlight ? 'border-accent/60 shadow-gold-glow' : 'border-border/50 hover:border-accent/30'} transition-all duration-300`}>
                 <CardHeader className="text-center pb-4">
-                  {tier.highlight && (
-                    <Badge className="mb-2 mx-auto bg-accent text-accent-foreground">Most Popular</Badge>
-                  )}
+                    {tier.highlight && (
+                      <Badge className="mb-2 mx-auto bg-accent text-accent-foreground">Most Popular</Badge>
+                    )}
                   <CardTitle className="text-2xl">{tier.name}</CardTitle>
                   <CardDescription>{tier.tagline}</CardDescription>
                   <div className="mt-4">
@@ -356,7 +356,7 @@ const SmartWebsites = () => {
                     {/* Popular indicator - gold top bar */}
                     {tier.highlight && (
                       <div className="absolute -top-1 left-4 right-4">
-                        <div className="h-1.5 bg-accent rounded-full" />
+                        <div className="h-1.5 bg-accent rounded-sm" />
                         <div className="mt-3 text-[10px] font-bold tracking-[0.15em] uppercase text-accent">
                           Most Popular
                         </div>

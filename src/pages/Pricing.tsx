@@ -243,10 +243,10 @@ const Pricing = () => {
               <span className={`text-sm font-medium ${!annualBilling ? 'text-foreground' : 'text-muted-foreground'}`}>Monthly</span>
               <button
                 onClick={() => setAnnualBilling(!annualBilling)}
-                className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors ${annualBilling ? 'bg-accent' : 'bg-muted'}`}
+                className={`relative inline-flex h-7 w-12 items-center rounded-md transition-colors ${annualBilling ? 'bg-accent' : 'bg-muted'}`}
                 aria-label="Toggle annual billing"
               >
-                <span className={`inline-block h-5 w-5 transform rounded-full bg-background shadow-md transition-transform ${annualBilling ? 'translate-x-6' : 'translate-x-1'}`} />
+                <span className={`inline-block h-5 w-5 transform rounded-sm bg-background shadow-md transition-transform ${annualBilling ? 'translate-x-6' : 'translate-x-1'}`} />
               </button>
               <span className={`text-sm font-medium ${annualBilling ? 'text-foreground' : 'text-muted-foreground'}`}>Annual</span>
               {annualBilling && (

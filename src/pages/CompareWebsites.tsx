@@ -244,14 +244,14 @@ function FeatureValue({ value }: { value: boolean | string }) {
   }
   if (value === true) {
     return (
-      <div className="w-7 h-7 rounded-full bg-accent/25 flex items-center justify-center mx-auto">
+      <div className="w-7 h-7 rounded-md bg-accent/25 flex items-center justify-center mx-auto">
         <Check className="w-4 h-4 text-accent drop-shadow-[0_0_3px_hsl(var(--accent)/0.5)]" />
       </div>
     );
   }
   // false or 'Not included'
   return (
-    <div className="w-7 h-7 rounded-full bg-foreground/5 flex items-center justify-center mx-auto">
+    <div className="w-7 h-7 rounded-md bg-foreground/5 flex items-center justify-center mx-auto">
       <X className="w-3.5 h-3.5 text-foreground/20" />
     </div>
   );
